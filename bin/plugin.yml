@@ -1,0 +1,125 @@
+name: VaultCore
+main: me.aberdeener.vaultcore.VaultCore
+authors: [Aberdeener, yangyang200, 2xjtn]
+version: 2.9.6
+description: The suite of tools created for the VaultMC server.
+api-version: 1.14
+depend: [Vault]
+commands:
+   help:
+      usage: /help <option> [page]
+      description: Show the help menu.
+   clearchat:
+      usage: /clearchat
+      aliases: [cc]
+      description: Show the help menu.
+   playtime:
+      usage: /playtime [PLAYER]
+      description: Show a players playtime.
+      aliases: [pt]
+   staffchat:
+      usage: /staffchat <message>
+      description: Use staffchat.
+      aliases: [sc]
+   wild:
+      usage: /wild
+      description: Teleport to a random location.
+   ping: 
+      usage: /ping [PLAYER]
+      description: Find a players ping.
+   mutechat:
+      usage: /mutechat
+      description: Mute the chat.
+   check:
+      usage: /check <player>
+      description: Get info about a player.
+   say:
+      usage: /say <message>
+      description: Used by the console to send messages.
+      aliases: [chat]
+   setspawn:
+      usage: /setspawn
+      description: Set the world's spawn point.
+   spawn:
+      usage: /spawn
+      description: Go to the current world's spawn point.
+   grant:
+      usage: /grant <player>
+      description: Rank GUI
+   gamemode:
+      usage: /gamemode <mode> [player]
+      description: Change a player's gamemode.
+   gmc:
+      usage: /gmc
+      description: Change your gamemode to creative.
+   gms:
+      usage: /gms
+      description: Change your gamemode to survival.
+   gmsp:
+      usage: /gmsp
+      description: Change your gamemode to spectator.
+   teleport:
+      usage: /teleport <player> [player]
+      description: Teleport to a player.
+      aliases: [tp]
+   tphere:
+      usage: /tphere <player>
+      description: Teleport a player to you.
+      aliases: [tph]
+   invsee:
+      usage: /invsee <player>
+      description: Look in a players inventory.
+   fly:
+      usgae: /fly [player]
+      description: Enable fly for a player.
+   workbench:
+      usage: /workbench
+      description: Open a crafting table.
+   tpa:
+      usage: /tpa <player>
+      description: Request to teleport to a player.
+   tpahere:
+      usage: /tpahere <player>
+      description: Request for a player to teleport you.
+   tpaccept:
+      usage: /tpaccept
+      description: Accept a teleport request from a player.
+   tpdeny:
+      usage: /tpdeny
+      description: Deny a teleport request from a player.
+   enderchest:
+      usage: /enderchest [player]
+      description: Open a players enderchest.
+   msg:
+      usage: /message <player> <message>
+      description: Send a player a message.
+   r:
+      usage: /r <message>
+      description: Reply to a message.
+   feed:
+      usage: /feed [player]
+      description: Feed a player.
+   heal:
+      usage: /heal [player]
+      description: Heal a player.
+   ranks:
+      usage: /ranks
+      description: Learn about the ranks on our server.
+   vcreload:
+      usage: /vsreload
+      description: Reload the configuration file for the plugin.
+   back:
+      usage: /back
+      description: Teleport to your previous location.
+   discord:
+      usage: /discord
+      decription: Get a link to our Discord Guild.
+   sv:
+      usage: /sv
+      description: Teleport to the Survival world.
+   tsv:
+      usage: /tsv
+      description: Teleport to the Trusted Survival world.
+   cr:
+      usage: /cr
+      description: Teleport to the Creative world.
