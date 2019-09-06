@@ -28,9 +28,8 @@ public class ConsoleSay implements CommandExecutor {
 						message = message + s + " ";
 					}
 
-					String csay = String.format(
-							ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE" + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + "%s",
-							message);
+					String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE"
+							+ ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + "%s", message);
 
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						player.sendMessage(csay);

@@ -15,7 +15,7 @@ import me.aberdeener.vaultcore.VaultCore;
 public class WildTeleport implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		
+
 		String string = VaultCore.getInstance().getConfig().getString("string");
 		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 		String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
@@ -38,7 +38,9 @@ public class WildTeleport implements CommandExecutor {
 
 			Player player = (Player) sender;
 
-			if (player.getWorld().getName().equalsIgnoreCase("Survival") || player.getWorld().getName().equalsIgnoreCase("Survival_T")) {
+			if (player.getWorld().getName().equalsIgnoreCase("Survival")
+					|| player.getWorld().getName().equalsIgnoreCase("Survival_T")
+					|| player.getWorld().getName().equalsIgnoreCase("clans")) {
 
 				Location originalLocation = player.getLocation();
 
@@ -63,20 +65,15 @@ public class WildTeleport implements CommandExecutor {
 
 				player.teleport(new Location(player.getWorld(), teleportlocation.getX(), teleportlocation.getY() + 1,
 						teleportlocation.getZ()));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "You have been teleported "
-								+ variable2
-								+ (int) teleportlocation.distance(originalLocation)
-								+ string + " blocks away!"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
+						+ variable2 + (int) teleportlocation.distance(originalLocation) + string + " blocks away!"));
 
 				return true;
 			}
 
 			else {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "You must be in a "
-								+ variable1 + "Survival"
-								+ string + " world to run this command."));
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in a " + variable1
+						+ "Survival" + string + " or " + variable1 + "Clans" + string + " world to run this command."));
 			}
 
 			return true;

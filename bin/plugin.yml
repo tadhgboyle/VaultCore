@@ -123,3 +123,15 @@ commands:
    cr:
       usage: /cr
       description: Teleport to the Creative world.
+   tag:
+      usage: /tag <player> <note>
+      description: Add a note to a player.
+   warp:
+      usage: /warp <warp>
+      description: Teleport to a warp.
+   setwarp:
+      usage: /setwarp <warp>
+      description: Set a warp.   
+   delwarp:
+      usage: /delwarp <warp>
+      description: Delete a warp.

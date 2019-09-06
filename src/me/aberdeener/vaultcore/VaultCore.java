@@ -23,6 +23,7 @@ import me.aberdeener.vaultcore.commands.PingCommand;
 import me.aberdeener.vaultcore.commands.PlayTime;
 import me.aberdeener.vaultcore.commands.RanksCommand;
 import me.aberdeener.vaultcore.commands.TPACommand;
+import me.aberdeener.vaultcore.commands.WarpCommand;
 import me.aberdeener.vaultcore.commands.WildTeleport;
 import me.aberdeener.vaultcore.commands.WorkbenchCommand;
 import me.aberdeener.vaultcore.commands.WorldTPCommand;
@@ -37,6 +38,7 @@ import me.aberdeener.vaultcore.commands.staff.GrantCommandInv;
 import me.aberdeener.vaultcore.commands.staff.HealCommand;
 import me.aberdeener.vaultcore.commands.staff.InvseeCommand;
 import me.aberdeener.vaultcore.commands.staff.StaffChat;
+import me.aberdeener.vaultcore.commands.staff.TagCommand;
 import me.aberdeener.vaultcore.commands.staff.TeleportCommand;
 import me.aberdeener.vaultcore.listeners.GrantCommandListener;
 import me.aberdeener.vaultcore.listeners.MuteChat;
@@ -160,7 +162,15 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("tsv").setExecutor(new WorldTPCommand());
 
 		this.getCommand("cr").setExecutor(new WorldTPCommand());
-
+		
+		this.getCommand("tag").setExecutor(new TagCommand());
+		
+		this.getCommand("warp").setExecutor(new WarpCommand());
+		
+		this.getCommand("setwarp").setExecutor(new WarpCommand());
+		
+		this.getCommand("delwarp").setExecutor(new WarpCommand());
+		
 		// run rank promotions task every 5 minutes
 		// define minute
 		int minute1 = (int) 1200L;

@@ -68,12 +68,12 @@ public class HealCommand implements CommandExecutor {
 
 							// Heals the target
 							player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-									string + "You have healed" + variable1 + target.getName()));
+									string + "You have healed " + variable1 + target.getName()));
 							target.setFoodLevel(20);
 							target.setHealth(20.0D);
 							target.setSaturation(20);
 							target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-									string + "You have been healed by" + variable1 + player.getName()));
+									string + "You have been healed by " + variable1 + player.getName()));
 							return true;
 						}
 
