@@ -1,7 +1,7 @@
 name: VaultCore
 main: me.aberdeener.vaultcore.VaultCore
 authors: [Aberdeener, yangyang200, 2xjtn]
-version: 2.9.6
+version: 2.9.7
 description: The suite of tools created for the VaultMC server.
 api-version: 1.14
 depend: [Vault]

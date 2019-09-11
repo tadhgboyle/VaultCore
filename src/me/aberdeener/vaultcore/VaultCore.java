@@ -38,7 +38,6 @@ import me.aberdeener.vaultcore.commands.staff.GrantCommandInv;
 import me.aberdeener.vaultcore.commands.staff.HealCommand;
 import me.aberdeener.vaultcore.commands.staff.InvseeCommand;
 import me.aberdeener.vaultcore.commands.staff.StaffChat;
-import me.aberdeener.vaultcore.commands.staff.TagCommand;
 import me.aberdeener.vaultcore.commands.staff.TeleportCommand;
 import me.aberdeener.vaultcore.listeners.GrantCommandListener;
 import me.aberdeener.vaultcore.listeners.MuteChat;
@@ -50,6 +49,7 @@ import me.aberdeener.vaultcore.listeners.SignColours;
 import me.aberdeener.vaultcore.listeners.SpawnCommand;
 import me.aberdeener.vaultcore.listeners.VaultSuiteChat;
 import me.aberdeener.vaultcore.runnables.RankPromotions;
+import me.aberdeener.vaultcore.tabcompletion.TabCompletion;
 import net.milkbowl.vault.chat.Chat;
 
 public class VaultCore extends JavaPlugin implements Listener {
@@ -91,7 +91,8 @@ public class VaultCore extends JavaPlugin implements Listener {
 
 		// register commands and their classes
 		this.getCommand("help").setExecutor(new HelpCommand());
-
+		this.getCommand("help").setTabCompleter(new TabCompletion());
+		
 		this.getCommand("clearchat").setExecutor(new ClearChat());
 		this.getCommand("cc").setExecutor(new ClearChat());
 
@@ -119,6 +120,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("grant").setExecutor(new GrantCommand());
 
 		this.getCommand("gamemode").setExecutor(new GamemodeCommand());
+		this.getCommand("gamemode").setTabCompleter(new TabCompletion());
 		this.getCommand("gmc").setExecutor(new GamemodeCommand());
 		this.getCommand("gms").setExecutor(new GamemodeCommand());
 		this.getCommand("gmsp").setExecutor(new GamemodeCommand());
@@ -162,15 +164,13 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("tsv").setExecutor(new WorldTPCommand());
 
 		this.getCommand("cr").setExecutor(new WorldTPCommand());
-		
-		this.getCommand("tag").setExecutor(new TagCommand());
-		
+				
 		this.getCommand("warp").setExecutor(new WarpCommand());
 		
 		this.getCommand("setwarp").setExecutor(new WarpCommand());
 		
 		this.getCommand("delwarp").setExecutor(new WarpCommand());
-		
+				
 		// run rank promotions task every 5 minutes
 		// define minute
 		int minute1 = (int) 1200L;

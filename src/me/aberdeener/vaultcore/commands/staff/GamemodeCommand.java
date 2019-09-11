@@ -15,7 +15,8 @@ public class GamemodeCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		String string = VaultCore.getInstance().getConfig().getString("string");
+		String string = (ChatColor.translateAlternateColorCodes('&',
+				VaultCore.getInstance().getConfig().getString("string")));
 		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 
 		if (command.getName().equalsIgnoreCase("gamemode")) {
