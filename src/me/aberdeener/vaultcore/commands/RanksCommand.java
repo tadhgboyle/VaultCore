@@ -11,25 +11,20 @@ import me.aberdeener.vaultcore.VaultCore;
 public class RanksCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
 		// base command
 		if (commandLabel.equalsIgnoreCase("ranks")) {
-
 			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
 			if (!sender.hasPermission("vc.ranks")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			else {
-
 				sender.sendMessage(ChatColor.DARK_GREEN + "--== [Player Ranks] ==--");
 				sender.sendMessage(ChatColor.DARK_GRAY + "Default");
 				sender.sendMessage(ChatColor.GRAY + "Member");
@@ -40,10 +35,8 @@ public class RanksCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.DARK_AQUA + "Moderator");
 				sender.sendMessage(ChatColor.BLUE + "Administrator");
 				return true;
-
 			}
 		}
-
 		return true;
 	}
 }

@@ -24,9 +24,7 @@ public class PlayerTPListener implements CommandExecutor, Listener {
 		teleports.put(event.getPlayer().getUniqueId(), event.getFrom());
 
 		// add survival location to data.yml
-		if (event.getFrom().getWorld().getName().equals("Survival")
-				|| (event.getFrom().getWorld().getName().equals("Survival_T")
-						|| (event.getFrom().getWorld().getName().equals("Creative")))) {
+		if (event.getFrom().getWorld().getName().equals("Survival") || (event.getFrom().getWorld().getName().equals("Creative"))) {
 
 			Location from = event.getFrom();
 
@@ -35,10 +33,6 @@ public class PlayerTPListener implements CommandExecutor, Listener {
 				VaultCore.getInstance().savePlayerData();
 			}
 
-			else if (event.getFrom().getWorld().getName().equals("Survival_T")) {
-				VaultCore.getInstance().getPlayerData().set("players." + event.getPlayer().getUniqueId() + ".tsv", from);
-				VaultCore.getInstance().savePlayerData();
-			}
 
 			else if (event.getFrom().getWorld().getName().equals("Creative")) {
 				VaultCore.getInstance().getPlayerData().set("players." + event.getPlayer().getUniqueId() + ".cr", from);

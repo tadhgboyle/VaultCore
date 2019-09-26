@@ -117,9 +117,6 @@ commands:
    sv:
       usage: /sv
       description: Teleport to the Survival world.
-   tsv:
-      usage: /tsv
-      description: Teleport to the Trusted Survival world.
    cr:
       usage: /cr
       description: Teleport to the Creative world.

@@ -35,8 +35,10 @@ public class RankPromotions {
 					String variable1 = ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("variable-1"));
 
-					player.sendMessage(string + "Congratulations! You have been promoted to " + variable1 + "Member"
-							+ string + ".");
+					for (Player players : Bukkit.getOnlinePlayers() ) {
+					players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1 + "Member"
+							+ string + "!");
+					}
 				}
 			}
 		}
@@ -69,8 +71,10 @@ public class RankPromotions {
 					String variable1 = ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("variable-1"));
 
-					player.sendMessage(string + "Congratulations! You have been promoted to " + variable1 + "Patreon"
-							+ string + ".");
+					for (Player players : Bukkit.getOnlinePlayers() ) {
+					players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1 + "Patreon"
+							+ string + "!");
+					}
 				}
 			}
 		}

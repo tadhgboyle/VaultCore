@@ -52,41 +52,6 @@ public class WorldTPCommand implements CommandExecutor {
 				}
 			}
 		}
-
-		// base command
-		if (commandLabel.equalsIgnoreCase("tsv")) {
-
-			// console sender check
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
-				return true;
-			}
-
-			if (!sender.hasPermission("vc.tsv")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
-				return true;
-			}
-
-			else {
-				Location tsv = (Location) VaultCore.getInstance().getPlayerData()
-						.get("players." + player.getUniqueId() + ".tsv");
-
-				if (tsv == null) {
-					player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
-					player.performCommand("mvtp Survival_T");
-					return true;
-				}
-
-				else {
-					player.teleport(tsv);
-					player.sendMessage(
-							string + "Teleported you to the " + variable1 + "Trusted Survival" + string + " world.");
-					return true;
-				}
-			}
-		}
 		
 		// base command
 		if (commandLabel.equalsIgnoreCase("cr")) {

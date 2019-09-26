@@ -1,7 +1,7 @@
 string: "&e"
 variable-1: "&6"
 variable-2: "&2"
-console-error: "&c[VaultSuite] Please execute from in-game!"
+console-error: "&c[VaultCore] Please execute from in-game!"
 no-permission: "&4Uh oh! You don't have permission!"
 staffchat-prefix: "&8[&cSC&8] "
 welcome-message: "&7Welcome to VAULT&cMC!"
