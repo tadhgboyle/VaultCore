@@ -132,3 +132,6 @@ commands:
    delwarp:
       usage: /delwarp <warp>
       description: Delete a warp.
+   sctoggle:
+      usage: /sctoggle
+      description: Toggle staffchat.

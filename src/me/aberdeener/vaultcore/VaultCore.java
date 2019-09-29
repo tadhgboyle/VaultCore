@@ -65,7 +65,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 	private FileConfiguration playerData;
 	// mysql info
 	public Connection connection;
-	private String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false";
+	private String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&failOverReadOnly=false&maxReconnects=10&autoReconnect=true";
 	private String username = "root";
 	private String password = "";
 
@@ -222,6 +222,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("warp").setExecutor(new WarpCommand());
 		this.getCommand("setwarp").setExecutor(new WarpCommand());
 		this.getCommand("delwarp").setExecutor(new WarpCommand());
+		this.getCommand("sctoggle").setExecutor(new StaffChat());
 	}
 
 	public void registerListeners() {

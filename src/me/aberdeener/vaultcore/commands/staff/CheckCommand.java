@@ -16,8 +16,6 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class CheckCommand implements CommandExecutor {
 
-	public static boolean online = false;
-
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (command.getName().equalsIgnoreCase("check")) {
@@ -48,11 +46,7 @@ public class CheckCommand implements CommandExecutor {
 							long lastseen = rs.getLong("lastseen");
 							String rank = rs.getString("rank");
 							String ip = rs.getString("ip");
-							
-							if (Bukkit.getOnlinePlayers().toString().contains(args[0])) {
-								online = true;
-							}
-							
+
 							// first seen calender
 							GregorianCalendar firstCal = new GregorianCalendar();
 							firstCal.setTimeInMillis(firstseen);
@@ -72,16 +66,15 @@ public class CheckCommand implements CommandExecutor {
 							sender.sendMessage(ChatColor.DARK_GREEN + "--== [Check] ==--");
 							sender.sendMessage("");
 
-							
-							if (online) {
+							if (Bukkit.getOnlinePlayers().toString().contains(args[0])) {
 								sender.sendMessage(ChatColor.YELLOW + "Checking: " + ChatColor.GOLD + username);
 							}
-
+							
 							else {
 								sender.sendMessage(ChatColor.YELLOW + "Checking: " + ChatColor.GOLD + username
 										+ ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]");
 							}
-							
+
 							sender.sendMessage(ChatColor.YELLOW + "UUID: " + ChatColor.DARK_GREEN + uuid);
 
 							sender.sendMessage(ChatColor.YELLOW + "First Seen (D/M/Y): " + ChatColor.DARK_GREEN + fdate
@@ -95,7 +88,7 @@ public class CheckCommand implements CommandExecutor {
 							sender.sendMessage(ChatColor.YELLOW + "Rank: " + ChatColor.DARK_GREEN + rank);
 
 							sender.sendMessage(ChatColor.YELLOW + "Database: " + ChatColor.DARK_GREEN
-									+ "https://database.vaultmc.net/user.php?user=" + username);
+									+ "database.vaultmc.net/user.php?user=" + username);
 
 							return true;
 						}
@@ -105,7 +98,7 @@ public class CheckCommand implements CommandExecutor {
 					}
 
 				}
-				
+
 				else {
 					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/check <player>");
 					return true;
