@@ -9,6 +9,11 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class RankPromotions {
 
+	static String string = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("string"));
+	static String variable1 = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("variable-1"));
+
 	public static void memberPromotion() {
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -27,22 +32,17 @@ public class RankPromotions {
 				// this mnay seconds = 10 hours
 				if (playtime > 36000) {
 
-					VaultCore.getInstance().getServer().dispatchCommand(VaultCore.getInstance().getServer().getConsoleSender(),
+					VaultCore.getInstance().getServer().dispatchCommand(
+							VaultCore.getInstance().getServer().getConsoleSender(),
 							"lp user " + player.getName() + " parent set member");
 
-					String string = ChatColor.translateAlternateColorCodes('&',
-							VaultCore.getInstance().getConfig().getString("string"));
-					String variable1 = ChatColor.translateAlternateColorCodes('&',
-							VaultCore.getInstance().getConfig().getString("variable-1"));
-
-					for (Player players : Bukkit.getOnlinePlayers() ) {
-					players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1 + "Member"
-							+ string + "!");
+					for (Player players : Bukkit.getOnlinePlayers()) {
+						players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
+								+ "Member" + string + "!");
 					}
 				}
 			}
 		}
-
 	}
 
 	public static void patreonPromotion() {
@@ -63,22 +63,16 @@ public class RankPromotions {
 				// this many seconds = 35 hours
 				if (playtime > 126000) {
 
-					VaultCore.getInstance().getServer().dispatchCommand(VaultCore.getInstance().getServer().getConsoleSender(),
+					VaultCore.getInstance().getServer().dispatchCommand(
+							VaultCore.getInstance().getServer().getConsoleSender(),
 							"lp user " + player.getName() + " parent set patreon");
 
-					String string = ChatColor.translateAlternateColorCodes('&',
-							VaultCore.getInstance().getConfig().getString("string"));
-					String variable1 = ChatColor.translateAlternateColorCodes('&',
-							VaultCore.getInstance().getConfig().getString("variable-1"));
-
-					for (Player players : Bukkit.getOnlinePlayers() ) {
-					players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1 + "Patreon"
-							+ string + "!");
+					for (Player players : Bukkit.getOnlinePlayers()) {
+						players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
+								+ "Patreon" + string + "!");
 					}
 				}
 			}
 		}
-
 	}
-
 }

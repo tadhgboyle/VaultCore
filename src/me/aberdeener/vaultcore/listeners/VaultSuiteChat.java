@@ -26,12 +26,12 @@ public class VaultSuiteChat implements Listener {
 	@EventHandler
 	public void chatFormat(AsyncPlayerChatEvent event) {
 
-		Player p = event.getPlayer();
+		Player player = event.getPlayer();
 
 		// chat variables and strings
-		String groupPrefix = VaultCore.getChat().getPlayerPrefix(p);
+		String groupPrefix = VaultCore.getChat().getPlayerPrefix(player);
 		String prefix = ChatColor.translateAlternateColorCodes('&', groupPrefix);
-		String name = p.getName();
+		String name = player.getName();
 		String text = event.getMessage();
 		text = text.replace("%", "%%");
 
@@ -42,44 +42,44 @@ public class VaultSuiteChat implements Listener {
 				VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
 		String staffchat = SCprefix + SCmessage;
 
-		if (StaffChat.toggled.containsKey(p.getUniqueId())) {
+		if (StaffChat.toggled.containsKey(player.getUniqueId())) {
 			Bukkit.getConsoleSender().sendMessage(staffchat);
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (player.hasPermission("vc.sc")) {
-					player.sendMessage(staffchat.replaceFirst(",", ""));
+			for (Player players : Bukkit.getOnlinePlayers()) {
+				if (players.hasPermission("vc.sc")) {
+					players.sendMessage(staffchat.replaceFirst(",", ""));
 					event.setCancelled(true);
 				}
 
 			}
 		}
 
-		// check for chatcolor perm
-		if (!p.hasPermission("vc.chat.color")) {
-			String message = !p.getWorld().getName().equals("clan")
-					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + text)
-					: clansChatHook(p, prefix, name, text);
-			event.setFormat(message);
-		}
-
-		else {
-			String message = !p.getWorld().getName().equals("clan")
-					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE
-							+ ChatColor.translateAlternateColorCodes('&', text))
-					: clansChatHook(p, prefix, name, ChatColor.translateAlternateColorCodes('&', text));
-			event.setFormat(message);
-		}
-
 		// staffchat console send and players
 		if (event.getMessage().charAt(0) == ',') {
 			if (event.getPlayer().hasPermission("vc.sc")) {
 				Bukkit.getConsoleSender().sendMessage(staffchat);
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					if (player.hasPermission("vc.sc")) {
-						player.sendMessage(staffchat.replaceFirst(",", ""));
+				for (Player players : Bukkit.getOnlinePlayers()) {
+					if (players.hasPermission("vc.sc")) {
+						players.sendMessage(staffchat.replaceFirst(",", ""));
 						event.setCancelled(true);
 					}
 				}
 			}
+		}
+
+		// check for chatcolor perm
+		if (!player.hasPermission("vc.chat.color")) {
+			String message = !player.getWorld().getName().equals("clan")
+					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + text)
+					: clansChatHook(player, prefix, name, text);
+			event.setFormat(message);
+		}
+
+		else {
+			String message = !player.getWorld().getName().equals("clan")
+					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE
+							+ ChatColor.translateAlternateColorCodes('&', text))
+					: clansChatHook(player, prefix, name, ChatColor.translateAlternateColorCodes('&', text));
+			event.setFormat(message);
 		}
 	}
 }

@@ -1,10 +1,8 @@
-package me.aberdeener.vaultcore.runnables;
+package me.aberdeener.vaultcore.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -13,7 +11,6 @@ import me.aberdeener.vaultcore.VaultCore;
 public class ScoreBoard {
 
 	static Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-	static Objective objective = scoreboard.registerNewObjective("scoreboard", "dummy", "§9Colonia");
 	static Team admin = scoreboard.registerNewTeam("00_admin");
 	static Team moderator = scoreboard.registerNewTeam("01_moderator");
 	static Team trusted = scoreboard.registerNewTeam("02_trusted");
@@ -58,9 +55,6 @@ public class ScoreBoard {
 			normal.setColor(ChatColor.DARK_GRAY);
 			player.setPlayerListName(player.getDisplayName());
 		}
-
-		objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 		player.setScoreboard(scoreboard);
-		
 	}
 }

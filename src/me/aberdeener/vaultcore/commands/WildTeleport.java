@@ -39,7 +39,6 @@ public class WildTeleport implements CommandExecutor {
 			Player player = (Player) sender;
 
 			if (player.getWorld().getName().equalsIgnoreCase("Survival")
-					|| player.getWorld().getName().equalsIgnoreCase("Survival_T")
 					|| player.getWorld().getName().equalsIgnoreCase("clans")) {
 
 				Location originalLocation = player.getLocation();
@@ -72,7 +71,7 @@ public class WildTeleport implements CommandExecutor {
 			}
 
 			else {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in a " + variable1
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in the " + variable1
 						+ "Survival" + string + " or " + variable1 + "Clans" + string + " world to run this command."));
 			}
 

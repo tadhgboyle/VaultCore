@@ -27,9 +27,9 @@ import me.aberdeener.vaultcore.commands.PingCommand;
 import me.aberdeener.vaultcore.commands.PlayTime;
 import me.aberdeener.vaultcore.commands.RanksCommand;
 import me.aberdeener.vaultcore.commands.TPACommand;
+import me.aberdeener.vaultcore.commands.TokenCommand;
 import me.aberdeener.vaultcore.commands.WarpCommand;
 import me.aberdeener.vaultcore.commands.WildTeleport;
-import me.aberdeener.vaultcore.commands.WorkbenchCommand;
 import me.aberdeener.vaultcore.commands.WorldTPCommand;
 import me.aberdeener.vaultcore.commands.staff.CheckCommand;
 import me.aberdeener.vaultcore.commands.staff.ClearChat;
@@ -67,7 +67,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 	public Connection connection;
 	private String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&failOverReadOnly=false&maxReconnects=10&autoReconnect=true";
 	private String username = "root";
-	private String password = "";
+	private String password = "Stjames123b!!";
 
 	@Override
 	public void onEnable() {
@@ -208,7 +208,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("tpdeny").setExecutor(new TPACommand());
 		this.getCommand("invsee").setExecutor(new InvseeCommand());
 		this.getCommand("fly").setExecutor(new FlyCommand());
-		this.getCommand("workbench").setExecutor(new WorkbenchCommand());
 		this.getCommand("enderchest").setExecutor(new ECCommand());
 		this.getCommand("msg").setExecutor(new MsgCommand());
 		this.getCommand("r").setExecutor(new MsgCommand());
@@ -223,26 +222,19 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("setwarp").setExecutor(new WarpCommand());
 		this.getCommand("delwarp").setExecutor(new WarpCommand());
 		this.getCommand("sctoggle").setExecutor(new StaffChat());
+		this.getCommand("token").setExecutor(new TokenCommand());
 	}
 
 	public void registerListeners() {
 		// creates the plugin manager
 		PluginManager pm = Bukkit.getServer().getPluginManager();
-		// listens for the main class
 		pm.registerEvents(this, this);
-		// Listens for mutechat class
 		pm.registerEvents(new MuteChat(), this);
-		// Listens for chat class
 		pm.registerEvents(new VaultSuiteChat(), this);
-		// Listens for grantcommand class
 		pm.registerEvents(new GrantCommandListener(), this);
-		// Listens for setdisplayname
 		pm.registerEvents(new SetDisplayName(), this);
-		// Listens for signs
 		pm.registerEvents(new SignColours(), this);
-		// Listens for joinquit
 		pm.registerEvents(new PlayerJoinQuitListener(), this);
-		// Listens for /back messages
 		pm.registerEvents(new PlayerTPListener(), this);
 	}
 

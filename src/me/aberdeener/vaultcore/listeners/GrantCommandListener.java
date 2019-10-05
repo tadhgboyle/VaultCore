@@ -26,8 +26,8 @@ public class GrantCommandListener implements Listener {
 			// did they click on an item?
 			if (e.getCurrentItem() == null) {
 				e.setCancelled(true);
-			} 
-			
+			}
+
 			else {
 
 				if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
@@ -56,16 +56,17 @@ public class GrantCommandListener implements Listener {
 					// class, and subtracting the INVTITLE from this class to return the users name,
 					// and using the rank variable we created above
 					Player target = Bukkit.getServer().getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
-					
-					VaultCore.getInstance().getServer().dispatchCommand(VaultCore.getInstance().getServer().getConsoleSender(),
+
+					VaultCore.getInstance().getServer().dispatchCommand(
+							VaultCore.getInstance().getServer().getConsoleSender(),
 							"lp user " + target.getName() + " parent set " + rank);
-					
+
 					player.closeInventory();
-					
+
 					player.sendMessage(ChatColor.YELLOW + "Successfully updated " + ChatColor.GOLD
 							+ e.getView().getTitle().substring(INVTITLE.length()) + ChatColor.YELLOW + "'s rank to "
 							+ ChatColor.GOLD + rank + ChatColor.YELLOW + ".");
-					
+
 					target.sendMessage(ChatColor.YELLOW + "Your rank has been updated to " + ChatColor.GOLD + rank
 							+ ChatColor.YELLOW + " by " + ChatColor.GOLD + player.getName() + ChatColor.YELLOW + ".");
 				}

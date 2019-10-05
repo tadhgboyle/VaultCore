@@ -23,8 +23,7 @@ public class RanksCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
-			}
-			else {
+			} else {
 				sender.sendMessage(ChatColor.DARK_GREEN + "--== [Player Ranks] ==--");
 				sender.sendMessage(ChatColor.DARK_GRAY + "Default");
 				sender.sendMessage(ChatColor.GRAY + "Member");

@@ -23,10 +23,14 @@ public class PlayerTPListener implements CommandExecutor, Listener {
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		teleports.put(event.getPlayer().getUniqueId(), event.getFrom());
 
-		// add survival location to data.yml
+		// add location to data.yml
 		if (event.getFrom().getWorld().getName().equals("Survival") || (event.getFrom().getWorld().getName().equals("Creative"))) {
 
 			Location from = event.getFrom();
+			
+			if (event.getFrom().getWorld().equals(event.getTo().getWorld())) {
+				return;
+			}
 
 			if (event.getFrom().getWorld().getName().equals("Survival")) {
 				VaultCore.getInstance().getPlayerData().set("players." + event.getPlayer().getUniqueId() + ".sv", from);

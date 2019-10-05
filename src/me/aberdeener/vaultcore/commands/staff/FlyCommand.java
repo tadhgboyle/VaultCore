@@ -20,10 +20,14 @@ public class FlyCommand implements CommandExecutor {
 		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 
 		if ((sender instanceof Player)) {
+
 			Player p = (Player) sender;
+
 			if (p.hasPermission("vc.fly")) {
+
 				if (args.length == 0) {
-					if (!this.active) {
+
+					if (!active) {
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&',
 								string + "You have " + variable1 + "enabled" + string + " fly."));
 
@@ -34,17 +38,21 @@ public class FlyCommand implements CommandExecutor {
 					else {
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&',
 								string + "You have " + variable1 + "disabled" + string + " fly."));
-						this.active = false;
+						active = false;
 						p.setFlying(false);
 						p.setAllowFlight(false);
 					}
 				}
 
 				else if (p.hasPermission("vc.fly.other")) {
+
 					if (args.length == 1) {
+
 						Player target = Bukkit.getPlayer(args[0]);
+
 						if (target != null) {
-							if (!this.active) {
+
+							if (!active) {
 								p.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have "
 										+ variable1 + "enabled" + string + " fly for " + variable1 + target.getName()));
 								this.active = true;
@@ -58,7 +66,7 @@ public class FlyCommand implements CommandExecutor {
 								p.sendMessage(
 										ChatColor.translateAlternateColorCodes('&', string + "You have " + variable1
 												+ "disabled" + string + " fly for " + variable1 + target.getName()));
-								this.active = false;
+								active = false;
 								target.setFlying(false);
 								target.setAllowFlight(false);
 								target.sendMessage(ChatColor.translateAlternateColorCodes('&',

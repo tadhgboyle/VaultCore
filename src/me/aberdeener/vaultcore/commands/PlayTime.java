@@ -14,8 +14,6 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class PlayTime implements CommandExecutor {
 
-	private static PlayTime INSTANCE;
-
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (command.getName().equalsIgnoreCase("playtime")) {
@@ -61,25 +59,19 @@ public class PlayTime implements CommandExecutor {
 	}
 
 	private void printPlayTime(Player player, CommandSender sender) {
-		
+
 		String string = VaultCore.getInstance().getConfig().getString("string");
 		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 		String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
-		
+
 		long t = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
 		long[] time = formatDuration(t);
 
 		// create messages variables (like help hover)
 		String playtime = String.format(
 				ChatColor.translateAlternateColorCodes('&',
-						variable1 + "%s"
-								+ string + " has played for "
-								+ variable2 + "%d"
-								+ string + " days, "
-								+ variable2 + "%d"
-								+ string + " hours and "
-								+ variable2 + "%d"
-								+ string + " minutes."),
+						variable1 + "%s" + string + " has played for " + variable2 + "%d" + string + " days, "
+								+ variable2 + "%d" + string + " hours and " + variable2 + "%d" + string + " minutes."),
 				player.getName(), time[0], time[1], time[2], time[3]);
 
 		// send messages
@@ -97,9 +89,4 @@ public class PlayTime implements CommandExecutor {
 
 		return new long[] { days, hours, minutes, seconds };
 	}
-
-	public static PlayTime getInstance() {
-		return INSTANCE;
-	}
-
 }

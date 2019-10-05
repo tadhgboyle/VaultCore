@@ -13,5 +13,4 @@ public class SignColours implements Listener {
 		for (int n = 0; n <= 3; n++)
 			event.setLine(n, ChatColor.translateAlternateColorCodes('&', lines[n]));
 	}
-
 }

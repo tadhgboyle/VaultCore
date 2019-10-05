@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -26,6 +25,8 @@ public class InvseeCommand implements CommandExecutor {
 			} 
 			
 			else {
+				
+				Player player = (Player) sender;
 				
 				if (!sender.hasPermission("vc.invsee")) {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
@@ -53,7 +54,7 @@ public class InvseeCommand implements CommandExecutor {
 					}
 					
 					Inventory targetInv = target.getInventory();
-					((HumanEntity) sender).openInventory(targetInv);
+					player.openInventory(targetInv);
 				}
 			}
 		}

@@ -20,7 +20,7 @@ public class MuteChat implements CommandExecutor, Listener {
 	@EventHandler
 	public void muteChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		if ((mutechat) && (!p.hasPermission("vc.mutechat.override"))) {
+		if (mutechat && !p.hasPermission("vc.mutechat.override")) {
 			e.setCancelled(true);
 			p.sendMessage(ChatColor.RED + "The chat is muted!");
 		}

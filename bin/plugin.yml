@@ -1,8 +1,9 @@
 name: VaultCore
 main: me.aberdeener.vaultcore.VaultCore
 authors: [Aberdeener, yangyang200, 2xjtn]
-version: 2.9.7
+version: 2.9.8
 description: The suite of tools created for the VaultMC server.
+website: https://www.vaultmc.net
 api-version: 1.14
 depend: [Vault]
 commands:
@@ -72,9 +73,6 @@ commands:
    fly:
       usgae: /fly [player]
       description: Enable fly for a player.
-   workbench:
-      usage: /workbench
-      description: Open a crafting table.
    tpa:
       usage: /tpa <player>
       description: Request to teleport to a player.
@@ -114,6 +112,9 @@ commands:
    discord:
       usage: /discord
       decription: Get a link to our Discord Guild.
+   token:
+      usage: /token
+      description: Get your universal token for VaultMC services.
    sv:
       usage: /sv
       description: Teleport to the Survival world.
