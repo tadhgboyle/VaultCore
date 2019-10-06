@@ -14,44 +14,36 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class WildTeleport implements CommandExecutor {
 
+	String string = VaultCore.getInstance().getConfig().getString("string");
+	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+	String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
+	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
-		String string = VaultCore.getInstance().getConfig().getString("string");
-		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
-		String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
 
 		if (command.getName().equalsIgnoreCase("wild")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
-			// permission check
 			if (!sender.hasPermission("vc.wildteleport")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			Player player = (Player) sender;
-
 			if (player.getWorld().getName().equalsIgnoreCase("Survival")
 					|| player.getWorld().getName().equalsIgnoreCase("clans")) {
 
 				Location originalLocation = player.getLocation();
-
 				Random random = new Random();
-
 				Location teleportlocation = null;
 				int x = random.nextInt(10000) + 100;
 				int y = 150;
 				int z = random.nextInt(10000) + 100;
-
 				boolean isOnland = false;
-
+				
 				while (isOnland == false) {
 
 					teleportlocation = new Location(player.getWorld(), x, y, z);
@@ -66,7 +58,6 @@ public class WildTeleport implements CommandExecutor {
 						teleportlocation.getZ()));
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
 						+ variable2 + (int) teleportlocation.distance(originalLocation) + string + " blocks away!"));
-
 				return true;
 			}
 
@@ -74,10 +65,8 @@ public class WildTeleport implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in the " + variable1
 						+ "Survival" + string + " or " + variable1 + "Clans" + string + " world to run this command."));
 			}
-
 			return true;
 		}
-
 		return true;
 	}
 }

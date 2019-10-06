@@ -14,15 +14,14 @@ public class ConsoleSay implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		// base command
 		if (commandLabel.equalsIgnoreCase("say") || (commandLabel.equalsIgnoreCase("chat"))) {
 
-			// console sender check
 			if (sender instanceof ConsoleCommandSender) {
+				
 				if (args.length == 0) {
 					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/say <message>");
-				} else {
-
+				} 
+				else {
 					String message = "";
 					for (String s : args) {
 						message = message + s + " ";
@@ -36,7 +35,6 @@ public class ConsoleSay implements CommandExecutor {
 					}
 				}
 			}
-
 			else if (sender instanceof Player) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));

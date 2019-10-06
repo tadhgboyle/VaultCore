@@ -23,21 +23,16 @@ public class PlayerTPListener implements CommandExecutor, Listener {
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		teleports.put(event.getPlayer().getUniqueId(), event.getFrom());
 
-		// add location to data.yml
 		if (event.getFrom().getWorld().getName().equals("Survival") || (event.getFrom().getWorld().getName().equals("Creative"))) {
 
 			Location from = event.getFrom();
-			
 			if (event.getFrom().getWorld().equals(event.getTo().getWorld())) {
 				return;
 			}
-
 			if (event.getFrom().getWorld().getName().equals("Survival")) {
 				VaultCore.getInstance().getPlayerData().set("players." + event.getPlayer().getUniqueId() + ".sv", from);
 				VaultCore.getInstance().savePlayerData();
 			}
-
-
 			else if (event.getFrom().getWorld().getName().equals("Creative")) {
 				VaultCore.getInstance().getPlayerData().set("players." + event.getPlayer().getUniqueId() + ".cr", from);
 				VaultCore.getInstance().savePlayerData();
@@ -49,43 +44,33 @@ public class PlayerTPListener implements CommandExecutor, Listener {
 
 		if (commandLabel.equalsIgnoreCase("back")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
 			Player player = (Player) sender;
-
 			if (!sender.hasPermission("vc.back")) {
 
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			else if (teleports.containsKey(player.getUniqueId())) {
 
 				String string = ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("string"));
-
 				Location before = teleports.get(player.getUniqueId());
-
 				player.teleport(before);
 				player.sendMessage(string + "You have been teleported to your previous location.");
 				teleports.remove(player.getUniqueId());
 				return true;
-
 			}
-
 			else {
 				player.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
 				return true;
 			}
 		}
 		return true;
-
 	}
-
 }

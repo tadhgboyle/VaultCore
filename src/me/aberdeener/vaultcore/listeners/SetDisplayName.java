@@ -19,9 +19,7 @@ public class SetDisplayName implements Listener {
 		String name = player.getName();
 		
 		player.setDisplayName(prefix + name);
-		
 		player.setPlayerListName(player.getDisplayName());
-		
         ScoreBoard.scoreboard(player);
 	}
 }

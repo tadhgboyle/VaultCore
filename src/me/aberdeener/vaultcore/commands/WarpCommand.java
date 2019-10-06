@@ -11,36 +11,30 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class WarpCommand implements CommandExecutor {
 
+	String string = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("string"));
+	String variable1 = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("variable-1"));
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		String string = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("string"));
-		String variable1 = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("variable-1"));
-
-		// warp command
 		if (commandLabel.equalsIgnoreCase("warp")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
 			Player player = (Player) sender;
-
 			if (!sender.hasPermission("vc.warp")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			else if (args.length == 0) {
 				sender.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/warp <warp>");
 				return true;
 			}
-
 			else if (args.length == 1) {
 
 				if ((VaultCore.getInstance().getConfig().get("warps." + args[0])) == null) {
@@ -57,7 +51,6 @@ public class WarpCommand implements CommandExecutor {
 				}
 
 			}
-
 			else {
 				sender.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/warp <warp>");
 				return true;
@@ -65,29 +58,23 @@ public class WarpCommand implements CommandExecutor {
 
 		}
 
-		// setwarp command
 		if (commandLabel.equalsIgnoreCase("setwarp")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
 			Player player = (Player) sender;
-
 			if (!sender.hasPermission("vc.warp.set")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			if (args.length != 1) {
 				sender.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/setwarp <name>");
 				return true;
 			}
-
 			else {
 
 				VaultCore.getInstance().getConfig().set("warps." + args[0], player.getLocation());
@@ -99,29 +86,23 @@ public class WarpCommand implements CommandExecutor {
 			}
 		}
 		
-		// delwarp command
 		if (commandLabel.equalsIgnoreCase("delwarp")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
 			Player player = (Player) sender;
-
 			if (!sender.hasPermission("vc.warp.set")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			if (args.length != 1) {
 				sender.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/delwarp <name>");
 				return true;
 			}
-
 			else {
 
 				VaultCore.getInstance().getConfig().set("warps." + args[0], null);
@@ -129,10 +110,8 @@ public class WarpCommand implements CommandExecutor {
 
 				player.sendMessage(string + "Warp " + variable1 + args[0] + string + " has been deleted!");
 				return true;
-
 			}
 		}
-
 		return true;
 	}
 }

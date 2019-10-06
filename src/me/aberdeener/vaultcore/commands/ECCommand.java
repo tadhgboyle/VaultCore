@@ -13,36 +13,31 @@ public class ECCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		// base command
 		if (commandLabel.equalsIgnoreCase("enderchest")) {
 
-			Player player = (Player) sender;
-
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
+			Player player = (Player) sender;
 			if (!sender.hasPermission("vc.enderchest")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			else {
 				if (args.length == 0) {
 					player.openInventory(player.getEnderChest());
 					return true;
 				}
 				
-				if (!sender.hasPermission("vc.enderchest.other")) {
-					sender.sendMessage(ChatColor.DARK_RED + "Uh oh! You don't have permission to look at their enderchest!");
+				if (!player.hasPermission("vc.enderchest.other")) {
+					player.sendMessage(ChatColor.DARK_RED + "Uh oh! You don't have permission to look at their enderchest!");
 					return true;
 				}
 
 				Player target = Bukkit.getPlayer(args[0]);
 				if (target == null) {
-					sender.sendMessage(ChatColor.RED + "That player is offline!");
+					player.sendMessage(ChatColor.RED + "That player is offline!");
 					return true;
 				}
 

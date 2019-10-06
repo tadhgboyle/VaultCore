@@ -23,7 +23,6 @@ public class DiscordCommand implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("discord")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
@@ -42,6 +41,5 @@ public class DiscordCommand implements CommandExecutor {
 			return true;
 		}
 		return true;
-
 	}
 }

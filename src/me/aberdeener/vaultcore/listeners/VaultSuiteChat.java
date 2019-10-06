@@ -22,20 +22,17 @@ public class VaultSuiteChat implements Listener {
 		}
 		return null;
 	}
-
 	@EventHandler
 	public void chatFormat(AsyncPlayerChatEvent event) {
 
 		Player player = event.getPlayer();
 
-		// chat variables and strings
 		String groupPrefix = VaultCore.getChat().getPlayerPrefix(player);
 		String prefix = ChatColor.translateAlternateColorCodes('&', groupPrefix);
 		String name = player.getName();
 		String text = event.getMessage();
 		text = text.replace("%", "%%");
 
-		// staffchat variables
 		String SCmessage = (prefix + name + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + ChatColor.AQUA
 				+ ChatColor.translateAlternateColorCodes('&', text));
 		String SCprefix = (ChatColor.translateAlternateColorCodes('&',
@@ -49,11 +46,8 @@ public class VaultSuiteChat implements Listener {
 					players.sendMessage(staffchat.replaceFirst(",", ""));
 					event.setCancelled(true);
 				}
-
 			}
 		}
-
-		// staffchat console send and players
 		if (event.getMessage().charAt(0) == ',') {
 			if (event.getPlayer().hasPermission("vc.sc")) {
 				Bukkit.getConsoleSender().sendMessage(staffchat);
@@ -65,15 +59,12 @@ public class VaultSuiteChat implements Listener {
 				}
 			}
 		}
-
-		// check for chatcolor perm
 		if (!player.hasPermission("vc.chat.color")) {
 			String message = !player.getWorld().getName().equals("clan")
 					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + text)
 					: clansChatHook(player, prefix, name, text);
 			event.setFormat(message);
 		}
-
 		else {
 			String message = !player.getWorld().getName().equals("clan")
 					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE

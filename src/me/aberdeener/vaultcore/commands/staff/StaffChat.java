@@ -24,10 +24,8 @@ public class StaffChat implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		// base command
 		if (commandLabel.equalsIgnoreCase("staffchat") || commandLabel.equalsIgnoreCase("sc")) {
 
-			// console sender check
 			if (sender instanceof ConsoleCommandSender) {
 				if (args.length == 0) {
 					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/sc <message>");
@@ -50,33 +48,28 @@ public class StaffChat implements CommandExecutor {
 						}
 					}
 				}
-			} else if (sender instanceof Player) {
+			} 
+			else if (sender instanceof Player) {
 
 				Player p = (Player) sender;
 
-				// first permission check
 				if (!p.hasPermission("vc.sc")) {
 					p.sendMessage(ChatColor.DARK_RED + "Hey! You're not staff!");
-				} else {
-
-					// display all commands + syntax
+				} 
+				else {
 					if (args.length == 0) {
 						p.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/sc <message>");
 					}
-
 					else {
-
 						String message = "";
 						for (String s : args) {
 							message = message + s + " ";
 						}
-
 						String prefix = (ChatColor.translateAlternateColorCodes('&',
 								VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
 						String staffchat = String.format(
 								"%s" + ChatColor.GRAY + "%s" + ChatColor.DARK_GRAY + " » " + ChatColor.AQUA + "%s",
 								prefix, p.getDisplayName(), message);
-
 						for (Player player : Bukkit.getOnlinePlayers()) {
 							if (player.hasPermission("vc.sc")) {
 								player.sendMessage(staffchat);
@@ -89,20 +82,19 @@ public class StaffChat implements CommandExecutor {
 		}
 
 		if (commandLabel.equalsIgnoreCase("sctoggle")) {
-
+			
 			if (sender instanceof Player) {
-
-				// first permission check
 				if (!sender.hasPermission("vc.sc")) {
 					sender.sendMessage(ChatColor.DARK_RED + "Hey! You're not staff!");
-				} else {
+				} 
+				else {
 					Player player = (Player) sender;
-
 					if (toggled.containsKey(player.getUniqueId())) {
 						toggled.remove(player.getUniqueId());
 						player.sendMessage(string + "You have toggled staffchat " + variable1 + "off" + string + ".");
 						return true;
-					} else {
+					} 
+					else {
 						toggled.put(player.getUniqueId(), player.getUniqueId());
 						player.sendMessage(string + "You have toggled staffchat " + variable1 + "on" + string + ".");
 						return true;
@@ -110,7 +102,6 @@ public class StaffChat implements CommandExecutor {
 				}
 			}
 		}
-
 		return false;
 	}
 }

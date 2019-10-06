@@ -16,7 +16,6 @@ public class GrantCommandInv {
 	public static Inventory getGrantInventoryAdmin(Player target) {
 		Inventory rankGrantAdmin = Bukkit.createInventory(null, 9,
 				ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getName());
-
 		rankGrantAdmin.setItem(0, null);
 		rankGrantAdmin.setItem(1, null);
 		rankGrantAdmin.setItem(2, memberRank);
@@ -26,14 +25,12 @@ public class GrantCommandInv {
 		rankGrantAdmin.setItem(6, adminRank);
 		rankGrantAdmin.setItem(7, null);
 		rankGrantAdmin.setItem(8, null);
-
 		return rankGrantAdmin;
 	}
 	
 	public static Inventory getGrantInventoryMod(Player target) {
 		Inventory rankGrantMod = Bukkit.createInventory(null, 9,
 				ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getName());
-
 		rankGrantMod.setItem(0, null);
 		rankGrantMod.setItem(1, null);
 		rankGrantMod.setItem(2, memberRank);
@@ -43,14 +40,10 @@ public class GrantCommandInv {
 		rankGrantMod.setItem(6, noPermission2);
 		rankGrantMod.setItem(7, null);
 		rankGrantMod.setItem(8, null);
-
 		return rankGrantMod;
 	}
 
-	// when onEnable is run, create the wool and shit
 	public static void initAdmin() {
-
-		// wool in inventory slot for each rank
 		memberRank = new ItemStack(Material.LIGHT_GRAY_WOOL, 1);
 		ItemMeta memberRankMeta = memberRank.getItemMeta();
 		memberRankMeta.setDisplayName(ChatColor.GRAY + "" + ChatColor.BOLD + "Member");
@@ -75,13 +68,9 @@ public class GrantCommandInv {
 		ItemMeta adminRankMeta = adminRank.getItemMeta();
 		adminRankMeta.setDisplayName(ChatColor.BLUE + "" + ChatColor.BOLD + "Admin");
 		adminRank.setItemMeta(adminRankMeta);
-
 	}
 	
-	// when onEnable is run, create the wool and shit
 	public static void initMod() {
-		
-		// wool in inventory slot for each rank
 		memberRank = new ItemStack(Material.LIGHT_GRAY_WOOL, 1);
 		ItemMeta memberRankMeta = memberRank.getItemMeta();
 		memberRankMeta.setDisplayName(ChatColor.GRAY + "" + ChatColor.BOLD + "Member");
@@ -106,6 +95,5 @@ public class GrantCommandInv {
 		ItemMeta noPermission2Meta = adminRank.getItemMeta();
 		noPermission2Meta.setDisplayName(ChatColor.RED + "No Permission");
 		noPermission2.setItemMeta(noPermission2Meta);
-
 	}
 }

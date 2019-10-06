@@ -17,6 +17,9 @@ public class MuteChat implements CommandExecutor, Listener {
 
 	public static boolean mutechat = false;
 
+	String string = VaultCore.getInstance().getConfig().getString("string");
+	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+	
 	@EventHandler
 	public void muteChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
@@ -25,11 +28,7 @@ public class MuteChat implements CommandExecutor, Listener {
 			p.sendMessage(ChatColor.RED + "The chat is muted!");
 		}
 	}
-
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
-		String string = VaultCore.getInstance().getConfig().getString("string");
-		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 
 		if (cmd.getName().equalsIgnoreCase("mutechat")) {
 
@@ -39,13 +38,13 @@ public class MuteChat implements CommandExecutor, Listener {
 					Bukkit.broadcastMessage(
 							ChatColor.translateAlternateColorCodes('&', string + "The chat has been unmuted!"));
 
-				} else {
+				} 
+				else {
 					mutechat = true;
 					Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
 							variable1 + "CONSOLE " + string + "has muted the chat!"));
 				}
 			}
-
 			else if (sender instanceof Player) {
 
 				Player player = (Player) sender;
@@ -55,13 +54,13 @@ public class MuteChat implements CommandExecutor, Listener {
 							VaultCore.getInstance().getConfig().getString("no-permission")));
 					return true;
 				}
-
 				if (mutechat) {
 					mutechat = false;
 					Bukkit.broadcastMessage(
 							ChatColor.translateAlternateColorCodes('&', string + "The chat has been unmuted!"));
 
-				} else {
+				} 
+				else {
 					mutechat = true;
 					Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
 							string + "The chat has been muted by " + variable1 + sender.getName()));

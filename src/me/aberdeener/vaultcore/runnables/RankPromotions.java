@@ -20,22 +20,18 @@ public class RankPromotions {
 
 			String group = VaultCore.getChat().getPrimaryGroup(player);
 
-			// if their group isnt the default group, dont continue
 			if (!group.equalsIgnoreCase("default")) {
 				return;
 			}
-
 			else {
-
 				int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
 
-				// this mnay seconds = 10 hours
+				//10 hours
 				if (playtime > 36000) {
 
 					VaultCore.getInstance().getServer().dispatchCommand(
 							VaultCore.getInstance().getServer().getConsoleSender(),
 							"lp user " + player.getName() + " parent set member");
-
 					for (Player players : Bukkit.getOnlinePlayers()) {
 						players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
 								+ "Member" + string + "!");
@@ -51,22 +47,19 @@ public class RankPromotions {
 
 			String group = VaultCore.getChat().getPrimaryGroup(player);
 
-			// if their group isnt member, dont continue
 			if (!group.equalsIgnoreCase("member")) {
 				return;
 			}
 
 			else {
-
 				int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
 
-				// this many seconds = 35 hours
+				//35 hours
 				if (playtime > 126000) {
 
 					VaultCore.getInstance().getServer().dispatchCommand(
 							VaultCore.getInstance().getServer().getConsoleSender(),
 							"lp user " + player.getName() + " parent set patreon");
-
 					for (Player players : Bukkit.getOnlinePlayers()) {
 						players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
 								+ "Patreon" + string + "!");

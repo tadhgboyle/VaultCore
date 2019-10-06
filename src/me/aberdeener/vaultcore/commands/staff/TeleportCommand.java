@@ -14,29 +14,28 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class TeleportCommand implements CommandExecutor {
 
+	String string = VaultCore.getInstance().getConfig().getString("string");
+	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		String string = VaultCore.getInstance().getConfig().getString("string");
-		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
-
-		// base command
 		if (commandLabel.equalsIgnoreCase("teleport") || commandLabel.equalsIgnoreCase("tp")) {
 
-			// console sender check
 			if (sender instanceof ConsoleCommandSender) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
-			} else {
+			} 
+			else {
 				if (!sender.hasPermission("vc.teleport")) {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("no-permission")));
 					return true;
-				} else if (args.length == 0) {
+				} 
+				else if (args.length == 0) {
 					sender.sendMessage(
 							ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/tp <player> [player]");
 					return true;
 				}
-
 				else if (args.length == 1) {
 					Player target = Bukkit.getServer().getPlayer(args[0]);
 					if (target == null) {
@@ -53,7 +52,6 @@ public class TeleportCommand implements CommandExecutor {
 							string + "Teleported to " + variable1 + target.getName() + string + "."));
 					return true;
 				}
-
 				else if (args.length == 2) {
 					if (!sender.hasPermission("vc.teleport.other")) {
 						sender.sendMessage(
@@ -61,45 +59,36 @@ public class TeleportCommand implements CommandExecutor {
 						return true;
 					}
 					Player target1 = Bukkit.getServer().getPlayer(args[0]);
-					
 					if (target1 == sender) {
 						sender.sendMessage(ChatColor.RED + "This is confusing...");
 						return true;
 					}
-					
 					if (target1 == null) {
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 								string + "The player " + variable1 + args[0] + string + " is offline."));
 						return true;
 					}
-
 					Player target2 = Bukkit.getServer().getPlayer(args[1]);
-					
 					if (target2 == sender) {
 						sender.sendMessage(ChatColor.RED + "This is confusing...");
 						return true;
 					}
-					
 					if (target2 == null) {
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 								string + "The player " + variable1 + args[1] + string + " is offline."));
 						return true;
 					}
-					
 					Location targetLoc = target2.getLocation();
 					((Entity) target1).teleport(targetLoc);
 					
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "Teleported " + variable1 + target1.getName()
 							+ string + " to " + variable1 + target2.getName() + string + "."));
-					
 					target1.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + sender.getName() + string + " has teleported you to "
 							+ variable1 + target2.getName() + string + "."));
-					
 					target2.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + sender.getName() + string + " has teleported "
 							+ variable1 + target1.getName() + string + " to you."));
 					return true;
 				}
-
 				else {
 					sender.sendMessage(
 							ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/tp <player> [player]");
@@ -108,14 +97,13 @@ public class TeleportCommand implements CommandExecutor {
 			}
 		}
 
-		// base command
 		if (commandLabel.equalsIgnoreCase("tphere") || commandLabel.equalsIgnoreCase("tph")) {
 
-			// console sender check
 			if (sender instanceof ConsoleCommandSender) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
-			} else {
+			} 
+			else {
 				if (!sender.hasPermission("vc.teleport.here")) {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("no-permission")));
@@ -142,7 +130,6 @@ public class TeleportCommand implements CommandExecutor {
 					return true;
 				}
 			}
-
 		}
 		return true;
 	}

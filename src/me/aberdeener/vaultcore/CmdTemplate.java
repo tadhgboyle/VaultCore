@@ -8,19 +8,17 @@ import org.bukkit.entity.Player;
 
 public class CmdTemplate implements CommandExecutor {
 
+	String string = ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("string"));
+	String variable1 = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("variable-1"));
+	String variable2 = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("variable-2"));
+	
 	@SuppressWarnings("unused")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		String string = ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("string"));
-		String variable1 = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("variable-1"));
-		String variable2 = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("variable-2"));
-
-		// base command
 		if (commandLabel.equalsIgnoreCase("XXXXX")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
@@ -36,12 +34,9 @@ public class CmdTemplate implements CommandExecutor {
 			}
 
 			else {
-
 				// do stuff
-
 			}
 		}
-
 		return true;
 	}
 }

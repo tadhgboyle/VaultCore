@@ -56,16 +56,14 @@ import me.aberdeener.vaultcore.tabcompletion.TabCompletion;
 import net.milkbowl.vault.chat.Chat;
 
 public class VaultCore extends JavaPlugin implements Listener {
-	// main instance
 	public static VaultCore instance;
-	// vault chat
 	private static Chat chat = null;
 	// data file setup
 	private File playerDataFile;
 	private FileConfiguration playerData;
 	// mysql info
 	public Connection connection;
-	private String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&failOverReadOnly=false&maxReconnects=10&autoReconnect=true";
+	private String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&autoReconnect=true";
 	private String username = "root";
 	private String password = "Stjames123b!!";
 
@@ -74,7 +72,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 		// save config.yml if not exist
 		getConfig().options().copyDefaults(true);
 		saveConfig();
-		// access this instance from other classes
 		instance = this;
 		// connect to sql
 		BukkitRunnable r = new BukkitRunnable() {
@@ -93,17 +90,11 @@ public class VaultCore extends JavaPlugin implements Listener {
 			}
 		};
 		r.runTaskAsynchronously(VaultCore.getInstance());
-		// setup vault chat
 		setupChat();
-		// register commands
 		registerCommands();
-		// register listeners (below)
 		registerListeners();
-		// create player data file
 		createPlayerData();
-		// initiate /grant.admin
 		GrantCommandInv.initAdmin();
-		// initiate /grant.mod
 		GrantCommandInv.initMod();
 		// run rank promotions task every 5 minutes
 		int minute = (int) 1200L;
@@ -120,7 +111,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 		if (connection != null && !connection.isClosed()) {
 			return;
 		}
-
 		synchronized (this) {
 			if (connection != null && !connection.isClosed()) {
 				return;
@@ -130,12 +120,10 @@ public class VaultCore extends JavaPlugin implements Listener {
 		}
 	}
 
-	// call data file from other class
 	public FileConfiguration getPlayerData() {
 		return this.playerData;
 	}
 
-	// method to make data file
 	private void createPlayerData() {
 		playerDataFile = new File(getDataFolder(), "data.yml");
 		if (!playerDataFile.exists()) {
@@ -150,7 +138,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 		}
 	}
 
-	// save data file
 	public void savePlayerData() {
 		try {
 			playerData.save(playerDataFile);
@@ -159,12 +146,10 @@ public class VaultCore extends JavaPlugin implements Listener {
 		}
 	}
 
-	// create instance
 	public static VaultCore getInstance() {
 		return instance;
 	}
 
-	// vault stuff
 	private boolean setupChat() {
 		RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
 		chat = rsp.getProvider();
@@ -175,7 +160,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 		return chat;
 	}
 
-	// register commands and their classes
 	public void registerCommands() {
 		this.getCommand("help").setExecutor(new HelpCommand());
 		this.getCommand("help").setTabCompleter(new TabCompletion());
@@ -226,7 +210,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 	}
 
 	public void registerListeners() {
-		// creates the plugin manager
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(this, this);
 		pm.registerEvents(new MuteChat(), this);
@@ -240,9 +223,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
-		// save config
 		this.saveConfig();
-		// save playerdata
 		this.savePlayerData();
 		try {
 			connection.close();
@@ -252,8 +233,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect to Database");
 		}
 	}
-
-	// config reload command
+	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (command.getName().equalsIgnoreCase("vcreload")) {
 			if (!sender.hasPermission("vc.reload")) {

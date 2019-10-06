@@ -13,7 +13,6 @@ public class FlyCommand implements CommandExecutor {
 
 	private boolean active = false;
 
-	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		String string = VaultCore.getInstance().getConfig().getString("string");
@@ -24,9 +23,9 @@ public class FlyCommand implements CommandExecutor {
 			Player p = (Player) sender;
 
 			if (p.hasPermission("vc.fly")) {
-
+				
 				if (args.length == 0) {
-
+					
 					if (!active) {
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&',
 								string + "You have " + variable1 + "enabled" + string + " fly."));
@@ -34,7 +33,6 @@ public class FlyCommand implements CommandExecutor {
 						this.active = true;
 						p.setAllowFlight(true);
 					}
-
 					else {
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&',
 								string + "You have " + variable1 + "disabled" + string + " fly."));
@@ -49,9 +47,7 @@ public class FlyCommand implements CommandExecutor {
 					if (args.length == 1) {
 
 						Player target = Bukkit.getPlayer(args[0]);
-
 						if (target != null) {
-
 							if (!active) {
 								p.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have "
 										+ variable1 + "enabled" + string + " fly for " + variable1 + target.getName()));
@@ -61,7 +57,6 @@ public class FlyCommand implements CommandExecutor {
 										string + "Your fly has been " + variable1 + "enabled" + string + " by "
 												+ variable1 + sender.getName()));
 							}
-
 							else {
 								p.sendMessage(
 										ChatColor.translateAlternateColorCodes('&', string + "You have " + variable1
@@ -80,24 +75,20 @@ public class FlyCommand implements CommandExecutor {
 						}
 					}
 				}
-
 				else {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("no-permission")));
 				}
 			}
-
 			else {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 			}
 		}
-
 		else {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					VaultCore.getInstance().getConfig().getString("console-error")));
 		}
-
 		return true;
 	}
 }

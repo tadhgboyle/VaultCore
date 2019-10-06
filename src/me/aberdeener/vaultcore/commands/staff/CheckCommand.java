@@ -16,6 +16,10 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class CheckCommand implements CommandExecutor {
 
+	String string = VaultCore.getInstance().getConfig().getString("string");
+	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+	String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
+
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (command.getName().equalsIgnoreCase("check")) {
@@ -25,14 +29,11 @@ public class CheckCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
-			// console sender check
 			if (sender instanceof Player) {
 
 				if (args.length == 1) {
 
 					String target = args[0];
-
 					try {
 						java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
 						ResultSet rs = stmt.executeQuery(
@@ -47,7 +48,6 @@ public class CheckCommand implements CommandExecutor {
 							String rank = rs.getString("rank");
 							String ip = rs.getString("ip");
 
-							// first seen calender
 							GregorianCalendar firstCal = new GregorianCalendar();
 							firstCal.setTimeInMillis(firstseen);
 
@@ -55,7 +55,6 @@ public class CheckCommand implements CommandExecutor {
 							int fmonth = firstCal.get(Calendar.MONTH) + 1;
 							int fyear = firstCal.get(Calendar.YEAR);
 
-							// last seen calender
 							GregorianCalendar lastCal = new GregorianCalendar();
 							lastCal.setTimeInMillis(lastseen);
 
@@ -67,29 +66,20 @@ public class CheckCommand implements CommandExecutor {
 							sender.sendMessage("");
 
 							if (Bukkit.getOnlinePlayers().toString().contains(args[0])) {
-								sender.sendMessage(ChatColor.YELLOW + "Checking: " + ChatColor.GOLD + username);
+								sender.sendMessage(string + "Checking: " + variable1 + username);
+							} else {
+								sender.sendMessage(string + "Checking: " + variable1 + username + ChatColor.GRAY + " "
+										+ ChatColor.ITALIC + "[OFFLINE]");
 							}
-							
-							else {
-								sender.sendMessage(ChatColor.YELLOW + "Checking: " + ChatColor.GOLD + username
-										+ ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]");
-							}
-
-							sender.sendMessage(ChatColor.YELLOW + "UUID: " + ChatColor.DARK_GREEN + uuid);
-
-							sender.sendMessage(ChatColor.YELLOW + "First Seen (D/M/Y): " + ChatColor.DARK_GREEN + fdate
-									+ "/" + ChatColor.DARK_GREEN + fmonth + "/" + ChatColor.DARK_GREEN + fyear);
-
-							sender.sendMessage(ChatColor.YELLOW + "Last Seen (D/M/Y): " + ChatColor.DARK_GREEN + ldate
-									+ "/" + ChatColor.DARK_GREEN + lmonth + "/" + ChatColor.DARK_GREEN + lyear);
-
-							sender.sendMessage(ChatColor.YELLOW + "Last IP: " + ChatColor.DARK_GREEN + ip);
-
-							sender.sendMessage(ChatColor.YELLOW + "Rank: " + ChatColor.DARK_GREEN + rank);
-
-							sender.sendMessage(ChatColor.YELLOW + "Database: " + ChatColor.DARK_GREEN
-									+ "database.vaultmc.net/user.php?user=" + username);
-
+							sender.sendMessage(string + "UUID: " + variable2 + uuid);
+							sender.sendMessage(string + "First Seen (D/M/Y): " + variable2 + fdate + "/" + variable2
+									+ fmonth + "/" + variable2 + fyear);
+							sender.sendMessage(string + "Last Seen (D/M/Y): " + variable2 + ldate + "/" + variable2
+									+ lmonth + "/" + variable2 + lyear);
+							sender.sendMessage(string + "Last IP: " + variable2 + ip);
+							sender.sendMessage(string + "Rank: " + variable2 + rank);
+							sender.sendMessage(string + "Database: " + variable2 + "database.vaultmc.net/user.php?user="
+									+ username);
 							return true;
 						}
 						sender.sendMessage(ChatColor.RED + "That player has never joined the server.");
@@ -97,15 +87,16 @@ public class CheckCommand implements CommandExecutor {
 						e.printStackTrace();
 					}
 
-				}
-
-				else {
+				} else {
 					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/check <player>");
 					return true;
 				}
 			}
+			else {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("console-error")));
+			}
 		}
-
 		return true;
 	}
 }

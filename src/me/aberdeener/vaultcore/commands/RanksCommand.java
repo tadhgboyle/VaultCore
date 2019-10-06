@@ -11,9 +11,8 @@ import me.aberdeener.vaultcore.VaultCore;
 public class RanksCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		// base command
+
 		if (commandLabel.equalsIgnoreCase("ranks")) {
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));

@@ -26,15 +26,12 @@ public class TokenCommand implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("token")) {
 
-			// console sender check
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
 			Player player = (Player) sender;
-
 			try {
 				player.sendMessage(string + "Your token: " + variable2 + getToken(player.getUniqueId(), player));
 			} catch (SQLException e) {
@@ -48,14 +45,12 @@ public class TokenCommand implements CommandExecutor {
 
 		java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT token FROM players WHERE uuid='" + uuid + "'");
-
 		if (rs.next()) {
 			String token = rs.getString("token");
 			if (token != null) {
 				return token;
 			}
 		}
-
 		player.sendMessage(string + "Generating your token...");
 		int leftLimit = 97;
 		int rightLimit = 122;
@@ -71,5 +66,4 @@ public class TokenCommand implements CommandExecutor {
 				.executeUpdate("UPDATE players SET token='" + new_token + "' WHERE uuid='" + uuid + "'");
 		return new_token;
 	}
-
 }

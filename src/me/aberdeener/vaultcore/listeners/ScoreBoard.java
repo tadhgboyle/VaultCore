@@ -25,25 +25,21 @@ public class ScoreBoard {
 			admin.setColor(ChatColor.BLUE);
 			player.setPlayerListName(player.getDisplayName());
 		}
-
 		else if (VaultCore.getChat().getPrimaryGroup(player).equals("moderator")) {
 			moderator.addEntry(player.getName());
 			moderator.setColor(ChatColor.DARK_AQUA);
 			player.setPlayerListName(player.getDisplayName());
 		}
-		
 		else if (VaultCore.getChat().getPrimaryGroup(player).equals("trusted")) {
 			trusted.addEntry(player.getName());
 			trusted.setColor(ChatColor.AQUA);
 			player.setPlayerListName(player.getDisplayName());
 		}
-		
 		else if (VaultCore.getChat().getPrimaryGroup(player).equals("patreon")) {
 			patreon.addEntry(player.getName());
 			patreon.setColor(ChatColor.WHITE);
 			player.setPlayerListName(player.getDisplayName());
 		}
-		
 		else if (VaultCore.getChat().getPrimaryGroup(player).equals("member")) {
 			member.addEntry(player.getName());
 			member.setColor(ChatColor.GRAY);

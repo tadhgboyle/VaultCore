@@ -29,13 +29,10 @@ public class PlayerJoinQuitListener implements Listener {
 		join.setJoinMessage(
 				ChatColor.YELLOW + player.getName() + " has " + ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
 
-		// send message from config
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				VaultCore.getInstance().getConfig().getString("welcome-message")));
-
 		query(uuid, username, firstseen, lastseen, playtime, rank, ip);
 	}
-
 	@EventHandler
 	public void onQuit(PlayerQuitEvent quit) throws SQLException {
 
@@ -50,10 +47,8 @@ public class PlayerJoinQuitListener implements Listener {
 
 		quit.setQuitMessage(
 				ChatColor.YELLOW + player.getName() + " has " + ChatColor.RED + "left" + ChatColor.YELLOW + ".");
-
 		query(uuid, username, firstseen, lastseen, playtime, rank, ip);
 	}
-
 	private void query(String uuid, String username, long firstseen, long lastseen, long playtime, String rank,
 			String ip) throws SQLException {
 		VaultCore.getInstance().connection.createStatement()
