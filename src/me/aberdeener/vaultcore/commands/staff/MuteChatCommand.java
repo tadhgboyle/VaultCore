@@ -1,4 +1,4 @@
-package me.aberdeener.vaultcore.listeners;
+package me.aberdeener.vaultcore.commands.staff;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,27 +7,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.aberdeener.vaultcore.VaultCore;
 
-public class MuteChat implements CommandExecutor, Listener {
-
+public class MuteChatCommand implements CommandExecutor {
+	
 	public static boolean mutechat = false;
-
+	
 	String string = VaultCore.getInstance().getConfig().getString("string");
 	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 	
-	@EventHandler
-	public void muteChat(AsyncPlayerChatEvent e) {
-		Player p = e.getPlayer();
-		if (mutechat && !p.hasPermission("vc.mutechat.override")) {
-			e.setCancelled(true);
-			p.sendMessage(ChatColor.RED + "The chat is muted!");
-		}
-	}
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		if (cmd.getName().equalsIgnoreCase("mutechat")) {

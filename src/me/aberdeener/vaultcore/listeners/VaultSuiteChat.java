@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.aberdeener.vaultcore.VaultCore;
+import me.aberdeener.vaultcore.commands.staff.MuteChatCommand;
 import me.aberdeener.vaultcore.commands.staff.StaffChat;
 
 public class VaultSuiteChat implements Listener {
@@ -58,6 +59,10 @@ public class VaultSuiteChat implements Listener {
 					}
 				}
 			}
+		}
+		if (MuteChatCommand.mutechat && !player.hasPermission("vc.mutechat.override")) {
+			event.setCancelled(true);
+			player.sendMessage(ChatColor.RED + "The chat is muted!");
 		}
 		if (!player.hasPermission("vc.chat.color")) {
 			String message = !player.getWorld().getName().equals("clan")

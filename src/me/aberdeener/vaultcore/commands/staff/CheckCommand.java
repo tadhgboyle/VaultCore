@@ -16,9 +16,9 @@ import me.aberdeener.vaultcore.VaultCore;
 
 public class CheckCommand implements CommandExecutor {
 
-	String string = VaultCore.getInstance().getConfig().getString("string");
-	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
-	String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
+	String string = ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("string"));
+	String variable1 = ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("variable-1"));
+	String variable2 = ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("variable-2"));
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -65,7 +65,7 @@ public class CheckCommand implements CommandExecutor {
 							sender.sendMessage(ChatColor.DARK_GREEN + "--== [Check] ==--");
 							sender.sendMessage("");
 
-							if (Bukkit.getOnlinePlayers().toString().contains(args[0])) {
+							if (Bukkit.getOnlinePlayers().toString().toLowerCase().contains(args[0].toLowerCase())) {
 								sender.sendMessage(string + "Checking: " + variable1 + username);
 							} else {
 								sender.sendMessage(string + "Checking: " + variable1 + username + ChatColor.GRAY + " "

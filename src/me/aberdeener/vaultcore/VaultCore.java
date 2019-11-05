@@ -19,6 +19,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.aberdeener.vaultcore.commands.BackCommand;
 import me.aberdeener.vaultcore.commands.DiscordCommand;
 import me.aberdeener.vaultcore.commands.ECCommand;
 import me.aberdeener.vaultcore.commands.HelpCommand;
@@ -41,15 +42,13 @@ import me.aberdeener.vaultcore.commands.staff.GrantCommand;
 import me.aberdeener.vaultcore.commands.staff.GrantCommandInv;
 import me.aberdeener.vaultcore.commands.staff.HealCommand;
 import me.aberdeener.vaultcore.commands.staff.InvseeCommand;
+import me.aberdeener.vaultcore.commands.staff.MuteChatCommand;
 import me.aberdeener.vaultcore.commands.staff.StaffChat;
 import me.aberdeener.vaultcore.commands.staff.TeleportCommand;
 import me.aberdeener.vaultcore.listeners.GrantCommandListener;
-import me.aberdeener.vaultcore.listeners.MuteChat;
 import me.aberdeener.vaultcore.listeners.PlayerJoinQuitListener;
 import me.aberdeener.vaultcore.listeners.PlayerTPListener;
-import me.aberdeener.vaultcore.listeners.SetDisplayName;
 import me.aberdeener.vaultcore.listeners.SignColours;
-import me.aberdeener.vaultcore.listeners.SpawnCommand;
 import me.aberdeener.vaultcore.listeners.VaultSuiteChat;
 import me.aberdeener.vaultcore.runnables.RankPromotions;
 import me.aberdeener.vaultcore.tabcompletion.TabCompletion;
@@ -80,10 +79,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 				try {
 					openConnection();
 					Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore connected to Database");
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-					Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not connect to Database");
-				} catch (SQLException e) {
+				} catch (ClassNotFoundException | SQLException e) {
 					e.printStackTrace();
 					Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not connect to Database");
 				}
@@ -100,7 +96,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 		int minute = (int) 1200L;
 		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			public void run() {
-				// run method in class
 				RankPromotions.memberPromotion();
 				RankPromotions.patreonPromotion();
 			}
@@ -171,12 +166,10 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("sc").setExecutor(new StaffChat());
 		this.getCommand("wild").setExecutor(new WildTeleport());
 		this.getCommand("ping").setExecutor(new PingCommand());
-		this.getCommand("mutechat").setExecutor(new MuteChat());
+		this.getCommand("mutechat").setExecutor(new MuteChatCommand());
 		this.getCommand("check").setExecutor(new CheckCommand());
 		this.getCommand("say").setExecutor(new ConsoleSay());
 		this.getCommand("chat").setExecutor(new ConsoleSay());
-		this.getCommand("setspawn").setExecutor(new SpawnCommand());
-		this.getCommand("spawn").setExecutor(new SpawnCommand());
 		this.getCommand("grant").setExecutor(new GrantCommand());
 		this.getCommand("gamemode").setExecutor(new GamemodeCommand());
 		this.getCommand("gamemode").setTabCompleter(new TabCompletion());
@@ -198,7 +191,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("feed").setExecutor(new FeedCommand());
 		this.getCommand("heal").setExecutor(new HealCommand());
 		this.getCommand("ranks").setExecutor(new RanksCommand());
-		this.getCommand("back").setExecutor(new PlayerTPListener());
+		this.getCommand("back").setExecutor(new BackCommand());
 		this.getCommand("discord").setExecutor(new DiscordCommand());
 		this.getCommand("sv").setExecutor(new WorldTPCommand());
 		this.getCommand("cr").setExecutor(new WorldTPCommand());
@@ -212,10 +205,8 @@ public class VaultCore extends JavaPlugin implements Listener {
 	public void registerListeners() {
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(this, this);
-		pm.registerEvents(new MuteChat(), this);
 		pm.registerEvents(new VaultSuiteChat(), this);
 		pm.registerEvents(new GrantCommandListener(), this);
-		pm.registerEvents(new SetDisplayName(), this);
 		pm.registerEvents(new SignColours(), this);
 		pm.registerEvents(new PlayerJoinQuitListener(), this);
 		pm.registerEvents(new PlayerTPListener(), this);
@@ -233,7 +224,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect to Database");
 		}
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (command.getName().equalsIgnoreCase("vcreload")) {
 			if (!sender.hasPermission("vc.reload")) {

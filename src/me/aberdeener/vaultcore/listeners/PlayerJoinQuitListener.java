@@ -21,11 +21,18 @@ public class PlayerJoinQuitListener implements Listener {
 		String uuid = player.getUniqueId().toString();
 		String username = player.getName();
 		long firstseen = player.getFirstPlayed();
-		long lastseen = player.getLastPlayed();
+		long lastseen = System.currentTimeMillis();
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 		String rank = VaultCore.getChat().getPrimaryGroup(player).toString();
 		String ip = player.getAddress().getAddress().getHostAddress().toString();
-
+		
+		String groupPrefix = VaultCore.getChat().getPlayerPrefix(player);
+		String prefix = ChatColor.translateAlternateColorCodes('&', groupPrefix);
+		
+		player.setDisplayName(prefix + username);
+		player.setPlayerListName(player.getDisplayName());
+        ScoreBoard.scoreboard(player);
+        
 		join.setJoinMessage(
 				ChatColor.YELLOW + player.getName() + " has " + ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
 
@@ -40,7 +47,7 @@ public class PlayerJoinQuitListener implements Listener {
 		String uuid = player.getUniqueId().toString();
 		String username = player.getName();
 		long firstseen = player.getFirstPlayed();
-		long lastseen = player.getLastPlayed();
+		long lastseen = System.currentTimeMillis();
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 		String rank = VaultCore.getChat().getPrimaryGroup(player).toString();
 		String ip = player.getAddress().getAddress().getHostAddress().toString();

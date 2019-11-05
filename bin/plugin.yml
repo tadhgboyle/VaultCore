@@ -6,16 +6,17 @@ description: The suite of tools created for the VaultMC server.
 website: https://www.vaultmc.net
 api-version: 1.14
 depend: [Vault]
+softdepend: [Multiverse-Core]
 commands:
    help:
-      usage: /help <option> [page]
+      usage: /help <option>
       description: Show the help menu.
    clearchat:
       usage: /clearchat
       aliases: [cc]
       description: Show the help menu.
    playtime:
-      usage: /playtime [PLAYER]
+      usage: /playtime [player]
       description: Show a players playtime.
       aliases: [pt]
    staffchat:
@@ -26,8 +27,8 @@ commands:
       usage: /wild
       description: Teleport to a random location.
    ping: 
-      usage: /ping [PLAYER]
-      description: Find a players ping.
+      usage: /ping [player]
+      description: See a players ping.
    mutechat:
       usage: /mutechat
       description: Mute the chat.
@@ -38,12 +39,6 @@ commands:
       usage: /say <message>
       description: Used by the console to send messages.
       aliases: [chat]
-   setspawn:
-      usage: /setspawn
-      description: Set the world's spawn point.
-   spawn:
-      usage: /spawn
-      description: Go to the current world's spawn point.
    grant:
       usage: /grant <player>
       description: Rank GUI

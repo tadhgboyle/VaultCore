@@ -102,7 +102,6 @@ public class TPACommand implements CommandExecutor {
 				requests.remove(player.getUniqueId());
 				return true;
 			}
-
 			if (requestsHere.containsKey(player.getUniqueId())) {
 				
 				Player target = Bukkit.getPlayer(requestsHere.get(player.getUniqueId()));
@@ -117,7 +116,6 @@ public class TPACommand implements CommandExecutor {
 				requestsHere.remove(player.getUniqueId());
 				return true;
 			}
-
 			else {
 				player.sendMessage(ChatColor.RED + "You don't have a pending request!");
 				return true;
