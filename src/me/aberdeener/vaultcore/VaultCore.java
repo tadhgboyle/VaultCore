@@ -32,6 +32,8 @@ import me.aberdeener.vaultcore.commands.TokenCommand;
 import me.aberdeener.vaultcore.commands.WarpCommand;
 import me.aberdeener.vaultcore.commands.WildTeleport;
 import me.aberdeener.vaultcore.commands.WorldTPCommand;
+import me.aberdeener.vaultcore.commands.settings.SettingsCommand;
+import me.aberdeener.vaultcore.commands.settings.SettingsListener;
 import me.aberdeener.vaultcore.commands.staff.CheckCommand;
 import me.aberdeener.vaultcore.commands.staff.ClearChat;
 import me.aberdeener.vaultcore.commands.staff.ConsoleSay;
@@ -200,6 +202,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 		this.getCommand("delwarp").setExecutor(new WarpCommand());
 		this.getCommand("sctoggle").setExecutor(new StaffChat());
 		this.getCommand("token").setExecutor(new TokenCommand());
+		this.getCommand("settings").setExecutor(new SettingsCommand());
 	}
 
 	public void registerListeners() {
@@ -210,6 +213,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 		pm.registerEvents(new SignColours(), this);
 		pm.registerEvents(new PlayerJoinQuitListener(), this);
 		pm.registerEvents(new PlayerTPListener(), this);
+		pm.registerEvents(new SettingsListener(), this);
 	}
 
 	@Override

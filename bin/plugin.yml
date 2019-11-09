@@ -131,3 +131,6 @@ commands:
    sctoggle:
       usage: /sctoggle
       description: Toggle staffchat.
+   settings:
+      usage: /settings
+      description: Open the settings menu.

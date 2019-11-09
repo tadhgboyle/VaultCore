@@ -33,13 +33,23 @@ public class PlayerJoinQuitListener implements Listener {
 		player.setPlayerListName(player.getDisplayName());
         ScoreBoard.scoreboard(player);
         
+		if (VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg") == null) {
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg", true);
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", true);
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa", true);
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.swearfilter", true);
+			VaultCore.getInstance().savePlayerData();
+		}
+        
 		join.setJoinMessage(
 				ChatColor.YELLOW + player.getName() + " has " + ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
 
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				VaultCore.getInstance().getConfig().getString("welcome-message")));
 		query(uuid, username, firstseen, lastseen, playtime, rank, ip);
+
 	}
+	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent quit) throws SQLException {
 
@@ -56,6 +66,7 @@ public class PlayerJoinQuitListener implements Listener {
 				ChatColor.YELLOW + player.getName() + " has " + ChatColor.RED + "left" + ChatColor.YELLOW + ".");
 		query(uuid, username, firstseen, lastseen, playtime, rank, ip);
 	}
+	
 	private void query(String uuid, String username, long firstseen, long lastseen, long playtime, String rank,
 			String ip) throws SQLException {
 		VaultCore.getInstance().connection.createStatement()

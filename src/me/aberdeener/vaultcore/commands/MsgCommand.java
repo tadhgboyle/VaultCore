@@ -36,14 +36,24 @@ public class MsgCommand implements CommandExecutor {
 				return true;
 			} else if (args.length >= 2) {
 				Player target = Bukkit.getServer().getPlayer(args[0]);
+
 				if (target == null) {
 					sender.sendMessage(ChatColor.RED + "That player is offline!");
 					return true;
 				}
+
 				if (target == sender) {
 					sender.sendMessage(ChatColor.RED + "You can't message yourself!");
 					return true;
-				} else {
+				}
+
+				if (VaultCore.getInstance().getPlayerData()
+						.getBoolean("players." + target.getUniqueId() + ".settings.msg") == false) {
+					player.sendMessage(ChatColor.RED + "That player has disabled Messages!");
+					return true;
+				}
+
+				else {
 
 					String message = "";
 					for (int i = 1; i != args.length; i++)
@@ -71,22 +81,33 @@ public class MsgCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
+
 			Player player = (Player) sender;
+
 			if (!sender.hasPermission("vc.msg")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
+
 			if (args.length < 1) {
 				sender.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/r <message>");
 				return true;
 			}
+
 			Player target = Bukkit.getPlayer(replies.get(player.getUniqueId()));
 
 			if (target == null) {
 				sender.sendMessage(ChatColor.RED + "That player is now offline!");
 				return true;
 			}
+
+			if (VaultCore.getInstance().getPlayerData()
+					.getBoolean("players." + target.getUniqueId() + ".settings.msg") == false) {
+				player.sendMessage(ChatColor.RED + "That player has disabled Messages!");
+				return true;
+			}
+
 			if (replies.containsKey(player.getUniqueId())) {
 				String message = "";
 				for (String s : args) {
@@ -99,7 +120,9 @@ public class MsgCommand implements CommandExecutor {
 				sender.sendMessage(meTo + " " + ChatColor.DARK_GREEN + message);
 				target.sendMessage(toMe + " " + ChatColor.DARK_GREEN + message);
 				replies.put(target.getUniqueId(), player.getUniqueId());
-			} else {
+			} 
+			
+			else {
 				sender.sendMessage(ChatColor.RED + "You do not have anyone to reply to!");
 				return true;
 			}

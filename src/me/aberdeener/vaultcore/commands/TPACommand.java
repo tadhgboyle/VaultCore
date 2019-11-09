@@ -19,8 +19,10 @@ public class TPACommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		String string = VaultCore.getInstance().getConfig().getString("string");
-		String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+		String string = ChatColor.translateAlternateColorCodes('&',
+				VaultCore.getInstance().getConfig().getString("string"));
+		String variable1 = ChatColor.translateAlternateColorCodes('&',
+				VaultCore.getInstance().getConfig().getString("variable-1"));
 
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
@@ -49,12 +51,23 @@ public class TPACommand implements CommandExecutor {
 				player.sendMessage(ChatColor.RED + "That player is offline!");
 				return true;
 			}
-			else {
+			if (VaultCore.getInstance().getPlayerData()
+					.getBoolean("players." + target.getUniqueId() + ".settings.tpa") == false) {
+				player.sendMessage(ChatColor.RED + "That player has disabled TPAs!");
+				return true;
+			}
+			if (VaultCore.getInstance().getPlayerData()
+					.getBoolean("players." + target.getUniqueId() + ".settings.autotpa") == true) {
+				player.teleport(target);
+				player.sendMessage(string + "Teleported to " + variable1 + target.getName() + string + ".");
+				target.sendMessage(variable1 + player.getName() + string + " has teleported to you.");
+				return true;
+			} else {
 				requests.put(target.getUniqueId(), player.getUniqueId());
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "You sent a teleport request to " + variable1 + target.getName() + string + "."));
-				target.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + player.getName() + string
-						+ " sent you a teleport request, type " + variable1 + "/tpaccept " + string + "to accept it."));
+				player.sendMessage(
+						string + "You sent a teleport request to " + variable1 + target.getName() + string + ".");
+				target.sendMessage(variable1 + player.getName() + string + " sent you a teleport request, type "
+						+ variable1 + "/tpaccept " + string + "to accept it.");
 				return true;
 			}
 		}
@@ -78,14 +91,12 @@ public class TPACommand implements CommandExecutor {
 			if (target == null) {
 				player.sendMessage(ChatColor.RED + "That player is offline!");
 				return true;
-			}
-			else {
+			} else {
 				requestsHere.put(target.getUniqueId(), player.getUniqueId());
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "You requested that " + variable1 + target.getName() + string + " teleports to you."));
-				target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						variable1 + player.getName() + string + " asked you to teleport to them, type " + variable1
-								+ "/tpaccept " + string + "to accept it."));
+				player.sendMessage(
+						string + "You requested that " + variable1 + target.getName() + string + " teleports to you.");
+				target.sendMessage(variable1 + player.getName() + string + " asked you to teleport to them, type "
+						+ variable1 + "/tpaccept " + string + "to accept it.");
 				return true;
 			}
 		}
@@ -93,30 +104,26 @@ public class TPACommand implements CommandExecutor {
 		if (command.getName().equalsIgnoreCase("tpaccept")) {
 
 			if (requests.containsKey(player.getUniqueId())) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "You have accepted the teleport request."));
-				Bukkit.getPlayer(requests.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes(
-						'&', variable1 + player.getName() + string + " accepted your teleport request."));
+				player.sendMessage(string + "You have accepted the teleport request.");
+				Bukkit.getPlayer(requests.get(player.getUniqueId()))
+						.sendMessage(variable1 + player.getName() + string + " accepted your teleport request.");
 
 				Bukkit.getPlayer(requests.get(player.getUniqueId())).teleport(player);
 				requests.remove(player.getUniqueId());
 				return true;
 			}
 			if (requestsHere.containsKey(player.getUniqueId())) {
-				
+
 				Player target = Bukkit.getPlayer(requestsHere.get(player.getUniqueId()));
-				
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "You have accepted the teleport request."));
-				
-				target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-								variable1 + player.getName() + string + " accepted your teleport request."));
+
+				player.sendMessage(string + "You have accepted the teleport request.");
+
+				target.sendMessage(variable1 + player.getName() + string + " accepted your teleport request.");
 
 				player.teleport(target);
 				requestsHere.remove(player.getUniqueId());
 				return true;
-			}
-			else {
+			} else {
 				player.sendMessage(ChatColor.RED + "You don't have a pending request!");
 				return true;
 			}
@@ -125,13 +132,12 @@ public class TPACommand implements CommandExecutor {
 		if (command.getName().equalsIgnoreCase("tpdeny")) {
 
 			if (requests.containsKey(player.getUniqueId())) {
-				
-				player.sendMessage(
-						ChatColor.translateAlternateColorCodes('&', string + "You denied the teleport request."));
-				
-				Bukkit.getPlayer(requests.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes(
-						'&', variable1 + player.getName() + string + " denied your teleport request."));
-				
+
+				player.sendMessage(string + "You denied the teleport request.");
+
+				Bukkit.getPlayer(requests.get(player.getUniqueId()))
+						.sendMessage(variable1 + player.getName() + string + " denied your teleport request.");
+
 				requests.remove(player.getUniqueId());
 				return true;
 			}

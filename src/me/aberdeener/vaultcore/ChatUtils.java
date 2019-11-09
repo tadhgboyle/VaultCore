@@ -27,7 +27,7 @@ public class ChatUtils {
 		return stringText;
 	}
 	public static TextComponent messageMakerVariable1(String text) {
-		TextComponent variable1Text = new TextComponent(string + text);
+		TextComponent variable1Text = new TextComponent(variable1 + text);
 		return variable1Text;
 	}
 }
