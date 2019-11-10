@@ -36,21 +36,21 @@ public class SettingsInventories {
 	}
 
 	public static Inventory TeleportationSettings(Player player) {
-		Inventory TeleportationSettings = Bukkit.createInventory(null, 27, "Teleportation Settings");
+		Inventory TeleportationSettings = Bukkit.createInventory(null, 36, "Teleportation Settings");
 
 		TeleportationSettings.setItem(11, toggleTPA);
 		TeleportationSettings.setItem(15, acceptTPA);
-		TeleportationSettings.setItem(22, back);
+		TeleportationSettings.setItem(31, back);
 
 		return TeleportationSettings;
 	}
 
 	public static Inventory ChatSettings(Player player) {
-		Inventory ChatSettings = Bukkit.createInventory(null, 27, "Chat Settings");
+		Inventory ChatSettings = Bukkit.createInventory(null, 36, "Chat Settings");
 
 		ChatSettings.setItem(11, toggleMsg);
 		ChatSettings.setItem(15, toggleSwear);
-		ChatSettings.setItem(22, back);
+		ChatSettings.setItem(31, back);
 
 		return ChatSettings;
 	}
@@ -74,23 +74,25 @@ public class SettingsInventories {
 
 		toggleTPA = new ItemStack(Material.BOW, 1);
 		ItemMeta toggleTPAMeta = toggleTPA.getItemMeta();
-		toggleTPAMeta.setDisplayName(string + "Allow " + variable1 + "TPA" + string + "'s");
+		toggleTPAMeta.setDisplayName(string + "Allow " + variable1 + "TPA" + string + "s");
 		ArrayList<String> toggleTPALore = new ArrayList<String>();
 		toggleTPALore.add(string + "Enabled: " + variable2
 				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.tpa"));
-		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.tpa") == true) {
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.tpa") == true) {
 			toggleTPAMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		toggleTPAMeta.setLore(toggleTPALore);
 		toggleTPA.setItemMeta(toggleTPAMeta);
-		
+
 		acceptTPA = new ItemStack(Material.ARROW, 1);
 		ItemMeta acceptTPAMeta = acceptTPA.getItemMeta();
-		acceptTPAMeta.setDisplayName(string + "Auto Accept " + variable1 + "TPA" + string + "'s");
+		acceptTPAMeta.setDisplayName(string + "Auto Accept " + variable1 + "TPA" + string + "s");
 		ArrayList<String> acceptTPALore = new ArrayList<String>();
 		acceptTPALore.add(string + "Enabled: " + variable2
 				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.autotpa"));
-		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.autotpa") == true) {
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.autotpa") == true) {
 			acceptTPAMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		acceptTPAMeta.setLore(acceptTPALore);
@@ -102,7 +104,8 @@ public class SettingsInventories {
 		ArrayList<String> toggleMsgLore = new ArrayList<String>();
 		toggleMsgLore.add(string + "Enabled: " + variable2
 				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg"));
-		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.msg") == true) {
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.msg") == true) {
 			toggleMsgMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		toggleMsgMeta.setLore(toggleMsgLore);
@@ -114,7 +117,8 @@ public class SettingsInventories {
 		ArrayList<String> toggleSwearLore = new ArrayList<String>();
 		toggleSwearLore.add(string + "Enabled: " + variable2 + VaultCore.getInstance().getPlayerData()
 				.get("players." + player.getUniqueId() + ".settings.swearfilter"));
-		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.swearfilter") == true) {
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.swearfilter") == true) {
 			toggleSwearMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		toggleSwearMeta.setLore(toggleSwearLore);

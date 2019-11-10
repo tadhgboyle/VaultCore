@@ -81,8 +81,8 @@ public class TeleportCommand implements CommandExecutor {
 					Location targetLoc = target2.getLocation();
 					((Entity) target1).teleport(targetLoc);
 					
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "Teleported " + variable1 + target1.getName()
-							+ string + " to " + variable1 + target2.getName() + string + "."));
+					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "Teleported " + variable1
+							+ target1.getName() + string + " to " + variable1 + target2.getName() + string + "."));
 					target1.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + sender.getName() + string + " has teleported you to "
 							+ variable1 + target2.getName() + string + "."));
 					target2.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + sender.getName() + string + " has teleported "

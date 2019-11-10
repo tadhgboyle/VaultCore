@@ -120,8 +120,8 @@ public class MsgCommand implements CommandExecutor {
 				sender.sendMessage(meTo + " " + ChatColor.DARK_GREEN + message);
 				target.sendMessage(toMe + " " + ChatColor.DARK_GREEN + message);
 				replies.put(target.getUniqueId(), player.getUniqueId());
-			} 
-			
+			}
+
 			else {
 				sender.sendMessage(ChatColor.RED + "You do not have anyone to reply to!");
 				return true;

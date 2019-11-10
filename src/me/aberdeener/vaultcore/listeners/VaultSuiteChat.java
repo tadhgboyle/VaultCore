@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.aberdeener.vaultcore.VaultCore;
-import me.aberdeener.vaultcore.commands.staff.MuteChatCommand;
 import me.aberdeener.vaultcore.commands.staff.StaffChat;
 
 public class VaultSuiteChat implements Listener {
@@ -23,6 +22,7 @@ public class VaultSuiteChat implements Listener {
 		}
 		return null;
 	}
+
 	@EventHandler
 	public void chatFormat(AsyncPlayerChatEvent event) {
 
@@ -49,6 +49,7 @@ public class VaultSuiteChat implements Listener {
 				}
 			}
 		}
+
 		if (event.getMessage().charAt(0) == ',') {
 			if (event.getPlayer().hasPermission("vc.sc")) {
 				Bukkit.getConsoleSender().sendMessage(staffchat);
@@ -60,16 +61,14 @@ public class VaultSuiteChat implements Listener {
 				}
 			}
 		}
-		if (MuteChatCommand.mutechat && !player.hasPermission("vc.mutechat.override")) {
-			event.setCancelled(true);
-			player.sendMessage(ChatColor.RED + "The chat is muted!");
-		}
+
 		if (!player.hasPermission("vc.chat.color")) {
 			String message = !player.getWorld().getName().equals("clan")
 					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + text)
 					: clansChatHook(player, prefix, name, text);
 			event.setFormat(message);
 		}
+
 		else {
 			String message = !player.getWorld().getName().equals("clan")
 					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE
