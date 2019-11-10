@@ -2,6 +2,7 @@ package me.aberdeener.vaultcore.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.aberdeener.vaultcore.VaultCore;
 import me.aberdeener.vaultcore.commands.staff.StaffChat;
 
-public class VaultSuiteChat implements Listener {
+public class ChatManager implements Listener {
 
 	private static String clansChatHook(Player player, String prefix, String name, String text) {
 		try {
@@ -32,6 +33,7 @@ public class VaultSuiteChat implements Listener {
 		String prefix = ChatColor.translateAlternateColorCodes('&', groupPrefix);
 		String name = player.getName();
 		String text = event.getMessage();
+		World world = player.getWorld();
 		text = text.replace("%", "%%");
 
 		String SCmessage = (prefix + name + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + ChatColor.AQUA
@@ -66,7 +68,21 @@ public class VaultSuiteChat implements Listener {
 			String message = !player.getWorld().getName().equals("clan")
 					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + text)
 					: clansChatHook(player, prefix, name, text);
-			event.setFormat(message);
+			event.setCancelled(true);
+			for (Player players : Bukkit.getOnlinePlayers()) {
+				if (VaultCore.getInstance().getPlayerData()
+						.getBoolean("players." + players.getUniqueId() + ".settings.pwc")) {
+					if (players.getWorld().equals(world)) {
+						players.sendMessage(message);
+						event.setCancelled(true);
+					} else {
+						event.setCancelled(true);
+					}
+				} else {
+					players.sendMessage(message);
+					event.setCancelled(true);
+				}
+			}
 		}
 
 		else {
@@ -74,7 +90,21 @@ public class VaultSuiteChat implements Listener {
 					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE
 							+ ChatColor.translateAlternateColorCodes('&', text))
 					: clansChatHook(player, prefix, name, ChatColor.translateAlternateColorCodes('&', text));
-			event.setFormat(message);
+			event.setCancelled(true);
+			for (Player players : Bukkit.getOnlinePlayers()) {
+				if (VaultCore.getInstance().getPlayerData()
+						.getBoolean("players." + players.getUniqueId() + ".settings.pwc")) {
+					if (players.getWorld().equals(world)) {
+						players.sendMessage(message);
+						event.setCancelled(true);
+					} else {
+						event.setCancelled(true);
+					}
+				} else {
+					players.sendMessage(message);
+					event.setCancelled(true);
+				}
+			}
 		}
 	}
 }

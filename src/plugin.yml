@@ -1,7 +1,7 @@
 name: VaultCore
 main: me.aberdeener.vaultcore.VaultCore
 authors: [Aberdeener, yangyang200, 2xjtn]
-version: 2.9.8
+version: 3.0.1
 description: The suite of tools created for the VaultMC server.
 website: https://www.vaultmc.net
 api-version: 1.14
@@ -99,7 +99,7 @@ commands:
       usage: /ranks
       description: Learn about the ranks on our server.
    vcreload:
-      usage: /vsreload
+      usage: /vcreload
       description: Reload the configuration file for the plugin.
    back:
       usage: /back

@@ -51,7 +51,7 @@ import me.aberdeener.vaultcore.listeners.GrantCommandListener;
 import me.aberdeener.vaultcore.listeners.PlayerJoinQuitListener;
 import me.aberdeener.vaultcore.listeners.PlayerTPListener;
 import me.aberdeener.vaultcore.listeners.SignColours;
-import me.aberdeener.vaultcore.listeners.VaultSuiteChat;
+import me.aberdeener.vaultcore.listeners.ChatManager;
 import me.aberdeener.vaultcore.runnables.RankPromotions;
 import me.aberdeener.vaultcore.tabcompletion.TabCompletion;
 import net.milkbowl.vault.chat.Chat;
@@ -208,7 +208,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 	public void registerListeners() {
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(this, this);
-		pm.registerEvents(new VaultSuiteChat(), this);
+		pm.registerEvents(new ChatManager(), this);
 		pm.registerEvents(new GrantCommandListener(), this);
 		pm.registerEvents(new SignColours(), this);
 		pm.registerEvents(new PlayerJoinQuitListener(), this);

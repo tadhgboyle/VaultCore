@@ -17,7 +17,7 @@ public class SettingsInventories {
 
 	private static ItemStack teleportMain, chatMain, back;
 	private static ItemStack toggleTPA, acceptTPA;
-	private static ItemStack toggleMsg, toggleSwear;
+	private static ItemStack toggleMsg, togglePWC, toggleSwear;
 
 	static String string = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("string"));
@@ -48,13 +48,14 @@ public class SettingsInventories {
 	public static Inventory ChatSettings(Player player) {
 		Inventory ChatSettings = Bukkit.createInventory(null, 36, "Chat Settings");
 
-		ChatSettings.setItem(11, toggleMsg);
-		ChatSettings.setItem(15, toggleSwear);
+		ChatSettings.setItem(10, toggleMsg);
+		ChatSettings.setItem(13, togglePWC);
+		ChatSettings.setItem(16, toggleSwear);
 		ChatSettings.setItem(31, back);
 
 		return ChatSettings;
 	}
-
+	
 	public static void init(Player player) {
 
 		teleportMain = new ItemStack(Material.ENDER_PEARL, 1);
@@ -110,6 +111,19 @@ public class SettingsInventories {
 		}
 		toggleMsgMeta.setLore(toggleMsgLore);
 		toggleMsg.setItemMeta(toggleMsgMeta);
+		
+		togglePWC = new ItemStack(Material.FILLED_MAP, 1);
+		ItemMeta togglePWCMeta = togglePWC.getItemMeta();
+		togglePWCMeta.setDisplayName(string + "Use " + variable1 + "Per World Chat");
+		ArrayList<String> togglePWCLore = new ArrayList<String>();
+		togglePWCLore.add(string + "Enabled: " + variable2
+				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.pwc"));
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.pwc") == true) {
+			togglePWCMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+		}
+		togglePWCMeta.setLore(togglePWCLore);
+		togglePWC.setItemMeta(togglePWCMeta);
 
 		toggleSwear = new ItemStack(Material.IRON_BARS, 1);
 		ItemMeta toggleSwearMeta = toggleSwear.getItemMeta();

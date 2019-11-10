@@ -108,6 +108,23 @@ public class SettingsListener implements Listener {
 					SettingsInventories.init(player);
 					player.openInventory(SettingsInventories.ChatSettings(player));
 				}
+				
+				if (clicked.getType() == Material.FILLED_MAP) {
+					boolean allowPWC = VaultCore.getInstance().getPlayerData()
+							.getBoolean("players." + player.getUniqueId() + ".settings.pwc");
+					boolean allowed;
+					if (allowPWC == true) {
+						allowed = false;
+					} else {
+						allowed = true;
+					}
+					VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.pwc",
+							allowed);
+					VaultCore.getInstance().savePlayerData();
+					event.setCancelled(true);
+					SettingsInventories.init(player);
+					player.openInventory(SettingsInventories.ChatSettings(player));
+				}
 
 				if (clicked.getType() == Material.IRON_BARS) {
 					boolean allowSwearFilter = VaultCore.getInstance().getPlayerData()
