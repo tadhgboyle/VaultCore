@@ -1,110 +1,120 @@
 package me.aberdeener.vaultcore.listeners;
 
+import me.aberdeener.vaultcore.VaultCore;
+import me.aberdeener.vaultcore.commands.staff.StaffChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import me.aberdeener.vaultcore.VaultCore;
-import me.aberdeener.vaultcore.commands.staff.StaffChat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChatManager implements Listener {
+    private static final String[][] worldGroups = new String[][]{  // Messages will be split within these worlds.
+            new String[]{
+                    "Lobby"
+            },
+            new String[]{
+                    "Survival",  // E.g. I sent a message in Survival.
+                    "Survival_Nether",  // Player in Survival_Nether receives it, player in Survival_End receives it.
+                    "Survival_End"  // But player in Lobby won't receive it.
+            },
+            new String[]{
+                    "clans",
+                    "clans_nether",
+                    "clans_the_end"
+            },
+            new String[]{
+                    "Skyblock",
+                    "skyblock_nether"
+            }
+    };
 
-	private static String clansChatHook(Player player, String prefix, String name, String text) {
-		try {
-			String clan = (String) Class.forName("net.vaultmc.gameplay.clans.api.ClansAPI")
-					.getDeclaredMethod("getCurrentClan", Player.class).invoke(player);
-			return prefix + name + "<" + clan + ">" + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + text;
-		} catch (ReflectiveOperationException ex) {
-			ex.printStackTrace();
-		}
-		return null;
-	}
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerChat(AsyncPlayerChatEvent e) {
+        Player player = e.getPlayer();
 
-	@EventHandler
-	public void chatFormat(AsyncPlayerChatEvent event) {
+        if (StaffChat.toggled.containsKey(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
+            // The player has staff chat toggled. Format staff chat.
 
-		Player player = event.getPlayer();
+            String message = (ChatColor.translateAlternateColorCodes('&',
+                    VaultCore.getInstance().getConfig().getString("staffchat-prefix"))) + (prefix + name + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + ChatColor.AQUA
+                    + ChatColor.translateAlternateColorCodes('&',
+                    e.getMessage().charAt(0) == "," ? e.getMessage().replaceFirst(",", "") : e.getMessage()
+                    /* If e. (...) charAt (...) Then use e.get (...) replaceFirst else use e.getMessage() */));
+            Bukkit.getConsoleSender().sendMessage(message);
 
-		String groupPrefix = VaultCore.getChat().getPlayerPrefix(player);
-		String prefix = ChatColor.translateAlternateColorCodes('&', groupPrefix);
-		String name = player.getName();
-		String text = event.getMessage();
-		World world = player.getWorld();
-		text = text.replace("%", "%%");
+            Bukkit.getOnlinePlayers().forEach(x -> {
+                if (x.hasPermission("vc.sc")) {
+                    x.sendMessage(message);
+                }
+            });
 
-		String SCmessage = (prefix + name + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + ChatColor.AQUA
-				+ ChatColor.translateAlternateColorCodes('&', text));
-		String SCprefix = (ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
-		String staffchat = SCprefix + SCmessage;
+            e.setCancelled(true);
+            return;
+        }
 
-		if (StaffChat.toggled.containsKey(player.getUniqueId())) {
-			Bukkit.getConsoleSender().sendMessage(staffchat);
-			for (Player players : Bukkit.getOnlinePlayers()) {
-				if (players.hasPermission("vc.sc")) {
-					players.sendMessage(staffchat.replaceFirst(",", ""));
-					event.setCancelled(true);
-				}
-			}
-		}
+        String message = e.getMessage();
+        if (player.hasPermission("vc.chat.color")) {
+            // Message should be colorized.
+            message = ChatColor.translateAlternateColorCodes('&', message);
+        }
 
-		if (event.getMessage().charAt(0) == ',') {
-			if (event.getPlayer().hasPermission("vc.sc")) {
-				Bukkit.getConsoleSender().sendMessage(staffchat);
-				for (Player players : Bukkit.getOnlinePlayers()) {
-					if (players.hasPermission("vc.sc")) {
-						players.sendMessage(staffchat.replaceFirst(",", ""));
-						event.setCancelled(true);
-					}
-				}
-			}
-		}
+        e.setFormat(ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player))
+                + player.getDisplayName() + ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerSuffix(player)) + " " +
+                ChatColor.DARK_GRAY + "→" + ChatColor.RESET + " %2$s");
 
-		if (!player.hasPermission("vc.chat.color")) {
-			String message = !player.getWorld().getName().equals("clan")
-					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + text)
-					: clansChatHook(player, prefix, name, text);
-			event.setCancelled(true);
-			for (Player players : Bukkit.getOnlinePlayers()) {
-				if (VaultCore.getInstance().getPlayerData()
-						.getBoolean("players." + players.getUniqueId() + ".settings.pwc")) {
-					if (players.getWorld().equals(world)) {
-						players.sendMessage(message);
-						event.setCancelled(true);
-					} else {
-						event.setCancelled(true);
-					}
-				} else {
-					players.sendMessage(message);
-					event.setCancelled(true);
-				}
-			}
-		}
+        // Find the world group index of the player
+        int group = -1;
+        for (int i = 0; i < worldGroups.length; i++) {
+            String[] worlds = worldGroups[i];
+            for (String world : worlds) {
+                if (world.equalsIgnoreCase(player.getWorld().getName())) {
+                    group = i;
+                    break;
+                }
+            }
+        }
 
-		else {
-			String message = !player.getWorld().getName().equals("clan")
-					? (prefix + name + ChatColor.DARK_GRAY + " → " + ChatColor.WHITE
-							+ ChatColor.translateAlternateColorCodes('&', text))
-					: clansChatHook(player, prefix, name, ChatColor.translateAlternateColorCodes('&', text));
-			event.setCancelled(true);
-			for (Player players : Bukkit.getOnlinePlayers()) {
-				if (VaultCore.getInstance().getPlayerData()
-						.getBoolean("players." + players.getUniqueId() + ".settings.pwc")) {
-					if (players.getWorld().equals(world)) {
-						players.sendMessage(message);
-						event.setCancelled(true);
-					} else {
-						event.setCancelled(true);
-					}
-				} else {
-					players.sendMessage(message);
-					event.setCancelled(true);
-				}
-			}
-		}
-	}
+        if (group == -1) {
+            // The player's world is not in the world group, treat as if the player hadn't enabled per world chat.
+            return;
+        }
+
+        List<Player> recipients = e.getRecipients().stream().collect(Collectors.toList());
+        for (int i = 0; i < recipients.size(); i++) {
+            Player x = recipients.get(i);
+            if (VaultCore.getInstance().getPlayerData()
+                    .getBoolean("players." + x.getUniqueId() + ".settings.pwc")) {
+                // The player enabled pwc.
+                
+                // Find the world group index of this player
+                int thisGroup = -1;
+                for (int i = 0; i < worldGroups.length; i++) {
+                    String[] worlds = worldGroups[i];
+                    for (String world : worlds) {
+                        if (world.equalsIgnoreCase(x.getWorld().getName())) {
+                            thisGroup = i;
+                            break;
+                        }
+                    }
+                }
+                
+                if (thisGroup == -1) {
+                    continue;
+                }
+                
+                if (group != thisGroup) {
+                    // The player should not receive this message.
+                    recipients.remove(i);
+                }
+            }
+        }
+        
+        e.getRecipients().clear();
+        e.getRecipients().addAll(recipients);
+    }
 }
