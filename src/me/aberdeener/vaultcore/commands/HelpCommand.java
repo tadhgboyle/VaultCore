@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.aberdeener.vaultcore.ChatUtils;
+import me.aberdeener.vaultcore.VaultCoreAPI;
 import me.aberdeener.vaultcore.VaultCore;
 
 public class HelpCommand implements CommandExecutor {
@@ -32,15 +32,15 @@ public class HelpCommand implements CommandExecutor {
 					sender.sendMessage(ChatColor.GOLD + "Usage: " + ChatColor.RED + "/help <option> [page]");
 					sender.sendMessage(ChatColor.GOLD + "Available Options:");
 					player.spigot().sendMessage(
-							ChatUtils.hoverMaker("General", "Helpful commands to be used universally!", "/help general"),
-							ChatUtils.messageMakerString(", "),
-							ChatUtils.hoverMaker("Creative", "Commands to use in the Creative world!", "/help creative"),
-							ChatUtils.messageMakerString(", "),
-							ChatUtils.hoverMaker("Survival", "Commands to use in the Survival world!", "/help survival"),
-							ChatUtils.messageMakerString(", "),
-							ChatUtils.hoverMaker("Clans", "Commands to use in the Clans world!", "/help clans"),
-							ChatUtils.messageMakerString(", "),
-							ChatUtils.hoverMaker("SkyBlock", "Commands to use in the SkyBlock world!", "/help skyblock"));
+							VaultCoreAPI.hoverMaker("General", "Helpful commands to be used universally!", "/help general"),
+							VaultCoreAPI.messageMakerString(", "),
+							VaultCoreAPI.hoverMaker("Creative", "Commands to use in the Creative world!", "/help creative"),
+							VaultCoreAPI.messageMakerString(", "),
+							VaultCoreAPI.hoverMaker("Survival", "Commands to use in the Survival world!", "/help survival"),
+							VaultCoreAPI.messageMakerString(", "),
+							VaultCoreAPI.hoverMaker("Clans", "Commands to use in the Clans world!", "/help clans"),
+							VaultCoreAPI.messageMakerString(", "),
+							VaultCoreAPI.hoverMaker("SkyBlock", "Commands to use in the SkyBlock world!", "/help skyblock"));
 					return true;
 				} 
 				else if (args[0].equalsIgnoreCase("general")) {

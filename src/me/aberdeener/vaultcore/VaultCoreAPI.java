@@ -1,13 +1,14 @@
 package me.aberdeener.vaultcore;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class ChatUtils {
+public class VaultCoreAPI {
 
 	static String string = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("string"));
@@ -26,8 +27,15 @@ public class ChatUtils {
 		TextComponent stringText = new TextComponent(string + text);
 		return stringText;
 	}
+
 	public static TextComponent messageMakerVariable1(String text) {
 		TextComponent variable1Text = new TextComponent(variable1 + text);
 		return variable1Text;
+	}
+
+	public static Boolean PWCCheck(Player player) {
+		Boolean pwc = VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.pwc");
+		return pwc;
 	}
 }

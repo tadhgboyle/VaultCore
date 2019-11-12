@@ -34,13 +34,13 @@ public class PlayerJoinQuitListener implements Listener {
 		ScoreBoard.scoreboard(player);
 
 		if (VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg") == null) {
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg", "true");
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.pwc", "false");
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", "true");
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg", true);
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.pwc", true);
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", true);
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa",
-					"false");
+					true);
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.swearfilter",
-					"false");
+					true);
 			VaultCore.getInstance().savePlayerData();
 		}
 
