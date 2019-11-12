@@ -41,7 +41,8 @@ public class ChatManager implements Listener {
             // The player has staff chat toggled. Format staff chat.
 
             String message = (ChatColor.translateAlternateColorCodes('&',
-                    VaultCore.getInstance().getConfig().getString("staffchat-prefix"))) + (prefix + name + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + ChatColor.AQUA
+                    VaultCore.getInstance().getConfig().getString("staffchat-prefix"))) + (ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player))
+                + player.getDisplayName() + ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerSuffix(player)) + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE + ChatColor.AQUA
                     + ChatColor.translateAlternateColorCodes('&',
                     e.getMessage().charAt(0) == "," ? e.getMessage().replaceFirst(",", "") : e.getMessage()
                     /* If e. (...) charAt (...) Then use e.get (...) replaceFirst else use e.getMessage() */));
@@ -93,11 +94,11 @@ public class ChatManager implements Listener {
                 
                 // Find the world group index of this player
                 int thisGroup = -1;
-                for (int i = 0; i < worldGroups.length; i++) {
-                    String[] worlds = worldGroups[i];
+                for (int j = 0; j < worldGroups.length; j++) {
+                    String[] worlds = worldGroups[j];
                     for (String world : worlds) {
                         if (world.equalsIgnoreCase(x.getWorld().getName())) {
-                            thisGroup = i;
+                            thisGroup = j;
                             break;
                         }
                     }
