@@ -30,20 +30,20 @@ public class PlayTime implements CommandExecutor {
 				return true;
 			}
 
+			Player player = (Player) sender;
+
 			if (args.length == 0) {
 				if (!sender.hasPermission("vc.playtime")) {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("no-permission")));
 					return true;
 				}
-				Player player = (Player) sender;
 				printPlayTimeOnline(player, (Player) sender);
 				return true;
 
 			}
 
-			else {
-				Player player = (Player) sender;
+			if (args.length == 1) {
 
 				if (!player.hasPermission("vc.playtime.other")) {
 					player.sendMessage(
@@ -52,11 +52,16 @@ public class PlayTime implements CommandExecutor {
 				}
 
 				String target = args[0];
-				if (!Bukkit.getOnlinePlayers().toString().toLowerCase().contains(target.toLowerCase())) {
-					printPlayTimeOffline(player, target);
+				if (Bukkit.getPlayer(target) != null) {
+					printPlayTimeOnline(Bukkit.getPlayer(target), player);
 					return true;
 				}
-				printPlayTimeOnline(Bukkit.getPlayer(target), player);
+				printPlayTimeOffline(player, target);
+				return true;
+			}
+
+			else {
+				player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/playtime [player]");
 				return true;
 			}
 		}
