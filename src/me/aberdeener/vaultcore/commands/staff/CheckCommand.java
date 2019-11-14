@@ -101,8 +101,6 @@ public class CheckCommand implements CommandExecutor {
 				player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/check <player>");
 				return true;
 			}
-		} else {
-
 		}
 		return true;
 	}

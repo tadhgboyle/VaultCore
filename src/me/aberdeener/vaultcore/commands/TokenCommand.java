@@ -17,7 +17,7 @@ public class TokenCommand implements CommandExecutor {
 
 	static String string = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("string"));
-	String variable1 = ChatColor.translateAlternateColorCodes('&',
+	static String variable1 = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("variable-1"));
 	String variable2 = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("variable-2"));
@@ -33,7 +33,11 @@ public class TokenCommand implements CommandExecutor {
 			}
 			Player player = (Player) sender;
 			try {
-				player.sendMessage(string + "Your token: " + variable2 + getToken(player.getUniqueId(), player));
+				String token = getToken(player.getUniqueId(), player);
+				if (token == null) {
+					return true;
+				}
+				player.sendMessage(string + "Your token: " + variable2 + token);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -44,14 +48,15 @@ public class TokenCommand implements CommandExecutor {
 	static String getToken(UUID uuid, Player player) throws SQLException {
 
 		java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT token FROM players WHERE uuid='" + uuid + "'");
-		if (rs.next()) {
-			String token = rs.getString("token");
+		ResultSet getTokenRS = stmt.executeQuery("SELECT token FROM players WHERE uuid='" + uuid + "'");
+		if (getTokenRS.next()) {
+			String token = getTokenRS.getString("token");
 			if (token != null) {
 				return token;
 			}
 		}
 		player.sendMessage(string + "Generating your token...");
+
 		int leftLimit = 97;
 		int rightLimit = 122;
 		int targetStringLength = 8;
@@ -62,8 +67,20 @@ public class TokenCommand implements CommandExecutor {
 			buffer.append((char) randomLimitedInt);
 		}
 		String new_token = buffer.toString();
-		VaultCore.getInstance().connection.createStatement()
-				.executeUpdate("UPDATE players SET token='" + new_token + "' WHERE uuid='" + uuid + "'");
+
+		ResultSet generateTokenRS = stmt.executeQuery("SELECT username FROM players WHERE token='" + new_token + "'");
+
+		if (!generateTokenRS.next()) {
+			VaultCore.getInstance().connection.createStatement()
+					.executeUpdate("UPDATE players SET token='" + new_token + "' WHERE uuid='" + uuid + "'");
+		}
+
+		else {
+			player.sendMessage(string + "You are one in " + variable1 + "308915776" + string
+					+ "! The token we generated was already in our database. Show this message to a staff member for a reward!");
+			player.sendMessage(string + "Please re-run this command.");
+			return null;
+		}
 		return new_token;
 	}
 }

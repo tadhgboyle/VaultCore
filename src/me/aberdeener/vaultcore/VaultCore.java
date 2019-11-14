@@ -70,11 +70,9 @@ public class VaultCore extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
-		// save config.yml if not exist
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		instance = this;
-		// connect to sql
 		BukkitRunnable r = new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -94,7 +92,6 @@ public class VaultCore extends JavaPlugin implements Listener {
 		createPlayerData();
 		GrantCommandInv.initAdmin();
 		GrantCommandInv.initMod();
-		// run rank promotions task every 5 minutes
 		int minute = (int) 1200L;
 		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			public void run() {
