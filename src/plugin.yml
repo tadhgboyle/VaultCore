@@ -1,7 +1,7 @@
 name: VaultCore
-main: me.aberdeener.vaultcore.VaultCore
+main: net.vaultmc.vaultcore.VaultCore
 authors: [Aberdeener, yangyang200, 2xjtn]
-version: 3.0.1
+version: 3.0.2
 description: The suite of tools created for the VaultMC server.
 website: https://www.vaultmc.net
 api-version: 1.14
