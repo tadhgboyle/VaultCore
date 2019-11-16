@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.VaultCore;
@@ -16,17 +15,15 @@ public class ConsoleSay implements CommandExecutor {
 
 		if (commandLabel.equalsIgnoreCase("say") || (commandLabel.equalsIgnoreCase("chat"))) {
 
-			if (sender instanceof ConsoleCommandSender) {
-				
+			if (!(sender instanceof Player)) {
+
 				if (args.length == 0) {
 					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/say <message>");
-				} 
-				else {
+				} else {
 					String message = "";
 					for (String s : args) {
 						message = message + s + " ";
 					}
-
 					String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE"
 							+ ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + "%s", message);
 
@@ -34,8 +31,7 @@ public class ConsoleSay implements CommandExecutor {
 						player.sendMessage(csay);
 					}
 				}
-			}
-			else if (sender instanceof Player) {
+			} else {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;

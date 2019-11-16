@@ -25,14 +25,14 @@ public class FeedCommand implements CommandExecutor {
 
 			}
 			Player player = (Player) sender;
-			if (!sender.hasPermission("vc.feed")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+			if (!player.hasPermission("vc.feed")) {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			} 
 			else {
 				if (args.length == 0) {
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							string + "You have been " + variable1 + "fed."));
 					player.setFoodLevel(20);
 					player.setSaturation(20);
@@ -42,11 +42,11 @@ public class FeedCommand implements CommandExecutor {
 					if (player.hasPermission("vc.feed.other")) {
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target == null) {
-							sender.sendMessage(ChatColor.RED + "That player is offline!");
+							player.sendMessage(ChatColor.RED + "That player is offline!");
 							return true;
 						}
-						if (target == sender) {
-							sender.sendMessage(
+						if (target == player) {
+							player.sendMessage(
 									ChatColor.RED + "Feed yourself using: " + ChatColor.DARK_GREEN + "/feed");
 							return true;
 						}
@@ -60,12 +60,12 @@ public class FeedCommand implements CommandExecutor {
 
 					} 
 					else {
-						sender.sendMessage(
+						player.sendMessage(
 								ChatColor.DARK_RED + "Uh oh! You don't have permission to feed that player!");
 						return true;
 					}
 				}
-				sender.sendMessage(ChatColor.RED + "Correct Usage: " + ChatColor.DARK_GREEN + "/feed [player]");
+				player.sendMessage(ChatColor.RED + "Correct Usage: " + ChatColor.DARK_GREEN + "/feed [player]");
 				return true;
 			}
 		}

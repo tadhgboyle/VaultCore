@@ -23,19 +23,16 @@ public class RankPromotions {
 			if (!group.equalsIgnoreCase("default")) {
 				return;
 			}
-			else {
-				int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
+			int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
+			// 10 hours
+			if (playtime > 36000) {
 
-				//10 hours
-				if (playtime > 36000) {
-
-					VaultCore.getInstance().getServer().dispatchCommand(
-							VaultCore.getInstance().getServer().getConsoleSender(),
-							"lp user " + player.getName() + " parent set member");
-					for (Player players : Bukkit.getOnlinePlayers()) {
-						players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
-								+ "Member" + string + "!");
-					}
+				VaultCore.getInstance().getServer().dispatchCommand(
+						VaultCore.getInstance().getServer().getConsoleSender(),
+						"lp user " + player.getName() + " parent set member");
+				for (Player players : Bukkit.getOnlinePlayers()) {
+					players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
+							+ "Member" + string + "!");
 				}
 			}
 		}
@@ -50,20 +47,16 @@ public class RankPromotions {
 			if (!group.equalsIgnoreCase("member")) {
 				return;
 			}
+			int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
+			// 35 hours
+			if (playtime > 126000) {
 
-			else {
-				int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
-
-				//35 hours
-				if (playtime > 126000) {
-
-					VaultCore.getInstance().getServer().dispatchCommand(
-							VaultCore.getInstance().getServer().getConsoleSender(),
-							"lp user " + player.getName() + " parent set patreon");
-					for (Player players : Bukkit.getOnlinePlayers()) {
-						players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
-								+ "Patreon" + string + "!");
-					}
+				VaultCore.getInstance().getServer().dispatchCommand(
+						VaultCore.getInstance().getServer().getConsoleSender(),
+						"lp user " + player.getName() + " parent set patreon");
+				for (Player players : Bukkit.getOnlinePlayers()) {
+					players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
+							+ "Patreon" + string + "!");
 				}
 			}
 		}

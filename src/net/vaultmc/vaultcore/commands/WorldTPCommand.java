@@ -46,7 +46,6 @@ public class WorldTPCommand implements CommandExecutor {
 				}
 			}
 		}
-		
 		if (commandLabel.equalsIgnoreCase("cr")) {
 
 			if (!(sender instanceof Player)) {

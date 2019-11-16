@@ -34,7 +34,6 @@ public class SettingsInventories {
 
 		return SettingsMain;
 	}
-
 	public static Inventory TeleportationSettings(Player player) {
 		Inventory TeleportationSettings = Bukkit.createInventory(null, 36, "Teleportation Settings");
 
@@ -44,7 +43,6 @@ public class SettingsInventories {
 
 		return TeleportationSettings;
 	}
-
 	public static Inventory ChatSettings(Player player) {
 		Inventory ChatSettings = Bukkit.createInventory(null, 36, "Chat Settings");
 
@@ -55,7 +53,6 @@ public class SettingsInventories {
 
 		return ChatSettings;
 	}
-	
 	public static void init(Player player) {
 
 		teleportMain = new ItemStack(Material.ENDER_PEARL, 1);

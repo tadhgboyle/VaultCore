@@ -41,7 +41,6 @@ public class WarpCommand implements CommandExecutor {
 					player.sendMessage(string + "The warp " + variable1 + args[0] + string + " does not exist!");
 					return true;
 				}
-
 				else {
 
 					Location warp = (Location) VaultCore.getInstance().getConfig().get("warps." + args[0]);
@@ -49,15 +48,12 @@ public class WarpCommand implements CommandExecutor {
 					sender.sendMessage(string + "You have been teleported to " + variable1 + args[0] + string + "!");
 					return true;
 				}
-
 			}
 			else {
 				sender.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/warp <warp>");
 				return true;
 			}
-
 		}
-
 		if (commandLabel.equalsIgnoreCase("setwarp")) {
 
 			if (!(sender instanceof Player)) {
@@ -82,10 +78,8 @@ public class WarpCommand implements CommandExecutor {
 
 				player.sendMessage(string + "Warp " + variable1 + args[0] + string + " has been set!");
 				return true;
-
 			}
 		}
-		
 		if (commandLabel.equalsIgnoreCase("delwarp")) {
 
 			if (!(sender instanceof Player)) {
@@ -93,7 +87,9 @@ public class WarpCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
+			
 			Player player = (Player) sender;
+			
 			if (!sender.hasPermission("vc.warp.set")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
@@ -107,7 +103,6 @@ public class WarpCommand implements CommandExecutor {
 
 				VaultCore.getInstance().getConfig().set("warps." + args[0], null);
 				VaultCore.getInstance().saveConfig();
-
 				player.sendMessage(string + "Warp " + variable1 + args[0] + string + " has been deleted!");
 				return true;
 			}

@@ -16,22 +16,24 @@ public class ECCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("enderchest")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
 			Player player = (Player) sender;
-			if (!sender.hasPermission("vc.enderchest")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("no-permission")));
+			if (!player.hasPermission("vc.enderchest")) {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
-			}
-			else {
+			} else {
 				if (args.length == 0) {
 					player.openInventory(player.getEnderChest());
 					return true;
 				}
-				
+
 				if (!player.hasPermission("vc.enderchest.other")) {
-					player.sendMessage(ChatColor.DARK_RED + "Uh oh! You don't have permission to look at their enderchest!");
+					player.sendMessage(
+							ChatColor.DARK_RED + "Uh oh! You don't have permission to look at their enderchest!");
 					return true;
 				}
 

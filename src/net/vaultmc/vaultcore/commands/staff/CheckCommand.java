@@ -32,13 +32,11 @@ public class CheckCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-
 			Player player = (Player) sender;
 
 			if (args.length == 1) {
@@ -89,15 +87,15 @@ public class CheckCommand implements CommandExecutor {
 						player.sendMessage(string + "Last IP: " + variable2 + ip);
 						player.sendMessage(string + "Rank: " + variable2 + rank);
 						player.sendMessage(
-								string + "Database: " + variable2 + "database.vaultmc.net/user.php?user=" + username);
+								string + "Database: " + variable2 + "https://database.vaultmc.net/?user=" + username);
 						return true;
 					}
 					player.sendMessage(ChatColor.RED + "That player has never joined the server.");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-
-			} else {
+			} 
+			else {
 				player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/check <player>");
 				return true;
 			}

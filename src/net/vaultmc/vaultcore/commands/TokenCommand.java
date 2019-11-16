@@ -34,6 +34,7 @@ public class TokenCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			try {
 				String token = getToken(player.getUniqueId(), player);
+				// if they are 1/308915776 make them run cmd again
 				if (token == null) {
 					return true;
 				}
@@ -57,13 +58,10 @@ public class TokenCommand implements CommandExecutor {
 		}
 		player.sendMessage(string + "Generating your token...");
 
-		int leftLimit = 97;
-		int rightLimit = 122;
-		int targetStringLength = 8;
 		Random random = new Random();
-		StringBuilder buffer = new StringBuilder(targetStringLength);
-		for (int i = 0; i < targetStringLength; i++) {
-			int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+		StringBuilder buffer = new StringBuilder(8);
+		for (int i = 0; i < 8; i++) {
+			int randomLimitedInt = 97 + (int) (random.nextFloat() * (122 - 9 + 1));
 			buffer.append((char) randomLimitedInt);
 		}
 		String new_token = buffer.toString();

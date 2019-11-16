@@ -32,8 +32,10 @@ public class DiscordCommand implements CommandExecutor {
 			Player player = (Player) sender;
 
 			try {
-				player.sendMessage(
-						string + "Your token: " + variable2 + TokenCommand.getToken(player.getUniqueId(), player));
+
+				String token = TokenCommand.getToken(player.getUniqueId(), player);
+
+				player.sendMessage(string + "Your token: " + variable2 + token);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

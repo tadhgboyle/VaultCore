@@ -29,26 +29,20 @@ public class SettingsListener implements Listener {
 		if (clicked == null) {
 			return;
 		}
-
 		else {
-
 			if (event.getView().getTitle().equals("Settings")) {
-
 				if (clicked.getType() == Material.ENDER_PEARL) {
 					player.openInventory(SettingsInventories.TeleportationSettings(player));
 					event.setCancelled(true);
 				}
-
 				if (clicked.getType() == Material.PAPER) {
 					player.openInventory(SettingsInventories.ChatSettings(player));
 					event.setCancelled(true);
 				}
-
 				else {
 					event.setCancelled(true);
 				}
 			}
-
 			if (event.getView().getTitle().equals("Teleportation Settings")) {
 
 				if (clicked.getType() == Material.BOW) {
@@ -67,7 +61,6 @@ public class SettingsListener implements Listener {
 					SettingsInventories.init(player);
 					player.openInventory(SettingsInventories.TeleportationSettings(player));
 				}
-
 				if (clicked.getType() == Material.ARROW) {
 					boolean autoTPA = VaultCore.getInstance().getPlayerData()
 							.getBoolean("players." + player.getUniqueId() + ".settings.autotpa");
@@ -84,12 +77,10 @@ public class SettingsListener implements Listener {
 					SettingsInventories.init(player);
 					player.openInventory(SettingsInventories.TeleportationSettings(player));
 				}
-
 				else {
 					event.setCancelled(true);
 				}
 			}
-
 			if (event.getView().getTitle().equals("Chat Settings")) {
 
 				if (clicked.getType() == Material.FEATHER) {
@@ -108,7 +99,6 @@ public class SettingsListener implements Listener {
 					SettingsInventories.init(player);
 					player.openInventory(SettingsInventories.ChatSettings(player));
 				}
-				
 				if (clicked.getType() == Material.FILLED_MAP) {
 					boolean allowPWC = VaultCore.getInstance().getPlayerData()
 							.getBoolean("players." + player.getUniqueId() + ".settings.pwc");
@@ -125,7 +115,6 @@ public class SettingsListener implements Listener {
 					SettingsInventories.init(player);
 					player.openInventory(SettingsInventories.ChatSettings(player));
 				}
-
 				if (clicked.getType() == Material.IRON_BARS) {
 					boolean allowSwearFilter = VaultCore.getInstance().getPlayerData()
 							.getBoolean("players." + player.getUniqueId() + ".settings.swearfilter");
@@ -142,20 +131,16 @@ public class SettingsListener implements Listener {
 					SettingsInventories.init(player);
 					player.openInventory(SettingsInventories.ChatSettings(player));
 				}
-
 				else {
 					event.setCancelled(true);
 				}
 			}
-
 			if (event.getView().getTitle().equals("Chat Settings")
 					|| event.getView().getTitle().equals("Teleportation Settings")) {
-
 				if (clicked.getType() == Material.BOOK) {
 					player.openInventory(SettingsInventories.SettingsMain(player));
 					event.setCancelled(true);
 				}
-
 				else {
 					event.setCancelled(true);
 				}

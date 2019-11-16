@@ -8,15 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_14_R1.EntityPlayer;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class PingCommand implements CommandExecutor {
 
-	public static int getPing(Player p) {
-		CraftPlayer cp = (CraftPlayer) p;
-		EntityPlayer ep = cp.getHandle();
-		return ep.ping;
+	public static int getPing(Player player) {
+		int ping = ((CraftPlayer) player).getHandle().ping;
+		return ping;
 	}
 
 	String string = VaultCore.getInstance().getConfig().getString("string");

@@ -38,7 +38,6 @@ public class TPACommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			if (args.length != 1) {
 				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/tpa <player>");
 				return true;
@@ -50,18 +49,15 @@ public class TPACommand implements CommandExecutor {
 				player.sendMessage(ChatColor.RED + "You can't teleport to yourself!");
 				return true;
 			}
-
 			if (target == null) {
 				player.sendMessage(ChatColor.RED + "That player is offline!");
 				return true;
 			}
-
 			if (VaultCore.getInstance().getPlayerData()
 					.getBoolean("players." + target.getUniqueId() + ".settings.tpa") == false) {
 				player.sendMessage(ChatColor.RED + "That player has disabled TPAs!");
 				return true;
 			}
-
 			if (VaultCore.getInstance().getPlayerData()
 					.getBoolean("players." + target.getUniqueId() + ".settings.autotpa") == true) {
 				player.teleport(target);
@@ -79,7 +75,6 @@ public class TPACommand implements CommandExecutor {
 				return true;
 			}
 		}
-
 		if (command.getName().equalsIgnoreCase("tpahere")) {
 
 			if (!player.hasPermission("vc.tpahere")) {
@@ -87,29 +82,25 @@ public class TPACommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-
 			if (args.length != 1) {
 				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/tpahere <player>");
 				return true;
 			}
-
 			Player target = Bukkit.getPlayer(args[0]);
+			
 			if (target == player) {
 				player.sendMessage(ChatColor.RED + "You can't teleport to yourself!");
 				return true;
 			}
-
 			if (target == null) {
 				player.sendMessage(ChatColor.RED + "That player is offline!");
 				return true;
 			}
-
 			if (VaultCore.getInstance().getPlayerData()
 					.getBoolean("players." + target.getUniqueId() + ".settings.tpa") == false) {
 				player.sendMessage(ChatColor.RED + "That player has disabled TPAs!");
 				return true;
 			}
-
 			if (VaultCore.getInstance().getPlayerData()
 					.getBoolean("players." + target.getUniqueId() + ".settings.autotpa") == true) {
 				player.teleport(target);
@@ -117,7 +108,6 @@ public class TPACommand implements CommandExecutor {
 				target.sendMessage(variable1 + player.getName() + string + " has teleported to you.");
 				return true;
 			} 
-			
 			else {
 				requestsHere.put(target.getUniqueId(), player.getUniqueId());
 				player.sendMessage(
@@ -127,47 +117,38 @@ public class TPACommand implements CommandExecutor {
 				return true;
 			}
 		}
-
 		if (command.getName().equalsIgnoreCase("tpaccept")) {
 
 			if (requests.containsKey(player.getUniqueId())) {
 				player.sendMessage(string + "You have accepted the teleport request.");
 				Bukkit.getPlayer(requests.get(player.getUniqueId()))
 						.sendMessage(variable1 + player.getName() + string + " accepted your teleport request.");
-
 				Bukkit.getPlayer(requests.get(player.getUniqueId())).teleport(player);
 				requests.remove(player.getUniqueId());
 				return true;
 			}
-			
 			if (requestsHere.containsKey(player.getUniqueId())) {
 
 				Player target = Bukkit.getPlayer(requestsHere.get(player.getUniqueId()));
 
 				player.sendMessage(string + "You have accepted the teleport request.");
-
 				target.sendMessage(variable1 + player.getName() + string + " accepted your teleport request.");
-
 				player.teleport(target);
 				requestsHere.remove(player.getUniqueId());
 				return true;
 			} 
-			
 			else {
 				player.sendMessage(ChatColor.RED + "You don't have a pending request!");
 				return true;
 			}
 		}
-
 		if (command.getName().equalsIgnoreCase("tpdeny")) {
 
 			if (requests.containsKey(player.getUniqueId())) {
 
 				player.sendMessage(string + "You denied the teleport request.");
-
 				Bukkit.getPlayer(requests.get(player.getUniqueId()))
 						.sendMessage(variable1 + player.getName() + string + " denied your teleport request.");
-
 				requests.remove(player.getUniqueId());
 				return true;
 			}

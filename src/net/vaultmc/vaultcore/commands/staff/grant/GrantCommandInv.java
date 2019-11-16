@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.commands.staff;
+package net.vaultmc.vaultcore.commands.staff.grant;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

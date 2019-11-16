@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.commands.staff;
+package net.vaultmc.vaultcore.commands.staff.grant;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -29,27 +29,27 @@ public class GrantCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/grant <player>");
 				return true;
 			}
-			if (args.length == 1) {
 
-				Player target = Bukkit.getServer().getPlayer(args[0]);
+			Player target = Bukkit.getServer().getPlayer(args[0]);
 
-				if (target == null) {
-					sender.sendMessage(ChatColor.RED + "That player is offline!");
-					return true;
-				}
-				if (target == sender) {
-					sender.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
-					return true;
-				}
-				if (sender.hasPermission("vc.grant.admin")) {
-					Player player = (Player) sender;
-					player.openInventory(GrantCommandInv.getGrantInventoryAdmin(target));
-				}
-				else if (sender.hasPermission("vc.grant.mod")) {
-					Player player = (Player) sender;
-					player.openInventory(GrantCommandInv.getGrantInventoryMod(target));
-				}
+			if (target == null) {
+				sender.sendMessage(ChatColor.RED + "That player is offline!");
+				return true;
 			}
+			if (target == sender) {
+				sender.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
+				return true;
+			}
+			if (sender.hasPermission("vc.grant.admin")) {
+				Player player = (Player) sender;
+				player.openInventory(GrantCommandInv.getGrantInventoryAdmin(target));
+				return true;
+			} else if (sender.hasPermission("vc.grant.mod")) {
+				Player player = (Player) sender;
+				player.openInventory(GrantCommandInv.getGrantInventoryMod(target));
+				return true;
+			}
+
 		}
 		return true;
 	}

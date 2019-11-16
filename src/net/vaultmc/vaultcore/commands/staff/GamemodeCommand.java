@@ -6,7 +6,6 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.VaultCore;
@@ -15,192 +14,119 @@ public class GamemodeCommand implements CommandExecutor {
 
 	String string = (ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("string")));
-	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
-	
+	String variable1 = (ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("variable-1")));
+
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+		if (!sender.hasPermission("vc.gamemode")) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					VaultCore.getInstance().getConfig().getString("no-permission")));
+			return true;
+		}
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					VaultCore.getInstance().getConfig().getString("console-error")));
+			return true;
+		}
+		Player player = (Player) sender;
 
 		if (command.getName().equalsIgnoreCase("gamemode")) {
 
-			if (!sender.hasPermission("vc.gamemode")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
-				return true;
-			}
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
-				return true;
-			}
-			if (args.length == 0) {
-				sender.sendMessage(
+			if (args.length > 2 || args.length == 0) {
+				player.sendMessage(
 						ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/gamemode <mode> [player]");
 				return true;
 			}
-			else if (args[0].equalsIgnoreCase("creative")) {
 
-				if (!sender.hasPermission("vc.gamemode.creative")) {
-					sender.sendMessage(ChatColor.DARK_RED + "Uh oh! You don't have permission for creative mode!");
+			if (args.length == 1) {
+
+				if (args[0].equalsIgnoreCase("creative")) {
+					setGameModeSelf(player, GameMode.CREATIVE);
 					return true;
 				}
-				if (args.length == 1) {
-					((HumanEntity) sender).setGameMode(GameMode.CREATIVE);
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							string + "Your gamemode has been set to " + variable1 + "creative"));
+				if (args[0].equalsIgnoreCase("survival")) {
+					setGameModeSelf(player, GameMode.SURVIVAL);
 					return true;
 				}
-				else if (args.length == 2) {
-					if (!sender.hasPermission("vc.gamemode.other")) {
-						sender.sendMessage(
-								ChatColor.DARK_RED + "Uh oh! You don't have permission to set their gamemode!");
-						return true;
-					}
-					Player target = Bukkit.getPlayer(args[1]);
-					if (target == null) {
-						sender.sendMessage(ChatColor.RED + "That player is offline!");
-						return true;
-					}
-					else {
-						target.setGameMode(GameMode.CREATIVE);
-						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getName()
-								+ string + "'s gamemode has been set to " + variable1 + "creative" + string + "."));
-						target.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + sender.getName()
-								+ string + " has set your gamemode to " + variable1 + "creative" + string + "."));
-						return true;
-					}
+				if (args[0].equalsIgnoreCase("spectator")) {
+					setGameModeSelf(player, GameMode.SPECTATOR);
+					return true;
+				} else {
+					player.sendMessage(ChatColor.DARK_RED + "Invalid Gamemode!");
+					return true;
 				}
 			}
-			else if (args[0].equalsIgnoreCase("survival")) {
 
-				if (!sender.hasPermission("vc.gamemode.survival")) {
-					sender.sendMessage(ChatColor.DARK_RED + "Uh oh! You don't have permission for survial mode!");
+			if (args.length == 2) {
+
+				Player target = Bukkit.getPlayer(args[1]);
+				if (target == null) {
+					player.sendMessage(ChatColor.RED + "That player is offline!");
 					return true;
 				}
-
-				if (args.length == 1) {
-					((HumanEntity) sender).setGameMode(GameMode.SURVIVAL);
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							string + "Your gamemode has been set to " + variable1 + "survival" + string + "."));
+				if (args[0].equalsIgnoreCase("creative")) {
+					setGameModeOther(player, target, GameMode.CREATIVE);
 					return true;
 				}
-
-				else if (args.length == 2) {
-					if (!sender.hasPermission("vc.gamemode.other")) {
-						sender.sendMessage(
-								ChatColor.DARK_RED + "Uh oh! You don't have permission to set their gamemode!");
-						return true;
-					}
-					Player target = Bukkit.getPlayer(args[1]);
-					if (target == null) {
-						sender.sendMessage(ChatColor.RED + "That player is offline!");
-						return true;
-					}
-					else {
-						target.setGameMode(GameMode.SURVIVAL);
-						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getName()
-								+ string + "'s gamemode has been set to " + variable1 + "survival" + string + "."));
-						target.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + sender.getName()
-								+ string + " has set your gamemode to " + variable1 + "survival" + string + "."));
-						return true;
-					}
-				}
-			}
-			else if (args[0].equalsIgnoreCase("spectator")) {
-
-				if (!sender.hasPermission("vc.gamemode.spectator")) {
-					sender.sendMessage(ChatColor.DARK_RED + "Uh oh! You don't have permission for spectator mode!");
+				if (args[0].equalsIgnoreCase("survival")) {
+					setGameModeOther(player, target, GameMode.SURVIVAL);
 					return true;
 				}
-				if (args.length == 1) {
-					((HumanEntity) sender).setGameMode(GameMode.SPECTATOR);
-					sender.sendMessage(ChatColor.YELLOW + "Your gamemode has been set to " + ChatColor.GOLD
-							+ "spectator" + string + ".");
+				if (args[0].equalsIgnoreCase("spectator")) {
+					setGameModeOther(player, target, GameMode.SPECTATOR);
+					return true;
+				} else {
+					player.sendMessage(ChatColor.RED + "Invalid Gamemode!");
 					return true;
 				}
-				else if (args.length == 2) {
-					if (!sender.hasPermission("vc.gamemode.other")) {
-						sender.sendMessage(ChatColor.DARK_RED
-								+ "Uh oh! You don't have permission to set their gamemode!" + string + ".");
-						return true;
-					}
-					Player target = Bukkit.getPlayer(args[1]);
-					if (target == null) {
-						sender.sendMessage(ChatColor.RED + "That player is offline!");
-						return true;
-					}
-					else {
-						target.setGameMode(GameMode.SPECTATOR);
-						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getName()
-								+ string + "'s gamemode has been set to " + variable1 + "spectator" + string + "."));
-						target.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + sender.getName()
-								+ string + " has set your gamemode to " + variable1 + "spectator" + string + "."));
-						return true;
-					}
-				}
-			}
-			else {
-				sender.sendMessage(
-						ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/gamemode <mode> [player]");
-				return true;
 			}
 		}
-		if (command.getName().equalsIgnoreCase("gmc")) {
 
-			if (!sender.hasPermission("vc.gamemode.creative")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
-				return true;
-			}
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
-				return true;
-			}
-			else {
-				((HumanEntity) sender).setGameMode(GameMode.CREATIVE);
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "Your gamemode has been set to " + variable1 + "creative" + string + "."));
-				return true;
-			}
+		if (command.getName().equalsIgnoreCase("gmc")) {
+			setGameModeSelf(player, GameMode.CREATIVE);
+			return true;
 		}
 		if (command.getName().equalsIgnoreCase("gms")) {
-
-			if (!sender.hasPermission("vc.gamemode.survival")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
-				return true;
-			}
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
-				return true;
-			}
-			else {
-				((HumanEntity) sender).setGameMode(GameMode.SURVIVAL);
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "Your gamemode has been set to " + variable1 + "survival" + string + "."));
-				return true;
-			}
-
+			setGameModeSelf(player, GameMode.SURVIVAL);
+			return true;
 		}
 		if (command.getName().equalsIgnoreCase("gmsp")) {
-
-			if (!sender.hasPermission("vc.gamemode.spectator")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
-				return true;
-			}
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
-				return true;
-			}
-			else {
-				((HumanEntity) sender).setGameMode(GameMode.SPECTATOR);
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "Your gamemode has been set to " + variable1 + "spectator" + string + "."));
-				return true;
-			}
+			setGameModeSelf(player, GameMode.SPECTATOR);
+			return true;
 		}
 		return true;
+	}
+
+	public void setGameModeSelf(Player player, GameMode gamemode) {
+
+		if (player.hasPermission("vc.gamemode." + gamemode.toString())) {
+			player.setGameMode(gamemode);
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					string + "Your gamemode has been set to " + variable1
+							+ gamemode.toString().toLowerCase().substring(0, 1).toUpperCase()
+							+ gamemode.toString().toLowerCase().substring(1) + string + "."));
+		} else {
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					VaultCore.getInstance().getConfig().getString("no-permission")));
+		}
+	}
+
+	public void setGameModeOther(Player player, Player target, GameMode gamemode) {
+
+		if (player.hasPermission("vc.gamemode." + gamemode.toString())) {
+			if (player.hasPermission("vc.gamemode.other")) {
+				target.setGameMode(gamemode);
+				player.sendMessage(variable1 + "" + target.getName() + string + "'s gamemode has been set to "
+						+ variable1 + gamemode.toString().toLowerCase().substring(0, 1).toUpperCase()
+						+ gamemode.toString().toLowerCase().substring(1) + string + ".");
+				target.sendMessage(variable1 + "" + player.getName() + string + " has set your gamemode to " + variable1
+						+ gamemode.toString().toLowerCase().substring(0, 1).toUpperCase()
+						+ gamemode.toString().toLowerCase().substring(1) + string + ".");
+			}
+		} else {
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					VaultCore.getInstance().getConfig().getString("no-permission")));
+		}
 	}
 }

@@ -22,23 +22,21 @@ public class BackCommand implements CommandExecutor {
 				return true;
 			}
 			Player player = (Player) sender;
-			if (!sender.hasPermission("vc.back")) {
+			if (!player.hasPermission("vc.back")) {
 
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
-			}
-			else if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
+			} else if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
 
 				String string = ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("string"));
 				Location before = PlayerTPListener.teleports.get(player.getUniqueId());
 				player.teleport(before);
-				player.sendMessage(string + "You have been teleported to your previous location.");
+				player.sendMessage(string + "You have been teleported to your previous location...");
 				PlayerTPListener.teleports.remove(player.getUniqueId());
 				return true;
-			}
-			else {
+			} else {
 				player.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
 				return true;
 			}

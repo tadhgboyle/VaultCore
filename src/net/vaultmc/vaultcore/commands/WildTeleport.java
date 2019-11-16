@@ -27,12 +27,12 @@ public class WildTeleport implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-			if (!sender.hasPermission("vc.wildteleport")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+			Player player = (Player) sender;
+			if (!player.hasPermission("vc.wildteleport")) {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
-			Player player = (Player) sender;
 			if (player.getWorld().getName().equalsIgnoreCase("Survival")
 					|| player.getWorld().getName().equalsIgnoreCase("clans")) {
 
@@ -60,9 +60,8 @@ public class WildTeleport implements CommandExecutor {
 						+ variable2 + (int) teleportlocation.distance(originalLocation) + string + " blocks away!"));
 				return true;
 			}
-
 			else {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in the " + variable1
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in the " + variable1
 						+ "Survival" + string + " or " + variable1 + "Clans" + string + " world to run this command."));
 			}
 			return true;

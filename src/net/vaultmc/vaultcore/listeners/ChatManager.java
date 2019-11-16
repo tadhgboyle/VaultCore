@@ -27,7 +27,6 @@ public class ChatManager implements Listener {
 		Player player = e.getPlayer();
 
 		if (StaffChat.toggled.containsKey(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
-			// The player has staff chat toggled. Format staff chat.
 
 			String message = (ChatColor.translateAlternateColorCodes('&',
 					VaultCore.getInstance().getConfig().getString("staffchat-prefix")))
@@ -56,7 +55,6 @@ public class ChatManager implements Listener {
 
 		String message = e.getMessage();
 		if (player.hasPermission("vc.chat.color")) {
-			// Message should be colorized.
 			message = ChatColor.translateAlternateColorCodes('&', message);
 		}
 

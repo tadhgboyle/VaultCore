@@ -10,12 +10,13 @@ import net.vaultmc.vaultcore.VaultCore;
 
 public class SettingsCommand implements CommandExecutor {
 
-	String string = ChatColor.translateAlternateColorCodes('&', VaultCore.getInstance().getConfig().getString("string"));
+	String string = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("string"));
 	String variable1 = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("variable-1"));
 	String variable2 = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("variable-2"));
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
 		if (commandLabel.equalsIgnoreCase("settings")) {
@@ -25,16 +26,13 @@ public class SettingsCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-			
 			Player player = (Player) sender;
 
 			if (!sender.hasPermission("vc.settings")) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
-			}
-
-			else {
+			} else {
 				SettingsInventories.init(player);
 				player.openInventory(SettingsInventories.SettingsMain(player));
 				return true;
