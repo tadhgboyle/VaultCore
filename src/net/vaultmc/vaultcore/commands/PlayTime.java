@@ -2,7 +2,6 @@ package net.vaultmc.vaultcore.commands;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 
 public class PlayTime implements CommandExecutor {
 
@@ -72,12 +72,12 @@ public class PlayTime implements CommandExecutor {
 	private void printPlayTimeOnline(Player player, Player sender) {
 
 		long t = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
-		long[] time = formatDuration(t);
+		long[] time = VaultCoreAPI.formatDuration(t);
 		String playtimeMsg = String.format(
 				ChatColor.translateAlternateColorCodes('&',
 						variable1 + "%s" + string + " has played for " + variable2 + "%d" + string + " days, "
 								+ variable2 + "%d" + string + " hours and " + variable2 + "%d" + string + " minutes."),
-				player.getName(), time[0], time[1], time[2], time[3]);
+				player.getName(), time[0], time[1], time[2]);
 		sender.sendMessage(playtimeMsg);
 	}
 
@@ -91,13 +91,13 @@ public class PlayTime implements CommandExecutor {
 				String username = rs.getString("username");
 				long playtime = rs.getLong("playtime");
 				long t = (long) (playtime * 0.05 * 1000);
-				long[] time = formatDuration(t);
+				long[] time = VaultCoreAPI.formatDuration(t);
 				String playtimeMsg = String.format(
 						ChatColor.translateAlternateColorCodes('&',
 								variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
 										+ " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d"
 										+ string + " hours and " + variable2 + "%d" + string + " minutes."),
-						username, time[0], time[1], time[2], time[3]);
+						username, time[0], time[1], time[2]);
 				player.sendMessage(playtimeMsg);
 				return;
 			}
@@ -105,16 +105,5 @@ public class PlayTime implements CommandExecutor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private long[] formatDuration(long millis) {
-		long days = TimeUnit.MILLISECONDS.toDays(millis);
-		millis -= TimeUnit.DAYS.toMillis(days);
-		long hours = TimeUnit.MILLISECONDS.toHours(millis);
-		millis -= TimeUnit.HOURS.toMillis(hours);
-		long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
-		millis -= TimeUnit.MINUTES.toMillis(minutes);
-		long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
-		return new long[] { days, hours, minutes, seconds };
 	}
 }

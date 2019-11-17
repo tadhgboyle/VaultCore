@@ -1,5 +1,7 @@
 package net.vaultmc.vaultcore;
 
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -37,5 +39,16 @@ public class VaultCoreAPI {
 		Boolean pwc = VaultCore.getInstance().getPlayerData()
 				.getBoolean("players." + player.getUniqueId() + ".settings.pwc");
 		return pwc;
+	}
+	
+	public static long[] formatDuration(long millis) {
+		long days = TimeUnit.MILLISECONDS.toDays(millis);
+		millis -= TimeUnit.DAYS.toMillis(days);
+		long hours = TimeUnit.MILLISECONDS.toHours(millis);
+		millis -= TimeUnit.HOURS.toMillis(hours);
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+		millis -= TimeUnit.MINUTES.toMillis(minutes);
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+		return new long[] { days, hours, minutes, seconds };
 	}
 }
