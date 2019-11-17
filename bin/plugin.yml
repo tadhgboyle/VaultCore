@@ -134,3 +134,6 @@ commands:
    settings:
       usage: /settings
       description: Open the settings menu.
+   seen:
+      usage: /seen <player>
+      description: See how long a player has been online/offline for.

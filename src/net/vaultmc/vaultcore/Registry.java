@@ -11,12 +11,12 @@ import net.vaultmc.vaultcore.commands.MsgCommand;
 import net.vaultmc.vaultcore.commands.PingCommand;
 import net.vaultmc.vaultcore.commands.PlayTime;
 import net.vaultmc.vaultcore.commands.RanksCommand;
+import net.vaultmc.vaultcore.commands.SeenCommand;
 import net.vaultmc.vaultcore.commands.TPACommand;
 import net.vaultmc.vaultcore.commands.TokenCommand;
 import net.vaultmc.vaultcore.commands.WarpCommand;
 import net.vaultmc.vaultcore.commands.WildTeleport;
 import net.vaultmc.vaultcore.commands.WorldTPCommand;
-import net.vaultmc.vaultcore.commands.settings.SettingsCommand;
 import net.vaultmc.vaultcore.commands.settings.SettingsListener;
 import net.vaultmc.vaultcore.commands.staff.CheckCommand;
 import net.vaultmc.vaultcore.commands.staff.ClearChat;
@@ -84,7 +84,7 @@ public class Registry {
 		VaultCore.getInstance().getCommand("delwarp").setExecutor(new WarpCommand());
 		VaultCore.getInstance().getCommand("sctoggle").setExecutor(new StaffChat());
 		VaultCore.getInstance().getCommand("token").setExecutor(new TokenCommand());
-		VaultCore.getInstance().getCommand("settings").setExecutor(new SettingsCommand());
+		VaultCore.getInstance().getCommand("seen").setExecutor(new SeenCommand());
 	}
 
 	public static void registerListeners() {

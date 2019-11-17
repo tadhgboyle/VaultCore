@@ -16,7 +16,7 @@ public class CmdTemplate implements CommandExecutor {
 			VaultCore.getInstance().getConfig().getString("variable-2"));
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		
+
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					VaultCore.getInstance().getConfig().getString("console-error")));
@@ -33,9 +33,8 @@ public class CmdTemplate implements CommandExecutor {
 				return true;
 			}
 
-			else {
-				// do stuff
-			}
+			// do stuff
+
 		}
 		return true;
 	}
