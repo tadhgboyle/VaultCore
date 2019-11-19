@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class TPACommand implements CommandExecutor {
@@ -33,7 +34,7 @@ public class TPACommand implements CommandExecutor {
 		Player player = (Player) sender;
 		if (command.getName().equalsIgnoreCase("tpa")) {
 
-			if (!player.hasPermission("vc.tpa")) {
+			if (!player.hasPermission(Permissions.TPACommand)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -77,7 +78,7 @@ public class TPACommand implements CommandExecutor {
 		}
 		if (command.getName().equalsIgnoreCase("tpahere")) {
 
-			if (!player.hasPermission("vc.tpahere")) {
+			if (!player.hasPermission(Permissions.TPAHereCommand)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -87,7 +88,7 @@ public class TPACommand implements CommandExecutor {
 				return true;
 			}
 			Player target = Bukkit.getPlayer(args[0]);
-			
+
 			if (target == player) {
 				player.sendMessage(ChatColor.RED + "You can't teleport to yourself!");
 				return true;
@@ -107,8 +108,7 @@ public class TPACommand implements CommandExecutor {
 				player.sendMessage(string + "Teleported to " + variable1 + target.getName() + string + ".");
 				target.sendMessage(variable1 + player.getName() + string + " has teleported to you.");
 				return true;
-			} 
-			else {
+			} else {
 				requestsHere.put(target.getUniqueId(), player.getUniqueId());
 				player.sendMessage(
 						string + "You requested that " + variable1 + target.getName() + string + " teleports to you.");
@@ -118,6 +118,12 @@ public class TPACommand implements CommandExecutor {
 			}
 		}
 		if (command.getName().equalsIgnoreCase("tpaccept")) {
+
+			if (!player.hasPermission(Permissions.TPACommand)) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("no-permission")));
+				return true;
+			}
 
 			if (requests.containsKey(player.getUniqueId())) {
 				player.sendMessage(string + "You have accepted the teleport request.");
@@ -136,13 +142,18 @@ public class TPACommand implements CommandExecutor {
 				player.teleport(target);
 				requestsHere.remove(player.getUniqueId());
 				return true;
-			} 
-			else {
+			} else {
 				player.sendMessage(ChatColor.RED + "You don't have a pending request!");
 				return true;
 			}
 		}
 		if (command.getName().equalsIgnoreCase("tpdeny")) {
+
+			if (!player.hasPermission(Permissions.TPACommand)) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("no-permission")));
+				return true;
+			}
 
 			if (requests.containsKey(player.getUniqueId())) {
 

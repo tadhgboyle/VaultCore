@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class WorldTPCommand implements CommandExecutor {
@@ -26,7 +27,7 @@ public class WorldTPCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-			if (!sender.hasPermission("vc.sv")) {
+			if (!sender.hasPermission(Permissions.WorldTPCommandSurvival)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -53,7 +54,7 @@ public class WorldTPCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-			if (!sender.hasPermission("vc.cr")) {
+			if (!sender.hasPermission(Permissions.WorldTPCommandCreative)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;

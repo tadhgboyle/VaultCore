@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class GrantCommand implements CommandExecutor {
@@ -40,11 +41,11 @@ public class GrantCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
 				return true;
 			}
-			if (sender.hasPermission("vc.grant.admin")) {
+			if (sender.hasPermission(Permissions.GrantCommandAdmin)) {
 				Player player = (Player) sender;
 				player.openInventory(GrantCommandInv.getGrantInventoryAdmin(target));
 				return true;
-			} else if (sender.hasPermission("vc.grant.mod")) {
+			} else if (sender.hasPermission(Permissions.GrantCommandMod)) {
 				Player player = (Player) sender;
 				player.openInventory(GrantCommandInv.getGrantInventoryMod(target));
 				return true;

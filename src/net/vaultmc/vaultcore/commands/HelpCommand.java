@@ -7,7 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 
 public class HelpCommand implements CommandExecutor {
 
@@ -21,7 +22,7 @@ public class HelpCommand implements CommandExecutor {
 				return true;
 			}
 			Player player = (Player) sender;
-			if (!player.hasPermission("vc.help")) {
+			if (!player.hasPermission(Permissions.HelpCommand)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 			} 
@@ -32,15 +33,15 @@ public class HelpCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.GOLD + "Usage: " + ChatColor.RED + "/help <option> [page]");
 					player.sendMessage(ChatColor.GOLD + "Available Options:");
 					player.spigot().sendMessage(
-							VaultCoreAPI.hoverMaker("General", "Helpful commands to be used universally!", "/help general"),
-							VaultCoreAPI.messageMakerString(", "),
-							VaultCoreAPI.hoverMaker("Creative", "Commands to use in the Creative world!", "/help creative"),
-							VaultCoreAPI.messageMakerString(", "),
-							VaultCoreAPI.hoverMaker("Survival", "Commands to use in the Survival world!", "/help survival"),
-							VaultCoreAPI.messageMakerString(", "),
-							VaultCoreAPI.hoverMaker("Clans", "Commands to use in the Clans world!", "/help clans"),
-							VaultCoreAPI.messageMakerString(", "),
-							VaultCoreAPI.hoverMaker("SkyBlock", "Commands to use in the SkyBlock world!", "/help skyblock"));
+							Utilities.hoverMaker("General", "Helpful commands to be used universally!", "/help general"),
+							Utilities.messageMakerString(", "),
+							Utilities.hoverMaker("Creative", "Commands to use in the Creative world!", "/help creative"),
+							Utilities.messageMakerString(", "),
+							Utilities.hoverMaker("Survival", "Commands to use in the Survival world!", "/help survival"),
+							Utilities.messageMakerString(", "),
+							Utilities.hoverMaker("Clans", "Commands to use in the Clans world!", "/help clans"),
+							Utilities.messageMakerString(", "),
+							Utilities.hoverMaker("SkyBlock", "Commands to use in the SkyBlock world!", "/help skyblock"));
 					return true;
 				} 
 				else if (args[0].equalsIgnoreCase("general")) {

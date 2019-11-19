@@ -11,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class TokenCommand implements CommandExecutor {
@@ -31,7 +32,15 @@ public class TokenCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
+			
 			Player player = (Player) sender;
+			
+			if (!player.hasPermission(Permissions.TokenCommand)) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("no-permission")));
+				return true;
+			}
+			
 			try {
 				String token = getToken(player.getUniqueId(), player);
 				// if they are 1/308915776 make them run cmd again
@@ -71,9 +80,7 @@ public class TokenCommand implements CommandExecutor {
 		if (!generateTokenRS.next()) {
 			VaultCore.getInstance().connection.createStatement()
 					.executeUpdate("UPDATE players SET token='" + new_token + "' WHERE uuid='" + uuid + "'");
-		}
-
-		else {
+		} else {
 			player.sendMessage(string + "You are one in " + variable1 + "308915776" + string
 					+ "! The token we generated was already in our database.");
 			player.sendMessage(string + "Please re-run this command.");

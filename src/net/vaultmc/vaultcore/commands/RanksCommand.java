@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class RanksCommand implements CommandExecutor {
@@ -18,20 +19,24 @@ public class RanksCommand implements CommandExecutor {
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
-			if (!sender.hasPermission("vc.ranks")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+			
+			Player player = (Player) sender;
+			
+			if (!player.hasPermission(Permissions.RanksCommand)) {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
-			} else {
-				sender.sendMessage(ChatColor.DARK_GREEN + "--== [Player Ranks] ==--");
-				sender.sendMessage(ChatColor.DARK_GRAY + "Default");
-				sender.sendMessage(ChatColor.GRAY + "Member");
-				sender.sendMessage(ChatColor.WHITE + "Patreon");
-				sender.sendMessage(ChatColor.AQUA + "Trusted");
-				sender.sendMessage("");
-				sender.sendMessage(ChatColor.DARK_GREEN + "--== [Staff Ranks] ==--");
-				sender.sendMessage(ChatColor.DARK_AQUA + "Moderator");
-				sender.sendMessage(ChatColor.BLUE + "Administrator");
+			} 
+			else {
+				player.sendMessage(ChatColor.DARK_GREEN + "--== [Player Ranks] ==--");
+				player.sendMessage(ChatColor.DARK_GRAY + "Default");
+				player.sendMessage(ChatColor.GRAY + "Member");
+				player.sendMessage(ChatColor.WHITE + "Patreon");
+				player.sendMessage(ChatColor.AQUA + "Trusted");
+				player.sendMessage("");
+				player.sendMessage(ChatColor.DARK_GREEN + "--== [Staff Ranks] ==--");
+				player.sendMessage(ChatColor.DARK_AQUA + "Moderator");
+				player.sendMessage(ChatColor.BLUE + "Administrator");
 				return true;
 			}
 		}

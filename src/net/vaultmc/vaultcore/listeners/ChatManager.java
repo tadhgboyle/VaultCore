@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.commands.staff.StaffChat;
 
@@ -44,7 +45,7 @@ public class ChatManager implements Listener {
 			Bukkit.getConsoleSender().sendMessage(message);
 
 			Bukkit.getOnlinePlayers().forEach(x -> {
-				if (x.hasPermission("vc.sc")) {
+				if (x.hasPermission(Permissions.StaffChat)) {
 					x.sendMessage(message);
 				}
 			});

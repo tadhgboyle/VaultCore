@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class DiscordCommand implements CommandExecutor {
@@ -30,6 +31,12 @@ public class DiscordCommand implements CommandExecutor {
 			}
 
 			Player player = (Player) sender;
+
+			if (!player.hasPermission(Permissions.DiscordCommand)) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("no-permission")));
+				return true;
+			}
 
 			try {
 

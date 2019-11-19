@@ -6,9 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class TeleportCommand implements CommandExecutor {
@@ -29,7 +29,7 @@ public class TeleportCommand implements CommandExecutor {
 
 			Player player = (Player) sender;
 
-			if (!player.hasPermission("vc.teleport")) {
+			if (!player.hasPermission(Permissions.TeleportCommand)) {
 				player.sendMessage(VaultCore.getInstance().getConfig().getString("no-permission"));
 				return true;
 			}
@@ -53,7 +53,7 @@ public class TeleportCommand implements CommandExecutor {
 			}
 
 			if (args.length == 2) {
-				if (!player.hasPermission("vc.teleport.other")) {
+				if (!player.hasPermission(Permissions.TeleportCommandOther)) {
 					player.sendMessage(
 							ChatColor.DARK_RED + "Uh oh! You don't have permission to teleport that player!");
 					return true;
@@ -106,15 +106,15 @@ public class TeleportCommand implements CommandExecutor {
 
 			Player player = (Player) sender;
 
-			if (!player.hasPermission("vc.teleport.here")) {
+			if (!player.hasPermission(Permissions.TeleportCommandHere)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
 			if (args.length == 1) {
-				
+
 				Player target = Bukkit.getServer().getPlayer(args[0]);
-				
+
 				if (target == null) {
 					player.sendMessage(ChatColor.RED + "That player is offline!");
 					return true;
@@ -123,12 +123,12 @@ public class TeleportCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You can't teleport yourself to yourself!");
 					return true;
 				}
-				Location playerLoc = ((Entity) player).getLocation();
+				Location playerLoc = player.getLocation();
 				target.teleport(playerLoc);
 				player.sendMessage(string + "Teleported " + variable1 + target.getName() + string + " to you.");
 				return true;
 			} else {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/tp <player> [player]");
+				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/tph <player>");
 				return true;
 			}
 		}

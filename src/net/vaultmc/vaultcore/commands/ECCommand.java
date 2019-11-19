@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class ECCommand implements CommandExecutor {
@@ -21,7 +22,7 @@ public class ECCommand implements CommandExecutor {
 				return true;
 			}
 			Player player = (Player) sender;
-			if (!player.hasPermission("vc.enderchest")) {
+			if (!player.hasPermission(Permissions.ECCommand)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -31,7 +32,7 @@ public class ECCommand implements CommandExecutor {
 					return true;
 				}
 
-				if (!player.hasPermission("vc.enderchest.other")) {
+				if (!player.hasPermission(Permissions.ECCommandOther)) {
 					player.sendMessage(
 							ChatColor.DARK_RED + "Uh oh! You don't have permission to look at their enderchest!");
 					return true;

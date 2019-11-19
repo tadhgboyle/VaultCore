@@ -11,7 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 
 public class SeenCommand implements CommandExecutor {
 
@@ -34,7 +35,7 @@ public class SeenCommand implements CommandExecutor {
 
 		if (commandLabel.equalsIgnoreCase("seen")) {
 
-			if (!player.hasPermission("vc.seen")) {
+			if (!player.hasPermission(Permissions.SeenCommand)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -53,7 +54,7 @@ public class SeenCommand implements CommandExecutor {
 					long currenttime = System.currentTimeMillis();
 					long duration = currenttime - lastseen;
 
-					long[] time = VaultCoreAPI.formatDuration(duration);
+					long[] time = Utilities.formatDuration(duration);
 
 					String status;
 

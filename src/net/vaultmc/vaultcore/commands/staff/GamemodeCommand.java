@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class GamemodeCommand implements CommandExecutor {
@@ -19,16 +20,18 @@ public class GamemodeCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		if (!sender.hasPermission("vc.gamemode")) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					VaultCore.getInstance().getConfig().getString("no-permission")));
-			return true;
-		}
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					VaultCore.getInstance().getConfig().getString("console-error")));
 			return true;
 		}
+		
+		if (!sender.hasPermission(Permissions.GamemodeCommand)) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					VaultCore.getInstance().getConfig().getString("no-permission")));
+			return true;
+		}
+		
 		Player player = (Player) sender;
 
 		if (command.getName().equalsIgnoreCase("gamemode")) {
@@ -115,7 +118,7 @@ public class GamemodeCommand implements CommandExecutor {
 	public void setGameModeOther(Player player, Player target, GameMode gamemode) {
 
 		if (player.hasPermission("vc.gamemode." + gamemode.toString())) {
-			if (player.hasPermission("vc.gamemode.other")) {
+			if (player.hasPermission(Permissions.GamemodeCommandOther)) {
 				target.setGameMode(gamemode);
 				player.sendMessage(variable1 + "" + target.getName() + string + "'s gamemode has been set to "
 						+ variable1 + gamemode.toString().toLowerCase().substring(0, 1).toUpperCase()

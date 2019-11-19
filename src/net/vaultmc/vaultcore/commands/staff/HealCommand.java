@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class HealCommand implements CommandExecutor {
@@ -23,9 +24,11 @@ public class HealCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 			}
+
 			Player player = (Player) sender;
-			if (!sender.hasPermission("vc.heal")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+
+			if (!player.hasPermission(Permissions.HealCommand)) {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
 			}
@@ -41,7 +44,7 @@ public class HealCommand implements CommandExecutor {
 			}
 			if (args.length == 1) {
 
-				if (player.hasPermission("vc.heal.other")) {
+				if (player.hasPermission(Permissions.HealCommandOther)) {
 
 					Player target = Bukkit.getPlayer(args[0]);
 

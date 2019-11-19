@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class WildTeleport implements CommandExecutor {
@@ -17,7 +18,7 @@ public class WildTeleport implements CommandExecutor {
 	String string = VaultCore.getInstance().getConfig().getString("string");
 	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 	String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
-	
+
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (command.getName().equalsIgnoreCase("wild")) {
@@ -28,7 +29,7 @@ public class WildTeleport implements CommandExecutor {
 				return true;
 			}
 			Player player = (Player) sender;
-			if (!player.hasPermission("vc.wildteleport")) {
+			if (!player.hasPermission(Permissions.WildTeleport)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -43,7 +44,7 @@ public class WildTeleport implements CommandExecutor {
 				int y = 150;
 				int z = random.nextInt(10000) + 100;
 				boolean isOnland = false;
-				
+
 				while (isOnland == false) {
 
 					teleportlocation = new Location(player.getWorld(), x, y, z);
@@ -59,10 +60,10 @@ public class WildTeleport implements CommandExecutor {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
 						+ variable2 + (int) teleportlocation.distance(originalLocation) + string + " blocks away!"));
 				return true;
-			}
-			else {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in the " + variable1
-						+ "Survival" + string + " or " + variable1 + "Clans" + string + " world to run this command."));
+			} else {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						string + "You must be in the " + variable1 + "Survival" + string + " or " + variable1 + "Clans"
+								+ string + " world to run this command."));
 			}
 			return true;
 		}

@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class StaffChat implements CommandExecutor {
@@ -51,7 +52,7 @@ public class StaffChat implements CommandExecutor {
 
 				Player player = (Player) sender;
 
-				if (!player.hasPermission("vc.sc")) {
+				if (!player.hasPermission(Permissions.StaffChat)) {
 					player.sendMessage(ChatColor.DARK_RED + "Hey! You're not staff!");
 					return true;
 				}
@@ -69,7 +70,7 @@ public class StaffChat implements CommandExecutor {
 							"%s" + ChatColor.GRAY + "%s" + ChatColor.DARK_GRAY + " » " + ChatColor.AQUA + "%s", prefix,
 							player.getDisplayName(), message);
 					for (Player players : Bukkit.getOnlinePlayers()) {
-						if (players.hasPermission("vc.sc")) {
+						if (players.hasPermission(Permissions.StaffChat)) {
 							players.sendMessage(staffchat);
 						}
 					}

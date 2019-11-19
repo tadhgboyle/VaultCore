@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class FlyCommand implements CommandExecutor {
@@ -25,7 +26,7 @@ public class FlyCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		if (!player.hasPermission("vc.fly")) {
+		if (!player.hasPermission(Permissions.FlyCommand)) {
 			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					VaultCore.getInstance().getConfig().getString("no-permission")));
 		}
@@ -48,7 +49,7 @@ public class FlyCommand implements CommandExecutor {
 		}
 
 		if (args.length == 1) {
-			if (!player.hasPermission("vc.fly.other")) {
+			if (!player.hasPermission(Permissions.FlyCommandOther)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 			}

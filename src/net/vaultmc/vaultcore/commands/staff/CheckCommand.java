@@ -12,6 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class CheckCommand implements CommandExecutor {
@@ -27,17 +28,19 @@ public class CheckCommand implements CommandExecutor {
 
 		if (command.getName().equalsIgnoreCase("check")) {
 
-			if (!sender.hasPermission("vc.check")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
-				return true;
-			}
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("console-error")));
 				return true;
 			}
+
 			Player player = (Player) sender;
+
+			if (!player.hasPermission(Permissions.CheckCommand)) {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						VaultCore.getInstance().getConfig().getString("no-permission")));
+				return true;
+			}
 
 			if (args.length == 1) {
 
@@ -94,8 +97,7 @@ public class CheckCommand implements CommandExecutor {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-			} 
-			else {
+			} else {
 				player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/check <player>");
 				return true;
 			}

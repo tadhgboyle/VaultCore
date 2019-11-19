@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class FeedCommand implements CommandExecutor {
@@ -25,7 +26,7 @@ public class FeedCommand implements CommandExecutor {
 
 			}
 			Player player = (Player) sender;
-			if (!player.hasPermission("vc.feed")) {
+			if (!player.hasPermission(Permissions.FeedCommand)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -39,7 +40,7 @@ public class FeedCommand implements CommandExecutor {
 					return true;
 				} 
 				else if (args.length == 1) {
-					if (player.hasPermission("vc.feed.other")) {
+					if (player.hasPermission(Permissions.FeedCommandOther)) {
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target == null) {
 							player.sendMessage(ChatColor.RED + "That player is offline!");

@@ -7,9 +7,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
-public class ClearChat implements CommandExecutor {
+public class ClearChatCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
@@ -33,8 +34,8 @@ public class ClearChat implements CommandExecutor {
 
 			else {
 				Player player = (Player) sender;
-				if (!player.hasPermission("vc.clearchat")) {
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+				if (!player.hasPermission(Permissions.ClearChatCommand)) {
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("no-permission")));
 				} else {
 					for (int i = 0; i < 200; i++) {

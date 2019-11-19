@@ -12,7 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 
 public class PlayTime implements CommandExecutor {
 
@@ -33,7 +34,7 @@ public class PlayTime implements CommandExecutor {
 			Player player = (Player) sender;
 
 			if (args.length == 0) {
-				if (!sender.hasPermission("vc.playtime")) {
+				if (!sender.hasPermission(Permissions.PlayTime)) {
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							VaultCore.getInstance().getConfig().getString("no-permission")));
 					return true;
@@ -45,7 +46,7 @@ public class PlayTime implements CommandExecutor {
 
 			if (args.length == 1) {
 
-				if (!player.hasPermission("vc.playtime.other")) {
+				if (!player.hasPermission(Permissions.PlayTimeOther)) {
 					player.sendMessage(
 							ChatColor.DARK_RED + "Uh oh! You don't have permission to check their playtime!");
 					return true;
@@ -72,7 +73,7 @@ public class PlayTime implements CommandExecutor {
 	private void printPlayTimeOnline(Player player, Player sender) {
 
 		long t = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
-		long[] time = VaultCoreAPI.formatDuration(t);
+		long[] time = Utilities.formatDuration(t);
 		String playtimeMsg = String.format(
 				ChatColor.translateAlternateColorCodes('&',
 						variable1 + "%s" + string + " has played for " + variable2 + "%d" + string + " days, "
@@ -91,7 +92,7 @@ public class PlayTime implements CommandExecutor {
 				String username = rs.getString("username");
 				long playtime = rs.getLong("playtime");
 				long t = (long) (playtime * 0.05 * 1000);
-				long[] time = VaultCoreAPI.formatDuration(t);
+				long[] time = Utilities.formatDuration(t);
 				String playtimeMsg = String.format(
 						ChatColor.translateAlternateColorCodes('&',
 								variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string

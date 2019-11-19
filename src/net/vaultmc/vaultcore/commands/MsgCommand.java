@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class MsgCommand implements CommandExecutor {
@@ -26,7 +27,7 @@ public class MsgCommand implements CommandExecutor {
 				return true;
 			}
 			Player player = (Player) sender;
-			if (!player.hasPermission("vc.msg")) {
+			if (!player.hasPermission(Permissions.MsgCommand)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -80,7 +81,7 @@ public class MsgCommand implements CommandExecutor {
 
 			Player player = (Player) sender;
 
-			if (!player.hasPermission("vc.msg")) {
+			if (!player.hasPermission(Permissions.MsgCommand)) {
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;

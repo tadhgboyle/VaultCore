@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.listeners.PlayerTPListener;
 
@@ -22,7 +23,7 @@ public class BackCommand implements CommandExecutor {
 				return true;
 			}
 			Player player = (Player) sender;
-			if (!player.hasPermission("vc.back")) {
+			if (!player.hasPermission(Permissions.BackCommand)) {
 
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));

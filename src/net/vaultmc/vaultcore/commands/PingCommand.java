@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class PingCommand implements CommandExecutor {
@@ -44,7 +45,7 @@ public class PingCommand implements CommandExecutor {
 			}
 
 			Player p = (Player) sender;
-			if (!sender.hasPermission("vc.ping")) {
+			if (!sender.hasPermission(Permissions.PingCommand)) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("no-permission")));
 				return true;
@@ -55,8 +56,8 @@ public class PingCommand implements CommandExecutor {
 							string + "" + "Your ping is: " + variable2 + "" + getPing(p) + string + "ms"));
 					return true;
 				} 
-				else if (args.length == 1) {
-					if (!sender.hasPermission("vc.ping.other")) {
+				if (args.length == 1) {
+					if (!sender.hasPermission(Permissions.PingCommandOther)) {
 						sender.sendMessage(
 								ChatColor.DARK_RED + "Uh oh! You don't have permission to check their ping!");
 						return true;
