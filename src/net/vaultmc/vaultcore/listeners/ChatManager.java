@@ -24,8 +24,10 @@ public class ChatManager implements Listener {
 			}, new String[] { "clans", "clans_nether", "clans_the_end" },
 			new String[] { "Skyblock", "skyblock_nether" } };
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
+		if (e.isCancelled()) return;
+		
 		Player player = e.getPlayer();
 
 		if (StaffChat.toggled.containsKey(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
