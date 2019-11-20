@@ -31,8 +31,7 @@ public class ECCommand implements CommandExecutor {
 				}
 
 				if (!player.hasPermission(Permissions.ECCommandOther)) {
-					player.sendMessage(
-							ChatColor.DARK_RED + "Uh oh! You don't have permission to look at their enderchest!");
+					player.sendMessage(Utilities.managePlayerError(cmd.getName()));
 					return true;
 				}
 

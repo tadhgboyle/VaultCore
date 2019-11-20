@@ -45,34 +45,33 @@ public class PingCommand implements CommandExecutor {
 				}
 			}
 
-			Player p = (Player) sender;
-			if (!sender.hasPermission(Permissions.PingCommand)) {
-				sender.sendMessage(Utilities.noPermission());
+			Player player = (Player) sender;
+			if (!player.hasPermission(Permissions.PingCommand)) {
+				player.sendMessage(Utilities.noPermission());
 				return true;
 
 			} else {
 				if (args.length == 0) {
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							string + "" + "Your ping is: " + variable2 + "" + getPing(p) + string + "ms"));
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+							string + "" + "Your ping is: " + variable2 + "" + getPing(player) + string + "ms"));
 					return true;
-				} 
+				}
 				if (args.length == 1) {
-					if (!sender.hasPermission(Permissions.PingCommandOther)) {
-						sender.sendMessage(Utilities.managePlayerError(command.getName()));
+					if (!player.hasPermission(Permissions.PingCommandOther)) {
+						player.sendMessage(Utilities.managePlayerError(command.getName()));
 						return true;
 					}
 					Player target = Bukkit.getServer().getPlayer(args[0]);
 					if (target == null) {
-						sender.sendMessage(ChatColor.RED + "That player is offline!");
+						player.sendMessage(ChatColor.RED + "That player is offline!");
 						return true;
 					}
 
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getName()
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getName()
 							+ string + "" + "'s ping is: " + variable2 + "" + getPing(target) + string + "ms"));
 					return true;
-				} 
-				else {
-					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/ping [player]");
+				} else {
+					player.sendMessage(Utilities.usageMessage(command.getName(), "[player]"));
 					return true;
 				}
 			}

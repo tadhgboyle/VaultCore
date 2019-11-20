@@ -31,8 +31,7 @@ public class MsgCommand implements CommandExecutor {
 				player.sendMessage(Utilities.noPermission());
 				return true;
 			} else if (args.length <= 1) {
-				player.sendMessage(
-						ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/msg <player> <message>");
+				player.sendMessage(Utilities.usageMessage(cmd.getName(), "<player> <message>"));
 				return true;
 			} else if (args.length >= 2) {
 				Player target = Bukkit.getServer().getPlayer(args[0]);
@@ -84,7 +83,7 @@ public class MsgCommand implements CommandExecutor {
 				return true;
 			}
 			if (args.length < 1) {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/r <message>");
+				player.sendMessage(Utilities.usageMessage(commandLabel, "<message>"));
 				return true;
 			}
 
