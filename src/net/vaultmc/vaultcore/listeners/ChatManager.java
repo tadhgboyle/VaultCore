@@ -10,6 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.commands.staff.MuteChatCommand;
 import net.vaultmc.vaultcore.commands.staff.StaffChat;
 
 import java.util.List;
@@ -50,6 +51,12 @@ public class ChatManager implements Listener {
 				}
 			});
 
+			e.setCancelled(true);
+			return;
+		}
+		
+		if (MuteChatCommand.mutechat && !player.hasPermission("vc.mutechat.override")) {
+			player.sendMessage(ChatColor.RED + "The chat is currently muted!");
 			e.setCancelled(true);
 			return;
 		}
