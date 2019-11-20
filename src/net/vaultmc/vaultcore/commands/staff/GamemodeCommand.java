@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class GamemodeCommand implements CommandExecutor {
@@ -25,20 +26,19 @@ public class GamemodeCommand implements CommandExecutor {
 					VaultCore.getInstance().getConfig().getString("console-error")));
 			return true;
 		}
-		
+
 		if (!sender.hasPermission(Permissions.GamemodeCommand)) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					VaultCore.getInstance().getConfig().getString("no-permission")));
 			return true;
 		}
-		
+
 		Player player = (Player) sender;
 
 		if (command.getName().equalsIgnoreCase("gamemode")) {
 
 			if (args.length > 2 || args.length == 0) {
-				player.sendMessage(
-						ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/gamemode <mode> [player]");
+				player.sendMessage(Utilities.usageMessage(command.getName(), "<gamemode> [player]"));
 				return true;
 			}
 
@@ -110,8 +110,7 @@ public class GamemodeCommand implements CommandExecutor {
 							+ gamemode.toString().toLowerCase().substring(0, 1).toUpperCase()
 							+ gamemode.toString().toLowerCase().substring(1) + string + "."));
 		} else {
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					VaultCore.getInstance().getConfig().getString("no-permission")));
+			player.sendMessage(Utilities.noPermission());
 		}
 	}
 
@@ -128,8 +127,7 @@ public class GamemodeCommand implements CommandExecutor {
 						+ gamemode.toString().toLowerCase().substring(1) + string + ".");
 			}
 		} else {
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					VaultCore.getInstance().getConfig().getString("no-permission")));
+			player.sendMessage(Utilities.managePlayerError("gamemode"));
 		}
 	}
 }

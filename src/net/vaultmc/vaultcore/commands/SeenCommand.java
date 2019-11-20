@@ -23,11 +23,10 @@ public class SeenCommand implements CommandExecutor {
 	String variable2 = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("variable-2"));
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+	public boolean onCommand(CommandSender sender, Command commmand, String commandLabel, String[] args) {
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					VaultCore.getInstance().getConfig().getString("console-error")));
+			sender.sendMessage(Utilities.consoleError());
 			return true;
 		}
 
@@ -36,12 +35,11 @@ public class SeenCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("seen")) {
 
 			if (!player.hasPermission(Permissions.SeenCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			if (args.length != 1) {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/seen <player>");
+				player.sendMessage(Utilities.usageMessage(commandLabel, "<player>"));
 				return true;
 			}
 

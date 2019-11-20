@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class TeleportCommand implements CommandExecutor {
@@ -23,14 +24,14 @@ public class TeleportCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("teleport") || commandLabel.equalsIgnoreCase("tp")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(VaultCore.getInstance().getConfig().getString("console-error"));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 
 			Player player = (Player) sender;
 
 			if (!player.hasPermission(Permissions.TeleportCommand)) {
-				player.sendMessage(VaultCore.getInstance().getConfig().getString("no-permission"));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			if (args.length == 1) {
@@ -54,8 +55,7 @@ public class TeleportCommand implements CommandExecutor {
 
 			if (args.length == 2) {
 				if (!player.hasPermission(Permissions.TeleportCommandOther)) {
-					player.sendMessage(
-							ChatColor.DARK_RED + "Uh oh! You don't have permission to teleport that player!");
+					player.sendMessage(Utilities.managePlayerError(cmd.getName()));
 					return true;
 				}
 
@@ -90,7 +90,7 @@ public class TeleportCommand implements CommandExecutor {
 			}
 
 			else {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/tp <player> [player]");
+				player.sendMessage(Utilities.usageMessage(cmd.getName(), "<player> [player]"));
 				return true;
 			}
 
@@ -99,16 +99,14 @@ public class TeleportCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("tphere") || commandLabel.equalsIgnoreCase("tph")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 
 			Player player = (Player) sender;
 
 			if (!player.hasPermission(Permissions.TeleportCommandHere)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			if (args.length == 1) {

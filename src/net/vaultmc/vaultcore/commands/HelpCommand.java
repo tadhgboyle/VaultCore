@@ -6,7 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 
@@ -17,14 +16,12 @@ public class HelpCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("help")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 			Player player = (Player) sender;
 			if (!player.hasPermission(Permissions.HelpCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 			} 
 			else {
 				if (args.length == 0) {

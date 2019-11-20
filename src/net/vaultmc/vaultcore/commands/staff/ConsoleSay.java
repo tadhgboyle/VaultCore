@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.Utilities;
 
 public class ConsoleSay implements CommandExecutor {
 
@@ -19,23 +19,23 @@ public class ConsoleSay implements CommandExecutor {
 
 				if (args.length == 0) {
 					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/say <message>");
-				} else {
-					String message = "";
-					for (String s : args) {
-						message = message + s + " ";
-					}
-					String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE"
-							+ ChatColor.DARK_GRAY + " → " + ChatColor.WHITE + "%s", message);
-
-					for (Player player : Bukkit.getOnlinePlayers()) {
-						player.sendMessage(csay);
-					}
+					return true;
 				}
-			} else {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				String message = "";
+				for (String s : args) {
+					message = message + s + " ";
+				}
+				String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE" + ChatColor.DARK_GRAY
+						+ " → " + ChatColor.WHITE + "%s", message);
+
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					player.sendMessage(csay);
+					return true;
+				}
 				return true;
 			}
+			sender.sendMessage(Utilities.noPermission());
+			return true;
 		}
 		return true;
 	}

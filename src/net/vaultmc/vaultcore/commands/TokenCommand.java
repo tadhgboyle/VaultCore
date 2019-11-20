@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class TokenCommand implements CommandExecutor {
@@ -28,16 +29,19 @@ public class TokenCommand implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("token")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
+				return true;
+			}
+
+			Player player = (Player) sender;
+
+			if (!player.hasPermission(Permissions.TokenCommand)) {
+				sender.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			
-			Player player = (Player) sender;
-			
-			if (!player.hasPermission(Permissions.TokenCommand)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+			if (args.length != 0) {
+				player.sendMessage(Utilities.usageMessage(cmd.getName(), ""));
 				return true;
 			}
 			

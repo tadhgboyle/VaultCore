@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class FeedCommand implements CommandExecutor {
@@ -20,26 +21,23 @@ public class FeedCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("feed")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 
 			}
 			Player player = (Player) sender;
 			if (!player.hasPermission(Permissions.FeedCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
-			} 
-			else {
+			} else {
 				if (args.length == 0) {
 					player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							string + "You have been " + variable1 + "fed."));
 					player.setFoodLevel(20);
 					player.setSaturation(20);
 					return true;
-				} 
-				else if (args.length == 1) {
+				}
+				if (args.length == 1) {
 					if (player.hasPermission(Permissions.FeedCommandOther)) {
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target == null) {
@@ -59,14 +57,12 @@ public class FeedCommand implements CommandExecutor {
 								string + "You have been fed by " + variable1 + player.getName()));
 						return true;
 
-					} 
-					else {
-						player.sendMessage(
-								ChatColor.DARK_RED + "Uh oh! You don't have permission to feed that player!");
-						return true;
 					}
+					player.sendMessage(Utilities.managePlayerError(commandLabel));
+					return true;
+
 				}
-				player.sendMessage(ChatColor.RED + "Correct Usage: " + ChatColor.DARK_GREEN + "/feed [player]");
+				player.sendMessage(Utilities.usageMessage(commandLabel, "[player]"));
 				return true;
 			}
 		}

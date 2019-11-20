@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.listeners.PlayerTPListener;
 
@@ -18,21 +19,22 @@ public class BackCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("back")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
+			
 			Player player = (Player) sender;
+			
 			if (!player.hasPermission(Permissions.BackCommand)) {
-
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
-			} else if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
+			}
+			if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
 
 				String string = ChatColor.translateAlternateColorCodes('&',
 						VaultCore.getInstance().getConfig().getString("string"));
 				Location before = PlayerTPListener.teleports.get(player.getUniqueId());
+
 				player.teleport(before);
 				player.sendMessage(string + "You have been teleported to your previous location...");
 				PlayerTPListener.teleports.remove(player.getUniqueId());

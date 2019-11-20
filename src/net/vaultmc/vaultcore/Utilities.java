@@ -16,6 +16,25 @@ public class Utilities {
 	static String variable1 = ChatColor.translateAlternateColorCodes('&',
 			VaultCore.getInstance().getConfig().getString("variable-1"));
 
+	public static String consoleError() {
+		return ChatColor.translateAlternateColorCodes('&',
+				VaultCore.getInstance().getConfig().getString("console-error"));
+	}
+
+	public static String noPermission() {
+		return ChatColor.translateAlternateColorCodes('&',
+				VaultCore.getInstance().getConfig().getString("no-permission"));
+	}
+
+	public static String managePlayerError(String commandName) {
+		return ChatColor.translateAlternateColorCodes('&',
+				VaultCore.getInstance().getConfig().getString("manage-player").replace("%s", commandName));
+	}
+
+	public static String usageMessage(String commandName, String arguments) {
+		return ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/" + commandName + " " + arguments;
+	}
+
 	public static TextComponent hoverMaker(String name, String hover, String command) {
 		TextComponent hoverText = new TextComponent(variable1 + name);
 		hoverText.setHoverEvent(
@@ -33,7 +52,7 @@ public class Utilities {
 		TextComponent variable1Text = new TextComponent(variable1 + text);
 		return variable1Text;
 	}
-	
+
 	public static long[] formatDuration(long millis) {
 		long days = TimeUnit.MILLISECONDS.toDays(millis);
 		millis -= TimeUnit.DAYS.toMillis(days);

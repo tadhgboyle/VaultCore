@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.Utilities;
 
 public class InvseeCommand implements CommandExecutor {
 
@@ -18,20 +18,18 @@ public class InvseeCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("invsee")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 
 			Player player = (Player) sender;
 
 			if (!player.hasPermission(Permissions.InvseeCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			if (args.length != 1) {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/invsee <player>");
+				player.sendMessage(Utilities.usageMessage(cmd.getName(), "<player>"));
 				return true;
 			}
 			if (args.length == 1) {

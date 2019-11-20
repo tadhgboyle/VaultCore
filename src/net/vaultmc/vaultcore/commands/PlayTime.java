@@ -26,8 +26,7 @@ public class PlayTime implements CommandExecutor {
 		if (command.getName().equalsIgnoreCase("playtime")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 
@@ -35,8 +34,7 @@ public class PlayTime implements CommandExecutor {
 
 			if (args.length == 0) {
 				if (!sender.hasPermission(Permissions.PlayTime)) {
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							VaultCore.getInstance().getConfig().getString("no-permission")));
+					sender.sendMessage(Utilities.noPermission());
 					return true;
 				}
 				printPlayTimeOnline(player, (Player) sender);
@@ -47,8 +45,7 @@ public class PlayTime implements CommandExecutor {
 			if (args.length == 1) {
 
 				if (!player.hasPermission(Permissions.PlayTimeOther)) {
-					player.sendMessage(
-							ChatColor.DARK_RED + "Uh oh! You don't have permission to check their playtime!");
+					player.sendMessage(Utilities.managePlayerError(command.getName()));
 					return true;
 				}
 
@@ -62,7 +59,7 @@ public class PlayTime implements CommandExecutor {
 			}
 
 			else {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/playtime [player]");
+				player.sendMessage(Utilities.usageMessage(command.getName(), "[player]"));
 				return true;
 			}
 		}

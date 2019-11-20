@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class HealCommand implements CommandExecutor {
@@ -21,15 +22,13 @@ public class HealCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("heal")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 			}
 
 			Player player = (Player) sender;
 
 			if (!player.hasPermission(Permissions.HealCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			if (args.length == 0) {
@@ -66,11 +65,11 @@ public class HealCommand implements CommandExecutor {
 					return true;
 
 				} else {
-					sender.sendMessage(ChatColor.DARK_RED + "Uh oh! You don't have permission to heal that player!");
+					player.sendMessage(Utilities.managePlayerError(cmd.getName()));
 					return true;
 				}
 			} else {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED + "/heal [player]");
+				player.sendMessage(Utilities.usageMessage(cmd.getName(), "[player]"));
 				return true;
 			}
 		}

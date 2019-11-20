@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class WildTeleport implements CommandExecutor {
@@ -24,16 +25,20 @@ public class WildTeleport implements CommandExecutor {
 		if (command.getName().equalsIgnoreCase("wild")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 			Player player = (Player) sender;
 			if (!player.hasPermission(Permissions.WildTeleport)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
+			
+			if (args.length != 0) {
+				player.sendMessage(Utilities.usageMessage(command.getName(), ""));
+				return true;
+			}
+			
 			if (player.getWorld().getName().equalsIgnoreCase("Survival")
 					|| player.getWorld().getName().equalsIgnoreCase("clans")) {
 

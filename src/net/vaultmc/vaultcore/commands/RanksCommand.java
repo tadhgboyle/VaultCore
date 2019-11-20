@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.Utilities;
 
 public class RanksCommand implements CommandExecutor {
 
@@ -15,16 +15,14 @@ public class RanksCommand implements CommandExecutor {
 
 		if (commandLabel.equalsIgnoreCase("ranks")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 			
 			Player player = (Player) sender;
 			
 			if (!player.hasPermission(Permissions.RanksCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			} 
 			else {

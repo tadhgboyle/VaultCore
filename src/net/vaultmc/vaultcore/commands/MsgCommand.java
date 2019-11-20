@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class MsgCommand implements CommandExecutor {
@@ -22,14 +23,12 @@ public class MsgCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("msg")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 			Player player = (Player) sender;
 			if (!player.hasPermission(Permissions.MsgCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			} else if (args.length <= 1) {
 				player.sendMessage(
@@ -74,16 +73,14 @@ public class MsgCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("r")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 
 			Player player = (Player) sender;
 
 			if (!player.hasPermission(Permissions.MsgCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			if (args.length < 1) {

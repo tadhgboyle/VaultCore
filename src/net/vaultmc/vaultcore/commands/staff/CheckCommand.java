@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class CheckCommand implements CommandExecutor {
@@ -29,16 +30,14 @@ public class CheckCommand implements CommandExecutor {
 		if (command.getName().equalsIgnoreCase("check")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 
 			Player player = (Player) sender;
 
 			if (!player.hasPermission(Permissions.CheckCommand)) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 
@@ -94,11 +93,12 @@ public class CheckCommand implements CommandExecutor {
 						return true;
 					}
 					player.sendMessage(ChatColor.RED + "That player has never joined the server.");
+					return true;
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			} else {
-				player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/check <player>");
+				player.sendMessage(Utilities.usageMessage(command.getName(), "<player"));
 				return true;
 			}
 		}

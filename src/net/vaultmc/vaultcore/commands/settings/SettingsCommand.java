@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class SettingsCommand implements CommandExecutor {
@@ -23,21 +24,24 @@ public class SettingsCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("settings")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
 			Player player = (Player) sender;
 
-			if (!sender.hasPermission(Permissions.SettingsCommand)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
-				return true;
-			} else {
-				SettingsInventories.init(player);
-				player.openInventory(SettingsInventories.SettingsMain(player));
+			if (!player.hasPermission(Permissions.SettingsCommand)) {
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
+			if (args.length != 0) {
+				player.sendMessage(Utilities.usageMessage(commandLabel, ""));
+				return true;
+			}
+
+			SettingsInventories.init(player);
+			player.openInventory(SettingsInventories.SettingsMain(player));
+			return true;
+
 		}
 		return true;
 	}

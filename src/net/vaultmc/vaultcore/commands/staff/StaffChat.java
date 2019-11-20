@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
 public class StaffChat implements CommandExecutor {
@@ -53,11 +54,11 @@ public class StaffChat implements CommandExecutor {
 				Player player = (Player) sender;
 
 				if (!player.hasPermission(Permissions.StaffChat)) {
-					player.sendMessage(ChatColor.DARK_RED + "Hey! You're not staff!");
+					player.sendMessage(Utilities.noPermission());
 					return true;
 				}
 				if (args.length == 0) {
-					player.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/sc <message>");
+					player.sendMessage(Utilities.usageMessage(cmd.getName(), "<message>"));
 					return true;
 				} else {
 					String message = "";
@@ -82,8 +83,8 @@ public class StaffChat implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("sctoggle")) {
 
 			if (sender instanceof Player) {
-				if (!sender.hasPermission("vc.sc")) {
-					sender.sendMessage(ChatColor.DARK_RED + "Hey! You're not staff!");
+				if (!sender.hasPermission(Permissions.StaffChat)) {
+					sender.sendMessage(Utilities.noPermission());
 					return true;
 				} else {
 					Player player = (Player) sender;

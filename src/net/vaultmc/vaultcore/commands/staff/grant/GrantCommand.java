@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.Utilities;
 
 public class GrantCommand implements CommandExecutor {
 
@@ -17,36 +17,36 @@ public class GrantCommand implements CommandExecutor {
 		if (commandLabel.equalsIgnoreCase("grant")) {
 
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("console-error")));
+				sender.sendMessage(Utilities.consoleError());
 				return true;
 			}
-			if (!sender.hasPermission("vc.grant")) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+
+			Player player = (Player) sender;
+
+			if (!player.hasPermission(Permissions.GrantCommandAdmin)
+					|| !player.hasPermission(Permissions.GrantCommandMod)) {
+				player.sendMessage(Utilities.noPermission());
 				return true;
 			}
 			if (args.length != 1) {
-				sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/grant <player>");
+				player.sendMessage(Utilities.usageMessage(cmd.getName(), "<player>"));
 				return true;
 			}
 
 			Player target = Bukkit.getServer().getPlayer(args[0]);
 
 			if (target == null) {
-				sender.sendMessage(ChatColor.RED + "That player is offline!");
+				player.sendMessage(ChatColor.RED + "That player is offline!");
 				return true;
 			}
-			if (target == sender) {
-				sender.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
+			if (target == player) {
+				player.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
 				return true;
 			}
-			if (sender.hasPermission(Permissions.GrantCommandAdmin)) {
-				Player player = (Player) sender;
+			if (player.hasPermission(Permissions.GrantCommandAdmin)) {
 				player.openInventory(GrantCommandInv.getGrantInventoryAdmin(target));
 				return true;
-			} else if (sender.hasPermission(Permissions.GrantCommandMod)) {
-				Player player = (Player) sender;
+			} else if (player.hasPermission(Permissions.GrantCommandMod)) {
 				player.openInventory(GrantCommandInv.getGrantInventoryMod(target));
 				return true;
 			}

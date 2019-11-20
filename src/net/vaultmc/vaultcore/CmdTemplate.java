@@ -18,8 +18,7 @@ public class CmdTemplate implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					VaultCore.getInstance().getConfig().getString("console-error")));
+			sender.sendMessage(Utilities.consoleError());
 			return true;
 		}
 
@@ -27,9 +26,14 @@ public class CmdTemplate implements CommandExecutor {
 
 		if (commandLabel.equalsIgnoreCase("XXXXX")) {
 
-			if (!player.hasPermission("vc.XXXX")) {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("no-permission")));
+			if (!player.hasPermission(Permissions.CmdTemplate)) {
+				player.sendMessage(Utilities.noPermission());
+				return true;
+			}
+
+			if (args.length != 0) {
+				player.sendMessage(ChatColor.DARK_GREEN + "Correct Usage: " + ChatColor.RED
+						+ "/command <required arg> [optional arg]");
 				return true;
 			}
 
