@@ -25,8 +25,9 @@ public class ChatManager implements Listener {
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		if (e.isCancelled()) return;
-		
+		if (e.isCancelled())
+			return;
+
 		Player player = e.getPlayer();
 
 		if (StaffChat.toggled.containsKey(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
@@ -55,7 +56,7 @@ public class ChatManager implements Listener {
 			e.setCancelled(true);
 			return;
 		}
-		
+
 		if (MuteChatCommand.mutechat && !player.hasPermission(Permissions.MuteChatCommandOverride)) {
 			player.sendMessage(ChatColor.RED + "The chat is currently muted!");
 			e.setCancelled(true);
