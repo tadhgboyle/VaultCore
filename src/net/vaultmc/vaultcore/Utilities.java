@@ -17,18 +17,15 @@ public class Utilities {
 			VaultCore.getInstance().getConfig().getString("variable-1"));
 
 	public static String consoleError() {
-		return ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("console-error"));
+		return ChatColor.RED + "Please execute this command from in-game.";
 	}
 
 	public static String noPermission() {
-		return ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("no-permission"));
+		return ChatColor.RED + "You do not have permission to execute this command.";
 	}
 
 	public static String managePlayerError(String commandName) {
-		return ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("manage-player").replace("%s", commandName));
+		return ChatColor.RED + "You cannot use %s on that player.".replace("%s", commandName);
 	}
 
 	public static String usageMessage(String commandName, String arguments) {

@@ -22,14 +22,12 @@ public class GamemodeCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					VaultCore.getInstance().getConfig().getString("console-error")));
+			sender.sendMessage(Utilities.consoleError());
 			return true;
 		}
 
 		if (!sender.hasPermission(Permissions.GamemodeCommand)) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					VaultCore.getInstance().getConfig().getString("no-permission")));
+			sender.sendMessage(Utilities.noPermission());
 			return true;
 		}
 
