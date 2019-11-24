@@ -38,6 +38,7 @@ public class PlayerJoinQuitListener implements Listener {
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.pwc", true);
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", true);
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa", true);
+			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.cycle", true);
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.swearfilter",
 					true);
 			VaultCore.getInstance().savePlayerData();

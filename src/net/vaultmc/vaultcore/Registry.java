@@ -1,5 +1,7 @@
 package net.vaultmc.vaultcore;
 
+import net.vaultmc.vaultcore.commands.settings.SettingsCommand;
+import net.vaultmc.vaultcore.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -31,10 +33,6 @@ import net.vaultmc.vaultcore.commands.staff.StaffChat;
 import net.vaultmc.vaultcore.commands.staff.TeleportCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandListener;
-import net.vaultmc.vaultcore.listeners.ChatManager;
-import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
-import net.vaultmc.vaultcore.listeners.PlayerTPListener;
-import net.vaultmc.vaultcore.listeners.SignColours;
 import net.vaultmc.vaultcore.tabcompletion.TabCompletion;
 
 public class Registry {
@@ -87,16 +85,18 @@ public class Registry {
 		vault.getCommand("sctoggle").setExecutor(new StaffChat());
 		vault.getCommand("token").setExecutor(new TokenCommand());
 		vault.getCommand("seen").setExecutor(new SeenCommand());
+		vault.getCommand("settings").setExecutor(new SettingsCommand());
 	}
 
 	public static void registerListeners() {
 		PluginManager pm = Bukkit.getServer().getPluginManager();
-		pm.registerEvents(VaultCore.getInstance(), VaultCore.getInstance());
-		pm.registerEvents(new ChatManager(), VaultCore.getInstance());
-		pm.registerEvents(new GrantCommandListener(), VaultCore.getInstance());
-		pm.registerEvents(new SignColours(), VaultCore.getInstance());
-		pm.registerEvents(new PlayerJoinQuitListener(), VaultCore.getInstance());
-		pm.registerEvents(new PlayerTPListener(), VaultCore.getInstance());
-		pm.registerEvents(new SettingsListener(), VaultCore.getInstance());
+		pm.registerEvents(vault, vault);
+		pm.registerEvents(new ChatManager(), vault);
+		pm.registerEvents(new GrantCommandListener(), vault);
+		pm.registerEvents(new SignColours(), vault);
+		pm.registerEvents(new PlayerJoinQuitListener(), vault);
+		pm.registerEvents(new PlayerTPListener(), vault);
+		pm.registerEvents(new SettingsListener(), vault);
+		pm.registerEvents(new CycleListener(), vault);
 	}
 }

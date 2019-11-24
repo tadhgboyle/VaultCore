@@ -14,6 +14,7 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 
+
 public class MsgCommand implements CommandExecutor {
 
 	private static HashMap<UUID, UUID> replies = new HashMap<>();
@@ -44,8 +45,8 @@ public class MsgCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You can't message yourself!");
 					return true;
 				}
-				if (VaultCore.getInstance().getPlayerData()
-						.getBoolean("players." + target.getUniqueId() + ".settings.msg") == false) {
+				if (!VaultCore.getInstance().getPlayerData()
+						.getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
 					player.sendMessage(ChatColor.RED + "That player has disabled Messages!");
 					return true;
 				} else {
@@ -93,8 +94,8 @@ public class MsgCommand implements CommandExecutor {
 				player.sendMessage(ChatColor.RED + "That player is now offline!");
 				return true;
 			}
-			if (VaultCore.getInstance().getPlayerData()
-					.getBoolean("players." + target.getUniqueId() + ".settings.msg") == false) {
+			if (!VaultCore.getInstance().getPlayerData()
+					.getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
 				player.sendMessage(ChatColor.RED + "That player has disabled Messages!");
 				return true;
 			}

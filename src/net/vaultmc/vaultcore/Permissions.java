@@ -38,7 +38,6 @@ public class Permissions {
 	public static String HealCommandOther = "vc.heal.other";
 	public static String InvseeCommand = "vc.invsee";
 	public static String MuteChatCommand = "vc.mutechat";
-	// need to implement in new chatmngr
 	public static String MuteChatCommandOverride = "vc.mutechat.override";
 	public static String StaffChat = "vc.staffchat";
 	public static String TeleportCommand = "vc.teleport";

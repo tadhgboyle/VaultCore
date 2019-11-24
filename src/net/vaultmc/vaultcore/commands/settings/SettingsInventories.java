@@ -15,8 +15,9 @@ import net.vaultmc.vaultcore.VaultCore;
 
 public class SettingsInventories {
 
-	private static ItemStack teleportMain, chatMain, back;
+	private static ItemStack teleportMain, creativeMain, chatMain, back;
 	private static ItemStack toggleTPA, acceptTPA;
+	private static ItemStack toggleCycle;
 	private static ItemStack toggleMsg, togglePWC, toggleSwear;
 
 	static String string = ChatColor.translateAlternateColorCodes('&',
@@ -30,6 +31,7 @@ public class SettingsInventories {
 		Inventory SettingsMain = Bukkit.createInventory(null, 27, "Settings");
 
 		SettingsMain.setItem(11, teleportMain);
+		SettingsMain.setItem(13, creativeMain);
 		SettingsMain.setItem(15, chatMain);
 
 		return SettingsMain;
@@ -42,6 +44,14 @@ public class SettingsInventories {
 		TeleportationSettings.setItem(31, back);
 
 		return TeleportationSettings;
+	}
+	public static Inventory CreativeSettings(Player player) {
+		Inventory CreativeSettings = Bukkit.createInventory(null, 36, "Creative Settings");
+
+		CreativeSettings.setItem(13, toggleCycle);
+		CreativeSettings.setItem(31, back);
+
+		return CreativeSettings;
 	}
 	public static Inventory ChatSettings(Player player) {
 		Inventory ChatSettings = Bukkit.createInventory(null, 36, "Chat Settings");
@@ -60,6 +70,11 @@ public class SettingsInventories {
 		teleportMainMeta.setDisplayName(variable1 + "Teleportation " + string + "settings...");
 		teleportMain.setItemMeta(teleportMainMeta);
 
+		creativeMain = new ItemStack(Material.GRASS_BLOCK, 1);
+		ItemMeta creativeMainMeta = creativeMain.getItemMeta();
+		creativeMainMeta.setDisplayName(variable1 + "Creative " + string + "settings...");
+		creativeMain.setItemMeta(creativeMainMeta);
+
 		chatMain = new ItemStack(Material.PAPER, 1);
 		ItemMeta chatMainMeta = chatMain.getItemMeta();
 		chatMainMeta.setDisplayName(variable1 + "Chat " + string + "settings...");
@@ -77,7 +92,7 @@ public class SettingsInventories {
 		toggleTPALore.add(string + "Enabled: " + variable2
 				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.tpa"));
 		if (VaultCore.getInstance().getPlayerData()
-				.getBoolean("players." + player.getUniqueId() + ".settings.tpa") == true) {
+				.getBoolean("players." + player.getUniqueId() + ".settings.tpa")) {
 			toggleTPAMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		toggleTPAMeta.setLore(toggleTPALore);
@@ -90,11 +105,24 @@ public class SettingsInventories {
 		acceptTPALore.add(string + "Enabled: " + variable2
 				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.autotpa"));
 		if (VaultCore.getInstance().getPlayerData()
-				.getBoolean("players." + player.getUniqueId() + ".settings.autotpa") == true) {
+				.getBoolean("players." + player.getUniqueId() + ".settings.autotpa")) {
 			acceptTPAMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		acceptTPAMeta.setLore(acceptTPALore);
 		acceptTPA.setItemMeta(acceptTPAMeta);
+
+		toggleCycle = new ItemStack(Material.REPEATER, 1);
+		ItemMeta toggleCycleMeta = toggleCycle.getItemMeta();
+		toggleCycleMeta.setDisplayName(string + "Enable " + variable1 + "Cycle");
+		ArrayList<String> toggleCycleLore = new ArrayList<String>();
+		toggleCycleLore.add(string + "Enabled: " + variable2
+				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.cycle"));
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.cycle")) {
+			toggleCycleMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+		}
+		toggleCycleMeta.setLore(toggleCycleLore);
+		toggleCycle.setItemMeta(toggleCycleMeta);
 
 		toggleMsg = new ItemStack(Material.FEATHER, 1);
 		ItemMeta toggleMsgMeta = toggleMsg.getItemMeta();
@@ -103,7 +131,7 @@ public class SettingsInventories {
 		toggleMsgLore.add(string + "Enabled: " + variable2
 				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg"));
 		if (VaultCore.getInstance().getPlayerData()
-				.getBoolean("players." + player.getUniqueId() + ".settings.msg") == true) {
+				.getBoolean("players." + player.getUniqueId() + ".settings.msg")) {
 			toggleMsgMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		toggleMsgMeta.setLore(toggleMsgLore);
@@ -116,7 +144,7 @@ public class SettingsInventories {
 		togglePWCLore.add(string + "Enabled: " + variable2
 				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.pwc"));
 		if (VaultCore.getInstance().getPlayerData()
-				.getBoolean("players." + player.getUniqueId() + ".settings.pwc") == true) {
+				.getBoolean("players." + player.getUniqueId() + ".settings.pwc")) {
 			togglePWCMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		togglePWCMeta.setLore(togglePWCLore);
@@ -129,11 +157,10 @@ public class SettingsInventories {
 		toggleSwearLore.add(string + "Enabled: " + variable2 + VaultCore.getInstance().getPlayerData()
 				.get("players." + player.getUniqueId() + ".settings.swearfilter"));
 		if (VaultCore.getInstance().getPlayerData()
-				.getBoolean("players." + player.getUniqueId() + ".settings.swearfilter") == true) {
+				.getBoolean("players." + player.getUniqueId() + ".settings.swearfilter")) {
 			toggleSwearMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
 		toggleSwearMeta.setLore(toggleSwearLore);
 		toggleSwear.setItemMeta(toggleSwearMeta);
-
 	}
 }
