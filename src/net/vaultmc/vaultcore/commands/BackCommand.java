@@ -1,49 +1,44 @@
 package net.vaultmc.vaultcore.commands;
 
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.listeners.PlayerTPListener;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.listeners.PlayerTPListener;
+import java.util.Collections;
 
-public class BackCommand implements CommandExecutor {
+@RootCommand(
+        literal = "back",
+        description = "Teleport to your previous location."
+)
+@Permission(Permissions.BackCommand)
+@PlayerOnly
+public class BackCommand extends CommandExecutor {
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    public BackCommand() {
+        this.register("back", Collections.emptyList(), "VaultCore");
+    }
 
-		if (commandLabel.equalsIgnoreCase("back")) {
+    String string = Utilities.string;
 
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(Utilities.consoleError());
-				return true;
-			}
-			
-			Player player = (Player) sender;
-			
-			if (!player.hasPermission(Permissions.BackCommand)) {
-				player.sendMessage(Utilities.noPermission());
-				return true;
-			}
-			if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
+    @SubCommand("back")
+    public void execute(CommandSender sender, ArgumentProvider args) {
 
-				String string = ChatColor.translateAlternateColorCodes('&',
-						VaultCore.getInstance().getConfig().getString("string"));
-				Location before = PlayerTPListener.teleports.get(player.getUniqueId());
+        Player player = (Player) sender;
 
-				player.teleport(before);
-				player.sendMessage(string + "You have been teleported to your previous location...");
-				PlayerTPListener.teleports.remove(player.getUniqueId());
-				return true;
-			} else {
-				player.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
-				return true;
-			}
-		}
-		return true;
-	}
+        if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
+
+            Location before = PlayerTPListener.teleports.get(player.getUniqueId());
+
+            player.teleport(before);
+            sender.sendMessage(string + "You have been teleported to your previous location...");
+            PlayerTPListener.teleports.remove(player.getUniqueId());
+        } else {
+            sender.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
+        }
+    }
 }

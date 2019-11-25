@@ -16,90 +16,90 @@ import net.vaultmc.vaultcore.VaultCore;
 
 public class StaffChat implements CommandExecutor {
 
-	public static HashMap<UUID, UUID> toggled = new HashMap<>();
+    public static HashMap<UUID, UUID> toggled = new HashMap<>();
 
-	String string = ChatColor.translateAlternateColorCodes('&',
-			VaultCore.getInstance().getConfig().getString("string"));
-	String variable1 = ChatColor.translateAlternateColorCodes('&',
-			VaultCore.getInstance().getConfig().getString("variable-1"));
+    String string = ChatColor.translateAlternateColorCodes('&',
+            VaultCore.getInstance().getConfig().getString("string"));
+    String variable1 = ChatColor.translateAlternateColorCodes('&',
+            VaultCore.getInstance().getConfig().getString("variable-1"));
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		if (commandLabel.equalsIgnoreCase("staffchat") || commandLabel.equalsIgnoreCase("sc")) {
+        if (commandLabel.equalsIgnoreCase("staffchat") || commandLabel.equalsIgnoreCase("sc")) {
 
-			if (!(sender instanceof Player)) {
-				if (args.length == 0) {
-					sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/sc <message>");
-					return true;
-				} else {
+            if (!(sender instanceof Player)) {
+                if (args.length == 0) {
+                    sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/sc <message>");
+                    return true;
+                } else {
 
-					String cmessage = "";
-					for (String s : args) {
-						cmessage = cmessage + s + " ";
-					}
+                    String cmessage = "";
+                    for (String s : args) {
+                        cmessage = cmessage + s + " ";
+                    }
 
-					String cprefix = (ChatColor.translateAlternateColorCodes('&',
-							VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
-					String cstaffchat = String.format("%s" + ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE"
-							+ ChatColor.DARK_GRAY + " » " + ChatColor.AQUA + "%s", cprefix, cmessage);
+                    String cprefix = (ChatColor.translateAlternateColorCodes('&',
+                            VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
+                    String cstaffchat = String.format("%s" + ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE"
+                            + ChatColor.DARK_GRAY + " ï¿½ " + ChatColor.AQUA + "%s", cprefix, cmessage);
 
-					for (Player player : Bukkit.getOnlinePlayers()) {
-						if (player.hasPermission("vc.sc")) {
-							player.sendMessage(cstaffchat);
-						}
-					}
-				}
-			} else if (sender instanceof Player) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.hasPermission("vc.sc")) {
+                            player.sendMessage(cstaffchat);
+                        }
+                    }
+                }
+            } else if (sender instanceof Player) {
 
-				Player player = (Player) sender;
+                Player player = (Player) sender;
 
-				if (!player.hasPermission(Permissions.StaffChat)) {
-					player.sendMessage(Utilities.noPermission());
-					return true;
-				}
-				if (args.length == 0) {
-					player.sendMessage(Utilities.usageMessage(cmd.getName(), "<message>"));
-					return true;
-				} else {
-					String message = "";
-					for (String s : args) {
-						message = message + s + " ";
-					}
-					String prefix = (ChatColor.translateAlternateColorCodes('&',
-							VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
-					String staffchat = String.format(
-							"%s" + ChatColor.GRAY + "%s" + ChatColor.DARK_GRAY + " » " + ChatColor.AQUA + "%s", prefix,
-							player.getDisplayName(), message);
-					for (Player players : Bukkit.getOnlinePlayers()) {
-						if (players.hasPermission(Permissions.StaffChat)) {
-							players.sendMessage(staffchat);
-						}
-					}
-				}
-			}
-			return true;
-		}
+                if (!player.hasPermission(Permissions.StaffChat)) {
+                    player.sendMessage(Utilities.noPermission());
+                    return true;
+                }
+                if (args.length == 0) {
+                    player.sendMessage(Utilities.usageMessage(cmd.getName(), "<message>"));
+                    return true;
+                } else {
+                    String message = "";
+                    for (String s : args) {
+                        message = message + s + " ";
+                    }
+                    String prefix = (ChatColor.translateAlternateColorCodes('&',
+                            VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
+                    String staffchat = String.format(
+                            "%s" + ChatColor.GRAY + "%s" + ChatColor.DARK_GRAY + " ï¿½ " + ChatColor.AQUA + "%s", prefix,
+                            player.getDisplayName(), message);
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        if (players.hasPermission(Permissions.StaffChat)) {
+                            players.sendMessage(staffchat);
+                        }
+                    }
+                }
+            }
+            return true;
+        }
 
-		if (commandLabel.equalsIgnoreCase("sctoggle")) {
+        if (commandLabel.equalsIgnoreCase("sctoggle")) {
 
-			if (sender instanceof Player) {
-				if (!sender.hasPermission(Permissions.StaffChat)) {
-					sender.sendMessage(Utilities.noPermission());
-					return true;
-				} else {
-					Player player = (Player) sender;
-					if (toggled.containsKey(player.getUniqueId())) {
-						toggled.remove(player.getUniqueId());
-						player.sendMessage(string + "You have toggled staffchat " + variable1 + "off" + string + ".");
-						return true;
-					} else {
-						toggled.put(player.getUniqueId(), player.getUniqueId());
-						player.sendMessage(string + "You have toggled staffchat " + variable1 + "on" + string + ".");
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+            if (sender instanceof Player) {
+                if (!sender.hasPermission(Permissions.StaffChat)) {
+                    sender.sendMessage(Utilities.noPermission());
+                    return true;
+                } else {
+                    Player player = (Player) sender;
+                    if (toggled.containsKey(player.getUniqueId())) {
+                        toggled.remove(player.getUniqueId());
+                        player.sendMessage(string + "You have toggled staffchat " + variable1 + "off" + string + ".");
+                        return true;
+                    } else {
+                        toggled.put(player.getUniqueId(), player.getUniqueId());
+                        player.sendMessage(string + "You have toggled staffchat " + variable1 + "on" + string + ".");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

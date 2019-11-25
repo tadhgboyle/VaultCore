@@ -16,62 +16,62 @@ import net.vaultmc.vaultcore.VaultCore;
 
 public class WildTeleport implements CommandExecutor {
 
-	String string = VaultCore.getInstance().getConfig().getString("string");
-	String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
-	String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
+    String string = VaultCore.getInstance().getConfig().getString("string");
+    String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+    String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
 
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		if (command.getName().equalsIgnoreCase("wild")) {
+        if (command.getName().equalsIgnoreCase("wild")) {
 
-			if (!(sender instanceof Player)) {
-				sender.sendMessage(Utilities.consoleError());
-				return true;
-			}
-			Player player = (Player) sender;
-			if (!player.hasPermission(Permissions.WildTeleport)) {
-				player.sendMessage(Utilities.noPermission());
-				return true;
-			}
-			
-			if (args.length != 0) {
-				player.sendMessage(Utilities.usageMessage(command.getName(), ""));
-				return true;
-			}
-			
-			if (player.getWorld().getName().equalsIgnoreCase("Survival")
-					|| player.getWorld().getName().equalsIgnoreCase("clans")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Utilities.consoleError());
+                return true;
+            }
+            Player player = (Player) sender;
+            if (!player.hasPermission(Permissions.WildTeleport)) {
+                player.sendMessage(Utilities.noPermission());
+                return true;
+            }
 
-				Location originalLocation = player.getLocation();
-				Random random = new Random();
-				Location teleportlocation = null;
-				int x = random.nextInt(10000) + 100;
-				int y = 150;
-				int z = random.nextInt(10000) + 100;
-				boolean isOnland = false;
+            if (args.length != 0) {
+                player.sendMessage(Utilities.usageMessage(command.getName(), ""));
+                return true;
+            }
 
-				while (isOnland == false) {
+            if (player.getWorld().getName().equalsIgnoreCase("Survival")
+                    || player.getWorld().getName().equalsIgnoreCase("clans")) {
 
-					teleportlocation = new Location(player.getWorld(), x, y, z);
+                Location originalLocation = player.getLocation();
+                Random random = new Random();
+                Location teleportlocation = null;
+                int x = random.nextInt(10000) + 100;
+                int y = 150;
+                int z = random.nextInt(10000) + 100;
+                boolean isOnland = false;
 
-					if (teleportlocation.getBlock().getType() != Material.AIR) {
-						isOnland = true;
-					} else
-						y--;
-				}
+                while (isOnland == false) {
 
-				player.teleport(new Location(player.getWorld(), teleportlocation.getX(), teleportlocation.getY() + 1,
-						teleportlocation.getZ()));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
-						+ variable2 + (int) teleportlocation.distance(originalLocation) + string + " blocks away!"));
-				return true;
-			} else {
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						string + "You must be in the " + variable1 + "Survival" + string + " or " + variable1 + "Clans"
-								+ string + " world to run this command."));
-			}
-			return true;
-		}
-		return true;
-	}
+                    teleportlocation = new Location(player.getWorld(), x, y, z);
+
+                    if (teleportlocation.getBlock().getType() != Material.AIR) {
+                        isOnland = true;
+                    } else
+                        y--;
+                }
+
+                player.teleport(new Location(player.getWorld(), teleportlocation.getX(), teleportlocation.getY() + 1,
+                        teleportlocation.getZ()));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
+                        + variable2 + (int) teleportlocation.distance(originalLocation) + string + " blocks away!"));
+                return true;
+            } else {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        string + "You must be in the " + variable1 + "Survival" + string + " or " + variable1 + "Clans"
+                                + string + " world to run this command."));
+            }
+            return true;
+        }
+        return true;
+    }
 }

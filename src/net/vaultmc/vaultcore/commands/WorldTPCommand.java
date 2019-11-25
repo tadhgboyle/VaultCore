@@ -13,58 +13,58 @@ import net.vaultmc.vaultcore.VaultCore;
 
 public class WorldTPCommand implements CommandExecutor {
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		String string = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("string"));
-		String variable1 = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("variable-1"));
+        String string = ChatColor.translateAlternateColorCodes('&',
+                VaultCore.getInstance().getConfig().getString("string"));
+        String variable1 = ChatColor.translateAlternateColorCodes('&',
+                VaultCore.getInstance().getConfig().getString("variable-1"));
 
-		if (!(sender instanceof Player)) {
-			sender.sendMessage(Utilities.consoleError());
-			return true;
-		}
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Utilities.consoleError());
+            return true;
+        }
 
-		Player player = (Player) sender;
+        Player player = (Player) sender;
 
-		if (commandLabel.equalsIgnoreCase("sv")) {
+        if (commandLabel.equalsIgnoreCase("sv")) {
 
-			if (!player.hasPermission(Permissions.WorldTPCommandSurvival)) {
-				player.sendMessage(Utilities.noPermission());
-				return true;
-			} else {
-				Location sv = (Location) VaultCore.getInstance().getPlayerData()
-						.get("players." + player.getUniqueId() + ".sv");
-				if (sv == null) {
-					player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
-					player.performCommand("mvtp Survival");
-					return true;
-				} else {
-					player.teleport(sv);
-					player.sendMessage(string + "Teleported you to the " + variable1 + "Survival" + string + " world.");
-					return true;
-				}
-			}
-		}
-		if (commandLabel.equalsIgnoreCase("cr")) {
+            if (!player.hasPermission(Permissions.WorldTPCommandSurvival)) {
+                player.sendMessage(Utilities.noPermission());
+                return true;
+            } else {
+                Location sv = (Location) VaultCore.getInstance().getPlayerData()
+                        .get("players." + player.getUniqueId() + ".sv");
+                if (sv == null) {
+                    player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
+                    player.performCommand("mvtp Survival");
+                    return true;
+                } else {
+                    player.teleport(sv);
+                    player.sendMessage(string + "Teleported you to the " + variable1 + "Survival" + string + " world.");
+                    return true;
+                }
+            }
+        }
+        if (commandLabel.equalsIgnoreCase("cr")) {
 
-			if (!player.hasPermission(Permissions.WorldTPCommandCreative)) {
-				player.sendMessage(Utilities.noPermission());
-				return true;
-			} else {
-				Location cr = (Location) VaultCore.getInstance().getPlayerData()
-						.get("players." + player.getUniqueId() + ".cr");
-				if (cr == null) {
-					player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
-					player.performCommand("mvtp Creative");
-					return true;
-				} else {
-					player.teleport(cr);
-					player.sendMessage(string + "Teleported you to the " + variable1 + "Creative" + string + " world.");
-					return true;
-				}
-			}
-		}
-		return true;
-	}
+            if (!player.hasPermission(Permissions.WorldTPCommandCreative)) {
+                player.sendMessage(Utilities.noPermission());
+                return true;
+            } else {
+                Location cr = (Location) VaultCore.getInstance().getPlayerData()
+                        .get("players." + player.getUniqueId() + ".cr");
+                if (cr == null) {
+                    player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
+                    player.performCommand("mvtp Creative");
+                    return true;
+                } else {
+                    player.teleport(cr);
+                    player.sendMessage(string + "Teleported you to the " + variable1 + "Creative" + string + " world.");
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
 }

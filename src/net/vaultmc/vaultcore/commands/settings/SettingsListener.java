@@ -34,10 +34,10 @@ public class SettingsListener implements Listener {
                     player.openInventory(SettingsInventories.TeleportationSettings(player));
                     event.setCancelled(true);
                 }
-				if (clicked.getType() == Material.GRASS_BLOCK) {
-					player.openInventory(SettingsInventories.CreativeSettings(player));
-					event.setCancelled(true);
-				}
+                if (clicked.getType() == Material.GRASS_BLOCK) {
+                    player.openInventory(SettingsInventories.CreativeSettings(player));
+                    event.setCancelled(true);
+                }
                 if (clicked.getType() == Material.PAPER) {
                     player.openInventory(SettingsInventories.ChatSettings(player));
                     event.setCancelled(true);
