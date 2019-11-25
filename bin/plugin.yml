@@ -77,9 +77,6 @@ commands:
   tpdeny:
     usage: /tpdeny
     description: Deny a teleport request from a player.
-  msg:
-    usage: /message <player> <message>
-    description: Send a player a message.
   r:
     usage: /r <message>
     description: Reply to a message.
