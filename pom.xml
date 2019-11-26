@@ -58,11 +58,6 @@
         </repository>
 
         <repository>
-            <id>commandapi-repo</id>
-            <url>https://raw.githubusercontent.com/JorelAli/1.13-Command-API/mvn-repo/1.13CommandAPI/</url>
-        </repository>
-
-        <repository>
             <id>minecraft-libraries</id>
             <name>Minecraft Libraries</name>
             <url>https://libraries.minecraft.net</url>

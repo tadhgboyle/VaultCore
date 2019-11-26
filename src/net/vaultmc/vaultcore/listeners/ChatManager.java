@@ -29,7 +29,7 @@ public class ChatManager implements Listener {
 
         Player player = e.getPlayer();
 
-        if (StaffChatCommand.toggled.containsKey(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
+        if (StaffChatCommand.toggled.contains(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
 
             String message = (ChatColor.translateAlternateColorCodes('&',
                     VaultCore.getInstance().getConfig().getString("staffchat-prefix")))
