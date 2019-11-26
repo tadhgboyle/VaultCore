@@ -73,6 +73,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmCrOthers")
+    @Permission(Permissions.GamemodeCommandOther)
     public void gamemodeCreativeOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.CREATIVE);
@@ -82,6 +83,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmSvOthers")
+    @Permission(Permissions.GamemodeCommandOther)
     public void gamemodeSurvivalOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.SURVIVAL);
@@ -91,6 +93,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmSpOthers")
+    @Permission(Permissions.GamemodeCommandOther)
     public void gamemodeSpectatorOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.SPECTATOR);
@@ -100,6 +103,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmAdOthers")
+    @Permission(Permissions.GamemodeCommandOther)
     public void gamemodeAdventureOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.ADVENTURE);
