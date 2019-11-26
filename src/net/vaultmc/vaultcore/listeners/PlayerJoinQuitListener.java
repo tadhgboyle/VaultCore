@@ -44,7 +44,7 @@ public class PlayerJoinQuitListener implements Listener {
         }
 
         join.setJoinMessage(
-                ChatColor.YELLOW + VaultCoreAPI.getName(player) + " has " + ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
+                ChatColor.YELLOW + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " has " + ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
 
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 VaultCore.getInstance().getConfig().getString("welcome-message")));
@@ -65,7 +65,7 @@ public class PlayerJoinQuitListener implements Listener {
         String ip = player.getAddress().getAddress().getHostAddress();
 
         quit.setQuitMessage(
-                ChatColor.YELLOW + VaultCoreAPI.getName(player) + " has " + ChatColor.RED + "left" + ChatColor.YELLOW + ".");
+                ChatColor.YELLOW + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " has " + ChatColor.RED + "left" + ChatColor.YELLOW + ".");
         query(uuid, username, firstseen, lastseen, playtime, rank, ip);
     }
 

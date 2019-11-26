@@ -23,6 +23,7 @@ import java.util.Collections;
         description = "Teleport to a player."
 )
 @Permission(Permissions.TeleportCommand)
+@Aliases("tp")
 public class TeleportCommand extends CommandExecutor {
     public TeleportCommand() {
         unregisterExisting();
