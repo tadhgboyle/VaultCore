@@ -19,7 +19,7 @@ import java.util.Collections;
 public class PingCommand extends CommandExecutor {
     public PingCommand() {
         register("pingSelf", Collections.emptyList(), "vaultcore");
-        register("pingOther", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+        register("pingOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
     private String string = VaultCore.getInstance().getConfig().getString("string");
