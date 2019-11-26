@@ -1,5 +1,8 @@
 package net.vaultmc.vaultcore;
 
+import net.vaultmc.vaultutils.VaultUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class VaultCoreAPI {
@@ -23,5 +26,13 @@ public class VaultCoreAPI {
             hasPermission = false;
         }
         return hasPermission;
+    }
+
+    public static String getName(CommandSender player) {
+        if (player instanceof Player) {
+            return VaultUtils.getName((Player) player);
+        } else {
+            return ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET;
+        }
     }
 }

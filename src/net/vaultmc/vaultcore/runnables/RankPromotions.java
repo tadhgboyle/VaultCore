@@ -1,17 +1,16 @@
 package net.vaultmc.vaultcore.runnables;
 
+import net.vaultmc.vaultcore.VaultCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.VaultCore;
-
 public class RankPromotions {
 
-    static String string = ChatColor.translateAlternateColorCodes('&',
+    private static String string = ChatColor.translateAlternateColorCodes('&',
             VaultCore.getInstance().getConfig().getString("string"));
-    static String variable1 = ChatColor.translateAlternateColorCodes('&',
+    private static String variable1 = ChatColor.translateAlternateColorCodes('&',
             VaultCore.getInstance().getConfig().getString("variable-1"));
 
     public static void memberPromotion() {

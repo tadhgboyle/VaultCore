@@ -1,5 +1,6 @@
 package net.vaultmc.vaultcore.commands.settings;
 
+import net.vaultmc.vaultcore.VaultCore;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,8 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import net.vaultmc.vaultcore.VaultCore;
 
 public class SettingsListener implements Listener {
 
@@ -51,11 +50,7 @@ public class SettingsListener implements Listener {
                     boolean allowTPA = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.tpa");
                     boolean allowed;
-                    if (allowTPA == true) {
-                        allowed = false;
-                    } else {
-                        allowed = true;
-                    }
+                    allowed = allowTPA != true;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
@@ -67,11 +62,7 @@ public class SettingsListener implements Listener {
                     boolean autoTPA = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.autotpa");
                     boolean allowed;
-                    if (autoTPA == true) {
-                        allowed = false;
-                    } else {
-                        allowed = true;
-                    }
+                    allowed = autoTPA != true;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
@@ -88,11 +79,7 @@ public class SettingsListener implements Listener {
                     boolean allowCycle = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.cycle");
                     boolean allowed;
-                    if (allowCycle == true) {
-                        allowed = false;
-                    } else {
-                        allowed = true;
-                    }
+                    allowed = allowCycle != true;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.cycle",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
@@ -107,11 +94,7 @@ public class SettingsListener implements Listener {
                     boolean allowMsg = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.msg");
                     boolean allowed;
-                    if (allowMsg == true) {
-                        allowed = false;
-                    } else {
-                        allowed = true;
-                    }
+                    allowed = allowMsg != true;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
@@ -123,11 +106,7 @@ public class SettingsListener implements Listener {
                     boolean allowPWC = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.pwc");
                     boolean allowed;
-                    if (allowPWC == true) {
-                        allowed = false;
-                    } else {
-                        allowed = true;
-                    }
+                    allowed = allowPWC != true;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.pwc",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
@@ -139,11 +118,7 @@ public class SettingsListener implements Listener {
                     boolean allowSwearFilter = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.swearfilter");
                     boolean allowed;
-                    if (allowSwearFilter == true) {
-                        allowed = false;
-                    } else {
-                        allowed = true;
-                    }
+                    allowed = allowSwearFilter != true;
                     VaultCore.getInstance().getPlayerData()
                             .set("players." + player.getUniqueId() + ".settings.swearfilter", allowed);
                     VaultCore.getInstance().savePlayerData();

@@ -1,62 +1,34 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Random;
-import java.util.UUID;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Random;
+import java.util.UUID;
 
-public class TokenCommand implements CommandExecutor {
-
-    static String string = ChatColor.translateAlternateColorCodes('&',
+@RootCommand(
+        literal = "token",
+        description = "Get your universal token for VaultMC services."
+)
+@Permission(Permissions.TokenCommand)
+@PlayerOnly
+public class TokenCommand extends CommandExecutor {
+    private static String string = ChatColor.translateAlternateColorCodes('&',
             VaultCore.getInstance().getConfig().getString("string"));
-    static String variable1 = ChatColor.translateAlternateColorCodes('&',
+    private static String variable1 = ChatColor.translateAlternateColorCodes('&',
             VaultCore.getInstance().getConfig().getString("variable-1"));
-    String variable2 = ChatColor.translateAlternateColorCodes('&',
+    private static String variable2 = ChatColor.translateAlternateColorCodes('&',
             VaultCore.getInstance().getConfig().getString("variable-2"));
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
-        if (cmd.getName().equalsIgnoreCase("token")) {
-
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Utilities.consoleError());
-                return true;
-            }
-
-            Player player = (Player) sender;
-
-            if (!player.hasPermission(Permissions.TokenCommand)) {
-                sender.sendMessage(Utilities.noPermission());
-                return true;
-            }
-
-            if (args.length != 0) {
-                player.sendMessage(Utilities.usageMessage(cmd.getName(), ""));
-                return true;
-            }
-
-            try {
-                String token = getToken(player.getUniqueId(), player);
-                // if they are 1/308915776 make them run cmd again
-                if (token == null) {
-                    return true;
-                }
-                player.sendMessage(string + "Your token: " + variable2 + token);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
+    public TokenCommand() {
+        register("getToken", Collections.emptyList(), "vaultcore");
     }
 
     static String getToken(UUID uuid, Player player) throws SQLException {
@@ -91,5 +63,15 @@ public class TokenCommand implements CommandExecutor {
             return null;
         }
         return new_token;
+    }
+
+    @SubCommand("getToken")
+    public void getToken(CommandSender sender) throws SQLException {
+        String token = getToken(((Player) sender).getUniqueId(), (Player) sender);
+        // if they are 1/308915776 make them run cmd again
+        if (token == null) {
+            return;
+        }
+        sender.sendMessage(string + "Your token: " + variable2 + token);
     }
 }

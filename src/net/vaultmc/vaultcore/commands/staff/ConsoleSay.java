@@ -1,42 +1,33 @@
 package net.vaultmc.vaultcore.commands.staff;
 
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Utilities;
+import java.util.Collections;
 
-public class ConsoleSay implements CommandExecutor {
+@RootCommand(
+        literal = "say",
+        description = "Used by the console to send messages."
+)
+@Aliases("chat")
+public class ConsoleSay extends CommandExecutor {
+    public ConsoleSay() {
+        register("say", Collections.singletonList(Arguments.createArgument("message", Arguments.messageArgument())), "vaultcore");
+    }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
-        if (commandLabel.equalsIgnoreCase("say") || (commandLabel.equalsIgnoreCase("chat"))) {
-
-            if (!(sender instanceof Player)) {
-
-                if (args.length == 0) {
-                    sender.sendMessage(ChatColor.DARK_GREEN + "Correct usage: " + ChatColor.RED + "/say <message>");
-                    return true;
-                }
-                String message = "";
-                for (String s : args) {
-                    message = message + s + " ";
-                }
-                String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE" + ChatColor.DARK_GRAY
-                        + " → " + ChatColor.WHITE + "%s", message);
-
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(csay);
-                    return true;
-                }
-                return true;
-            }
-            sender.sendMessage(Utilities.noPermission());
-            return true;
+    @SubCommand("say")
+    public void say(CommandSender sender, String message) {
+        if (sender instanceof Player) {
+            sender.sendMessage(ChatColor.RED + "Only console can use this command!");
+            return;
         }
-        return true;
+        String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE" + ChatColor.DARK_GRAY
+                + " → " + ChatColor.WHITE + "%s", message);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(csay);
+        }
     }
 }

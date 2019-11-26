@@ -35,7 +35,7 @@ public class VaultCore extends JavaPlugin implements Listener {
     public Connection connection;
     private String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&autoReconnect=true";
     private String username = "root";
-    private String password = "Stjames123b!!";
+    private String password = "Stjames123b!!";  // Are you really sure?
 
     @Override
     public void onEnable() {
@@ -62,11 +62,9 @@ public class VaultCore extends JavaPlugin implements Listener {
         GrantCommandInv.initAdmin();
         GrantCommandInv.initMod();
         int minute = (int) 1200L;
-        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            public void run() {
-                RankPromotions.memberPromotion();
-                RankPromotions.patreonPromotion();
-            }
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            RankPromotions.memberPromotion();
+            RankPromotions.patreonPromotion();
         }, 0L, minute * 5);
 
         new BackCommand();
@@ -133,10 +131,10 @@ public class VaultCore extends JavaPlugin implements Listener {
         this.savePlayerData();
         try {
             connection.close();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore disconnected from Database");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore disconnected from the database");
         } catch (SQLException e) {
             e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect to Database");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect to the database");
         }
     }
 
