@@ -1,14 +1,13 @@
 package net.vaultmc.vaultcore.listeners;
 
-import java.util.HashMap;
-import java.util.UUID;
-
+import net.vaultmc.vaultcore.VaultCore;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class PlayerTPListener implements Listener {
 

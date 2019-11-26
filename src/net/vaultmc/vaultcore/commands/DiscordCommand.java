@@ -17,14 +17,15 @@ import java.util.Collections;
 @PlayerOnly
 public class DiscordCommand extends CommandExecutor {
 
-    public DiscordCommand() { this.register("discord", Collections.emptyList(), "VaultCore"); }
-
-    String string = Utilities.string;
-    String variable1 = Utilities.variable1;
-    String variable2 = Utilities.variable2;
+    private String string = Utilities.string;
+    private String variable1 = Utilities.variable1;
+    private String variable2 = Utilities.variable2;
+    public DiscordCommand() {
+        this.register("discord", Collections.emptyList(), "vaultcore");
+    }
 
     @SubCommand("discord")
-    public void execute(CommandSender sender, ArgumentProvider args) {
+    public void execute(CommandSender sender) {
 
         Player player = (Player) sender;
 

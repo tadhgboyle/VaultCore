@@ -43,5 +43,5 @@ public class Permissions {
     public static final String TeleportCommandHere = "vc.teleport.here";
     public static final String GrantCommandMod = "vc.grant.mod";
     public static final String GrantCommandAdmin = "vc.grant.admin";
-
+    public static final String GrantCommand = "vc.grant";
 }

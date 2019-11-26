@@ -1,48 +1,29 @@
 package net.vaultmc.vaultcore.commands.settings;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
+import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
+import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
+import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.Collections;
 
-public class SettingsCommand implements CommandExecutor {
+@RootCommand(
+        literal = "settings",
+        description = "Open the settings menu."
+)
+@Permission(Permissions.SettingsCommand)
+public class SettingsCommand extends CommandExecutor {
+    public SettingsCommand() {
+        register("settings", Collections.emptyList(), "vaultcore");
+    }
 
-    String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
-    String variable2 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-2"));
-
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
-        if (commandLabel.equalsIgnoreCase("settings")) {
-
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Utilities.consoleError());
-                return true;
-            }
-            Player player = (Player) sender;
-
-            if (!player.hasPermission(Permissions.SettingsCommand)) {
-                player.sendMessage(Utilities.noPermission());
-                return true;
-            }
-            if (args.length != 0) {
-                player.sendMessage(Utilities.usageMessage(commandLabel, ""));
-                return true;
-            }
-
-            SettingsInventories.init(player);
-            player.openInventory(SettingsInventories.SettingsMain(player));
-            return true;
-
-        }
-        return true;
+    @SubCommand("settings")
+    public void settings(CommandSender sender) {
+        Player player = (Player) sender;
+        SettingsInventories.init(player);
+        player.openInventory(SettingsInventories.SettingsMain(player));
     }
 }

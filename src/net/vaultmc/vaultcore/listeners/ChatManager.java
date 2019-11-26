@@ -1,8 +1,9 @@
 package net.vaultmc.vaultcore.listeners;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.commands.staff.MuteChatCommand;
+import net.vaultmc.vaultcore.commands.staff.StaffChatCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -10,10 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.commands.staff.MuteChatCommand;
-import net.vaultmc.vaultcore.commands.staff.StaffChat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChatManager implements Listener {
     private static final String[][] worldGroups = new String[][]{ // Messages will be split within these worlds.
@@ -30,7 +29,7 @@ public class ChatManager implements Listener {
 
         Player player = e.getPlayer();
 
-        if (StaffChat.toggled.containsKey(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
+        if (StaffChatCommand.toggled.containsKey(player.getUniqueId()) || e.getMessage().charAt(0) == ',') {
 
             String message = (ChatColor.translateAlternateColorCodes('&',
                     VaultCore.getInstance().getConfig().getString("staffchat-prefix")))
@@ -57,7 +56,7 @@ public class ChatManager implements Listener {
             return;
         }
 
-        if (MuteChatCommand.mutechat && !player.hasPermission(Permissions.MuteChatCommandOverride)) {
+        if (MuteChatCommand.chatMuted && !player.hasPermission(Permissions.MuteChatCommandOverride)) {
             player.sendMessage(ChatColor.RED + "The chat is currently muted!");
             e.setCancelled(true);
             return;

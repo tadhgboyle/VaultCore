@@ -19,14 +19,14 @@ import java.util.Collections;
 @PlayerOnly
 public class BackCommand extends CommandExecutor {
 
+    private String string = Utilities.string;
+
     public BackCommand() {
-        this.register("back", Collections.emptyList(), "VaultCore");
+        this.register("back", Collections.emptyList(), "vaultcore");
     }
 
-    String string = Utilities.string;
-
     @SubCommand("back")
-    public void execute(CommandSender sender, ArgumentProvider args) {
+    public void back(CommandSender sender) {
 
         Player player = (Player) sender;
 

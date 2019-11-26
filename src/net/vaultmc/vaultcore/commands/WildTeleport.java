@@ -1,77 +1,52 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.util.Random;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
+import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
+import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
+import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class WildTeleport implements CommandExecutor {
+@RootCommand(
+        literal = "wild",
+        description = "Teleport to a random location."
+)
+@Permission(Permissions.WildTeleport)
+public class WildTeleport extends CommandExecutor {
+    private String string = VaultCore.getInstance().getConfig().getString("string");
+    private String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+    private String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
 
-    String string = VaultCore.getInstance().getConfig().getString("string");
-    String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
-    String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
+    public WildTeleport() {
+        register("wild", Collections.emptyList(), "vaultcore");
+    }
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    @SubCommand("wild")
+    public void wild(CommandSender sender) {
+        Player player = (Player) sender;
+        if (player.getWorld().getName().equalsIgnoreCase("Survival")
+                || player.getWorld().getName().equalsIgnoreCase("clans")) {
 
-        if (command.getName().equalsIgnoreCase("wild")) {
+            Location originalLocation = player.getLocation().clone();
+            int x = ThreadLocalRandom.current().nextInt(-100000, 100000);
+            int z = ThreadLocalRandom.current().nextInt(-100000, 100000);
+            int y = player.getWorld().getHighestBlockYAt(x, z);
 
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Utilities.consoleError());
-                return true;
-            }
-            Player player = (Player) sender;
-            if (!player.hasPermission(Permissions.WildTeleport)) {
-                player.sendMessage(Utilities.noPermission());
-                return true;
-            }
-
-            if (args.length != 0) {
-                player.sendMessage(Utilities.usageMessage(command.getName(), ""));
-                return true;
-            }
-
-            if (player.getWorld().getName().equalsIgnoreCase("Survival")
-                    || player.getWorld().getName().equalsIgnoreCase("clans")) {
-
-                Location originalLocation = player.getLocation();
-                Random random = new Random();
-                Location teleportlocation = null;
-                int x = random.nextInt(10000) + 100;
-                int y = 150;
-                int z = random.nextInt(10000) + 100;
-                boolean isOnland = false;
-
-                while (isOnland == false) {
-
-                    teleportlocation = new Location(player.getWorld(), x, y, z);
-
-                    if (teleportlocation.getBlock().getType() != Material.AIR) {
-                        isOnland = true;
-                    } else
-                        y--;
-                }
-
-                player.teleport(new Location(player.getWorld(), teleportlocation.getX(), teleportlocation.getY() + 1,
-                        teleportlocation.getZ()));
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
-                        + variable2 + (int) teleportlocation.distance(originalLocation) + string + " blocks away!"));
-                return true;
-            } else {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        string + "You must be in the " + variable1 + "Survival" + string + " or " + variable1 + "Clans"
-                                + string + " world to run this command."));
-            }
-            return true;
+            Location newLocation = new Location(player.getWorld(), x, y + 1, z);
+            player.teleport(newLocation);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
+                    + variable2 + newLocation.distance(originalLocation) + string + " blocks away!"));
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    string + "You must be in the " + variable1 + "Survival" + string + " or " + variable1 + "Clans"
+                            + string + " world to run this command."));
         }
-        return true;
     }
 }

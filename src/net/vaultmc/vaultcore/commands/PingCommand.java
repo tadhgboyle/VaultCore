@@ -1,81 +1,46 @@
 package net.vaultmc.vaultcore.commands;
 
-import org.bukkit.Bukkit;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.Collections;
 
-public class PingCommand implements CommandExecutor {
-
-    public static int getPing(Player player) {
-        int ping = ((CraftPlayer) player).getHandle().ping;
-        return ping;
+@RootCommand(
+        literal = "ping",
+        description = "Check the ping of yourself or other players."
+)
+@Permission(Permissions.PingCommand)
+public class PingCommand extends CommandExecutor {
+    public PingCommand() {
+        register("pingSelf", Collections.emptyList(), "vaultcore");
+        register("pingOther", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
-    String string = VaultCore.getInstance().getConfig().getString("string");
-    String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
-    String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
+    private String string = VaultCore.getInstance().getConfig().getString("string");
+    private String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+    private String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public static int getPing(Player player) {
+        return ((CraftPlayer) player).getHandle().ping;
+    }
 
-        if (command.getName().equalsIgnoreCase("ping")) {
+    @SubCommand("pingSelf")
+    @PlayerOnly
+    public void pingSelf(CommandSender sender) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                string + "" + "Your ping is: " + variable2 + "" + getPing((Player) sender) + string + "ms"));
+    }
 
-            if (!(sender instanceof Player)) {
-
-                if (args.length == 0) {
-                    sender.sendMessage(ChatColor.RED + "You can't get the ping of the console...");
-                    sender.sendMessage(ChatColor.RED + "Try adding a name after the command ;D");
-                    return true;
-                } else if (args.length == 1) {
-                    Player target = Bukkit.getServer().getPlayer(args[0]);
-                    if (target == null) {
-                        sender.sendMessage(ChatColor.RED + "That player is offline!");
-                        return true;
-                    }
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getName()
-                            + string + "" + "'s ping is: " + variable2 + "" + getPing(target) + string + "ms"));
-                    return true;
-                }
-            }
-
-            Player player = (Player) sender;
-            if (!player.hasPermission(Permissions.PingCommand)) {
-                player.sendMessage(Utilities.noPermission());
-                return true;
-
-            } else {
-                if (args.length == 0) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            string + "" + "Your ping is: " + variable2 + "" + getPing(player) + string + "ms"));
-                    return true;
-                }
-                if (args.length == 1) {
-                    if (!player.hasPermission(Permissions.PingCommandOther)) {
-                        player.sendMessage(Utilities.managePlayerError(command.getName()));
-                        return true;
-                    }
-                    Player target = Bukkit.getServer().getPlayer(args[0]);
-                    if (target == null) {
-                        player.sendMessage(ChatColor.RED + "That player is offline!");
-                        return true;
-                    }
-
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getName()
-                            + string + "" + "'s ping is: " + variable2 + "" + getPing(target) + string + "ms"));
-                    return true;
-                } else {
-                    player.sendMessage(Utilities.usageMessage(command.getName(), "[player]"));
-                    return true;
-                }
-            }
-        }
-        return true;
+    @SubCommand("pingOthers")
+    @Permission(Permissions.PingCommandOther)
+    public void pingOthers(CommandSender sender, Player target) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + VaultCoreAPI.getName(target)
+                + string + "" + "'s ping is: " + variable2 + "" + getPing(target) + string + "ms"));
     }
 }

@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.commands.settings;
 
-import java.util.ArrayList;
-
+import net.vaultmc.vaultcore.VaultCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,14 +10,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.ArrayList;
 
 public class SettingsInventories {
-
-    private static ItemStack teleportMain, creativeMain, chatMain, back;
-    private static ItemStack toggleTPA, acceptTPA;
-    private static ItemStack toggleCycle;
-    private static ItemStack toggleMsg, togglePWC, toggleSwear;
 
     static String string = ChatColor.translateAlternateColorCodes('&',
             VaultCore.getInstance().getConfig().getString("string"));
@@ -26,6 +20,10 @@ public class SettingsInventories {
             VaultCore.getInstance().getConfig().getString("variable-1"));
     static String variable2 = ChatColor.translateAlternateColorCodes('&',
             VaultCore.getInstance().getConfig().getString("variable-2"));
+    private static ItemStack teleportMain, creativeMain, chatMain, back;
+    private static ItemStack toggleTPA, acceptTPA;
+    private static ItemStack toggleCycle;
+    private static ItemStack toggleMsg, togglePWC, toggleSwear;
 
     public static Inventory SettingsMain(Player player) {
         Inventory SettingsMain = Bukkit.createInventory(null, 27, "Settings");

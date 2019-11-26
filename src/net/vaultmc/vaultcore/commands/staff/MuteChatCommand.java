@@ -1,60 +1,44 @@
 package net.vaultmc.vaultcore.commands.staff;
 
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
+import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
+import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
+import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.Collections;
 
-public class MuteChatCommand implements CommandExecutor {
+@RootCommand(
+        literal = "mutechat",
+        description = "Mutes the chat."
+)
+@Permission(Permissions.MuteChatCommand)
+public class MuteChatCommand extends CommandExecutor {
+    public static boolean chatMuted = false;
 
-    public static boolean mutechat = false;
+    private String string = VaultCore.getInstance().getConfig().getString("string");
+    private String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 
-    String string = VaultCore.getInstance().getConfig().getString("string");
-    String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+    public MuteChatCommand() {
+        register("mutechat", Collections.emptyList(), "vaultcore");
+    }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    @SubCommand("mutechat")
+    public void muteChat(CommandSender sender) {
+        if (chatMuted) {
+            chatMuted = false;
+            Bukkit.broadcastMessage(
+                    ChatColor.translateAlternateColorCodes('&', string + "The chat has been unmuted!"));
 
-        if (cmd.getName().equalsIgnoreCase("mutechat")) {
-
-            if (!(sender instanceof Player)) {
-                if (mutechat) {
-                    mutechat = false;
-                    Bukkit.broadcastMessage(
-                            ChatColor.translateAlternateColorCodes('&', string + "The chat has been unmuted!"));
-                    return true;
-                } else {
-                    mutechat = true;
-                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                            variable1 + "CONSOLE " + string + "has muted the chat!"));
-                    return true;
-                }
-            }
-
-            Player player = (Player) sender;
-
-            if (!player.hasPermission(Permissions.MuteChatCommand)) {
-                sender.sendMessage(Utilities.noPermission());
-                return true;
-            }
-            if (mutechat) {
-                mutechat = false;
-                Bukkit.broadcastMessage(
-                        ChatColor.translateAlternateColorCodes('&', string + "The chat has been unmuted!"));
-                return true;
-
-            } else {
-                mutechat = true;
-                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                        string + "The chat has been muted by " + variable1 + sender.getName()));
-                return true;
-            }
+        } else {
+            chatMuted = true;
+            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                    string + "The chat has been muted by " + variable1 + VaultCoreAPI.getName(sender)));
         }
-        return true;
     }
 }

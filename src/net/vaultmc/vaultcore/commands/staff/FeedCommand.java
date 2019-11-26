@@ -1,71 +1,45 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import org.bukkit.Bukkit;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.Collections;
 
-public class FeedCommand implements CommandExecutor {
+@RootCommand(
+        literal = "feed",
+        description = "Feed a player."
+)
+@Permission(Permissions.FeedCommand)
+public class FeedCommand extends CommandExecutor {
+    private String string = VaultCore.getInstance().getConfig().getString("string");
+    private String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+    public FeedCommand() {
+        register("feedSelf", Collections.emptyList(), "vaultcore");
+        register("feedOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())), "vaultcore");
+    }
 
-    String string = VaultCore.getInstance().getConfig().getString("string");
-    String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+    @SubCommand("feedSelf")
+    @PlayerOnly
+    public void feedSelf(CommandSender sender) {
+        Player player = (Player) sender;
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                string + "You have been " + variable1 + "fed."));
+        player.setFoodLevel(20);
+        player.setSaturation(20);
+    }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
-        if (commandLabel.equalsIgnoreCase("feed")) {
-
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Utilities.consoleError());
-                return true;
-
-            }
-            Player player = (Player) sender;
-            if (!player.hasPermission(Permissions.FeedCommand)) {
-                player.sendMessage(Utilities.noPermission());
-                return true;
-            } else {
-                if (args.length == 0) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            string + "You have been " + variable1 + "fed."));
-                    player.setFoodLevel(20);
-                    player.setSaturation(20);
-                    return true;
-                }
-                if (args.length == 1) {
-                    if (player.hasPermission(Permissions.FeedCommandOther)) {
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null) {
-                            player.sendMessage(ChatColor.RED + "That player is offline!");
-                            return true;
-                        }
-                        if (target == player) {
-                            player.sendMessage(
-                                    ChatColor.RED + "Feed yourself using: " + ChatColor.DARK_GREEN + "/feed");
-                            return true;
-                        }
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                string + "You have fed " + variable1 + target.getName()));
-                        target.setFoodLevel(20);
-                        target.setSaturation(20);
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                string + "You have been fed by " + variable1 + player.getName()));
-                        return true;
-
-                    }
-                    player.sendMessage(Utilities.managePlayerError(commandLabel));
-                    return true;
-
-                }
-                player.sendMessage(Utilities.usageMessage(commandLabel, "[player]"));
-                return true;
-            }
-        }
-        return true;
+    @SubCommand("feedOthers")
+    public void feedOthers(CommandSender sender, Player target) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                string + "You have fed " + variable1 + VaultCoreAPI.getName(target)));
+        target.setFoodLevel(20);
+        target.setSaturation(20);
+        target.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                string + "You have been fed by " + variable1 + VaultCoreAPI.getName(sender)));
     }
 }
