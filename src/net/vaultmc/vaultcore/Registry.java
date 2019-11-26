@@ -8,6 +8,7 @@ import net.vaultmc.vaultcore.commands.staff.*;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMCreativeCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMSurvivalCommand;
+import net.vaultmc.vaultcore.commands.staff.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.commands.tpa.TPACommand;
 import net.vaultmc.vaultcore.commands.tpa.TPAHereCommand;
@@ -55,6 +56,7 @@ public class Registry {
         new TokenCommand();
         new WildTeleport();
         new GrantCommand();
+        new GameModeCommand();
         new GMCreativeCommand();
         new GMSurvivalCommand();
         new GMSpectatorCommand();
