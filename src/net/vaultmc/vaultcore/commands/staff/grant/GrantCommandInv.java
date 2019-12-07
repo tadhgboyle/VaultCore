@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.commands.staff.grant;
 
 import net.md_5.bungee.api.ChatColor;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ public class GrantCommandInv {
 
     public static Inventory getGrantInventoryAdmin(Player target) {
         Inventory rankGrantAdmin = Bukkit.createInventory(null, 9,
-                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getName());
+                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + VaultCoreAPI.getName(target));
         rankGrantAdmin.setItem(0, null);
         rankGrantAdmin.setItem(1, null);
         rankGrantAdmin.setItem(2, memberRank);
@@ -29,7 +30,7 @@ public class GrantCommandInv {
 
     public static Inventory getGrantInventoryMod(Player target) {
         Inventory rankGrantMod = Bukkit.createInventory(null, 9,
-                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getName());
+                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + VaultCoreAPI.getName(target));
         rankGrantMod.setItem(0, null);
         rankGrantMod.setItem(1, null);
         rankGrantMod.setItem(2, memberRank);

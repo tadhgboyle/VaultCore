@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -38,17 +39,18 @@ public class MsgCommand extends CommandExecutor {
         }
         if (target == player) {
             player.sendMessage(ChatColor.RED + "You can't message yourself!");
+            return;
         }
         if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
             player.sendMessage(ChatColor.RED + "That player has disabled messaging!");
         } else {
-            String meTo = (ChatColor.GOLD + player.getName() + ChatColor.YELLOW + " -> " + ChatColor.GOLD
-                    + target.getName() + ChatColor.YELLOW + ":");
-            String toMe = (ChatColor.GOLD + player.getName() + ChatColor.YELLOW + " -> " + ChatColor.GOLD
-                    + target.getName() + ChatColor.YELLOW + ":");
+            String meTo = (ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " → " + ChatColor.GOLD
+                    + VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":");
+            String toMe = (ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " → " + ChatColor.GOLD
+                    + VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":");
 
-            player.sendMessage(meTo + " " + ChatColor.DARK_GREEN + message);
-            target.sendMessage(toMe + " " + ChatColor.DARK_GREEN + message);
+            player.sendMessage(meTo + " " + ChatColor.RESET + message);
+            target.sendMessage(toMe + " " + ChatColor.RESET + message);
 
             replies.put(target.getUniqueId(), player.getUniqueId());
         }

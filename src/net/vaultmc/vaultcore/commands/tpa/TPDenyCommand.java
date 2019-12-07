@@ -1,12 +1,11 @@
 package net.vaultmc.vaultcore.commands.tpa;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -39,7 +38,7 @@ public class TPDenyCommand extends CommandExecutor {
 
             player.sendMessage(string + "You denied the teleportation request.");
             Bukkit.getPlayer(requests.get(player.getUniqueId()))
-                    .sendMessage(variable1 + player.getName() + string + " denied your teleportation request.");
+                    .sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " denied your teleportation request.");
             requests.remove(player.getUniqueId());
             return;
         }

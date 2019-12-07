@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.commands.staff.grant;
 
 import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,7 +54,7 @@ public class GrantCommandListener implements Listener {
                             + e.getView().getTitle().substring(INVTITLE.length()) + ChatColor.YELLOW + "'s rank to "
                             + ChatColor.GOLD + rank + ChatColor.YELLOW + ".");
                     target.sendMessage(ChatColor.YELLOW + "Your rank has been updated to " + ChatColor.GOLD + rank
-                            + ChatColor.YELLOW + " by " + ChatColor.GOLD + player.getName() + ChatColor.YELLOW + ".");
+                            + ChatColor.YELLOW + " by " + ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + ".");
                 }
             }
         }

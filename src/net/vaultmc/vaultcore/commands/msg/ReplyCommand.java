@@ -1,17 +1,16 @@
 package net.vaultmc.vaultcore.commands.msg;
 
-import java.util.Arrays;
-
+import com.mojang.brigadier.arguments.StringArgumentType;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
-
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import java.util.Arrays;
 
 @RootCommand(literal = "r", description = "Reply to a message.")
 @Permission(Permissions.MsgCommand)
@@ -24,7 +23,7 @@ public class ReplyCommand extends CommandExecutor {
 	}
 
 	@SubCommand("r")
-	public void r(CommandSender sender, String message) {
+	public void reply(CommandSender sender, String message) {
 		Player player = (Player) sender;
 		Player target = Bukkit.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
 
@@ -37,12 +36,12 @@ public class ReplyCommand extends CommandExecutor {
 			return;
 		}
 		if (MsgCommand.getReplies().containsKey(player.getUniqueId())) {
-			String meTo = (ChatColor.GOLD + player.getName() + ChatColor.YELLOW + " -> " + ChatColor.GOLD
-					+ target.getName() + ChatColor.YELLOW + ":");
-			String toMe = (ChatColor.GOLD + player.getName() + ChatColor.YELLOW + " -> " + ChatColor.GOLD
-					+ target.getName() + ChatColor.YELLOW + ":");
-			player.sendMessage(meTo + " " + ChatColor.DARK_GREEN + message);
-			target.sendMessage(toMe + " " + ChatColor.DARK_GREEN + message);
+			String meTo = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " -> " + ChatColor.GOLD
+					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
+			String toMe = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " -> " + ChatColor.GOLD
+					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
+			player.sendMessage(meTo + " " + ChatColor.RESET + message);
+			target.sendMessage(toMe + " " + ChatColor.RESET + message);
 			MsgCommand.getReplies().put(target.getUniqueId(), player.getUniqueId());
 		} else {
 			player.sendMessage(ChatColor.RED + "You do not have anyone to reply to!");

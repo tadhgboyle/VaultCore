@@ -1,21 +1,17 @@
 package net.vaultmc.vaultcore.commands.tpa;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.UUID;
 
 @RootCommand(
         literal = "tpaccept",
@@ -42,7 +38,7 @@ public class TPAcceptCommand extends CommandExecutor {
         if (requests.containsKey(player.getUniqueId())) {
             player.sendMessage(string + "You have accepted the teleport request.");
             Bukkit.getPlayer(requests.get(player.getUniqueId()))
-                    .sendMessage(variable1 + player.getName() + string + " accepted your teleport request.");
+                    .sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " accepted your teleport request.");
             Bukkit.getPlayer(requests.get(player.getUniqueId())).teleport(player);
             requests.remove(player.getUniqueId());
             return;
@@ -52,7 +48,7 @@ public class TPAcceptCommand extends CommandExecutor {
             Player target = Bukkit.getPlayer(requestsHere.get(player.getUniqueId()));
 
             player.sendMessage(string + "You have accepted the teleport request.");
-            target.sendMessage(variable1 + player.getName() + string + " accepted your teleport request.");
+            target.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " accepted your teleport request.");
             player.teleport(target);
             requestsHere.remove(player.getUniqueId());
         } else {

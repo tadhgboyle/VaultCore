@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,6 +50,6 @@ public class ClearChatCommand extends CommandExecutor {
         }
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have cleared chat!"));
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "The chat has been cleared by " + variable1 + player.getName() + string + "!"));
+                string + "The chat has been cleared by " + variable1 + VaultCoreAPI.getName(player) + string + "!"));
     }
 }

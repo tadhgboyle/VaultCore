@@ -1,12 +1,10 @@
 package net.vaultmc.vaultcore.commands.tpa;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -47,13 +45,13 @@ public class TPAHereCommand extends CommandExecutor {
         if (VaultCore.getInstance().getPlayerData()
                 .getBoolean("players." + target.getUniqueId() + ".settings.autotpa") == true) {
             player.teleport(target);
-            player.sendMessage(string + "Teleported to " + variable1 + target.getName() + string + ".");
-            target.sendMessage(variable1 + player.getName() + string + " has teleported to you.");
+            player.sendMessage(string + "Teleported to " + variable1 + VaultCoreAPI.getName(target) + string + ".");
+            target.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " has teleported to you.");
         } else {
             requestsHere.put(target.getUniqueId(), player.getUniqueId());
             player.sendMessage(
-                    string + "You requested that " + variable1 + target.getName() + string + " teleports to you.");
-            target.sendMessage(variable1 + player.getName() + string + " asked you to teleport to them, type "
+                    string + "You requested that " + variable1 + VaultCoreAPI.getName(target) + string + " teleports to you.");
+            target.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " asked you to teleport to them, type "
                     + variable1 + "/tpaccept " + string + "to accept it.");
         }
     }

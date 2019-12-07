@@ -1,18 +1,13 @@
 package net.vaultmc.vaultcore;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import net.milkbowl.vault.chat.Chat;
 import net.vaultmc.vaultcore.commands.BackCommand;
 import net.vaultmc.vaultcore.commands.DiscordCommand;
 import net.vaultmc.vaultcore.commands.HelpCommand;
+import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
+import net.vaultmc.vaultcore.runnables.RankPromotions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,9 +16,11 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.milkbowl.vault.chat.Chat;
-import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
-import net.vaultmc.vaultcore.runnables.RankPromotions;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class VaultCore extends JavaPlugin implements Listener {
     public static VaultCore instance;
@@ -33,9 +30,9 @@ public class VaultCore extends JavaPlugin implements Listener {
     private FileConfiguration playerData;
     // mysql info
     public Connection connection;
-    private String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&autoReconnect=true";
-    private String username = "root";
-    private String password = "Stjames123b!!";  // Are you really sure?
+    private static String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&autoReconnect=true";
+    private static String username = "root";
+    private static String password = "Stjames123b!!";  // Are you really sure?
 
     @Override
     public void onEnable() {
@@ -115,10 +112,9 @@ public class VaultCore extends JavaPlugin implements Listener {
         return instance;
     }
 
-    private boolean setupChat() {
+    private void setupChat() {
         RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
         chat = rsp.getProvider();
-        return chat != null;
     }
 
     public static Chat getChat() {
@@ -136,18 +132,5 @@ public class VaultCore extends JavaPlugin implements Listener {
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect to the database");
         }
-    }
-
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("vcreload")) {
-            if (!sender.hasPermission("vc.reload")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("no-permission")));
-                return true;
-            }
-            reloadConfig();
-            sender.sendMessage(ChatColor.GREEN + "Configuration reloaded!");
-            return true;
-        }
-        return true;
     }
 }

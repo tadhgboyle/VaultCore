@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,7 +58,7 @@ public class PlayTime extends CommandExecutor {
                 ChatColor.translateAlternateColorCodes('&',
                         variable1 + "%s" + string + " has played for " + variable2 + "%d" + string + " days, "
                                 + variable2 + "%d" + string + " hours and " + variable2 + "%d" + string + " minutes."),
-                player.getName(), time[0], time[1], time[2]);
+                VaultCoreAPI.getName(player), time[0], time[1], time[2]);
         sender.sendMessage(playtimeMsg);
     }
 
