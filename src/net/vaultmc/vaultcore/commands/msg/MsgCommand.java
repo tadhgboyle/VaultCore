@@ -5,7 +5,6 @@ import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,10 +19,12 @@ import java.util.UUID;
 )
 @Permission(Permissions.MsgCommand)
 @PlayerOnly
+@Aliases({"tell", "whisper", "w", "pm", "privatemessage"})
 public class MsgCommand extends CommandExecutor {
     @Getter private static HashMap<UUID, UUID> replies = new HashMap<>();
 
     public MsgCommand() {
+        unregisterExisting();
         this.register("msg", Arrays.asList(
                 Arguments.createArgument("target", Arguments.playerArgument()),
                 Arguments.createArgument("message", StringArgumentType.greedyString())), "vaultcore");
