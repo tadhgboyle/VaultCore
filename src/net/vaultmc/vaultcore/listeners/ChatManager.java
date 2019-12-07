@@ -11,16 +11,26 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ChatManager implements Listener {
     private static final String[][] worldGroups = new String[][]{ // Messages will be split within these worlds.
-            new String[]{"Lobby"}, new String[]{"Survival", // E.g. I sent a message in Survival.
-            "Survival_Nether", // Player in Survival_Nether receives it, player in Survival_End receives it.
-            "Survival_End" // But player in Lobby won't receive it.
-    }, new String[]{"clans", "clans_nether", "clans_the_end"},
-            new String[]{"Skyblock", "skyblock_nether"}};
+            new String[]{"Lobby"},
+            new String[]{
+                    "Survival", // E.g. I sent a message in Survival.
+                    "Survival_Nether", // Player in Survival_Nether receives it, player in Survival_End receives it.
+                    "Survival_End" // But player in Lobby won't receive it.
+            },
+            new String[]{
+                    "clans",
+                    "clans_nether",
+                    "clans_the_end"
+            },
+            new String[]{
+                    "skyblock",
+                    "skyblock_nether"
+            }};
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
@@ -36,7 +46,7 @@ public class ChatManager implements Listener {
                     + (ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player))
                     + player.getDisplayName()
                     + ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerSuffix(player))
-                    + ChatColor.DARK_GRAY + " » " + ChatColor.WHITE
+                    + ChatColor.DARK_GRAY + " » " + ChatColor.AQUA
                     + ChatColor.translateAlternateColorCodes('&',
                     e.getMessage().charAt(0) == ',' ? e.getMessage().replaceFirst(",", "")
                             : e.getMessage()
@@ -62,9 +72,8 @@ public class ChatManager implements Listener {
             return;
         }
 
-        String message = e.getMessage();
         if (player.hasPermission("vc.chat.color")) {
-            message = ChatColor.translateAlternateColorCodes('&', message);
+            e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
 
         e.setFormat(ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player))
@@ -90,9 +99,8 @@ public class ChatManager implements Listener {
             return;
         }
 
-        List<Player> recipients = e.getRecipients().stream().collect(Collectors.toList());
-        for (int i = 0; i < recipients.size(); i++) {
-            Player x = recipients.get(i);
+        List<Player> toRemove = new ArrayList<>();
+        for (Player x : e.getRecipients()) {
             if (VaultCore.getInstance().getPlayerData().getBoolean("players." + x.getUniqueId() + ".settings.pwc")) {
                 // The player enabled pwc.
 
@@ -114,12 +122,13 @@ public class ChatManager implements Listener {
 
                 if (group != thisGroup) {
                     // The player should not receive this message.
-                    recipients.remove(i);
+                    // Directly removing using for loop with counter is acting extremely weirdly.
+                    toRemove.add(x);
                 }
             }
         }
 
-        e.getRecipients().clear();
-        e.getRecipients().addAll(recipients);
+        // Remove all the players that should not receive this message.
+        e.getRecipients().removeIf(toRemove::contains);
     }
 }
