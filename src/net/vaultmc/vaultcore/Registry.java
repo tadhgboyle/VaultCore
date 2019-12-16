@@ -42,7 +42,7 @@ public class Registry {
         new SVCommand();
         new BackCommand();
         new DiscordCommand();
-        new HelpCommand();
+        //new HelpCommand();
         new PingCommand();
         new PlayTime();
         new RanksCommand();
