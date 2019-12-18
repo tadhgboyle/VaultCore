@@ -12,7 +12,7 @@ import java.util.Collections;
         literal = "help",
         description = "Show the help menu."
 )
-@Permission(Permissions.BackCommand)
+@Permission(Permissions.HelpCommand)
 public class HelpCommand extends CommandExecutor {
 
     private String string = Utilities.string;

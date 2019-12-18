@@ -1,9 +1,6 @@
 package net.vaultmc.vaultcore;
 
 import net.milkbowl.vault.chat.Chat;
-import net.vaultmc.vaultcore.commands.BackCommand;
-import net.vaultmc.vaultcore.commands.DiscordCommand;
-import net.vaultmc.vaultcore.commands.HelpCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
 import org.bukkit.Bukkit;
@@ -63,10 +60,6 @@ public class VaultCore extends JavaPlugin implements Listener {
             RankPromotions.memberPromotion();
             RankPromotions.patreonPromotion();
         }, 0L, minute * 5);
-
-        new BackCommand();
-        new DiscordCommand();
-        new HelpCommand();
     }
 
     public void openConnection() throws SQLException, ClassNotFoundException {
