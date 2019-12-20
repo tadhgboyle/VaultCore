@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.commands.msg;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
@@ -28,7 +27,7 @@ public class MsgCommand extends CommandExecutor {
         unregisterExisting();
         this.register("msg", Arrays.asList(
                 Arguments.createArgument("target", Arguments.playerArgument()),
-                Arguments.createArgument("message", StringArgumentType.greedyString())), "vaultcore");
+                Arguments.createArgument("message", Arguments.greedyString())), "vaultcore");
     }
 
     @SubCommand("msg")

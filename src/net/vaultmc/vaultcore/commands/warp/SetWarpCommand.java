@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.commands.warp;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
@@ -23,7 +22,7 @@ public class SetWarpCommand extends CommandExecutor {
             VaultCore.getInstance().getConfig().getString("variable-1"));
 
     public SetWarpCommand() {
-        register("setwarp", Collections.singletonList(Arguments.createArgument("warp", StringArgumentType.word())),
+        register("setwarp", Collections.singletonList(Arguments.createArgument("warp", Arguments.word())),
                 "vaultcore");
     }
 

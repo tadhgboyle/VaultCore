@@ -1,14 +1,11 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -27,7 +24,7 @@ public class StaffChatCommand extends CommandExecutor {
     public static final Set<UUID> toggled = new HashSet<>();
 
     public StaffChatCommand() {
-        register("chat", Collections.singletonList(Arguments.createArgument("message", StringArgumentType.greedyString())), "vaultcore");
+        register("chat", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())), "vaultcore");
         register("toggle", Collections.singletonList(Arguments.createLiteral("toggle")), "vaultcore");
     }
 

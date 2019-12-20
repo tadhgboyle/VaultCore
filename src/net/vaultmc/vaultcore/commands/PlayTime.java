@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.commands;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
@@ -30,7 +29,7 @@ public class PlayTime extends CommandExecutor {
 
     public PlayTime() {
         register("playTimeSelf", Collections.emptyList(), "vaultcore");
-        register("playTimeOthers", Collections.singletonList(Arguments.createArgument("target", StringArgumentType.word())),
+        register("playTimeOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.word())),
                 "vaultcore");
     }
 

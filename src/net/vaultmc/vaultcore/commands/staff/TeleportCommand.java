@@ -1,15 +1,12 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -34,7 +31,7 @@ public class TeleportCommand extends CommandExecutor {
         register("teleportLocation", Collections.singletonList(Arguments.createArgument("location", Arguments.location3DArgument())), "vaultcore");
         register("teleportLocationWorld", Arrays.asList(
                 Arguments.createArgument("location", Arguments.location3DArgument()),
-                Arguments.createArgument("world", StringArgumentType.word())
+                Arguments.createArgument("world", Arguments.word())
         ), "vaultcore");
         register("teleportToEntity", Collections.singletonList(Arguments.createArgument("target", Arguments.entityArgument())), "vaultcore");
         register("teleportEntityTo", Arrays.asList(
@@ -44,7 +41,7 @@ public class TeleportCommand extends CommandExecutor {
         register("teleportEntityToWorld", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument()),
-                Arguments.createArgument("world", StringArgumentType.word())
+                Arguments.createArgument("world", Arguments.word())
         ), "vaultcore");
         register("teleportEntityToEntity", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),

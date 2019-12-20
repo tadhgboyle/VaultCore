@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
@@ -28,7 +27,7 @@ public class CheckCommand extends CommandExecutor {
             VaultCore.getInstance().getConfig().getString("variable-2"));
 
     public CheckCommand() {
-        register("check", Collections.singletonList(Arguments.createArgument("target", StringArgumentType.word())), "vaultcore");
+        register("check", Collections.singletonList(Arguments.createArgument("target", Arguments.word())), "vaultcore");
     }
 
     @SubCommand("check")

@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.commands;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
@@ -28,7 +27,7 @@ public class SeenCommand extends CommandExecutor {
             VaultCore.getInstance().getConfig().getString("variable-2"));
 
     public SeenCommand() {
-        register("seen", Collections.singletonList(Arguments.createArgument("target", StringArgumentType.word())));
+        register("seen", Collections.singletonList(Arguments.createArgument("target", Arguments.word())));
     }
 
     @SubCommand("seen")

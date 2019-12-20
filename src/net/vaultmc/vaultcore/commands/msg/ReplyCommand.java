@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.commands.msg;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
@@ -19,7 +18,7 @@ import java.util.Arrays;
 public class ReplyCommand extends CommandExecutor {
 	public ReplyCommand() {
 		this.register("r", Arrays.asList(Arguments.createLiteral("r"),
-				Arguments.createArgument("message", StringArgumentType.greedyString())), "vaultcore");
+				Arguments.createArgument("message", Arguments.greedyString())), "vaultcore");
 	}
 
 	@SubCommand("r")
