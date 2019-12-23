@@ -66,18 +66,18 @@ public class InvseeCommand extends CommandExecutor implements Listener {
             Inventory inv = hook.get(e.getWhoClicked());
             PlayerInventory targetInv = (PlayerInventory) e.getClickedInventory();
 
-            for (int i = 0; i <= 35; i++) {
-                inv.setItem(i, targetInv.getItem(i));
-            }
+            Bukkit.getScheduler().runTaskLater(VaultCore.getInstance(), () -> {
+                for (int i = 0; i <= 35; i++) {
+                    inv.setItem(i, targetInv.getItem(i));
+                }
 
-            inv.setItem(45, targetInv.getHelmet());
-            inv.setItem(46, targetInv.getChestplate());
-            inv.setItem(47, targetInv.getLeggings());
-            inv.setItem(48, targetInv.getBoots());
+                inv.setItem(45, targetInv.getHelmet());
+                inv.setItem(46, targetInv.getChestplate());
+                inv.setItem(47, targetInv.getLeggings());
+                inv.setItem(48, targetInv.getBoots());
 
-            inv.setItem(51, targetInv.getItemInMainHand());
-
-            inv.setItem(53, targetInv.getItemInOffHand());
+                inv.setItem(53, targetInv.getItemInOffHand());
+            }, 1L);
         }
     }
 
@@ -93,17 +93,18 @@ public class InvseeCommand extends CommandExecutor implements Listener {
             }
 
             Player victim = getByValue(e.getInventory());
-            for (int i = 0; i <= 35; i++) {
-                victim.getInventory().setItem(i, e.getInventory().getItem(i));
-            }
 
-            victim.getInventory().setHelmet(e.getInventory().getItem(45));
-            victim.getInventory().setChestplate(e.getInventory().getItem(46));
-            victim.getInventory().setLeggings(e.getInventory().getItem(47));
-            victim.getInventory().setBoots(e.getInventory().getItem(48));
-            victim.getInventory().setItemInOffHand(e.getInventory().getItem(53));
+            Bukkit.getScheduler().runTaskLater(VaultCore.getInstance(), () -> {
+                for (int i = 0; i <= 35; i++) {
+                    victim.getInventory().setItem(i, e.getInventory().getItem(i));
+                }
 
-            victim.getInventory().setItem(victim.getInventory().getHeldItemSlot(), e.getInventory().getItem(51));
+                victim.getInventory().setHelmet(e.getInventory().getItem(45));
+                victim.getInventory().setChestplate(e.getInventory().getItem(46));
+                victim.getInventory().setLeggings(e.getInventory().getItem(47));
+                victim.getInventory().setBoots(e.getInventory().getItem(48));
+                victim.getInventory().setItemInOffHand(e.getInventory().getItem(53));
+            }, 1L);
         }
     }
 
@@ -132,8 +133,6 @@ public class InvseeCommand extends CommandExecutor implements Listener {
             inv.setItem(46, target.getInventory().getChestplate());
             inv.setItem(47, target.getInventory().getLeggings());
             inv.setItem(48, target.getInventory().getBoots());
-
-            inv.setItem(51, target.getInventory().getItemInMainHand());
 
             inv.setItem(53, target.getInventory().getItemInOffHand());
 
