@@ -28,7 +28,6 @@ public class ClearChatCommand extends CommandExecutor {
         String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 
         if (!(sender instanceof Player)) {
-
             for (int i = 0; i < 200; i++) {
                 for (Player players : Bukkit.getOnlinePlayers()) {
                     players.sendMessage(" ");

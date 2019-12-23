@@ -3,8 +3,8 @@ package net.vaultmc.vaultcore.commands.staff;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import java.sql.ResultSet;
@@ -27,16 +27,16 @@ public class CheckCommand extends CommandExecutor {
             VaultCore.getInstance().getConfig().getString("variable-2"));
 
     public CheckCommand() {
-        register("check", Collections.singletonList(Arguments.createArgument("target", Arguments.word())), "vaultcore");
+        register("check", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())), "vaultcore");
     }
 
     @SubCommand("check")
-    public void check(CommandSender sender, String target) {
+    public void check(CommandSender sender, OfflinePlayer target) {
         try {
             java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
             ResultSet rs = stmt.executeQuery(
                     "SELECT uuid, username, firstseen, lastseen, rank, ip FROM players WHERE username='"
-                            + target + "'");
+                            + target.getName() + "'");
             if (!rs.next()) {
                 sender.sendMessage(ChatColor.RED + "That player has never joined the server.");
                 return;
@@ -65,7 +65,7 @@ public class CheckCommand extends CommandExecutor {
             sender.sendMessage(ChatColor.DARK_GREEN + "--== [Check] ==--");
             sender.sendMessage("");
 
-            if (Bukkit.getPlayer(target) != null) {
+            if (target.isOnline()) {
                 sender.sendMessage(string + "Checking: " + variable1 + username);
             } else {
                 sender.sendMessage(string + "Checking: " + variable1 + username + ChatColor.GRAY + " "
