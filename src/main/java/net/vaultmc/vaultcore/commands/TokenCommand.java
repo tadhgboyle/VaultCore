@@ -28,7 +28,7 @@ public class TokenCommand extends CommandExecutor {
             VaultCore.getInstance().getConfig().getString("variable-2"));
 
     public TokenCommand() {
-        register("getToken", Collections.emptyList(), "vaultcore");
+        register("getToken", Collections.emptyList());
     }
 
     static String getToken(UUID uuid, Player player) throws SQLException {

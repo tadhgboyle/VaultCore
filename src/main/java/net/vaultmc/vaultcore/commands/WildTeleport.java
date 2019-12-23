@@ -25,7 +25,7 @@ public class WildTeleport extends CommandExecutor {
     private String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
 
     public WildTeleport() {
-        register("wild", Collections.emptyList(), "vaultcore");
+        register("wild", Collections.emptyList());
     }
 
     @SubCommand("wild")

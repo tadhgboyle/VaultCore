@@ -18,7 +18,7 @@ import java.util.Collections;
 @Aliases({"creative", "gmcreative"})
 public class GMCreativeCommand extends CommandExecutor {
     public GMCreativeCommand() {
-        register("execute", Collections.emptyList(), "vaultcore");
+        register("execute", Collections.emptyList());
     }
 
     @SubCommand("execute")

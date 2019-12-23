@@ -16,7 +16,7 @@ import java.util.Collections;
 @PlayerOnly
 public class GrantCommand extends CommandExecutor {
     public GrantCommand() {
-        register("grant", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())), "vaultcore");
+        register("grant", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
     @SubCommand("grant")

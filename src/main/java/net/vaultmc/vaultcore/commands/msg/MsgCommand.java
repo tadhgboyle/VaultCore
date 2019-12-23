@@ -27,7 +27,7 @@ public class MsgCommand extends CommandExecutor {
         unregisterExisting();
         this.register("msg", Arrays.asList(
                 Arguments.createArgument("target", Arguments.playerArgument()),
-                Arguments.createArgument("message", Arguments.greedyString())), "vaultcore");
+                Arguments.createArgument("message", Arguments.greedyString())));
     }
 
     @SubCommand("msg")

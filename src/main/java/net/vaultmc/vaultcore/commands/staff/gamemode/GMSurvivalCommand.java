@@ -18,7 +18,7 @@ import java.util.Collections;
 @Aliases({"survival", "gmsurvival"})
 public class GMSurvivalCommand extends CommandExecutor {
     public GMSurvivalCommand() {
-        register("execute", Collections.emptyList(), "vaultcore");
+        register("execute", Collections.emptyList());
     }
 
     @SubCommand("execute")

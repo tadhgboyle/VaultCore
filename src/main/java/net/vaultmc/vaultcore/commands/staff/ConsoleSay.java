@@ -16,7 +16,7 @@ import java.util.Collections;
 @Aliases("chat")
 public class ConsoleSay extends CommandExecutor {
     public ConsoleSay() {
-        register("say", Collections.singletonList(Arguments.createArgument("message", Arguments.messageArgument())), "vaultcore");
+        register("say", Collections.singletonList(Arguments.createArgument("message", Arguments.messageArgument())));
     }
 
     @SubCommand("say")

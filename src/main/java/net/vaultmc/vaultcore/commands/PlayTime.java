@@ -28,7 +28,7 @@ public class PlayTime extends CommandExecutor {
     private String variable2 = VaultCore.getInstance().getConfig().getString("variable-2");
 
     public PlayTime() {
-        register("playTimeSelf", Collections.emptyList(), "vaultcore");
+        register("playTimeSelf", Collections.emptyList());
         register("playTimeOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())),
                 "vaultcore");
     }

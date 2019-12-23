@@ -20,8 +20,8 @@ public class HealCommand extends CommandExecutor {
     private String string = VaultCore.getInstance().getConfig().getString("string");
     private String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
     public HealCommand() {
-        register("healSelf", Collections.emptyList(), "vaultcore");
-        register("healOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())), "vaultcore");
+        register("healSelf", Collections.emptyList());
+        register("healOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
     @SubCommand("healSelf")

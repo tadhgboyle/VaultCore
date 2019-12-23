@@ -24,8 +24,8 @@ public class StaffChatCommand extends CommandExecutor {
     public static final Set<UUID> toggled = new HashSet<>();
 
     public StaffChatCommand() {
-        register("chat", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())), "vaultcore");
-        register("toggle", Collections.singletonList(Arguments.createLiteral("toggle")), "vaultcore");
+        register("chat", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())));
+        register("toggle", Collections.singletonList(Arguments.createLiteral("toggle")));
     }
 
     private String string = ChatColor.translateAlternateColorCodes('&',

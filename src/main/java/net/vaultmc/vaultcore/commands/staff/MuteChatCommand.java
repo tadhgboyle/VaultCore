@@ -26,7 +26,7 @@ public class MuteChatCommand extends CommandExecutor {
     private String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 
     public MuteChatCommand() {
-        register("mutechat", Collections.emptyList(), "vaultcore");
+        register("mutechat", Collections.emptyList());
     }
 
     @SubCommand("mutechat")

@@ -24,7 +24,7 @@ public class TPACommand extends CommandExecutor {
     @Getter private static HashMap<UUID, UUID> requestsHere = new HashMap<>();
 
     public TPACommand() {
-        register("tpa", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())), "vaultcore");
+        register("tpa", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())));
     }
 
     @SubCommand("tpa")

@@ -27,26 +27,26 @@ public class TeleportCommand extends CommandExecutor {
         register("teleportEntitiesHere", Arrays.asList(
                 Arguments.createLiteral("here"),
                 Arguments.createArgument("entities", Arguments.entitiesArgument())
-        ), "vaultcore");
-        register("teleportLocation", Collections.singletonList(Arguments.createArgument("location", Arguments.location3DArgument())), "vaultcore");
+        ));
+        register("teleportLocation", Collections.singletonList(Arguments.createArgument("location", Arguments.location3DArgument())));
         register("teleportLocationWorld", Arrays.asList(
                 Arguments.createArgument("location", Arguments.location3DArgument()),
                 Arguments.createArgument("world", Arguments.word())
-        ), "vaultcore");
-        register("teleportToEntity", Collections.singletonList(Arguments.createArgument("target", Arguments.entityArgument())), "vaultcore");
+        ));
+        register("teleportToEntity", Collections.singletonList(Arguments.createArgument("target", Arguments.entityArgument())));
         register("teleportEntityTo", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument())
-        ), "vaultcore");
+        ));
         register("teleportEntityToWorld", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument()),
                 Arguments.createArgument("world", Arguments.word())
-        ), "vaultcore");
+        ));
         register("teleportEntityToEntity", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
                 Arguments.createArgument("to", Arguments.entityArgument())
-        ), "vaultcore");
+        ));
     }
 
     private String string = ChatColor.translateAlternateColorCodes('&',

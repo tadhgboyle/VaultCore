@@ -21,7 +21,7 @@ public class DiscordCommand extends CommandExecutor {
     private String variable1 = Utilities.variable1;
     private String variable2 = Utilities.variable2;
     public DiscordCommand() {
-        this.register("discord", Collections.emptyList(), "vaultcore");
+        this.register("discord", Collections.emptyList());
     }
 
     @SubCommand("discord")

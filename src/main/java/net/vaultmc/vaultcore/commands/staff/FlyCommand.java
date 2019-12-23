@@ -17,8 +17,8 @@ import java.util.Collections;
 @Permission(Permissions.FlyCommand)
 public class FlyCommand extends CommandExecutor {
     public FlyCommand() {
-        register("flySelf", Collections.emptyList(), "vaultcore");
-        register("flyOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())), "vaultcore");
+        register("flySelf", Collections.emptyList());
+        register("flyOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
     @SubCommand("flySelf")

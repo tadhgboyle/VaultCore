@@ -22,7 +22,7 @@ public class TPAHereCommand extends CommandExecutor {
     private static HashMap<UUID, UUID> requestsHere = TPACommand.getRequestsHere();
 
     public TPAHereCommand() {
-        register("tpahere", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())), "vaultcore");
+        register("tpahere", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())));
     }
 
     @SubCommand("tpahere")

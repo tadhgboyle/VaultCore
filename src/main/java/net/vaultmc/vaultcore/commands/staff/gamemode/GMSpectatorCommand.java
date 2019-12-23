@@ -18,7 +18,7 @@ import java.util.Collections;
 @Aliases({"spec", "gmspec", "spectator", "gmspectator"})
 public class GMSpectatorCommand extends CommandExecutor {
     public GMSpectatorCommand() {
-        register("execute", Collections.emptyList(), "vaultcore");
+        register("execute", Collections.emptyList());
     }
 
     @SubCommand("execute")

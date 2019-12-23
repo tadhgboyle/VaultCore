@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class ReplyCommand extends CommandExecutor {
 	public ReplyCommand() {
 		this.register("r", Arrays.asList(Arguments.createLiteral("r"),
-				Arguments.createArgument("message", Arguments.greedyString())), "vaultcore");
+				Arguments.createArgument("message", Arguments.greedyString())));
 	}
 
 	@SubCommand("r")

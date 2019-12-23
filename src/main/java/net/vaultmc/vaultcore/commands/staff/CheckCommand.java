@@ -28,7 +28,7 @@ public class CheckCommand extends CommandExecutor {
             VaultCore.getInstance().getConfig().getString("variable-2"));
 
     public CheckCommand() {
-        register("check", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())), "vaultcore");
+        register("check", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
 
     @SubCommand("check")

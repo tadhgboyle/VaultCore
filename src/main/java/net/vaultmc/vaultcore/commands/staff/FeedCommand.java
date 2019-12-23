@@ -19,8 +19,8 @@ public class FeedCommand extends CommandExecutor {
     private String string = VaultCore.getInstance().getConfig().getString("string");
     private String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
     public FeedCommand() {
-        register("feedSelf", Collections.emptyList(), "vaultcore");
-        register("feedOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())), "vaultcore");
+        register("feedSelf", Collections.emptyList());
+        register("feedOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
     @SubCommand("feedSelf")

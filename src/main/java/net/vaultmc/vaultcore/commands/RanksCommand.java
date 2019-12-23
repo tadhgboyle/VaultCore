@@ -20,7 +20,7 @@ import java.util.Collections;
 @Permission(Permissions.RanksCommand)
 public class RanksCommand extends CommandExecutor {
     public RanksCommand() {
-        register("checkRanks", Collections.emptyList(), "vaultcore");
+        register("checkRanks", Collections.emptyList());
     }
 
     @SubCommand("checkRanks")

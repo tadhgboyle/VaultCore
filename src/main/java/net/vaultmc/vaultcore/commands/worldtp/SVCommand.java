@@ -19,7 +19,7 @@ import java.util.Collections;
 @PlayerOnly
 public class SVCommand extends CommandExecutor {
     public SVCommand() {
-        register("sv", Collections.emptyList(), "vaultcore");
+        register("sv", Collections.emptyList());
     }
 
     @SubCommand("sv")

@@ -19,7 +19,7 @@ import java.util.Collections;
 @Aliases("cc")
 public class ClearChatCommand extends CommandExecutor {
     public ClearChatCommand() {
-        register("clear", Collections.emptyList(), "vaultcore");
+        register("clear", Collections.emptyList());
     }
 
     @SubCommand("clear")

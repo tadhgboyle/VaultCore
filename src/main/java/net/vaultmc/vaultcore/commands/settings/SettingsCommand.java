@@ -17,7 +17,7 @@ import java.util.Collections;
 @Permission(Permissions.SettingsCommand)
 public class SettingsCommand extends CommandExecutor {
     public SettingsCommand() {
-        register("settings", Collections.emptyList(), "vaultcore");
+        register("settings", Collections.emptyList());
     }
 
     @SubCommand("settings")

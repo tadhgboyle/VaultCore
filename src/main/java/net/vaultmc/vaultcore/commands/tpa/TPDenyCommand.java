@@ -23,7 +23,7 @@ public class TPDenyCommand extends CommandExecutor {
     private static HashMap<UUID, UUID> requests = TPACommand.getRequests();
 
     public TPDenyCommand() {
-        register("tpdeny", Collections.emptyList(), "vaultcore");
+        register("tpdeny", Collections.emptyList());
     }
 
     @SubCommand("tpdeny")

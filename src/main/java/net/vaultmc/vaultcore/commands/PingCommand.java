@@ -18,7 +18,7 @@ import java.util.Collections;
 @Permission(Permissions.PingCommand)
 public class PingCommand extends CommandExecutor {
     public PingCommand() {
-        register("pingSelf", Collections.emptyList(), "vaultcore");
+        register("pingSelf", Collections.emptyList());
         register("pingOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 

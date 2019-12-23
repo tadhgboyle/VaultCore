@@ -24,7 +24,7 @@ public class TPAcceptCommand extends CommandExecutor {
     private static HashMap<UUID, UUID> requestsHere = TPACommand.getRequestsHere();
 
     public TPAcceptCommand() {
-        register("tpaccept", Collections.emptyList(), "vaultcore");
+        register("tpaccept", Collections.emptyList());
     }
 
     @SubCommand("tpaccept")

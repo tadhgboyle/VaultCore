@@ -29,7 +29,7 @@ public class InvseeCommand extends CommandExecutor implements Listener {
     private static final Map<Player, Inventory> hook = new HashMap<>();
 
     public InvseeCommand() {
-        register("invsee", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())), "vaultcore");
+        register("invsee", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
         Bukkit.getPluginManager().registerEvents(this, VaultCore.getInstance());
     }
 

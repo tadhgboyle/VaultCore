@@ -22,7 +22,7 @@ public class BackCommand extends CommandExecutor {
     private String string = Utilities.string;
 
     public BackCommand() {
-        this.register("back", Collections.emptyList(), "vaultcore");
+        this.register("back", Collections.emptyList());
     }
 
     @SubCommand("back")

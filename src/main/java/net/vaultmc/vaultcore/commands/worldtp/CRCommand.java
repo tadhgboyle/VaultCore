@@ -19,7 +19,7 @@ import java.util.Collections;
 @PlayerOnly
 public class CRCommand extends CommandExecutor {
     public CRCommand() {
-        register("cr", Collections.emptyList(), "vaultcore");
+        register("cr", Collections.emptyList());
     }
 
     @SubCommand("cr")

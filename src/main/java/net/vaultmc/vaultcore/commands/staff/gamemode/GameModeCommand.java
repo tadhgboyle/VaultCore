@@ -21,10 +21,10 @@ import java.util.Collections;
 public class GameModeCommand extends CommandExecutor {
     public GameModeCommand() {
         unregisterExisting();
-        register("gmCrSelf", Collections.singletonList(Arguments.createLiteral("creative")), "vaultcore");
-        register("gmSvSelf", Collections.singletonList(Arguments.createLiteral("survival")), "vaultcore");
-        register("gmSpSelf", Collections.singletonList(Arguments.createLiteral("spectator")), "vaultcore");
-        register("gmAdSelf", Collections.singletonList(Arguments.createLiteral("adventure")), "vaultcore");
+        register("gmCrSelf", Collections.singletonList(Arguments.createLiteral("creative")));
+        register("gmSvSelf", Collections.singletonList(Arguments.createLiteral("survival")));
+        register("gmSpSelf", Collections.singletonList(Arguments.createLiteral("spectator")));
+        register("gmAdSelf", Collections.singletonList(Arguments.createLiteral("adventure")));
 
         register("gmCrOthers", Arrays.asList(
                 Arguments.createLiteral("creative"),
