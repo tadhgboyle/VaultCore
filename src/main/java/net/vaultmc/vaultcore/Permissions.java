@@ -1,8 +1,6 @@
 package net.vaultmc.vaultcore;
 
 public class Permissions {
-
-    public static final String CmdTemplate = null;
     // string name same as class for easy reference
     public static final String BackCommand = "vc.back";
     public static final String DiscordCommand = "vc.discord";

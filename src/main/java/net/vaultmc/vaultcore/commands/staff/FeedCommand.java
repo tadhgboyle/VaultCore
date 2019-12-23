@@ -34,6 +34,7 @@ public class FeedCommand extends CommandExecutor {
     }
 
     @SubCommand("feedOthers")
+    @Permission(Permissions.FeedCommandOther)
     public void feedOthers(CommandSender sender, Player target) {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 string + "You have fed " + variable1 + VaultCoreAPI.getName(target)));

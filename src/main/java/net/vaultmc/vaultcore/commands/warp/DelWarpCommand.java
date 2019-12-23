@@ -12,7 +12,7 @@ import java.util.Collections;
         literal = "delwarp",
         description = "Delete a warp."
 )
-@Permission(Permissions.WarpCommand)
+@Permission(Permissions.WarpCommandDelete)
 @PlayerOnly
 public class DelWarpCommand extends CommandExecutor {
     private String string = ChatColor.translateAlternateColorCodes('&',
