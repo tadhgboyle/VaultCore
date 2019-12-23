@@ -2,9 +2,11 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultutils.utils.ItemStackBuilder;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +14,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Collections;
@@ -135,6 +138,16 @@ public class InvseeCommand extends CommandExecutor implements Listener {
             inv.setItem(48, target.getInventory().getBoots());
 
             inv.setItem(53, target.getInventory().getItemInOffHand());
+
+            ItemStack border = new ItemStackBuilder(Material.GRAY_STAINED_GLASS_PANE)
+                    .name(" ")
+                    .build();
+            for (int i = 36; i <= 45; i++) {
+                inv.setItem(i, border);
+            }
+            for (int i = 49; i <= 52; i++) {
+                inv.setItem(i, border);
+            }
 
             hook.put(target, inv);
             sender.openInventory(inv);
