@@ -54,6 +54,13 @@ public class InvseeCommand extends CommandExecutor implements Listener {
     }
 
     @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getView().getTitle().equals(ChatColor.RESET + "Inventory") && e.getViewers().size() <= 1) {
+            hook.remove(getByValue(e.getInventory()));
+        }
+    }
+
+    @EventHandler
     public void onPlayerChangesSelfInventory(InventoryClickEvent e) {
         if (e.getClickedInventory() instanceof PlayerInventory && hook.containsKey(e.getWhoClicked())) {
             Inventory inv = hook.get(e.getWhoClicked());
