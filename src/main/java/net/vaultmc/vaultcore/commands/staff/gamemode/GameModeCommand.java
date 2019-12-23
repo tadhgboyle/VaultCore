@@ -77,7 +77,8 @@ public class GameModeCommand extends CommandExecutor {
     public void gamemodeCreativeOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.CREATIVE);
-            player.sendMessage(VaultCoreAPI.getName(sender) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "creative" + ChatColor.YELLOW + ".");
+            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "creative" + ChatColor.YELLOW + ".");
             sender.sendMessage(ChatColor.YELLOW + "Set " + VaultCoreAPI.getName(player) + ChatColor.YELLOW + "'s game mode to " + ChatColor.GOLD + "creative" + ChatColor.YELLOW + ".");
         }
     }
@@ -87,7 +88,8 @@ public class GameModeCommand extends CommandExecutor {
     public void gamemodeSurvivalOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.SURVIVAL);
-            player.sendMessage(VaultCoreAPI.getName(sender) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "survival" + ChatColor.YELLOW + ".");
+            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "survival" + ChatColor.YELLOW + ".");
             sender.sendMessage(ChatColor.YELLOW + "Set " + VaultCoreAPI.getName(player) + ChatColor.YELLOW + "'s game mode to " + ChatColor.GOLD + "survival" + ChatColor.YELLOW + ".");
         }
     }
@@ -97,7 +99,8 @@ public class GameModeCommand extends CommandExecutor {
     public void gamemodeSpectatorOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.SPECTATOR);
-            player.sendMessage(VaultCoreAPI.getName(sender) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "spectator" + ChatColor.YELLOW + ".");
+            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "spectator" + ChatColor.YELLOW + ".");
             sender.sendMessage(ChatColor.YELLOW + "Set " + VaultCoreAPI.getName(player) + ChatColor.YELLOW + "'s game mode to " + ChatColor.GOLD + "spectator" + ChatColor.YELLOW + ".");
         }
     }
@@ -107,7 +110,8 @@ public class GameModeCommand extends CommandExecutor {
     public void gamemodeAdventureOthers(CommandSender sender, Collection<Player> target) {
         for (Player player : target) {
             player.setGameMode(GameMode.ADVENTURE);
-            player.sendMessage(VaultCoreAPI.getName(sender) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "adventure" + ChatColor.YELLOW + ".");
+            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + ChatColor.YELLOW + " set your game mode to " + ChatColor.GOLD + "adventure" + ChatColor.YELLOW + ".");
             sender.sendMessage(ChatColor.YELLOW + "Set " + VaultCoreAPI.getName(player) + ChatColor.YELLOW + "'s game mode to " + ChatColor.GOLD + "adventure" + ChatColor.YELLOW + ".");
         }
     }
