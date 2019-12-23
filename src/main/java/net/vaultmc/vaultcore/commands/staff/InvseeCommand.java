@@ -95,6 +95,10 @@ public class InvseeCommand extends CommandExecutor implements Listener {
                 return;
             }
 
+            if (e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE && e.getCurrentItem().getItemMeta().getDisplayName().equals(" ")) {
+                e.setCancelled(true);
+            }
+
             Player victim = getByValue(e.getInventory());
 
             Bukkit.getScheduler().runTaskLater(VaultCore.getInstance(), () -> {
@@ -142,7 +146,7 @@ public class InvseeCommand extends CommandExecutor implements Listener {
             ItemStack border = new ItemStackBuilder(Material.GRAY_STAINED_GLASS_PANE)
                     .name(" ")
                     .build();
-            for (int i = 36; i <= 45; i++) {
+            for (int i = 36; i <= 44; i++) {
                 inv.setItem(i, border);
             }
             for (int i = 49; i <= 52; i++) {
