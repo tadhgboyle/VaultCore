@@ -69,6 +69,13 @@ public class TokenCommand extends CommandExecutor {
     public void getToken(CommandSender sender) throws SQLException {
         String token = getToken(((Player) sender).getUniqueId(), (Player) sender);
         // if they are 1/308915776 make them run cmd again
+
+        // FIXME/QUESTION from yangyang200:
+        //  If they are 1/308915776 and the token is already in the database, doesn't it
+        //  means that the player won't be able to get a token anymore since all the
+        //  random numbers and used, and this is extremely impossible? Not extremely,
+        //  but just, impossible.
+
         if (token == null) {
             return;
         }

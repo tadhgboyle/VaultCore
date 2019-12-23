@@ -1,10 +1,10 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -51,13 +51,16 @@ public class FlyCommand extends CommandExecutor {
             target.setFlying(false);
             target.setAllowFlight(false);
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "Your fly has been "
-                    + variable1 + "disabled" + string + " by " + variable1 + VaultCoreAPI.getName(sender)));
+                    + variable1 + "disabled" + string + " by " + variable1 + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    ChatColor.BOLD + "CONSOLE" + org.bukkit.ChatColor.RESET)));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have " + variable1
-                    + "enabled" + string + " fly for " + variable1 + VaultCoreAPI.getName(target)));
+                    + "enabled" + string + " fly for " + variable1 + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    ChatColor.BOLD + "CONSOLE" + org.bukkit.ChatColor.RESET)));
             target.setAllowFlight(true);
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "Your fly has been "
-                    + variable1 + "enabled" + string + " by " + variable1 + VaultCoreAPI.getName(sender)));
+                    + variable1 + "enabled" + string + " by " + variable1 + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    ChatColor.BOLD + "CONSOLE" + org.bukkit.ChatColor.RESET)));
         }
     }
 }

@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.runnables;
 
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
@@ -30,7 +31,7 @@ public class RankPromotions {
                         VaultCore.getInstance().getServer().getConsoleSender(),
                         "lp user " + player.getName() + " parent set member");
                 for (Player players : Bukkit.getOnlinePlayers()) {
-                    players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
+                    players.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " has been promoted to " + variable1
                             + "Member" + string + "!");
                 }
             }
@@ -54,7 +55,7 @@ public class RankPromotions {
                         VaultCore.getInstance().getServer().getConsoleSender(),
                         "lp user " + player.getName() + " parent set patreon");
                 for (Player players : Bukkit.getOnlinePlayers()) {
-                    players.sendMessage(variable1 + player.getName() + string + " has been promoted to " + variable1
+                    players.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " has been promoted to " + variable1
                             + "Patreon" + string + "!");
                 }
             }

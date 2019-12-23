@@ -26,7 +26,6 @@ public class DiscordCommand extends CommandExecutor {
 
     @SubCommand("discord")
     public void execute(CommandSender sender) {
-
         Player player = (Player) sender;
 
         try {
@@ -36,6 +35,6 @@ public class DiscordCommand extends CommandExecutor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        player.sendMessage(string + "Click here to join our guild: " + variable1 + "https://discord.vaultmc.net");
+        player.sendMessage(string + "Click here to join our Discord guild: " + variable1 + "https://discord.vaultmc.net");
     }
 }

@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -42,7 +43,7 @@ public class CheckCommand extends CommandExecutor {
                 return;
             }
             String uuid = rs.getString("uuid");
-            String username = rs.getString("username");
+            String username = VaultCoreAPI.getName(target);
             long firstseen = rs.getLong("firstseen");
             long lastseen = rs.getLong("lastseen");
             String rank = rs.getString("rank");

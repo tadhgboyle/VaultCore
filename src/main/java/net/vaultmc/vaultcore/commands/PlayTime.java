@@ -5,8 +5,8 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ public class PlayTime extends CommandExecutor {
 
     public PlayTime() {
         register("playTimeSelf", Collections.emptyList(), "vaultcore");
-        register("playTimeOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.word())),
+        register("playTimeOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())),
                 "vaultcore");
     }
 
@@ -41,13 +41,12 @@ public class PlayTime extends CommandExecutor {
 
     @SubCommand("playTimeOthers")
     @Permission(Permissions.PlayTimeOther)
-    public void checkPlayTimeOthers(CommandSender sender, String target) {
-        Player player = Bukkit.getPlayer(target);
-        if (player != null) {
-            printPlayTimeOnline(player, sender);
+    public void checkPlayTimeOthers(CommandSender sender, OfflinePlayer target) {
+        if (target.isOnline()) {
+            printPlayTimeOnline(target.getPlayer(), sender);
             return;
         }
-        printPlayTimeOffline(sender, target);
+        printPlayTimeOffline(sender, target.getName());
     }
 
     private void printPlayTimeOnline(Player player, CommandSender sender) {

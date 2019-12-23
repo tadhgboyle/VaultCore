@@ -33,6 +33,7 @@ public class Permissions {
     public static final String HealCommand = "vc.heal";
     public static final String HealCommandOther = "vc.heal.other";
     public static final String InvseeCommand = "vc.invsee";
+    public static final String InvseeModify = "vc.invsee.modify";
     public static final String MuteChatCommand = "vc.mutechat";
     public static final String MuteChatCommandOverride = "vc.mutechat.override";
     public static final String StaffChat = "vc.staffchat";

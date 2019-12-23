@@ -43,6 +43,7 @@ public class HealCommand extends CommandExecutor {
         target.setHealth(target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
         target.setSaturation(20);
         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "You have been healed by " + variable1 + VaultCoreAPI.getName(sender)));
+                string + "You have been healed by " + variable1 + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                        ChatColor.BOLD + "CONSOLE" + ChatColor.RESET)));
     }
 }

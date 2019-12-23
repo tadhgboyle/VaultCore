@@ -37,8 +37,9 @@ public class StaffChatCommand extends CommandExecutor {
     public void chat(CommandSender sender, String message) {
         String cprefix = (ChatColor.translateAlternateColorCodes('&',
                 VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
-        String cstaffchat = String.format("%s" + VaultCoreAPI.getName(sender) +
-                ChatColor.DARK_GRAY + " � " + ChatColor.AQUA + "%s", cprefix, message);
+        String cstaffchat = String.format("%s" + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) +
+                ChatColor.DARK_GRAY + " » " + ChatColor.AQUA + "%s", cprefix, message);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("vc.sc")) {

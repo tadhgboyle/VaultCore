@@ -3,8 +3,8 @@ package net.vaultmc.vaultcore.commands;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -27,19 +27,14 @@ public class SeenCommand extends CommandExecutor {
             VaultCore.getInstance().getConfig().getString("variable-2"));
 
     public SeenCommand() {
-        register("seen", Collections.singletonList(Arguments.createArgument("target", Arguments.word())));
+        register("seen", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
 
     @SubCommand("seen")
-    public void seen(CommandSender sender, String target) {
-        OfflinePlayer player = Bukkit.getOfflinePlayer(target);
-        if (player == null) {
-            sender.sendMessage(ChatColor.RED + "This player has never joined before!");
-            return;
-        }
+    public void seen(CommandSender sender, OfflinePlayer player) {
         try {
             java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT lastseen FROM players WHERE username='" + target + "'");
+            ResultSet rs = stmt.executeQuery("SELECT lastseen FROM players WHERE username='" + player.getName() + "'");
             if (!rs.next()) {
                 sender.sendMessage(ChatColor.RED + "This player has never joined before!");
                 return;
@@ -52,13 +47,13 @@ public class SeenCommand extends CommandExecutor {
 
             String status;
 
-            if (Bukkit.getPlayer(target) != null) {
+            if (player.isOnline()) {
                 status = ChatColor.GREEN + " online ";
             } else {
                 status = ChatColor.RED + " offline ";
             }
 
-            String message = String.format(variable1 + target + string + " has been" + status + string + "for "
+            String message = String.format(variable1 + VaultCoreAPI.getName(player) + string + " has been" + status + string + "for "
                     + variable2 + "%d" + string + " days, " + variable2 + "%d" + string + " hours and "
                     + variable2 + "%d" + string + "  minutes.", time[0], time[1], time[2]);
             sender.sendMessage(message);
