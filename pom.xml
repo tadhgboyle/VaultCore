@@ -5,12 +5,12 @@
     <artifactId>VaultCore</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
+        <sourceDirectory>src/</sourceDirectory>
         <finalName>VaultCore</finalName>
 
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/</directory>
                 <excludes>
                     <exclude>**/*.java</exclude>
                 </excludes>
@@ -49,11 +49,6 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-
-        <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
 
         <repository>
