@@ -71,10 +71,8 @@ public class PlayerJoinQuitListener implements Listener {
 
     private void query(String uuid, String username, long firstseen, long lastseen, long playtime, String rank,
                        String ip) throws SQLException {
-        VaultCore.getInstance().connection.createStatement()
-                .executeUpdate("INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ('"
-                        + uuid + "', '" + username + "', " + firstseen + ", " + lastseen + ", " + playtime + ", '"
-                        + rank + "', '" + ip + "') ON DUPLICATE KEY UPDATE username='" + username + "', lastseen="
-                        + lastseen + ", playtime=" + playtime + ", rank='" + rank + "', ip='" + ip + "';");
+        VaultCore.getInstance().connection.executeUpdateStatement("INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES (" +
+                        "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE username=?, lastseen=?, playtime=?, rank=?, ip=?",
+                uuid, username, firstseen, lastseen, playtime, rank, ip, username, lastseen, playtime, rank, ip);
     }
 }

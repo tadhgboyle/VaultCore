@@ -62,8 +62,7 @@ public class PlayTime extends CommandExecutor {
 
     private void printPlayTimeOffline(CommandSender player, String target) {
         try {
-            java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT username, playtime FROM players WHERE username='" + target + "'");
+            ResultSet rs = VaultCore.getInstance().connection.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?", target);
             if (!rs.next()) {
                 player.sendMessage(ChatColor.RED + "This player has never joined before!");
                 return;

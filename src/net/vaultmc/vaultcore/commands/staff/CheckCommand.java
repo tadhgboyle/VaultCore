@@ -34,10 +34,8 @@ public class CheckCommand extends CommandExecutor {
     @SubCommand("check")
     public void check(CommandSender sender, OfflinePlayer target) {
         try {
-            java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
-            ResultSet rs = stmt.executeQuery(
-                    "SELECT uuid, username, firstseen, lastseen, rank, ip FROM players WHERE username='"
-                            + target.getName() + "'");
+            ResultSet rs = VaultCore.getInstance().connection.executeQueryStatement("SELECT uuid, username, firstseen, " +
+                    "lastseen, rank, ip FROM players WHERE username=?", target.getName());
             if (!rs.next()) {
                 sender.sendMessage(ChatColor.RED + "That player has never joined the server.");
                 return;

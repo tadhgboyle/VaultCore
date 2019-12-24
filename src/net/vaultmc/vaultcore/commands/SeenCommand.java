@@ -33,8 +33,7 @@ public class SeenCommand extends CommandExecutor {
     @SubCommand("seen")
     public void seen(CommandSender sender, OfflinePlayer player) {
         try {
-            java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT lastseen FROM players WHERE username='" + player.getName() + "'");
+            ResultSet rs = VaultCore.getInstance().connection.executeQueryStatement("SELECT lastseen FROM players WHERE username=?", player.getName());
             if (!rs.next()) {
                 sender.sendMessage(ChatColor.RED + "This player has never joined before!");
                 return;

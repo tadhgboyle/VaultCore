@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore;
 import net.milkbowl.vault.chat.Chat;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
+import net.vaultmc.vaultcore.utils.ConnectionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -15,8 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class VaultCore extends JavaPlugin implements Listener {
@@ -26,10 +25,7 @@ public class VaultCore extends JavaPlugin implements Listener {
     private File playerDataFile;
     private FileConfiguration playerData;
     // mysql info
-    public Connection connection;
-    private static String url = "jdbc:mysql://localhost/VaultMC_Data?useSSL=false&autoReconnect=true";
-    private static String username = "root";
-    private static String password = "Stjames123b!!";  // Are you really sure?
+    public ConnectionHandler connection;
 
     @Override
     public void onEnable() {
@@ -39,13 +35,8 @@ public class VaultCore extends JavaPlugin implements Listener {
         BukkitRunnable r = new BukkitRunnable() {
             @Override
             public void run() {
-                try {
-                    openConnection();
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore connected to Database");
-                } catch (ClassNotFoundException | SQLException e) {
-                    e.printStackTrace();
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not connect to Database");
-                }
+                connection = new ConnectionHandler();
+                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore connected to Database");
             }
         };
         r.runTaskAsynchronously(this);
@@ -60,19 +51,6 @@ public class VaultCore extends JavaPlugin implements Listener {
             RankPromotions.memberPromotion();
             RankPromotions.patreonPromotion();
         }, 0L, minute * 5);
-    }
-
-    public void openConnection() throws SQLException, ClassNotFoundException {
-        if (connection != null && !connection.isClosed()) {
-            return;
-        }
-        synchronized (this) {
-            if (connection != null && !connection.isClosed()) {
-                return;
-            }
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(url, username, password);
-        }
     }
 
     public FileConfiguration getPlayerData() {
@@ -123,7 +101,7 @@ public class VaultCore extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore disconnected from the database");
         } catch (SQLException e) {
             e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect to the database");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect from the database");
         }
     }
 }

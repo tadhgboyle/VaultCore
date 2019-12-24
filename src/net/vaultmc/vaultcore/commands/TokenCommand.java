@@ -33,8 +33,7 @@ public class TokenCommand extends CommandExecutor {
 
     static String getToken(UUID uuid, Player player) throws SQLException {
 
-        java.sql.Statement stmt = VaultCore.getInstance().connection.createStatement();
-        ResultSet getTokenRS = stmt.executeQuery("SELECT token FROM players WHERE uuid='" + uuid + "'");
+        ResultSet getTokenRS = VaultCore.getInstance().connection.executeQueryStatement("SELECT token FROM players WHERE uuid=?", uuid);
         if (getTokenRS.next()) {
             String token = getTokenRS.getString("token");
             if (token != null) {
@@ -51,11 +50,10 @@ public class TokenCommand extends CommandExecutor {
         }
         String new_token = buffer.toString();
 
-        ResultSet generateTokenRS = stmt.executeQuery("SELECT username FROM players WHERE token='" + new_token + "'");
+        ResultSet generateTokenRS = VaultCore.getInstance().connection.executeQueryStatement("SELECT username FROM players WHERE token=?", new_token);
 
         if (!generateTokenRS.next()) {
-            VaultCore.getInstance().connection.createStatement()
-                    .executeUpdate("UPDATE players SET token='" + new_token + "' WHERE uuid='" + uuid + "'");
+            VaultCore.getInstance().connection.executeUpdateStatement("UPDATE players SET token=? WHERE uuid=?", new_token, uuid);
         } else {
             player.sendMessage(string + "You are one in " + variable1 + "308915776" + string
                     + "! The token we generated was already in our database.");
