@@ -54,7 +54,9 @@ public class ConnectionHandler {
                     throw new RuntimeException();
                 }
                 VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
-                        "Attempted to open connection again, further operations might fail.");
+                        "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
+                        "occurred.");
+                setupConnection();
                 return executeQueryStatement(sql, objects);
             }
             throw new RuntimeException();
@@ -78,7 +80,9 @@ public class ConnectionHandler {
                     throw new RuntimeException();
                 }
                 VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
-                        "Attempted to open connection again, further operations might fail.");
+                        "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
+                        "occurred.");
+                setupConnection();
                 return executeUpdateStatement(sql, objects);
             }
             throw new RuntimeException();
@@ -102,7 +106,9 @@ public class ConnectionHandler {
                     throw new RuntimeException();
                 }
                 VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
-                        "Attempted to open connection again, further operations might fail.");
+                        "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
+                        "occurred.");
+                setupConnection();
                 return executeLargeUpdateStatement(sql, objects);
             }
             throw new RuntimeException();
