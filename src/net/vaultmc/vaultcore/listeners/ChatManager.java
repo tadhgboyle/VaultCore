@@ -57,7 +57,7 @@ public class ChatManager implements Listener {
             Bukkit.getConsoleSender().sendMessage(message);
 
             Bukkit.getOnlinePlayers().forEach(x -> {
-                if (x.hasPermission(Permissions.StaffChat)) {
+                if (x.hasPermission(Permissions.StaffChatCommand)) {
                     x.sendMessage(message);
                 }
             });

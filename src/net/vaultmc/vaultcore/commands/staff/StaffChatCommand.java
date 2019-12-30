@@ -18,7 +18,7 @@ import java.util.UUID;
         literal = "staffchat",
         description = "Use staff chat."
 )
-@Permission(Permissions.StaffChat)
+@Permission(Permissions.StaffChatCommand)
 @Aliases("sc")
 public class StaffChatCommand extends CommandExecutor {
     public static final Set<UUID> toggled = new HashSet<>();
@@ -39,7 +39,7 @@ public class StaffChatCommand extends CommandExecutor {
                 VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
         String cstaffchat = String.format("%s" + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
                 ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) +
-                ChatColor.DARK_GRAY + " Â» " + ChatColor.AQUA + "%s", cprefix, message);
+                ChatColor.DARK_GRAY + " » " + ChatColor.AQUA + "%s", cprefix, message);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("vc.sc")) {

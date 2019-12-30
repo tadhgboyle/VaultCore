@@ -24,6 +24,6 @@ public class GMSpectatorCommand extends CommandExecutor {
     @SubCommand("execute")
     public void execute(CommandSender sender) {
         ((Player) sender).setGameMode(GameMode.SPECTATOR);
-        sender.sendMessage(ChatColor.YELLOW + "Your game mode is now " + ChatColor.GOLD + "spectator" + ChatColor.YELLOW + ".");
+        sender.sendMessage(ChatColor.YELLOW + "Your game mode is now " + ChatColor.GOLD + "Spectator" + ChatColor.YELLOW + ".");
     }
 }
