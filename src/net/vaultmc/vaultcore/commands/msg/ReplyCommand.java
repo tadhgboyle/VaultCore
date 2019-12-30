@@ -34,9 +34,9 @@ public class ReplyCommand extends CommandExecutor {
 			return;
 		}
 		if (MsgCommand.getReplies().containsKey(player.getUniqueId())) {
-			String meTo = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " » " + ChatColor.GOLD
+			String meTo = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + ": " + ChatColor.GOLD
 					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
-			String toMe = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " » " + ChatColor.GOLD
+			String toMe = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + ": " + ChatColor.GOLD
 					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
 			player.sendMessage(meTo + " " + ChatColor.RESET + message);
 			target.sendMessage(toMe + " " + ChatColor.RESET + message);
