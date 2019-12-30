@@ -15,6 +15,7 @@ public class Permissions {
     public static final String TokenCommand = "vc.token";
     public static final String TPACommand = "vc.tpa";
     public static final String TPAHereCommand = "vc.tpahere";
+    public static final String TPHereCommand = "vc.tphere";
     public static final String WarpCommand = "vc.warp";
     public static final String WarpCommandSet = "vc.warp.set";
     public static final String WarpCommandDelete = "vc.warp.delete";

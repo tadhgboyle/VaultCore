@@ -17,8 +17,7 @@ import java.util.Arrays;
 @Aliases("reply")
 public class ReplyCommand extends CommandExecutor {
 	public ReplyCommand() {
-		this.register("r", Arrays.asList(Arguments.createLiteral("r"),
-				Arguments.createArgument("message", Arguments.greedyString())));
+		this.register("r", Arrays.asList(Arguments.createArgument("message", Arguments.greedyString())));
 	}
 
 	@SubCommand("r")
@@ -27,7 +26,7 @@ public class ReplyCommand extends CommandExecutor {
 		Player target = Bukkit.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
 
 		if (target == null) {
-			player.sendMessage(ChatColor.RED + "That player is now offline!");
+			player.sendMessage(ChatColor.RED + "You have no one to reply to!");
 			return;
 		}
 		if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
@@ -35,15 +34,15 @@ public class ReplyCommand extends CommandExecutor {
 			return;
 		}
 		if (MsgCommand.getReplies().containsKey(player.getUniqueId())) {
-			String meTo = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " -> " + ChatColor.GOLD
+			String meTo = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " \\u1f80a " + ChatColor.GOLD
 					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
-			String toMe = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " -> " + ChatColor.GOLD
+			String toMe = ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " \\u1f80a " + ChatColor.GOLD
 					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
 			player.sendMessage(meTo + " " + ChatColor.RESET + message);
 			target.sendMessage(toMe + " " + ChatColor.RESET + message);
 			MsgCommand.getReplies().put(target.getUniqueId(), player.getUniqueId());
 		} else {
-			player.sendMessage(ChatColor.RED + "You do not have anyone to reply to!");
+			player.sendMessage(ChatColor.RED + "You have no one to reply to!");
 		}
 	}
 }
