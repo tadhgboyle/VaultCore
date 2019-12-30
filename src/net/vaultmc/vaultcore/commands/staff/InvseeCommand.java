@@ -36,125 +36,18 @@ public class InvseeCommand extends CommandExecutor implements Listener {
         Bukkit.getPluginManager().registerEvents(this, VaultCore.getInstance());
     }
 
-    private Player getByValue(Inventory inv) {
-        for (Map.Entry<Player, Inventory> entry : hook.entrySet()) {
-            if (entry.getValue() == inv) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        if (hook.containsKey(e.getPlayer())) {
-            hook.get(e.getPlayer()).getViewers().forEach(player -> {
-                player.sendMessage(ChatColor.YELLOW + "The owner of the inventory you are viewing just left the game!");
-                player.closeInventory(InventoryCloseEvent.Reason.DISCONNECT);
-            });
-            hook.remove(e.getPlayer());
-        }
-    }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent e) {
-        if (e.getView().getTitle().equals(ChatColor.RESET + "Inventory") && e.getViewers().size() <= 1) {
-            hook.remove(getByValue(e.getInventory()));
-        }
-    }
-
-    @EventHandler
-    public void onPlayerChangesSelfInventory(InventoryClickEvent e) {
-        if (e.getClickedInventory() instanceof PlayerInventory && hook.containsKey(e.getWhoClicked())) {
-            Inventory inv = hook.get(e.getWhoClicked());
-            PlayerInventory targetInv = (PlayerInventory) e.getClickedInventory();
-
-            Bukkit.getScheduler().runTaskLater(VaultCore.getInstance(), () -> {
-                for (int i = 0; i <= 35; i++) {
-                    inv.setItem(i, targetInv.getItem(i));
-                }
-
-                inv.setItem(45, targetInv.getHelmet());
-                inv.setItem(46, targetInv.getChestplate());
-                inv.setItem(47, targetInv.getLeggings());
-                inv.setItem(48, targetInv.getBoots());
-
-                inv.setItem(53, targetInv.getItemInOffHand());
-            }, 1L);
-        }
-    }
-
-    @EventHandler
-    public void onViewerChangesVictimInventory(InventoryClickEvent e) {
-        if (e.getClickedInventory() instanceof PlayerInventory) return;
-
-        if (e.getView().getTitle().equals(ChatColor.RESET + "Inventory")) {
-            if (!e.getWhoClicked().hasPermission(Permissions.InvseeModify)) {
-                e.setCancelled(true);
-                e.getWhoClicked().sendMessage(ChatColor.RED + "You couldn't modify this player's inventory!");
-                return;
-            }
-
-            if (e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE && e.getCurrentItem().getItemMeta().getDisplayName().equals(" ")) {
-                e.setCancelled(true);
-            }
-
-            Player victim = getByValue(e.getInventory());
-
-            Bukkit.getScheduler().runTaskLater(VaultCore.getInstance(), () -> {
-                for (int i = 0; i <= 35; i++) {
-                    victim.getInventory().setItem(i, e.getInventory().getItem(i));
-                }
-
-                victim.getInventory().setHelmet(e.getInventory().getItem(45));
-                victim.getInventory().setChestplate(e.getInventory().getItem(46));
-                victim.getInventory().setLeggings(e.getInventory().getItem(47));
-                victim.getInventory().setBoots(e.getInventory().getItem(48));
-                victim.getInventory().setItemInOffHand(e.getInventory().getItem(53));
-            }, 1L);
-        }
-    }
-
     @SubCommand("invsee")
     public void invsee(Player sender, Player target) {
-        if (sender == target && !sender.getName().equals("yangyang200") /* Debugging */) {
+        if (sender == target) {
             sender.sendMessage(ChatColor.RED + "You couldn't open your own inventory!");
             return;
         }
 
-        if (target.hasPermission(Permissions.InvseeExempt) && !sender.getName().equals("yangyang200") && !target.getName().equals("yangyang200")) {
+        if (target.hasPermission(Permissions.InvseeExempt))) {
             sender.sendMessage(ChatColor.RED + "You couldn't open this player's inventory!");
             return;
         }
 
-        if (hook.containsKey(target)) {
-            sender.openInventory(hook.get(target));
-        } else {
-            Inventory inv = Bukkit.createInventory(null, 54, ChatColor.RESET + "Inventory");
-
-            for (int i = 0; i <= 35; i++) {
-                inv.setItem(i, target.getInventory().getItem(i));
-            }
-
-            inv.setItem(45, target.getInventory().getHelmet());
-            inv.setItem(46, target.getInventory().getChestplate());
-            inv.setItem(47, target.getInventory().getLeggings());
-            inv.setItem(48, target.getInventory().getBoots());
-
-            inv.setItem(53, target.getInventory().getItemInOffHand());
-
-            ItemStack border = new ItemStackBuilder(Material.GRAY_STAINED_GLASS_PANE)
-                    .name(" ")
-                    .build();
-            for (int i = 36; i <= 44; i++) {
-                inv.setItem(i, border);
-            }
-            for (int i = 49; i <= 52; i++) {
-                inv.setItem(i, border);
-            }
-
-            hook.put(target, inv);
-            sender.openInventory(inv);
-        }
+        sender.openInventory(target.getInventory());
     }
 }
