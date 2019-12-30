@@ -13,70 +13,63 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
 
-@RootCommand(
-        literal = "token",
-        description = "Get your universal token for VaultMC services."
-)
+@RootCommand(literal = "token", description = "Get your universal token for VaultMC services.")
 @Permission(Permissions.TokenCommand)
 @PlayerOnly
 public class TokenCommand extends CommandExecutor {
-    private static String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    private static String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
-    private static String variable2 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-2"));
+	private static String string = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("string"));
+	private static String variable1 = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("variable-1"));
+	private static String variable2 = ChatColor.translateAlternateColorCodes('&',
+			VaultCore.getInstance().getConfig().getString("variable-2"));
 
-    public TokenCommand() {
-        register("getToken", Collections.emptyList());
-    }
+	public TokenCommand() {
+		register("getToken", Collections.emptyList());
+	}
 
-    static String getToken(UUID uuid, Player player) throws SQLException {
+	static String getToken(UUID uuid, Player player) throws SQLException {
 
-        ResultSet getTokenRS = VaultCore.getInstance().connection.executeQueryStatement("SELECT token FROM players WHERE uuid=?", uuid);
-        if (getTokenRS.next()) {
-            String token = getTokenRS.getString("token");
-            if (token != null) {
-                return token;
-            }
-        }
-        player.sendMessage(string + "Generating your token...");
+		ResultSet getTokenRS = VaultCore.getInstance().connection
+				.executeQueryStatement("SELECT token FROM players WHERE uuid=?", uuid);
+		if (getTokenRS.next()) {
+			String token = getTokenRS.getString("token");
+			if (token != null) {
+				return token;
+			}
+		}
+		player.sendMessage(string + "Generating your token...");
 
-        Random random = new Random();
-        StringBuilder buffer = new StringBuilder(8);
-        for (int i = 0; i < 8; i++) {
-            int randomLimitedInt = 97 + (int) (random.nextFloat() * (122 - 9 + 1));
-            buffer.append((char) randomLimitedInt);
-        }
-        String new_token = buffer.toString();
+		Random random = new Random();
+		StringBuilder buffer = new StringBuilder(8);
+		for (int i = 0; i < 8; i++) {
+			int randomLimitedInt = 97 + (int) (random.nextFloat() * (122 - 9 + 1));
+			buffer.append((char) randomLimitedInt);
+		}
+		String new_token = buffer.toString();
 
-        ResultSet generateTokenRS = VaultCore.getInstance().connection.executeQueryStatement("SELECT username FROM players WHERE token=?", new_token);
+		ResultSet generateTokenRS = VaultCore.getInstance().connection
+				.executeQueryStatement("SELECT username FROM players WHERE token=?", new_token);
 
-        if (!generateTokenRS.next()) {
-            VaultCore.getInstance().connection.executeUpdateStatement("UPDATE players SET token=? WHERE uuid=?", new_token, uuid);
-        } else {
-            player.sendMessage(string + "You are one in " + variable1 + "308915776" + string
-                    + "! The token we generated was already in our database.");
-            player.sendMessage(string + "Please re-run this command.");
-            return null;
-        }
-        return new_token;
-    }
+		if (!generateTokenRS.next()) {
+			VaultCore.getInstance().connection.executeUpdateStatement("UPDATE players SET token=? WHERE uuid=?",
+					new_token, uuid);
+		} else {
+			player.sendMessage(string + "You are one in " + variable1 + "308915776" + string
+					+ "! The token we generated was already in our database.");
+			player.sendMessage(string + "Please re-run this command.");
+			return null;
+		}
+		return new_token;
+	}
 
-    @SubCommand("getToken")
-    public void getToken(CommandSender sender) throws SQLException {
-        String token = getToken(((Player) sender).getUniqueId(), (Player) sender);
-        // if they are 1/308915776 make them run cmd again
-
-        // FIXME/QUESTION from yangyang200:
-        //  If they are 1/308915776 and the token is already in the database, doesn't it
-        //  means that the player won't be able to get a token anymore since all the
-        //  random numbers and used, and this is extremely impossible? Not extremely,
-        //  but just, impossible.
-
-        if (token == null) {
-            return;
-        }
-        sender.sendMessage(string + "Your token: " + variable2 + token);
-    }
+	@SubCommand("getToken")
+	public void getToken(CommandSender sender) throws SQLException {
+		String token = getToken(((Player) sender).getUniqueId(), (Player) sender);
+		// if they are 1/308915776 make them run cmd again
+		if (token == null) {
+			return;
+		}
+		sender.sendMessage(string + "Your token: " + variable2 + token);
+	}
 }

@@ -1,14 +1,20 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import java.util.Collections;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.Arguments;
+import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
+import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
+import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
+import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
+import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 
 @RootCommand(
         literal = "fly",
@@ -16,6 +22,10 @@ import java.util.Collections;
 )
 @Permission(Permissions.FlyCommand)
 public class FlyCommand extends CommandExecutor {
+	
+    String string = Utilities.string;
+    String variable1 = Utilities.variable1;
+    
     public FlyCommand() {
         register("flySelf", Collections.emptyList());
         register("flyOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
@@ -24,8 +34,6 @@ public class FlyCommand extends CommandExecutor {
     @SubCommand("flySelf")
     @PlayerOnly
     public void flySelf(CommandSender sender) {
-        String string = VaultCore.getInstance().getConfig().getString("string");
-        String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
 
         Player player = (Player) sender;
         if (player.getAllowFlight()) {
@@ -43,8 +51,7 @@ public class FlyCommand extends CommandExecutor {
     @SubCommand("flyOthers")
     @Permission(Permissions.FlyCommandOther)
     public void flyOthers(CommandSender sender, Player target) {
-        String string = VaultCore.getInstance().getConfig().getString("string");
-        String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+
         if (target.getAllowFlight()) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have " + variable1
                     + "disabled" + string + " fly for " + variable1 + VaultCoreAPI.getName(target)));
@@ -55,7 +62,7 @@ public class FlyCommand extends CommandExecutor {
                     ChatColor.BOLD + "CONSOLE" + org.bukkit.ChatColor.RESET)));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have " + variable1
-                    + "enabled" + string + " fly for " + variable1 + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
+                    + "enabled" + string + " fly for " + variable1 + (sender instanceof Player ? VaultCoreAPI.getName((Player) target) : ChatColor.BLUE + "" +
                     ChatColor.BOLD + "CONSOLE" + org.bukkit.ChatColor.RESET)));
             target.setAllowFlight(true);
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "Your fly has been "

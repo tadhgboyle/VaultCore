@@ -15,6 +15,7 @@ import net.vaultmc.vaultcore.commands.tpa.TPACommand;
 import net.vaultmc.vaultcore.commands.tpa.TPAHereCommand;
 import net.vaultmc.vaultcore.commands.tpa.TPAcceptCommand;
 import net.vaultmc.vaultcore.commands.tpa.TPDenyCommand;
+import net.vaultmc.vaultcore.commands.tpa.TPHereCommand;
 import net.vaultmc.vaultcore.commands.warp.DelWarpCommand;
 import net.vaultmc.vaultcore.commands.warp.SetWarpCommand;
 import net.vaultmc.vaultcore.commands.warp.WarpCommand;
@@ -34,6 +35,7 @@ public class Registry {
         new TPACommand();
         new TPAcceptCommand();
         new TPAHereCommand();
+        new TPHereCommand();
         new TPDenyCommand();
         new WarpCommand();
         new SetWarpCommand();
@@ -42,7 +44,6 @@ public class Registry {
         new SVCommand();
         new BackCommand();
         new DiscordCommand();
-        //new HelpCommand();
         new PingCommand();
         new PlayTime();
         new RanksCommand();

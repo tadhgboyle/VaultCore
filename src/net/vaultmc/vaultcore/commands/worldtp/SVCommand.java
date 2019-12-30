@@ -1,43 +1,45 @@
 package net.vaultmc.vaultcore.commands.worldtp;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import java.util.Collections;
+
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
+import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
+import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
+import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
+import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 
-@RootCommand(
-        literal = "sv",
-        description = "Teleport to the Survival world."
-)
+@RootCommand(literal = "sv", description = "Teleport to the Survival world.")
 @Permission(Permissions.WorldTPCommandSurvival)
 @PlayerOnly
 public class SVCommand extends CommandExecutor {
-    public SVCommand() {
-        register("sv", Collections.emptyList());
-    }
 
-    @SubCommand("sv")
-    public void sv(CommandSender sender) {
-        String string = ChatColor.translateAlternateColorCodes('&',
-                VaultCore.getInstance().getConfig().getString("string"));
-        String variable1 = ChatColor.translateAlternateColorCodes('&',
-                VaultCore.getInstance().getConfig().getString("variable-1"));
-        Player player = (Player) sender;
+	String string = Utilities.string;
+	String variable1 = Utilities.variable1;
 
-        Location sv = VaultCore.getInstance().getPlayerData()
-                .getLocation("players." + player.getUniqueId() + ".sv");
-        if (sv == null) {
-            player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
-            player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());
-        } else {
-            player.teleport(sv);
-            player.sendMessage(string + "Teleported you to the " + variable1 + "Survival" + string + " world.");
-        }
-    }
+	public SVCommand() {
+		register("sv", Collections.emptyList());
+	}
+
+	@SubCommand("sv")
+	public void sv(CommandSender sender) {
+
+		Player player = (Player) sender;
+
+		Location sv = VaultCore.getInstance().getPlayerData().getLocation("players." + player.getUniqueId() + ".sv");
+		if (sv == null) {
+			player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
+			player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());
+		} else {
+			player.teleport(sv);
+			player.sendMessage(string + "Teleported you to the " + variable1 + "Survival" + string + " world.");
+		}
+	}
 }

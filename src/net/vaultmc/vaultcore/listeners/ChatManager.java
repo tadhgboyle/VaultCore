@@ -57,7 +57,7 @@ public class ChatManager implements Listener {
             Bukkit.getConsoleSender().sendMessage(message);
 
             Bukkit.getOnlinePlayers().forEach(x -> {
-                if (x.hasPermission(Permissions.StaffChat)) {
+                if (x.hasPermission(Permissions.StaffChatCommand)) {
                     x.sendMessage(message);
                 }
             });
@@ -79,7 +79,7 @@ public class ChatManager implements Listener {
         e.setFormat(ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player))
                 + player.getDisplayName()
                 + ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerSuffix(player)) + " "
-                + ChatColor.DARK_GRAY + "→" + ChatColor.RESET + " %2$s");
+                + ChatColor.DARK_GRAY + "»" + ChatColor.RESET + " %2$s");
 
         // Find the world group index of the player
         int group = -1;

@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.commands;
 
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
 import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
 import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
@@ -14,7 +15,7 @@ import java.util.Collections;
         literal = "vcreload",
         description = "Reloads VaultCore's configuration and data"
 )
-@Permission("vc.reload")
+@Permission(Permissions.ReloadCommand)
 public class ReloadCommand extends CommandExecutor {
     public ReloadCommand() {
         register("reload", Collections.emptyList());

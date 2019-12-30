@@ -13,51 +13,48 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 
-@RootCommand(
-        literal = "seen",
-        description = "See how long a player has been online/offline for."
-)
+@RootCommand(literal = "seen", description = "See how long a player has been online/offline for.")
 @Permission(Permissions.SeenCommand)
 public class SeenCommand extends CommandExecutor {
-    private String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    private String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
-    private String variable2 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-2"));
 
-    public SeenCommand() {
-        register("seen", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
-    }
+	private String string = Utilities.string;
+	private String variable1 = Utilities.variable1;
+	private String variable2 = Utilities.variable2;
 
-    @SubCommand("seen")
-    public void seen(CommandSender sender, OfflinePlayer player) {
-        try {
-            ResultSet rs = VaultCore.getInstance().connection.executeQueryStatement("SELECT lastseen FROM players WHERE username=?", player.getName());
-            if (!rs.next()) {
-                sender.sendMessage(ChatColor.RED + "This player has never joined before!");
-                return;
-            }
-            long lastseen = rs.getLong("lastseen");
-            long currenttime = System.currentTimeMillis();
-            long duration = currenttime - lastseen;
+	public SeenCommand() {
+		register("seen",
+				Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+	}
 
-            long[] time = Utilities.formatDuration(duration);
+	@SubCommand("seen")
+	public void seen(CommandSender sender, OfflinePlayer player) {
+		try {
+			ResultSet rs = VaultCore.getInstance().connection
+					.executeQueryStatement("SELECT lastseen FROM players WHERE username=?", player.getName());
+			if (!rs.next()) {
+				sender.sendMessage(ChatColor.RED + "This player has never joined before!");
+				return;
+			}
+			long lastseen = rs.getLong("lastseen");
+			long currenttime = System.currentTimeMillis();
+			long duration = currenttime - lastseen;
 
-            String status;
+			long[] time = Utilities.formatDuration(duration);
 
-            if (player.isOnline()) {
-                status = ChatColor.GREEN + " online ";
-            } else {
-                status = ChatColor.RED + " offline ";
-            }
+			String status;
 
-            String message = String.format(variable1 + VaultCoreAPI.getName(player) + string + " has been" + status + string + "for "
-                    + variable2 + "%d" + string + " days, " + variable2 + "%d" + string + " hours and "
-                    + variable2 + "%d" + string + "  minutes.", time[0], time[1], time[2]);
-            sender.sendMessage(message);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+			if (player.isOnline()) {
+				status = ChatColor.GREEN + " online ";
+			} else {
+				status = ChatColor.RED + " offline ";
+			}
+
+			String message = String.format(variable1 + VaultCoreAPI.getName(player) + string + " has been" + status
+					+ string + "for " + variable2 + "%d" + string + " days, " + variable2 + "%d" + string
+					+ " hours and " + variable2 + "%d" + string + "  minutes.", time[0], time[1], time[2]);
+			sender.sendMessage(message);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
 }

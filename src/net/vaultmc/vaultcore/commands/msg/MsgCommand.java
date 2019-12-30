@@ -43,9 +43,9 @@ public class MsgCommand extends CommandExecutor {
         if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
             player.sendMessage(ChatColor.RED + "That player has disabled messaging!");
         } else {
-            String meTo = (ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " â†’ " + ChatColor.GOLD
+            String meTo = (ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " » " + ChatColor.GOLD
                     + VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":");
-            String toMe = (ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " â†’ " + ChatColor.GOLD
+            String toMe = (ChatColor.GOLD + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " » " + ChatColor.GOLD
                     + VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":");
 
             player.sendMessage(meTo + " " + ChatColor.RESET + message);

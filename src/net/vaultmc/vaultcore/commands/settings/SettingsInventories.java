@@ -1,8 +1,8 @@
 package net.vaultmc.vaultcore.commands.settings;
 
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -10,20 +10,19 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
 
 public class SettingsInventories {
 
-    static String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    static String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
-    static String variable2 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-2"));
+    static String string = Utilities.string;
+    static String variable1 = Utilities.variable1;
+    static String variable2 = Utilities.variable2;
+    
     private static ItemStack teleportMain, creativeMain, chatMain, back;
     private static ItemStack toggleTPA, acceptTPA;
     private static ItemStack toggleCycle;
-    private static ItemStack toggleMsg, togglePWC, toggleSwear;
+    private static ItemStack toggleMsg, toggleSwear;
 
     public static Inventory SettingsMain(Player player) {
         Inventory SettingsMain = Bukkit.createInventory(null, 27, "Settings");
@@ -57,9 +56,8 @@ public class SettingsInventories {
     public static Inventory ChatSettings(Player player) {
         Inventory ChatSettings = Bukkit.createInventory(null, 36, "Chat Settings");
 
-        ChatSettings.setItem(10, toggleMsg);
-        ChatSettings.setItem(13, togglePWC);
-        ChatSettings.setItem(16, toggleSwear);
+        ChatSettings.setItem(11, toggleMsg);
+        ChatSettings.setItem(15, toggleSwear);
         ChatSettings.setItem(31, back);
 
         return ChatSettings;
@@ -138,19 +136,6 @@ public class SettingsInventories {
         }
         toggleMsgMeta.setLore(toggleMsgLore);
         toggleMsg.setItemMeta(toggleMsgMeta);
-
-        togglePWC = new ItemStack(Material.FILLED_MAP, 1);
-        ItemMeta togglePWCMeta = togglePWC.getItemMeta();
-        togglePWCMeta.setDisplayName(string + "Use " + variable1 + "Per World Chat");
-        ArrayList<String> togglePWCLore = new ArrayList<String>();
-        togglePWCLore.add(string + "Enabled: " + variable2
-                + VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.pwc"));
-        if (VaultCore.getInstance().getPlayerData()
-                .getBoolean("players." + player.getUniqueId() + ".settings.pwc")) {
-            togglePWCMeta.addEnchant(Enchantment.DURABILITY, 5, true);
-        }
-        togglePWCMeta.setLore(togglePWCLore);
-        togglePWC.setItemMeta(togglePWCMeta);
 
         toggleSwear = new ItemStack(Material.IRON_BARS, 1);
         ItemMeta toggleSwearMeta = toggleSwear.getItemMeta();

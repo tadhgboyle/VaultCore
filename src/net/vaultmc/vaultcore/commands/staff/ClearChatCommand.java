@@ -1,54 +1,56 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import java.util.Collections;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.Aliases;
+import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
+import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
+import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
+import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 
-@RootCommand(
-        literal = "clearchat",
-        description = "Clears all messages."
-)
+@RootCommand(literal = "clearchat", description = "Clears all messages.")
 @Permission(Permissions.ClearChatCommand)
 @Aliases("cc")
 public class ClearChatCommand extends CommandExecutor {
-    public ClearChatCommand() {
-        register("clear", Collections.emptyList());
-    }
+	public ClearChatCommand() {
+		register("clear", Collections.emptyList());
+	}
 
-    @SubCommand("clear")
-    public void clearChat(CommandSender sender) {
-        String string = VaultCore.getInstance().getConfig().getString("string");
-        String variable1 = VaultCore.getInstance().getConfig().getString("variable-1");
+	@SubCommand("clear")
+	public void clearChat(CommandSender sender) {
+		String string = Utilities.string;
+		String variable1 = Utilities.variable1;
 
-        if (!(sender instanceof Player)) {
-            for (int i = 0; i < 200; i++) {
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    players.sendMessage(" ");
-                }
-            }
+		if (!(sender instanceof Player)) {
+			for (int i = 0; i < 200; i++) {
+				for (Player players : Bukkit.getOnlinePlayers()) {
+					players.sendMessage(" ");
+				}
+			}
 
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have cleared chat!"));
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    variable1 + "CONSOLE " + string + "has cleared chat!"));
-            return;
-        }
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have cleared chat!"));
+			Bukkit.broadcastMessage(
+					ChatColor.translateAlternateColorCodes('&', variable1 + "CONSOLE " + string + "has cleared chat!"));
+			return;
+		}
 
-        Player player = (Player) sender;
+		Player player = (Player) sender;
 
-        for (int i = 0; i < 200; i++) {
-            for (Player players : Bukkit.getOnlinePlayers()) {
-                players.sendMessage(" ");
-            }
-        }
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have cleared chat!"));
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "The chat has been cleared by " + variable1 + VaultCoreAPI.getName(player) + string + "!"));
-    }
+		for (int i = 0; i < 200; i++) {
+			for (Player players : Bukkit.getOnlinePlayers()) {
+				players.sendMessage(" ");
+			}
+		}
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have cleared chat!"));
+		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+				string + "The chat has been cleared by " + variable1 + VaultCoreAPI.getName(player) + string + "!"));
+	}
 }
