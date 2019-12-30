@@ -76,7 +76,7 @@ public class PlayTime extends CommandExecutor {
                     ChatColor.translateAlternateColorCodes('&',
                             variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
                                     + " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d"
-                                    + string + " hours and " + variable2 + "%d" + string + " minutes."),
+                                    + string + " hours and " + variable2 + "%d" + string + "  minutes."),
                     username, time[0], time[1], time[2]);
             player.sendMessage(playtimeMsg);
         } catch (SQLException e) {

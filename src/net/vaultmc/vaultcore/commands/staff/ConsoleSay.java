@@ -26,7 +26,7 @@ public class ConsoleSay extends CommandExecutor {
             return;
         }
         String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE" + ChatColor.DARK_GRAY
-                + " → " + ChatColor.WHITE + "%s", message.toString());
+                + " » " + ChatColor.WHITE + "%s", message.toString());
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(csay);
         }
