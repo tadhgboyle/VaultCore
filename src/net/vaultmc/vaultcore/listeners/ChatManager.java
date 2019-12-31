@@ -78,7 +78,7 @@ public class ChatManager implements Listener {
 
         e.setFormat(ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player))
                 + player.getDisplayName()
-                + ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerSuffix(player)) + " "
+                + ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerSuffix(player))
                 + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
 
         // Find the world group index of the player
