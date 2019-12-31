@@ -70,7 +70,6 @@ public class Registry {
     public static void registerListeners() {
         PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(vault, vault);
-        pm.registerEvents(new ChatManager(), vault);
         pm.registerEvents(new GrantCommandListener(), vault);
         pm.registerEvents(new SignColours(), vault);
         pm.registerEvents(new PlayerJoinQuitListener(), vault);
