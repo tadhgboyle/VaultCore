@@ -1,18 +1,17 @@
 package net.vaultmc.vaultcore.runnables;
 
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+
 public class RankPromotions {
 
-    private static String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    private static String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
+	static String string = Utilities.string;
+    static String variable1 = Utilities.variable1;
 
     public static void memberPromotion() {
 
@@ -23,9 +22,9 @@ public class RankPromotions {
             if (!group.equalsIgnoreCase("default")) {
                 return;
             }
-            int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
-            // 10 hours
-            if (playtime > 36000) {
+            int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+            // 10 hours in ticks
+            if (playtime > 720000) {
 
                 VaultCore.getInstance().getServer().dispatchCommand(
                         VaultCore.getInstance().getServer().getConsoleSender(),
@@ -47,9 +46,9 @@ public class RankPromotions {
             if (!group.equalsIgnoreCase("member")) {
                 return;
             }
-            int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
-            // 35 hours
-            if (playtime > 126000) {
+            int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+            // 35 hours in ticks
+            if (playtime > 2520000) {
 
                 VaultCore.getInstance().getServer().dispatchCommand(
                         VaultCore.getInstance().getServer().getConsoleSender(),

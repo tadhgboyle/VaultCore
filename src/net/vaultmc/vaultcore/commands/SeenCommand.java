@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.commands;
+ package net.vaultmc.vaultcore.commands;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;

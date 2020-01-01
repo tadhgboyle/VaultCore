@@ -22,8 +22,8 @@ import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 )
 @Permission(Permissions.FeedCommand)
 public class FeedCommand extends CommandExecutor {
-    private String string = Utilities.string;
-    private String variable1 = Utilities.variable1;
+    String string = Utilities.string;
+    String variable1 = Utilities.variable1;
     public FeedCommand() {
         register("feedSelf", Collections.emptyList());
         register("feedOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));

@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore;
 
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
 import net.vaultmc.vaultcore.utils.ConnectionHandler;
@@ -21,10 +22,9 @@ import java.sql.SQLException;
 public class VaultCore extends JavaPlugin implements Listener {
     public static VaultCore instance;
     private static Chat chat = null;
-    // data file setup
+    private static Permission perms = null;
     private File playerDataFile;
     private FileConfiguration playerData;
-    // mysql info
     public ConnectionHandler connection;
 
     @Override
@@ -41,6 +41,7 @@ public class VaultCore extends JavaPlugin implements Listener {
         };
         r.runTaskAsynchronously(this);
         setupChat();
+        setupPermissions();
         Registry.registerCommands();
         Registry.registerListeners();
         createPlayerData();
@@ -87,9 +88,19 @@ public class VaultCore extends JavaPlugin implements Listener {
         RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
         chat = rsp.getProvider();
     }
+    
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+        return perms != null;
+    }
 
     public static Chat getChat() {
         return chat;
+    }
+    
+    public static Permission getPermissions() {
+        return perms;
     }
 
     @Override
@@ -98,10 +109,10 @@ public class VaultCore extends JavaPlugin implements Listener {
         this.savePlayerData();
         try {
             connection.close();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore disconnected from the database");
+            Bukkit.getConsoleSender().sendMessage("VaultCore disconnected from the database");
         } catch (SQLException e) {
             e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "VaultCore could not disconnect from the database");
+            this.getLogger().severe("VaultCore could not disconnect from the database");
         }
     }
 }

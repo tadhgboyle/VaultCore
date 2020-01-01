@@ -26,55 +26,56 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
 public class Registry {
-    private static final VaultCore vault = VaultCore.getInstance();
+	private static final VaultCore vault = VaultCore.getInstance();
 
-    public static void registerCommands() {
-        new MsgCommand();
-        new ReplyCommand();
-        new SettingsCommand();
-        new TPACommand();
-        new TPAcceptCommand();
-        new TPAHereCommand();
-        new TPHereCommand();
-        new TPDenyCommand();
-        new WarpCommand();
-        new SetWarpCommand();
-        new DelWarpCommand();
-        new CRCommand();
-        new SVCommand();
-        new BackCommand();
-        new DiscordCommand();
-        new PingCommand();
-        new PlayTime();
-        new RanksCommand();
-        new SeenCommand();
-        new TokenCommand();
-        new WildTeleport();
-        new GrantCommand();
-        new GMCreativeCommand();
-        new GMSurvivalCommand();
-        new GMSpectatorCommand();
-        new CheckCommand();
-        new ClearChatCommand();
-        new ConsoleSay();
-        new FeedCommand();
-        new FlyCommand();
-        new HealCommand();
-        new InvseeCommand();
-        new MuteChatCommand();
-        new StaffChatCommand();
-        new TeleportCommand();
-        new ReloadCommand();
-    }
+	public static void registerCommands() {
+		new MsgCommand();
+		new ReplyCommand();
+		new SettingsCommand();
+		new TPACommand();
+		new TPAcceptCommand();
+		new TPAHereCommand();
+		new TPHereCommand();
+		new TPDenyCommand();
+		new WarpCommand();
+		new SetWarpCommand();
+		new DelWarpCommand();
+		new CRCommand();
+		new SVCommand();
+		new BackCommand();
+		new DiscordCommand();
+		new PingCommand();
+		new PlayTime();
+		new RanksCommand();
+		new SeenCommand();
+		new TokenCommand();
+		new WildTeleport();
+		new GrantCommand();
+		new GMCreativeCommand();
+		new GMSurvivalCommand();
+		new GMSpectatorCommand();
+		new CheckCommand();
+		new ClearChatCommand();
+		new ConsoleSay();
+		new FeedCommand();
+		new FlyCommand();
+		new HealCommand();
+		new InvseeCommand();
+		new MuteChatCommand();
+		new StaffChatCommand();
+		new TeleportCommand();
+		new ReloadCommand();
+		new HasPermCommand();
+	}
 
-    public static void registerListeners() {
-        PluginManager pm = Bukkit.getServer().getPluginManager();
-        pm.registerEvents(vault, vault);
-        pm.registerEvents(new GrantCommandListener(), vault);
-        pm.registerEvents(new SignColours(), vault);
-        pm.registerEvents(new PlayerJoinQuitListener(), vault);
-        pm.registerEvents(new PlayerTPListener(), vault);
-        pm.registerEvents(new SettingsListener(), vault);
-        pm.registerEvents(new CycleListener(), vault);
-    }
+	public static void registerListeners() {
+		PluginManager pm = Bukkit.getServer().getPluginManager();
+		pm.registerEvents(vault, vault);
+		pm.registerEvents(new GrantCommandListener(), vault);
+		pm.registerEvents(new SignColours(), vault);
+		pm.registerEvents(new PlayerJoinQuitListener(), vault);
+		pm.registerEvents(new PlayerTPListener(), vault);
+		pm.registerEvents(new SettingsListener(), vault);
+		pm.registerEvents(new CycleListener(), vault);
+	}
 }

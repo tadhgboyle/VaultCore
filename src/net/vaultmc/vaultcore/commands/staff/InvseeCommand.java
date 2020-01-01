@@ -10,31 +10,28 @@ import org.bukkit.event.Listener;
 
 import java.util.Collections;
 
-@RootCommand(
-        literal = "invsee",
-        description = "Look in a players inventory."
-)
+@RootCommand(literal = "invsee", description = "Look in a players inventory.")
 @Permission(Permissions.InvseeCommand)
 @PlayerOnly
 @Aliases("openinv")
 public class InvseeCommand extends CommandExecutor implements Listener {
-    public InvseeCommand() {
-        register("invsee", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
-        Bukkit.getPluginManager().registerEvents(this, VaultCore.getInstance());
-    }
+	public InvseeCommand() {
+		register("invsee", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+		Bukkit.getPluginManager().registerEvents(this, VaultCore.getInstance());
+	}
 
-    @SubCommand("invsee")
-    public void invsee(Player sender, Player target) {
-        if (sender == target) {
-            sender.sendMessage(ChatColor.RED + "You couldn't open your own inventory!");
-            return;
-        }
+	@SubCommand("invsee")
+	public void invsee(Player sender, Player target) {
+		if (sender == target) {
+			sender.sendMessage(ChatColor.RED + "You couldn't open your own inventory!");
+			return;
+		}
 
-        if (target.hasPermission(Permissions.InvseeExempt)) {
-            sender.sendMessage(ChatColor.RED + "You couldn't open this player's inventory!");
-            return;
-        }
+		if (target.hasPermission(Permissions.InvseeExempt)) {
+			sender.sendMessage(ChatColor.RED + "You couldn't open this player's inventory!");
+			return;
+		}
 
-        sender.openInventory(target.getInventory());
-    }
+		sender.openInventory(target.getInventory());
+	}
 }
