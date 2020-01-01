@@ -47,19 +47,16 @@ public class ConnectionHandler {
             currentRecursions = 0;
             return statement.executeQuery();
         } catch (SQLException e) {
-            if (e.getMessage().contains("Broken pipe")) {
-                currentRecursions++;
-                if (currentRecursions >= 7) {
-                    VaultCore.getInstance().getLogger().severe("Too many recursion (" + currentRecursions + "). Interrupting.");
-                    throw new RuntimeException();
-                }
-                VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
-                        "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
-                        "occurred.");
-                setupConnection();
-                return executeQueryStatement(sql, objects);
+            currentRecursions++;
+            if (currentRecursions >= 3) {
+                VaultCore.getInstance().getLogger().severe("Too many recursion (" + currentRecursions + "). Interrupting.");
+                throw new RuntimeException();
             }
-            throw new RuntimeException();
+            VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
+                    "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
+                    "occurred.");
+            setupConnection();
+            return executeQueryStatement(sql, objects);
         }
     }
 
@@ -73,19 +70,16 @@ public class ConnectionHandler {
             }
             return statement.executeUpdate();
         } catch (SQLException e) {
-            if (e.getMessage().contains("Broken pipe")) {
-                currentRecursions++;
-                if (currentRecursions >= 7) {
-                    VaultCore.getInstance().getLogger().severe("Too many recursion (" + currentRecursions + "). Interrupting.");
-                    throw new RuntimeException();
-                }
-                VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
-                        "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
-                        "occurred.");
-                setupConnection();
-                return executeUpdateStatement(sql, objects);
+            currentRecursions++;
+            if (currentRecursions >= 3) {
+                VaultCore.getInstance().getLogger().severe("Too many recursion (" + currentRecursions + "). Interrupting.");
+                throw new RuntimeException();
             }
-            throw new RuntimeException();
+            VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
+                    "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
+                    "occurred.");
+            setupConnection();
+            return executeUpdateStatement(sql, objects);
         }
     }
 
@@ -99,19 +93,16 @@ public class ConnectionHandler {
             }
             return statement.executeLargeUpdate();
         } catch (SQLException e) {
-            if (e.getMessage().contains("Broken pipe")) {
-                currentRecursions++;
-                if (currentRecursions >= 7) {
-                    VaultCore.getInstance().getLogger().severe("Too many recursion (" + currentRecursions + "). Interrupting.");
-                    throw new RuntimeException();
-                }
-                VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
-                        "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
-                        "occurred.");
-                setupConnection();
-                return executeLargeUpdateStatement(sql, objects);
+            currentRecursions++;
+            if (currentRecursions >= 3) {
+                VaultCore.getInstance().getLogger().severe("Too many recursion (" + currentRecursions + "). Interrupting.");
+                throw new RuntimeException();
             }
-            throw new RuntimeException();
+            VaultCore.getInstance().getLogger().warning("MySQL connection is interrupted. Probably the connection timeout is reached. " +
+                    "Attempted to open connection again, further operations might fail. Please consider restarting the server if more errors " +
+                    "occurred.");
+            setupConnection();
+            return executeLargeUpdateStatement(sql, objects);
         }
     }
 
