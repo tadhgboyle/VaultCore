@@ -30,6 +30,7 @@ public class Permissions {
     public static final String FlyCommand = "vaultcore.fly";
     public static final String FlyCommandOther = "vaultcore.fly.other";
     public static final String HasPermCommand = "vaultcore.hasperm";
+    public static final String HasPermCommandOther = "vaultcore.hasperm.other";
     public static final String GamemodeCommand = "vaultcore.gamemode";
     public static final String GamemodeCommandOther = "vaultcore.gamemode.other";
     public static final String HealCommand = "vaultcore.heal";

@@ -42,7 +42,6 @@ public class PingCommand extends CommandExecutor {
 	}
 
 	@SubCommand("pingOthers")
-	@PlayerOnly
 	@Permission(Permissions.PingCommandOther)
 	public void pingOthers(CommandSender sender, Player target) {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + VaultCoreAPI.getName(target)

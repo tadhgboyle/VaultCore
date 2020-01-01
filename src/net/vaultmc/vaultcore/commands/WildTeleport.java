@@ -10,13 +10,11 @@ import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 
 @RootCommand(literal = "wild", description = "Teleport to a random location.")
 @Permission(Permissions.WildTeleport)
+@PlayerOnly
 public class WildTeleport extends CommandExecutor {
 	private String string = Utilities.string;
 	private String variable1 = Utilities.variable1;
