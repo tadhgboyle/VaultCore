@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.Arguments;
@@ -22,6 +23,10 @@ import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
 @Permission(Permissions.TPAHereCommand)
 @PlayerOnly
 public class TPAHereCommand extends CommandExecutor {
+	
+	String string = Utilities.string;
+	String variable1 = Utilities.variable1;
+	
 	private static HashMap<UUID, UUID> requestsHere = TPACommand.getRequestsHere();
 
 	public TPAHereCommand() {
@@ -30,10 +35,6 @@ public class TPAHereCommand extends CommandExecutor {
 
 	@SubCommand("tpahere")
 	public void tpaHere(CommandSender sender, Player target) {
-		String string = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("string"));
-		String variable1 = ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("variable-1"));
 
 		Player player = (Player) sender;
 		if (target == player) {
@@ -46,9 +47,9 @@ public class TPAHereCommand extends CommandExecutor {
 			return;
 		}
 		requestsHere.put(target.getUniqueId(), player.getUniqueId());
-		player.sendMessage(string + "You requested that " + variable1 + VaultCoreAPI.getName(target) + string
+		player.sendMessage(string + "You requested that " + VaultCoreAPI.getName(target) + string
 				+ " teleports to you.");
-		target.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " asked you to teleport to them, type "
+		target.sendMessage(VaultCoreAPI.getName(player) + string + " asked you to teleport to them, type "
 				+ variable1 + "/tpaccept " + string + "to accept it.");
 	}
 }

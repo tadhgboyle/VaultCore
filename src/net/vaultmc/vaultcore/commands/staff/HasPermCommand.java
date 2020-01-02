@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 
 @RootCommand(literal = "hasperm", description = "Check if a player has a permission.")
@@ -21,7 +22,6 @@ public class HasPermCommand extends CommandExecutor {
 
 	String string = Utilities.string;
 	String variable1 = Utilities.variable1;
-	String variable2 = Utilities.variable2;
 
 	public HasPermCommand() {
 		unregisterExisting();
@@ -35,10 +35,10 @@ public class HasPermCommand extends CommandExecutor {
 	public void hasPermSelf(CommandSender sender, String permission) {
 
 		if (VaultCore.getPermissions().has(sender, permission)) {
-			sender.sendMessage(string + "You " + ChatColor.GREEN + "have" + string + " the permission " + variable2
+			sender.sendMessage(string + "You " + ChatColor.GREEN + "have" + string + " the permission " + variable1
 					+ permission + string + ".");
 		} else {
-			sender.sendMessage(string + "You " + ChatColor.RED + "don't have" + string + " the permission " + variable2
+			sender.sendMessage(string + "You " + ChatColor.RED + "don't have" + string + " the permission " + variable1
 					+ permission + string + ".");
 		}
 	}
@@ -55,11 +55,11 @@ public class HasPermCommand extends CommandExecutor {
 
 	private void hasPermOtherOnline(Player target, CommandSender sender, String permission) {
 		if (VaultCore.getPermissions().has(target, permission)) {
-			sender.sendMessage(variable1 + target.getName() + ChatColor.GREEN + " has " + string + "the permission "
-					+ variable2 + permission + string + ".");
+			sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.GREEN + " has " + string + "the permission "
+					+ variable1 + permission + string + ".");
 		} else {
-			sender.sendMessage(variable1 + target.getName() + ChatColor.RED + " doesn't have " + string
-					+ "the permission " + variable2 + permission + string + ".");
+			sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.RED + " doesn't have " + string
+					+ "the permission " + variable1 + permission + string + ".");
 		}
 	}
 
@@ -73,11 +73,11 @@ public class HasPermCommand extends CommandExecutor {
 			}
 
 			if (VaultCore.getPermissions().playerHas(Bukkit.getWorlds().get(0).getName(), target, permission)) {
-				sender.sendMessage(variable1 + target.getName() + ChatColor.GREEN + " has " + string + "the permission "
-						+ variable2 + permission + string + ".");
+				sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.GREEN + " has " + string + "the permission "
+						+ variable1 + permission + string + ".");
 			} else {
-				sender.sendMessage(variable1 + target.getName() + ChatColor.RED + " doesn't have " + string
-						+ "the permission " + variable2 + permission + string + ".");
+				sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.RED + " doesn't have " + string
+						+ "the permission " + variable1 + permission + string + ".");
 			}
 
 		} catch (SQLException e) {

@@ -5,6 +5,8 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
@@ -76,7 +78,7 @@ public class PlayTime extends CommandExecutor {
 							variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
 									+ " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d"
 									+ string + " hours and " + variable2 + "%d" + string + "  minutes."),
-					username, time[0], time[1], time[2]);
+					VaultCoreAPI.getName(Bukkit.getPlayer(username)), time[0], time[1], time[2]);
 			player.sendMessage(playtimeMsg);
 		} catch (SQLException e) {
 			e.printStackTrace();

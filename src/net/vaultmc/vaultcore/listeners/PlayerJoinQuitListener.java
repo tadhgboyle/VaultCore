@@ -55,7 +55,7 @@ public class PlayerJoinQuitListener implements Listener {
 			}
 		}
 
-		join.setJoinMessage(ChatColor.YELLOW + VaultCoreAPI.getName(player) + ChatColor.YELLOW + " has "
+		join.setJoinMessage(VaultCoreAPI.getName(player) + ChatColor.YELLOW + " has "
 				+ ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
 
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',

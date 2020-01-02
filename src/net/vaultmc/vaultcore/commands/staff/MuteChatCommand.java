@@ -31,15 +31,13 @@ public class MuteChatCommand extends CommandExecutor {
 	public void muteChat(CommandSender sender) {
 		if (chatMuted) {
 			chatMuted = false;
-			Bukkit.broadcastMessage(
-					ChatColor.translateAlternateColorCodes('&', string + "The chat is no longer muted!"));
+			Bukkit.broadcastMessage(string + "The chat is no longer muted!");
 
 		} else {
 			chatMuted = true;
-			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-					string + "The chat has been muted by " + variable1
-							+ (sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
-									: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET)));
+			Bukkit.broadcastMessage(string + "The chat has been muted by " + variable1
+					+ (sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
+							: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE"));
 		}
 	}
 }

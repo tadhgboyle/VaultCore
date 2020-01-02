@@ -1,17 +1,18 @@
 package net.vaultmc.vaultcore.commands.tpa;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.utils.commands.experimental.*;
 
 @RootCommand(
         literal = "tpdeny",
@@ -20,6 +21,9 @@ import java.util.UUID;
 @Permission(Permissions.TPACommand)
 @PlayerOnly
 public class TPDenyCommand extends CommandExecutor {
+	
+    String string = Utilities.string;
+	
     private static HashMap<UUID, UUID> requests = TPACommand.getRequests();
 
     public TPDenyCommand() {
@@ -28,17 +32,12 @@ public class TPDenyCommand extends CommandExecutor {
 
     @SubCommand("tpdeny")
     public void tpdeny(CommandSender sender) {
-        String string = ChatColor.translateAlternateColorCodes('&',
-                VaultCore.getInstance().getConfig().getString("string"));
-        String variable1 = ChatColor.translateAlternateColorCodes('&',
-                VaultCore.getInstance().getConfig().getString("variable-1"));
-
         Player player = (Player) sender;
         if (requests.containsKey(player.getUniqueId())) {
 
             player.sendMessage(string + "You denied the teleportation request.");
             Bukkit.getPlayer(requests.get(player.getUniqueId()))
-                    .sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " denied your teleportation request.");
+                    .sendMessage(VaultCoreAPI.getName(player) + string + " denied your teleportation request.");
             requests.remove(player.getUniqueId());
             return;
         }

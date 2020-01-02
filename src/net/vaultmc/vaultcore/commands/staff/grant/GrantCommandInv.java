@@ -1,7 +1,5 @@
 package net.vaultmc.vaultcore.commands.staff.grant;
 
-import net.md_5.bungee.api.ChatColor;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,13 +7,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class GrantCommandInv {
 
     private static ItemStack memberRank, patreonRank, trustedRank, moderatorRank, adminRank, noPermission1, noPermission2;
 
     public static Inventory getGrantInventoryAdmin(Player target) {
         Inventory rankGrantAdmin = Bukkit.createInventory(null, 9,
-                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + VaultCoreAPI.getName(target));
+                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getName());
         rankGrantAdmin.setItem(0, null);
         rankGrantAdmin.setItem(1, null);
         rankGrantAdmin.setItem(2, memberRank);
@@ -30,7 +30,7 @@ public class GrantCommandInv {
 
     public static Inventory getGrantInventoryMod(Player target) {
         Inventory rankGrantMod = Bukkit.createInventory(null, 9,
-                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + VaultCoreAPI.getName(target));
+                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getName());
         rankGrantMod.setItem(0, null);
         rankGrantMod.setItem(1, null);
         rankGrantMod.setItem(2, memberRank);
