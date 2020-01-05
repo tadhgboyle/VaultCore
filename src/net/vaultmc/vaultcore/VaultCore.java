@@ -37,7 +37,6 @@ public class VaultCore extends Component implements Listener {
 		instance = this;
 
 		config = ConfigurationManager.loadConfiguration("config.yml", this);
-		playerData = ConfigurationManager.loadConfiguration("data.yml", this);
 
 		database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.database"),
 				getConfig().getString("mysql.user"), getConfig().getString("mysql.password"));
@@ -53,6 +52,11 @@ public class VaultCore extends Component implements Listener {
 			RankPromotions.memberPromotion();
 			RankPromotions.patreonPromotion();
 		}, 0L, minute * 5);
+	}
+
+	@Override
+	public void onServerFinishedLoading() {
+		playerData = ConfigurationManager.loadConfiguration("data.yml", this);
 	}
 
 	public FileConfiguration getPlayerData() {
