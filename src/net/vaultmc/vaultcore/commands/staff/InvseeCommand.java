@@ -2,8 +2,7 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
-import org.bukkit.Bukkit;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -16,9 +15,9 @@ import java.util.Collections;
 @Aliases("openinv")
 public class InvseeCommand extends CommandExecutor implements Listener {
 	public InvseeCommand() {
-		register("invsee", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
-		Bukkit.getPluginManager().registerEvents(this, VaultCore.getInstance());
-	}
+        register("invsee", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+        VaultCore.getInstance().registerEvents(this);
+    }
 
 	@SubCommand("invsee")
 	public void invsee(Player sender, Player target) {

@@ -1,8 +1,9 @@
 package net.vaultmc.vaultcore.listeners;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultloader.utils.DBConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
@@ -12,10 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.database.DBConnection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PlayerJoinQuitListener implements Listener {
 

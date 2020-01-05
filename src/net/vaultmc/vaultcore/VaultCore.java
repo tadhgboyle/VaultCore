@@ -1,75 +1,81 @@
 package net.vaultmc.vaultcore;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
-import net.vaultmc.vaultutils.database.DBConnection;
+import net.vaultmc.vaultloader.components.Component;
+import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
+import net.vaultmc.vaultloader.components.annotations.Version;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.configuration.Configuration;
+import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultCore extends JavaPlugin implements Listener {
+@ComponentInfo(
+		name = "VaultCore",
+		description = "The suite of tools created for the VaultMC server.",
+		authors = {"Aberdeener", "yangyang200", "2xjtn"}
+)
+@Version(major = 3, minor = 0, revision = 4)
+public class VaultCore extends Component implements Listener {
 	public static VaultCore instance;
 	private static Chat chat = null;
 	private static Permission perms = null;
-	private File playerDataFile;
-	private FileConfiguration playerData;
+	private Configuration playerData;
+	private Configuration config;
 	@Getter
 	private static DBConnection database;
 
 	@Override
 	public void onEnable() {
-		getConfig().options().copyDefaults(true);
-		saveConfig();
 		instance = this;
 
-        database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.database"),
-                getConfig().getString("mysql.user"), getConfig().getString("mysql.password"), this);
-		
+		config = ConfigurationManager.loadConfiguration("config.yml", this);
+		playerData = ConfigurationManager.loadConfiguration("data.yml", this);
+
+		database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.database"),
+				getConfig().getString("mysql.user"), getConfig().getString("mysql.password"));
+
 		setupChat();
 		setupPermissions();
 		Registry.registerCommands();
 		Registry.registerListeners();
-		createPlayerData();
 		GrantCommandInv.initAdmin();
 		GrantCommandInv.initMod();
 		int minute = (int) 1200L;
-		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
 			RankPromotions.memberPromotion();
 			RankPromotions.patreonPromotion();
 		}, 0L, minute * 5);
 	}
 
 	public FileConfiguration getPlayerData() {
-		return this.playerData;
+		return this.playerData.getConfig();
 	}
 
-	private void createPlayerData() {
-		playerDataFile = new File(getDataFolder(), "data.yml");
-		if (!playerDataFile.exists()) {
-			playerDataFile.getParentFile().mkdirs();
-			saveResource("data.yml", false);
-		}
-		playerData = new YamlConfiguration();
-		try {
-			playerData.load(playerDataFile);
-		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
+	public FileConfiguration getConfig() {
+		return this.config.getConfig();
+	}
+
+	@SneakyThrows
+	public void saveConfig() {
+		config.save();
+	}
+
+	@SneakyThrows
+	public void reloadConfig() {
+		config.reload();
 	}
 
 	public void savePlayerData() {
 		try {
-			playerData.save(playerDataFile);
+			playerData.save();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,12 +86,12 @@ public class VaultCore extends JavaPlugin implements Listener {
 	}
 
 	private void setupChat() {
-		RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+		RegisteredServiceProvider<Chat> rsp = Bukkit.getServicesManager().getRegistration(Chat.class);
 		chat = rsp.getProvider();
 	}
 
 	private boolean setupPermissions() {
-		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+		RegisteredServiceProvider<Permission> rsp = Bukkit.getServicesManager().getRegistration(Permission.class);
 		perms = rsp.getProvider();
 		return perms != null;
 	}
@@ -104,8 +110,7 @@ public class VaultCore extends JavaPlugin implements Listener {
 		/*
 		 * TO DO ASAP: FOR ALL PLAYERS ONLINE, TRIGGER PLAYERQUITEVENT WHEN SERVER SHUTDOWN
 		 */
-		
-		this.saveConfig();
+
 		this.savePlayerData();
 	}
 }

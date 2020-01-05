@@ -1,21 +1,15 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import java.util.Collections;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.utils.commands.experimental.Arguments;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import java.util.Collections;
 
 @RootCommand(literal = "heal", description = "Heal a player.")
 @Permission(Permissions.HealCommand)

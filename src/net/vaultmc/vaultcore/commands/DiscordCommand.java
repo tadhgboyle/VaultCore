@@ -2,7 +2,7 @@ package net.vaultmc.vaultcore.commands;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -1,7 +1,7 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
-import net.vaultmc.vaultutils.utils.commands.experimental.wrappers.WrappedChatComponent;
+import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedChatComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

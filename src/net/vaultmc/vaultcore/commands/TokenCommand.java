@@ -1,23 +1,18 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.UUID;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultutils.database.DBConnection;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.UUID;
 
 @RootCommand(literal = "token", description = "Get your universal token for VaultMC services.")
 @Permission(Permissions.TokenCommand)

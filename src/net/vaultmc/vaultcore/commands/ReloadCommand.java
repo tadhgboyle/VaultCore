@@ -1,11 +1,11 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

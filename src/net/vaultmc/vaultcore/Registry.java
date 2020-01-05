@@ -11,19 +11,16 @@ import net.vaultmc.vaultcore.commands.staff.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandListener;
-import net.vaultmc.vaultcore.commands.tpa.TPACommand;
-import net.vaultmc.vaultcore.commands.tpa.TPAHereCommand;
-import net.vaultmc.vaultcore.commands.tpa.TPAcceptCommand;
-import net.vaultmc.vaultcore.commands.tpa.TPDenyCommand;
-import net.vaultmc.vaultcore.commands.tpa.TPHereCommand;
+import net.vaultmc.vaultcore.commands.tpa.*;
 import net.vaultmc.vaultcore.commands.warp.DelWarpCommand;
 import net.vaultmc.vaultcore.commands.warp.SetWarpCommand;
 import net.vaultmc.vaultcore.commands.warp.WarpCommand;
 import net.vaultmc.vaultcore.commands.worldtp.CRCommand;
 import net.vaultmc.vaultcore.commands.worldtp.SVCommand;
-import net.vaultmc.vaultcore.listeners.*;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
+import net.vaultmc.vaultcore.listeners.CycleListener;
+import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
+import net.vaultmc.vaultcore.listeners.PlayerTPListener;
+import net.vaultmc.vaultcore.listeners.SignColours;
 
 public class Registry {
 	private static final VaultCore vault = VaultCore.getInstance();
@@ -69,13 +66,11 @@ public class Registry {
 	}
 
 	public static void registerListeners() {
-		PluginManager pm = Bukkit.getServer().getPluginManager();
-		pm.registerEvents(vault, vault);
-		pm.registerEvents(new GrantCommandListener(), vault);
-		pm.registerEvents(new SignColours(), vault);
-		pm.registerEvents(new PlayerJoinQuitListener(), vault);
-		pm.registerEvents(new PlayerTPListener(), vault);
-		pm.registerEvents(new SettingsListener(), vault);
-		pm.registerEvents(new CycleListener(), vault);
+		vault.registerEvents(new GrantCommandListener());
+		vault.registerEvents(new SignColours());
+		vault.registerEvents(new PlayerJoinQuitListener());
+		vault.registerEvents(new PlayerTPListener());
+		vault.registerEvents(new SettingsListener());
+		vault.registerEvents(new CycleListener());
 	}
 }

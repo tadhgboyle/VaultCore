@@ -1,16 +1,15 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RootCommand(literal = "wild", description = "Teleport to a random location.")
 @Permission(Permissions.WildTeleport)

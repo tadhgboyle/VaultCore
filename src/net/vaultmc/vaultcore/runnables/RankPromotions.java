@@ -1,12 +1,11 @@
 package net.vaultmc.vaultcore.runnables;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Statistic;
-import org.bukkit.entity.Player;
-
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.Statistic;
+import org.bukkit.entity.Player;
 
 public class RankPromotions {
 
@@ -26,8 +25,8 @@ public class RankPromotions {
             // 10 hours in ticks
             if (playtime > 720000) {
 
-                VaultCore.getInstance().getServer().dispatchCommand(
-                        VaultCore.getInstance().getServer().getConsoleSender(),
+                Bukkit.dispatchCommand(
+                        Bukkit.getConsoleSender(),
                         "lp user " + player.getName() + " parent set member");
                 for (Player players : Bukkit.getOnlinePlayers()) {
                     players.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " has been promoted to " + variable1
@@ -50,8 +49,8 @@ public class RankPromotions {
             // 35 hours in ticks
             if (playtime > 2520000) {
 
-                VaultCore.getInstance().getServer().dispatchCommand(
-                        VaultCore.getInstance().getServer().getConsoleSender(),
+                Bukkit.dispatchCommand(
+                        Bukkit.getConsoleSender(),
                         "lp user " + player.getName() + " parent set patreon");
                 for (Player players : Bukkit.getOnlinePlayers()) {
                     players.sendMessage(variable1 + VaultCoreAPI.getName(player) + string + " has been promoted to " + variable1

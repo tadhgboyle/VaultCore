@@ -1,21 +1,20 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.database.DBConnection;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 @RootCommand(literal = "hasperm", description = "Check if a player has a permission.")
 @Permission(Permissions.HasPermCommand)
@@ -56,10 +55,10 @@ public class HasPermCommand extends CommandExecutor {
 
 	private void hasPermOtherOnline(Player target, CommandSender sender, String permission) {
 		if (VaultCore.getPermissions().has(target, permission)) {
-			sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.GREEN + " has " + string
+			sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.GREEN + " has " + string
 					+ "the permission " + variable1 + permission + string + ".");
 		} else {
-			sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.RED + " doesn't have "
+			sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.RED + " doesn't have "
 					+ string + "the permission " + variable1 + permission + string + ".");
 		}
 	}
@@ -77,10 +76,10 @@ public class HasPermCommand extends CommandExecutor {
 			}
 
 			if (VaultCore.getPermissions().playerHas(Bukkit.getWorlds().get(0).getName(), target, permission)) {
-				sender.sendMessage(variable1 + VaultCoreAPI.getName((OfflinePlayer) target) + ChatColor.GREEN + " has "
+				sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.GREEN + " has "
 						+ string + "the permission " + variable1 + permission + string + ".");
 			} else {
-				sender.sendMessage(variable1 + VaultCoreAPI.getName((OfflinePlayer) target) + ChatColor.RED
+				sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.RED
 						+ " doesn't have " + string + "the permission " + variable1 + permission + string + ".");
 			}
 

@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.commands.staff.grant;
 
 import net.md_5.bungee.api.ChatColor;
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,27 +35,27 @@ public class GrantCommandListener implements Listener {
 						rank = "Patreon";
 					else if (itemName.equals(ChatColor.AQUA + "" + ChatColor.BOLD + "Trusted"))
 						rank = "Trusted";
-					else if (itemName.equals(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Moderator"))
-						rank = "Moderator";
-					else if (itemName.equals(ChatColor.BLUE + "" + ChatColor.BOLD + "Admin"))
-						rank = "Admin";
-					else if (itemName.equals(ChatColor.RED + "No Permission")) {
-						player.closeInventory();
-						player.sendMessage(ChatColor.RED + "You do not have permission to use this rank.");
-						return;
-					}
-					Player target = Bukkit.getServer().getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
-					VaultCore.getInstance().getServer().dispatchCommand(
-							VaultCore.getInstance().getServer().getConsoleSender(),
-							"lp user " + target.getName() + " parent set " + rank);
+                    else if (itemName.equals(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Moderator"))
+                        rank = "Moderator";
+                    else if (itemName.equals(ChatColor.BLUE + "" + ChatColor.BOLD + "Admin"))
+                        rank = "Admin";
+                    else if (itemName.equals(ChatColor.RED + "No Permission")) {
+                        player.closeInventory();
+                        player.sendMessage(ChatColor.RED + "You do not have permission to use this rank.");
+                        return;
+                    }
+                    Player target = Bukkit.getServer().getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
+                    Bukkit.dispatchCommand(
+                            Bukkit.getConsoleSender(),
+                            "lp user " + target.getName() + " parent set " + rank);
 
-					player.closeInventory();
-					player.sendMessage(ChatColor.YELLOW + "Successfully updated " + ChatColor.GOLD
-							+ e.getView().getTitle().substring(INVTITLE.length()) + ChatColor.YELLOW + "'s rank to "
-							+ ChatColor.GOLD + rank + ChatColor.YELLOW + ".");
-					target.sendMessage(ChatColor.YELLOW + "Your rank has been updated to " + ChatColor.GOLD + rank
-							+ ChatColor.YELLOW + " by " + VaultCoreAPI.getName(player) + ChatColor.YELLOW + ".");
-				}
+                    player.closeInventory();
+                    player.sendMessage(ChatColor.YELLOW + "Successfully updated " + ChatColor.GOLD
+                            + e.getView().getTitle().substring(INVTITLE.length()) + ChatColor.YELLOW + "'s rank to "
+                            + ChatColor.GOLD + rank + ChatColor.YELLOW + ".");
+                    target.sendMessage(ChatColor.YELLOW + "Your rank has been updated to " + ChatColor.GOLD + rank
+                            + ChatColor.YELLOW + " by " + VaultCoreAPI.getName(player) + ChatColor.YELLOW + ".");
+                }
 			}
 		}
 	}

@@ -1,10 +1,10 @@
 package net.vaultmc.vaultcore.commands.settings;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.utils.commands.experimental.*;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

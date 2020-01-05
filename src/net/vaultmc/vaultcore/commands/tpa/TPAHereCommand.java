@@ -1,23 +1,17 @@
 package net.vaultmc.vaultcore.commands.tpa;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.utils.commands.experimental.Arguments;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.UUID;
 
 @RootCommand(literal = "tpahere", description = "Request for a player to teleport you.")
 @Permission(Permissions.TPAHereCommand)

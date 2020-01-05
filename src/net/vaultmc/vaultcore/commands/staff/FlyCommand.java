@@ -1,22 +1,16 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import java.util.Collections;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultutils.utils.commands.experimental.Arguments;
-import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
-import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
-import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
-import net.vaultmc.vaultutils.utils.commands.experimental.RootCommand;
-import net.vaultmc.vaultutils.utils.commands.experimental.SubCommand;
+import java.util.Collections;
 
 @RootCommand(literal = "fly", description = "Enable fly for a player.")
 @Permission(Permissions.FlyCommand)
@@ -66,8 +60,8 @@ public class FlyCommand extends CommandExecutor {
 		} else {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					string + "You have " + variable1 + "enabled" + string + " fly for " + variable1
-							+ (sender instanceof Player ? VaultCoreAPI.getName((Player) target) + string + "."
-									: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + ".")));
+							+ (sender instanceof Player ? VaultCoreAPI.getName(target) + string + "."
+							: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + ".")));
 			target.setAllowFlight(true);
 			target.sendMessage(ChatColor.translateAlternateColorCodes('&',
 					string + "Your fly has been " + variable1 + "enabled" + string + " by " + variable1
