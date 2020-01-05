@@ -4,6 +4,7 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.database.DBConnection;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -29,8 +30,11 @@ public class CheckCommand extends CommandExecutor {
 
 	@SubCommand("check")
 	public void check(CommandSender sender, OfflinePlayer target) {
+		
+		DBConnection database = VaultCore.getDatabase();
+		
 		try {
-			ResultSet rs = VaultCore.getInstance().connection.executeQueryStatement(
+			ResultSet rs = database.executeQueryStatement(
 					"SELECT uuid, username, firstseen, " + "lastseen, rank, ip FROM players WHERE username=?",
 					target.getName());
 			if (!rs.next()) {

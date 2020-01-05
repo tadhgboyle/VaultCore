@@ -4,6 +4,7 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.database.DBConnection;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 
 import org.bukkit.Bukkit;
@@ -61,8 +62,11 @@ public class PlayTime extends CommandExecutor {
 	}
 
 	private void printPlayTimeOffline(CommandSender player, String target) {
+		
+		DBConnection database = VaultCore.getDatabase();
+		
 		try {
-			ResultSet rs = VaultCore.getInstance().connection
+			ResultSet rs = database
 					.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?", target);
 			if (!rs.next()) {
 				player.sendMessage(ChatColor.RED + "This player has never joined before!");

@@ -1,9 +1,10 @@
- package net.vaultmc.vaultcore.commands;
+package net.vaultmc.vaultcore.commands;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.database.DBConnection;
 import net.vaultmc.vaultutils.utils.commands.experimental.*;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -28,9 +29,12 @@ public class SeenCommand extends CommandExecutor {
 
 	@SubCommand("seen")
 	public void seen(CommandSender sender, OfflinePlayer player) {
+
+		DBConnection database = VaultCore.getDatabase();
+
 		try {
-			ResultSet rs = VaultCore.getInstance().connection
-					.executeQueryStatement("SELECT lastseen FROM players WHERE username=?", player.getName());
+			ResultSet rs = database.executeQueryStatement("SELECT lastseen FROM players WHERE username=?",
+					player.getName());
 			if (!rs.next()) {
 				sender.sendMessage(ChatColor.RED + "This player has never joined before!");
 				return;

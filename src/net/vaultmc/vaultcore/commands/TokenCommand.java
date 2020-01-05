@@ -11,7 +11,8 @@ import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultutils.VaultUtils;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultutils.database.DBConnection;
 import net.vaultmc.vaultutils.utils.commands.experimental.CommandExecutor;
 import net.vaultmc.vaultutils.utils.commands.experimental.Permission;
 import net.vaultmc.vaultutils.utils.commands.experimental.PlayerOnly;
@@ -32,8 +33,9 @@ public class TokenCommand extends CommandExecutor {
 
 	static String getToken(UUID uuid, Player player) throws SQLException {
 
-		ResultSet getToken = VaultUtils.getDatabase().executeQueryStatement("SELECT token FROM players WHERE uuid=?",
-				uuid);
+		DBConnection database = VaultCore.getDatabase();
+
+		ResultSet getToken = database.executeQueryStatement("SELECT token FROM players WHERE uuid='" + uuid + "'");
 		if (getToken.next()) {
 			String token = getToken.getString("token");
 			if (token != null) {
@@ -44,16 +46,17 @@ public class TokenCommand extends CommandExecutor {
 
 		String new_token = RandomStringUtils.random(8, true, false);
 
-		ResultSet duplicateCheck = VaultUtils.getDatabase()
-				.executeQueryStatement("SELECT username FROM players WHERE token=?", new_token);
+		ResultSet duplicateCheck = database
+				.executeQueryStatement("SELECT username FROM players WHERE token='" + new_token + "'");
 
 		if (!duplicateCheck.next()) {
-			VaultUtils.getDatabase().executeUpdateStatement("UPDATE players SET token=? WHERE uuid=?", new_token, uuid);
+			database.executeUpdateStatement("UPDATE players SET token='" + new_token + "' WHERE uuid='" + uuid + "'");
+			database.executeUpdateStatement("INSERT INTO web_accounts (uuid, token) VALUES ('" + player.getUniqueId() + "', '" + new_token + "')");
 		} else {
 			player.sendMessage(string + "You are one in " + variable1 + "308915776" + string
 					+ "! The token we generated was already in our database.");
 			player.sendMessage(string + "Please re-run this command.");
-			// line 73 checks for this null
+			// line 69 checks for this null
 			return null;
 		}
 		return new_token;

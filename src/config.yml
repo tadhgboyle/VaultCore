@@ -1,7 +1,11 @@
 string: "&e"
 variable-1: "&6"
 variable-2: "&2"
-manage-player: "&cYou can't use %s on that player!"
 staffchat-prefix: "&8[&cSC&8] "
 welcome-message: "&7Welcome to VAULT&cMC!"
-mysql-password: "password"
+mysql:
+   host: localhost
+   port: 3306
+   database: VaultMC_Data
+   user: tadhg
+   password: Stjames123b!

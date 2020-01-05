@@ -15,12 +15,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultutils.database.DBConnection;
 
 public class PlayerJoinQuitListener implements Listener {
 
 	String string = Utilities.string;
 	String variable1 = Utilities.variable1;
 	String variable2 = Utilities.variable2;
+	DBConnection database = VaultCore.getDatabase();
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent join) throws SQLException {
@@ -55,8 +57,8 @@ public class PlayerJoinQuitListener implements Listener {
 			}
 		}
 
-		join.setJoinMessage(VaultCoreAPI.getName(player) + ChatColor.YELLOW + " has "
-				+ ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
+		join.setJoinMessage(VaultCoreAPI.getName(player) + ChatColor.YELLOW + " has " + ChatColor.GREEN + "joined"
+				+ ChatColor.YELLOW + ".");
 
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				VaultCore.getInstance().getConfig().getString("welcome-message")));
@@ -81,7 +83,7 @@ public class PlayerJoinQuitListener implements Listener {
 
 	private void query(String uuid, String username, long firstseen, long lastseen, long playtime, String rank,
 			String ip) throws SQLException {
-		VaultCore.getInstance().connection.executeUpdateStatement(
+		database.executeUpdateStatement(
 				"INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
 						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE username=?, lastseen=?, playtime=?, rank=?, ip=?",
 				uuid, username, firstseen, lastseen, playtime, rank, ip, username, lastseen, playtime, rank, ip);
@@ -89,7 +91,7 @@ public class PlayerJoinQuitListener implements Listener {
 
 	private String count() throws SQLException {
 		String total_players = null;
-		ResultSet rs = VaultCore.getInstance().connection.executeQueryStatement("SELECT COUNT(uuid) FROM players");
+		ResultSet rs = database.executeQueryStatement("SELECT COUNT(uuid) FROM players");
 		while (rs.next()) {
 			total_players = rs.getString(1);
 		}

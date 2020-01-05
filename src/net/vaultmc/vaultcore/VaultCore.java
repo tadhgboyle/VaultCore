@@ -2,23 +2,20 @@ package net.vaultmc.vaultcore;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
+import lombok.Getter;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
-import net.vaultmc.vaultcore.utils.ConnectionHandler;
+import net.vaultmc.vaultutils.database.DBConnection;
 
 public class VaultCore extends JavaPlugin implements Listener {
 	public static VaultCore instance;
@@ -26,21 +23,18 @@ public class VaultCore extends JavaPlugin implements Listener {
 	private static Permission perms = null;
 	private File playerDataFile;
 	private FileConfiguration playerData;
-	public ConnectionHandler connection;
+	@Getter
+	private static DBConnection database;
 
 	@Override
 	public void onEnable() {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		instance = this;
-		BukkitRunnable r = new BukkitRunnable() {
-			@Override
-			public void run() {
-				connection = new ConnectionHandler();
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultCore connected to Database");
-			}
-		};
-		r.runTaskAsynchronously(this);
+
+        database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.database"),
+                getConfig().getString("mysql.user"), getConfig().getString("mysql.password"), this);
+		
 		setupChat();
 		setupPermissions();
 		Registry.registerCommands();
@@ -113,12 +107,5 @@ public class VaultCore extends JavaPlugin implements Listener {
 		
 		this.saveConfig();
 		this.savePlayerData();
-		try {
-			connection.close();
-			Bukkit.getConsoleSender().sendMessage("VaultCore disconnected from the database");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			this.getLogger().severe("VaultCore could not disconnect from the database");
-		}
 	}
 }

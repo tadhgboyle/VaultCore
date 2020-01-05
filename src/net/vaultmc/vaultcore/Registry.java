@@ -77,6 +77,5 @@ public class Registry {
 		pm.registerEvents(new PlayerTPListener(), vault);
 		pm.registerEvents(new SettingsListener(), vault);
 		pm.registerEvents(new CycleListener(), vault);
-		pm.registerEvents(new ShutDownListener(), vault);
 	}
 }
