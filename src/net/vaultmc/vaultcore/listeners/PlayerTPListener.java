@@ -26,11 +26,11 @@ public class PlayerTPListener implements Listener {
                 return;
             }
             if (event.getFrom().getWorld().getName().equals("Survival")) {
-                VaultCore.getInstance().getPlayerData().set("players." + event.getPlayer().getUniqueId() + ".sv", from);
-                VaultCore.getInstance().savePlayerData();
+                VaultCore.getInstance().getLocationFile().set("players." + event.getPlayer().getUniqueId() + ".sv", from);
+                VaultCore.getInstance().saveLocations();
             } else if (event.getFrom().getWorld().getName().equals("Creative")) {
-                VaultCore.getInstance().getPlayerData().set("players." + event.getPlayer().getUniqueId() + ".cr", from);
-                VaultCore.getInstance().savePlayerData();
+                VaultCore.getInstance().getLocationFile().set("players." + event.getPlayer().getUniqueId() + ".cr", from);
+                VaultCore.getInstance().saveLocations();
             }
         }
     }

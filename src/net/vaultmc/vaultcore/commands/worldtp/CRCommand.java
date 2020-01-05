@@ -28,7 +28,7 @@ public class CRCommand extends CommandExecutor {
 
 		Player player = (Player) sender;
 
-		Location cr = VaultCore.getInstance().getPlayerData().getLocation("players." + player.getUniqueId() + ".cr");
+		Location cr = VaultCore.getInstance().getLocationFile().getLocation("players." + player.getUniqueId() + ".cr");
 		if (cr == null) {
 			player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
 			player.teleport(Bukkit.getWorld("creative").getSpawnLocation());

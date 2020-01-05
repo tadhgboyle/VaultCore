@@ -11,7 +11,7 @@ import net.vaultmc.vaultcore.commands.staff.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandListener;
-import net.vaultmc.vaultcore.commands.tpa.*;
+import net.vaultmc.vaultcore.commands.teleport.*;
 import net.vaultmc.vaultcore.commands.warp.DelWarpCommand;
 import net.vaultmc.vaultcore.commands.warp.SetWarpCommand;
 import net.vaultmc.vaultcore.commands.warp.WarpCommand;

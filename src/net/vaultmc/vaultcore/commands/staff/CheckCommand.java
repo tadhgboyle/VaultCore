@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
 public class CheckCommand extends CommandExecutor {
 	private String string = Utilities.string;
 	private String variable1 = Utilities.variable1;
-	private String variable2 = Utilities.variable2;
 
 	public CheckCommand() {
 		register("check",
@@ -66,19 +65,19 @@ public class CheckCommand extends CommandExecutor {
 			sender.sendMessage("");
 
 			if (target.isOnline()) {
-				sender.sendMessage(string + "Checking: " + variable1 + username);
+				sender.sendMessage(string + "Checking: " + username);
 			} else {
-				sender.sendMessage(string + "Checking: " + variable1 + username + ChatColor.GRAY + " "
+				sender.sendMessage(string + "Checking: " + username + ChatColor.GRAY + " "
 						+ ChatColor.ITALIC + "[OFFLINE]");
 			}
-			sender.sendMessage(string + "UUID: " + variable2 + uuid);
-			sender.sendMessage(string + "First Seen (D/M/Y): " + variable2 + fdate + "/" + variable2 + fmonth + "/"
-					+ variable2 + fyear);
-			sender.sendMessage(string + "Last Seen (D/M/Y): " + variable2 + ldate + "/" + variable2 + lmonth + "/"
-					+ variable2 + lyear);
-			sender.sendMessage(string + "Last IP: " + variable2 + ip);
-			sender.sendMessage(string + "Rank: " + variable2 + rank);
-			sender.sendMessage(string + "Database: " + variable2 + "https://database.vaultmc.net/?user=" + target.getName());
+			sender.sendMessage(string + "UUID: " + variable1 + uuid);
+			sender.sendMessage(string + "First Seen (D/M/Y): " + variable1 + fdate + "/" + variable1 + fmonth + "/"
+					+ variable1 + fyear);
+			sender.sendMessage(string + "Last Seen (D/M/Y): " + variable1 + ldate + "/" + variable1 + lmonth + "/"
+					+ variable1 + lyear);
+			sender.sendMessage(string + "Last IP: " + variable1 + ip);
+			sender.sendMessage(string + "Rank: " + variable1 + rank);
+			sender.sendMessage(string + "Database: " + variable1 + "https://database.vaultmc.net/?user=" + target.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.commands.tpa;
+package net.vaultmc.vaultcore.commands.teleport;
 
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;

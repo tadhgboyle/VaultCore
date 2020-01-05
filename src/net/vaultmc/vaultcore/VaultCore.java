@@ -17,11 +17,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-@ComponentInfo(
-		name = "VaultCore",
-		description = "The suite of tools created for the VaultMC server.",
-		authors = {"Aberdeener", "yangyang200", "2xjtn"}
-)
+@ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
+		"Aberdeener", "yangyang200", "2xjtn" })
 @Version(major = 3, minor = 0, revision = 4)
 public class VaultCore extends Component implements Listener {
 	public static VaultCore instance;
@@ -29,6 +26,7 @@ public class VaultCore extends Component implements Listener {
 	private static Permission perms = null;
 	private Configuration playerData;
 	private Configuration config;
+	private Configuration locations;
 	@Getter
 	private static DBConnection database;
 
@@ -37,9 +35,11 @@ public class VaultCore extends Component implements Listener {
 		instance = this;
 
 		config = ConfigurationManager.loadConfiguration("config.yml", this);
+		playerData = ConfigurationManager.loadConfiguration("data.yml", this);
 
-		database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.database"),
-				getConfig().getString("mysql.user"), getConfig().getString("mysql.password"));
+		database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
+				getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
+				getConfig().getString("mysql.password"));
 
 		setupChat();
 		setupPermissions();
@@ -54,11 +54,6 @@ public class VaultCore extends Component implements Listener {
 		}, 0L, minute * 5);
 	}
 
-	@Override
-	public void onServerFinishedLoading() {
-		playerData = ConfigurationManager.loadConfiguration("data.yml", this);
-	}
-
 	public FileConfiguration getPlayerData() {
 		return this.playerData.getConfig();
 	}
@@ -66,7 +61,26 @@ public class VaultCore extends Component implements Listener {
 	public FileConfiguration getConfig() {
 		return this.config.getConfig();
 	}
-
+	
+	public FileConfiguration getLocationFile() {
+		return this.locations.getConfig();
+	}
+	
+	@Override
+	public void onServerFinishedLoading() {
+		locations = ConfigurationManager.loadConfiguration("locations.yml", this);
+	}
+	
+	@SneakyThrows
+	public void savePlayerData() {
+		playerData.save();
+	}
+	
+	@SneakyThrows
+	public void saveLocations() {
+		locations.save();
+	}
+	
 	@SneakyThrows
 	public void saveConfig() {
 		config.save();
@@ -75,14 +89,6 @@ public class VaultCore extends Component implements Listener {
 	@SneakyThrows
 	public void reloadConfig() {
 		config.reload();
-	}
-
-	public void savePlayerData() {
-		try {
-			playerData.save();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static VaultCore getInstance() {
@@ -112,7 +118,8 @@ public class VaultCore extends Component implements Listener {
 	public void onDisable() {
 
 		/*
-		 * TO DO ASAP: FOR ALL PLAYERS ONLINE, TRIGGER PLAYERQUITEVENT WHEN SERVER SHUTDOWN
+		 * TO DO ASAP: FOR ALL PLAYERS ONLINE, TRIGGER PLAYERQUITEVENT WHEN SERVER
+		 * SHUTDOWN
 		 */
 
 		this.savePlayerData();

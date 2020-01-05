@@ -23,10 +23,10 @@ public class WarpCommand extends CommandExecutor {
 
 	@SubCommand("warp")
 	public void warp(CommandSender sender, String warp) {
-		if (VaultCore.getInstance().getConfig().get("warps." + warp) == null) {
+		if (VaultCore.getInstance().getLocationFile().get("warps." + warp) == null) {
 			sender.sendMessage(string + "The warp " + variable1 + warp + string + " does not exist!");
 		} else {
-			Location location = (Location) VaultCore.getInstance().getConfig().get("warps." + warp);
+			Location location = (Location) VaultCore.getInstance().getLocationFile().get("warps." + warp);
 			((Player) sender).teleport(location);
 			sender.sendMessage(string + "You have been teleported to " + variable1 + warp + string + "!");
 		}

@@ -22,8 +22,8 @@ public class SetWarpCommand extends CommandExecutor {
 
 	@SubCommand("setwarp")
 	public void setWarp(CommandSender sender, String warp) {
-		VaultCore.getInstance().getConfig().set("warps." + warp, ((Player) sender).getLocation());
-		VaultCore.getInstance().saveConfig();
+		VaultCore.getInstance().getLocationFile().set("warps." + warp, ((Player) sender).getLocation());
+		VaultCore.getInstance().saveLocations();
 		sender.sendMessage(string + "Warp " + variable1 + warp + string + " has been set!");
 	}
 }

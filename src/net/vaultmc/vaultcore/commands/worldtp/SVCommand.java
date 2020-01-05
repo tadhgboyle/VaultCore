@@ -28,7 +28,7 @@ public class SVCommand extends CommandExecutor {
 
 		Player player = (Player) sender;
 
-		Location sv = VaultCore.getInstance().getPlayerData().getLocation("players." + player.getUniqueId() + ".sv");
+		Location sv = VaultCore.getInstance().getLocationFile().getLocation("players." + player.getUniqueId() + ".sv");
 		if (sv == null) {
 			player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
 			player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());

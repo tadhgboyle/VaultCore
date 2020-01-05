@@ -21,13 +21,13 @@ public class DelWarpCommand extends CommandExecutor {
 
 	@SubCommand("delwarp")
 	public void delWarp(CommandSender sender, String warp) {
-		if (VaultCore.getInstance().getConfig().get("warps." + warp) == null) {
+		if (VaultCore.getInstance().getLocationFile().get("warps." + warp) == null) {
 			sender.sendMessage(string + "The warp " + variable1 + warp + string + " does not exist!");
 			return;
 		}
 
-		VaultCore.getInstance().getConfig().set("warps." + warp, null);
-		VaultCore.getInstance().saveConfig();
+		VaultCore.getInstance().getLocationFile().set("warps." + warp, null);
+		VaultCore.getInstance().saveLocations();
 		sender.sendMessage(string + "Warp " + variable1 + warp + string + " has been deleted!");
 	}
 }
