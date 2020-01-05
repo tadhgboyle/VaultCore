@@ -61,26 +61,26 @@ public class VaultCore extends Component implements Listener {
 	public FileConfiguration getConfig() {
 		return this.config.getConfig();
 	}
-	
+
 	public FileConfiguration getLocationFile() {
 		return this.locations.getConfig();
 	}
-	
+
 	@Override
 	public void onServerFinishedLoading() {
 		locations = ConfigurationManager.loadConfiguration("locations.yml", this);
 	}
-	
+
 	@SneakyThrows
 	public void savePlayerData() {
 		playerData.save();
 	}
-	
+
 	@SneakyThrows
 	public void saveLocations() {
 		locations.save();
 	}
-	
+
 	@SneakyThrows
 	public void saveConfig() {
 		config.save();
