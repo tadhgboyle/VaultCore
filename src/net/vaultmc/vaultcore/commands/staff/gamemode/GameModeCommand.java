@@ -73,7 +73,7 @@ public class GameModeCommand extends CommandExecutor {
 			player.setGameMode(GameMode.CREATIVE);
 			player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
 					: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-					+ " set your game mode to " + variable1 + "creative" + string + ".");
+					+ " set your game mode to " + variable1 + "Creative" + string + ".");
 			sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
 					+ "creative" + string + ".");
 		}
@@ -86,7 +86,7 @@ public class GameModeCommand extends CommandExecutor {
 			player.setGameMode(GameMode.SURVIVAL);
 			player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
 					: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-					+ " set your game mode to " + variable1 + "survival" + string + ".");
+					+ " set your game mode to " + variable1 + "Survival" + string + ".");
 			sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
 					+ "survival" + string + ".");
 		}
@@ -99,7 +99,7 @@ public class GameModeCommand extends CommandExecutor {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
 					: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-					+ " set your game mode to " + variable1 + "spectator" + string + ".");
+					+ " set your game mode to " + variable1 + "Spectator" + string + ".");
 			sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
 					+ "spectator" + string + ".");
 		}
@@ -112,7 +112,7 @@ public class GameModeCommand extends CommandExecutor {
 			player.setGameMode(GameMode.ADVENTURE);
 			player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
 					: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-					+ " set your game mode to " + variable1 + "adventure" + string + ".");
+					+ " set your game mode to " + variable1 + "Adventure" + string + ".");
 			sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
 					+ "adventure" + string + ".");
 		}

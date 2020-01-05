@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import java.util.Collections;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -35,8 +36,8 @@ public class FlyCommand extends CommandExecutor {
 	public void flySelf(CommandSender sender) {
 
 		Player player = (Player) sender;
-		if (player.getGameMode() == GameMode.CREATIVE) {
-			player.sendMessage(string + "You're in Creative mode silly.");
+		if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
+			player.sendMessage(string + "You're in " + WordUtils.capitalize(player.getGameMode().toString().toLowerCase()) +" mode silly.");
 		} else if (!player.getAllowFlight()) {
 			player.sendMessage(string + "You have " + variable1 + "enabled" + string + " fly.");
 			player.setAllowFlight(true);
@@ -51,8 +52,8 @@ public class FlyCommand extends CommandExecutor {
 	@Permission(Permissions.FlyCommandOther)
 	public void flyOthers(CommandSender sender, Player target) {
 
-		if (target.getGameMode() == GameMode.CREATIVE) {
-			sender.sendMessage(string + "They're in Creative mode silly.");
+		if (target.getGameMode() == GameMode.CREATIVE || target.getGameMode() == GameMode.SPECTATOR) {
+			sender.sendMessage(string + "They're in " + WordUtils.capitalize(target.getGameMode().toString().toLowerCase()) + " mode silly.");
 		} else if (target.getAllowFlight()) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have " + variable1 + "disabled"
 					+ string + " fly for " + variable1 + VaultCoreAPI.getName(target) + string + "."));

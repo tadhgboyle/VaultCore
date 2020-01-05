@@ -73,10 +73,10 @@ public class HasPermCommand extends CommandExecutor {
 			}
 
 			if (VaultCore.getPermissions().playerHas(Bukkit.getWorlds().get(0).getName(), target, permission)) {
-				sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.GREEN + " has " + string + "the permission "
+				sender.sendMessage(variable1 + VaultCoreAPI.getName((OfflinePlayer) target) + ChatColor.GREEN + " has " + string + "the permission "
 						+ variable1 + permission + string + ".");
 			} else {
-				sender.sendMessage(variable1 + VaultCoreAPI.getName((Player) target) + ChatColor.RED + " doesn't have " + string
+				sender.sendMessage(variable1 + VaultCoreAPI.getName((OfflinePlayer) target) + ChatColor.RED + " doesn't have " + string
 						+ "the permission " + variable1 + permission + string + ".");
 			}
 
