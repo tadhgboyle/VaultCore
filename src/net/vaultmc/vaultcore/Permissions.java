@@ -4,6 +4,7 @@ public class Permissions {
     // string name same as class for easy reference
     public static final String BackCommand = "vaultcore.back";
     public static final String DiscordCommand = "vaultcore.discord";
+    public static final String HelpCommand = "vaultcore.help";
     public static final String MsgCommand = "vaultcore.msg";
     public static final String PingCommand = "vaultcore.ping";
     public static final String PingCommandOther = "vaultcore.ping.other";
@@ -47,10 +48,4 @@ public class Permissions {
     public static final String GrantCommandAdmin = "vaultcore.grant.admin";
     public static final String GrantCommand = "vaultcore.grant";
     public static final String ReloadCommand = "vaultcore.reload";
-    public static final String TimeCommand = "vaultcore.time";
-    public static final String WeatherCommand = "vaultcore.weather";
-    public static final String VanishCommand = "vaultcore.vanish";
-    public static final String VanishCommandOther = "vaultcore.vanish";
-    public static final String AFKCommand = "vaultcore.afk";
-    public static final String AFKCommandOther = "vaultcore.afk.other";
 }

@@ -116,6 +116,12 @@ public class VaultCore extends Component implements Listener {
 
 	@Override
 	public void onDisable() {
+
+		/*
+		 * TO DO ASAP: FOR ALL PLAYERS ONLINE, TRIGGER PLAYERQUITEVENT WHEN SERVER
+		 * SHUTDOWN
+		 */
+
 		this.savePlayerData();
 	}
 }
