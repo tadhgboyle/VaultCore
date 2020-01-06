@@ -1,7 +1,9 @@
 package net.vaultmc.vaultcore;
 
+import net.vaultmc.vaultcore.commands.AFKCommand;
 import net.vaultmc.vaultcore.commands.BackCommand;
 import net.vaultmc.vaultcore.commands.DiscordCommand;
+import net.vaultmc.vaultcore.commands.HelpCommand;
 import net.vaultmc.vaultcore.commands.PingCommand;
 import net.vaultmc.vaultcore.commands.PlayTime;
 import net.vaultmc.vaultcore.commands.RanksCommand;
@@ -24,11 +26,15 @@ import net.vaultmc.vaultcore.commands.staff.InvseeCommand;
 import net.vaultmc.vaultcore.commands.staff.MuteChatCommand;
 import net.vaultmc.vaultcore.commands.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.commands.staff.TeleportCommand;
+import net.vaultmc.vaultcore.commands.staff.TimeCommand;
+import net.vaultmc.vaultcore.commands.staff.WeatherCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMCreativeCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandListener;
+import net.vaultmc.vaultcore.commands.staff.vanish.VanishCommand;
+import net.vaultmc.vaultcore.commands.staff.vanish.VanishListeners;
 import net.vaultmc.vaultcore.commands.teleport.TPACommand;
 import net.vaultmc.vaultcore.commands.teleport.TPAHereCommand;
 import net.vaultmc.vaultcore.commands.teleport.TPAcceptCommand;
@@ -86,6 +92,10 @@ public class Registry {
 		new TeleportCommand();
 		new ReloadCommand();
 		new HasPermCommand();
+		new AFKCommand();
+		new TimeCommand();
+		new WeatherCommand();
+		new VanishCommand();
 	}
 
 	public static void registerListeners() {
@@ -96,5 +106,6 @@ public class Registry {
 		vault.registerEvents(new SettingsListener());
 		vault.registerEvents(new CycleListener());
 		vault.registerEvents(new ShutDownListener());
+		vault.registerEvents(new VanishListeners());
 	}
 }

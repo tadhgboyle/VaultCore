@@ -11,19 +11,16 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
 
-@RootCommand(
-        literal = "vcreload",
-        description = "Reloads VaultCore's configuration and data"
-)
+@RootCommand(literal = "vcreload", description = "Reloads VaultCore's configuration and data")
 @Permission(Permissions.ReloadCommand)
 public class ReloadCommand extends CommandExecutor {
-    public ReloadCommand() {
-        register("reload", Collections.emptyList());
-    }
+	public ReloadCommand() {
+		register("reload", Collections.emptyList());
+	}
 
-    @SubCommand("reload")
-    public void reload(CommandSender sender) {
-        VaultCore.getInstance().reloadConfig();
-        sender.sendMessage(ChatColor.GREEN + "Configuration reloaded!");
-    }
+	@SubCommand("reload")
+	public void reload(CommandSender sender) {
+		VaultCore.getInstance().reloadConfig();
+		sender.sendMessage(ChatColor.GREEN + "Configuration reloaded!");
+	}
 }

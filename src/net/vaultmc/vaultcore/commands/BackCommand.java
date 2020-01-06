@@ -11,34 +11,31 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
-@RootCommand(
-        literal = "back",
-        description = "Teleport to your previous location."
-)
+@RootCommand(literal = "back", description = "Teleport to your previous location.")
 @Permission(Permissions.BackCommand)
 @PlayerOnly
 public class BackCommand extends CommandExecutor {
 
-    private String string = Utilities.string;
+	private String string = Utilities.string;
 
-    public BackCommand() {
-        this.register("back", Collections.emptyList());
-    }
+	public BackCommand() {
+		this.register("back", Collections.emptyList());
+	}
 
-    @SubCommand("back")
-    public void back(CommandSender sender) {
+	@SubCommand("back")
+	public void back(CommandSender sender) {
 
-        Player player = (Player) sender;
+		Player player = (Player) sender;
 
-        if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
+		if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
 
-            Location before = PlayerTPListener.teleports.get(player.getUniqueId());
+			Location before = PlayerTPListener.teleports.get(player.getUniqueId());
 
-            player.teleport(before);
-            sender.sendMessage(string + "You have been teleported to your previous location...");
-            PlayerTPListener.teleports.remove(player.getUniqueId());
-        } else {
-            sender.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
-        }
-    }
+			player.teleport(before);
+			sender.sendMessage(string + "You have been teleported to your previous location...");
+			PlayerTPListener.teleports.remove(player.getUniqueId());
+		} else {
+			sender.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
+		}
+	}
 }
