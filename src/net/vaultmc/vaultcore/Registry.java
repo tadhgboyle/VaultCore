@@ -3,7 +3,7 @@ package net.vaultmc.vaultcore;
 import net.vaultmc.vaultcore.commands.AFKCommand;
 import net.vaultmc.vaultcore.commands.BackCommand;
 import net.vaultmc.vaultcore.commands.DiscordCommand;
-import net.vaultmc.vaultcore.commands.HelpCommand;
+import net.vaultmc.vaultutils.misc.HelpCommand;
 import net.vaultmc.vaultcore.commands.PingCommand;
 import net.vaultmc.vaultcore.commands.PlayTime;
 import net.vaultmc.vaultcore.commands.RanksCommand;
