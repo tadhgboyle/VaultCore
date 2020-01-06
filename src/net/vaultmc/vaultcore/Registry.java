@@ -11,8 +11,6 @@ import net.vaultmc.vaultcore.commands.staff.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.commands.staff.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandListener;
-import net.vaultmc.vaultcore.commands.staff.vanish.VanishCommand;
-import net.vaultmc.vaultcore.commands.staff.vanish.VanishListeners;
 import net.vaultmc.vaultcore.commands.teleport.*;
 import net.vaultmc.vaultcore.commands.warp.DelWarpCommand;
 import net.vaultmc.vaultcore.commands.warp.SetWarpCommand;
@@ -62,10 +60,6 @@ public class Registry {
 		new TeleportCommand();
 		new ReloadCommand();
 		new HasPermCommand();
-		new AFKCommand();
-		new TimeCommand();
-		new WeatherCommand();
-		new VanishCommand();
 	}
 
 	public static void registerListeners() {
@@ -76,6 +70,5 @@ public class Registry {
 		vault.registerEvents(new SettingsListener());
 		vault.registerEvents(new CycleListener());
 		vault.registerEvents(new ShutDownListener());
-		vault.registerEvents(new VanishListeners());
 	}
 }
