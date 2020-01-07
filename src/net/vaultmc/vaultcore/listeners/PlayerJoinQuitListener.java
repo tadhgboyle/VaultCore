@@ -43,7 +43,7 @@ public class PlayerJoinQuitListener implements Listener {
 		String prefix = ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player));
 		
 		String session_id = RandomStringUtils.random(8, true, true);
-		String start_time = "" + System.currentTimeMillis();
+		long start_time = System.currentTimeMillis();
 
 		session_ids.put(uuid, session_id);
 		session_duration.put(session_id, lastseen);
@@ -95,8 +95,9 @@ public class PlayerJoinQuitListener implements Listener {
 		
 		quit.setQuitMessage(
 				string + VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
+		Bukkit.broadcastMessage(session_id + " " + duration);
 		playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
-		sessionQuery(session_id, "", "", "",  duration, "", end_time);
+		sessionQuery(session_id, "", "", "",  duration, 0, end_time);
 		session_ids.remove(uuid);
 	}
 
@@ -108,10 +109,10 @@ public class PlayerJoinQuitListener implements Listener {
 				uuid, username, firstseen, lastseen, playtime, rank, ip, username, lastseen, playtime, rank, ip);
 	}
 
-	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration, String start_time, long end_time) throws SQLException {
+	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration, long start_time, long end_time) throws SQLException {
 		database.executeUpdateStatement(
-				"INSERT INTO players (session_id, uuid, username, ip, duration, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE duration=?, end_time=?",
-				session_id, uuid, username, ip, duration, end_time);
+				"INSERT INTO sessions (session_id, uuid, username, ip, start_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE duration=?, end_time=?",
+				session_id, uuid, username, ip, start_time, duration, end_time);
 	}
 
 	private String count() throws SQLException {
