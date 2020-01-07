@@ -29,12 +29,12 @@ public class CheckCommand extends CommandExecutor {
 
 	@SubCommand("check")
 	public void check(CommandSender sender, OfflinePlayer target) {
-		
+
 		DBConnection database = VaultCore.getDatabase();
-		
+
 		try {
 			ResultSet rs = database.executeQueryStatement(
-					"SELECT uuid, username, firstseen, " + "lastseen, rank, ip FROM players WHERE username=?",
+					"SELECT uuid, username, firstseen, lastseen, rank, ip FROM players WHERE username=?",
 					target.getName());
 			if (!rs.next()) {
 				sender.sendMessage(ChatColor.RED + "That player has never joined the server.");
@@ -67,8 +67,8 @@ public class CheckCommand extends CommandExecutor {
 			if (target.isOnline()) {
 				sender.sendMessage(string + "Checking: " + username);
 			} else {
-				sender.sendMessage(string + "Checking: " + username + ChatColor.GRAY + " "
-						+ ChatColor.ITALIC + "[OFFLINE]");
+				sender.sendMessage(
+						string + "Checking: " + username + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]");
 			}
 			sender.sendMessage(string + "UUID: " + variable1 + uuid);
 			sender.sendMessage(string + "First Seen (D/M/Y): " + variable1 + fdate + "/" + variable1 + fmonth + "/"
@@ -77,7 +77,8 @@ public class CheckCommand extends CommandExecutor {
 					+ variable1 + lyear);
 			sender.sendMessage(string + "Last IP: " + variable1 + ip);
 			sender.sendMessage(string + "Rank: " + variable1 + rank);
-			sender.sendMessage(string + "Database: " + variable1 + "https://database.vaultmc.net/?user=" + target.getName());
+			sender.sendMessage(
+					string + "Database: " + variable1 + "https://database.vaultmc.net/?user=" + target.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

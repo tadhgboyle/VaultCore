@@ -22,12 +22,12 @@ public class InvseeCommand extends CommandExecutor implements Listener {
 	@SubCommand("invsee")
 	public void invsee(Player sender, Player target) {
 		if (sender == target) {
-			sender.sendMessage(ChatColor.RED + "You couldn't open your own inventory!");
+			sender.sendMessage(ChatColor.RED + "You can't open your own inventory!");
 			return;
 		}
 
 		if (target.hasPermission(Permissions.InvseeExempt)) {
-			sender.sendMessage(ChatColor.RED + "You couldn't open this player's inventory!");
+			sender.sendMessage(ChatColor.RED + "You can't open this player's inventory!");
 			return;
 		}
 

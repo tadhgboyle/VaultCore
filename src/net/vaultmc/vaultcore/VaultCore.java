@@ -1,5 +1,7 @@
 package net.vaultmc.vaultcore;
 
+import java.sql.SQLException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
@@ -53,8 +55,12 @@ public class VaultCore extends Component implements Listener {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
 			RankPromotions.memberPromotion();
 			RankPromotions.patreonPromotion();
-			Statistics.statistics();
-		}, 0L, minute * 3);
+			try {
+				Statistics.statistics();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}, 0L, minute * 5);
 	}
 
 	public FileConfiguration getPlayerData() {

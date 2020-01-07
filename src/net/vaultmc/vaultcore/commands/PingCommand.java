@@ -29,21 +29,18 @@ public class PingCommand extends CommandExecutor {
 	private String variable1 = Utilities.variable1;
 	private String variable2 = Utilities.variable2;
 
-	public static int getPing(Player player) {
-		return player.spigot().getPing();
-	}
-
 	@SubCommand("pingSelf")
 	@PlayerOnly
 	public void pingSelf(CommandSender sender) {
+		Player player = (Player) sender;
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-				string + "" + "Your ping is: " + variable2 + "" + getPing((Player) sender) + string + "ms"));
+				string + "" + "Your ping is: " + variable2 + "" + player.spigot().getPing()  + string + "ms"));
 	}
 
 	@SubCommand("pingOthers")
 	@Permission(Permissions.PingCommandOther)
 	public void pingOthers(CommandSender sender, Player target) {
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + VaultCoreAPI.getName(target)
-				+ string + "" + "'s ping is: " + variable2 + "" + getPing(target) + string + "ms"));
+				+ string + "" + "'s ping is: " + variable2 + "" + target.spigot().getPing() + string + "ms"));
 	}
 }

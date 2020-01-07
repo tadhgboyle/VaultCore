@@ -39,22 +39,22 @@ public class PlayerJoinQuitListener implements Listener {
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 		String rank = VaultCore.getChat().getPrimaryGroup(player);
 		String ip = player.getAddress().getAddress().getHostAddress();
-		
+
 		String prefix = ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player));
-		
+
 		String session_id = RandomStringUtils.random(8, true, true);
 		long start_time = System.currentTimeMillis();
 
 		session_ids.put(uuid, session_id);
 		session_duration.put(session_id, lastseen);
-		
+
 		player.setDisplayName(prefix + username);
 		player.setPlayerListName(player.getDisplayName());
 
 		playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
-		
+
 		sessionQuery(session_id, uuid, username, ip, 0, start_time, 0);
-		
+
 		if (VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg") == null) {
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg", true);
 			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", true);
@@ -88,12 +88,11 @@ public class PlayerJoinQuitListener implements Listener {
 		String session_id = session_ids.get(uuid);
 		long duration = System.currentTimeMillis() - session_duration.get(session_id);
 		long end_time = System.currentTimeMillis();
-		
-		sessionQuery(session_id, "", "", "",  duration, 0, end_time);
+
+		sessionQuery(session_id, "", "", "", duration, 0, end_time);
 		session_ids.remove(uuid);
-		
-		quit.setQuitMessage(
-				string + VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
+
+		quit.setQuitMessage(VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
 		playerDataQuery("", "", 0, lastseen, playtime, rank, "");
 	}
 
@@ -101,11 +100,12 @@ public class PlayerJoinQuitListener implements Listener {
 			String rank, String ip) throws SQLException {
 		database.executeUpdateStatement(
 				"INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
-						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE lastseen=?, playtime=?, rank=?",
-				uuid, username, firstseen, lastseen, playtime, rank, ip, lastseen, playtime, rank);
+						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=?",
+				uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank);
 	}
 
-	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration, long start_time, long end_time) throws SQLException {
+	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration,
+			long start_time, long end_time) throws SQLException {
 		database.executeUpdateStatement(
 				"INSERT INTO sessions (session_id, uuid, username, ip, start_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE duration=?, end_time=?",
 				session_id, uuid, username, ip, start_time, duration, end_time);

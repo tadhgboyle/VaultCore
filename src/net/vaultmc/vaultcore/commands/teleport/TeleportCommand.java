@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.commands.staff;
+package net.vaultmc.vaultcore.commands.teleport;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
@@ -24,10 +24,6 @@ import java.util.Collections;
 public class TeleportCommand extends CommandExecutor {
     public TeleportCommand() {
         unregisterExisting();
-        register("teleportEntitiesHere", Arrays.asList(
-                Arguments.createLiteral("here"),
-                Arguments.createArgument("entities", Arguments.entitiesArgument())
-        ));
         register("teleportLocation", Collections.singletonList(Arguments.createArgument("location", Arguments.location3DArgument())));
         register("teleportLocationWorld", Arrays.asList(
                 Arguments.createArgument("location", Arguments.location3DArgument()),
@@ -110,16 +106,6 @@ public class TeleportCommand extends CommandExecutor {
         for (Entity entity : entities) {
             entity.teleport(to);
             sender.sendMessage(string + "Teleported " + variable1 + entity.getName() + string + " to " + variable1 + to.getName() + string + ".");
-        }
-    }
-
-    @SubCommand("teleportEntitiesHere")
-    @PlayerOnly
-    @Permission(Permissions.TeleportCommandHere)
-    public void teleportEntitiesHere(CommandSender sender, Collection<Entity> entities) {
-        for (Entity entity : entities) {
-            entity.teleport((Player) sender);
-            sender.sendMessage(string + "Teleported " + variable1 + entity.getName() + string + " to yourself.");
         }
     }
 
