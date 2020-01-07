@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.commands.staff.grant;
 
 import net.md_5.bungee.api.ChatColor;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,6 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class GrantCommandListener implements Listener {
+	
+	String string = Utilities.string;
+	String variable1 = Utilities.variable1;
+
 
 	private static final String INVTITLE = ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + ""
 			+ ChatColor.ITALIC;
@@ -50,11 +55,11 @@ public class GrantCommandListener implements Listener {
                             "lp user " + target.getName() + " parent set " + rank);
 
                     player.closeInventory();
-                    player.sendMessage(ChatColor.YELLOW + "Successfully updated " + ChatColor.GOLD
-                            + e.getView().getTitle().substring(INVTITLE.length()) + ChatColor.YELLOW + "'s rank to "
-                            + ChatColor.GOLD + rank + ChatColor.YELLOW + ".");
-                    target.sendMessage(ChatColor.YELLOW + "Your rank has been updated to " + ChatColor.GOLD + rank
-                            + ChatColor.YELLOW + " by " + VaultCoreAPI.getName(player) + ChatColor.YELLOW + ".");
+                    player.sendMessage(string + "Successfully updated " + variable1
+                            + e.getView().getTitle().substring(INVTITLE.length()) + string + "'s rank to "
+                            + variable1 + rank + string + ".");
+                    target.sendMessage(string + "Your rank has been updated to " + variable1 + rank
+                            + string + " by " + VaultCoreAPI.getName(player) + string + ".");
                 }
 			}
 		}

@@ -1,21 +1,33 @@
 package net.vaultmc.vaultcore.commands.msg;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultloader.utils.commands.*;
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultloader.utils.commands.Aliases;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 
 @RootCommand(literal = "r", description = "Reply to a message.")
 @Permission(Permissions.MsgCommand)
 @PlayerOnly
 @Aliases("reply")
 public class ReplyCommand extends CommandExecutor {
+	
+	private String string = Utilities.string;
+	private String variable1 = Utilities.variable1;
+
 	public ReplyCommand() {
 		this.register("r", Arrays.asList(Arguments.createArgument("message", Arguments.greedyString())));
 	}
@@ -34,10 +46,10 @@ public class ReplyCommand extends CommandExecutor {
 			return;
 		}
 		if (MsgCommand.getReplies().containsKey(player.getUniqueId())) {
-			String meTo = VaultCoreAPI.getName(player) + ChatColor.YELLOW + " -> " + ChatColor.GOLD
-					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
-			String toMe = VaultCoreAPI.getName(player) + ChatColor.YELLOW + " -> " + ChatColor.GOLD
-					+ VaultCoreAPI.getName(target) + ChatColor.YELLOW + ":";
+			String meTo = VaultCoreAPI.getName(player) + string + " -> " + variable1
+					+ VaultCoreAPI.getName(target) + string + ":";
+			String toMe = VaultCoreAPI.getName(player) + string + " -> " + variable1
+					+ VaultCoreAPI.getName(target) + string + ":";
 			player.sendMessage(meTo + " " + ChatColor.RESET + message);
 			target.sendMessage(toMe + " " + ChatColor.RESET + message);
 			MsgCommand.getReplies().put(target.getUniqueId(), player.getUniqueId());

@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.commands.msg;
 
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -18,6 +19,9 @@ import java.util.UUID;
 @PlayerOnly
 @Aliases({ "tell", "whisper", "w", "pm", "privatemessage" })
 public class MsgCommand extends CommandExecutor {
+	
+	private String string = Utilities.string;
+
 	@Getter
 	private static HashMap<UUID, UUID> replies = new HashMap<>();
 
@@ -40,8 +44,8 @@ public class MsgCommand extends CommandExecutor {
 		if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
 			player.sendMessage(ChatColor.RED + "That player has disabled messaging!");
 		} else {
-			String msgPrefix = VaultCoreAPI.getName(player) + ChatColor.YELLOW + " -> " + VaultCoreAPI.getName(target)
-					+ ChatColor.YELLOW + ":";
+			String msgPrefix = VaultCoreAPI.getName(player) + string + " -> " + VaultCoreAPI.getName(target)
+					+ string + ":";
 
 			player.sendMessage(msgPrefix + " " + ChatColor.RESET + message);
 			target.sendMessage(msgPrefix + " " + ChatColor.RESET + message);

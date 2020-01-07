@@ -1,21 +1,23 @@
 package net.vaultmc.vaultcore;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
+import net.vaultmc.vaultcore.runnables.Statistics;
 import net.vaultmc.vaultloader.components.Component;
 import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
 import net.vaultmc.vaultloader.components.annotations.Version;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.configuration.Configuration;
 import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredServiceProvider;
 
 @ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
 		"Aberdeener", "yangyang200", "2xjtn" })
@@ -51,7 +53,8 @@ public class VaultCore extends Component implements Listener {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
 			RankPromotions.memberPromotion();
 			RankPromotions.patreonPromotion();
-		}, 0L, minute * 5);
+			Statistics.statistics();
+		}, 0L, minute * 3);
 	}
 
 	public FileConfiguration getPlayerData() {

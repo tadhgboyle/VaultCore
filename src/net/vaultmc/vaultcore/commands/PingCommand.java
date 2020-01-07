@@ -1,15 +1,20 @@
 package net.vaultmc.vaultcore.commands;
 
+import java.util.Collections;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
-import java.util.Collections;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 
 @RootCommand(literal = "ping", description = "Check the ping of yourself or other players.")
 @Permission(Permissions.PingCommand)
@@ -25,7 +30,7 @@ public class PingCommand extends CommandExecutor {
 	private String variable2 = Utilities.variable2;
 
 	public static int getPing(Player player) {
-		return ((CraftPlayer) player).getHandle().ping;
+		return player.spigot().getPing();
 	}
 
 	@SubCommand("pingSelf")
