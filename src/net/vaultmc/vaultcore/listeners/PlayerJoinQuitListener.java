@@ -81,32 +81,28 @@ public class PlayerJoinQuitListener implements Listener {
 
 		Player player = quit.getPlayer();
 		String uuid = player.getUniqueId().toString();
-		String username = player.getName();
-		long firstseen = player.getFirstPlayed();
 		long lastseen = System.currentTimeMillis();
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 		String rank = VaultCore.getChat().getPrimaryGroup(player);
-		String ip = player.getAddress().getAddress().getHostAddress();
 
 		String session_id = session_ids.get(uuid);
 		long duration = System.currentTimeMillis() - session_duration.get(session_id);
 		long end_time = System.currentTimeMillis();
 		
+		sessionQuery(session_id, "", "", "",  duration, 0, end_time);
+		session_ids.remove(uuid);
 		
 		quit.setQuitMessage(
 				string + VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
-		Bukkit.broadcastMessage(session_id + " " + duration);
-		playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
-		sessionQuery(session_id, "", "", "",  duration, 0, end_time);
-		session_ids.remove(uuid);
+		playerDataQuery("", "", 0, lastseen, playtime, rank, "");
 	}
 
 	private void playerDataQuery(String uuid, String username, long firstseen, long lastseen, long playtime,
 			String rank, String ip) throws SQLException {
 		database.executeUpdateStatement(
 				"INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
-						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE username=?, lastseen=?, playtime=?, rank=?, ip=?",
-				uuid, username, firstseen, lastseen, playtime, rank, ip, username, lastseen, playtime, rank, ip);
+						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE lastseen=?, playtime=?, rank=?",
+				uuid, username, firstseen, lastseen, playtime, rank, ip, lastseen, playtime, rank);
 	}
 
 	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration, long start_time, long end_time) throws SQLException {
