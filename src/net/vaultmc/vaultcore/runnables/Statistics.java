@@ -13,6 +13,8 @@ import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
 import net.vaultmc.vaultloader.utils.DBConnection;
 
 public class Statistics {
+	
+	static DBConnection database = VaultCore.getDatabase();
 
 	public static void statistics() throws SQLException {
 
@@ -22,8 +24,6 @@ public class Statistics {
 
 			double tps = Bukkit.getServer().getTPS()[0];
 
-			int onlinePlayers = Bukkit.getOnlinePlayers().toArray().length;
-
 			List<Integer> pingList = new ArrayList<Integer>();
 
 			for (Player players : Bukkit.getOnlinePlayers()) {
@@ -32,8 +32,6 @@ public class Statistics {
 			}
 
 			double average_ping = pingList.stream().mapToInt(val -> val).average().orElse(0);
-
-			DBConnection database = VaultCore.getDatabase();
 
 			ResultSet pt = database.executeQueryStatement("SELECT SUM(playtime) AS total_playtime FROM players");
 			int total_playtime = 0;
@@ -53,9 +51,19 @@ public class Statistics {
 			String total_players = PlayerJoinQuitListener.count();
 
 			database.executeUpdateStatement(
-					"INSERT INTO statistics (timestamp, tps, players_online, average_ping, total_playtime, average_session, total_sessions, total_players) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-					timestamp, tps, onlinePlayers, average_ping, total_playtime, average_session, total_sessions,
+					"INSERT INTO statistics (timestamp, tps, average_ping, total_playtime, average_session, total_sessions, total_players) VALUES (?, ?, ?, ?, ?, ?, ?)",
+					timestamp, tps, average_ping, total_playtime, average_session, total_sessions,
 					total_players);
 		}
+	}
+	
+	public static void onlinePlayers() {
+		long timestamp = System.currentTimeMillis();
+		int onlinePlayers = Bukkit.getOnlinePlayers().toArray().length;
+		
+		database.executeUpdateStatement(
+				"INSERT INTO online_players (timestamp, online_players) VALUES (?, ?)",
+				timestamp, onlinePlayers);
+
 	}
 }

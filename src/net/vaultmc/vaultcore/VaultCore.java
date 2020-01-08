@@ -57,10 +57,11 @@ public class VaultCore extends Component implements Listener {
 			RankPromotions.patreonPromotion();
 			try {
 				Statistics.statistics();
+				Statistics.onlinePlayers();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}, 0L, minute * 1);
+		}, 0L, minute * 2);
 	}
 
 	public FileConfiguration getPlayerData() {
