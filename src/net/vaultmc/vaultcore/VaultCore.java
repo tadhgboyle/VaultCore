@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -52,16 +53,17 @@ public class VaultCore extends Component implements Listener {
 		GrantCommandInv.initAdmin();
 		GrantCommandInv.initMod();
 		int minute = (int) 1200L;
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
-			RankPromotions.memberPromotion();
-			RankPromotions.patreonPromotion();
-			try {
-				Statistics.statistics();
-				Statistics.onlinePlayers();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		new BukkitRunnable() {
+			public void run() {
+				RankPromotions.memberPromotion();
+				RankPromotions.patreonPromotion();
+				try {
+					Statistics.statistics();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
-		}, 0L, minute * 2);
+		}.runTaskTimerAsynchronously(this.getBukkitPlugin(), 0, minute * 2);
 	}
 
 	public FileConfiguration getPlayerData() {
