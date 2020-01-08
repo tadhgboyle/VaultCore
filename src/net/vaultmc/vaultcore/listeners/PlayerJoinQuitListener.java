@@ -24,7 +24,7 @@ public class PlayerJoinQuitListener implements Listener {
 	String string = Utilities.string;
 	String variable1 = Utilities.variable1;
 	String variable2 = Utilities.variable2;
-	DBConnection database = VaultCore.getDatabase();
+	static DBConnection database = VaultCore.getDatabase();
 	private static HashMap<String, String> session_ids = new HashMap<>();
 	private static HashMap<String, Long> session_duration = new HashMap<>();
 
@@ -93,7 +93,7 @@ public class PlayerJoinQuitListener implements Listener {
 		session_ids.remove(uuid);
 
 		quit.setQuitMessage(VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
-		playerDataQuery("", "", 0, lastseen, playtime, rank, "");
+		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
 	}
 
 	private void playerDataQuery(String uuid, String username, long firstseen, long lastseen, long playtime,
@@ -111,7 +111,7 @@ public class PlayerJoinQuitListener implements Listener {
 				session_id, uuid, username, ip, start_time, duration, end_time);
 	}
 
-	private String count() throws SQLException {
+	public static String count() throws SQLException {
 		String total_players = null;
 		ResultSet rs = database.executeQueryStatement("SELECT COUNT(uuid) FROM players");
 		while (rs.next()) {

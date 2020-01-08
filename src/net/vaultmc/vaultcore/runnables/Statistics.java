@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
 import net.vaultmc.vaultloader.utils.DBConnection;
 
 public class Statistics {
@@ -33,18 +34,28 @@ public class Statistics {
 			double average_ping = pingList.stream().mapToInt(val -> val).average().orElse(0);
 
 			DBConnection database = VaultCore.getDatabase();
-			
+
 			ResultSet pt = database.executeQueryStatement("SELECT SUM(playtime) AS total_playtime FROM players");
-			String total_playtime = null;
-			total_playtime = pt.getString(total_playtime);
-			
-			ResultSet session = database.executeQueryStatement("SELECT AVG(duration) AS average_session FROM sessions");
+			int total_playtime = 0;
+			if (pt.next()) {
+				total_playtime = pt.getInt("total_playtime");
+			}
+
+			ResultSet session = database.executeQueryStatement(
+					"SELECT AVG(duration) AS average_session, COUNT(session_id) AS total_sessions FROM sessions");
 			String average_session = null;
-			average_session = session.getString(average_session);
+			String total_sessions = null;
+			if (session.next()) {
+				average_session = session.getString("average_session");
+				total_sessions = session.getString("total_sessions");
+			}
+
+			String total_players = PlayerJoinQuitListener.count();
 
 			database.executeUpdateStatement(
-					"INSERT INTO statistics (timestamp, tps, players_online, average_ping, total_playtime, average_session) VALUES (?, ?, ?, ?, ?, ?)",
-					timestamp, tps, onlinePlayers, average_ping, total_playtime, average_session);
+					"INSERT INTO statistics (timestamp, tps, players_online, average_ping, total_playtime, average_session, total_sessions, total_players) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+					timestamp, tps, onlinePlayers, average_ping, total_playtime, average_session, total_sessions,
+					total_players);
 		}
 	}
 }

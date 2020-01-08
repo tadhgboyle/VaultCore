@@ -1,25 +1,29 @@
 package net.vaultmc.vaultcore.commands;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 
 @RootCommand(literal = "seen", description = "See how long a player has been online/offline for.")
 @Permission(Permissions.SeenCommand)
 public class SeenCommand extends CommandExecutor {
 
 	private String string = Utilities.string;
-	private String variable1 = Utilities.variable1;
 	private String variable2 = Utilities.variable2;
 
 	public SeenCommand() {
@@ -53,7 +57,7 @@ public class SeenCommand extends CommandExecutor {
 				status = ChatColor.RED + " offline ";
 			}
 
-			String message = String.format(variable1 + VaultCoreAPI.getName(player) + string + " has been" + status
+			String message = String.format(VaultCoreAPI.getName(player) + string + " has been" + status
 					+ string + "for " + variable2 + "%d" + string + " days, " + variable2 + "%d" + string
 					+ " hours and " + variable2 + "%d" + string + "  minutes.", time[0], time[1], time[2]);
 			sender.sendMessage(message);

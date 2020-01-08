@@ -60,7 +60,7 @@ public class VaultCore extends Component implements Listener {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}, 0L, minute * 5);
+		}, 0L, minute * 1);
 	}
 
 	public FileConfiguration getPlayerData() {
