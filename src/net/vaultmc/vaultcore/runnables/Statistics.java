@@ -14,9 +14,9 @@ import net.vaultmc.vaultloader.utils.DBConnection;
 
 public class Statistics {
 
-	static DBConnection database = VaultCore.getDatabase();
-
 	public static void statistics() throws SQLException {
+
+		DBConnection database = VaultCore.getDatabase();
 
 		long timestamp = System.currentTimeMillis();
 
@@ -51,7 +51,8 @@ public class Statistics {
 		String total_players = PlayerJoinQuitListener.count();
 
 		database.executeUpdateStatement(
-				"INSERT INTO statistics (timestamp, tps, players_online, average_ping, total_playtime, average_session, total_sessions, total_players) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+				"INSERT INTO statistics (timestamp, tps, players_online, average_ping, total_playtime, average_session, total_sessions, total_players) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 				timestamp, tps, players_online, average_ping, total_playtime, average_session, total_sessions,
 				total_players);
 	}

@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore;
 import java.sql.SQLException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -35,6 +36,24 @@ public class VaultCore extends Component implements Listener {
 	@Getter
 	private static DBConnection database;
 
+	private static String getServerName() {
+		String name = "CraftBukkit";
+
+		try {
+			Class.forName("org.spigotmc.event.entity.EntityDismountEvent");
+			name = "Spigot";
+		} catch (ClassNotFoundException ex) {
+		}
+
+		try {
+			Class.forName("com.destroystokyo.paper.NamespacedTag");
+			name = "Paper";
+		} catch (ClassNotFoundException ex) {
+		}
+
+		return name;
+	}
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -64,6 +83,17 @@ public class VaultCore extends Component implements Listener {
 				}
 			}
 		}.runTaskTimerAsynchronously(this.getBukkitPlugin(), 0, minute * 2);
+
+		Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
+		        ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
+		        ChatColor.YELLOW + " /\\   /\\__ _ _   _| | |_  " + ChatColor.GOLD + "/ __\\___  _ __ ___ ",
+		        ChatColor.YELLOW + " \\ \\ / / _` | | | | | __|" + ChatColor.GOLD + "/ /  / _ \\| '__/ _ \\",
+		        ChatColor.YELLOW + "  \\ V / (_| | |_| | | |_" + ChatColor.GOLD + "/ /__| (_) | | |  __/",
+		        ChatColor.YELLOW + "   \\_/ \\__,_|\\__,_|_|\\__" + ChatColor.GOLD + "\\____/\\___/|_|  \\___|",
+		     "",                                                 
+						ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
+								+ ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - "
+								+ getServerName() + ChatColor.GREEN + "." });
 	}
 
 	public FileConfiguration getPlayerData() {
@@ -128,12 +158,6 @@ public class VaultCore extends Component implements Listener {
 
 	@Override
 	public void onDisable() {
-
-		/*
-		 * TO DO ASAP: FOR ALL PLAYERS ONLINE, TRIGGER PLAYERQUITEVENT WHEN SERVER
-		 * SHUTDOWN
-		 */
-
 		this.savePlayerData();
 	}
 }
