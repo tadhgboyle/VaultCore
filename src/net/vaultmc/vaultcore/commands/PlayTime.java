@@ -6,7 +6,6 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
@@ -46,7 +45,7 @@ public class PlayTime extends CommandExecutor {
 			printPlayTimeOnline(target.getPlayer(), sender);
 			return;
 		}
-		printPlayTimeOffline(sender, target.getName());
+		printPlayTimeOffline(sender, target);
 	}
 
 	private void printPlayTimeOnline(Player player, CommandSender sender) {
@@ -60,19 +59,18 @@ public class PlayTime extends CommandExecutor {
 		sender.sendMessage(playtimeMsg);
 	}
 
-	private void printPlayTimeOffline(CommandSender player, String target) {
-		
+	private void printPlayTimeOffline(CommandSender player, OfflinePlayer target) {
+
 		DBConnection database = VaultCore.getDatabase();
-		
+
 		try {
 			ResultSet rs = database
-					.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?", target);
+					.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?", target.getName());
 			if (!rs.next()) {
 				player.sendMessage(ChatColor.RED + "This player has never joined before!");
 				return;
 			}
 
-			String username = rs.getString("username");
 			long playtime = rs.getLong("playtime");
 			long t = (long) (playtime * 0.05 * 1000);
 			long[] time = Utilities.formatDuration(t);
@@ -81,7 +79,7 @@ public class PlayTime extends CommandExecutor {
 							variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
 									+ " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d"
 									+ string + " hours and " + variable2 + "%d" + string + "  minutes."),
-					VaultCoreAPI.getName(Bukkit.getPlayer(username)), time[0], time[1], time[2]);
+					VaultCoreAPI.getName(target), time[0], time[1], time[2]);
 			player.sendMessage(playtimeMsg);
 		} catch (SQLException e) {
 			e.printStackTrace();

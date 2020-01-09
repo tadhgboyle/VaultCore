@@ -1,16 +1,15 @@
 package net.vaultmc.vaultcore.runnables;
 
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
-import net.vaultmc.vaultloader.utils.DBConnection;
 
 public class Statistics {
 
@@ -24,7 +23,7 @@ public class Statistics {
 
 		int players_online = Bukkit.getOnlinePlayers().toArray().length;
 
-		List<Integer> pingList = new ArrayList<Integer>();
+		List<Integer> pingList = new ArrayList<>();
 
 		for (Player players : Bukkit.getOnlinePlayers()) {
 			int ping = players.spigot().getPing();
