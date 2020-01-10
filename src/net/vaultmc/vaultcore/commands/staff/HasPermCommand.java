@@ -24,7 +24,6 @@ public class HasPermCommand extends CommandExecutor {
 	String variable1 = Utilities.variable1;
 
 	public HasPermCommand() {
-		unregisterExisting();
 		this.register("hasPermSelf", Arrays.asList(Arguments.createArgument("permission", Arguments.string())));
 		this.register("hasPermOther", Arrays.asList(Arguments.createArgument("permission", Arguments.string()),
 				Arguments.createArgument("target", Arguments.offlinePlayerArgument())));

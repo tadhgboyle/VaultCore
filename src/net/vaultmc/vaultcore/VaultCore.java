@@ -27,6 +27,7 @@ import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
 		"Aberdeener", "yangyang200", "2xjtn" })
 @Version(major = 3, minor = 0, revision = 4)
 public class VaultCore extends Component implements Listener {
+	@Getter
 	public static VaultCore instance;
 	private static Chat chat = null;
 	private static Permission perms = null;
@@ -84,16 +85,15 @@ public class VaultCore extends Component implements Listener {
 			}
 		}.runTaskTimerAsynchronously(this.getBukkitPlugin(), 0, minute * 2);
 
-		Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
-		        ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
-		        ChatColor.YELLOW + " /\\   /\\__ _ _   _| | |_  " + ChatColor.GOLD + "/ __\\___  _ __ ___ ",
-		        ChatColor.YELLOW + " \\ \\ / / _` | | | | | __|" + ChatColor.GOLD + "/ /  / _ \\| '__/ _ \\",
-		        ChatColor.YELLOW + "  \\ V / (_| | |_| | | |_" + ChatColor.GOLD + "/ /__| (_) | | |  __/",
-		        ChatColor.YELLOW + "   \\_/ \\__,_|\\__,_|_|\\__" + ChatColor.GOLD + "\\____/\\___/|_|  \\___|",
-		     "",                                                 
-						ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
-								+ ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - "
-								+ getServerName() + ChatColor.GREEN + "." });
+		Bukkit.getServer().getConsoleSender().sendMessage(new String[] {
+				ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
+				ChatColor.YELLOW + " /\\   /\\__ _ _   _| | |_  " + ChatColor.GOLD + "/ __\\___  _ __ ___ ",
+				ChatColor.YELLOW + " \\ \\ / / _` | | | | | __|" + ChatColor.GOLD + "/ /  / _ \\| '__/ _ \\",
+				ChatColor.YELLOW + "  \\ V / (_| | |_| | | |_" + ChatColor.GOLD + "/ /__| (_) | | |  __/",
+				ChatColor.YELLOW + "   \\_/ \\__,_|\\__,_|_|\\__" + ChatColor.GOLD + "\\____/\\___/|_|  \\___|", "",
+				ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
+						+ ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
+						+ ChatColor.GREEN + "." });
 	}
 
 	public FileConfiguration getPlayerData() {
@@ -131,10 +131,6 @@ public class VaultCore extends Component implements Listener {
 	@SneakyThrows
 	public void reloadConfig() {
 		config.reload();
-	}
-
-	public static VaultCore getInstance() {
-		return instance;
 	}
 
 	private void setupChat() {

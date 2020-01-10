@@ -48,4 +48,6 @@ public class Permissions {
     public static final String GrantCommandAdmin = "vaultcore.grant.admin";
     public static final String GrantCommand = "vaultcore.grant";
     public static final String ReloadCommand = "vaultcore.reload";
+    public static final String TagCommand = "vaultcore.tag";
+    public static final String TagCommandDelete = "vaultcore.tag.delete";
 }
