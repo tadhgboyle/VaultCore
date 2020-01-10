@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.*;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,32 +8,31 @@ import org.bukkit.entity.Player;
 import java.sql.SQLException;
 import java.util.Collections;
 
-@RootCommand(
-        literal = "discord",
-        description = "Get a link to our Discord Guild."
-)
+@RootCommand(literal = "discord", description = "Get a link to our Discord Guild.")
 @Permission(Permissions.DiscordCommand)
 @PlayerOnly
 public class DiscordCommand extends CommandExecutor {
 
-    private String string = Utilities.string;
-    private String variable1 = Utilities.variable1;
-    private String variable2 = Utilities.variable2;
-    public DiscordCommand() {
-        this.register("discord", Collections.emptyList());
-    }
+	private String string = Utilities.string;
+	private String variable1 = Utilities.variable1;
+	private String variable2 = Utilities.variable2;
 
-    @SubCommand("discord")
-    public void execute(CommandSender sender) {
-        Player player = (Player) sender;
+	public DiscordCommand() {
+		this.register("discord", Collections.emptyList());
+	}
 
-        try {
-            String token = TokenCommand.getToken(player.getUniqueId(), player);
+	@SubCommand("discord")
+	public void execute(CommandSender sender) {
+		Player player = (Player) sender;
 
-            player.sendMessage(string + "Your token: " + variable2 + token);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        player.sendMessage(string + "Click here to join our Discord guild: " + variable1 + "https://discord.vaultmc.net");
-    }
+		try {
+			String token = TokenCommand.getToken(player.getUniqueId(), player);
+
+			player.sendMessage(string + "Your token: " + variable2 + token);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		player.sendMessage(
+				string + "Click here to join our Discord guild: " + variable1 + "https://discord.vaultmc.net");
+	}
 }

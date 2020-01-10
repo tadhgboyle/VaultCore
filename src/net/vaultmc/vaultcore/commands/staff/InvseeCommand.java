@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.*;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

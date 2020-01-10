@@ -1,6 +1,6 @@
 package net.vaultmc.vaultcore.commands.settings;
 
-import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.*;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

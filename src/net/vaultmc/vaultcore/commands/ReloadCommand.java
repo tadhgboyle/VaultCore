@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.*;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.RootCommand;

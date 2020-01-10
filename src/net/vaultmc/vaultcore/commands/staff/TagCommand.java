@@ -3,7 +3,6 @@ package net.vaultmc.vaultcore.commands.staff;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -35,11 +34,14 @@ public class TagCommand extends CommandExecutor {
 
 	public TagCommand() {
 		unregisterExisting();
-		this.register("tagAdd", Arrays.asList(Arguments.createArgument("target", Arguments.offlinePlayerArgument()),
-				Arguments.createArgument("content", Arguments.greedyString())));
-		register("tagCheck",
-				Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
-		register("tagDelete", Collections.singletonList(Arguments.createArgument("id", Arguments.integerArgument(1))));
+		this.register("tagAdd",
+				Arrays.asList(Arguments.createLiteral("add"),
+						Arguments.createArgument("target", Arguments.offlinePlayerArgument()),
+						Arguments.createArgument("content", Arguments.greedyString())));
+		register("tagCheck", Arrays.asList(Arguments.createLiteral("check"),
+				Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+		register("tagDelete", Arrays.asList(Arguments.createLiteral("delete"),
+				Arguments.createArgument("id", Arguments.integerArgument(1))));
 	}
 
 	@SubCommand("tagAdd")

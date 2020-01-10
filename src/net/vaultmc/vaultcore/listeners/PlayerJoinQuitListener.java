@@ -14,9 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultcore.*;
 import net.vaultmc.vaultloader.utils.DBConnection;
 
 public class PlayerJoinQuitListener implements Listener {

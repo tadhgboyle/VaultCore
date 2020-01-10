@@ -7,10 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultcore.*;
 import net.vaultmc.vaultloader.utils.commands.Aliases;
 import net.vaultmc.vaultloader.utils.commands.Arguments;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
