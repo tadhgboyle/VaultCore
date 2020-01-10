@@ -3,6 +3,8 @@ package net.vaultmc.vaultcore.commands.staff;
 import net.vaultmc.vaultcore.*;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -59,7 +61,6 @@ public class CheckCommand extends CommandExecutor {
 			int lyear = lastCal.get(Calendar.YEAR);
 
 			sender.sendMessage(ChatColor.DARK_GREEN + "--== [Check] ==--");
-			sender.sendMessage("");
 
 			if (target.isOnline()) {
 				sender.sendMessage(string + "Checking: " + username);
@@ -76,6 +77,7 @@ public class CheckCommand extends CommandExecutor {
 			sender.sendMessage(string + "Rank: " + variable1 + rank);
 			sender.sendMessage(
 					string + "Database: " + variable1 + "https://database.vaultmc.net/?user=" + target.getName());
+			Bukkit.getServer().dispatchCommand(sender, "tag check " + target.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

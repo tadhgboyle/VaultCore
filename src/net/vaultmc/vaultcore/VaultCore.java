@@ -83,7 +83,7 @@ public class VaultCore extends Component implements Listener {
 					e.printStackTrace();
 				}
 			}
-		}.runTaskTimerAsynchronously(this.getBukkitPlugin(), 0, minute * 2);
+		}.runTaskTimerAsynchronously(this.getBukkitPlugin(), minute, minute * 2);
 
 		Bukkit.getServer().getConsoleSender().sendMessage(new String[] {
 				ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
