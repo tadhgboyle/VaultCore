@@ -10,18 +10,18 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
 
 public class SettingsInventories {
 
 	static String string = Utilities.string;
 	static String variable1 = Utilities.variable1;
 	static String variable2 = Utilities.variable2;
-
 	private static ItemStack teleportMain, creativeMain, chatMain, back;
 	private static ItemStack toggleTPA, acceptTPA;
 	private static ItemStack toggleCycle;
-	private static ItemStack toggleMsg, toggleSwear;
+	private static ItemStack toggleMsg, togglePWC, toggleSwear;
 
 	public static Inventory SettingsMain(Player player) {
 		Inventory SettingsMain = Bukkit.createInventory(null, 27, "Settings");
@@ -55,8 +55,9 @@ public class SettingsInventories {
 	public static Inventory ChatSettings(Player player) {
 		Inventory ChatSettings = Bukkit.createInventory(null, 36, "Chat Settings");
 
-		ChatSettings.setItem(11, toggleMsg);
-		ChatSettings.setItem(15, toggleSwear);
+		ChatSettings.setItem(10, toggleMsg);
+		ChatSettings.setItem(13, togglePWC);
+		ChatSettings.setItem(16, toggleSwear);
 		ChatSettings.setItem(31, back);
 
 		return ChatSettings;
@@ -64,46 +65,98 @@ public class SettingsInventories {
 
 	public static void init(Player player) {
 
-		itemStackBuilder(teleportMain, Material.ENDER_PEARL, "" + variable1 + "Teleportation " + string + "settings...",
-				player, "");
+		teleportMain = new ItemStack(Material.ENDER_PEARL, 1);
+		ItemMeta teleportMainMeta = teleportMain.getItemMeta();
+		teleportMainMeta.setDisplayName(variable1 + "Teleportation " + string + "settings...");
+		teleportMain.setItemMeta(teleportMainMeta);
 
-		itemStackBuilder(creativeMain, Material.GRASS_BLOCK, "" + variable1 + "Creative " + string + "settings...",
-				player, "");
+		creativeMain = new ItemStack(Material.GRASS_BLOCK, 1);
+		ItemMeta creativeMainMeta = creativeMain.getItemMeta();
+		creativeMainMeta.setDisplayName(variable1 + "Creative " + string + "settings...");
+		creativeMain.setItemMeta(creativeMainMeta);
 
-		itemStackBuilder(chatMain, Material.PAPER, "" + variable1 + "Chat " + string + "settings...", player, "");
+		chatMain = new ItemStack(Material.PAPER, 1);
+		ItemMeta chatMainMeta = chatMain.getItemMeta();
+		chatMainMeta.setDisplayName(variable1 + "Chat " + string + "settings...");
+		chatMain.setItemMeta(chatMainMeta);
 
-		itemStackBuilder(back, Material.BOOK, "" + string + "Back...", player, "");
+		back = new ItemStack(Material.BOOK, 1);
+		ItemMeta backMeta = back.getItemMeta();
+		backMeta.setDisplayName(string + "Back...");
+		back.setItemMeta(backMeta);
 
-		itemStackBuilder(toggleTPA, Material.BOW, "" + string + "Allow " + variable1 + "TPA" + string + "s", player,
-				"tpa");
-
-		itemStackBuilder(acceptTPA, Material.BOW, "" + string + "Auto Accept " + variable1 + "TPA" + string + "s",
-				player, "autotpa");
-
-		itemStackBuilder(toggleCycle, Material.REPEATER, "" + string + "Enable" + variable1 + "Cycle", player, "cycle");
-
-		itemStackBuilder(toggleMsg, Material.FEATHER, "" + string + "Allow " + variable1 + "Messages", player, "msg");
-
-		itemStackBuilder(toggleSwear, Material.IRON_BARS, "" + string + "Toggle " + variable1 + "Swear Filter", player,
-				"swearfilter");
-	}
-
-	public static ItemStack itemStackBuilder(ItemStack item, Material material, String displayName, Player player,
-			String setting) {
-		item = new ItemStack(material, 1);
-		ItemMeta itemMeta = item.getItemMeta();
-		itemMeta.setDisplayName(displayName);
-		if (setting != "") {
-			ArrayList<String> itemLore = new ArrayList<String>();
-			itemLore.add(string + "Enabled: " + variable2 + VaultCore.getInstance().getPlayerData()
-					.get("players." + player.getUniqueId() + ".settings." + setting));
-			if (VaultCore.getInstance().getPlayerData()
-					.getBoolean("players." + player.getUniqueId() + ".settings." + setting)) {
-				itemMeta.addEnchant(Enchantment.DURABILITY, 5, true);
-			}
-			item.setLore(itemLore);
+		toggleTPA = new ItemStack(Material.BOW, 1);
+		ItemMeta toggleTPAMeta = toggleTPA.getItemMeta();
+		toggleTPAMeta.setDisplayName(string + "Allow " + variable1 + "TPA" + string + "s");
+		ArrayList<String> toggleTPALore = new ArrayList<String>();
+		toggleTPALore.add(string + "Enabled: " + variable2
+				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.tpa"));
+		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.tpa")) {
+			toggleTPAMeta.addEnchant(Enchantment.DURABILITY, 5, true);
 		}
-		item.setItemMeta(itemMeta);
-		return item;
+		toggleTPAMeta.setLore(toggleTPALore);
+		toggleTPA.setItemMeta(toggleTPAMeta);
+
+		acceptTPA = new ItemStack(Material.ARROW, 1);
+		ItemMeta acceptTPAMeta = acceptTPA.getItemMeta();
+		acceptTPAMeta.setDisplayName(string + "Auto Accept " + variable1 + "TPA" + string + "s");
+		ArrayList<String> acceptTPALore = new ArrayList<String>();
+		acceptTPALore.add(string + "Enabled: " + variable2
+				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.autotpa"));
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.autotpa")) {
+			acceptTPAMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+		}
+		acceptTPAMeta.setLore(acceptTPALore);
+		acceptTPA.setItemMeta(acceptTPAMeta);
+
+		toggleCycle = new ItemStack(Material.REPEATER, 1);
+		ItemMeta toggleCycleMeta = toggleCycle.getItemMeta();
+		toggleCycleMeta.setDisplayName(string + "Enable " + variable1 + "Cycle");
+		ArrayList<String> toggleCycleLore = new ArrayList<String>();
+		toggleCycleLore.add(string + "Enabled: " + variable2
+				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.cycle"));
+		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.cycle")) {
+			toggleCycleMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+		}
+		toggleCycleMeta.setLore(toggleCycleLore);
+		toggleCycle.setItemMeta(toggleCycleMeta);
+
+		toggleMsg = new ItemStack(Material.FEATHER, 1);
+		ItemMeta toggleMsgMeta = toggleMsg.getItemMeta();
+		toggleMsgMeta.setDisplayName(string + "Allow " + variable1 + "Messages");
+		ArrayList<String> toggleMsgLore = new ArrayList<String>();
+		toggleMsgLore.add(string + "Enabled: " + variable2
+				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg"));
+		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.msg")) {
+			toggleMsgMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+		}
+		toggleMsgMeta.setLore(toggleMsgLore);
+		toggleMsg.setItemMeta(toggleMsgMeta);
+
+		togglePWC = new ItemStack(Material.FILLED_MAP, 1);
+		ItemMeta togglePWCMeta = togglePWC.getItemMeta();
+		togglePWCMeta.setDisplayName(string + "Use " + variable1 + "Per World Chat");
+		ArrayList<String> togglePWCLore = new ArrayList<String>();
+		togglePWCLore.add(string + "Enabled: " + variable2
+				+ VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.pwc"));
+		if (VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.pwc")) {
+			togglePWCMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+		}
+		togglePWCMeta.setLore(togglePWCLore);
+		togglePWC.setItemMeta(togglePWCMeta);
+
+		toggleSwear = new ItemStack(Material.IRON_BARS, 1);
+		ItemMeta toggleSwearMeta = toggleSwear.getItemMeta();
+		toggleSwearMeta.setDisplayName(string + "Toggle " + variable1 + "Swear Filter");
+		ArrayList<String> toggleSwearLore = new ArrayList<String>();
+		toggleSwearLore.add(string + "Enabled: " + variable2 + VaultCore.getInstance().getPlayerData()
+				.get("players." + player.getUniqueId() + ".settings.swearfilter"));
+		if (VaultCore.getInstance().getPlayerData()
+				.getBoolean("players." + player.getUniqueId() + ".settings.swearfilter")) {
+			toggleSwearMeta.addEnchant(Enchantment.DURABILITY, 5, true);
+		}
+		toggleSwearMeta.setLore(toggleSwearLore);
+		toggleSwear.setItemMeta(toggleSwearMeta);
 	}
 }
