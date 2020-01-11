@@ -1,16 +1,23 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.*;
-import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.*;
+import java.sql.ResultSet;
+import java.util.Collections;
+import java.util.UUID;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.UUID;
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 
 @RootCommand(literal = "token", description = "Get your universal token for VaultMC services.")
 @Permission(Permissions.TokenCommand)
@@ -23,8 +30,9 @@ public class TokenCommand extends CommandExecutor {
 	public TokenCommand() {
 		register("getToken", Collections.emptyList());
 	}
-
-	static String getToken(UUID uuid, Player player) throws SQLException {
+	
+	@SneakyThrows
+	static String getToken(UUID uuid, Player player) {
 
 		DBConnection database = VaultCore.getDatabase();
 
@@ -54,9 +62,10 @@ public class TokenCommand extends CommandExecutor {
 		}
 		return new_token;
 	}
-
+	
+	@SneakyThrows
 	@SubCommand("getToken")
-	public void getToken(CommandSender sender) throws SQLException {
+	public void getToken(CommandSender sender) {
 		String token = getToken(((Player) sender).getUniqueId(), (Player) sender);
 		// if they are 1/308915776 make them run cmd again
 		if (token == null) {

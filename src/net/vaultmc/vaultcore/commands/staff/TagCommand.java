@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.commands.staff;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 import org.bukkit.ChatColor;
@@ -9,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
@@ -43,9 +43,10 @@ public class TagCommand extends CommandExecutor {
 		register("tagDelete", Arrays.asList(Arguments.createLiteral("delete"),
 				Arguments.createArgument("id", Arguments.integerArgument(1))));
 	}
-
+	
+	@SneakyThrows
 	@SubCommand("tagAdd")
-	public void tagAdd(CommandSender sender, OfflinePlayer target, String content) throws SQLException {
+	public void tagAdd(CommandSender sender, OfflinePlayer target, String content) {
 		Player executor = (Player) sender;
 		if (target == executor) {
 			sender.sendMessage(ChatColor.RED + "You can't tag yourself!");
@@ -65,8 +66,9 @@ public class TagCommand extends CommandExecutor {
 			tagAddQuery(sender, target, content);
 		}
 	}
-
-	private void tagAddQuery(CommandSender sender, OfflinePlayer target, String content) throws SQLException {
+	
+	@SneakyThrows
+	private void tagAddQuery(CommandSender sender, OfflinePlayer target, String content) {
 		Player author = (Player) sender;
 		database.executeUpdateStatement("INSERT INTO tags (player, author, content, timestamp) VALUES (?, ?, ?, ?)",
 				target.getUniqueId().toString(), author.getUniqueId().toString(), content, System.currentTimeMillis());
@@ -79,9 +81,10 @@ public class TagCommand extends CommandExecutor {
 				+ VaultCoreAPI.getName(target) + string + ".");
 
 	}
-
+	
+	@SneakyThrows
 	@SubCommand("tagList")
-	public void tagList(CommandSender sender, OfflinePlayer target) throws SQLException {
+	public void tagList(CommandSender sender, OfflinePlayer target) {
 		ResultSet tags = database.executeQueryStatement(
 				"SELECT id, player, content, timestamp FROM tags WHERE (player = ? AND status = '0')",
 				target.getUniqueId().toString());
@@ -102,10 +105,11 @@ public class TagCommand extends CommandExecutor {
 			sender.sendMessage(ChatColor.RED + "There are no tags for that player.");
 		}
 	}
-
+	
+	@SneakyThrows
 	@SubCommand("tagDelete")
 	@Permission(Permissions.TagCommandDelete)
-	public void tagDelete(CommandSender sender, int id) throws SQLException {
+	public void tagDelete(CommandSender sender, int id)  {
 
 		ResultSet tags = database.executeQueryStatement("SELECT id, status FROM tags WHERE id = ?", id);
 		if (tags.next()) {

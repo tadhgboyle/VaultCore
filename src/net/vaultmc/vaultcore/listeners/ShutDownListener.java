@@ -1,7 +1,5 @@
 package net.vaultmc.vaultcore.listeners;
 
-import java.sql.SQLException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -10,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
+import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.runnables.Statistics;
 
 public class ShutDownListener implements Listener {
@@ -30,16 +29,14 @@ public class ShutDownListener implements Listener {
 		}
 	}
 
+	@SneakyThrows
 	public void kickAll() {
 		for (Player players : Bukkit.getOnlinePlayers()) {
 			players.kickPlayer(ChatColor.RED + "VaultMC is shutting down for maintenance... Be right back!");
 		}
-		try {
-			Bukkit.getConsoleSender().sendMessage("Saving statistics to database...");
-			Statistics.statistics();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Bukkit.getConsoleSender().sendMessage("Saving statistics to database...");
+		Statistics.statistics();
+
 		Bukkit.shutdown();
 	}
 }

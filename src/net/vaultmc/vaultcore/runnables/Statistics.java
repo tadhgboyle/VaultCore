@@ -1,19 +1,21 @@
 package net.vaultmc.vaultcore.runnables;
 
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
-import net.vaultmc.vaultloader.utils.DBConnection;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Statistics {
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-	public static void statistics() throws SQLException {
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.listeners.PlayerJoinQuitListener;
+import net.vaultmc.vaultloader.utils.DBConnection;
+
+public class Statistics {
+	
+	@SneakyThrows
+	public static void statistics() {
 
 		DBConnection database = VaultCore.getDatabase();
 

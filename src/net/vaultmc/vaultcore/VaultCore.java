@@ -1,7 +1,5 @@
 package net.vaultmc.vaultcore;
 
-import java.sql.SQLException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -56,6 +54,7 @@ public class VaultCore extends Component implements Listener {
 	}
 
 	@Override
+	@SneakyThrows
 	public void onEnable() {
 		instance = this;
 
@@ -77,11 +76,7 @@ public class VaultCore extends Component implements Listener {
 			public void run() {
 				RankPromotions.memberPromotion();
 				RankPromotions.patreonPromotion();
-				try {
-					Statistics.statistics();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				Statistics.statistics();
 			}
 		}.runTaskTimerAsynchronously(this.getBukkitPlugin(), minute, minute * 2);
 

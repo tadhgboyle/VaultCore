@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.listeners;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -14,7 +13,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.vaultmc.vaultcore.*;
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
 
 public class PlayerJoinQuitListener implements Listener {
@@ -27,7 +29,8 @@ public class PlayerJoinQuitListener implements Listener {
 	private static HashMap<String, Long> session_duration = new HashMap<>();
 
 	@EventHandler
-	public void onJoin(PlayerJoinEvent join) throws SQLException {
+	@SneakyThrows
+	public void onJoin(PlayerJoinEvent join) {
 
 		Player player = join.getPlayer();
 		String uuid = player.getUniqueId().toString();
@@ -75,7 +78,8 @@ public class PlayerJoinQuitListener implements Listener {
 	}
 
 	@EventHandler
-	public void onQuit(PlayerQuitEvent quit) throws SQLException {
+	@SneakyThrows
+	public void onQuit(PlayerQuitEvent quit) {
 
 		Player player = quit.getPlayer();
 		String uuid = player.getUniqueId().toString();
@@ -94,22 +98,25 @@ public class PlayerJoinQuitListener implements Listener {
 		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
 	}
 
+	@SneakyThrows
 	private void playerDataQuery(String uuid, String username, long firstseen, long lastseen, long playtime,
-			String rank, String ip) throws SQLException {
+			String rank, String ip) {
 		database.executeUpdateStatement(
 				"INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
 						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=?",
 				uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank);
 	}
 
+	@SneakyThrows
 	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration,
-			long start_time, long end_time) throws SQLException {
+			long start_time, long end_time) {
 		database.executeUpdateStatement(
 				"INSERT INTO sessions (session_id, uuid, username, ip, start_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE duration=?, end_time=?",
 				session_id, uuid, username, ip, start_time, duration, end_time);
 	}
 
-	public static String count() throws SQLException {
+	@SneakyThrows
+	public static String count() {
 		String total_players = null;
 		ResultSet rs = database.executeQueryStatement("SELECT COUNT(uuid) FROM players");
 		while (rs.next()) {

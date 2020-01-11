@@ -1,12 +1,18 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.*;
-import net.vaultmc.vaultloader.utils.commands.*;
+import java.util.Collections;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
-import java.util.Collections;
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 
 @RootCommand(literal = "discord", description = "Get a link to our Discord Guild.")
 @Permission(Permissions.DiscordCommand)
@@ -21,17 +27,15 @@ public class DiscordCommand extends CommandExecutor {
 		this.register("discord", Collections.emptyList());
 	}
 
+	@SneakyThrows
 	@SubCommand("discord")
 	public void execute(CommandSender sender) {
 		Player player = (Player) sender;
 
-		try {
-			String token = TokenCommand.getToken(player.getUniqueId(), player);
+		String token = TokenCommand.getToken(player.getUniqueId(), player);
 
-			player.sendMessage(string + "Your token: " + variable2 + token);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		player.sendMessage(string + "Your token: " + variable2 + token);
+
 		player.sendMessage(
 				string + "Click here to join our Discord guild: " + variable1 + "https://discord.vaultmc.net");
 	}
