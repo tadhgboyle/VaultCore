@@ -44,7 +44,7 @@ public class SeenCommand extends CommandExecutor {
 			long currenttime = System.currentTimeMillis();
 			long duration = currenttime - lastseen;
 
-			long[] time = Utilities.formatDuration(duration);
+			long[] time = Utilities.millisToTime(duration);
 
 			String status;
 

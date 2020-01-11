@@ -38,7 +38,7 @@ public class TagCommand extends CommandExecutor {
 				Arrays.asList(Arguments.createLiteral("add"),
 						Arguments.createArgument("target", Arguments.offlinePlayerArgument()),
 						Arguments.createArgument("content", Arguments.greedyString())));
-		register("tagCheck", Arrays.asList(Arguments.createLiteral("check"),
+		register("tagList", Arrays.asList(Arguments.createLiteral("list"),
 				Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 		register("tagDelete", Arrays.asList(Arguments.createLiteral("delete"),
 				Arguments.createArgument("id", Arguments.integerArgument(1))));
@@ -53,42 +53,37 @@ public class TagCommand extends CommandExecutor {
 		}
 
 		if (!target.isOnline()) {
-			try {
-				ResultSet rs = database.executeQueryStatement("SELECT username FROM players WHERE username=?",
-						target.getName());
-				if (!rs.next()) {
-					sender.sendMessage(ChatColor.RED + "That player has never joined before!");
-					return;
-				} else {
-					addTagQuery(sender, target, content);
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
+			ResultSet rs = database.executeQueryStatement("SELECT username FROM players WHERE username=?",
+					target.getName());
+			if (!rs.next()) {
+				sender.sendMessage(ChatColor.RED + "That player has never joined before!");
+				return;
+			} else {
+				tagAddQuery(sender, target, content);
 			}
 		} else {
-			addTagQuery(sender, target, content);
+			tagAddQuery(sender, target, content);
 		}
 	}
 
-	private void addTagQuery(CommandSender sender, OfflinePlayer target, String content) throws SQLException {
+	private void tagAddQuery(CommandSender sender, OfflinePlayer target, String content) throws SQLException {
 		Player author = (Player) sender;
-		database.executeUpdateStatement("INSERT INTO tags (player, author, content) VALUES (?, ?, ?)",
-				target.getUniqueId().toString(), author.getUniqueId().toString(), content);
+		database.executeUpdateStatement("INSERT INTO tags (player, author, content, timestamp) VALUES (?, ?, ?, ?)",
+				target.getUniqueId().toString(), author.getUniqueId().toString(), content, System.currentTimeMillis());
 		ResultSet id = database.executeQueryStatement("SELECT MAX(id) AS latest_id FROM tags");
 		String tagId = null;
 		if (id.next()) {
 			tagId = id.getString("latest_id");
 		}
-		sender.sendMessage(string + "Successfully added a tag [#" + variable2 + tagId + string + "] to "
+		sender.sendMessage(string + "Successfully added tag [#" + variable2 + tagId + string + "] to "
 				+ VaultCoreAPI.getName(target) + string + ".");
 
 	}
 
-	@SubCommand("tagCheck")
-	public void tagCheck(CommandSender sender, OfflinePlayer target) throws SQLException {
+	@SubCommand("tagList")
+	public void tagList(CommandSender sender, OfflinePlayer target) throws SQLException {
 		ResultSet tags = database.executeQueryStatement(
-				"SELECT id, player, content FROM tags WHERE (player = ? AND status = '0')",
+				"SELECT id, player, content, timestamp FROM tags WHERE (player = ? AND status = '0')",
 				target.getUniqueId().toString());
 		boolean empty = true;
 		boolean first = true;
@@ -98,7 +93,8 @@ public class TagCommand extends CommandExecutor {
 				sender.sendMessage(ChatColor.DARK_GREEN + "--== [Tags] ==--");
 			}
 			sender.sendMessage(string + "[#" + variable2 + tags.getString("id") + string + "] " + variable1
-					+ tags.getString("content"));
+					+ tags.getString("content") + string + " -- " + variable2
+					+ Utilities.millisToDate(tags.getLong("timestamp")));
 			first = false;
 
 		}

@@ -47,7 +47,7 @@ public class PlayTime extends CommandExecutor {
 
 	private void printPlayTimeOnline(Player player, CommandSender sender) {
 		long t = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
-		long[] time = Utilities.formatDuration(t);
+		long[] time = Utilities.millisToTime(t);
 		String playtimeMsg = String.format(
 				ChatColor.translateAlternateColorCodes('&',
 						variable1 + "%s" + string + " has played for " + variable2 + "%d" + string + " days, "
@@ -70,7 +70,7 @@ public class PlayTime extends CommandExecutor {
 
 			long playtime = rs.getLong("playtime");
 			long t = (long) (playtime * 0.05 * 1000);
-			long[] time = Utilities.formatDuration(t);
+			long[] time = Utilities.millisToTime(t);
 			String playtimeMsg = String.format(
 					ChatColor.translateAlternateColorCodes('&',
 							variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
