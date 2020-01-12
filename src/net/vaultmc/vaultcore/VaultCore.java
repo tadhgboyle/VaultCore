@@ -3,9 +3,13 @@ package net.vaultmc.vaultcore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -14,6 +18,7 @@ import net.milkbowl.vault.permission.Permission;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
 import net.vaultmc.vaultcore.runnables.Statistics;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.components.Component;
 import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
 import net.vaultmc.vaultloader.components.annotations.Version;
@@ -64,6 +69,9 @@ public class VaultCore extends Component implements Listener {
 		database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
 				getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
 				getConfig().getString("mysql.password"));
+
+		VaultLoader.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(),
+				"BungeeCord");
 
 		setupChat();
 		setupPermissions();
@@ -145,6 +153,17 @@ public class VaultCore extends Component implements Listener {
 
 	public static Permission getPermissions() {
 		return perms;
+	}
+
+	public void sendToBackup() {
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			p.sendMessage(
+					ChatColor.RED + "VaultMC is shutting down for maintenance... Sending you to the backup server...");
+			ByteArrayDataOutput out = ByteStreams.newDataOutput();
+			out.writeUTF("Connect");
+			out.writeUTF("backup");
+			p.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
+		}
 	}
 
 	@Override
