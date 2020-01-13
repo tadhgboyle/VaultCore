@@ -1,8 +1,12 @@
 package net.vaultmc.vaultcore.listeners;
 
-import java.sql.ResultSet;
-import java.util.HashMap;
-
+import lombok.Getter;
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.ReloadPersistentStorage;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,115 +17,115 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import lombok.SneakyThrows;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
-import net.vaultmc.vaultloader.utils.DBConnection;
+import java.sql.ResultSet;
+import java.util.HashMap;
 
 public class PlayerJoinQuitListener implements Listener {
 
-	String string = Utilities.string;
-	String variable1 = Utilities.variable1;
-	String variable2 = Utilities.variable2;
-	static DBConnection database = VaultCore.getDatabase();
-	private static HashMap<String, String> session_ids = new HashMap<>();
-	private static HashMap<String, Long> session_duration = new HashMap<>();
+    static DBConnection database = VaultCore.getDatabase();
+    @Getter
+    private static HashMap<String, String> session_ids = VaultCore.isReloaded ?
+            (HashMap<String, String>) ReloadPersistentStorage.get("sessionIds", VaultCore.getInstance()) : new HashMap<>();
+    @Getter
+    private static HashMap<String, Long> session_duration = VaultCore.isReloaded ?
+            (HashMap<String, Long>) ReloadPersistentStorage.get("sessionDuration", VaultCore.getInstance()) : new HashMap<>();
+    String string = Utilities.string;
+    String variable2 = Utilities.variable2;
 
-	@EventHandler
-	@SneakyThrows
-	public void onJoin(PlayerJoinEvent join) {
+    @SneakyThrows
+    public static String count() {
+        String total_players = null;
+        ResultSet rs = database.executeQueryStatement("SELECT COUNT(uuid) FROM players");
+        while (rs.next()) {
+            total_players = rs.getString(1);
+        }
+        return total_players;
+    }
 
-		Player player = join.getPlayer();
-		String uuid = player.getUniqueId().toString();
-		String username = player.getName();
-		long firstseen = player.getFirstPlayed();
-		long lastseen = System.currentTimeMillis();
-		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
-		String rank = VaultCore.getChat().getPrimaryGroup(player);
-		String ip = player.getAddress().getAddress().getHostAddress();
+    @EventHandler
+    @SneakyThrows
+    public void onJoin(PlayerJoinEvent join) {
 
-		String prefix = ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player));
+        Player player = join.getPlayer();
+        String uuid = player.getUniqueId().toString();
+        String username = player.getName();
+        long firstseen = player.getFirstPlayed();
+        long lastseen = System.currentTimeMillis();
+        long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+        String rank = VaultCore.getChat().getPrimaryGroup(player);
+        String ip = player.getAddress().getAddress().getHostAddress();
 
-		String session_id = RandomStringUtils.random(8, true, true);
-		long start_time = System.currentTimeMillis();
+        String prefix = ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player));
 
-		session_ids.put(uuid, session_id);
-		session_duration.put(session_id, lastseen);
+        String session_id = RandomStringUtils.random(8, true, true);
+        long start_time = System.currentTimeMillis();
 
-		player.setDisplayName(prefix + username);
-		player.setPlayerListName(player.getDisplayName());
+        session_ids.put(uuid, session_id);
+        session_duration.put(session_id, lastseen);
 
-		playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
+        player.setDisplayName(prefix + username);
+        player.setPlayerListName(player.getDisplayName());
 
-		sessionQuery(session_id, uuid, username, ip, 0, start_time, 0);
+        playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
 
-		if (VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg") == null) {
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.cycle", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.swearfilter",
-					true);
-			VaultCore.getInstance().savePlayerData();
-			for (Player players : Bukkit.getOnlinePlayers()) {
-				players.sendMessage(string + "Welcome " + player.getName() + " to VaultMC! (" + variable2 + "#"
-						+ count() + string + ")");
-			}
-		}
+        sessionQuery(session_id, uuid, username, ip, 0, start_time, 0);
 
-		join.setJoinMessage(
-				VaultCoreAPI.getName(player) + string + " has " + ChatColor.GREEN + "joined" + string + ".");
+        if (VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg") == null) {
+            VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg", true);
+            VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", true);
+            VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa", true);
+            VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.cycle", true);
+            VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.swearfilter",
+                    true);
+            VaultCore.getInstance().savePlayerData();
+            for (Player players : Bukkit.getOnlinePlayers()) {
+                players.sendMessage(string + "Welcome " + player.getName() + " to VaultMC! (" + variable2 + "#"
+                        + count() + string + ")");
+            }
+        }
 
-		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-				VaultCore.getInstance().getConfig().getString("welcome-message")));
-	}
+        join.setJoinMessage(
+                VaultCoreAPI.getName(player) + string + " has " + ChatColor.GREEN + "joined" + string + ".");
 
-	@EventHandler
-	@SneakyThrows
-	public void onQuit(PlayerQuitEvent quit) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                VaultCore.getInstance().getConfig().getString("welcome-message")));
+    }
 
-		Player player = quit.getPlayer();
-		String uuid = player.getUniqueId().toString();
-		long lastseen = System.currentTimeMillis();
-		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
-		String rank = VaultCore.getChat().getPrimaryGroup(player);
+    @EventHandler
+    @SneakyThrows
+    public void onQuit(PlayerQuitEvent quit) {
 
-		String session_id = session_ids.get(uuid);
-		long duration = System.currentTimeMillis() - session_duration.get(session_id);
-		long end_time = System.currentTimeMillis();
+        Player player = quit.getPlayer();
+        String uuid = player.getUniqueId().toString();
+        long lastseen = System.currentTimeMillis();
+        long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+        String rank = VaultCore.getChat().getPrimaryGroup(player);
 
-		sessionQuery(session_id, "", "", "", duration, 0, end_time);
-		session_ids.remove(uuid);
+        String session_id = session_ids.get(uuid);
+        long duration = System.currentTimeMillis() - session_duration.get(session_id);
+        long end_time = System.currentTimeMillis();
 
-		quit.setQuitMessage(VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
-		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
-	}
+        sessionQuery(session_id, "", "", "", duration, 0, end_time);
+        session_ids.remove(uuid);
 
-	@SneakyThrows
-	private void playerDataQuery(String uuid, String username, long firstseen, long lastseen, long playtime,
-			String rank, String ip) {
-		database.executeUpdateStatement(
-				"INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
-						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=?",
-				uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank);
-	}
+        quit.setQuitMessage(VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
+        playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
+    }
 
-	@SneakyThrows
-	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration,
-			long start_time, long end_time) {
-		database.executeUpdateStatement(
-				"INSERT INTO sessions (session_id, uuid, username, ip, start_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE duration=?, end_time=?",
-				session_id, uuid, username, ip, start_time, duration, end_time);
-	}
+    @SneakyThrows
+    private void playerDataQuery(String uuid, String username, long firstseen, long lastseen, long playtime,
+                                 String rank, String ip) {
+        database.executeUpdateStatement(
+                "INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
+                        + "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=?",
+                uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank);
+    }
 
-	@SneakyThrows
-	public static String count() {
-		String total_players = null;
-		ResultSet rs = database.executeQueryStatement("SELECT COUNT(uuid) FROM players");
-		while (rs.next()) {
-			total_players = rs.getString(1);
-		}
-		return total_players;
-	}
+    @SneakyThrows
+    private void sessionQuery(String session_id, String uuid, String username, String ip, long duration,
+                              long start_time, long end_time) {
+        database.executeUpdateStatement(
+                "INSERT INTO sessions (session_id, uuid, username, ip, start_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE duration=?, end_time=?",
+                session_id, uuid, username, ip, start_time, duration, end_time);
+    }
 }

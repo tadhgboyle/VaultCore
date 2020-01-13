@@ -18,6 +18,7 @@ import java.util.Collections;
 public class FeedCommand extends CommandExecutor {
     String string = Utilities.string;
     String variable1 = Utilities.variable1;
+
     public FeedCommand() {
         register("feedSelf", Collections.emptyList());
         register("feedOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));

@@ -1,36 +1,30 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import java.sql.ResultSet;
-import java.util.Arrays;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.Arguments;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.util.Arrays;
+import java.util.Collections;
 
 @RootCommand(literal = "hasperm", description = "Check if a player has a permission.")
 @Permission(Permissions.HasPermCommand)
 public class HasPermCommand extends CommandExecutor {
-
 	String string = Utilities.string;
 	String variable1 = Utilities.variable1;
 
 	public HasPermCommand() {
-		this.register("hasPermSelf", Arrays.asList(Arguments.createArgument("permission", Arguments.string())));
+		this.register("hasPermSelf", Collections.singletonList(Arguments.createArgument("permission", Arguments.string())));
 		this.register("hasPermOther", Arrays.asList(Arguments.createArgument("permission", Arguments.string()),
 				Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 	}

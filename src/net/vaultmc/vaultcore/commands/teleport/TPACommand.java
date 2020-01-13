@@ -1,7 +1,10 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
 import lombok.Getter;
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +25,7 @@ public class TPACommand extends CommandExecutor {
 
 	String string = Utilities.string;
 	String variable1 = Utilities.variable1;
-	
+
 	public TPACommand() {
 		register("tpa", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())));
 	}

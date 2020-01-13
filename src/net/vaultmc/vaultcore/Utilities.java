@@ -1,14 +1,13 @@
 package net.vaultmc.vaultcore;
 
+import org.bukkit.ChatColor;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import org.bukkit.ChatColor;
-
 public class Utilities {
-
     public static String string = ChatColor.translateAlternateColorCodes('&', "&e");
     public static String variable1 = ChatColor.translateAlternateColorCodes('&', "&6");
     public static String variable2 = ChatColor.translateAlternateColorCodes('&', "&2");
@@ -23,10 +22,10 @@ public class Utilities {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
         return new long[]{days, hours, minutes, seconds};
     }
-    
+
     public static String millisToDate(long millis) {
-    	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-    	Date epoch = new Date(millis); 
-    	return (format.format(epoch)).toString();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date epoch = new Date(millis);
+        return format.format(epoch);
     }
 }

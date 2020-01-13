@@ -14,37 +14,37 @@ import java.util.Collections;
 @RootCommand(literal = "heal", description = "Heal a player.")
 @Permission(Permissions.HealCommand)
 public class HealCommand extends CommandExecutor {
-	private String string = Utilities.string;
-	private String variable1 = Utilities.variable1;
+    private String string = Utilities.string;
+    private String variable1 = Utilities.variable1;
 
-	public HealCommand() {
-		register("healSelf", Collections.emptyList());
-		register("healOthers",
-				Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
-	}
+    public HealCommand() {
+        register("healSelf", Collections.emptyList());
+        register("healOthers",
+                Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+    }
 
-	@SubCommand("healSelf")
-	@PlayerOnly
-	public void healSelf(CommandSender sender) {
-		Player player = (Player) sender;
-		sender.sendMessage(
-				ChatColor.translateAlternateColorCodes('&', string + "You have been " + variable1 + "healed"));
-		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-		player.setFoodLevel(20);
-		player.setSaturation(20);
-	}
+    @SubCommand("healSelf")
+    @PlayerOnly
+    public void healSelf(CommandSender sender) {
+        Player player = (Player) sender;
+        sender.sendMessage(
+                ChatColor.translateAlternateColorCodes('&', string + "You have been " + variable1 + "healed"));
+        player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        player.setFoodLevel(20);
+        player.setSaturation(20);
+    }
 
-	@SubCommand("healOthers")
-	@Permission(Permissions.HealCommandOther)
-	public void healOthers(CommandSender sender, Player target) {
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-				string + "You have healed " + variable1 + VaultCoreAPI.getName(target)));
-		target.setFoodLevel(20);
-		target.setHealth(target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-		target.setSaturation(20);
-		target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-				string + "You have been healed by " + variable1
-						+ (sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
-								: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET)));
-	}
+    @SubCommand("healOthers")
+    @Permission(Permissions.HealCommandOther)
+    public void healOthers(CommandSender sender, Player target) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                string + "You have healed " + variable1 + VaultCoreAPI.getName(target)));
+        target.setFoodLevel(20);
+        target.setHealth(target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        target.setSaturation(20);
+        target.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                string + "You have been healed by " + variable1
+                        + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
+                        : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET)));
+    }
 }

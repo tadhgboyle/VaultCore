@@ -17,10 +17,9 @@ import java.util.Collections;
 @PlayerOnly
 @Aliases({"creative", "gmcreative"})
 public class GMCreativeCommand extends CommandExecutor {
-	
-	private String string = Utilities.string;
-	private String variable1 = Utilities.variable1;
-	
+    private String string = Utilities.string;
+    private String variable1 = Utilities.variable1;
+
     public GMCreativeCommand() {
         register("execute", Collections.emptyList());
     }

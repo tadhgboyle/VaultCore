@@ -1,6 +1,8 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,7 +22,7 @@ import java.util.UUID;
 public class TPAcceptCommand extends CommandExecutor {
     private static HashMap<UUID, UUID> requests = TPACommand.getRequests();
     private static HashMap<UUID, UUID> requestsHere = TPACommand.getRequestsHere();
-    
+
     String string = Utilities.string;
 
     public TPAcceptCommand() {

@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +22,11 @@ import java.util.Collections;
 @Permission(Permissions.TeleportCommand)
 @Aliases("tp")
 public class TeleportCommand extends CommandExecutor {
+    private String string = ChatColor.translateAlternateColorCodes('&',
+            VaultCore.getInstance().getConfig().getString("string"));
+    private String variable1 = ChatColor.translateAlternateColorCodes('&',
+            VaultCore.getInstance().getConfig().getString("variable-1"));
+
     public TeleportCommand() {
         unregisterExisting();
         register("teleportLocation", Collections.singletonList(Arguments.createArgument("location", Arguments.location3DArgument())));
@@ -44,10 +50,10 @@ public class TeleportCommand extends CommandExecutor {
         ));
     }
 
-    private String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    private String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
+    private static String readLocation(Location location) {
+        return location.getWorld().getName() + ", " + Math.round(location.getX() * 100.0) / 100.0 + ", " +
+                Math.round(location.getY() * 100.0) / 100.0 + ", " + Math.round(location.getZ() * 100.0) / 100.0;
+    }
 
     @SubCommand("teleportLocation")
     @PlayerOnly
@@ -106,10 +112,5 @@ public class TeleportCommand extends CommandExecutor {
             entity.teleport(to);
             sender.sendMessage(string + "Teleported " + variable1 + entity.getName() + string + " to " + variable1 + to.getName() + string + ".");
         }
-    }
-
-    private static String readLocation(Location location) {
-        return location.getWorld().getName() + ", " + Math.round(location.getX() * 100.0) / 100.0 + ", " +
-                Math.round(location.getY() * 100.0) / 100.0 + ", " + Math.round(location.getZ() * 100.0) / 100.0;
     }
 }

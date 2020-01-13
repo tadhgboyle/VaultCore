@@ -1,25 +1,19 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import java.sql.ResultSet;
-import java.util.Arrays;
-
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.Arguments;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.util.Arrays;
 
 @RootCommand(literal = "tag", description = "See some notes about a player.")
 @Permission(Permissions.TagCommand)
@@ -43,7 +37,7 @@ public class TagCommand extends CommandExecutor {
 		register("tagDelete", Arrays.asList(Arguments.createLiteral("delete"),
 				Arguments.createArgument("id", Arguments.integerArgument(1))));
 	}
-	
+
 	@SneakyThrows
 	@SubCommand("tagAdd")
 	public void tagAdd(CommandSender sender, OfflinePlayer target, String content) {
@@ -66,7 +60,7 @@ public class TagCommand extends CommandExecutor {
 			tagAddQuery(sender, target, content);
 		}
 	}
-	
+
 	@SneakyThrows
 	private void tagAddQuery(CommandSender sender, OfflinePlayer target, String content) {
 		Player author = (Player) sender;
@@ -81,7 +75,7 @@ public class TagCommand extends CommandExecutor {
 				+ VaultCoreAPI.getName(target) + string + ".");
 
 	}
-	
+
 	@SneakyThrows
 	@SubCommand("tagList")
 	public void tagList(CommandSender sender, OfflinePlayer target) {
@@ -105,11 +99,11 @@ public class TagCommand extends CommandExecutor {
 			sender.sendMessage(ChatColor.RED + "There are no tags for that player.");
 		}
 	}
-	
+
 	@SneakyThrows
 	@SubCommand("tagDelete")
 	@Permission(Permissions.TagCommandDelete)
-	public void tagDelete(CommandSender sender, int id)  {
+	public void tagDelete(CommandSender sender, int id) {
 
 		ResultSet tags = database.executeQueryStatement("SELECT id, status FROM tags WHERE id = ?", id);
 		if (tags.next()) {

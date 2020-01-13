@@ -17,26 +17,26 @@ import java.util.Collections;
 @RootCommand(literal = "mutechat", description = "Mutes the chat.")
 @Permission(Permissions.MuteChatCommand)
 public class MuteChatCommand extends CommandExecutor {
-	public static boolean chatMuted = false;
+    public static boolean chatMuted = false;
 
-	private String string = Utilities.string;
-	private String variable1 = Utilities.variable1;
+    private String string = Utilities.string;
+    private String variable1 = Utilities.variable1;
 
-	public MuteChatCommand() {
-		register("mutechat", Collections.emptyList());
-	}
+    public MuteChatCommand() {
+        register("mutechat", Collections.emptyList());
+    }
 
-	@SubCommand("mutechat")
-	public void muteChat(CommandSender sender) {
-		if (chatMuted) {
-			chatMuted = false;
-			Bukkit.broadcastMessage(string + "The chat is no longer muted.");
+    @SubCommand("mutechat")
+    public void muteChat(CommandSender sender) {
+        if (chatMuted) {
+            chatMuted = false;
+            Bukkit.broadcastMessage(string + "The chat is no longer muted.");
 
-		} else {
-			chatMuted = true;
-			Bukkit.broadcastMessage(string + "The chat has been muted by " + variable1
-					+ (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) + string + "."
-							: ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + "."));
-		}
-	}
+        } else {
+            chatMuted = true;
+            Bukkit.broadcastMessage(string + "The chat has been muted by " + variable1
+                    + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) + string + "."
+                    : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + "."));
+        }
+    }
 }
