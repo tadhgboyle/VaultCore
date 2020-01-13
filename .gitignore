@@ -6,5 +6,5 @@ out/
 .idea/
 *.iml
 /target/
-
+target/
 bin/

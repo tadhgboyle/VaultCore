@@ -6,8 +6,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.scheduler.BukkitRunnable;
 
+import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
@@ -80,13 +80,11 @@ public class VaultCore extends Component implements Listener {
 		GrantCommandInv.initAdmin();
 		GrantCommandInv.initMod();
 		int minute = (int) 1200L;
-		new BukkitRunnable() {
-			public void run() {
-				RankPromotions.memberPromotion();
-				RankPromotions.patreonPromotion();
-				Statistics.statistics();
-			}
-		}.runTaskTimerAsynchronously(this.getBukkitPlugin(), minute, minute * 2);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
+			RankPromotions.memberPromotion();
+			RankPromotions.patreonPromotion();
+			Statistics.statistics();
+		}, 0L, minute * 2);
 
 		Bukkit.getServer().getConsoleSender().sendMessage(new String[] {
 				ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
@@ -97,6 +95,9 @@ public class VaultCore extends Component implements Listener {
 				ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
 						+ ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
 						+ ChatColor.GREEN + "." });
+		
+	     this.getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
+	     
 	}
 
 	public FileConfiguration getPlayerData() {
@@ -114,6 +115,16 @@ public class VaultCore extends Component implements Listener {
 	@Override
 	public void onServerFinishedLoading() {
 		locations = ConfigurationManager.loadConfiguration("locations.yml", this);
+		
+		  ByteArrayDataOutput out = ByteStreams.newDataOutput();
+		  out.writeUTF("VaultMC");
+		  out.writeUTF("Message");
+		  out.writeUTF("ALL");
+		  out.writeUTF(ChatColor.GREEN + "VaultMC is back online! Use /server VaultMC to join.");
+
+		  Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+		  
+		  player.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
 	}
 
 	@SneakyThrows
@@ -156,13 +167,13 @@ public class VaultCore extends Component implements Listener {
 	}
 
 	public void sendToBackup() {
-		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-			p.sendMessage(
+		for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+			players.sendMessage(
 					ChatColor.RED + "VaultMC is shutting down for maintenance... Sending you to the backup server...");
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("Connect");
 			out.writeUTF("backup");
-			p.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
+			players.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
 		}
 	}
 

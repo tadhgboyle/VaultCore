@@ -11,10 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class GrantCommandListener implements Listener {
-	
+
 	String string = Utilities.string;
 	String variable1 = Utilities.variable1;
-
 
 	private static final String INVTITLE = ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + ""
 			+ ChatColor.ITALIC;
@@ -40,27 +39,27 @@ public class GrantCommandListener implements Listener {
 						rank = "Patreon";
 					else if (itemName.equals(ChatColor.AQUA + "" + ChatColor.BOLD + "Trusted"))
 						rank = "Trusted";
-                    else if (itemName.equals(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Moderator"))
-                        rank = "Moderator";
-                    else if (itemName.equals(ChatColor.BLUE + "" + ChatColor.BOLD + "Admin"))
-                        rank = "Admin";
-                    else if (itemName.equals(ChatColor.RED + "No Permission")) {
-                        player.closeInventory();
-                        player.sendMessage(ChatColor.RED + "You do not have permission to use this rank.");
-                        return;
-                    }
-                    Player target = Bukkit.getServer().getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
-                    Bukkit.dispatchCommand(
-                            Bukkit.getConsoleSender(),
-                            "lp user " + target.getName() + " parent set " + rank);
+					else if (itemName.equals(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Moderator"))
+						rank = "Moderator";
+					else if (itemName.equals(ChatColor.BLUE + "" + ChatColor.BOLD + "Admin"))
+						rank = "Admin";
+					else if (itemName.equals(ChatColor.RED + "No Permission")) {
+						player.closeInventory();
+						player.sendMessage(ChatColor.RED + "You do not have permission to use this rank.");
+						return;
+					}
+					Player target = Bukkit.getServer().getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+							"lp user " + target.getName() + " parent set " + rank);
 
-                    player.closeInventory();
-                    player.sendMessage(string + "Successfully updated " + variable1
-                            + e.getView().getTitle().substring(INVTITLE.length()) + string + "'s rank to "
-                            + variable1 + rank + string + ".");
-                    target.sendMessage(string + "Your rank has been updated to " + variable1 + rank
-                            + string + " by " + VaultCoreAPI.getName(player) + string + ".");
-                }
+					player.closeInventory();
+					player.sendMessage(string + "Successfully updated "
+							+ VaultCoreAPI
+									.getName(Bukkit.getPlayer(e.getView().getTitle().substring(INVTITLE.length())))
+							+ string + "'s rank to " + variable1 + rank + string + ".");
+					target.sendMessage(string + "Your rank has been updated to " + variable1 + rank + string + " by "
+							+ VaultCoreAPI.getName(player) + string + ".");
+				}
 			}
 		}
 	}
