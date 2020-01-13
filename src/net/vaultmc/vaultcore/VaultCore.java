@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
@@ -115,16 +114,6 @@ public class VaultCore extends Component implements Listener {
 	@Override
 	public void onServerFinishedLoading() {
 		locations = ConfigurationManager.loadConfiguration("locations.yml", this);
-		
-		  ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		  out.writeUTF("VaultMC");
-		  out.writeUTF("Message");
-		  out.writeUTF("ALL");
-		  out.writeUTF(ChatColor.GREEN + "VaultMC is back online! Use /server VaultMC to join.");
-
-		  Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
-		  
-		  player.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
 	}
 
 	@SneakyThrows
