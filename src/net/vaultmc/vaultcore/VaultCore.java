@@ -29,145 +29,156 @@ import org.bukkit.plugin.RegisteredServiceProvider;
         "Aberdeener", "yangyang200", "2xjtn"})
 @Version(major = 3, minor = 0, revision = 4)
 public class VaultCore extends Component implements Listener {
-	@Getter
-	public static VaultCore instance;
-	private static Chat chat = null;
-	private static Permission perms = null;
-	private Configuration playerData;
-	private Configuration config;
-	private Configuration locations;
-	@Getter
-	private static DBConnection database;
+    @Getter
+    public static VaultCore instance;
+    public static boolean isReloaded = false;
+    private static Chat chat = null;
+    private static Permission perms = null;
+    @Getter
+    private static DBConnection database;
+    private Configuration playerData;
+    private Configuration config;
+    private Configuration locations;
 
-	private static String getServerName() {
-		String name = "CraftBukkit";
+    private static String getServerName() {
+        String name = "CraftBukkit";
 
-		try {
-			Class.forName("org.spigotmc.event.entity.EntityDismountEvent");
-			name = "Spigot";
-		} catch (ClassNotFoundException ex) {
-		}
+        try {
+            Class.forName("org.spigotmc.event.entity.EntityDismountEvent");
+            name = "Spigot";
+        } catch (ClassNotFoundException ignored) {
+        }
 
-		try {
-			Class.forName("com.destroystokyo.paper.NamespacedTag");
-			name = "Paper";
-		} catch (ClassNotFoundException ex) {
-		}
+        try {
+            Class.forName("com.destroystokyo.paper.NamespacedTag");
+            name = "Paper";
+        } catch (ClassNotFoundException ignored) {
+        }
 
-		return name;
-	}
+        return name;
+    }
 
-	@Override
-	@SneakyThrows
-	public void onEnable() {
-		instance = this;
+    public static Chat getChat() {
+        return chat;
+    }
 
-		config = ConfigurationManager.loadConfiguration("config.yml", this);
-		playerData = ConfigurationManager.loadConfiguration("data.yml", this);
+    public static Permission getPermissions() {
+        return perms;
+    }
 
-		database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
-				getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
-				getConfig().getString("mysql.password"));
+    @Override
+    public void onStartingReloaded() {
+        isReloaded = true;
+    }
 
-		VaultLoader.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(),
-				"BungeeCord");
+    @Override
+    @SneakyThrows
+    public void onEnable() {
+        instance = this;
 
-		setupChat();
-		setupPermissions();
-		Registry.registerCommands();
-		Registry.registerListeners();
-		GrantCommandInv.initAdmin();
-		GrantCommandInv.initMod();
-		int minute = (int) 1200L;
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
-			RankPromotions.memberPromotion();
-			RankPromotions.patreonPromotion();
-			Statistics.statistics();
-		}, 0L, minute * 2);
+        config = ConfigurationManager.loadConfiguration("config.yml", this);
+        playerData = ConfigurationManager.loadConfiguration("data.yml", this);
 
-		Bukkit.getServer().getConsoleSender().sendMessage(new String[] {
-				ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
-				ChatColor.YELLOW + " /\\   /\\__ _ _   _| | |_  " + ChatColor.GOLD + "/ __\\___  _ __ ___ ",
-				ChatColor.YELLOW + " \\ \\ / / _` | | | | | __|" + ChatColor.GOLD + "/ /  / _ \\| '__/ _ \\",
-				ChatColor.YELLOW + "  \\ V / (_| | |_| | | |_" + ChatColor.GOLD + "/ /__| (_) | | |  __/",
-				ChatColor.YELLOW + "   \\_/ \\__,_|\\__,_|_|\\__" + ChatColor.GOLD + "\\____/\\___/|_|  \\___|", "",
-				ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
-						+ ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
-						+ ChatColor.GREEN + "." });
+        database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
+                getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
+                getConfig().getString("mysql.password"));
 
-	     this.getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
+        VaultLoader.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(),
+                "BungeeCord");
 
-	}
+        setupChat();
+        setupPermissions();
+        Registry.registerCommands();
+        Registry.registerListeners();
+        GrantCommandInv.initAdmin();
+        GrantCommandInv.initMod();
+        int minute = (int) 1200L;
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
+            RankPromotions.memberPromotion();
+            RankPromotions.patreonPromotion();
+            Statistics.statistics();
+        }, 0L, minute * 2);
 
-	public FileConfiguration getPlayerData() {
-		return this.playerData.getConfig();
-	}
+        Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
+                ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
+                ChatColor.YELLOW + " /\\   /\\__ _ _   _| | |_  " + ChatColor.GOLD + "/ __\\___  _ __ ___ ",
+                ChatColor.YELLOW + " \\ \\ / / _` | | | | | __|" + ChatColor.GOLD + "/ /  / _ \\| '__/ _ \\",
+                ChatColor.YELLOW + "  \\ V / (_| | |_| | | |_" + ChatColor.GOLD + "/ /__| (_) | | |  __/",
+                ChatColor.YELLOW + "   \\_/ \\__,_|\\__,_|_|\\__" + ChatColor.GOLD + "\\____/\\___/|_|  \\___|", "",
+                ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
+                        + ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
+                        + ChatColor.GREEN + "."});
 
-	public FileConfiguration getConfig() {
-		return this.config.getConfig();
-	}
+        this.getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
 
-	public FileConfiguration getLocationFile() {
-		return this.locations.getConfig();
-	}
+    }
 
-	@Override
-	public void onServerFinishedLoading() {
-		locations = ConfigurationManager.loadConfiguration("locations.yml", this);
-	}
+    public FileConfiguration getPlayerData() {
+        return this.playerData.getConfig();
+    }
 
-	@SneakyThrows
-	public void savePlayerData() {
-		playerData.save();
-	}
+    public FileConfiguration getConfig() {
+        return this.config.getConfig();
+    }
 
-	@SneakyThrows
-	public void saveLocations() {
-		locations.save();
-	}
+    public FileConfiguration getLocationFile() {
+        return this.locations.getConfig();
+    }
 
-	@SneakyThrows
-	public void saveConfig() {
-		config.save();
-	}
+    @Override
+    public void onServerFinishedLoading() {
+        locations = ConfigurationManager.loadConfiguration("locations.yml", this);
+    }
 
-	@SneakyThrows
-	public void reloadConfig() {
-		config.reload();
-	}
+    @SneakyThrows
+    public void savePlayerData() {
+        playerData.save();
+    }
 
-	private void setupChat() {
-		RegisteredServiceProvider<Chat> rsp = Bukkit.getServicesManager().getRegistration(Chat.class);
-		chat = rsp.getProvider();
-	}
+    @SneakyThrows
+    public void saveLocations() {
+        locations.save();
+    }
 
-	private boolean setupPermissions() {
-		RegisteredServiceProvider<Permission> rsp = Bukkit.getServicesManager().getRegistration(Permission.class);
-		perms = rsp.getProvider();
-		return perms != null;
-	}
+    @SneakyThrows
+    public void saveConfig() {
+        config.save();
+    }
 
-	public static Chat getChat() {
-		return chat;
-	}
+    @SneakyThrows
+    public void reloadConfig() {
+        config.reload();
+    }
 
-	public static Permission getPermissions() {
-		return perms;
-	}
+    @Override
+    public void onReload() {
+        ReloadPersistentStorage.put("sessionIds", PlayerJoinQuitListener.getSession_ids(), this);
+        ReloadPersistentStorage.put("sessionDuration", PlayerJoinQuitListener.getSession_duration(), this);
+    }
 
-	public void sendToBackup() {
-		for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-			players.sendMessage(
-					ChatColor.RED + "VaultMC is shutting down for maintenance... Sending you to the backup server...");
-			ByteArrayDataOutput out = ByteStreams.newDataOutput();
-			out.writeUTF("Connect");
-			out.writeUTF("Backup");
-			players.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
-		}
-	}
+    private void setupChat() {
+        RegisteredServiceProvider<Chat> rsp = Bukkit.getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+    }
 
-	@Override
-	public void onDisable() {
-		this.savePlayerData();
-	}
+    private void setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = Bukkit.getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+    }
+
+    public void sendToBackup() {
+        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+            players.sendMessage(
+                    ChatColor.RED + "VaultMC is shutting down for maintenance... Sending you to the backup server...");
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF("Connect");
+            out.writeUTF("backup");
+            players.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        this.savePlayerData();
+    }
 }
