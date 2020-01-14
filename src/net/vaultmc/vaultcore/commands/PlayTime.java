@@ -28,8 +28,7 @@ public class PlayTime extends CommandExecutor {
 	public PlayTime() {
 		register("playTimeSelf", Collections.emptyList());
 		register("playTimeOthers",
-				Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())),
-				"vaultcore");
+				Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 	}
 
 	@SubCommand("playTimeSelf")
@@ -64,8 +63,8 @@ public class PlayTime extends CommandExecutor {
 
 		DBConnection database = VaultCore.getDatabase();
 
-		ResultSet rs = database
-				.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?", target.getName());
+		ResultSet rs = database.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?",
+				target.getName());
 		if (!rs.next()) {
 			player.sendMessage(ChatColor.RED + "This player has never joined before!");
 			return;
@@ -77,8 +76,8 @@ public class PlayTime extends CommandExecutor {
 		String playtimeMsg = String.format(
 				ChatColor.translateAlternateColorCodes('&',
 						variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
-								+ " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d"
-								+ string + " hours and " + variable2 + "%d" + string + "  minutes."),
+								+ " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d" + string
+								+ " hours and " + variable2 + "%d" + string + "  minutes."),
 				VaultCoreAPI.getName(target), time[0], time[1], time[2]);
 		player.sendMessage(playtimeMsg);
 	}

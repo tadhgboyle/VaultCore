@@ -47,4 +47,6 @@ public class Permissions {
     public static final String ReloadCommand = "vaultcore.reload";
     public static final String TagCommand = "vaultcore.tag";
     public static final String TagCommandDelete = "vaultcore.tag.delete";
+    public static final String StatsCommand = "vaultcore.stats";
+    public static final String StatsCommandOther = "vaultcore.stats.other";
 }
