@@ -1,19 +1,13 @@
 package net.vaultmc.vaultcore.commands.staff.gamemode;
 
-import java.util.Collections;
-
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultloader.utils.commands.Aliases;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import java.util.Collections;
 
 @RootCommand(
         literal = "gmsp",
@@ -23,10 +17,9 @@ import net.vaultmc.vaultloader.utils.commands.SubCommand;
 @PlayerOnly
 @Aliases({"spec", "gmspec", "spectator", "gmspectator"})
 public class GMSpectatorCommand extends CommandExecutor {
-	
-	private String string = Utilities.string;
-	private String variable1 = Utilities.variable1;
-	
+    private String string = Utilities.string;
+    private String variable1 = Utilities.variable1;
+
     public GMSpectatorCommand() {
         register("execute", Collections.emptyList());
     }

@@ -1,18 +1,13 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.util.Collections;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.Collections;
 
 @RootCommand(literal = "discord", description = "Get a link to our Discord Guild.")
 @Permission(Permissions.DiscordCommand)

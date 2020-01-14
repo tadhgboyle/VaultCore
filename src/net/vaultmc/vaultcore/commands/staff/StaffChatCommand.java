@@ -1,6 +1,8 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,16 +22,15 @@ import java.util.UUID;
 @Aliases("sc")
 public class StaffChatCommand extends CommandExecutor {
     public static final Set<UUID> toggled = new HashSet<>();
+    private String string = ChatColor.translateAlternateColorCodes('&',
+            VaultCore.getInstance().getConfig().getString("string"));
+    private String variable1 = ChatColor.translateAlternateColorCodes('&',
+            VaultCore.getInstance().getConfig().getString("variable-1"));
 
     public StaffChatCommand() {
         register("chat", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())));
         register("toggle", Collections.singletonList(Arguments.createLiteral("toggle")));
     }
-
-    private String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    private String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
 
     @SubCommand("chat")
     public void chat(CommandSender sender, String message) {

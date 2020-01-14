@@ -1,6 +1,8 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,10 +20,8 @@ import java.util.UUID;
 @Permission(Permissions.TPACommand)
 @PlayerOnly
 public class TPDenyCommand extends CommandExecutor {
-	
-    String string = Utilities.string;
-	
     private static HashMap<UUID, UUID> requests = TPACommand.getRequests();
+    String string = Utilities.string;
 
     public TPDenyCommand() {
         register("tpdeny", Collections.emptyList());

@@ -1,23 +1,18 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.sql.ResultSet;
-import java.util.Collections;
-import java.util.UUID;
-
-import org.apache.commons.lang.RandomStringUtils;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
+import org.apache.commons.lang.RandomStringUtils;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.util.Collections;
+import java.util.UUID;
 
 @RootCommand(literal = "token", description = "Get your universal token for VaultMC services.")
 @Permission(Permissions.TokenCommand)
@@ -30,7 +25,7 @@ public class TokenCommand extends CommandExecutor {
 	public TokenCommand() {
 		register("getToken", Collections.emptyList());
 	}
-	
+
 	@SneakyThrows
 	static String getToken(UUID uuid, Player player) {
 
@@ -62,7 +57,7 @@ public class TokenCommand extends CommandExecutor {
 		}
 		return new_token;
 	}
-	
+
 	@SneakyThrows
 	@SubCommand("getToken")
 	public void getToken(CommandSender sender) {

@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.commands.settings;
 
 import net.vaultmc.vaultcore.VaultCore;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,65 +9,50 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class SettingsListener implements Listener {
-
-    static String string = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("string"));
-    static String variable1 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-1"));
-    static String variable2 = ChatColor.translateAlternateColorCodes('&',
-            VaultCore.getInstance().getConfig().getString("variable-2"));
-
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-
         Player player = (Player) event.getWhoClicked();
 
         ItemStack clicked = event.getCurrentItem();
 
-        if (clicked == null) {
-            return;
-        } else {
+        if (clicked != null) {
             if (event.getView().getTitle().equals("Settings")) {
                 if (clicked.getType() == Material.ENDER_PEARL) {
-                    player.openInventory(SettingsInventories.TeleportationSettings(player));
+                    player.openInventory(SettingsInventories.teleportationSettings());
                     event.setCancelled(true);
                 }
                 if (clicked.getType() == Material.GRASS_BLOCK) {
-                    player.openInventory(SettingsInventories.CreativeSettings(player));
+                    player.openInventory(SettingsInventories.creativeSettings());
                     event.setCancelled(true);
                 }
                 if (clicked.getType() == Material.PAPER) {
-                    player.openInventory(SettingsInventories.ChatSettings(player));
-                    event.setCancelled(true);
-                } else {
-                    event.setCancelled(true);
+                    player.openInventory(SettingsInventories.chatSettings());
                 }
+                event.setCancelled(true);
             }
             if (event.getView().getTitle().equals("Teleportation Settings")) {
 
                 if (clicked.getType() == Material.BOW) {
                     boolean allowTPA = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.tpa");
-                    boolean allowed;
-                    allowed = allowTPA != true;
+                    boolean allowed = !allowTPA;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
                     event.setCancelled(true);
                     SettingsInventories.init(player);
-                    player.openInventory(SettingsInventories.TeleportationSettings(player));
+                    player.openInventory(SettingsInventories.teleportationSettings());
                 }
                 if (clicked.getType() == Material.ARROW) {
                     boolean autoTPA = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.autotpa");
-                    boolean allowed;
-                    allowed = autoTPA != true;
+                    boolean allowed = !autoTPA;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
                     event.setCancelled(true);
                     SettingsInventories.init(player);
-                    player.openInventory(SettingsInventories.TeleportationSettings(player));
+                    player.openInventory(SettingsInventories.teleportationSettings());
                 } else {
                     event.setCancelled(true);
                 }
@@ -78,14 +62,13 @@ public class SettingsListener implements Listener {
                 if (clicked.getType() == Material.REPEATER) {
                     boolean allowCycle = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.cycle");
-                    boolean allowed;
-                    allowed = allowCycle != true;
+                    boolean allowed = !allowCycle;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.cycle",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
                     event.setCancelled(true);
                     SettingsInventories.init(player);
-                    player.openInventory(SettingsInventories.CreativeSettings(player));
+                    player.openInventory(SettingsInventories.creativeSettings());
                 }
             }
             if (event.getView().getTitle().equals("Chat Settings")) {
@@ -100,31 +83,29 @@ public class SettingsListener implements Listener {
                     VaultCore.getInstance().savePlayerData();
                     event.setCancelled(true);
                     SettingsInventories.init(player);
-                    player.openInventory(SettingsInventories.ChatSettings(player));
+                    player.openInventory(SettingsInventories.chatSettings());
                 }
                 if (clicked.getType() == Material.FILLED_MAP) {
                     boolean allowPWC = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.pwc");
-                    boolean allowed;
-                    allowed = allowPWC != true;
+                    boolean allowed = !allowPWC;
                     VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.pwc",
                             allowed);
                     VaultCore.getInstance().savePlayerData();
                     event.setCancelled(true);
                     SettingsInventories.init(player);
-                    player.openInventory(SettingsInventories.ChatSettings(player));
+                    player.openInventory(SettingsInventories.chatSettings());
                 }
                 if (clicked.getType() == Material.IRON_BARS) {
                     boolean allowSwearFilter = VaultCore.getInstance().getPlayerData()
                             .getBoolean("players." + player.getUniqueId() + ".settings.swearfilter");
-                    boolean allowed;
-                    allowed = allowSwearFilter != true;
+                    boolean allowed = !allowSwearFilter;
                     VaultCore.getInstance().getPlayerData()
                             .set("players." + player.getUniqueId() + ".settings.swearfilter", allowed);
                     VaultCore.getInstance().savePlayerData();
                     event.setCancelled(true);
                     SettingsInventories.init(player);
-                    player.openInventory(SettingsInventories.ChatSettings(player));
+                    player.openInventory(SettingsInventories.chatSettings());
                 } else {
                     event.setCancelled(true);
                 }
@@ -132,11 +113,9 @@ public class SettingsListener implements Listener {
             if (event.getView().getTitle().equals("Teleportation Settings")
                     || event.getView().getTitle().equals("Creative Settings") || event.getView().getTitle().equals("Chat Settings")) {
                 if (clicked.getType() == Material.BOOK) {
-                    player.openInventory(SettingsInventories.SettingsMain(player));
-                    event.setCancelled(true);
-                } else {
-                    event.setCancelled(true);
+                    player.openInventory(SettingsInventories.settingsMain());
                 }
+                event.setCancelled(true);
             }
         }
     }

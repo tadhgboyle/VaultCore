@@ -1,8 +1,8 @@
 package net.vaultmc.vaultcore.listeners;
 
-import java.net.InetSocketAddress;
-import java.net.Socket;
-
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.runnables.Statistics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,9 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
-import lombok.SneakyThrows;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.runnables.Statistics;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 
 public class ShutDownListener implements Listener {
 
@@ -25,6 +24,7 @@ public class ShutDownListener implements Listener {
 		}
 	}
 
+	// TODO from @yangyang200 What if I use Ctrl-C?
 	@EventHandler
 	public void onShutDownConsole(ServerCommandEvent event) {
 		if (event.getCommand().equals("stop")) {
@@ -41,13 +41,11 @@ public class ShutDownListener implements Listener {
 			s.close();
 			VaultCore.getInstance().sendToBackup();
 			shutDown(true);
-			return;
 		} catch (Exception e) {
 			for (Player players : Bukkit.getOnlinePlayers()) {
 				players.kickPlayer(ChatColor.RED + "VaultMC is shutting down for maintenance... Be right back!");
 			}
 			shutDown(false);
-			return;
 		}
 	}
 

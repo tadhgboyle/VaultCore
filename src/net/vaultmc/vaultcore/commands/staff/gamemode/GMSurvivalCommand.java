@@ -17,10 +17,9 @@ import java.util.Collections;
 @PlayerOnly
 @Aliases({"survival", "gmsurvival"})
 public class GMSurvivalCommand extends CommandExecutor {
-	
-	private String string = Utilities.string;
-	private String variable1 = Utilities.variable1;
-	
+    private String string = Utilities.string;
+    private String variable1 = Utilities.variable1;
+
     public GMSurvivalCommand() {
         register("execute", Collections.emptyList());
     }

@@ -1,6 +1,8 @@
 package net.vaultmc.vaultcore.commands.worldtp;
 
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,7 +15,6 @@ import java.util.Collections;
 @Permission(Permissions.WorldTPCommandSurvival)
 @PlayerOnly
 public class SVCommand extends CommandExecutor {
-
 	String string = Utilities.string;
 	String variable1 = Utilities.variable1;
 
@@ -23,7 +24,6 @@ public class SVCommand extends CommandExecutor {
 
 	@SubCommand("sv")
 	public void sv(CommandSender sender) {
-
 		Player player = (Player) sender;
 
 		Location sv = VaultCore.getInstance().getLocationFile().getLocation("players." + player.getUniqueId() + ".sv");

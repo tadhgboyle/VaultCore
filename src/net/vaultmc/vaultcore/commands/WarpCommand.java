@@ -1,6 +1,8 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.*;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.commands.*;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;

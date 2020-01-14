@@ -1,27 +1,20 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.sql.ResultSet;
-import java.util.Collections;
-
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.Aliases;
-import net.vaultmc.vaultloader.utils.commands.Arguments;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.util.Collections;
 
 @RootCommand(literal = "playtime", description = "Check yourself or other's play time.")
 @Permission(Permissions.PlayTime)
@@ -65,28 +58,28 @@ public class PlayTime extends CommandExecutor {
 				VaultCoreAPI.getName(player), time[0], time[1], time[2]);
 		sender.sendMessage(playtimeMsg);
 	}
-	
+
 	@SneakyThrows
 	private void printPlayTimeOffline(CommandSender player, OfflinePlayer target) {
 
 		DBConnection database = VaultCore.getDatabase();
 
-			ResultSet rs = database
-					.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?", target.getName());
-			if (!rs.next()) {
-				player.sendMessage(ChatColor.RED + "This player has never joined before!");
-				return;
-			}
+		ResultSet rs = database
+				.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?", target.getName());
+		if (!rs.next()) {
+			player.sendMessage(ChatColor.RED + "This player has never joined before!");
+			return;
+		}
 
-			long playtime = rs.getLong("playtime");
-			long t = (long) (playtime * 0.05 * 1000);
-			long[] time = Utilities.millisToTime(t);
-			String playtimeMsg = String.format(
-					ChatColor.translateAlternateColorCodes('&',
-							variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
-									+ " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d"
-									+ string + " hours and " + variable2 + "%d" + string + "  minutes."),
-					VaultCoreAPI.getName(target), time[0], time[1], time[2]);
-			player.sendMessage(playtimeMsg);
+		long playtime = rs.getLong("playtime");
+		long t = (long) (playtime * 0.05 * 1000);
+		long[] time = Utilities.millisToTime(t);
+		String playtimeMsg = String.format(
+				ChatColor.translateAlternateColorCodes('&',
+						variable1 + "%s" + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]" + string
+								+ " has played for " + variable2 + "%d" + string + " days, " + variable2 + "%d"
+								+ string + " hours and " + variable2 + "%d" + string + "  minutes."),
+				VaultCoreAPI.getName(target), time[0], time[1], time[2]);
+		player.sendMessage(playtimeMsg);
 	}
 }

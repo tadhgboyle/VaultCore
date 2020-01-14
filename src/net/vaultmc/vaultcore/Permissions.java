@@ -4,7 +4,6 @@ public class Permissions {
     // string name same as class for easy reference
     public static final String BackCommand = "vaultcore.back";
     public static final String DiscordCommand = "vaultcore.discord";
-    public static final String HelpCommand = "vaultcore.help";
     public static final String MsgCommand = "vaultcore.msg";
     public static final String PingCommand = "vaultcore.ping";
     public static final String PingCommandOther = "vaultcore.ping.other";
@@ -15,7 +14,6 @@ public class Permissions {
     public static final String TokenCommand = "vaultcore.token";
     public static final String TPACommand = "vaultcore.tpa";
     public static final String TPAHereCommand = "vaultcore.tpahere";
-    public static final String TPHereCommand = "vaultcore.tphere";
     public static final String WarpCommand = "vaultcore.warp";
     public static final String WarpCommandSet = "vaultcore.warp.set";
     public static final String WarpCommandDelete = "vaultcore.warp.delete";
@@ -36,7 +34,6 @@ public class Permissions {
     public static final String HealCommand = "vaultcore.heal";
     public static final String HealCommandOther = "vaultcore.heal.other";
     public static final String InvseeCommand = "vaultcore.invsee";
-    public static final String InvseeModify = "vaultcore.invsee.modify";
     public static final String InvseeExempt = "vaultcore.invsee.exempt";
     public static final String MuteChatCommand = "vaultcore.mutechat";
     public static final String MuteChatCommandOverride = "vaultcore.mutechat.override";
