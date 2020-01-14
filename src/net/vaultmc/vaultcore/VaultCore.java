@@ -161,7 +161,7 @@ public class VaultCore extends Component implements Listener {
 					ChatColor.RED + "VaultMC is shutting down for maintenance... Sending you to the backup server...");
 			ByteArrayDataOutput out = ByteStreams.newDataOutput();
 			out.writeUTF("Connect");
-			out.writeUTF("backup");
+			out.writeUTF("Backup");
 			players.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
 		}
 	}
