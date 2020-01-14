@@ -31,7 +31,7 @@ public class StatsCommand extends CommandExecutor {
 	public StatsCommand() {
 		register("statsSelf", Collections.emptyList());
 		register("statsOthers",
-				Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+				Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 	}
 
 	@SubCommand("statsSelf")
@@ -43,7 +43,7 @@ public class StatsCommand extends CommandExecutor {
 
 	@SubCommand("statsOthers")
 	@Permission(Permissions.StatsCommandOther)
-	public void statsOthers(CommandSender sender, Player target) {
+	public void statsOthers(CommandSender sender, OfflinePlayer target) {
 		viewStats(sender, target);
 	}
 
@@ -64,11 +64,13 @@ public class StatsCommand extends CommandExecutor {
 			sender.sendMessage(ChatColor.RED + "An error has occured, please contact an Administrator.");
 			return;
 		}
-		long [] duration = Utilities.millisToTime(stats.getInt("duration"));
+		long[] time = Utilities.millisToTime(stats.getInt("duration"));
 		sender.sendMessage(ChatColor.DARK_GREEN + "--== [Stats] ==--");
 		sender.sendMessage(VaultCoreAPI.getName(target) + string + " has joined " + variable2
 				+ stats.getString("sessions") + string + " times.");
-		sender.sendMessage(VaultCoreAPI.getName(target) + string + "'s average session duration is " + variable2
-				+ duration + string + ".");
+		String message = String.format(VaultCoreAPI.getName(target) + string + "'s average session length is "
+				+ variable2 + "%d" + string + " days, " + variable2 + "%d" + string + " hours and " + variable2 + "%d"
+				+ string + "  minutes.", time[0], time[1], time[2]);
+		sender.sendMessage(message);
 	}
 }
