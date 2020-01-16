@@ -2,9 +2,8 @@ package net.vaultmc.vaultcore.commands.staff.grant;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -20,8 +19,7 @@ public class GrantCommand extends CommandExecutor {
     }
 
     @SubCommand("grant")
-    public void grant(CommandSender sender, Player target) {
-        Player player = (Player) sender;
+    public void grant(VLPlayer player, VLPlayer target) {
         if (target == player) {
             player.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
             return;

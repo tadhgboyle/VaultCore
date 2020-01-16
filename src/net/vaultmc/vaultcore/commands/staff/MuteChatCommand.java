@@ -2,15 +2,12 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.RootCommand;
 import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -27,16 +24,14 @@ public class MuteChatCommand extends CommandExecutor {
     }
 
     @SubCommand("mutechat")
-    public void muteChat(CommandSender sender) {
+    public void muteChat(VLCommandSender sender) {
         if (chatMuted) {
             chatMuted = false;
             Bukkit.broadcastMessage(string + "The chat is no longer muted.");
 
         } else {
             chatMuted = true;
-            Bukkit.broadcastMessage(string + "The chat has been muted by " + variable1
-                    + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) + string + "."
-                    : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + "."));
+            Bukkit.broadcastMessage(string + "The chat has been muted by " + variable1 + sender.getFormattedName());
         }
     }
 }

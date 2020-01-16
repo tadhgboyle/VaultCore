@@ -36,7 +36,7 @@ public class Permissions {
     public static final String InvseeCommand = "vaultcore.invsee";
     public static final String InvseeExempt = "vaultcore.invsee.exempt";
     public static final String MuteChatCommand = "vaultcore.mutechat";
-    public static final String MuteChatCommandOverride = "vaultcore.mutechat.override";
+    public static final String MuteChatCommandOverride = "vaultcore.mutechat.override";  // Used in VaultUtils
     public static final String StaffChatCommand = "vaultcore.staffchat";
     public static final String TeleportCommand = "vaultcore.teleport";
     public static final String TeleportCommandOther = "vaultcore.teleport.other";

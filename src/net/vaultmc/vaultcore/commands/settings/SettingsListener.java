@@ -1,6 +1,6 @@
 package net.vaultmc.vaultcore.commands.settings;
 
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,112 +10,87 @@ import org.bukkit.inventory.ItemStack;
 
 public class SettingsListener implements Listener {
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
+    public void onInventoryClick(InventoryClickEvent e) {
+        VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
 
-        ItemStack clicked = event.getCurrentItem();
+        ItemStack clicked = e.getCurrentItem();
 
         if (clicked != null) {
-            if (event.getView().getTitle().equals("Settings")) {
+            if (e.getView().getTitle().equals("Settings")) {
                 if (clicked.getType() == Material.ENDER_PEARL) {
                     player.openInventory(SettingsInventories.teleportationSettings());
-                    event.setCancelled(true);
+                    e.setCancelled(true);
                 }
                 if (clicked.getType() == Material.GRASS_BLOCK) {
                     player.openInventory(SettingsInventories.creativeSettings());
-                    event.setCancelled(true);
+                    e.setCancelled(true);
                 }
                 if (clicked.getType() == Material.PAPER) {
                     player.openInventory(SettingsInventories.chatSettings());
                 }
-                event.setCancelled(true);
+                e.setCancelled(true);
             }
-            if (event.getView().getTitle().equals("Teleportation Settings")) {
+            if (e.getView().getTitle().equals("Teleportation Settings")) {
 
                 if (clicked.getType() == Material.BOW) {
-                    boolean allowTPA = VaultCore.getInstance().getPlayerData()
-                            .getBoolean("players." + player.getUniqueId() + ".settings.tpa");
-                    boolean allowed = !allowTPA;
-                    VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa",
-                            allowed);
-                    VaultCore.getInstance().savePlayerData();
-                    event.setCancelled(true);
+                    player.getDataConfig().set("settings.tpa", !player.getDataConfig().getBoolean("settings.tpa"));
+                    player.saveData();
+                    e.setCancelled(true);
                     SettingsInventories.init(player);
                     player.openInventory(SettingsInventories.teleportationSettings());
                 }
                 if (clicked.getType() == Material.ARROW) {
-                    boolean autoTPA = VaultCore.getInstance().getPlayerData()
-                            .getBoolean("players." + player.getUniqueId() + ".settings.autotpa");
-                    boolean allowed = !autoTPA;
-                    VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa",
-                            allowed);
-                    VaultCore.getInstance().savePlayerData();
-                    event.setCancelled(true);
+                    player.getDataConfig().set("settings.autotpa", !player.getDataConfig().getBoolean("settings.autotpa"));
+                    player.saveData();
+                    e.setCancelled(true);
                     SettingsInventories.init(player);
                     player.openInventory(SettingsInventories.teleportationSettings());
                 } else {
-                    event.setCancelled(true);
+                    e.setCancelled(true);
                 }
             }
-            if (event.getView().getTitle().equals("Creative Settings")) {
+            if (e.getView().getTitle().equals("Creative Settings")) {
 
                 if (clicked.getType() == Material.REPEATER) {
-                    boolean allowCycle = VaultCore.getInstance().getPlayerData()
-                            .getBoolean("players." + player.getUniqueId() + ".settings.cycle");
-                    boolean allowed = !allowCycle;
-                    VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.cycle",
-                            allowed);
-                    VaultCore.getInstance().savePlayerData();
-                    event.setCancelled(true);
+                    player.getDataConfig().set("settings.cycle", !player.getDataConfig().getBoolean("settings.cycle"));
+                    player.saveData();
+                    e.setCancelled(true);
                     SettingsInventories.init(player);
                     player.openInventory(SettingsInventories.creativeSettings());
                 }
             }
-            if (event.getView().getTitle().equals("Chat Settings")) {
+            if (e.getView().getTitle().equals("Chat Settings")) {
 
                 if (clicked.getType() == Material.FEATHER) {
-                    boolean allowMsg = VaultCore.getInstance().getPlayerData()
-                            .getBoolean("players." + player.getUniqueId() + ".settings.msg");
-                    boolean allowed;
-                    allowed = allowMsg != true;
-                    VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg",
-                            allowed);
-                    VaultCore.getInstance().savePlayerData();
-                    event.setCancelled(true);
+                    player.getDataConfig().set("settings.msg", !player.getDataConfig().getBoolean("settings.msg"));
+                    player.saveData();
+                    e.setCancelled(true);
                     SettingsInventories.init(player);
                     player.openInventory(SettingsInventories.chatSettings());
                 }
                 if (clicked.getType() == Material.FILLED_MAP) {
-                    boolean allowPWC = VaultCore.getInstance().getPlayerData()
-                            .getBoolean("players." + player.getUniqueId() + ".settings.pwc");
-                    boolean allowed = !allowPWC;
-                    VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.pwc",
-                            allowed);
-                    VaultCore.getInstance().savePlayerData();
-                    event.setCancelled(true);
+                    player.getDataConfig().set("settings.pwc", !player.getDataConfig().getBoolean("settings.pwc"));
+                    player.saveData();
+                    e.setCancelled(true);
                     SettingsInventories.init(player);
                     player.openInventory(SettingsInventories.chatSettings());
                 }
                 if (clicked.getType() == Material.IRON_BARS) {
-                    boolean allowSwearFilter = VaultCore.getInstance().getPlayerData()
-                            .getBoolean("players." + player.getUniqueId() + ".settings.swearfilter");
-                    boolean allowed = !allowSwearFilter;
-                    VaultCore.getInstance().getPlayerData()
-                            .set("players." + player.getUniqueId() + ".settings.swearfilter", allowed);
-                    VaultCore.getInstance().savePlayerData();
-                    event.setCancelled(true);
+                    player.getDataConfig().set("settings.swearfilter", !player.getDataConfig().getBoolean("settings.swearfilter"));
+                    player.saveData();
+                    e.setCancelled(true);
                     SettingsInventories.init(player);
                     player.openInventory(SettingsInventories.chatSettings());
                 } else {
-                    event.setCancelled(true);
+                    e.setCancelled(true);
                 }
             }
-            if (event.getView().getTitle().equals("Teleportation Settings")
-                    || event.getView().getTitle().equals("Creative Settings") || event.getView().getTitle().equals("Chat Settings")) {
+            if (e.getView().getTitle().equals("Teleportation Settings")
+                    || e.getView().getTitle().equals("Creative Settings") || e.getView().getTitle().equals("Chat Settings")) {
                 if (clicked.getType() == Material.BOOK) {
                     player.openInventory(SettingsInventories.settingsMain());
                 }
-                event.setCancelled(true);
+                e.setCancelled(true);
             }
         }
     }

@@ -3,13 +3,12 @@ package net.vaultmc.vaultcore.commands.teleport;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.Bukkit;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,7 +31,7 @@ public class TeleportCommand extends CommandExecutor {
         register("teleportLocation", Collections.singletonList(Arguments.createArgument("location", Arguments.location3DArgument())));
         register("teleportLocationWorld", Arrays.asList(
                 Arguments.createArgument("location", Arguments.location3DArgument()),
-                Arguments.createArgument("world", Arguments.word())
+                Arguments.createArgument("world", Arguments.worldArgument())
         ));
         register("teleportToEntity", Collections.singletonList(Arguments.createArgument("target", Arguments.entityArgument())));
         register("teleportEntityTo", Arrays.asList(
@@ -42,7 +41,7 @@ public class TeleportCommand extends CommandExecutor {
         register("teleportEntityToWorld", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument()),
-                Arguments.createArgument("world", Arguments.word())
+                Arguments.createArgument("world", Arguments.worldArgument())
         ));
         register("teleportEntityToEntity", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
@@ -57,35 +56,30 @@ public class TeleportCommand extends CommandExecutor {
 
     @SubCommand("teleportLocation")
     @PlayerOnly
-    public void teleportLocation(CommandSender sender, Location location) {
-        ((Player) sender).teleport(location);
+    public void teleportLocation(VLPlayer sender, Location location) {
+        sender.teleport(location);
         sender.sendMessage(string + "Teleported you to " + variable1 + readLocation(location) + string + ".");
     }
 
     @SubCommand("teleportLocationWorld")
     @PlayerOnly
-    public void teleportLocationWorld(CommandSender sender, Location location, String world) {
-        World w = Bukkit.getWorld(world);
-        if (w == null) {
-            sender.sendMessage(ChatColor.RED + "This world does not exist!");
-            return;
-        }
+    public void teleportLocationWorld(VLPlayer sender, Location location, World w) {
         location.setWorld(w);
-        ((Player) sender).teleport(location);
+        sender.teleport(location);
         sender.sendMessage(string + "Teleported you to " + variable1 + readLocation(location) + string + ".");
     }
 
     @SubCommand("teleportToEntity")
     @PlayerOnly
     @Permission(Permissions.TeleportCommandOther)
-    public void teleportToEntity(CommandSender sender, Entity target) {
-        ((Player) sender).teleport(target);
+    public void teleportToEntity(VLPlayer sender, Entity target) {
+        sender.teleport(target);
         sender.sendMessage(string + "Teleported you to " + variable1 + target.getName() + string + ".");
     }
 
     @SubCommand("teleportEntityTo")
     @Permission(Permissions.TeleportCommandOther)
-    public void teleportEntityTo(CommandSender sender, Collection<Entity> entities, Location location) {
+    public void teleportEntityTo(VLCommandSender sender, Collection<Entity> entities, Location location) {
         for (Entity entity : entities) {
             if (location.getWorld() == null) location.setWorld(entity.getWorld());
             entity.teleport(location);
@@ -95,19 +89,14 @@ public class TeleportCommand extends CommandExecutor {
 
     @SubCommand("teleportEntityToWorld")
     @Permission(Permissions.TeleportCommandOther)
-    public void teleportEntityToWorld(CommandSender sender, Collection<Entity> entities, Location location, String world) {
-        World w = Bukkit.getWorld(world);
-        if (w == null) {
-            sender.sendMessage(ChatColor.RED + "This world does not exist!");
-            return;
-        }
+    public void teleportEntityToWorld(VLCommandSender sender, Collection<Entity> entities, Location location, World w) {
         location.setWorld(w);
         teleportEntityTo(sender, entities, location);
     }
 
     @SubCommand("teleportEntityToEntity")
     @Permission(Permissions.TeleportCommandOther)
-    public void teleportEntityToEntity(CommandSender sender, Collection<Entity> entities, Entity to) {
+    public void teleportEntityToEntity(VLCommandSender sender, Collection<Entity> entities, Entity to) {
         for (Entity entity : entities) {
             entity.teleport(to);
             sender.sendMessage(string + "Teleported " + variable1 + entity.getName() + string + " to " + variable1 + to.getName() + string + ".");

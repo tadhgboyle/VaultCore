@@ -1,25 +1,18 @@
 package net.vaultmc.vaultcore.commands;
 
-import java.sql.ResultSet;
-import java.util.Collections;
-
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.Arguments;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.ChatColor;
+
+import java.sql.ResultSet;
+import java.util.Collections;
 
 @RootCommand(literal = "stats", description = "Check statistics of yourself or other players.")
 @Permission(Permissions.StatsCommand)
@@ -36,19 +29,18 @@ public class StatsCommand extends CommandExecutor {
 
 	@SubCommand("statsSelf")
 	@PlayerOnly
-	public void statsSelf(CommandSender sender) {
-		Player player = (Player) sender;
+	public void statsSelf(VLPlayer player) {
 		viewStats(player, player);
 	}
 
 	@SubCommand("statsOthers")
 	@Permission(Permissions.StatsCommandOther)
-	public void statsOthers(CommandSender sender, OfflinePlayer target) {
+	public void statsOthers(VLCommandSender sender, VLOfflinePlayer target) {
 		viewStats(sender, target);
 	}
 
 	@SneakyThrows
-	private void viewStats(CommandSender sender, OfflinePlayer target) {
+	private void viewStats(VLCommandSender sender, VLOfflinePlayer target) {
 		DBConnection database = VaultCore.getDatabase();
 
 		ResultSet check = database.executeQueryStatement("SELECT username FROM players WHERE username=?",
@@ -61,14 +53,14 @@ public class StatsCommand extends CommandExecutor {
 				"SELECT COUNT(session_id) AS sessions, AVG(duration) AS duration FROM sessions WHERE username=?",
 				target.getName());
 		if (!stats.next()) {
-			sender.sendMessage(ChatColor.RED + "An error has occured, please contact an Administrator.");
+			sender.sendMessage(ChatColor.RED + "An error has occurred, please consult an administrator for help.");
 			return;
 		}
 		long[] time = Utilities.millisToTime(stats.getInt("duration"));
 		sender.sendMessage(ChatColor.DARK_GREEN + "--== [Stats] ==--");
-		sender.sendMessage(VaultCoreAPI.getName(target) + string + " has joined " + variable2
+		sender.sendMessage(target.getFormattedName() + string + " has joined " + variable2
 				+ stats.getString("sessions") + string + " times.");
-		String message = String.format(VaultCoreAPI.getName(target) + string + "'s average session length is "
+		String message = String.format(target.getFormattedName() + string + "'s average session length is "
 				+ variable2 + "%d" + string + " days, " + variable2 + "%d" + string + " hours and " + variable2 + "%d"
 				+ string + "  minutes.", time[0], time[1], time[2]);
 		sender.sendMessage(message);

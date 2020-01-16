@@ -2,11 +2,10 @@ package net.vaultmc.vaultcore.commands.teleport;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -30,14 +29,12 @@ public class TPAcceptCommand extends CommandExecutor {
     }
 
     @SubCommand("tpaccept")
-    public void tpaccept(CommandSender sender) {
-
-        Player player = (Player) sender;
+    public void tpaccept(VLPlayer player) {
         if (requests.containsKey(player.getUniqueId())) {
             player.sendMessage(string + "You have accepted the teleport request.");
             Bukkit.getPlayer(requests.get(player.getUniqueId()))
-                    .sendMessage(VaultCoreAPI.getName(player) + string + " accepted your teleport request.");
-            Bukkit.getPlayer(requests.get(player.getUniqueId())).teleport(player);
+                    .sendMessage(player.getFormattedName() + string + " accepted your teleport request.");
+            VLPlayer.getPlayer(requests.get(player.getUniqueId())).teleport(player);
             requests.remove(player.getUniqueId());
             return;
         }
@@ -46,7 +43,7 @@ public class TPAcceptCommand extends CommandExecutor {
             Player target = Bukkit.getPlayer(requestsHere.get(player.getUniqueId()));
 
             player.sendMessage(string + "You have accepted the teleport request.");
-            target.sendMessage(VaultCoreAPI.getName(player) + string + " accepted your teleport request.");
+            target.sendMessage(player.getFormattedName() + string + " accepted your teleport request.");
             player.teleport(target);
             requestsHere.remove(player.getUniqueId());
         } else {

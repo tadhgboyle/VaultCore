@@ -2,11 +2,10 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -26,23 +25,19 @@ public class FeedCommand extends CommandExecutor {
 
     @SubCommand("feedSelf")
     @PlayerOnly
-    public void feedSelf(CommandSender sender) {
-        Player player = (Player) sender;
+    public void feedSelf(VLPlayer player) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 string + "You have been " + variable1 + "fed."));
-        player.setFoodLevel(20);
-        player.setSaturation(20);
+        player.feed();
     }
 
     @SubCommand("feedOthers")
     @Permission(Permissions.FeedCommandOther)
-    public void feedOthers(CommandSender sender, Player target) {
+    public void feedOthers(VLCommandSender sender, VLPlayer target) {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "You have fed " + variable1 + VaultCoreAPI.getName(target)));
-        target.setFoodLevel(20);
-        target.setSaturation(20);
+                string + "You have fed " + variable1 + target.getFormattedName()));
+        target.feed();
         target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "You have been fed by " + variable1 + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
-                        ChatColor.BOLD + "CONSOLE" + ChatColor.RESET)));
+                string + "You have been fed by " + variable1 + sender.getFormattedName()));
     }
 }

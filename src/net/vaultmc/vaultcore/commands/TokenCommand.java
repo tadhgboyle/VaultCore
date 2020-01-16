@@ -6,9 +6,8 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.apache.commons.lang.RandomStringUtils;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.util.Collections;
@@ -27,8 +26,7 @@ public class TokenCommand extends CommandExecutor {
 	}
 
 	@SneakyThrows
-	static String getToken(UUID uuid, Player player) {
-
+	static String getToken(UUID uuid, VLPlayer player) {
 		DBConnection database = VaultCore.getDatabase();
 
 		ResultSet getToken = database.executeQueryStatement("SELECT token FROM players WHERE uuid='" + uuid + "'");
@@ -60,8 +58,8 @@ public class TokenCommand extends CommandExecutor {
 
 	@SneakyThrows
 	@SubCommand("getToken")
-	public void getToken(CommandSender sender) {
-		String token = getToken(((Player) sender).getUniqueId(), (Player) sender);
+	public void getToken(VLPlayer sender) {
+		String token = getToken(sender.getUniqueId(), sender);
 		// if they are 1/308915776 make them run cmd again
 		if (token == null) {
 			return;

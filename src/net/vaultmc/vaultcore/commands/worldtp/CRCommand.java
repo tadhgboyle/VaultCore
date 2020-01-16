@@ -4,10 +4,9 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -22,17 +21,15 @@ public class CRCommand extends CommandExecutor {
 		register("cr", Collections.emptyList());
 	}
 
-	@SubCommand("cr")
-	public void cr(CommandSender sender) {
-		Player player = (Player) sender;
-
-		Location cr = VaultCore.getInstance().getLocationFile().getLocation("players." + player.getUniqueId() + ".cr");
-		if (cr == null) {
-			player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
-			player.teleport(Bukkit.getWorld("creative").getSpawnLocation());
-		} else {
-			player.teleport(cr);
-			player.sendMessage(string + "Teleported you to the " + variable1 + "Creative" + string + " world.");
-		}
-	}
+    @SubCommand("cr")
+    public void cr(VLPlayer player) {
+        Location cr = VaultCore.getInstance().getLocationFile().getLocation("players." + player.getUniqueId() + ".cr");
+        if (cr == null) {
+            player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
+            player.teleport(Bukkit.getWorld("creative").getSpawnLocation());
+        } else {
+            player.teleport(cr);
+            player.sendMessage(string + "Teleported you to the " + variable1 + "Creative" + string + " world.");
+        }
+    }
 }

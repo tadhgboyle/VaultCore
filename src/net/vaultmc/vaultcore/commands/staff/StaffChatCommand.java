@@ -2,11 +2,11 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -33,11 +33,10 @@ public class StaffChatCommand extends CommandExecutor {
     }
 
     @SubCommand("chat")
-    public void chat(CommandSender sender, String message) {
+    public void chat(VLCommandSender sender, String message) {
         String cprefix = (ChatColor.translateAlternateColorCodes('&',
                 VaultCore.getInstance().getConfig().getString("staffchat-prefix")));
-        String cstaffchat = String.format("%s" + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) : ChatColor.BLUE + "" +
-                ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) +
+        String cstaffchat = String.format("%s" + sender.getFormattedName() +
                 ChatColor.DARK_GRAY + ": " + ChatColor.AQUA + "%s", cprefix, message);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -49,8 +48,7 @@ public class StaffChatCommand extends CommandExecutor {
 
     @SubCommand("toggle")
     @PlayerOnly
-    public void toggle(CommandSender sender) {
-        Player player = (Player) sender;
+    public void toggle(VLPlayer player) {
         if (toggled.contains(player.getUniqueId())) {
             toggled.remove(player.getUniqueId());
             player.sendMessage(string + "You have " + variable1 + "disabled" + string + " staff chat.");

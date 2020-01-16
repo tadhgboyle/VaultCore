@@ -2,11 +2,10 @@ package net.vaultmc.vaultcore.commands;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -23,18 +22,17 @@ public class PingCommand extends CommandExecutor {
 				Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
 	}
 
-	@SubCommand("pingSelf")
-	@PlayerOnly
-	public void pingSelf(CommandSender sender) {
-		Player player = (Player) sender;
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-				string + "" + "Your ping is: " + variable2 + "" + player.spigot().getPing() + string + "ms"));
-	}
+    @SubCommand("pingSelf")
+    @PlayerOnly
+    public void pingSelf(VLPlayer player) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                string + "" + "Your ping is: " + variable2 + "" + player.getPing() + string + "ms"));
+    }
 
-	@SubCommand("pingOthers")
-	@Permission(Permissions.PingCommandOther)
-	public void pingOthers(CommandSender sender, Player target) {
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + VaultCoreAPI.getName(target)
-				+ string + "" + "'s ping is: " + variable2 + "" + target.spigot().getPing() + string + "ms"));
-	}
+    @SubCommand("pingOthers")
+    @Permission(Permissions.PingCommandOther)
+    public void pingOthers(VLCommandSender sender, VLPlayer target) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "" + target.getFormattedName()
+                + string + "" + "'s ping is: " + variable2 + "" + target.getPing() + string + "ms"));
+    }
 }

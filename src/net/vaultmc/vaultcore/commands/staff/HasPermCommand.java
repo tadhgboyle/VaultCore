@@ -4,14 +4,12 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.Bukkit;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.util.Arrays;
@@ -29,57 +27,53 @@ public class HasPermCommand extends CommandExecutor {
 				Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 	}
 
-	@SubCommand("hasPermSelf")
-	@PlayerOnly
-	public void hasPermSelf(CommandSender sender, String permission) {
+    @SubCommand("hasPermSelf")
+    @PlayerOnly
+    public void hasPermSelf(VLPlayer sender, String permission) {
+        if (sender.hasPermission(permission)) {
+            sender.sendMessage(string + "You " + ChatColor.GREEN + "have" + string + " the permission " + variable1
+                    + permission + string + ".");
+        } else {
+            sender.sendMessage(string + "You " + ChatColor.RED + "don't have" + string + " the permission " + variable1
+                    + permission + string + ".");
+        }
+    }
 
-		if (VaultCore.getPermissions().has(sender, permission)) {
-			sender.sendMessage(string + "You " + ChatColor.GREEN + "have" + string + " the permission " + variable1
-					+ permission + string + ".");
-		} else {
-			sender.sendMessage(string + "You " + ChatColor.RED + "don't have" + string + " the permission " + variable1
-					+ permission + string + ".");
-		}
-	}
+    @SubCommand("hasPermOther")
+    @Permission(Permissions.HasPermCommandOther)
+    public void hasPermOther(VLCommandSender sender, String permission, VLOfflinePlayer target) {
+        if (target.isOnline()) {
+            hasPermOtherOnline(target.getOnlinePlayer(), sender, permission);
+            return;
+        }
+        hasPermOtherOffline(sender, target, permission);
+    }
 
-	@SubCommand("hasPermOther")
-	@Permission(Permissions.HasPermCommandOther)
-	public void hasPermOther(CommandSender sender, String permission, OfflinePlayer target) {
-		if (target.isOnline()) {
-			hasPermOtherOnline(target.getPlayer(), sender, permission);
-			return;
-		}
-		hasPermOtherOffline(sender, target, permission);
-	}
+    private void hasPermOtherOnline(VLPlayer target, VLCommandSender sender, String permission) {
+        if (target.hasPermission(permission)) {
+            sender.sendMessage(variable1 + target.getFormattedName() + ChatColor.GREEN + " has " + string
+                    + "the permission " + variable1 + permission + string + ".");
+        } else {
+            sender.sendMessage(variable1 + target.getFormattedName() + ChatColor.RED + " doesn't have " + string
+                    + "the permission " + variable1 + permission + string + ".");
+        }
+    }
 
-	private void hasPermOtherOnline(Player target, CommandSender sender, String permission) {
-		if (VaultCore.getPermissions().has(target, permission)) {
-			sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.GREEN + " has " + string
-					+ "the permission " + variable1 + permission + string + ".");
-		} else {
-			sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.RED + " doesn't have " + string
-					+ "the permission " + variable1 + permission + string + ".");
-		}
-	}
+    @SneakyThrows
+    private void hasPermOtherOffline(VLCommandSender sender, VLOfflinePlayer target, String permission) {
+        DBConnection database = VaultCore.getDatabase();
+        ResultSet rs = database.executeQueryStatement("SELECT username FROM players WHERE username=?", target.getName());
+        if (!rs.next()) {
+            sender.sendMessage(ChatColor.RED + "That player has never joined before!");
+            return;
+        }
 
-	@SneakyThrows
-	private void hasPermOtherOffline(CommandSender sender, OfflinePlayer target, String permission) {
-
-		DBConnection database = VaultCore.getDatabase();
-
-		ResultSet rs = database.executeQueryStatement("SELECT username FROM players WHERE username=?",
-				target.getName());
-		if (!rs.next()) {
-			sender.sendMessage(ChatColor.RED + "That player has never joined before!");
-			return;
-		}
-
-		if (VaultCore.getPermissions().playerHas(Bukkit.getWorlds().get(0).getName(), target, permission)) {
-			sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.GREEN + " has " + string
-					+ "the permission " + variable1 + permission + string + ".");
-		} else {
-			sender.sendMessage(variable1 + VaultCoreAPI.getName(target) + ChatColor.RED + " doesn't have " + string
-					+ "the permission " + variable1 + permission + string + ".");
-		}
-	}
+        if (target.hasPermission(permission)) {
+            sender.sendMessage(variable1 + target.getFormattedName() + ChatColor.GREEN + " has " + string
+                    + "the permission " + variable1 + permission + string + ".");
+        } else {
+            sender.sendMessage(variable1 + target.getFormattedName() + ChatColor.RED + " doesn't have " + string
+                    + "the permission " + variable1 + permission + string + ".");
+        }
+    }
 }

@@ -3,10 +3,9 @@ package net.vaultmc.vaultcore.commands;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,8 +23,7 @@ public class WildTeleport extends CommandExecutor {
 	}
 
 	@SubCommand("wild")
-	public void wild(CommandSender sender) {
-		Player player = (Player) sender;
+	public void wild(VLPlayer player) {
 		if (player.getWorld().getName().equalsIgnoreCase("Survival")
 				|| player.getWorld().getName().equalsIgnoreCase("clans")) {
 

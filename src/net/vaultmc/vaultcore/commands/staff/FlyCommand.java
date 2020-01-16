@@ -2,13 +2,12 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -27,9 +26,7 @@ public class FlyCommand extends CommandExecutor {
 
     @SubCommand("flySelf")
     @PlayerOnly
-    public void flySelf(CommandSender sender) {
-
-        Player player = (Player) sender;
+    public void flySelf(VLPlayer player) {
         if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
             player.sendMessage(string + "You're in " + WordUtils.capitalize(player.getGameMode().toString().toLowerCase()) + " mode silly.");
         } else if (!player.getAllowFlight()) {
@@ -44,29 +41,25 @@ public class FlyCommand extends CommandExecutor {
 
     @SubCommand("flyOthers")
     @Permission(Permissions.FlyCommandOther)
-    public void flyOthers(CommandSender sender, Player target) {
-
+    public void flyOthers(VLCommandSender sender, VLPlayer target) {
         if (target.getGameMode() == GameMode.CREATIVE || target.getGameMode() == GameMode.SPECTATOR) {
             sender.sendMessage(string + "They're in " + WordUtils.capitalize(target.getGameMode().toString().toLowerCase()) + " mode silly.");
         } else if (target.getAllowFlight()) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have " + variable1 + "disabled"
-                    + string + " fly for " + variable1 + VaultCoreAPI.getName(target) + string + "."));
+                    + string + " fly for " + variable1 + target.getFormattedName() + string + "."));
             target.setFlying(false);
             target.setAllowFlight(false);
             target.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     string + "Your fly has been " + variable1 + "disabled" + string + " by " + variable1
-                            + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender) + string + "."
-                            : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + ".")));
+                            + sender.getFormattedName()));
         } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     string + "You have " + variable1 + "enabled" + string + " fly for " + variable1
-                            + (sender instanceof Player ? VaultCoreAPI.getName(target) + string + "."
-                            : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + ".")));
+                            + target.getFormattedName()));
             target.setAllowFlight(true);
             target.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     string + "Your fly has been " + variable1 + "enabled" + string + " by " + variable1
-                            + (sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
-                            : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + string + ".")));
+                            + sender.getFormattedName()));
         }
     }
 }

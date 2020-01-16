@@ -3,9 +3,8 @@ package net.vaultmc.vaultcore.commands.staff.gamemode;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.GameMode;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -25,8 +24,8 @@ public class GMSpectatorCommand extends CommandExecutor {
     }
 
     @SubCommand("execute")
-    public void execute(CommandSender sender) {
-        ((Player) sender).setGameMode(GameMode.SPECTATOR);
+    public void execute(VLPlayer sender) {
+        sender.setGameMode(GameMode.SPECTATOR);
         sender.sendMessage(string + "Your game mode is now " + variable1 + "Spectator" + string + ".");
     }
 }

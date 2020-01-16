@@ -4,14 +4,12 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 
 import java.sql.ResultSet;
 import java.util.Collections;
@@ -29,10 +27,8 @@ public class CheckCommand extends CommandExecutor {
 
     @SneakyThrows
     @SubCommand("check")
-    public void check(CommandSender sender, OfflinePlayer target) {
-
+    public void check(VLCommandSender sender, VLOfflinePlayer target) {
         DBConnection database = VaultCore.getDatabase();
-
         ResultSet rs = database.executeQueryStatement(
                 "SELECT uuid, username, firstseen, lastseen, rank, ip FROM players WHERE username=?", target.getName());
         if (!rs.next()) {
@@ -40,7 +36,7 @@ public class CheckCommand extends CommandExecutor {
             return;
         }
         String uuid = rs.getString("uuid");
-        String username = VaultCoreAPI.getName(target);
+        String username = target.getFormattedName();
         long firstseen = rs.getLong("firstseen");
         long lastseen = rs.getLong("lastseen");
         String rank = WordUtils.capitalize(rs.getString("rank"));
@@ -61,7 +57,7 @@ public class CheckCommand extends CommandExecutor {
         sender.sendMessage(string + "Rank: " + variable1 + rank);
         sender.sendMessage(
                 string + "Database: " + variable1 + "https://database.vaultmc.net/?user=" + target.getName());
-        Bukkit.getServer().dispatchCommand(sender, "tag list " + target.getName());
+        sender.performCommand("tag list " + target.getName());
 
     }
 }

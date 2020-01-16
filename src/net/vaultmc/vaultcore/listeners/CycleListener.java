@@ -1,8 +1,7 @@
 package net.vaultmc.vaultcore.listeners;
 
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -13,9 +12,9 @@ public class CycleListener implements Listener {
 
     @EventHandler
     public void onInventoryCycle(PlayerItemHeldEvent event) {
-        Player player = event.getPlayer();
+        VLPlayer player = VLPlayer.getPlayer(event.getPlayer());
 
-        if ((VaultCore.getInstance().getPlayerData().getBoolean("players." + player.getUniqueId() + ".settings.cycle"))
+        if (player.getDataConfig().getBoolean("settings.cycle")
                 && player.getGameMode().equals(GameMode.CREATIVE)
                 && player.getWorld().getName().equalsIgnoreCase("Creative") && !player.isSneaking()) {
 
@@ -30,8 +29,7 @@ public class CycleListener implements Listener {
         }
     }
 
-    private void shift(Player player, boolean down) {
-
+    private void shift(VLPlayer player, boolean down) {
         Inventory inv = player.getInventory();
         ItemStack[] items = inv.getStorageContents();
 

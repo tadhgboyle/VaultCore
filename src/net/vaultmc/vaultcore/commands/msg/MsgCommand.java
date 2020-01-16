@@ -4,11 +4,9 @@ import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,8 +28,7 @@ public class MsgCommand extends CommandExecutor {
     }
 
     @SubCommand("msg")
-    public void msg(CommandSender sender, Player target, String message) {
-        Player player = (Player) sender;
+    public void msg(VLPlayer player, VLPlayer target, String message) {
         if (target == null) {
             player.sendMessage(ChatColor.RED + "That player is offline!");
         }
@@ -42,7 +39,7 @@ public class MsgCommand extends CommandExecutor {
         if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
             player.sendMessage(ChatColor.RED + "That player has disabled messaging!");
         } else {
-            String msgPrefix = VaultCoreAPI.getName(player) + string + " -> " + VaultCoreAPI.getName(target)
+            String msgPrefix = player.getFormattedName() + string + " -> " + target.getFormattedName()
                     + string + ":";
 
             player.sendMessage(msgPrefix + " " + ChatColor.RESET + message);

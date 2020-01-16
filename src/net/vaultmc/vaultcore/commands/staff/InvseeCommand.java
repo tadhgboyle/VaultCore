@@ -3,8 +3,8 @@ package net.vaultmc.vaultcore.commands.staff;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import java.util.Collections;
@@ -19,17 +19,17 @@ public class InvseeCommand extends CommandExecutor implements Listener {
 		VaultCore.getInstance().registerEvents(this);
 	}
 
-	@SubCommand("invsee")
-	public void invsee(Player sender, Player target) {
-		if (sender == target) {
-			sender.sendMessage(ChatColor.RED + "You can't open your own inventory!");
-			return;
-		}
+    @SubCommand("invsee")
+    public void invsee(VLPlayer sender, VLPlayer target) {
+        if (sender == target) {
+            sender.sendMessage(ChatColor.RED + "You can't open your own inventory!");
+            return;
+        }
 
-		if (target.hasPermission(Permissions.InvseeExempt)) {
-			sender.sendMessage(ChatColor.RED + "You can't open this player's inventory!");
-			return;
-		}
+        if (target.hasPermission(Permissions.InvseeExempt)) {
+            sender.sendMessage(ChatColor.RED + "You can't open this player's inventory!");
+            return;
+        }
 
 		sender.openInventory(target.getInventory());
 	}

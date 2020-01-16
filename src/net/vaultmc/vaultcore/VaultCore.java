@@ -130,22 +130,18 @@ public class VaultCore extends Component implements Listener {
         locations = ConfigurationManager.loadConfiguration("locations.yml", this);
     }
 
-    @SneakyThrows
     public void savePlayerData() {
         playerData.save();
     }
 
-    @SneakyThrows
     public void saveLocations() {
         locations.save();
     }
 
-    @SneakyThrows
     public void saveConfig() {
         config.save();
     }
 
-    @SneakyThrows
     public void reloadConfig() {
         config.reload();
     }

@@ -2,8 +2,7 @@ package net.vaultmc.vaultcore.commands.settings;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
 
@@ -16,8 +15,7 @@ public class SettingsCommand extends CommandExecutor {
     }
 
     @SubCommand("settings")
-    public void settings(CommandSender sender) {
-        Player player = (Player) sender;
+    public void settings(VLPlayer player) {
         SettingsInventories.init(player);
         player.openInventory(SettingsInventories.settingsMain());
     }

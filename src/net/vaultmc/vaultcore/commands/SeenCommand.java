@@ -4,12 +4,11 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 
 import java.sql.ResultSet;
 import java.util.Collections;
@@ -28,10 +27,8 @@ public class SeenCommand extends CommandExecutor {
 
 	@SneakyThrows
 	@SubCommand("seen")
-	public void seen(CommandSender sender, OfflinePlayer player) {
-
+	public void seen(VLCommandSender sender, VLOfflinePlayer player) {
 		DBConnection database = VaultCore.getDatabase();
-
 		ResultSet rs = database.executeQueryStatement("SELECT lastseen FROM players WHERE username=?",
 				player.getName());
 		if (!rs.next()) {
@@ -52,7 +49,7 @@ public class SeenCommand extends CommandExecutor {
 			status = ChatColor.RED + " offline ";
 		}
 
-		String message = String.format(VaultCoreAPI.getName(player) + string + " has been" + status + string + "for "
+		String message = String.format(player.getFormattedName() + string + " has been" + status + string + "for "
 				+ variable2 + "%d" + string + " days, " + variable2 + "%d" + string + " hours and " + variable2 + "%d"
 				+ string + "  minutes.", time[0], time[1], time[2]);
 		sender.sendMessage(message);

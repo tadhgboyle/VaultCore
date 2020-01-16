@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.ReloadPersistentStorage;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,7 +21,6 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 public class PlayerJoinQuitListener implements Listener {
-
 	static DBConnection database = VaultCore.getDatabase();
 	@SuppressWarnings("unchecked")
 	@Getter
@@ -49,17 +48,16 @@ public class PlayerJoinQuitListener implements Listener {
 	@EventHandler
 	@SneakyThrows
 	public void onJoin(PlayerJoinEvent join) {
-
-		Player player = join.getPlayer();
+		VLPlayer player = VLPlayer.getPlayer(join.getPlayer());
 		String uuid = player.getUniqueId().toString();
 		String username = player.getName();
 		long firstseen = player.getFirstPlayed();
 		long lastseen = System.currentTimeMillis();
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
-		String rank = VaultCore.getChat().getPrimaryGroup(player);
+		String rank = player.getGroup();
 		String ip = player.getAddress().getAddress().getHostAddress();
 
-		String prefix = ChatColor.translateAlternateColorCodes('&', VaultCore.getChat().getPlayerPrefix(player));
+		String prefix = ChatColor.translateAlternateColorCodes('&', player.getPrefix());
 
 		String session_id = RandomStringUtils.random(8, true, true);
 		long start_time = System.currentTimeMillis();
@@ -67,30 +65,27 @@ public class PlayerJoinQuitListener implements Listener {
 		session_ids.put(uuid, session_id);
 		session_duration.put(session_id, lastseen);
 
-		player.setDisplayName(prefix + username);
-		player.setPlayerListName(player.getDisplayName());
+		player.getPlayer().setDisplayName(prefix + username);
+		player.getPlayer().setPlayerListName(player.getDisplayName());
 
 		playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
 
 		sessionQuery(session_id, uuid, username, ip, 0, start_time, 0);
 
-		if (VaultCore.getInstance().getPlayerData().get("players." + player.getUniqueId() + ".settings.msg") == null) {
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.msg", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.tpa", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.autotpa", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.cycle", true);
-			VaultCore.getInstance().getPlayerData().set("players." + player.getUniqueId() + ".settings.swearfilter",
-					true);
-			VaultCore.getInstance().savePlayerData();
+		if (!player.getDataConfig().contains("settings")) {
+			player.getDataConfig().set("settings.msg", true);
+			player.getDataConfig().set("settings.tpa", true);
+			player.getDataConfig().set("settings.autotpa", false);
+			player.getDataConfig().set("settings.cycle", false);
+			player.getDataConfig().set("settings.swearfilter", true);
+			player.saveData();
+
 			for (Player players : Bukkit.getOnlinePlayers()) {
 				players.sendMessage(string + "Welcome " + player.getName() + " to VaultMC! (" + variable2 + "#"
 						+ count() + string + ")");
 			}
 		}
-
-		join.setJoinMessage(
-				VaultCoreAPI.getName(player) + string + " has " + ChatColor.GREEN + "joined" + string + ".");
-
+		join.setJoinMessage(player.getFormattedName() + string + " has " + ChatColor.GREEN + "joined" + string + ".");
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				VaultCore.getInstance().getConfig().getString("welcome-message")));
 	}
@@ -98,12 +93,11 @@ public class PlayerJoinQuitListener implements Listener {
 	@EventHandler
 	@SneakyThrows
 	public void onQuit(PlayerQuitEvent quit) {
-
-		Player player = quit.getPlayer();
+		VLPlayer player = VLPlayer.getPlayer(quit.getPlayer());
 		String uuid = player.getUniqueId().toString();
 		long lastseen = System.currentTimeMillis();
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
-		String rank = VaultCore.getChat().getPrimaryGroup(player);
+		String rank = player.getGroup();
 
 		String session_id = session_ids.get(uuid);
 		long duration = System.currentTimeMillis() - session_duration.get(session_id);
@@ -112,7 +106,7 @@ public class PlayerJoinQuitListener implements Listener {
 		sessionQuery(session_id, "", "", "", duration, 0, end_time);
 		session_ids.remove(uuid);
 
-		quit.setQuitMessage(VaultCoreAPI.getName(player) + string + " has " + ChatColor.RED + "left" + string + ".");
+		quit.setQuitMessage(player.getFormattedName() + string + " has " + ChatColor.RED + "left" + string + ".");
 		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
 	}
 

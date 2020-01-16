@@ -2,12 +2,10 @@ package net.vaultmc.vaultcore.commands.staff.gamemode;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.ChatColor;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.GameMode;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,80 +38,72 @@ public class GameModeCommand extends CommandExecutor {
 
     @SubCommand("gmCrSelf")
     @PlayerOnly
-    public void gamemodeCreative(CommandSender sender) {
-        ((Player) sender).setGameMode(GameMode.CREATIVE);
+    public void gamemodeCreative(VLPlayer sender) {
+        sender.setGameMode(GameMode.CREATIVE);
         sender.sendMessage(string + "Your game mode is now " + variable1 + "Creative" + string + ".");
     }
 
     @SubCommand("gmSvSelf")
     @PlayerOnly
-    public void gamemodeSurvival(CommandSender sender) {
-        ((Player) sender).setGameMode(GameMode.SURVIVAL);
+    public void gamemodeSurvival(VLPlayer sender) {
+        sender.setGameMode(GameMode.SURVIVAL);
         sender.sendMessage(string + "Your game mode is now " + variable1 + "Survival" + string + ".");
     }
 
     @SubCommand("gmSpSelf")
     @PlayerOnly
-    public void gamemodeSpectator(CommandSender sender) {
-        ((Player) sender).setGameMode(GameMode.SPECTATOR);
+    public void gamemodeSpectator(VLPlayer sender) {
+        sender.setGameMode(GameMode.SPECTATOR);
         sender.sendMessage(string + "Your game mode is now " + variable1 + "Spectator" + string + ".");
     }
 
     @SubCommand("gmAdSelf")
     @PlayerOnly
-    public void gamemodeAdventure(CommandSender sender) {
-        ((Player) sender).setGameMode(GameMode.ADVENTURE);
+    public void gamemodeAdventure(VLPlayer sender) {
+        sender.setGameMode(GameMode.ADVENTURE);
         sender.sendMessage(string + "Your game mode is now " + variable1 + "Adventure" + string + ".");
     }
 
     @SubCommand("gmCrOthers")
     @Permission(Permissions.GamemodeCommandOther)
-    public void gamemodeCreativeOthers(CommandSender sender, Collection<Player> target) {
-        for (Player player : target) {
+    public void gamemodeCreativeOthers(VLCommandSender sender, Collection<VLPlayer> target) {
+        for (VLPlayer player : target) {
             player.setGameMode(GameMode.CREATIVE);
-            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
-                    : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-                    + " set your game mode to " + variable1 + "Creative" + string + ".");
-            sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
+            player.sendMessage(sender.getFormattedName() + string + " set your game mode to " + variable1 + "Creative" + string + ".");
+            sender.sendMessage(string + "Set " + player.getFormattedName() + string + "'s game mode to " + variable1
                     + "creative" + string + ".");
         }
     }
 
     @SubCommand("gmSvOthers")
     @Permission(Permissions.GamemodeCommandOther)
-    public void gamemodeSurvivalOthers(CommandSender sender, Collection<Player> target) {
-        for (Player player : target) {
+    public void gamemodeSurvivalOthers(VLCommandSender sender, Collection<VLPlayer> target) {
+        for (VLPlayer player : target) {
             player.setGameMode(GameMode.SURVIVAL);
-            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
-                    : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-                    + " set your game mode to " + variable1 + "Survival" + string + ".");
-            sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
+            player.sendMessage(sender.getFormattedName() + string + " set your game mode to " + variable1 + "Survival" + string + ".");
+            sender.sendMessage(string + "Set " + player.getFormattedName() + string + "'s game mode to " + variable1
                     + "survival" + string + ".");
         }
     }
 
     @SubCommand("gmSpOthers")
     @Permission(Permissions.GamemodeCommandOther)
-    public void gamemodeSpectatorOthers(CommandSender sender, Collection<Player> target) {
-        for (Player player : target) {
+    public void gamemodeSpectatorOthers(VLCommandSender sender, Collection<VLPlayer> target) {
+        for (VLPlayer player : target) {
             player.setGameMode(GameMode.SPECTATOR);
-            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
-                    : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-                    + " set your game mode to " + variable1 + "Spectator" + string + ".");
-            sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
+            player.sendMessage(sender.getFormattedName() + string + " set your game mode to " + variable1 + "Spectator" + string + ".");
+            sender.sendMessage(string + "Set " + player.getFormattedName() + string + "'s game mode to " + variable1
                     + "spectator" + string + ".");
         }
     }
 
     @SubCommand("gmAdOthers")
     @Permission(Permissions.GamemodeCommandOther)
-    public void gamemodeAdventureOthers(CommandSender sender, Collection<Player> target) {
-        for (Player player : target) {
+    public void gamemodeAdventureOthers(VLCommandSender sender, Collection<VLPlayer> target) {
+        for (VLPlayer player : target) {
             player.setGameMode(GameMode.ADVENTURE);
-            player.sendMessage((sender instanceof Player ? VaultCoreAPI.getName((Player) sender)
-                    : ChatColor.BLUE + "" + ChatColor.BOLD + "CONSOLE" + ChatColor.RESET) + string
-                    + " set your game mode to " + variable1 + "Adventure" + string + ".");
-            sender.sendMessage(string + "Set " + VaultCoreAPI.getName(player) + string + "'s game mode to " + variable1
+            player.sendMessage(sender.getFormattedName() + string + " set your game mode to " + variable1 + "Adventure" + string + ".");
+            sender.sendMessage(string + "Set " + player.getFormattedName() + string + "'s game mode to " + variable1
                     + "adventure" + string + ".");
         }
     }

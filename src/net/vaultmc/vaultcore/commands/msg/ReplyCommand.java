@@ -2,13 +2,9 @@ package net.vaultmc.vaultcore.commands.msg;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
-import org.bukkit.Bukkit;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -25,23 +21,21 @@ public class ReplyCommand extends CommandExecutor {
     }
 
     @SubCommand("r")
-    public void reply(CommandSender sender, String message) {
-        Player player = (Player) sender;
-        Player target = Bukkit.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
-
-        if (target == null) {
+    public void reply(VLPlayer player, String message) {
+        if (!MsgCommand.getReplies().containsKey(player.getUniqueId())) {
             player.sendMessage(ChatColor.RED + "You have no one to reply to!");
             return;
         }
-        if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
+        VLPlayer target = VLPlayer.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
+        if (!target.getDataConfig().getBoolean("settings.msg")) {
             player.sendMessage(ChatColor.RED + "That player has disabled messaging!");
             return;
         }
         if (MsgCommand.getReplies().containsKey(player.getUniqueId())) {
-            String meTo = VaultCoreAPI.getName(player) + string + " -> " + variable1
-                    + VaultCoreAPI.getName(target) + string + ":";
-            String toMe = VaultCoreAPI.getName(player) + string + " -> " + variable1
-                    + VaultCoreAPI.getName(target) + string + ":";
+            String meTo = player.getFormattedName() + string + " -> " + variable1
+                    + target.getFormattedName() + string + ":";
+            String toMe = player.getFormattedName() + string + " -> " + variable1
+                    + target.getFormattedName() + string + ":";
             player.sendMessage(meTo + " " + ChatColor.RESET + message);
             target.sendMessage(toMe + " " + ChatColor.RESET + message);
             MsgCommand.getReplies().put(target.getUniqueId(), player.getUniqueId());

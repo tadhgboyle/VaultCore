@@ -2,10 +2,9 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedChatComponent;
-import org.bukkit.Bukkit;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -20,14 +19,14 @@ public class ConsoleSay extends CommandExecutor {
     }
 
     @SubCommand("say")
-    public void say(CommandSender sender, WrappedChatComponent message) {
-        if (sender instanceof Player) {
-            sender.sendMessage(ChatColor.RED + "Only console can use this command!");
+    public void say(VLCommandSender sender, WrappedChatComponent message) {
+        if (sender instanceof VLPlayer) {
+            sender.sendMessage(ChatColor.RED + "The specified command can only be executed by the console.");
             return;
         }
         String csay = String.format(ChatColor.BLUE + "" + ChatColor.BOLD + "" + "CONSOLE" + ChatColor.DARK_GRAY
                 + ": " + ChatColor.WHITE + "%s", message.toString());
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
             player.sendMessage(csay);
         }
     }

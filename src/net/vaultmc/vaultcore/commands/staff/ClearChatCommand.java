@@ -2,12 +2,11 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -20,32 +19,31 @@ public class ClearChatCommand extends CommandExecutor {
     }
 
     @SubCommand("clear")
-    public void clearChat(CommandSender sender) {
+    public void clearChat(VLCommandSender sender) {
         String string = Utilities.string;
         String variable1 = Utilities.variable1;
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof VLPlayer)) {
             for (int i = 0; i < 200; i++) {
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    players.sendMessage(" ");
+                for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+                    player.sendMessage(" ");
                 }
             }
 
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have cleared chat!"));
-            Bukkit.broadcastMessage(
-                    ChatColor.translateAlternateColorCodes('&', variable1 + "CONSOLE " + string + "has cleared chat!"));
+            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', variable1 + "CONSOLE " + string + "has cleared chat!"));
             return;
         }
 
-        Player player = (Player) sender;
+        VLPlayer player = (VLPlayer) sender;
 
         for (int i = 0; i < 200; i++) {
-            for (Player players : Bukkit.getOnlinePlayers()) {
-                players.sendMessage(" ");
+            for (VLPlayer x : VLPlayer.getOnlinePlayers()) {
+                x.sendMessage(" ");
             }
         }
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have cleared chat!"));
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "The chat has been cleared by " + variable1 + VaultCoreAPI.getName(player) + string + "!"));
+                string + "The chat has been cleared by " + variable1 + player.getFormattedName() + string + "!"));
     }
 }

@@ -15,13 +15,9 @@ public class PlayerTPListener implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-
         teleports.put(event.getPlayer().getUniqueId(), event.getFrom());
-
         if (event.getFrom().getWorld().getName().equals("Survival") || (event.getFrom().getWorld().getName().equals("Creative"))) {
-
             Location from = event.getFrom();
-
             if (event.getFrom().getWorld().equals(event.getTo().getWorld())) {
                 return;
             }

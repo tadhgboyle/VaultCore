@@ -4,10 +4,9 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.listeners.PlayerTPListener;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
@@ -25,16 +24,14 @@ public class BackCommand extends CommandExecutor {
     }
 
     @SubCommand("back")
-    public void back(CommandSender sender) {
-        Player player = (Player) sender;
-
+    public void back(VLPlayer player) {
         if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
             Location before = PlayerTPListener.teleports.get(player.getUniqueId());
             player.teleport(before);
-            sender.sendMessage(string + "You have been teleported to your previous location...");
+            player.sendMessage(string + "You have been teleported to your previous location...");
             PlayerTPListener.teleports.remove(player.getUniqueId());
         } else {
-            sender.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
+            player.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
         }
     }
 }

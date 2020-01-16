@@ -2,10 +2,10 @@ package net.vaultmc.vaultcore.commands.settings;
 
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -61,7 +61,7 @@ public class SettingsInventories {
         return inv;
     }
 
-    public static void init(Player player) {
+    public static void init(VLPlayer player) {
         // FIXME from @yangyang200
         //  What if two players executed /settings at the same time?
         //  Won't this cause issues and make one of the players see the wrong value?

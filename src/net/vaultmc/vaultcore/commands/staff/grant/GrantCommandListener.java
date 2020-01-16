@@ -2,7 +2,7 @@ package net.vaultmc.vaultcore.commands.staff.grant;
 
 import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCoreAPI;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public class GrantCommandListener implements Listener {
 
     @EventHandler
     public void onPlayerClick(InventoryClickEvent e) {
-        Player player = (Player) e.getWhoClicked();
+        VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
 
         if (e.getView().getTitle().startsWith(INVTITLE)) {
 
@@ -51,11 +51,10 @@ public class GrantCommandListener implements Listener {
 
                     player.closeInventory();
                     player.sendMessage(string + "Successfully updated "
-                            + VaultCoreAPI
-                            .getName(Bukkit.getPlayer(e.getView().getTitle().substring(INVTITLE.length())))
+                            + VLPlayer.getPlayer(e.getView().getTitle().substring(INVTITLE.length())).getFormattedName()
                             + string + "'s rank to " + variable1 + rank + string + ".");
                     target.sendMessage(string + "Your rank has been updated to " + variable1 + rank + string + " by "
-                            + VaultCoreAPI.getName(player) + string + ".");
+                            + player.getFormattedName() + string + ".");
                 }
             }
         }
