@@ -80,7 +80,7 @@ public class PlayerJoinQuitListener implements Listener {
 			player.getDataConfig().set("settings.swearfilter", true);
 			player.saveData();
 
-			for (Player players : Bukkit.getOnlinePlayers()) {
+			for (Player players : Bukkit.getOnlinePlayers()) { 
 				players.sendMessage(string + "Welcome " + player.getName() + " to VaultMC! (" + variable2 + "#"
 						+ count() + string + ")");
 			}
