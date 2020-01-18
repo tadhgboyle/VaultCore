@@ -1,16 +1,21 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
-import lombok.Getter;
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
+
+import org.bukkit.ChatColor;
+
+import lombok.Getter;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(literal = "tpa", description = "Request to teleport to a player.")
 @Permission(Permissions.TPACommand)
@@ -34,10 +39,10 @@ public class TPACommand extends CommandExecutor {
             player.sendMessage(ChatColor.RED + "You can't teleport to yourself!");
             return;
         }
-        if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.tpa")) {
+        if (!player.getDataConfig().getBoolean("settings.tpa")) {
             player.sendMessage(ChatColor.RED + "That player has disabled TPAs!");
-        } else if (VaultCore.getInstance().getPlayerData()
-                .getBoolean("players." + target.getUniqueId() + ".settings.autotpa")) {
+        } else if (player.getDataConfig()
+                .getBoolean("settings.autotpa")) {
             player.teleport(target);
             player.sendMessage(string + "Teleported to " + target.getFormattedName() + string + ".");
             target.sendMessage(player.getFormattedName() + string + " has teleported to you.");

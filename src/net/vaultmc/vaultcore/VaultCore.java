@@ -36,7 +36,6 @@ public class VaultCore extends Component implements Listener {
     private static Permission perms = null;
     @Getter
     private static DBConnection database;
-    private Configuration playerData;
     private Configuration config;
     private Configuration locations;
 
@@ -77,7 +76,6 @@ public class VaultCore extends Component implements Listener {
         instance = this;
 
         config = ConfigurationManager.loadConfiguration("config.yml", this);
-        playerData = ConfigurationManager.loadConfiguration("data.yml", this);
 
         database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
                 getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
@@ -113,10 +111,6 @@ public class VaultCore extends Component implements Listener {
 
     }
 
-    public FileConfiguration getPlayerData() {
-        return this.playerData.getConfig();
-    }
-
     public FileConfiguration getConfig() {
         return this.config.getConfig();
     }
@@ -128,10 +122,6 @@ public class VaultCore extends Component implements Listener {
     @Override
     public void onServerFinishedLoading() {
         locations = ConfigurationManager.loadConfiguration("locations.yml", this);
-    }
-
-    public void savePlayerData() {
-        playerData.save();
     }
 
     public void saveLocations() {
@@ -175,6 +165,5 @@ public class VaultCore extends Component implements Listener {
 
     @Override
     public void onDisable() {
-        this.savePlayerData();
     }
 }

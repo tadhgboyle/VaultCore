@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore;
 
 import net.vaultmc.vaultcore.commands.BackCommand;
 import net.vaultmc.vaultcore.commands.DiscordCommand;
+import net.vaultmc.vaultcore.commands.ListCommand;
 import net.vaultmc.vaultcore.commands.PingCommand;
 import net.vaultmc.vaultcore.commands.PlayTime;
 import net.vaultmc.vaultcore.commands.RanksCommand;
@@ -88,6 +89,7 @@ public class Registry {
 		new HasPermCommand();
 		new TagCommand();
 		new StatsCommand();
+		new ListCommand();
 	}
 
 	public static void registerListeners() {

@@ -1,16 +1,22 @@
 package net.vaultmc.vaultcore.commands.msg;
 
-import lombok.Getter;
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
+
+import org.bukkit.ChatColor;
+
+import lombok.Getter;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.utils.commands.Aliases;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(literal = "msg", description = "Send a player a message.")
 @Permission(Permissions.MsgCommand)
@@ -36,7 +42,7 @@ public class MsgCommand extends CommandExecutor {
             player.sendMessage(ChatColor.RED + "You can't message yourself!");
             return;
         }
-        if (!VaultCore.getInstance().getPlayerData().getBoolean("players." + target.getUniqueId() + ".settings.msg")) {
+        if (!target.getDataConfig().getBoolean("settings.msg")) {
             player.sendMessage(ChatColor.RED + "That player has disabled messaging!");
         } else {
             String msgPrefix = player.getFormattedName() + string + " -> " + target.getFormattedName()

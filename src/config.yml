@@ -1,6 +1,3 @@
-string: "&e"
-variable-1: "&6"
-variable-2: "&2"
 staffchat-prefix: "&8[&cSC&8] "
 welcome-message: "&7Welcome to VAULT&cMC!"
 mysql:
