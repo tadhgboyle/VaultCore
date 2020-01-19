@@ -1,14 +1,18 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.listeners.PlayerTPListener;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
+import java.util.Collections;
+
 import org.bukkit.Location;
 
-import java.util.Collections;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.listeners.PlayerTPListener;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(
         literal = "back",
@@ -17,8 +21,7 @@ import java.util.Collections;
 @Permission(Permissions.BackCommand)
 @PlayerOnly
 public class BackCommand extends CommandExecutor {
-    private String string = Utilities.string;
-
+	
     public BackCommand() {
         this.register("back", Collections.emptyList());
     }
@@ -28,10 +31,10 @@ public class BackCommand extends CommandExecutor {
         if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
             Location before = PlayerTPListener.teleports.get(player.getUniqueId());
             player.teleport(before);
-            player.sendMessage(string + "You have been teleported to your previous location...");
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.success"));
             PlayerTPListener.teleports.remove(player.getUniqueId());
         } else {
-            player.sendMessage(ChatColor.RED + "You have nowhere to teleport to!");
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.failure"));
         }
     }
 }

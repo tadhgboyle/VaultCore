@@ -154,8 +154,7 @@ public class VaultCore extends Component implements Listener {
 
     public void sendToBackup() {
         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-            players.sendMessage(
-                    ChatColor.RED + "VaultMC is shutting down for maintenance... Sending you to the backup server...");
+            players.sendMessage(VaultLoader.getMessage("vaultcore.warning.sendingtobackup").replace("{w}", Utilities.warning));
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");
             out.writeUTF("backup");

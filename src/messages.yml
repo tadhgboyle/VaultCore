@@ -1,0 +1,19 @@
+colours:
+    string: "&3"
+    variable1: "&6"
+    variable2: "&2"
+    warning: "&c"
+    
+vaultcore:
+    database:
+        cleaned: "Successfully cleaned {deleted} rows."
+    warning:
+        sendingtobackup: "{w}VaultMC is shutting down. Sending you to the backup server..."
+    commands:
+        back: 
+            success: "{s}You have been teleported to your previous location."
+            failure: "{w}You have no where to teleport to."
+        discord:
+            your_token: "{s}Your token: {v2}{token}{s}."
+            guild: "{s}Click here to join our guild: {v1}https://discord.vaultmc.net"
+    
