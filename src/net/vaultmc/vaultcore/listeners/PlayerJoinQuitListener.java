@@ -1,13 +1,7 @@
 package net.vaultmc.vaultcore.listeners;
 
-import lombok.Getter;
-import lombok.SneakyThrows;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.ReloadPersistentStorage;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.apache.commons.lang.RandomStringUtils;
+import java.sql.ResultSet;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
@@ -17,21 +11,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.sql.ResultSet;
-import java.util.HashMap;
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 public class PlayerJoinQuitListener implements Listener {
 	static DBConnection database = VaultCore.getDatabase();
-	@SuppressWarnings("unchecked")
-	@Getter
-	private static HashMap<String, String> session_ids = VaultCore.isReloaded
-			? (HashMap<String, String>) ReloadPersistentStorage.get("sessionIds", VaultCore.getInstance())
-			: new HashMap<>();
-	@SuppressWarnings("unchecked")
-	@Getter
-	private static HashMap<String, Long> session_duration = VaultCore.isReloaded
-			? (HashMap<String, Long>) ReloadPersistentStorage.get("sessionDuration", VaultCore.getInstance())
-			: new HashMap<>();
+
+
 	String string = Utilities.string;
 	String variable2 = Utilities.variable2;
 
@@ -59,18 +48,11 @@ public class PlayerJoinQuitListener implements Listener {
 
 		String prefix = ChatColor.translateAlternateColorCodes('&', player.getPrefix());
 
-		String session_id = RandomStringUtils.random(8, true, true);
-		long start_time = System.currentTimeMillis();
-
-		session_ids.put(uuid, session_id);
-		session_duration.put(session_id, lastseen);
-
 		player.getPlayer().setDisplayName(prefix + username);
 		player.getPlayer().setPlayerListName(player.getDisplayName());
 
 		playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
 
-		sessionQuery(session_id, uuid, username, ip, 0, start_time, 0);
 
 		if (!player.getDataConfig().contains("settings")) {
 			player.getDataConfig().set("settings.msg", true);
@@ -99,13 +81,6 @@ public class PlayerJoinQuitListener implements Listener {
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 		String rank = VaultCore.getChat().getPrimaryGroup(player);
 
-		String session_id = session_ids.get(uuid);
-		long duration = System.currentTimeMillis() - session_duration.get(session_id);
-		long end_time = System.currentTimeMillis();
-
-		sessionQuery(session_id, "", "", "", duration, 0, end_time);
-		session_ids.remove(uuid);
-
 		quit.setQuitMessage(player.getDisplayName() + string + " has " + ChatColor.RED + "left" + string + ".");
 		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
 	}
@@ -119,11 +94,5 @@ public class PlayerJoinQuitListener implements Listener {
 				uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank);
 	}
 
-	@SneakyThrows
-	private void sessionQuery(String session_id, String uuid, String username, String ip, long duration,
-			long start_time, long end_time) {
-		database.executeUpdateStatement(
-				"INSERT INTO sessions (session_id, uuid, username, ip, start_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE duration=?, end_time=?",
-				session_id, uuid, username, ip, start_time, duration, end_time);
-	}
+
 }

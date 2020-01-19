@@ -1,17 +1,12 @@
 package net.vaultmc.vaultcore;
 
-import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import org.bukkit.Bukkit;
-
-import lombok.SneakyThrows;
 import net.md_5.bungee.api.ChatColor;
-import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
 
 public class Utilities {
@@ -44,14 +39,5 @@ public class Utilities {
 		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date epoch = new Date(millis);
 		return format.format(epoch);
-	}
-	
-	@SneakyThrows
-	public static void cleanDatabase() {
-		database.executeUpdateStatement("DELETE FROM sessions WHERE duration IS NULL");
-		
-		ResultSet deleted = database.executeQueryStatement("SELECT ROW_COUNT() as deletedRows;");
-		
-		Bukkit.getConsoleSender().sendMessage(VaultLoader.getMessage("vaultcore.dbcleaned").replace("{DELETED}", deleted.getString("deletedRows")));
 	}
 }
