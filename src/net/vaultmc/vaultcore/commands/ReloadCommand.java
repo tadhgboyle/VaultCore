@@ -1,15 +1,15 @@
 package net.vaultmc.vaultcore.commands;
 
+import java.util.Collections;
+
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.RootCommand;
 import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import org.bukkit.ChatColor;
-
-import java.util.Collections;
 
 @RootCommand(
         literal = "vcreload",
@@ -24,6 +24,6 @@ public class ReloadCommand extends CommandExecutor {
     @SubCommand("reload")
     public void reload(VLCommandSender sender) {
         VaultCore.getInstance().reloadConfig();
-        sender.sendMessage(ChatColor.GREEN + "Configuration reloaded!");
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.reload"));
     }
 }

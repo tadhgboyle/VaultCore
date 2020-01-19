@@ -93,11 +93,11 @@ public class PlayerJoinQuitListener implements Listener {
 	@EventHandler
 	@SneakyThrows
 	public void onQuit(PlayerQuitEvent quit) {
-		VLPlayer player = VLPlayer.getPlayer(quit.getPlayer());
+		Player player = quit.getPlayer();
 		String uuid = player.getUniqueId().toString();
 		long lastseen = System.currentTimeMillis();
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
-		String rank = player.getGroup();
+		String rank = VaultCore.getChat().getPrimaryGroup(player);
 
 		String session_id = session_ids.get(uuid);
 		long duration = System.currentTimeMillis() - session_duration.get(session_id);
@@ -106,7 +106,7 @@ public class PlayerJoinQuitListener implements Listener {
 		sessionQuery(session_id, "", "", "", duration, 0, end_time);
 		session_ids.remove(uuid);
 
-		quit.setQuitMessage(player.getFormattedName() + string + " has " + ChatColor.RED + "left" + string + ".");
+		quit.setQuitMessage(player.getDisplayName() + string + " has " + ChatColor.RED + "left" + string + ".");
 		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
 	}
 

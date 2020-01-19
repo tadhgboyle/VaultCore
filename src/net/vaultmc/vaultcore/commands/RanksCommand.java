@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.commands;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.RootCommand;
@@ -19,13 +20,13 @@ public class RanksCommand extends CommandExecutor {
 
     @SubCommand("checkRanks")
     public void checkRanks(VLCommandSender sender) {
-        sender.sendMessage(ChatColor.DARK_GREEN + "--== [Player Ranks] ==--");
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ranks.player_header"));
         sender.sendMessage(ChatColor.DARK_GRAY + "Default");
         sender.sendMessage(ChatColor.GRAY + "Member");
         sender.sendMessage(ChatColor.WHITE + "Patreon");
         sender.sendMessage(ChatColor.AQUA + "Trusted");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.DARK_GREEN + "--== [Staff Ranks] ==--");
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ranks.staff_header"));
         sender.sendMessage(ChatColor.DARK_AQUA + "Moderator");
         sender.sendMessage(ChatColor.BLUE + "Administrator");
     }

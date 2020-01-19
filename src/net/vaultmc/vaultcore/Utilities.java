@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 
 import lombok.SneakyThrows;
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
 
@@ -17,10 +18,10 @@ public class Utilities {
 	
 	static DBConnection database = VaultCore.getDatabase();
 
-	public static String string = VaultLoader.getMessage("colours.string");
-	public static String variable1 = VaultLoader.getMessage("colours.variable1");
-	public static String variable2 = VaultLoader.getMessage("colours.variable2");
-	public static String warning = VaultLoader.getMessage("colours.warning");
+	public static String string = ChatColor.translateAlternateColorCodes('&', "&e");
+	public static String variable1 = ChatColor.translateAlternateColorCodes('&', "&6");
+	public static String variable2 = ChatColor.translateAlternateColorCodes('&', "&2");
+	public static String warning = ChatColor.translateAlternateColorCodes('&', "&c");
 
 	public static String formatMessage(String message, String... objects) {
 	    MessageFormat formatter = new MessageFormat(message);
@@ -51,6 +52,6 @@ public class Utilities {
 		
 		ResultSet deleted = database.executeQueryStatement("SELECT ROW_COUNT() as deletedRows;");
 		
-		Bukkit.getConsoleSender().sendMessage(VaultLoader.getMessage("vaultcore.database.cleaned").replace("{deleted}", deleted.getString("deletedRows")));
+		Bukkit.getConsoleSender().sendMessage(VaultLoader.getMessage("vaultcore.dbcleaned").replace("{DELETED}", deleted.getString("deletedRows")));
 	}
 }

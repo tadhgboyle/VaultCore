@@ -1,24 +1,27 @@
 package net.vaultmc.vaultcore.commands;
 
+import java.sql.ResultSet;
+import java.util.Collections;
+
+import org.bukkit.ChatColor;
+
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
-import org.bukkit.ChatColor;
-
-import java.sql.ResultSet;
-import java.util.Collections;
 
 @RootCommand(literal = "seen", description = "See how long a player has been online/offline for.")
 @Permission(Permissions.SeenCommand)
 public class SeenCommand extends CommandExecutor {
-
-	private String string = Utilities.string;
-	private String variable2 = Utilities.variable2;
 
 	public SeenCommand() {
 		register("seen",
@@ -32,7 +35,7 @@ public class SeenCommand extends CommandExecutor {
 		ResultSet rs = database.executeQueryStatement("SELECT lastseen FROM players WHERE username=?",
 				player.getName());
 		if (!rs.next()) {
-			sender.sendMessage(ChatColor.RED + "This player has never joined before!");
+			player.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
 			return;
 		}
 		long lastseen = rs.getLong("lastseen");
@@ -49,9 +52,7 @@ public class SeenCommand extends CommandExecutor {
 			status = ChatColor.RED + " offline ";
 		}
 
-		String message = String.format(player.getFormattedName() + string + " has been" + status + string + "for "
-				+ variable2 + "%d" + string + " days, " + variable2 + "%d" + string + " hours and " + variable2 + "%d"
-				+ string + "  minutes.", time[0], time[1], time[2]);
-		sender.sendMessage(message);
+		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.seen"),
+				player.getFormattedName(), status, time[0] + "", time[1] + "", time[2] + "s"));
 	}
 }

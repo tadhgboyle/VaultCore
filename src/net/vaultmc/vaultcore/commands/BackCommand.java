@@ -34,7 +34,7 @@ public class BackCommand extends CommandExecutor {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.success"));
             PlayerTPListener.teleports.remove(player.getUniqueId());
         } else {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.failure"));
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.no_teleport_location"));
         }
     }
 }

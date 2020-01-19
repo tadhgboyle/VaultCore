@@ -1,19 +1,36 @@
 colours:
-    string: "&3"
+    string: "&e"
     variable1: "&6"
     variable2: "&2"
     warning: "&c"
     
 vaultcore:
-    database:
-        cleaned: "Successfully cleaned {deleted} rows."
-    warning:
-        sendingtobackup: "{w}VaultMC is shutting down. Sending you to the backup server..."
+    db_cleaned: "Successfully cleaned {DELETED} rows."
+    sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
+    player_never_joined: "&cThat player has never joined before."
     commands:
         back: 
-            success: "{s}You have been teleported to your previous location."
-            failure: "{w}You have no where to teleport to."
+            success: "&eYou have been teleported to your previous location."
+            no_teleport_location: "&cYou have no where to teleport to."
         discord:
-            your_token: "{s}Your token: {v2}{token}{s}."
-            guild: "{s}Click here to join our guild: {v1}https://discord.vaultmc.net"
+            your_token: "&eYour token: &2%s&e."
+            guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
+        list:
+            header: "&2--== [List] ==--"
+            no_players_online: "&cThere are no players online."
+        ping:
+            self: "&eYour ping is &2{PING}&ems."
+            other: "{TARGET}&e's ping is &2{PING}&ems."
+        playtime:
+            online_player: "{TARGET} &ehas played for &6{DAYS}&e, &6{HOURS}&e and &6{MINUTES}&e."
+            offline_player: "{TARGET} &7&i[OFFLINE] &ehas played for &6{DAYS}&e, &6{HOURS}&e and &6{MINUTES}&e."
+        ranks:
+            player_header: "&2--== [Player Ranks] ==--"
+            staff_header: "&2--== [Staff Ranks] ==--"
+        reload: "&aVaultCore config reloaded!"
+        seen: "{TARGET} &ehas been {STATUS} &efor &6{HOURS}&e, &6{MINUTES}&e and &6{SECONDS}&e."
+        stats:
+            error: "&cAn error has occurred, please consult an administrator for help."
+            header: "&2--== [Stats] ==--"
+            player_joined: "{TARGET} &ehas joined &2{SESSIONS} &etimes."
     

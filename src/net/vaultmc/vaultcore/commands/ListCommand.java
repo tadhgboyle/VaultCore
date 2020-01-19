@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.RootCommand;
@@ -35,7 +36,7 @@ public class ListCommand extends CommandExecutor {
 	public void list(VLCommandSender sender) {
 
 		if (Bukkit.getOnlinePlayers().toArray().length == 0) {
-			sender.sendMessage(ChatColor.RED + "There are no players online.");
+			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.no_players_online"));
 		} else {
 			for (Player players : Bukkit.getOnlinePlayers()) {
 				VLPlayer player = VLPlayer.getPlayer(players);
@@ -61,7 +62,8 @@ public class ListCommand extends CommandExecutor {
 					break;
 				}
 			}
-			sender.sendMessage(ChatColor.DARK_GREEN + "--== [List] ==--");
+			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.header"));
+			// todo with messages.yml
 			if (!admin.isEmpty()) sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.RESET + listToString(admin));
 			if (!moderator.isEmpty()) sender.sendMessage(ChatColor.DARK_AQUA + "Moderators: " + ChatColor.RESET+ listToString(moderator));
 			if (!trusted.isEmpty()) sender.sendMessage(ChatColor.AQUA + "Trusted: " + ChatColor.RESET+ listToString(trusted));

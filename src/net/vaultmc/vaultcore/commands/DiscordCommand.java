@@ -23,8 +23,7 @@ public class DiscordCommand extends CommandExecutor {
 	public void execute(VLPlayer player) {
 		String token = TokenCommand.getToken(player.getUniqueId(), player);
 		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.discord.token"),
-				Utilities.string, Utilities.variable2, token, Utilities.string));
-		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.discord.guild"),
-				Utilities.string, Utilities.variable1));
+				token));
+		player.sendMessage(VaultLoader.getMessage("vaultcore.commands.discord.guild"));
 	}
 }
