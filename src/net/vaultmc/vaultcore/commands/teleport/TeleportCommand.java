@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,7 +34,7 @@ public class TeleportCommand extends CommandExecutor {
                 Arguments.createArgument("location", Arguments.location3DArgument()),
                 Arguments.createArgument("world", Arguments.worldArgument())
         ));
-        register("teleportToEntity", Collections.singletonList(Arguments.createArgument("target", Arguments.entityArgument())));
+        register("teleportToPlayer", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
         register("teleportEntityTo", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument())
@@ -69,10 +70,10 @@ public class TeleportCommand extends CommandExecutor {
         sender.sendMessage(string + "Teleported you to " + variable1 + readLocation(location) + string + ".");
     }
 
-    @SubCommand("teleportToEntity")
+    @SubCommand("teleportToPlayer")
     @PlayerOnly
     @Permission(Permissions.TeleportCommandOther)
-    public void teleportToEntity(VLPlayer sender, Entity target) {
+    public void teleportToEntity(VLPlayer sender, Player target) {
         sender.teleport(target);
         sender.sendMessage(string + "Teleported you to " + variable1 + target.getName() + string + ".");
     }
