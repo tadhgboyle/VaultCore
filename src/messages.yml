@@ -80,7 +80,7 @@ vaultcore:
             sender: "&eYou have &6{STATUS}&e the chat."
             players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
         staffchat:
-            format: "&8[&cSC&8] {SENDER}&8: &f{MESSAGE}"
+            format: "&8[&cSC&8] {SENDER}&8: &b{MESSAGE}"
             toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
         tag:
             self_error: "&cYou can't tag yourself."

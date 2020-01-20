@@ -49,11 +49,11 @@ public class StaffChatCommand extends CommandExecutor {
 		if (toggled.contains(player.getUniqueId())) {
 			toggled.remove(player.getUniqueId());
 			player.sendMessage(
-					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "disabled"));
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "off"));
 		} else {
 			toggled.add(player.getUniqueId());
 			player.sendMessage(
-					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "enabled"));
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "on"));
 		}
 	}
 }
