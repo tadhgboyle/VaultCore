@@ -1,19 +1,25 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.commands.Aliases;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(
         literal = "teleport",
@@ -34,7 +40,7 @@ public class TeleportCommand extends CommandExecutor {
                 Arguments.createArgument("location", Arguments.location3DArgument()),
                 Arguments.createArgument("world", Arguments.worldArgument())
         ));
-        register("teleportToPlayer", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+        register("teleportToEntity", Collections.singletonList(Arguments.createArgument("target", Arguments.entityArgument())));
         register("teleportEntityTo", Arrays.asList(
                 Arguments.createArgument("target", Arguments.entitiesArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument())
@@ -70,10 +76,9 @@ public class TeleportCommand extends CommandExecutor {
         sender.sendMessage(string + "Teleported you to " + variable1 + readLocation(location) + string + ".");
     }
 
-    @SubCommand("teleportToPlayer")
+    @SubCommand("teleportToEntity")
     @PlayerOnly
-    @Permission(Permissions.TeleportCommandOther)
-    public void teleportToEntity(VLPlayer sender, Player target) {
+    public void teleportToEntity(VLPlayer sender, Entity target) {
         sender.teleport(target);
         sender.sendMessage(string + "Teleported you to " + variable1 + target.getName() + string + ".");
     }

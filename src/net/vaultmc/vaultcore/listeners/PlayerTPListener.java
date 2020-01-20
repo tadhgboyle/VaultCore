@@ -1,13 +1,14 @@
 package net.vaultmc.vaultcore.listeners;
 
-import net.vaultmc.vaultcore.VaultCore;
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import java.util.HashMap;
-import java.util.UUID;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 public class PlayerTPListener implements Listener {
 
@@ -21,12 +22,11 @@ public class PlayerTPListener implements Listener {
             if (event.getFrom().getWorld().equals(event.getTo().getWorld())) {
                 return;
             }
+            VLPlayer player = VLPlayer.getPlayer(event.getPlayer());
             if (event.getFrom().getWorld().getName().equals("Survival")) {
-                VaultCore.getInstance().getLocationFile().set("players." + event.getPlayer().getUniqueId() + ".sv", from);
-                VaultCore.getInstance().saveLocations();
+            	player.getDataConfig().set("locations.sv", from);
             } else if (event.getFrom().getWorld().getName().equals("Creative")) {
-                VaultCore.getInstance().getLocationFile().set("players." + event.getPlayer().getUniqueId() + ".cr", from);
-                VaultCore.getInstance().saveLocations();
+            	player.getDataConfig().set("locations.cr", from);
             }
         }
     }

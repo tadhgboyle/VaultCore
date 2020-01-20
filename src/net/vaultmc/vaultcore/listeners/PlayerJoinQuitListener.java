@@ -67,7 +67,7 @@ public class PlayerJoinQuitListener implements Listener {
 						+ count() + string + ")");
 			}
 		}
-		join.setJoinMessage(player.getFormattedName() + string + " has " + ChatColor.GREEN + "joined" + string + ".");
+		join.setJoinMessage(player.getFormattedName() + ChatColor.YELLOW + " has " + ChatColor.GREEN + "joined" + ChatColor.YELLOW + ".");
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				VaultCore.getInstance().getConfig().getString("welcome-message")));
 	}
@@ -81,7 +81,7 @@ public class PlayerJoinQuitListener implements Listener {
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 		String rank = VaultCore.getChat().getPrimaryGroup(player);
 
-		quit.setQuitMessage(player.getDisplayName() + string + " has " + ChatColor.RED + "left" + string + ".");
+		quit.setQuitMessage(player.getDisplayName() + ChatColor.YELLOW + " has " + ChatColor.RED + "left" + ChatColor.YELLOW + ".");
 		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
 	}
 

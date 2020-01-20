@@ -9,13 +9,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.vaultmc.vaultcore.Utilities;
+import net.md_5.bungee.api.ChatColor;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 public class SettingsInventories {
-	static String string = Utilities.string;
-	static String variable1 = Utilities.variable1;
-	static String variable2 = Utilities.variable2;
+	static String string = ChatColor.translateAlternateColorCodes('&', VaultLoader.getMessage("colours.string"));
+	static String variable1 = ChatColor.translateAlternateColorCodes('&', VaultLoader.getMessage("colours.variable1"));
+	static String variable2 = ChatColor.translateAlternateColorCodes('&', VaultLoader.getMessage("colours.variable2"));
 	private static ItemStack teleportMain, creativeMain, chatMain, back;
 	private static ItemStack toggleTPA, acceptTPA;
 	private static ItemStack toggleCycle;

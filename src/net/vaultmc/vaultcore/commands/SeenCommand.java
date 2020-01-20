@@ -35,7 +35,7 @@ public class SeenCommand extends CommandExecutor {
 		ResultSet rs = database.executeQueryStatement("SELECT lastseen FROM players WHERE username=?",
 				player.getName());
 		if (!rs.next()) {
-			player.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
+			sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
 			return;
 		}
 		long lastseen = rs.getLong("lastseen");
@@ -47,12 +47,12 @@ public class SeenCommand extends CommandExecutor {
 		String status;
 
 		if (player.isOnline()) {
-			status = ChatColor.GREEN + " online ";
+			status = ChatColor.GREEN + "online ";
 		} else {
-			status = ChatColor.RED + " offline ";
+			status = ChatColor.RED + "offline ";
 		}
 
 		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.seen"),
-				player.getFormattedName(), status, time[0] + "", time[1] + "", time[2] + "s"));
+				player.getFormattedName(), status, time[1] + "", time[2] + "", time[3] + ""));
 	}
 }

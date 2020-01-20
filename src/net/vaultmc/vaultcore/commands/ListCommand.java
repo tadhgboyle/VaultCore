@@ -64,29 +64,41 @@ public class ListCommand extends CommandExecutor {
 			}
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.header"));
 			// todo with messages.yml
-			if (!admin.isEmpty()) sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.RESET + listToString(admin));
-			if (!moderator.isEmpty()) sender.sendMessage(ChatColor.DARK_AQUA + "Moderators: " + ChatColor.RESET+ listToString(moderator));
-			if (!trusted.isEmpty()) sender.sendMessage(ChatColor.AQUA + "Trusted: " + ChatColor.RESET+ listToString(trusted));
-			if (!patreon.isEmpty()) sender.sendMessage(ChatColor.WHITE + "Patreons: " + ChatColor.RESET+ listToString(patreon));
-			if (!member.isEmpty()) sender.sendMessage(ChatColor.GRAY + "Members: " + ChatColor.RESET+ listToString(admin));
-			if (!defaults.isEmpty()) sender.sendMessage(ChatColor.DARK_GRAY + "Defaults: " + ChatColor.RESET+ listToString(defaults));
-			
+			if (!admin.isEmpty())
+				sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.YELLOW + listToString(admin));
+			if (!moderator.isEmpty())
+				sender.sendMessage(ChatColor.DARK_AQUA + "Moderators: " + ChatColor.YELLOW + listToString(moderator));
+			if (!trusted.isEmpty())
+				sender.sendMessage(ChatColor.AQUA + "Trusted: " + ChatColor.YELLOW + listToString(trusted));
+			if (!patreon.isEmpty())
+				sender.sendMessage(ChatColor.WHITE + "Patreons: " + ChatColor.YELLOW + listToString(patreon));
+			if (!member.isEmpty())
+				sender.sendMessage(ChatColor.GRAY + "Members: " + ChatColor.YELLOW + listToString(admin));
+			if (!defaults.isEmpty())
+				sender.sendMessage(ChatColor.DARK_GRAY + "Defaults: " + ChatColor.YELLOW + listToString(defaults));
+
+			admin.clear();
+			moderator.clear();
+			trusted.clear();
+			patreon.clear();
+			member.clear();
+			defaults.clear();
 		}
 	}
-	
-    private String listToString(List<String> from) {
 
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (String x : from) {
-            if (first) {
-                result.append(x);
-                first = false;
-                continue;
-            }
-            result.append(", ");
-            result.append(x);
-        }
-        return result.toString();
-    }
+	private String listToString(List<String> from) {
+
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (String s : from) {
+			if (first) {
+				sb.append(s);
+				first = false;
+				continue;
+			}
+			sb.append(", ");
+			sb.append(s);
+		}
+		return sb.toString();
+	}
 }

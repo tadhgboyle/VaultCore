@@ -71,6 +71,6 @@ public class PlayTime extends CommandExecutor {
 		long t = (long) (playtime * 0.05 * 1000);
 		long[] time = Utilities.millisToTime(t);
 		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.offline_player"),
-				player.getFormattedName(), time[0] + "", time[1] + "", time[2] + ""));
+				target.getFormattedName(), time[0] + "", time[1] + "", time[2] + ""));
 	}
 }

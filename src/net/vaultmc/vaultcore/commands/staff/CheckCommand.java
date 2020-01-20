@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -32,7 +33,7 @@ public class CheckCommand extends CommandExecutor {
         ResultSet rs = database.executeQueryStatement(
                 "SELECT uuid, username, firstseen, lastseen, rank, ip FROM players WHERE username=?", target.getName());
         if (!rs.next()) {
-            sender.sendMessage(ChatColor.RED + "That player has never joined the server.");
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
         String uuid = rs.getString("uuid");
@@ -42,7 +43,7 @@ public class CheckCommand extends CommandExecutor {
         String rank = WordUtils.capitalize(rs.getString("rank"));
         String ip = rs.getString("ip");
 
-        sender.sendMessage(ChatColor.DARK_GREEN + "--== [Check] ==--");
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.check.header"));
 
         if (target.isOnline()) {
             sender.sendMessage(string + "Checking: " + username);
@@ -50,6 +51,7 @@ public class CheckCommand extends CommandExecutor {
             sender.sendMessage(
                     string + "Checking: " + username + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]");
         }
+        // TODO VaultLoader#getMessage()
         sender.sendMessage(string + "UUID: " + variable1 + uuid);
         sender.sendMessage(string + "First Seen (D/M/Y): " + variable1 + Utilities.millisToDate(firstseen));
         sender.sendMessage(string + "Last Seen (D/M/Y): " + variable1 + Utilities.millisToDate(lastseen));

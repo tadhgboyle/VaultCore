@@ -34,7 +34,7 @@ public class PingCommand extends CommandExecutor {
 	@SubCommand("pingOthers")
 	@Permission(Permissions.PingCommandOther)
 	public void pingOthers(VLCommandSender sender, VLPlayer target) {
-		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ping.self"),
+		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ping.other"),
 				target.getFormattedName(), target.getPing() + ""));
 	}
 }

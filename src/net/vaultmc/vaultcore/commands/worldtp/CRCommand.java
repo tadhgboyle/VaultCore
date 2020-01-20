@@ -1,14 +1,18 @@
 package net.vaultmc.vaultcore.commands.worldtp;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import java.util.Collections;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.util.Collections;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(literal = "cr", description = "Teleport to the Creative world.")
 @Permission(Permissions.WorldTPCommandCreative)
@@ -23,7 +27,7 @@ public class CRCommand extends CommandExecutor {
 
     @SubCommand("cr")
     public void cr(VLPlayer player) {
-        Location cr = VaultCore.getInstance().getLocationFile().getLocation("players." + player.getUniqueId() + ".cr");
+        Location cr = player.getDataConfig().getLocation("locations.cr");
         if (cr == null) {
             player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
             player.teleport(Bukkit.getWorld("creative").getSpawnLocation());

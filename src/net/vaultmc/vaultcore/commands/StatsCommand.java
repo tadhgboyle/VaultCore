@@ -23,9 +23,6 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 @Permission(Permissions.StatsCommand)
 public class StatsCommand extends CommandExecutor {
 
-	private String string = Utilities.string;
-	private String variable2 = Utilities.variable2;
-
 	public StatsCommand() {
 		register("statsSelf", Collections.emptyList());
 		register("statsOthers",
@@ -48,9 +45,7 @@ public class StatsCommand extends CommandExecutor {
 	private void viewStats(VLCommandSender sender, VLOfflinePlayer target) {
 		DBConnection database = VaultCore.getDatabase();
 
-		ResultSet check = database.executeQueryStatement("SELECT username FROM players WHERE username=?",
-				target.getName());
-		if (!check.next()) {
+		if (target.getFirstPlayed() == 0L) {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
 			return;
 		}
@@ -65,9 +60,8 @@ public class StatsCommand extends CommandExecutor {
 		sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.stats.header"));
 		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.stats.player_joined"),
 				target.getDisplayName(), stats.getString("sessions")));
-		String message = String.format(target.getFormattedName() + string + "'s average session length is " + variable2
-				+ "%d" + string + " days, " + variable2 + "%d" + string + " hours and " + variable2 + "%d" + string
-				+ "  minutes.", time[0], time[1], time[2]);
-		sender.sendMessage(message);
+		sender.sendMessage(
+				Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.stats.player_session_length"),
+						target.getFormattedName(), time[0] + "", time[1] + "", time[2] + ""));
 	}
 }

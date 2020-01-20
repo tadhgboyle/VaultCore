@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.commands;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -14,8 +15,6 @@ import java.util.Collections;
 @Permission(Permissions.WarpCommand)
 @PlayerOnly
 public class WarpCommand extends CommandExecutor {
-    private String string = Utilities.string;
-    private String variable1 = Utilities.variable1;
 
     public WarpCommand() {
         register("warp", Collections.singletonList(Arguments.createArgument("warp", Arguments.word())));
@@ -28,10 +27,10 @@ public class WarpCommand extends CommandExecutor {
     @SubCommand("warp")
     public void warp(VLPlayer sender, String warp) {
         if (VaultCore.getInstance().getLocationFile().get("warps." + warp) == null) {
-            sender.sendMessage(string + "The warp " + variable1 + warp + string + " does not exist!");
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.warp.not_exist"), warp));
         } else {
             sender.teleport(VaultCore.getInstance().getLocationFile().getLocation("warps." + warp));
-            sender.sendMessage(string + "You have been teleported to " + variable1 + warp + string + "!");
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.warp.teleported"), warp));
         }
     }
 
@@ -41,9 +40,9 @@ public class WarpCommand extends CommandExecutor {
         if (VaultCore.getInstance().getLocationFile().get("warps." + warp) == null) {
             VaultCore.getInstance().getLocationFile().set("warps." + warp, sender.getLocation());
             VaultCore.getInstance().saveLocations();
-            sender.sendMessage(string + "Warp " + variable1 + warp + string + " has been set!");
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.warp.set"), warp));
         } else {
-            sender.sendMessage(string + "The warp " + variable1 + warp + string + " already exists. Try to delete it first.");
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.warp.already_exist"), warp));
         }
     }
 
@@ -51,12 +50,12 @@ public class WarpCommand extends CommandExecutor {
     @Permission(Permissions.WarpCommandDelete)
     public void delWarp(VLCommandSender sender, String warp) {
         if (VaultCore.getInstance().getLocationFile().get("warps." + warp) == null) {
-            sender.sendMessage(string + "The warp " + variable1 + warp + string + " does not exist!");
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.warp.not_exist"), warp));
             return;
         }
 
         VaultCore.getInstance().getLocationFile().set("warps." + warp, null);
         VaultCore.getInstance().saveLocations();
-        sender.sendMessage(string + "Warp " + variable1 + warp + string + " has been deleted!");
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.warp.deleted"), warp));
     }
 }

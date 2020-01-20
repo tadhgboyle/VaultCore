@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -17,9 +18,6 @@ import java.util.UUID;
 @Permission(Permissions.TokenCommand)
 @PlayerOnly
 public class TokenCommand extends CommandExecutor {
-	private static String string = Utilities.string;
-	private static String variable1 = Utilities.variable1;
-	private static String variable2 = Utilities.variable2;
 
 	public TokenCommand() {
 		register("getToken", Collections.emptyList());
@@ -36,7 +34,7 @@ public class TokenCommand extends CommandExecutor {
 				return token;
 			}
 		}
-		player.sendMessage(string + "Generating your token...");
+		player.sendMessage(VaultLoader.getMessage("vaultcore.commands.token.generating"));
 
 		String new_token = RandomStringUtils.random(8, true, false);
 
@@ -45,12 +43,11 @@ public class TokenCommand extends CommandExecutor {
 
 		if (!duplicateCheck.next()) {
 			database.executeUpdateStatement("UPDATE players SET token='" + new_token + "' WHERE uuid='" + uuid + "'");
-			database.executeUpdateStatement("INSERT INTO web_accounts (uuid, token) VALUES ('" + player.getUniqueId() + "', '" + new_token + "')");
+			database.executeUpdateStatement("INSERT INTO web_accounts (uuid, token) VALUES ('" + player.getUniqueId()
+					+ "', '" + new_token + "')");
 		} else {
-			player.sendMessage(string + "You are one in " + variable1 + "308915776" + string
-					+ "! The token we generated was already in our database.");
-			player.sendMessage(string + "Please re-run this command.");
-			// line 69 checks for this null
+			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.token.please_rerun"));
+			// line 61 checks for this null
 			return null;
 		}
 		return new_token;
@@ -64,6 +61,7 @@ public class TokenCommand extends CommandExecutor {
 		if (token == null) {
 			return;
 		}
-		sender.sendMessage(string + "Your token: " + variable2 + token);
+		sender.sendMessage(
+				Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.token.your_token"), token));
 	}
 }

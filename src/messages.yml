@@ -8,12 +8,13 @@ vaultcore:
     db_cleaned: "Successfully cleaned {DELETED} rows."
     sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
     player_never_joined: "&cThat player has never joined before."
+    player_offline: "&cThat player is offline."
+    console_only: "&cThat command can only be run by Console."
     commands:
         back: 
             success: "&eYou have been teleported to your previous location."
             no_teleport_location: "&cYou have no where to teleport to."
         discord:
-            your_token: "&eYour token: &2%s&e."
             guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
         list:
             header: "&2--== [List] ==--"
@@ -22,15 +23,72 @@ vaultcore:
             self: "&eYour ping is &2{PING}&ems."
             other: "{TARGET}&e's ping is &2{PING}&ems."
         playtime:
-            online_player: "{TARGET} &ehas played for &6{DAYS}&e, &6{HOURS}&e and &6{MINUTES}&e."
-            offline_player: "{TARGET} &7&i[OFFLINE] &ehas played for &6{DAYS}&e, &6{HOURS}&e and &6{MINUTES}&e."
+            online_player: "{TARGET} &ehas played for &2{DAYS}&e days, &2{HOURS}&e hours and &2{MINUTES}&e minutes."
+            offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for &2{DAYS}&e days, &2{HOURS}&e hours and &2{MINUTES}&e minutes."
         ranks:
             player_header: "&2--== [Player Ranks] ==--"
             staff_header: "&2--== [Staff Ranks] ==--"
         reload: "&aVaultCore config reloaded!"
-        seen: "{TARGET} &ehas been {STATUS} &efor &6{HOURS}&e, &6{MINUTES}&e and &6{SECONDS}&e."
+        seen: "{TARGET} &ehas been {STATUS}&efor &2{HOURS}&e hours, &2{MINUTES}&e minutes and\n &2{SECONDS}&e seconds."
         stats:
             error: "&cAn error has occurred, please consult an administrator for help."
             header: "&2--== [Stats] ==--"
-            player_joined: "{TARGET} &ehas joined &2{SESSIONS} &etimes."
-    
+            player_joined: "{TARGET}&e has joined &2{TIMES}&e times."
+            player_session_length: "{TARGETS}&e's average session length is &2{HOURS}&e hours, &2{MINUTES}&e minutes and &2{SECONDS}&e seconds."
+        token: 
+            generating: "&eGenerating your token..."
+            your_token: "&eYour token: &2{TOKEN}&e."
+            please_rerun: "&cPlease rerun the command."
+        warp:
+            not_exist: "&eThe warp &6{WARP}&e does not exist."
+            set: "&eSet the warp &6{WARP}&e to your location."
+            already_exist: "The warp &6{WARP}&e has already been set. Try to delete it first."
+            teleported: "&eYou have been teleported to &6{WARP}&e."
+            deleted: "&eYou have deleted the warp &6{WARP}&e."
+        wild:
+            teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
+            wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
+        msg:
+            self_error: "&cYou can't message yourself."
+            player_disabled_messaging: "&cThat player has disabled messaging."
+            format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+        reply:
+            noone_error: "&cYou have no one to reply to."
+        check:
+            header: "&2--== [Check] ==--"
+        clear_chat: 
+            sender: "&eYou have cleared chat."
+            players: "{SENDER}&e has cleared chat."
+        console_say:
+            format: "&9&lCONSOLE&8: &f{MESSAGE}"
+        feed_heal: 
+            self: "&eYou have been &6{ACTION}&e."
+            other: "&eYou have &6{ACTION} {TARGET}&e."
+            receiver: "&eYou have been &6{ACTION} by {SENDER}&e."
+        fly: 
+            gamemode_error: "&c{TARGET} in {GAMEMODE} silly."
+            self: "&eYou have &6{TOGGLE} &efly."
+            other: "&eYou have &6{TOGGLE} &efly for {TARGET}&e."
+            receiver: "&eYour fly has been &6{TOGGLE}&e by {SENDER}"
+        hasperm:
+            self: "&eYou {STATUS} &ethe permission &6{PERMISSION}&e."
+            other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
+        invsee: 
+            self_error: "&cPress e to open your own inventory."
+            excempt_error: "&cYou dont have permission to open this person's inventory."
+        mute_chat:
+            sender: "&eYou have &6{STATUS}&e the chat."
+            players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
+        staffchat:
+            format: "&8[&cSC&8] {SENDER}&8: &f{MESSAGE}"
+            toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
+        tag:
+            self_error: "&cYou can't tag yourself."
+            add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
+            list_header: "&2--== [Tags] ==--"
+            list: "&e[&2{ID}&e] &6{CONTENT} &e-- &2{DATE}"
+            no_tags_for_player: "&cThere are no tags for that player."
+            tag_already_deleted: "&cThat tag has already been deleted."
+            delete: "&eDeleted tag [#&2{ID}&e]."
+            tag_not_exist: "&cThat tag does not exist."
+        

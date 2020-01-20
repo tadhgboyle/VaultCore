@@ -1,22 +1,24 @@
 package net.vaultmc.vaultcore.commands;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.bukkit.Location;
+
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(literal = "wild", description = "Teleport to a random location.")
 @Permission(Permissions.WildTeleport)
 @PlayerOnly
 public class WildTeleport extends CommandExecutor {
-	private String string = Utilities.string;
-	private String variable1 = Utilities.variable1;
-	private String variable2 = Utilities.variable2;
 
 	public WildTeleport() {
 		register("wild", Collections.emptyList());
@@ -34,11 +36,10 @@ public class WildTeleport extends CommandExecutor {
 
 			Location newLocation = new Location(player.getWorld(), x, y + 1, z);
 			player.teleport(newLocation);
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You have been teleported "
-					+ variable2 + newLocation.distance(originalLocation) + string + " blocks away!"));
+			player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.wild.teleported"),
+					String.valueOf(newLocation.distance(originalLocation))));
 		} else {
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', string + "You must be in the " + variable1
-					+ "Survival" + string + " or " + variable1 + "Clans" + string + " world to run this command."));
+			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.wild.wrong_world"));
 		}
 	}
 }

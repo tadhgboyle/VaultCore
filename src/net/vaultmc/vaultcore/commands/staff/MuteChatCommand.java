@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.RootCommand;
@@ -14,24 +15,28 @@ import java.util.Collections;
 @RootCommand(literal = "mutechat", description = "Mutes the chat.")
 @Permission(Permissions.MuteChatCommand)
 public class MuteChatCommand extends CommandExecutor {
-    public static boolean chatMuted = false;
+	public static boolean chatMuted = false;
 
-    private String string = Utilities.string;
-    private String variable1 = Utilities.variable1;
+	public MuteChatCommand() {
+		register("mutechat", Collections.emptyList());
+	}
 
-    public MuteChatCommand() {
-        register("mutechat", Collections.emptyList());
-    }
+	@SubCommand("mutechat")
+	public void muteChat(VLCommandSender sender) {
+		if (chatMuted) {
+			chatMuted = false;
+			sender.sendMessage(
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.mute_chat.sender"), "unmuted"));
+			Bukkit.broadcastMessage(
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.mute_chat.players"), "unmuted",
+							sender.getDisplayName()));
 
-    @SubCommand("mutechat")
-    public void muteChat(VLCommandSender sender) {
-        if (chatMuted) {
-            chatMuted = false;
-            Bukkit.broadcastMessage(string + "The chat is no longer muted.");
-
-        } else {
-            chatMuted = true;
-            Bukkit.broadcastMessage(string + "The chat has been muted by " + variable1 + sender.getFormattedName());
-        }
-    }
+		} else {
+			chatMuted = true;
+			sender.sendMessage(
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.mute_chat.sender"), "muted"));
+			Bukkit.broadcastMessage(Utilities.formatMessage(
+					VaultLoader.getMessage("vaultcore.commands.mute_chat.players"), "muted", sender.getDisplayName()));
+		}
+	}
 }

@@ -1,43 +1,43 @@
 package net.vaultmc.vaultcore.commands.staff;
 
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
-
 import java.util.Collections;
 
-@RootCommand(
-        literal = "feed",
-        description = "Feed a player."
-)
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
+
+@RootCommand(literal = "feed", description = "Feed a player.")
 @Permission(Permissions.FeedCommand)
 public class FeedCommand extends CommandExecutor {
-    String string = Utilities.string;
-    String variable1 = Utilities.variable1;
 
-    public FeedCommand() {
-        register("feedSelf", Collections.emptyList());
-        register("feedOthers", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
-    }
+	public FeedCommand() {
+		register("feedSelf", Collections.emptyList());
+		register("feedOthers",
+				Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+	}
 
-    @SubCommand("feedSelf")
-    @PlayerOnly
-    public void feedSelf(VLPlayer player) {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "You have been " + variable1 + "fed."));
-        player.feed();
-    }
+	@SubCommand("feedSelf")
+	@PlayerOnly
+	public void feedSelf(VLPlayer player) {
+		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.self"), "fed"));
+		player.feed();
+	}
 
-    @SubCommand("feedOthers")
-    @Permission(Permissions.FeedCommandOther)
-    public void feedOthers(VLCommandSender sender, VLPlayer target) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "You have fed " + variable1 + target.getFormattedName()));
-        target.feed();
-        target.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                string + "You have been fed by " + variable1 + sender.getFormattedName()));
-    }
+	@SubCommand("feedOthers")
+	@Permission(Permissions.FeedCommandOther)
+	public void feedOthers(VLCommandSender sender, VLPlayer target) {
+		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.other"), "fed",
+				target.getFormattedName()));
+		target.feed();
+		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.receiver"),
+				"fed", sender.getFormattedName()));
+	}
 }
