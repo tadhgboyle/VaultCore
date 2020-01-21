@@ -86,9 +86,22 @@ vaultcore:
             self_error: "&cYou can't tag yourself."
             add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
             list_header: "&2--== [Tags] ==--"
-            list: "&e[&2{ID}&e] &6{CONTENT} &e-- &2{DATE}"
+            list: "&e[#&2{ID}&e] &6{CONTENT} &e-- &2{DATE}"
             no_tags_for_player: "&cThere are no tags for that player."
             tag_already_deleted: "&cThat tag has already been deleted."
             delete: "&eDeleted tag [#&2{ID}&e]."
             tag_not_exist: "&cThat tag does not exist."
+        gamemode:
+        tpa:
+            request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
+            request_received: "{SENDER}&e has sent you a teleport request.\n&eType &6/tpaccept&e to accept it."
+            request_response: "{TARGET}&e has &6{STATUS}&e your teleport request."
+            request_response_receiver: "&eYou have &6{STATUS} {SENDER}&e's teleport request."
+        teleport:
+            self_error: "&cYou can't teleport to yourself."
+            sender_to_player: "&eYou have teleported to {TARGET}&e."
+            target_error: "&cUse /tphere or /tp to do that."
+            player_to_player_sender: "&eYou have teleported {TARGET1}&e to {TARGET2}&e."
+            player_to_player_target: "{SENDER}&e has teleported you to {TARGET}&e."     
+            player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."     
         
