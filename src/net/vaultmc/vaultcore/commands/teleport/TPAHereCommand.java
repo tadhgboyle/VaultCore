@@ -4,10 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
-
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.Arguments;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
@@ -21,26 +20,27 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 @PlayerOnly
 public class TPAHereCommand extends CommandExecutor {
 	private static HashMap<UUID, UUID> requestsHere = TPACommand.getRequestsHere();
-	String string = Utilities.string;
-	String variable1 = Utilities.variable1;
 
 	public TPAHereCommand() {
-		register("tpahere", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())));
+		register("tpahere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
 	}
 
 	@SubCommand("tpahere")
 	public void tpaHere(VLPlayer player, VLPlayer target) {
 		if (target == player) {
-			player.sendMessage(ChatColor.RED + "You can't teleport to yourself!");
+			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
 			return;
 		}
 		if (!player.getDataConfig().getBoolean("settings.tpa")) {
-			player.sendMessage(ChatColor.RED + "That player has disabled TPAs!");
+			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.target_disabled_tpa"));
 			return;
 		}
 		requestsHere.put(target.getUniqueId(), player.getUniqueId());
-		player.sendMessage(string + "You requested that " + target.getFormattedName() + string + " teleports to you.");
-		target.sendMessage(player.getFormattedName() + string + " asked you to teleport to them, type " + variable1
-				+ "/tpaccept " + string + "to accept it.");
+
+		player.sendMessage(Utilities.formatMessage(
+				VaultLoader.getMessage("vaultcore.commands.tpa.tpahere.request_sent"), target.getFormattedName()));
+
+		target.sendMessage(Utilities.formatMessage(
+				VaultLoader.getMessage("vaultcore.commands.tpa.tpahere.request_received"), player.getFormattedName()));
 	}
 }

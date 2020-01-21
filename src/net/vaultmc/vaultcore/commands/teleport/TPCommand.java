@@ -18,9 +18,9 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 @RootCommand(literal = "teleport", description = "Teleport to a player.")
 @Permission(Permissions.TeleportCommand)
 @Aliases("tp")
-public class TeleportCommand extends CommandExecutor {
+public class TPCommand extends CommandExecutor {
 
-	public TeleportCommand() {
+	public TPCommand() {
 		unregisterExisting();
 		register("teleportToPlayer",
 				Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));

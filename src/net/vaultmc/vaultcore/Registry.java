@@ -38,7 +38,7 @@ import net.vaultmc.vaultcore.commands.teleport.TPAHereCommand;
 import net.vaultmc.vaultcore.commands.teleport.TPAcceptCommand;
 import net.vaultmc.vaultcore.commands.teleport.TPDenyCommand;
 import net.vaultmc.vaultcore.commands.teleport.TPHereCommand;
-import net.vaultmc.vaultcore.commands.teleport.TeleportCommand;
+import net.vaultmc.vaultcore.commands.teleport.TPCommand;
 import net.vaultmc.vaultcore.commands.worldtp.CRCommand;
 import net.vaultmc.vaultcore.commands.worldtp.SVCommand;
 import net.vaultmc.vaultcore.listeners.CycleListener;
@@ -84,7 +84,7 @@ public class Registry {
 		new InvseeCommand();
 		new MuteChatCommand();
 		new StaffChatCommand();
-		new TeleportCommand();
+		new TPCommand();
 		new ReloadCommand();
 		new HasPermCommand();
 		new TagCommand();

@@ -4,11 +4,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
-
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.Arguments;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
@@ -26,32 +25,32 @@ public class TPACommand extends CommandExecutor {
 	@Getter
 	private static HashMap<UUID, UUID> requestsHere = new HashMap<>();
 
-	String string = Utilities.string;
-	String variable1 = Utilities.variable1;
-
 	public TPACommand() {
-		register("tpa", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())));
+		register("tpa", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
 	}
 
-    @SubCommand("tpa")
-    public void tpa(VLPlayer player, VLPlayer target) {
-        if (target == player) {
-            player.sendMessage(ChatColor.RED + "You can't teleport to yourself!");
-            return;
-        }
-        if (!player.getDataConfig().getBoolean("settings.tpa")) {
-            player.sendMessage(ChatColor.RED + "That player has disabled TPAs!");
-        } else if (player.getDataConfig()
-                .getBoolean("settings.autotpa")) {
-            player.teleport(target);
-            player.sendMessage(string + "Teleported to " + target.getFormattedName() + string + ".");
-            target.sendMessage(player.getFormattedName() + string + " has teleported to you.");
-        } else {
-            requests.put(target.getUniqueId(), player.getUniqueId());
-            player.sendMessage(
-                    string + "You sent a teleport request to " + target.getFormattedName() + string + ".");
-            target.sendMessage(player.getFormattedName() + string + " sent you a teleport request, type " + variable1
-                    + "/tpaccept " + string + "to accept it.");
-        }
+	@SubCommand("tpa")
+	public void tpa(VLPlayer player, VLPlayer target) {
+		if (target == player) {
+			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
+			return;
+		}
+		if (!player.getDataConfig().getBoolean("settings.tpa")) {
+			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.target_disabled_tpa"));
+		} else if (player.getDataConfig().getBoolean("settings.autotpa")) {
+			player.teleport(target);
+			player.sendMessage(
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.auto_accept_sender"),
+							target.getFormattedName()));
+			target.sendMessage(
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.auto_accept_target"),
+							player.getFormattedName()));
+		} else {
+			requests.put(target.getUniqueId(), player.getUniqueId());
+			player.sendMessage(Utilities.formatMessage(
+					VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent"), target.getFormattedName()));
+			target.sendMessage(Utilities.formatMessage(
+					VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_received"), player.getFormattedName()));
+		}
 	}
 }
