@@ -1,14 +1,13 @@
 package net.vaultmc.vaultcore.runnables;
 
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 public class RankPromotions {
-	static String string = Utilities.string;
-	static String variable1 = Utilities.variable1;
 
 	public static void memberPromotion() {
 		for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
@@ -22,8 +21,9 @@ public class RankPromotions {
 
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set member");
 				for (Player players : Bukkit.getOnlinePlayers()) {
-					players.sendMessage(player.getFormattedName() + string + " has been promoted to " + variable1
-							+ "Member" + string + "!");
+					players.sendMessage(
+							Utilities.formatMessage(VaultLoader.getMessage("vaultcore.runnables.rank_promotions"),
+									player.getFormattedName(), "Member"));
 				}
 			}
 		}
@@ -42,8 +42,9 @@ public class RankPromotions {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 						"lp user " + player.getName() + " parent set patreon");
 				for (Player players : Bukkit.getOnlinePlayers()) {
-					players.sendMessage(player.getFormattedName() + string + " has been promoted to " + variable1
-							+ "Patreon" + string + "!");
+					players.sendMessage(
+							Utilities.formatMessage(VaultLoader.getMessage("vaultcore.runnables.rank_promotions"),
+									player.getFormattedName(), "Patreon"));
 				}
 			}
 		}

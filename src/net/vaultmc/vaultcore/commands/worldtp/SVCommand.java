@@ -7,6 +7,7 @@ import org.bukkit.Location;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
@@ -18,8 +19,6 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 @Permission(Permissions.WorldTPCommandSurvival)
 @PlayerOnly
 public class SVCommand extends CommandExecutor {
-	String string = Utilities.string;
-	String variable1 = Utilities.variable1;
 
 	public SVCommand() {
 		register("sv", Collections.emptyList());
@@ -29,11 +28,12 @@ public class SVCommand extends CommandExecutor {
     public void sv(VLPlayer player) {
         Location sv = player.getDataConfig().getLocation("locations.sv");
         if (sv == null) {
-            player.sendMessage(string + "You have never joined this world before... Bringing you to spawn.");
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
             player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());
         } else {
             player.teleport(sv);
-            player.sendMessage(string + "Teleported you to the " + variable1 + "Survival" + string + " world.");
+			player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaulcore.commands.worldtp.teleported"),
+					"Survival"));
         }
     }
 }

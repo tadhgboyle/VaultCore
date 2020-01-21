@@ -11,13 +11,13 @@ import org.bukkit.ChatColor;
 import net.vaultmc.vaultloader.VaultLoader;
 
 public class Utilities {
-
+	
 	public static String string = ChatColor.translateAlternateColorCodes('&', VaultLoader.getMessage("colours.string"));
 	public static String variable1 = ChatColor.translateAlternateColorCodes('&',
 			VaultLoader.getMessage("colours.variable1"));
 	public static String variable2 = ChatColor.translateAlternateColorCodes('&',
 			VaultLoader.getMessage("colours.variable2"));
-
+	
 	/**
 	 * @author Aberdeener
 	 * @param message Message from

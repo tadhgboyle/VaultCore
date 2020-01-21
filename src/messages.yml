@@ -9,6 +9,12 @@ vaultcore:
     player_never_joined: "&cThat player has never joined before."
     player_offline: "&cThat player is offline."
     console_only: "&cThat command can only be run by Console."
+    listeners:
+        joinquit:
+            new_player: "&eWelcome {PLAYER}&e to VaultMC! (&6#{COUNT}&e)"
+            event_message: "{PLAYER}&e has {EVENT}&e."
+    runnables:
+        rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
     commands:
         back: 
             success: "&eYou have been teleported to your previous location."
@@ -90,6 +96,10 @@ vaultcore:
             tag_already_deleted: "&cThat tag has already been deleted."
             delete: "&eDeleted tag [#&2{ID}&e]."
             tag_not_exist: "&cThat tag does not exist."
+        grant:
+            no_permission: "&cYou don't have permission to use this rank."
+            updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
+            updated_target: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
         gamemode:
         tpa:
             target_disabled_tpa: "&cThat player has disabled TPSs."
@@ -115,4 +125,7 @@ vaultcore:
             player_to_player_sender: "&eYou have teleported {TARGET1}&e to {TARGET2}&e."
             player_to_player_target: "{SENDER}&e has teleported you to {TARGET}&e."     
             player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."     
+        worldtp:
+            never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
+            teleported: "&eTeleported you to the &6{WORLD}&e world."
         
