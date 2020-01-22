@@ -26,7 +26,7 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 @Permission(Permissions.PlayTime)
 @Aliases("pt")
 public class PlayTime extends CommandExecutor {
-	
+
 	public PlayTime() {
 		register("playTimeSelf", Collections.emptyList());
 		register("playTimeOthers",
@@ -51,9 +51,8 @@ public class PlayTime extends CommandExecutor {
 
 	private void printPlayTimeOnline(VLPlayer player, VLCommandSender sender) {
 		long t = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
-		long[] time = Utilities.millisToTime(t);
 		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.online_player"),
-				player.getFormattedName(), time[0] + "", time[1] + "", time[2] + ""));
+				player.getFormattedName(), Utilities.millisToTime(t)));
 	}
 
 	@SneakyThrows
@@ -69,8 +68,7 @@ public class PlayTime extends CommandExecutor {
 
 		long playtime = rs.getLong("playtime");
 		long t = (long) (playtime * 0.05 * 1000);
-		long[] time = Utilities.millisToTime(t);
 		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.offline_player"),
-				target.getFormattedName(), time[0] + "", time[1] + "", time[2] + ""));
+				target.getFormattedName(), Utilities.millisToTime(t)));
 	}
 }

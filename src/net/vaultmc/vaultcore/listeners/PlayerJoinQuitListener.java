@@ -82,7 +82,7 @@ public class PlayerJoinQuitListener implements Listener {
 
 		quit.setQuitMessage(
 				Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
-						player.getDisplayName(), ChatColor.GREEN + "left"));
+						player.getDisplayName(), ChatColor.RED + "left"));
 		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
 	}
 

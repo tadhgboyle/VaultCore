@@ -56,12 +56,11 @@ public class StatsCommand extends CommandExecutor {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.stats.error"));
 			return;
 		}
-		long[] time = Utilities.millisToTime(stats.getInt("duration"));
 		sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.stats.header"));
 		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.stats.player_joined"),
-				target.getDisplayName(), stats.getString("sessions")));
+				target.getFormattedName(), stats.getString("sessions")));
 		sender.sendMessage(
 				Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.stats.player_session_length"),
-						target.getFormattedName(), time[0] + "", time[1] + "", time[2] + ""));
+						target.getFormattedName(), Utilities.millisToTime(stats.getInt("duration"))));
 	}
 }

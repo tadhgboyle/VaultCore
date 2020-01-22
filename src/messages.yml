@@ -28,18 +28,18 @@ vaultcore:
             self: "&eYour ping is &2{PING}&ems."
             other: "{TARGET}&e's ping is &2{PING}&ems."
         playtime:
-            online_player: "{TARGET} &ehas played for &2{DAYS}&e days, &2{HOURS}&e hours and &2{MINUTES}&e minutes."
-            offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for &2{DAYS}&e days, &2{HOURS}&e hours and &2{MINUTES}&e minutes."
+            online_player: "{TARGET} &ehas played for {TIME}"
+            offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for {TIME}"
         ranks:
             player_header: "&2--== [Player Ranks] ==--"
             staff_header: "&2--== [Staff Ranks] ==--"
         reload: "&aVaultCore config reloaded!"
-        seen: "{TARGET} &ehas been {STATUS}&efor &2{HOURS}&e hours, &2{MINUTES}&e minutes and\n &2{SECONDS}&e seconds."
+        seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
         stats:
             error: "&cAn error has occurred, please consult an administrator for help."
             header: "&2--== [Stats] ==--"
             player_joined: "{TARGET}&e has joined &2{TIMES}&e times."
-            player_session_length: "{TARGETS}&e's average session length is &2{HOURS}&e hours, &2{MINUTES}&e minutes and &2{SECONDS}&e seconds."
+            player_session_length: "{TARGETS}&e's average session length is {TIME}"
         token: 
             generating: "&eGenerating your token..."
             your_token: "&eYour token: &2{TOKEN}&e."

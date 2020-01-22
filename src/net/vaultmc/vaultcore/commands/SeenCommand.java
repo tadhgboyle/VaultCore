@@ -42,8 +42,6 @@ public class SeenCommand extends CommandExecutor {
 		long currenttime = System.currentTimeMillis();
 		long duration = currenttime - lastseen;
 
-		long[] time = Utilities.millisToTime(duration);
-
 		String status;
 
 		if (player.isOnline()) {
@@ -53,6 +51,6 @@ public class SeenCommand extends CommandExecutor {
 		}
 
 		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.seen"),
-				player.getFormattedName(), status, time[1] + "", time[2] + "", time[3] + ""));
+				player.getFormattedName(), status, Utilities.millisToTime(duration)));
 	}
 }
