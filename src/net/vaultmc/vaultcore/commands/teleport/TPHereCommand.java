@@ -29,8 +29,10 @@ public class TPHereCommand extends CommandExecutor {
 			return;
 		}
 		target.teleport(player.getLocation());
-		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tphere.sender"),
+		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.sender"),
 				target.getFormattedName()));
+		target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.target"),
+				player.getFormattedName()));
 
 	}
 }

@@ -61,6 +61,7 @@ vaultcore:
             noone_error: "&cYou have no one to reply to."
         check:
             header: "&2--== [Check] ==--"
+            format: "&e{KEY}: &6{VALUE}"
         clear_chat: 
             sender: "&eYou have cleared chat."
             players: "{SENDER}&e has cleared chat."
@@ -101,6 +102,9 @@ vaultcore:
             updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
             updated_target: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
         gamemode:
+            self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
+            other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
+            other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
         tpa:
             target_disabled_tpa: "&cThat player has disabled TPSs."
             requests:
