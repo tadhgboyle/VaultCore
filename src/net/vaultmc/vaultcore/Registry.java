@@ -14,6 +14,7 @@ import net.vaultmc.vaultcore.commands.WarpCommand;
 import net.vaultmc.vaultcore.commands.WildTeleport;
 import net.vaultmc.vaultcore.commands.msg.MsgCommand;
 import net.vaultmc.vaultcore.commands.msg.ReplyCommand;
+import net.vaultmc.vaultcore.commands.msg.SocialSpyCommand;
 import net.vaultmc.vaultcore.commands.settings.SettingsCommand;
 import net.vaultmc.vaultcore.commands.settings.SettingsListener;
 import net.vaultmc.vaultcore.commands.staff.CheckCommand;
@@ -36,9 +37,9 @@ import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandListener;
 import net.vaultmc.vaultcore.commands.teleport.TPACommand;
 import net.vaultmc.vaultcore.commands.teleport.TPAHereCommand;
 import net.vaultmc.vaultcore.commands.teleport.TPAcceptCommand;
+import net.vaultmc.vaultcore.commands.teleport.TPCommand;
 import net.vaultmc.vaultcore.commands.teleport.TPDenyCommand;
 import net.vaultmc.vaultcore.commands.teleport.TPHereCommand;
-import net.vaultmc.vaultcore.commands.teleport.TPCommand;
 import net.vaultmc.vaultcore.commands.worldtp.CRCommand;
 import net.vaultmc.vaultcore.commands.worldtp.SVCommand;
 import net.vaultmc.vaultcore.listeners.CycleListener;
@@ -90,6 +91,7 @@ public class Registry {
 		new TagCommand();
 		new StatsCommand();
 		new ListCommand();
+		new SocialSpyCommand();
 	}
 
 	public static void registerListeners() {

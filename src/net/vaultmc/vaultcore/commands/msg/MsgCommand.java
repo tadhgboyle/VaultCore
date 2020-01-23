@@ -49,7 +49,18 @@ public class MsgCommand extends CommandExecutor {
 			target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
 					player.getFormattedName(), target.getFormattedName(), message));
 
-			replies.put(target.getUniqueId(), player.getUniqueId());
+			for (VLPlayer socialspy : SocialSpyCommand.toggled) {
+				if (socialspy.getFormattedName().equals(player.getFormattedName())
+						|| socialspy.getFormattedName().equals(target.getFormattedName())) {
+					continue;
+				}  else {
+					socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
+							+ Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+									player.getFormattedName(), target.getFormattedName(), message));
+				}
+
+				replies.put(target.getUniqueId(), player.getUniqueId());
+			}
 		}
 	}
 }

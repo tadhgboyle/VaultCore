@@ -59,6 +59,9 @@ vaultcore:
             format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
         reply:
             noone_error: "&cYou have no one to reply to."
+        socialspy:
+            toggle: "&eYou have toggled socialspy &6{TOGGLE}&e."
+            prefix: "&8[&dSS&8] &r"
         check:
             header: "&2--== [Check] ==--"
             format: "&e{KEY}: &6{VALUE}"

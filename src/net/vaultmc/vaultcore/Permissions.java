@@ -50,4 +50,5 @@ public class Permissions {
     public static final String StatsCommand = "vaultcore.stats";
     public static final String StatsCommandOther = "vaultcore.stats.other";
     public static final String ListCommand = "vaultcore.list";
+    public static final String SocialSpyCommand = "vaultcore.socialspy";
 }
