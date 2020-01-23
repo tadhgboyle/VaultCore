@@ -1,8 +1,91 @@
 staffchat-prefix: "&8[&cSC&8] "
-welcome-message: "&7Welcome to VAULT&cMC!"
+welcome-message: |-
+  &7Welcome to &6eVault&6MC&7!
+  &7To learn about our server ranks: &e/ranks
+  &7Check out our website: &ehttps://vaultmc.net
+  &7Find your statistics at: &ehttps://database.vaultmc.net
 mysql:
-   host: localhost
-   port: 3306
-   database: VaultMC_Data
-   user: tadhg
-   password: Stjames123b!
+  host: localhost
+  port: 3306
+  database: VaultMC_Data
+  user: tadhg
+  password: Stjames123b!
+
+# Mod mode.
+mod-mode:
+  # How much delay (in 1/20 of a second, ticks) should the inventory be updated.
+  delay: 10
+
+# Staff ladder.
+#
+# Staff ladder is something that controls the staff,
+# e.g. lower staff members cannot punish higher
+# staff members.
+#
+# Enter the staff group names (if used display names
+# with LuckPerms, enter the display name) from low
+# to high.
+staff-ladder:
+  - Moderator
+  - Administrator
+
+# Units of time, represented in seconds.
+time-unit:
+  second: 1  # 1 second for /tempban yangyang200 test (-s) 1 second
+  seconds: 1
+  sec: 1
+  min: 60
+  minute: 60
+  minutes: 60
+  hr: 3600
+  hrs: 3600
+  hour: 3600
+  hours: 3600
+  day: 86400  # 86400 seconds for /tempban yangyang200 1 day
+  days: 86400
+  mts: 2592000
+  mt: 2592000
+  month: 2592000
+  months: 2592000  # 5184000 seconds for /tempban yangyang200 2 months
+  year: 31536000
+  years: 31536000
+  yrs: 31536000
+  yr: 31536000
+
+punishments:
+  # Disallow using signs while a player is muted.
+  muted-sign-disallow: true
+
+  # Disallow the following commands while a player is muted.
+  muted-commands-disallow:
+    # Aliases isn't counted!!!!!
+    - w
+    - m
+    - t
+    - pm
+    - emsg
+    - epm
+    - tell
+    - etell
+    - whisper
+    - ewhisper
+    - ew
+    - em
+    - et
+    - essentials:w
+    - essentials:m
+    - essentials:t
+    - essentials:pm
+    - essentials:emsg
+    - essentials:epm
+    - essentials:tell
+    - essentials:etell
+    - essentials:whisper
+    - essentials:ewhisper
+    - essentials:ew
+    - essentials:em
+    - essentials:et
+    - minecraft:w
+    - minecraft:tell
+    - minecraft:msg
+    - minecraft:m
