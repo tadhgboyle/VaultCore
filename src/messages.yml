@@ -1,138 +1,305 @@
 colours:
-    string: "&e"
-    variable1: "&6"
-    variable2: "&2"
-    warning: "&c"
-    
+  string: "&e"
+  variable1: "&6"
+  variable2: "&2"
+  warning: "&c"
+
+# VaultUtils start
+
+# VaultUtils: VaultMC functionalities provider.
+# Copyright (C) 2020 yangyang200
+#
+# VaultUtils is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# VaultUtils is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
+#
+# This is the messages configuration file for VaultCore.
+
+# Translation requirements:
+# Use Yellow-Gold as the color scheme.
+# Wording should be direct.
+
+# Message related to the main command.
+main-command:
+  reloaded: "&eSuccessfully reloaded VaultUtils's configurations!"
+  version: "&6This server is running VaultUtils &6{VERSION}&6."
+
+# Message that will be sent to the player related to mod modes.
+mod-mode:
+  enabled: "&eYou have &6enabled&e mod mode!"
+  disabled: "&eYou have &6disabled&e mod mode!"
+
+  teleportation: "&eTeleporting you to &6{PLAYER}&e!"  # Random teleportation
+
+  cps-test-result: "&6{PLAYER}&e's approximate CPS in the past 10 seconds is &6{CPS}&e."
+  cps-already-started: "&cYou already have a CPS test running on {PLAYER}!"
+
+  # The message that will be sent to the CPS tester within the last three seconds
+  # of CPS testing. LAST THREE SECONDS.
+  last-three-seconds: "&eCPS Test on &6{PLAYER}&e is ending in &6{TIME}&e seconds!"
+
+# Messages related to reporting:
+report:
+  no-reasons: "&cYou hadn't selected any reasons yet!"
+  reported: "&eYou have reported &6{VICTIM}&e!"
+  player-report: "&6{REPORTER}&e reported &6{VICTIM}&e for &6{REASONS}&e."
+
+brand: "&6{PLAYER}&e's client brand is &6{BRAND}&e. Please keep in mind this might be inaccurate."
+brand-not-ready: "&cThis player isn't currently ready for checking brand!"
+
+economy:
+  get: "&eBalance of &6{PLAYER}&e: &6${AMOUNT}"
+  give: "&eSuccessfully given &6${AMOUNT} &eto &6{PLAYER}&e."
+  take: "&eSuccessfully taken &6${AMOUNT} &efrom &6{PLAYER}&e."
+  balance: "&eBalance: &6${AMOUNT}"
+  money-not-enough: "&cYou don't have enough money!"
+  transfer-me: "&eTransferred &6${AMOUNT} &eto &6{PLAYER} &ewithin &6{WORLD}&e."
+  transfer-you: "&6{PLAYER}&e just transferred &6${AMOUNT} &eto you within &6{WORLD}&e."
+  transfer-world-incorrect: "&cYou must not be in the nether or the end!"
+
+help: {}  # TODO
+
+# Messages, punishments.
+punishments:
+
+  # The reason that will be provided when no reason is specified.
+  default-reason: "<no reason>"
+
+  # The message that will be sent to the actor when he cannot
+  # punish the target player.
+  cannot-punish: "&cYou can't punish this player!"
+
+  # The prefix that will be added to the message when -s flag is
+  # enabled.
+  silent-flag: "&b&o[Silent]&r "  # Make sure to add a space!
+
+  # The message that will be sent to the actor when the time unit
+  # he specified doesn't exist.
+  time-unit-error: "&cThe time unit you specified doesn't exist!"
+
+  # The message that will be sent to the actor when he inputs
+  # something that isn't a number.
+  integer-format-error: "&cYou must enter a valid integer!"
+
+  ban:
+    announcement: "&e{ACTOR}&r banned &e{PLAYER}&r for &e{REASON}"
+    disconnect: |
+      &cYou are permanently banned from this server!
+      &6Reason: &e{REASON}
+      &6Issuer: &e{ACTOR}
+    sent: "&eSuccessfully banned &6{PLAYER}&e!"
+
+  unban:
+    sent: "&eSuccessfully unbanned &6{PLAYER}&e!"
+    announcement: "&e{ACTOR}&r unbanned &e{PLAYER}"
+
+  tempban:
+    announcement: "&e{ACTOR}&r temp-banned &e{PLAYER}&r for &e{REASON}"
+    disconnect: |
+      &cYou are temporarily banned from this server!
+      &6Reason: &e{REASON}
+      &6Expiry: &e{EXPIRY}
+      &6Issuer: &e{ACTOR}
+    sent: "&eSuccessfully banned &6{PLAYER}&e!"
+
+  mute:
+    announcement: "&e{ACTOR}&r muted &e{PLAYER}&r for &e{REASON}"
+    message: |
+      &cYou are permanently muted!
+      &6Reason: &e{REASON}
+      &6Issuer: &e{ACTOR}
+    sent: "&eSuccessfully muted &6{PLAYER}&e!"
+    player-message: "&7(Muted) &r{PLAYERFULLNAME}&7: &r{MESSAGE}"
+
+  tempmute:
+    announcement: "&e{ACTOR}&r temp-muted &e{PLAYER}&r for &e{REASON}"
+    message: |
+      &cYou are temporarily muted!
+      &6Reason: &e{REASON}
+      &6Expiry: &e{EXPIRY}
+      &6Issuer: &e{ACTOR}
+    sent: "&eSuccessfully muted &6{PLAYER}&e!"
+
+  unmute:
+    announcement: "&e{ACTOR}&r unmuted &e{PLAYER}"
+    sent: "&eSuccessfully unmuted &6{PLAYER}&e!"
+
+  kick:
+    announcement: "&e{ACTOR}&r kicked &e{PLAYER}&r for &e{REASON}"
+    disconnect: |
+      &cYou are kicked!
+      &6Reason: &e{REASON}
+      &6Issuer: &e{ACTOR}
+    sent: "&eSuccessfully kicked &6{PLAYER}&e!"
+
+afk:
+  you-afk: "&eYou are now AFK."
+  you-no-longer-afk: "&eYou are no longer AFK."
+  others-afk: "&e{PLAYER} &eis now AFK."
+  others-no-longer-afk: "&e{PLAYER} &eis no longer AFK."
+
+chat:
+  muted: "&cThe chat is currently muted!"
+  mention-offline: "&eNote: You are trying to mention a player that isn't online!"
+  mention-afk: "&eNote: You are trying to mention a player that is currently AFK!"
+
+time:
+  get: "&eThe time in &6{WORLD}&e is &6{TIME}&e."
+  set: "&eSet the time in &6{WORLD}&e to &6{TIME}&e."
+
+weather:
+  set: "&eSet weather in &6{WORLD}&e to &6{WEATHER}&e."
+  clear: "clear"
+  rain: "rain"
+  thunder: "thunder"
+  set-duration: "&eSet weather duration in &6{WORLD}&e to &6{DURATION}&e."
+
+vanish:
+  player-state: "&eYou are now &6{STATE}&e."
+  visible: "visible"
+  invisible: "invisible"
+  others-state: "&6{PLAYER}&e is now &6{STATE}&e."
+
+# VaultUtils end
+
 vaultcore:
-    sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
-    player_never_joined: "&cThat player has never joined before."
-    player_offline: "&cThat player is offline."
-    console_only: "&cThat command can only be run by Console."
-    listeners:
-        joinquit:
-            new_player: "&eWelcome {PLAYER}&e to VaultMC! (&6#{COUNT}&e)"
-            event_message: "{PLAYER}&e has {EVENT}&e."
-    runnables:
-        rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
-    commands:
-        back: 
-            success: "&eYou have been teleported to your previous location."
-            no_teleport_location: "&cYou have no where to teleport to."
-        discord:
-            guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
-        list:
-            header: "&2--== [List] ==--"
-            no_players_online: "&cThere are no players online."
-        ping:
-            self: "&eYour ping is &2{PING}&ems."
-            other: "{TARGET}&e's ping is &2{PING}&ems."
-        playtime:
-            online_player: "{TARGET} &ehas played for {TIME}"
-            offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for {TIME}"
-        ranks:
-            player_header: "&2--== [Player Ranks] ==--"
-            staff_header: "&2--== [Staff Ranks] ==--"
-        reload: "&aVaultCore config reloaded!"
-        seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
-        stats:
-            error: "&cAn error has occurred, please consult an administrator for help."
-            header: "&2--== [Stats] ==--"
-            player_joined: "{TARGET}&e has joined &2{TIMES}&e times."
-            player_session_length: "{TARGETS}&e's average session length is {TIME}"
-        token: 
-            generating: "&eGenerating your token..."
-            your_token: "&eYour token: &2{TOKEN}&e."
-            please_rerun: "&cPlease rerun the command."
-        warp:
-            not_exist: "&eThe warp &6{WARP}&e does not exist."
-            set: "&eSet the warp &6{WARP}&e to your location."
-            already_exist: "The warp &6{WARP}&e has already been set. Try to delete it first."
-            teleported: "&eYou have been teleported to &6{WARP}&e."
-            deleted: "&eYou have deleted the warp &6{WARP}&e."
-        wild:
-            teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
-            wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
-        msg:
-            self_error: "&cYou can't message yourself."
-            player_disabled_messaging: "&cThat player has disabled messaging."
-            format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
-        reply:
-            noone_error: "&cYou have no one to reply to."
-        socialspy:
-            toggle: "&eYou have toggled socialspy &6{TOGGLE}&e."
-            prefix: "&8[&dSS&8] &r"
-        check:
-            header: "&2--== [Check] ==--"
-            format: "&e{KEY}: &6{VALUE}"
-        clear_chat: 
-            sender: "&eYou have cleared chat."
-            players: "{SENDER}&e has cleared chat."
-        console_say:
-            format: "&9&lCONSOLE&8: &f{MESSAGE}"
-        feed_heal: 
-            self: "&eYou have been &6{ACTION}&e."
-            other: "&eYou have &6{ACTION} {TARGET}&e."
-            receiver: "&eYou have been &6{ACTION} by {SENDER}&e."
-        fly: 
-            gamemode_error: "&c{TARGET} in {GAMEMODE} silly."
-            self: "&eYou have &6{TOGGLE} &efly."
-            other: "&eYou have &6{TOGGLE} &efly for {TARGET}&e."
-            receiver: "&eYour fly has been &6{TOGGLE}&e by {SENDER}"
-        hasperm:
-            self: "&eYou {STATUS} &ethe permission &6{PERMISSION}&e."
-            other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
-        invsee: 
-            self_error: "&cPress e to open your own inventory."
-            excempt_error: "&cYou dont have permission to open this person's inventory."
-        mute_chat:
-            sender: "&eYou have &6{STATUS}&e the chat."
-            players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
-        staffchat:
-            format: "&8[&cSC&8] {SENDER}&8: &b{MESSAGE}"
-            toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
-        tag:
-            self_error: "&cYou can't tag yourself."
-            add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
-            list_header: "&2--== [Tags] ==--"
-            list: "&e[#&2{ID}&e] &6{CONTENT} &e-- &2{DATE}"
-            no_tags_for_player: "&cThere are no tags for that player."
-            tag_already_deleted: "&cThat tag has already been deleted."
-            delete: "&eDeleted tag [#&2{ID}&e]."
-            tag_not_exist: "&cThat tag does not exist."
-        grant:
-            no_permission: "&cYou don't have permission to use this rank."
-            updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
-            updated_target: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
-        gamemode:
-            self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
-            other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
-            other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
-        tpa:
-            target_disabled_tpa: "&cThat player has disabled TPSs."
-            requests:
-                no_request_error: "&cYou don't have a pending request."
-                response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
-                response_target: "&eYou have &6{STATUS} {SENDER}&e's teleport request."
-            tpa: 
-                request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
-                request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
-                auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
-                auto_accept_target: "{SENDER}&e has teleported to you."
-            tpahere:
-                request_sent: "&eYou have requested {TARGET}&e to teleport to you."
-                request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
-        tphere: 
-            sender: "&eYou have teleported {TARGET}&e to you."
-            target: "{TARGET}&e has teleported you to them."
-        teleport:
-            self_error: "&cYou can't teleport to yourself."
-            sender_to_player: "&eYou have teleported to {TARGET}&e."
-            target_error: "&cUse /tphere or /tp to do that."
-            player_to_player_sender: "&eYou have teleported {TARGET1}&e to {TARGET2}&e."
-            player_to_player_target: "{SENDER}&e has teleported you to {TARGET}&e."     
-            player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."     
-        worldtp:
-            never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
-            teleported: "&eTeleported you to the &6{WORLD}&e world."
+  sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
+  player_never_joined: "&cThat player has never joined before."
+  player_offline: "&cThat player is offline."
+  console_only: "&cThat command can only be run by Console."
+  listeners:
+    joinquit:
+      new_player: "&eWelcome {PLAYER}&e to VaultMC! (&6#{COUNT}&e)"
+      event_message: "{PLAYER}&e has {EVENT}&e."
+  runnables:
+    rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
+  commands:
+    back:
+      success: "&eYou have been teleported to your previous location."
+      no_teleport_location: "&cYou have no where to teleport to."
+    discord:
+      guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
+    list:
+      header: "&2--== [List] ==--"
+      no_players_online: "&cThere are no players online."
+    ping:
+      self: "&eYour ping is &2{PING}&ems."
+      other: "{TARGET}&e's ping is &2{PING}&ems."
+    playtime:
+      online_player: "{TARGET} &ehas played for {TIME}"
+      offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for {TIME}"
+    ranks:
+      player_header: "&2--== [Player Ranks] ==--"
+      staff_header: "&2--== [Staff Ranks] ==--"
+    reload: "&aVaultCore config reloaded!"
+    seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
+    stats:
+      error: "&cAn error has occurred, please consult an administrator for help."
+      header: "&2--== [Stats] ==--"
+      player_joined: "{TARGET}&e has joined &2{TIMES}&e times."
+      player_session_length: "{TARGETS}&e's average session length is {TIME}"
+    token:
+      generating: "&eGenerating your token..."
+      your_token: "&eYour token: &2{TOKEN}&e."
+      please_rerun: "&cPlease rerun the command."
+    warp:
+      not_exist: "&eThe warp &6{WARP}&e does not exist."
+      set: "&eSet the warp &6{WARP}&e to your location."
+      already_exist: "The warp &6{WARP}&e has already been set. Try to delete it first."
+      teleported: "&eYou have been teleported to &6{WARP}&e."
+      deleted: "&eYou have deleted the warp &6{WARP}&e."
+    wild:
+      teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
+      wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
+    msg:
+      self_error: "&cYou can't message yourself."
+      player_disabled_messaging: "&cThat player has disabled messaging."
+      format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+    reply:
+      noone_error: "&cYou have no one to reply to."
+    socialspy:
+      toggle: "&eYou have toggled socialspy &6{TOGGLE}&e."
+      prefix: "&8[&dSS&8] &r"
+    check:
+      header: "&2--== [Check] ==--"
+      format: "&e{KEY}: &6{VALUE}"
+    clear_chat:
+      sender: "&eYou have cleared chat."
+      players: "{SENDER}&e has cleared chat."
+    console_say:
+      format: "&9&lCONSOLE&8: &f{MESSAGE}"
+    feed_heal:
+      self: "&eYou have been &6{ACTION}&e."
+      other: "&eYou have &6{ACTION} {TARGET}&e."
+      receiver: "&eYou have been &6{ACTION} by {SENDER}&e."
+    fly:
+      gamemode_error: "&c{TARGET} in {GAMEMODE} silly."
+      self: "&eYou have &6{TOGGLE} &efly."
+      other: "&eYou have &6{TOGGLE} &efly for {TARGET}&e."
+      receiver: "&eYour fly has been &6{TOGGLE}&e by {SENDER}"
+    hasperm:
+      self: "&eYou {STATUS} &ethe permission &6{PERMISSION}&e."
+      other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
+    invsee:
+      self_error: "&cPress e to open your own inventory."
+      excempt_error: "&cYou dont have permission to open this person's inventory."
+    mute_chat:
+      sender: "&eYou have &6{STATUS}&e the chat."
+      players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
+    staffchat:
+      format: "&8[&cSC&8] {SENDER}&8: &b{MESSAGE}"
+      toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
+    tag:
+      self_error: "&cYou can't tag yourself."
+      add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
+      list_header: "&2--== [Tags] ==--"
+      list: "&e[#&2{ID}&e] &6{CONTENT} &e-- &2{DATE}"
+      no_tags_for_player: "&cThere are no tags for that player."
+      tag_already_deleted: "&cThat tag has already been deleted."
+      delete: "&eDeleted tag [#&2{ID}&e]."
+      tag_not_exist: "&cThat tag does not exist."
+    grant:
+      no_permission: "&cYou don't have permission to use this rank."
+      updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
+      updated_target: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
+    gamemode:
+      self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
+      other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
+      other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
+    tpa:
+      target_disabled_tpa: "&cThat player has disabled TPSs."
+      requests:
+        no_request_error: "&cYou don't have a pending request."
+        response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
+        response_target: "&eYou have &6{STATUS} {SENDER}&e's teleport request."
+      tpa:
+        request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
+        request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
+        auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
+        auto_accept_target: "{SENDER}&e has teleported to you."
+      tpahere:
+        request_sent: "&eYou have requested {TARGET}&e to teleport to you."
+        request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
+    tphere:
+      sender: "&eYou have teleported {TARGET}&e to you."
+      target: "{TARGET}&e has teleported you to them."
+    teleport:
+      self_error: "&cYou can't teleport to yourself."
+      sender_to_player: "&eYou have teleported to {TARGET}&e."
+      target_error: "&cUse /tphere or /tp to do that."
+      player_to_player_sender: "&eYou have teleported {TARGET1}&e to {TARGET2}&e."
+      player_to_player_target: "{SENDER}&e has teleported you to {TARGET}&e."
+      player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."
+    worldtp:
+      never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
+      teleported: "&eTeleported you to the &6{WORLD}&e world."
         
