@@ -26,7 +26,7 @@ public class ReplyCommand extends CommandExecutor {
 
 	@SubCommand("r")
 	public void reply(VLPlayer player, String message) {
-		if (!MsgCommand.getReplies().containsKey(player.getUniqueId())) {
+		if (!MsgCommand.getReplies().containsValue(player.getUniqueId())) {
 			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
 			return;
 		}
@@ -52,7 +52,7 @@ public class ReplyCommand extends CommandExecutor {
 				}
 
 			}
-			MsgCommand.getReplies().put(target.getUniqueId(), player.getUniqueId());
+			MsgCommand.getReplies().put(player.getUniqueId(), target.getUniqueId());
 		} else {
 			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
 		}

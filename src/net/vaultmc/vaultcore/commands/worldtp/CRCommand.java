@@ -32,7 +32,7 @@ public class CRCommand extends CommandExecutor {
 			player.teleport(Bukkit.getWorld("creative").getSpawnLocation());
 		} else {
 			player.teleport(cr);
-			player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaulcore.commands.worldtp.teleported"),
+			player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
 					"Creative"));
 		}
 	}

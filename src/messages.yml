@@ -5,33 +5,11 @@ colours:
   warning: "&c"
 
 # VaultUtils start
-
-# VaultUtils: VaultMC functionalities provider.
-# Copyright (C) 2020 yangyang200
-#
-# VaultUtils is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# VaultUtils is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
-#
 # This is the messages configuration file for VaultCore.
 
 # Translation requirements:
 # Use Yellow-Gold as the color scheme.
 # Wording should be direct.
-
-# Message related to the main command.
-main-command:
-  reloaded: "&eSuccessfully reloaded VaultUtils's configurations!"
-  version: "&6This server is running VaultUtils &6{VERSION}&6."
 
 # Message that will be sent to the player related to mod modes.
 mod-mode:
@@ -39,13 +17,6 @@ mod-mode:
   disabled: "&eYou have &6disabled&e mod mode!"
 
   teleportation: "&eTeleporting you to &6{PLAYER}&e!"  # Random teleportation
-
-  cps-test-result: "&6{PLAYER}&e's approximate CPS in the past 10 seconds is &6{CPS}&e."
-  cps-already-started: "&cYou already have a CPS test running on {PLAYER}!"
-
-  # The message that will be sent to the CPS tester within the last three seconds
-  # of CPS testing. LAST THREE SECONDS.
-  last-three-seconds: "&eCPS Test on &6{PLAYER}&e is ending in &6{TIME}&e seconds!"
 
 # Messages related to reporting:
 report:
@@ -258,6 +229,8 @@ vaultcore:
     staffchat:
       format: "&8[&cSC&8] {SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
+    staffchat:
+      toggle: "&eYou have toggled socialspy &6{TOGGLE}&e."
     tag:
       self_error: "&cYou can't tag yourself."
       add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."

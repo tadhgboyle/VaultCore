@@ -54,11 +54,15 @@ public class ChatUtils extends ConstructorRegisterListener {
         }
 
         // Staff chat
-        if (StaffChatCommand.toggled.contains(player.getUniqueId()) && player.hasPermission(Permissions.StaffChatCommand)) {
+        if (e.getMessage().startsWith("#") || StaffChatCommand.toggled.contains(player.getUniqueId()) && player.hasPermission(Permissions.StaffChatCommand)) {
             e.getRecipients().removeIf(x -> !x.hasPermission(Permissions.StaffChatCommand));
             e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "SC" + ChatColor.DARK_GRAY + "] " +
                     player.getFormattedName() + ChatColor.DARK_GRAY + ": " + ChatColor.AQUA + "%2$s");
             return;
+        }
+        
+        if (e.getMessage().startsWith("#") && player.hasPermission(Permissions.StaffChatCommand)) {
+        	
         }
 
         if (MuteChatCommand.chatMuted && !player.hasPermission(Permissions.MuteChatCommandOverride)) {

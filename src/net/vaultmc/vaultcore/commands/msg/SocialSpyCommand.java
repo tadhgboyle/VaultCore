@@ -30,11 +30,11 @@ public class SocialSpyCommand extends CommandExecutor {
 		if (toggled.contains(player)) {
 			toggled.remove(player);
 			player.sendMessage(
-					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "off"));
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.toggle"), "off"));
 		} else {
 			toggled.add(player);
 			player.sendMessage(
-					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "on"));
+					Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.toggle"), "on"));
 		}
 	}
 }

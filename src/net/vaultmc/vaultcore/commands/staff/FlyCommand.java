@@ -55,14 +55,14 @@ public class FlyCommand extends CommandExecutor {
 					"disabled", target.getFormattedName()));
 			target.setFlying(false);
 			target.setAllowFlight(false);
-			sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
+			target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
 					"disabled", sender.getFormattedName()));
 
 		} else {
 			sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.other"),
 					"enabled", target.getFormattedName()));
 			target.setAllowFlight(true);
-			sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
+			target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
 					"enabled", sender.getFormattedName()));
 
 		}
