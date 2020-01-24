@@ -36,7 +36,7 @@ public class Permissions {
     public static final String InvseeCommand = "vaultcore.invsee";
     public static final String InvseeExempt = "vaultcore.invsee.exempt";
     public static final String MuteChatCommand = "vaultcore.mutechat";
-    public static final String MuteChatCommandOverride = "vaultcore.mutechat.override";  // Used in VaultUtils
+    public static final String MuteChatCommandOverride = "vaultcore.mutechat.override";
     public static final String StaffChatCommand = "vaultcore.staffchat";
     public static final String TeleportCommand = "vaultcore.teleport";
     public static final String TeleportCommandOther = "vaultcore.teleport.other";
@@ -51,4 +51,31 @@ public class Permissions {
     public static final String StatsCommandOther = "vaultcore.stats.other";
     public static final String ListCommand = "vaultcore.list";
     public static final String SocialSpyCommand = "vaultcore.socialspy";
+    public static final String ModMode = "vaultcore.modmode";
+    public static final String ReportCommand = "vaultcore.report";
+    public static final String ReportsCommad = "vaultcore.report.view";
+    public static final String AFKCommand = "vaultcore.afk";
+    public static final String AFKCommandOther = "vaultcore.afk.other";
+    public static final String EconomyCommand = "vaultcore.economy";
+    public static final String BalanceCommand = "vaultcore.economy.balance";
+    public static final String TransferCommand = "vaultcore.economy.transfer";
+    public static final String TimeCommand = "vaultcore.time";
+    public static final String VanishCommand = "vaultcore.vanish";
+    public static final String WeatherCommand = "vaultcore.weather";
+    public static final String HelpCommand = "vaultcore.help";
+    public static final String BrandCommand = "vaultcore.brand";
+    public static final String BanCommand = "vaultcore.punishments.ban";
+    public static final String KickCommand = "vaultcore.punishments.kick";
+    public static final String MuteCommand = "vaultcore.punishments.mute";
+    public static final String IPBanCommand = "vaultcore.punishments.ipban";
+    public static final String UnbanCommand = "vaultcore.punishments.unban";
+    public static final String IPTempBanCommand = "vaultcore.punishments.tempipban";
+    public static final String IPMuteCommand = "vaultcore.punishments.ipmute";
+    public static final String IPTempMuteCommand = "vaultcore.punishments.tempipmute";
+    public static final String UnmuteCommand = "vaultcore.punishments.unmute";
+    public static final String TempBanCommand = "vaultcore.punishments.tempban";
+    public static final String TempMuteCommand = "vaultcore.punishments.tempmute";
+
+
+
 }

@@ -16,8 +16,9 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.economy;
+package net.vaultmc.vaultcore.commands.economy;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -31,7 +32,7 @@ import java.util.Arrays;
         literal = "eco",
         description = "Manages economy!"
 )
-@Permission("vaultutils.economy")
+@Permission(Permissions.EconomyCommand)
 public class EconomyCommand extends CommandExecutor {
     public EconomyCommand() {
         register("getMoney", Arrays.asList(

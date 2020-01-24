@@ -16,9 +16,10 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.punishments.ban;
+package net.vaultmc.vaultcore.staff.punishments.mute;
 
-import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -30,51 +31,40 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @RootCommand(
-        literal = "unban",
-        description = "Re-allows a banned player to join the server."
+        literal = "unmute",
+        description = "Re-allows a muted player to chat."
 )
-@Permission("vaultutils.ban")
-public class UnbanCommand extends CommandExecutor {
-    public UnbanCommand() {
-        register("unban", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
-        register("unbanSilent", Arrays.asList(
+@Permission(Permissions.UnmuteCommand)
+public class UnmuteCommand extends CommandExecutor {
+    public UnmuteCommand() {
+        register("unmute", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
+        register("unmuteSilent", Arrays.asList(
                 Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("silent", Arguments.boolArgument())
         ));
     }
 
-    @SubCommand("unban")
-    public void unban(VLCommandSender sender, VLOfflinePlayer victim) {
-        unbanPlayer(sender, victim, false);
+    @SubCommand("unmute")
+    public void unmute(VLCommandSender sender, VLOfflinePlayer victim) {
+        unmutePlayer(sender, victim, false);
     }
 
-    @SubCommand("unbanSilent")
-    public void unbanSilent(VLCommandSender sender, VLOfflinePlayer victim, boolean silent) {
-        unbanPlayer(sender, victim, silent);
+    @SubCommand("unmuteSilent")
+    public void unmuteSilent(VLCommandSender sender, VLOfflinePlayer victim, boolean silent) {
+        unmutePlayer(sender, victim, silent);
     }
 
-    private void unbanPlayer(VLCommandSender actor, VLOfflinePlayer victim, boolean silent) {
-        /*
-        FileConfiguration data = Main.getInstance().getData();
+    private void unmutePlayer(VLCommandSender actor, VLOfflinePlayer victim, boolean silent) {
+        PunishmentsDB.unregisterData("mutes", victim.getUniqueId().toString());
+        PunishmentsDB.unregisterData("tempmutes", victim.getUniqueId().toString());
 
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".ban.status", false);
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.status", false);
-
-        Main.getInstance().saveConfig();
-         */
-
-        PunishmentsDB.unregisterData("bans", victim.getUniqueId().toString());
-        PunishmentsDB.unregisterData("tempbans", victim.getUniqueId().toString());
-        PunishmentsDB.unregisterData("ipbans", IpBanCommand.getPlayerIp(victim));  // I felt something might go wrong here, but
-        PunishmentsDB.unregisterData("iptempbans", IpBanCommand.getPlayerIp(victim));  // I don't know what it is.
-
-        actor.sendMessage(VaultLoader.getMessage("punishments.unban.sent").replace("{PLAYER}", victim.getFormattedName()));
+        actor.sendMessage(VaultLoader.getMessage("punishments.unmute.sent").replace("{PLAYER}", victim.getFormattedName()));
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.hasPermission("vaultutils.silentnotify")) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
-                            VaultLoader.getMessage("punishments.unban.announcement")
+                            VaultLoader.getMessage("punishments.unmute.announcement")
                                     .replace("{ACTOR}", actor.getName())
                                     .replace("{PLAYER}", victim.getFormattedName()));
                 }
@@ -82,7 +72,7 @@ public class UnbanCommand extends CommandExecutor {
         } else {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(
-                        VaultLoader.getMessage("punishments.unban.announcement")
+                        VaultLoader.getMessage("punishments.unmute.announcement")
                                 .replace("{ACTOR}", actor.getName())
                                 .replace("{PLAYER}", victim.getFormattedName()));
             }

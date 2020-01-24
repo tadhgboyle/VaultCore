@@ -36,9 +36,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.ported.report.Report;
-import net.vaultmc.vaultcore.ported.vanish.VanishCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.commands.Aliases;
@@ -53,7 +53,7 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
         literal = "mod",
         description = "Toggles your mod mode status."
 )
-@Permission("vaultutils.modmode")
+@Permission(Permissions.ModMode)
 @Aliases("modmode")
 @PlayerOnly
 

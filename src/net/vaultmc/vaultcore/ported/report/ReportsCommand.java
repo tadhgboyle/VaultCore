@@ -18,6 +18,7 @@
 
 package net.vaultmc.vaultcore.ported.report;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
@@ -27,7 +28,7 @@ import java.util.Collections;
         literal = "reports",
         description = "Views currently available reports."
 )
-@Permission("vaultutils.viewreports")
+@Permission(Permissions.ReportsCommad)
 @PlayerOnly
 public class ReportsCommand extends CommandExecutor {
     public ReportsCommand() {

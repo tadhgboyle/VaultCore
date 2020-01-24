@@ -35,22 +35,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatUtils extends ConstructorRegisterListener {
-    /*
-    @EventHandler
-    public void onTabComplete(AsyncTabCompleteEvent e) {
-        if (e.getBuffer().startsWith("/")) return;
-        e.setCompletions(new ArrayList<>());
-
-        String[] currents = e.getBuffer().split(" ");
-        String current = currents[currents.length - 1];
-        if (current.startsWith("@")) {
-            e.setCompletions(TabCompletion.allOnlinePlayers(current.replace("@", "")));
-        }
-    }
-     */
-    // This is made impossible.
-    // Due to client side changes, non-command tab completion are no longer fired to the server.
-    // *cough* f**k
 
     public static void formatChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());

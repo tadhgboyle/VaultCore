@@ -16,12 +16,12 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.punishments.mute;
+package net.vaultmc.vaultcore.staff.punishments.mute;
 
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.ported.punishments.PunishmentUtils;
-import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.ported.punishments.ban.IpBanCommand;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.staff.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;

@@ -16,8 +16,9 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.vanish;
+package net.vaultmc.vaultcore.listeners;
 
+import net.vaultmc.vaultcore.commands.staff.VanishCommand;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;

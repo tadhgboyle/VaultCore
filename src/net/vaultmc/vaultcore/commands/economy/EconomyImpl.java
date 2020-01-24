@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.economy;
+package net.vaultmc.vaultcore.commands.economy;
 
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;

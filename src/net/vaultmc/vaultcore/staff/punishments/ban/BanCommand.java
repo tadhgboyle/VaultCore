@@ -16,9 +16,10 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.punishments.ban;
+package net.vaultmc.vaultcore.staff.punishments.ban;
 
-import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
         literal = "ban",
         description = "Disallows a player from joining the server permanently."
 )
-@Permission("vaultutils.ban")
+@Permission(Permissions.BanCommand)
 public class BanCommand extends CommandExecutor {
     public BanCommand() {
         unregisterExisting();

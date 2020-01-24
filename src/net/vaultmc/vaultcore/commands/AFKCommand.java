@@ -19,6 +19,7 @@
 package net.vaultmc.vaultcore.commands;
 
 import lombok.Getter;
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -40,7 +41,7 @@ import java.util.Map;
         literal = "afk",
         description = "Toggles your (or a player's) AFK state."
 )
-@Permission("vaultutils.afk")
+@Permission(Permissions.AFKCommand)
 public class AFKCommand extends CommandExecutor implements Listener {
     @Getter
     private static final Map<VLPlayer, Boolean> afk = new HashMap<>();  // I have no plans of saving this in data.yml
@@ -101,7 +102,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
     }
 
     @SubCommand("afkOthers")
-    @Permission("vaultutils.afk.others")
+    @Permission(Permissions.AFKCommandOther)
     public void afkOthers(VLCommandSender sender, VLPlayer player) {
         boolean newValue = !afk.getOrDefault(player, false);
         afk.put(player, newValue);

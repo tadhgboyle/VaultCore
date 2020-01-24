@@ -17,45 +17,15 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-import net.vaultmc.vaultcore.commands.AFKCommand;
-import net.vaultmc.vaultcore.commands.staff.ModMode;
-import net.vaultmc.vaultcore.commands.staff.TimeCommand;
-import net.vaultmc.vaultcore.commands.staff.WeatherCommand;
+import net.vaultmc.vaultcore.commands.economy.EconomyImpl;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
-import net.vaultmc.vaultcore.listeners.ChatUtils;
-import net.vaultmc.vaultcore.listeners.GameModeListeners;
-import net.vaultmc.vaultcore.ported.brand.BrandCommand;
-import net.vaultmc.vaultcore.ported.brand.BrandListener;
-import net.vaultmc.vaultcore.ported.economy.EconomyCommand;
-import net.vaultmc.vaultcore.ported.economy.EconomyImpl;
-import net.vaultmc.vaultcore.ported.economy.MoneyCommand;
-import net.vaultmc.vaultcore.ported.economy.TransferCommand;
-import net.vaultmc.vaultcore.ported.help.HelpCommand;
-import net.vaultmc.vaultcore.ported.inventory.InventoryStorageListeners;
+import net.vaultmc.vaultcore.listeners.BrandListener;
 import net.vaultmc.vaultcore.ported.nametags.Nametags;
-import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.ported.punishments.ban.BanCommand;
-import net.vaultmc.vaultcore.ported.punishments.ban.BannedListener;
-import net.vaultmc.vaultcore.ported.punishments.ban.IpBanCommand;
-import net.vaultmc.vaultcore.ported.punishments.ban.IpTempBanCommand;
-import net.vaultmc.vaultcore.ported.punishments.ban.TempBanCommand;
-import net.vaultmc.vaultcore.ported.punishments.ban.UnbanCommand;
-import net.vaultmc.vaultcore.ported.punishments.kick.KickCommand;
-import net.vaultmc.vaultcore.ported.punishments.mute.IpMuteCommand;
-import net.vaultmc.vaultcore.ported.punishments.mute.IpTempMuteCommand;
-import net.vaultmc.vaultcore.ported.punishments.mute.MuteCommand;
-import net.vaultmc.vaultcore.ported.punishments.mute.MutedListener;
-import net.vaultmc.vaultcore.ported.punishments.mute.TempMuteCommand;
-import net.vaultmc.vaultcore.ported.punishments.mute.UnmuteCommand;
 import net.vaultmc.vaultcore.ported.report.Report;
-import net.vaultmc.vaultcore.ported.report.ReportCommand;
-import net.vaultmc.vaultcore.ported.report.ReportsCommand;
-import net.vaultmc.vaultcore.ported.vanish.VanishCommand;
-import net.vaultmc.vaultcore.ported.vanish.VanishListeners;
 import net.vaultmc.vaultcore.runnables.PlayerNames;
 import net.vaultmc.vaultcore.runnables.RankPromotions;
 import net.vaultmc.vaultcore.runnables.Statistics;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.components.Component;
 import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
@@ -73,7 +43,6 @@ public class VaultCore extends Component implements Listener {
     public static VaultCore instance;
     public static boolean isReloaded = false;
     private static Chat chat = null;
-    private static Permission perms = null;
     @Getter
     private static DBConnection database;
     @Getter
@@ -104,11 +73,7 @@ public class VaultCore extends Component implements Listener {
     public static Chat getChat() {
         return chat;
     }
-
-    public static Permission getPermissions() {
-        return perms;
-    }
-
+    
     @Override
     public void onStartingReloaded() {
         isReloaded = true;
@@ -134,7 +99,6 @@ public class VaultCore extends Component implements Listener {
                 "BungeeCord");
 
         setupChat();
-        setupPermissions();
         Registry.registerCommands();
         Registry.registerListeners();
         GrantCommandInv.initAdmin();
@@ -148,7 +112,6 @@ public class VaultCore extends Component implements Listener {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), PlayerNames::updatePlayerNames, 0L, minute / 6);
 
         // VaultUtils start
-
         PunishmentsDB.createTables();
 
         for (String s : data.getConfig().getConfigurationSection("reports").getKeys(false)) {
@@ -157,43 +120,10 @@ public class VaultCore extends Component implements Listener {
         }
         data.save();
 
-        new ModMode();
-        new ReportCommand();
-        new ReportsCommand();
-        new AFKCommand();
-        new ChatUtils();
-        new EconomyCommand();
-        new MoneyCommand();
-        new TimeCommand();
-        new TransferCommand();
-        new VanishCommand();
-        new VanishListeners();
-        new InventoryStorageListeners();
-        new GameModeListeners();
-        new WeatherCommand();
-        new HelpCommand();
-        new BrandCommand();
-
-        new KickCommand();
-        new BanCommand();
-        new MuteCommand();
-        new UnbanCommand();
-        new IpBanCommand();
-        new IpTempBanCommand();
-        new IpMuteCommand();
-        new IpTempMuteCommand();
-        new UnmuteCommand();
-        new TempBanCommand();
-        new TempMuteCommand();
-        registerEvents(new BannedListener());
-        registerEvents(new MutedListener());
-
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
 
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
-
-
         // VaultUtils end
 
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
@@ -254,11 +184,6 @@ public class VaultCore extends Component implements Listener {
     private void setupChat() {
         RegisteredServiceProvider<Chat> rsp = Bukkit.getServicesManager().getRegistration(Chat.class);
         chat = rsp.getProvider();
-    }
-
-    private void setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = Bukkit.getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
     }
 
     public void sendToBackup() {

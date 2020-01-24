@@ -16,34 +16,31 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.brand;
+package net.vaultmc.vaultcore.commands.economy;
 
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
 
 @RootCommand(
-        literal = "brand",
-        description = "Checks for the brand reported by the client for the player."
+        literal = "money",
+        description = "Checks for your current balance."
 )
-@Permission("vaultutils.brand")
-public class BrandCommand extends CommandExecutor {
-    public BrandCommand() {
-        register("checkBrand", Collections.singletonList(
-                Arguments.createArgument("player", Arguments.playerArgument())));
+@Permission(Permissions.BalanceCommand)
+@PlayerOnly
+@Aliases({"b", "balance", "bal"})
+public class MoneyCommand extends CommandExecutor {
+    public MoneyCommand() {
+        this.register("checkBalance", Collections.emptyList());
     }
 
-    @SubCommand("checkBrand")
-    public void execute(VLCommandSender sender, VLPlayer player) {
-        if (!BrandListener.getBrands().containsKey(player)) {
-            sender.sendMessage(VaultLoader.getMessage("brand-not-ready"));
-            return;
-        }
-
-        sender.sendMessage(VaultLoader.getMessage("brand").replace("{PLAYER}", player.getFormattedName())
-                .replace("{BRAND}", BrandListener.getBrands().get(player)));
+    @SubCommand("checkBalance")
+    public void execute(VLPlayer sender) {
+        sender.sendMessage(VaultLoader.getMessage("economy.balance").replace("{AMOUNT}",
+                VaultCore.numberFormat.format(sender.getBalance(sender.getWorld()))));
     }
 }

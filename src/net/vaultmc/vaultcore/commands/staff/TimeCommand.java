@@ -18,6 +18,7 @@
 
 package net.vaultmc.vaultcore.commands.staff;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -31,7 +32,7 @@ import java.util.Collections;
         literal = "time",
         description = "Sets the time in your world (or a specified world)"
 )
-@Permission("vaultutils.settime")
+@Permission(Permissions.TimeCommand)
 public class TimeCommand extends CommandExecutor {
     public TimeCommand() {
         unregisterExisting();

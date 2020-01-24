@@ -18,6 +18,7 @@
 
 package net.vaultmc.vaultcore.commands.staff;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -31,7 +32,7 @@ import java.util.Collections;
         literal = "weather",
         description = "Checks and sets the weather in your current world or another world."
 )
-@Permission("vaultutils.weather")
+@Permission(Permissions.WeatherCommand)
 public class WeatherCommand extends CommandExecutor {
     public WeatherCommand() {
         unregisterExisting();

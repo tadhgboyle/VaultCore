@@ -16,17 +16,18 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.punishments.ban;
+package net.vaultmc.vaultcore.staff.punishments.ban;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.ported.punishments.PunishmentUtils;
-import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.commands.arguments.custom.OfflinePlayerArgument;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -36,23 +37,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RootCommand(
-        literal = "tempban",
-        description = "Disallows a player from joining the server temporarily."
+        literal = "iptempban",
+        description = "Disallows a player from joining the server temporarily. (By IP)"
 )
-@Permission("vaultutils.ban")
-public class TempBanCommand extends CommandExecutor {
-    public TempBanCommand() {
+@Permission(Permissions.IPTempBanCommand)
+public class IpTempBanCommand extends CommandExecutor {
+    public IpTempBanCommand() {
         register("banNoReason", Arrays.asList(
-                Arguments.createArgument("player", OfflinePlayerArgument.player()),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word())));
         register("banSilent", Arrays.asList(
-                Arguments.createArgument("player", OfflinePlayerArgument.player()),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word()),
                 Arguments.createArgument("silent", Arguments.boolArgument())));
         register("banSilentReason", Arrays.asList(
-                Arguments.createArgument("player", OfflinePlayerArgument.player()),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word()),
                 Arguments.createArgument("silent", Arguments.boolArgument()),
@@ -127,7 +128,7 @@ public class TempBanCommand extends CommandExecutor {
                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
         }
 
-        PunishmentsDB.registerData("tempbans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
+        PunishmentsDB.registerData("iptempbans", new PunishmentsDB.PunishmentData(IpBanCommand.getPlayerIp(victim),
                 true, reason, PunishmentUtils.currentTime() + expiry, actor.getName()));
 
         /*
@@ -141,7 +142,7 @@ public class TempBanCommand extends CommandExecutor {
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (VLPlayer.getPlayer(player).hasPermission("vaultutils.silentnotify")) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.tempban.announcement")
                                     .replace("{ACTOR}", actor.getName())

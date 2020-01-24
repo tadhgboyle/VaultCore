@@ -16,8 +16,9 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.economy;
+package net.vaultmc.vaultcore.commands.economy;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -30,7 +31,7 @@ import java.util.Arrays;
         literal = "transfer",
         description = "Transfers money to another player!"
 )
-@Permission("vaultutils.transfer")
+@Permission(Permissions.TransferCommand)
 @PlayerOnly
 public class TransferCommand extends CommandExecutor {
     public TransferCommand() {

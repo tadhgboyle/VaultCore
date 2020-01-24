@@ -16,10 +16,11 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.punishments.ban;
+package net.vaultmc.vaultcore.staff.punishments.ban;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -38,7 +39,7 @@ import java.util.UUID;
         literal = "ipban",
         description = "Disallows a player from joining the server permanently (by their IP address)."
 )
-@Permission("vaultutils.ban")
+@Permission(Permissions.IPBanCommand)
 public class IpBanCommand extends CommandExecutor implements Listener {
     public IpBanCommand() {
         register("banNoReason", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));

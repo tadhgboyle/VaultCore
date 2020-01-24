@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.brand;
+package net.vaultmc.vaultcore.listeners;
 
 import lombok.Getter;
 import net.vaultmc.vaultcore.VaultCore;

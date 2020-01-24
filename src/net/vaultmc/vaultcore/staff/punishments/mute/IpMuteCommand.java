@@ -16,10 +16,11 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.punishments.mute;
+package net.vaultmc.vaultcore.staff.punishments.mute;
 
-import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.ported.punishments.ban.IpBanCommand;
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.staff.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -34,7 +35,7 @@ import java.util.Collections;
         literal = "ipmute",
         description = "Disallows a player from chatting, using signs and executing some commands permanently. (By IP)"
 )
-@Permission("vaultutils.mute")
+@Permission(Permissions.MuteChatCommand)
 public class IpMuteCommand extends CommandExecutor {
     public IpMuteCommand() {
         register("mute", Collections.singletonList(

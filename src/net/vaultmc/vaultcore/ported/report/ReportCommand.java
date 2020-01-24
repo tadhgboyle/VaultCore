@@ -18,6 +18,7 @@
 
 package net.vaultmc.vaultcore.ported.report;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -28,7 +29,7 @@ import java.util.Collections;
         literal = "report",
         description = "Report a rule-breaker."
 )
-@Permission("vaultutils.report")
+@Permission(Permissions.ReportCommand)
 @PlayerOnly
 public class ReportCommand extends CommandExecutor {
     public ReportCommand() {

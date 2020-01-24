@@ -16,8 +16,9 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.vanish;
+package net.vaultmc.vaultcore.commands.staff;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -34,7 +35,7 @@ import java.util.UUID;
         literal = "vanish",
         description = "Toggles your vanish state or somebody else's."
 )
-@Permission("vaultutils.vanish")
+@Permission(Permissions.VanishCommand)
 @Aliases("v")
 public class VanishCommand extends CommandExecutor {
     public static final Map<UUID, Boolean> vanished = new HashMap<>();
@@ -46,7 +47,7 @@ public class VanishCommand extends CommandExecutor {
         ));
     }
 
-    static void setVanishState(VLPlayer player, boolean vanish) {
+    public static void setVanishState(VLPlayer player, boolean vanish) {
         if (vanish) {
             vanished.put(player.getUniqueId(), true);
 
@@ -65,7 +66,7 @@ public class VanishCommand extends CommandExecutor {
         player.setTemporaryData("vanished", vanish);
     }
 
-    static void update(VLPlayer player) {
+    public static void update(VLPlayer player) {
         for (Map.Entry<UUID, Boolean> x : vanished.entrySet()) {
             if (x.getKey().toString().equals(player.getUniqueId().toString())) continue;
             if (VLPlayer.getPlayer(x.getKey()) != null && x.getValue()) {

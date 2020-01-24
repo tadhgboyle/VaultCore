@@ -16,8 +16,9 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.help;
+package net.vaultmc.vaultcore.commands;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
 import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
@@ -27,7 +28,7 @@ import net.vaultmc.vaultloader.utils.commands.RootCommand;
         literal = "help",
         description = "Help me!"
 )
-@Permission("vaultutils.help")
+@Permission(Permissions.HelpCommand)
 @PlayerOnly
 
 // FIXME
