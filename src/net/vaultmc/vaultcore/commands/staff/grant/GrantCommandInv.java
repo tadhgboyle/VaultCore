@@ -14,7 +14,7 @@ public class GrantCommandInv {
 
     public static Inventory getGrantInventoryAdmin(VLPlayer target) {
         Inventory rankGrantAdmin = Bukkit.createInventory(null, 9,
-                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getFormattedName());
+                ChatColor.DARK_GRAY + "Grant Rank to " + target.getFormattedName());
         rankGrantAdmin.setItem(0, null);
         rankGrantAdmin.setItem(1, null);
         rankGrantAdmin.setItem(2, memberRank);
@@ -29,7 +29,7 @@ public class GrantCommandInv {
 
     public static Inventory getGrantInventoryMod(VLPlayer target) {
         Inventory rankGrantMod = Bukkit.createInventory(null, 9,
-                ChatColor.DARK_GRAY + "Grant Rank to " + ChatColor.WHITE + "" + ChatColor.ITALIC + target.getFormattedName());
+                ChatColor.DARK_GRAY + "Grant Rank to " + target.getFormattedName());
         rankGrantMod.setItem(0, null);
         rankGrantMod.setItem(1, null);
         rankGrantMod.setItem(2, memberRank);
