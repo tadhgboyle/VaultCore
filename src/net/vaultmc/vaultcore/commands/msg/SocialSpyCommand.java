@@ -1,18 +1,14 @@
 package net.vaultmc.vaultcore.commands.msg;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @RootCommand(literal = "socialspy", description = "View messages players are sending server-wide.")
 @Permission(Permissions.SocialSpyCommand)
