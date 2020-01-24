@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.misc;
+package net.vaultmc.vaultcore.listeners;
 
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.GameMode;

@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.misc;
+package net.vaultmc.vaultcore.commands.staff;
 
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;

@@ -16,15 +16,13 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.modmode;
+package net.vaultmc.vaultcore.commands.staff;
 
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.ported.report.Report;
-import net.vaultmc.vaultcore.ported.vanish.VanishCommand;
-import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.ItemStackBuilder;
-import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,16 +31,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.ported.report.Report;
+import net.vaultmc.vaultcore.ported.vanish.VanishCommand;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ItemStackBuilder;
+import net.vaultmc.vaultloader.utils.commands.Aliases;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(
         literal = "mod",
@@ -106,21 +111,6 @@ public class ModMode extends CommandExecutor implements Listener, Runnable {
                     player.performCommand("reports");
                 } else if (slot == 5) {
                     player.performCommand("vanish");
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent e) {
-        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (status.getOrDefault(player, false) && e.getRightClicked() instanceof Player) {
-            VLPlayer tested = VLPlayer.getPlayer((Player) e.getRightClicked());
-            if (player.getInventory().getHeldItemSlot() == 7) {
-                try {
-                    CPSTest.run(player, tested);
-                } catch (UnsupportedOperationException ex) {
-                    player.sendMessage(VaultLoader.getMessage("mod-mode.cps-already-started").replace("{PLAYER}", tested.getFormattedName()));
                 }
             }
         }

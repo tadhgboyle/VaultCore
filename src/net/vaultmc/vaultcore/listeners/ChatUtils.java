@@ -16,9 +16,10 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.misc;
+package net.vaultmc.vaultcore.listeners;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.commands.AFKCommand;
 import net.vaultmc.vaultcore.commands.staff.MuteChatCommand;
 import net.vaultmc.vaultcore.commands.staff.StaffChatCommand;
 import net.vaultmc.vaultloader.VaultLoader;

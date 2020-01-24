@@ -1,13 +1,30 @@
 package net.vaultmc.vaultcore;
 
+import java.text.DecimalFormat;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
+
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import net.vaultmc.vaultcore.commands.AFKCommand;
+import net.vaultmc.vaultcore.commands.staff.ModMode;
+import net.vaultmc.vaultcore.commands.staff.TimeCommand;
+import net.vaultmc.vaultcore.commands.staff.WeatherCommand;
 import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
+import net.vaultmc.vaultcore.listeners.ChatUtils;
+import net.vaultmc.vaultcore.listeners.GameModeListeners;
 import net.vaultmc.vaultcore.ported.brand.BrandCommand;
 import net.vaultmc.vaultcore.ported.brand.BrandListener;
 import net.vaultmc.vaultcore.ported.economy.EconomyCommand;
@@ -16,14 +33,21 @@ import net.vaultmc.vaultcore.ported.economy.MoneyCommand;
 import net.vaultmc.vaultcore.ported.economy.TransferCommand;
 import net.vaultmc.vaultcore.ported.help.HelpCommand;
 import net.vaultmc.vaultcore.ported.inventory.InventoryStorageListeners;
-import net.vaultmc.vaultcore.ported.misc.*;
-import net.vaultmc.vaultcore.ported.modmode.CPSTest;
-import net.vaultmc.vaultcore.ported.modmode.ModMode;
 import net.vaultmc.vaultcore.ported.nametags.Nametags;
 import net.vaultmc.vaultcore.ported.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.ported.punishments.ban.*;
+import net.vaultmc.vaultcore.ported.punishments.ban.BanCommand;
+import net.vaultmc.vaultcore.ported.punishments.ban.BannedListener;
+import net.vaultmc.vaultcore.ported.punishments.ban.IpBanCommand;
+import net.vaultmc.vaultcore.ported.punishments.ban.IpTempBanCommand;
+import net.vaultmc.vaultcore.ported.punishments.ban.TempBanCommand;
+import net.vaultmc.vaultcore.ported.punishments.ban.UnbanCommand;
 import net.vaultmc.vaultcore.ported.punishments.kick.KickCommand;
-import net.vaultmc.vaultcore.ported.punishments.mute.*;
+import net.vaultmc.vaultcore.ported.punishments.mute.IpMuteCommand;
+import net.vaultmc.vaultcore.ported.punishments.mute.IpTempMuteCommand;
+import net.vaultmc.vaultcore.ported.punishments.mute.MuteCommand;
+import net.vaultmc.vaultcore.ported.punishments.mute.MutedListener;
+import net.vaultmc.vaultcore.ported.punishments.mute.TempMuteCommand;
+import net.vaultmc.vaultcore.ported.punishments.mute.UnmuteCommand;
 import net.vaultmc.vaultcore.ported.report.Report;
 import net.vaultmc.vaultcore.ported.report.ReportCommand;
 import net.vaultmc.vaultcore.ported.report.ReportsCommand;
@@ -39,15 +63,6 @@ import net.vaultmc.vaultloader.components.annotations.Version;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.configuration.Configuration;
 import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.ServicePriority;
-
-import java.text.DecimalFormat;
 
 @ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
         "Aberdeener", "yangyang200", "2xjtn"})
@@ -145,7 +160,6 @@ public class VaultCore extends Component implements Listener {
         new ModMode();
         new ReportCommand();
         new ReportsCommand();
-        registerEvents(new CPSTest());
         new AFKCommand();
         new ChatUtils();
         new EconomyCommand();
