@@ -1,7 +1,8 @@
 package net.vaultmc.vaultcore.commands.settings;
 
-import java.util.ArrayList;
-
+import net.md_5.bungee.api.ChatColor;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -9,9 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.md_5.bungee.api.ChatColor;
-import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import java.util.ArrayList;
 
 public class SettingsInventories {
 	static String string = ChatColor.translateAlternateColorCodes('&', VaultLoader.getMessage("colours.string"));
