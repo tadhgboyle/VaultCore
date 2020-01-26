@@ -123,7 +123,7 @@ public class TempBanCommand extends CommandExecutor {
 
         if (Bukkit.getPlayer(victim.getUniqueId()) != null) {
             Bukkit.getPlayer(victim.getUniqueId()).kickPlayer(VaultLoader.getMessage("punishments.tempban.disconnect")
-                    .replace("{ACTOR}", actor.getName())
+                    .replace("{ACTOR}", actor.getFormattedName())
                     .replace("{REASON}", reason)
                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
         }
@@ -142,10 +142,10 @@ public class TempBanCommand extends CommandExecutor {
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.tempban.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{REASON}", reason)
                                     .replace("{PLAYER}", victim.getFormattedName())
                                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
@@ -155,7 +155,7 @@ public class TempBanCommand extends CommandExecutor {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(
                         VaultLoader.getMessage("punishments.tempban.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName())
                                 .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));

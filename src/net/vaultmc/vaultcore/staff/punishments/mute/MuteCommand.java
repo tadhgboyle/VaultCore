@@ -69,7 +69,7 @@ public class MuteCommand extends CommandExecutor {
     private void mutePlayer(VLCommandSender actor, VLOfflinePlayer victim, String reason, boolean silent) {
         if (Bukkit.getPlayer(victim.getUniqueId()) != null) {
             Bukkit.getPlayer(victim.getUniqueId()).sendMessage(VaultLoader.getMessage("punishments.mute.message")
-                    .replace("{ACTOR}", actor.getName())
+                    .replace("{ACTOR}", actor.getFormattedName())
                     .replace("{REASON}", reason));
         }
 
@@ -79,10 +79,10 @@ public class MuteCommand extends CommandExecutor {
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.mute.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{PLAYER}", victim.getFormattedName())
                                     .replace("{REASON}", reason));
                 }
@@ -91,7 +91,7 @@ public class MuteCommand extends CommandExecutor {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(
                         VaultLoader.getMessage("punishments.mute.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{PLAYER}", victim.getFormattedName())
                                 .replace("{REASON}", reason));
             }

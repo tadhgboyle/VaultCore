@@ -66,7 +66,7 @@ public class KickCommand extends CommandExecutor {
         PunishmentsDB.registerData("kicks", new PunishmentsDB.PunishmentData(kicked.getUniqueId().toString(), false, reason, -1, sender.getName()));
 
         kicked.kick(VaultLoader.getMessage("punishments.kick.disconnect")
-                .replace("{ACTOR}", sender.getName())
+                .replace("{ACTOR}", sender.getFormattedName())
                 .replace("{REASON}", reason));
 
         sender.sendMessage(VaultLoader.getMessage("punishments.kick.sent").replace("{PLAYER}", kicked.getFormattedName()));
@@ -76,7 +76,7 @@ public class KickCommand extends CommandExecutor {
                 if (player.hasPermission("vaultutils.silentnotify")) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.kick.announcement")
-                                    .replace("{ACTOR}", sender.getName())
+                                    .replace("{ACTOR}", sender.getFormattedName())
                                     .replace("{REASON}", reason)
                                     .replace("{PLAYER}", kicked.getFormattedName()));
                 }
@@ -84,7 +84,7 @@ public class KickCommand extends CommandExecutor {
         } else {
             for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
                 player.sendMessage(VaultLoader.getMessage("punishments.kick.announcement")
-                        .replace("{ACTOR}", sender.getName())
+                        .replace("{ACTOR}", sender.getFormattedName())
                         .replace("{REASON}", reason)
                         .replace("{PLAYER}", kicked.getFormattedName()));
             }

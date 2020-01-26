@@ -119,7 +119,7 @@ public class IpTempMuteCommand extends CommandExecutor {
     private void tempmutePlayer(VLCommandSender actor, VLOfflinePlayer victim, String reason, boolean silent, long expiry) {
         if (Bukkit.getPlayer(victim.getUniqueId()) != null) {
             Bukkit.getPlayer(victim.getUniqueId()).sendMessage(VaultLoader.getMessage("punishments.tempmute.message")
-                    .replace("{ACTOR}", actor.getName())
+                    .replace("{ACTOR}", actor.getFormattedName())
                     .replace("{REASON}", reason)
                     .replace("{PLAYER}", victim.getFormattedName())
                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
@@ -133,10 +133,10 @@ public class IpTempMuteCommand extends CommandExecutor {
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.tempmute.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{REASON}", reason)
                                     .replace("{PLAYER}", victim.getFormattedName())
                                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
@@ -146,7 +146,7 @@ public class IpTempMuteCommand extends CommandExecutor {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(
                         VaultLoader.getMessage("punishments.tempmute.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName())
                                 .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));

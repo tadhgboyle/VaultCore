@@ -75,7 +75,7 @@ public class Permissions {
     public static final String UnmuteCommand = "vaultcore.punishments.unmute";
     public static final String TempBanCommand = "vaultcore.punishments.tempban";
     public static final String TempMuteCommand = "vaultcore.punishments.tempmute";
-
+    public static final String PunishmentNotify = "vaultcore.punishments.notify";
 
 
 }

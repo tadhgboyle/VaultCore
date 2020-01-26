@@ -73,10 +73,10 @@ public class UnbanCommand extends CommandExecutor {
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.unban.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{PLAYER}", victim.getFormattedName()));
                 }
             }
@@ -84,7 +84,7 @@ public class UnbanCommand extends CommandExecutor {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(
                         VaultLoader.getMessage("punishments.unban.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{PLAYER}", victim.getFormattedName()));
             }
         }

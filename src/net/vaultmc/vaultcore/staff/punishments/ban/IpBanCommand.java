@@ -110,10 +110,10 @@ public class IpBanCommand extends CommandExecutor implements Listener {
 
         if (silent) {
             for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.ban.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{REASON}", reason)
                                     .replace("{PLAYER}", victim.getFormattedName()));
                 }
@@ -122,7 +122,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
             for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
                 player.sendMessage(
                         VaultLoader.getMessage("punishments.ban.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName()));
             }
