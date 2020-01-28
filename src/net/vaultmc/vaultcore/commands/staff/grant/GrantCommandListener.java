@@ -43,7 +43,7 @@ public class GrantCommandListener implements Listener {
 						player.sendMessage(VaultLoader.getMessage("vaultcore.commands.grant.no_permission"));
 						return;
 					}
-					VLPlayer target = VLPlayer.getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
+					Player target = Bukkit.getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
 					Bukkit.broadcastMessage(target.getDisplayName());
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 							"lp user " + target.getName() + " parent set " + rank);
@@ -52,7 +52,7 @@ public class GrantCommandListener implements Listener {
 
 					player.sendMessage(
 							Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.grant.updated_sender"),
-									target.getFormattedName(), rank));
+								    	target.getDisplayName(), rank));
 					target.sendMessage(
 							Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.grant.updated_player"),
 									rank, player.getFormattedName()));

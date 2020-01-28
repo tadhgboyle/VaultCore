@@ -18,7 +18,6 @@ import lombok.SneakyThrows;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.vaultmc.vaultcore.commands.economy.EconomyImpl;
-import net.vaultmc.vaultcore.commands.staff.grant.GrantCommandInv;
 import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultcore.listeners.BrandListener;
 import net.vaultmc.vaultcore.ported.nametags.Nametags;
@@ -101,8 +100,6 @@ public class VaultCore extends Component implements Listener {
         setupChat();
         Registry.registerCommands();
         Registry.registerListeners();
-        GrantCommandInv.initAdmin();
-        GrantCommandInv.initMod();
         int minute = (int) 1200L;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
             RankPromotions.memberPromotion();
