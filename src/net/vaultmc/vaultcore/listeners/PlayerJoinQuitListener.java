@@ -91,8 +91,8 @@ public class PlayerJoinQuitListener implements Listener {
 			String rank, String ip) {
 		database.executeUpdateStatement(
 				"INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
-						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=?",
-				uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank);
+						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=? ip=?",
+				uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank, ip);
 	}
 
 }
