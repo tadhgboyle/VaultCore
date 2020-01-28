@@ -16,10 +16,10 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.staff.punishments.ban;
+package net.vaultmc.vaultcore.commands.staff.punishments.ban;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
@@ -64,21 +64,21 @@ public class BanCommand extends CommandExecutor {
     private void banPlayer(VLCommandSender actor, VLOfflinePlayer victim, String reason, boolean silent) {
         if (Bukkit.getPlayer(victim.getUniqueId()) != null) {
             Bukkit.getPlayer(victim.getUniqueId()).kickPlayer(VaultLoader.getMessage("punishments.ban.disconnect")
-                    .replace("{ACTOR}", actor.getName())
+                    .replace("{ACTOR}", actor.getFormattedName())
                     .replace("{REASON}", reason));
         }
 
         PunishmentsDB.registerData("bans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
-                true, reason, -1, actor.getName()));
+                true, reason, -1, actor.getFormattedName()));
 
         actor.sendMessage(VaultLoader.getMessage("punishments.ban.sent").replace("{PLAYER}", victim.getFormattedName()));
 
         if (silent) {
             for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.ban.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{REASON}", reason)
                                     .replace("{PLAYER}", victim.getFormattedName()));
                 }
@@ -87,7 +87,7 @@ public class BanCommand extends CommandExecutor {
             for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
                 player.sendMessage(
                         VaultLoader.getMessage("punishments.ban.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName()));
             }

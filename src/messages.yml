@@ -62,55 +62,56 @@ punishments:
   integer-format-error: "&cYou must enter a valid integer!"
 
   ban:
-    announcement: "&e{ACTOR}&r banned &e{PLAYER}&r for &e{REASON}"
+    announcement: "&e{ACTOR} banned {PLAYER}&e for &6{REASON}"
     disconnect: |
       &cYou are permanently banned from this server!
       &6Reason: &e{REASON}
-      &6Issuer: &e{ACTOR}
-    sent: "&eSuccessfully banned &6{PLAYER}&e!"
+      &6Issuer: {ACTOR}
+      &Appeal: &ehttps://discord.vaultmc.net
+    sent: "&eSuccessfully banned {PLAYER}&e"
 
   unban:
-    sent: "&eSuccessfully unbanned &6{PLAYER}&e!"
-    announcement: "&e{ACTOR}&r unbanned &e{PLAYER}"
+    sent: "&eSuccessfully unbanned {PLAYER}&e."
+    announcement: "{ACTOR}&e unbanned {PLAYER}&e."
 
   tempban:
-    announcement: "&e{ACTOR}&r temp-banned &e{PLAYER}&r for &e{REASON}"
+    announcement: "{ACTOR}&e temp-banned {PLAYER}&e for &6{REASON}"
     disconnect: |
       &cYou are temporarily banned from this server!
       &6Reason: &e{REASON}
       &6Expiry: &e{EXPIRY}
-      &6Issuer: &e{ACTOR}
+      &6Issuer: {ACTOR}
     sent: "&eSuccessfully banned &6{PLAYER}&e!"
 
   mute:
-    announcement: "&e{ACTOR}&r muted &e{PLAYER}&r for &e{REASON}"
+    announcement: "{ACTOR}&e muted {PLAYER}&e for &6{REASON}"
     message: |
       &cYou are permanently muted!
       &6Reason: &e{REASON}
-      &6Issuer: &e{ACTOR}
-    sent: "&eSuccessfully muted &6{PLAYER}&e!"
-    player-message: "&7(Muted) &r{PLAYERFULLNAME}&7: &r{MESSAGE}"
+      &6Issuer: {ACTOR}
+    sent: "&eSuccessfully muted &6{PLAYER}&e."
+    player-message: "&7(Muted) &r{PLAYERFULLNAME}&7: &6{MESSAGE}"
 
   tempmute:
-    announcement: "&e{ACTOR}&r temp-muted &e{PLAYER}&r for &e{REASON}"
+    announcement: "{ACTOR}&e temp-muted {PLAYER}&e for &6{REASON}"
     message: |
       &cYou are temporarily muted!
       &6Reason: &e{REASON}
       &6Expiry: &e{EXPIRY}
-      &6Issuer: &e{ACTOR}
-    sent: "&eSuccessfully muted &6{PLAYER}&e!"
+      &6Issuer: {ACTOR}
+    sent: "&eSuccessfully muted {PLAYER}&e."
 
   unmute:
-    announcement: "&e{ACTOR}&r unmuted &e{PLAYER}"
-    sent: "&eSuccessfully unmuted &6{PLAYER}&e!"
+    announcement: "{ACTOR}&e unmuted {PLAYER}&e."
+    sent: "&eSuccessfully unmuted {PLAYER}&e."
 
   kick:
-    announcement: "&e{ACTOR}&r kicked &e{PLAYER}&r for &e{REASON}"
+    announcement: "{ACTOR}&e kicked {PLAYER}&e for &6{REASON}"
     disconnect: |
-      &cYou are kicked!
+      &cYou have been kicked!
       &6Reason: &e{REASON}
-      &6Issuer: &e{ACTOR}
-    sent: "&eSuccessfully kicked &6{PLAYER}&e!"
+      &6Issuer: {ACTOR}
+    sent: "&eSuccessfully kicked {PLAYER}&e."
 
 afk:
   you-afk: "&eYou are now AFK."

@@ -16,12 +16,12 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.staff.punishments.ban;
+package net.vaultmc.vaultcore.commands.staff.punishments.ban;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentUtils;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
@@ -123,7 +123,7 @@ public class IpTempBanCommand extends CommandExecutor {
 
         if (Bukkit.getPlayer(victim.getUniqueId()) != null) {
             Bukkit.getPlayer(victim.getUniqueId()).kickPlayer(VaultLoader.getMessage("punishments.tempban.disconnect")
-                    .replace("{ACTOR}", actor.getName())
+                    .replace("{ACTOR}", actor.getFormattedName())
                     .replace("{REASON}", reason)
                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
         }
@@ -142,10 +142,10 @@ public class IpTempBanCommand extends CommandExecutor {
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (VLPlayer.getPlayer(player).hasPermission("vaultutils.silentnotify")) {
+                if (VLPlayer.getPlayer(player).hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.tempban.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{REASON}", reason)
                                     .replace("{PLAYER}", victim.getFormattedName())
                                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
@@ -155,7 +155,7 @@ public class IpTempBanCommand extends CommandExecutor {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(
                         VaultLoader.getMessage("punishments.tempban.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName())
                                 .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));

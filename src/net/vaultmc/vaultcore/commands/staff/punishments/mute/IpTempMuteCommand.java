@@ -16,12 +16,13 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.staff.punishments.ban;
+package net.vaultmc.vaultcore.commands.staff.punishments.mute;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentUtils;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.commands.staff.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.commands.arguments.custom.OfflinePlayerArgument;
@@ -37,22 +38,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RootCommand(
-        literal = "tempban",
-        description = "Disallows a player from joining the server temporarily."
+        literal = "iptempmute",
+        description = "Disallows a player from chatting, using signs and executing some commands temporarily. (By IP)"
 )
-@Permission(Permissions.TempBanCommand)
-public class TempBanCommand extends CommandExecutor {
-    public TempBanCommand() {
-        register("banNoReason", Arrays.asList(
+@Permission(Permissions.IPTempMuteCommand)
+public class IpTempMuteCommand extends CommandExecutor {
+    public IpTempMuteCommand() {
+        register("mute", Arrays.asList(
                 Arguments.createArgument("player", OfflinePlayerArgument.player()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word())));
-        register("banSilent", Arrays.asList(
+        register("muteSilent", Arrays.asList(
                 Arguments.createArgument("player", OfflinePlayerArgument.player()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word()),
                 Arguments.createArgument("silent", Arguments.boolArgument())));
-        register("banSilentReason", Arrays.asList(
+        register("muteSilentReason", Arrays.asList(
                 Arguments.createArgument("player", OfflinePlayerArgument.player()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word()),
@@ -62,7 +63,7 @@ public class TempBanCommand extends CommandExecutor {
     }
 
     @TabCompleter(
-            subCommand = "banNoReason|banSilent|banSilentReason",
+            subCommand = "mute|muteSilent|muteSilentReason",
             argument = "unit"
     )
     public List<WrappedSuggestion> suggestTimeUnits(VLCommandSender sender, String remaining) {
@@ -70,9 +71,8 @@ public class TempBanCommand extends CommandExecutor {
                 .stream().map(WrappedSuggestion::new).collect(Collectors.toList());
     }
 
-    @SubCommand("banNoReason")
-    public void banNoReason(VLCommandSender sender, VLOfflinePlayer victim, int time, String unit) {
-        String reason = VaultLoader.getMessage("punishments.default-reason");
+    @SubCommand("mute")
+    public void mute(VLCommandSender sender, VLOfflinePlayer victim, int time, String unit) {
         if (!VaultCore.getInstance().getConfig().contains("time-units." + unit)) {
             sender.sendMessage(VaultLoader.getMessage("punishments.time-unit-error"));
             return;
@@ -82,13 +82,12 @@ public class TempBanCommand extends CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Invalid punishment duration!");
             return;
         }
-
-        tempbanPlayer(sender, victim, reason, false, expiry);
+        tempmutePlayer(sender, victim, VaultLoader.getMessage("punishments.default-reason"),
+                false, expiry);
     }
 
-    @SubCommand("banSilent")
-    public void banSilent(VLCommandSender sender, VLOfflinePlayer victim, int time, String unit, boolean silent) {
-        String reason = VaultLoader.getMessage("punishments.default-reason");
+    @SubCommand("muteSilent")
+    public void muteSilent(VLCommandSender sender, VLOfflinePlayer victim, int time, String unit, boolean silent) {
         if (!VaultCore.getInstance().getConfig().contains("time-units." + unit)) {
             sender.sendMessage(VaultLoader.getMessage("punishments.time-unit-error"));
             return;
@@ -98,12 +97,12 @@ public class TempBanCommand extends CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Invalid punishment duration!");
             return;
         }
-
-        tempbanPlayer(sender, victim, reason, silent, expiry);
+        tempmutePlayer(sender, victim, VaultLoader.getMessage("punishments.default-reason"),
+                silent, expiry);
     }
 
-    @SubCommand("banSilentReason")
-    public void banSilentReason(VLCommandSender sender, VLOfflinePlayer victim, int time, String unit, boolean silent, String reason) {
+    @SubCommand("muteSilentReason")
+    public void muteSilentReason(VLCommandSender sender, VLOfflinePlayer victim, int time, String unit, boolean silent, String reason) {
         if (!VaultCore.getInstance().getConfig().contains("time-units." + unit)) {
             sender.sendMessage(VaultLoader.getMessage("punishments.time-unit-error"));
             return;
@@ -113,39 +112,31 @@ public class TempBanCommand extends CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Invalid punishment duration!");
             return;
         }
-
-        tempbanPlayer(sender, victim, reason, silent, expiry);
+        tempmutePlayer(sender, victim, reason,
+                silent, expiry);
     }
 
-    private void tempbanPlayer(VLCommandSender actor, VLOfflinePlayer victim, String reason, boolean silent, long expiry) {
-        // FileConfiguration data = Main.getInstance().getData();
-        // expiry *= 1000;
-
+    private void tempmutePlayer(VLCommandSender actor, VLOfflinePlayer victim, String reason, boolean silent, long expiry) {
         if (Bukkit.getPlayer(victim.getUniqueId()) != null) {
-            Bukkit.getPlayer(victim.getUniqueId()).kickPlayer(VaultLoader.getMessage("punishments.tempban.disconnect")
-                    .replace("{ACTOR}", actor.getName())
+            Bukkit.getPlayer(victim.getUniqueId()).sendMessage(VaultLoader.getMessage("punishments.tempmute.message")
+                    .replace("{ACTOR}", actor.getFormattedName())
                     .replace("{REASON}", reason)
+                    .replace("{PLAYER}", victim.getFormattedName())
                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
         }
+        // expiry *= 1000;
 
-        PunishmentsDB.registerData("tempbans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
-                true, reason, PunishmentUtils.currentTime() + expiry, actor.getName()));
+        PunishmentsDB.registerData("iptempmutes", new PunishmentsDB.PunishmentData(IpBanCommand.getPlayerIp(victim), true, reason,
+                PunishmentUtils.currentTime() + expiry, actor.getName()));
 
-        /*
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.status", true);
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.reason", reason);
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.expire", PunishmentUtils.currentTime() + expiry);
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.actor", actor.getName());  // Intended
-        Main.getInstance().saveConfig();
-         */
-        actor.sendMessage(VaultLoader.getMessage("punishments.tempban.sent").replace("{PLAYER}", victim.getFormattedName()));
+        actor.sendMessage(VaultLoader.getMessage("punishments.tempmute.sent").replace("{PLAYER}", victim.getFormattedName()));
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentNotify)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
-                            VaultLoader.getMessage("punishments.tempban.announcement")
-                                    .replace("{ACTOR}", actor.getName())
+                            VaultLoader.getMessage("punishments.tempmute.announcement")
+                                    .replace("{ACTOR}", actor.getFormattedName())
                                     .replace("{REASON}", reason)
                                     .replace("{PLAYER}", victim.getFormattedName())
                                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
@@ -154,8 +145,8 @@ public class TempBanCommand extends CommandExecutor {
         } else {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(
-                        VaultLoader.getMessage("punishments.tempban.announcement")
-                                .replace("{ACTOR}", actor.getName())
+                        VaultLoader.getMessage("punishments.tempmute.announcement")
+                                .replace("{ACTOR}", actor.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName())
                                 .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));

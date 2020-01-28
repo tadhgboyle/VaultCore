@@ -16,16 +16,14 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.staff.punishments.mute;
+package net.vaultmc.vaultcore.commands.staff.punishments.mute;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentUtils;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.staff.punishments.ban.IpBanCommand;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.commands.arguments.custom.OfflinePlayerArgument;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -38,23 +36,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RootCommand(
-        literal = "iptempmute",
-        description = "Disallows a player from chatting, using signs and executing some commands temporarily. (By IP)"
+        literal = "tempmute",
+        description = "Disallows a player from chatting, using signs and executing some commands temporarily."
 )
-@Permission(Permissions.IPTempMuteCommand)
-public class IpTempMuteCommand extends CommandExecutor {
-    public IpTempMuteCommand() {
+@Permission(Permissions.TempMuteCommand)
+public class TempMuteCommand extends CommandExecutor {
+    public TempMuteCommand() {
         register("mute", Arrays.asList(
-                Arguments.createArgument("player", OfflinePlayerArgument.player()),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word())));
         register("muteSilent", Arrays.asList(
-                Arguments.createArgument("player", OfflinePlayerArgument.player()),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word()),
                 Arguments.createArgument("silent", Arguments.boolArgument())));
         register("muteSilentReason", Arrays.asList(
-                Arguments.createArgument("player", OfflinePlayerArgument.player()),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("time", Arguments.integerArgument(1)),
                 Arguments.createArgument("unit", Arguments.word()),
                 Arguments.createArgument("silent", Arguments.boolArgument()),
@@ -124,9 +122,8 @@ public class IpTempMuteCommand extends CommandExecutor {
                     .replace("{PLAYER}", victim.getFormattedName())
                     .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
         }
-        // expiry *= 1000;
 
-        PunishmentsDB.registerData("iptempmutes", new PunishmentsDB.PunishmentData(IpBanCommand.getPlayerIp(victim), true, reason,
+        PunishmentsDB.registerData("tempmutes", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), true, reason,
                 PunishmentUtils.currentTime() + expiry, actor.getName()));
 
         actor.sendMessage(VaultLoader.getMessage("punishments.tempmute.sent").replace("{PLAYER}", victim.getFormattedName()));

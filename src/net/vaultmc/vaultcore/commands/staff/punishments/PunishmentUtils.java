@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.staff.punishments;
+package net.vaultmc.vaultcore.commands.staff.punishments;
 
 public class PunishmentUtils {
     private PunishmentUtils() {

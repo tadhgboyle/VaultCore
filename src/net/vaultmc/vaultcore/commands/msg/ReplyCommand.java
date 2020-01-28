@@ -28,24 +28,22 @@ public class ReplyCommand extends CommandExecutor {
 			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.player_disabled_messaging"));
 			return;
 		}
-		if (MsgCommand.getReplies().containsKey(player.getUniqueId())) {
-			player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-					player.getFormattedName(), target.getFormattedName(), message));
-			target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-					player.getFormattedName(), target.getFormattedName(), message));
+		player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+				player.getFormattedName(), target.getFormattedName(), message));
+		target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+				player.getFormattedName(), target.getFormattedName(), message));
 
-			for (VLPlayer socialspy : SocialSpyCommand.toggled) {
-				if (!socialspy.getFormattedName().equals(player.getFormattedName())
-						&& !socialspy.getFormattedName().equals(target.getFormattedName())) {
-					socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
-							+ Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-							player.getFormattedName(), target.getFormattedName(), message));
-				}
-
+		for (VLPlayer socialspy : SocialSpyCommand.toggled) {
+			if (socialspy.getFormattedName().equals(player.getFormattedName())
+					|| socialspy.getFormattedName().equals(target.getFormattedName())) {
+				continue;
+			} else {
+				socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
+						+ Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+								player.getFormattedName(), target.getFormattedName(), message));
 			}
-			MsgCommand.getReplies().put(player.getUniqueId(), target.getUniqueId());
-		} else {
-			player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
+
 		}
+		MsgCommand.getReplies().put(player.getUniqueId(), target.getUniqueId());
 	}
 }
