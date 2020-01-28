@@ -137,15 +137,15 @@ public class Nametags implements Listener, Runnable {
                 ClientboundSetPlayerTeamPacket join = new ClientboundSetPlayerTeamPacket(team, Collections.singletonList(p.getName()), 3);  // Joins the team
                 ClientboundSetPlayerTeamPacket leave = new ClientboundSetPlayerTeamPacket(team, Collections.singletonList(p.getName()), 4);  // Leaves the team
 
-                entityPlayer.playerConnection.sendPacket(leave);
-                entityPlayer.playerConnection.sendPacket(remove);
-                entityPlayer.playerConnection.sendPacket(create);
-                entityPlayer.playerConnection.sendPacket(join);
+                entityPlayer.connection.send(leave);
+                entityPlayer.connection.send(remove);
+                entityPlayer.connection.send(create);
+                entityPlayer.connection.send(join);
 
-                nmsPlayer.playerConnection.sendPacket(leave);
-                nmsPlayer.playerConnection.sendPacket(remove);
-                nmsPlayer.playerConnection.sendPacket(create);
-                nmsPlayer.playerConnection.sendPacket(join);
+                nmsPlayer.connection.send(leave);
+                nmsPlayer.connection.send(remove);
+                nmsPlayer.connection.send(create);
+                nmsPlayer.connection.send(join);
             } catch (NullPointerException ex) {
                 // Ignore
             }

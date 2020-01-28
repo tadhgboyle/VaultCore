@@ -37,7 +37,6 @@ public class MsgCommand extends CommandExecutor {
         if (!target.getDataConfig().getBoolean("settings.msg")) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.player_disabled_messaging"));
         } else {
-
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
                     player.getFormattedName(), target.getFormattedName(), message));
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),

@@ -1,16 +1,15 @@
 package net.vaultmc.vaultcore;
 
+import net.vaultmc.vaultloader.VaultLoader;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
-
-import net.vaultmc.vaultloader.VaultLoader;
 
 public class Utilities {
 
@@ -19,24 +18,24 @@ public class Utilities {
 	public static String variable2 = VaultLoader.getMessage("colours.variable2");
 
 	/**
-	 * @author Aberdeener
 	 * @param message - Message from
-	 *                {@link net.vaultmc.vaultloader.VaultLoader#getMessage()}
+	 *                {@link net.vaultmc.vaultloader.VaultLoader#getMessage(String)}
 	 * @param objects - The variables you wish to insert to the message.
 	 * @return Compiled message
+	 * @author Aberdeener
 	 */
-	public static String formatMessage(String message, String... objects) {
+	public static String formatMessage(String message, Object... objects) {
 		int num = 0;
 		StringBuilder sb = new StringBuilder();
 		for (String s : message.split(" ")) {
 			if (s.matches(".*?\\{.*?}.*")) {
 				String before = StringUtils.substringBefore(s, "{");
 				String after = s.substring(s.lastIndexOf("}") + 1);
-				s = objects[num];
-				sb.append(before + s + after + " ");
+				s = objects[num].toString();
+				sb.append(before).append(s).append(after).append(" ");
 				num++;
 			} else {
-				sb.append(s + " ");
+				sb.append(s).append(" ");
 			}
 		}
 		return sb.toString();

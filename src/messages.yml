@@ -229,8 +229,6 @@ vaultcore:
     staffchat:
       format: "&8[&cSC&8] {SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
-    staffchat:
-      toggle: "&eYou have toggled socialspy &6{TOGGLE}&e."
     tag:
       self_error: "&cYou can't tag yourself."
       add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
@@ -269,9 +267,12 @@ vaultcore:
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."
       target_error: "&cUse /tphere or /tp to do that."
+      player_to_location: "&eTeleported yourself to &6{X}, {Y}, {Z}&e."
       player_to_player_sender: "&eYou have teleported {TARGET1}&e to {TARGET2}&e."
       player_to_player_target: "{SENDER}&e has teleported you to {TARGET}&e."
       player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."
+      player_to_location_sender: "&eTeleported &6{PLAYER}&e to &6{X}, {Y}, {Z}&e."
+      player_to_location_target: "&6{PLAYER}&e teleported you to &6{X}, {Y}, {Z}&e."
     worldtp:
       never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
       teleported: "&eTeleported you to the &6{WORLD}&e world."

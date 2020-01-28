@@ -1,20 +1,15 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.UUID;
 
 @RootCommand(literal = "tpdeny", description = "Deny a teleport request from a player.")
 @Permission(Permissions.TPACommand)

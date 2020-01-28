@@ -36,21 +36,19 @@ public class TagCommand extends CommandExecutor {
 	@SneakyThrows
 	@SubCommand("tagAdd")
 	public void tagAdd(VLPlayer executor, VLOfflinePlayer target, String content) {
-		if (target == executor) {
-			executor.sendMessage(VaultLoader.getMessage("vaultcore.commands.tag.self_error"));
-			return;
-		}
+        if (target == executor) {
+            executor.sendMessage(VaultLoader.getMessage("vaultcore.commands.tag.self_error"));
+            return;
+        }
 
-		if (!target.isOnline()) {
-			if (target.getFirstPlayed() == 0L) {
-				executor.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
-				return;
-			}
-			tagAddQuery(executor, target, content);
-		} else {
-			tagAddQuery(executor, target, content);
-		}
-	}
+        if (!target.isOnline()) {
+            if (target.getFirstPlayed() == 0L) {
+                executor.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
+                return;
+            }
+        }
+        tagAddQuery(executor, target, content);
+    }
 
 	@SneakyThrows
 	private void tagAddQuery(VLPlayer author, VLOfflinePlayer target, String content) {

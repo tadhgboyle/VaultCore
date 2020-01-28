@@ -1,28 +1,22 @@
 package net.vaultmc.vaultcore.commands.worldtp;
 
-import java.util.Collections;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
+import java.util.Collections;
 
 @RootCommand(literal = "sv", description = "Teleport to the Survival world.")
 @Permission(Permissions.WorldTPCommandSurvival)
 @PlayerOnly
 public class SVCommand extends CommandExecutor {
-
-	public SVCommand() {
-		register("sv", Collections.emptyList());
-	}
+    public SVCommand() {
+        register("sv", Collections.emptyList());
+    }
 
     @SubCommand("sv")
     public void sv(VLPlayer player) {
@@ -32,8 +26,8 @@ public class SVCommand extends CommandExecutor {
             player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());
         } else {
             player.teleport(sv);
-			player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
-					"Survival"));
+            player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
+                    "Survival"));
         }
     }
 }

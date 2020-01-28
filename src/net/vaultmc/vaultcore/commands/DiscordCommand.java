@@ -13,7 +13,6 @@ import java.util.Collections;
 @Permission(Permissions.DiscordCommand)
 @PlayerOnly
 public class DiscordCommand extends CommandExecutor {
-
 	public DiscordCommand() {
 		this.register("discord", Collections.emptyList());
 	}
