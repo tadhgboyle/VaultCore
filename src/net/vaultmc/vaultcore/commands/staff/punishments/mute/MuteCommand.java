@@ -16,11 +16,10 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.staff.punishments.mute;
+package net.vaultmc.vaultcore.commands.staff.punishments.mute;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.staff.punishments.ban.IpBanCommand;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -32,12 +31,12 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @RootCommand(
-        literal = "ipmute",
-        description = "Disallows a player from chatting, using signs and executing some commands permanently. (By IP)"
+        literal = "mute",
+        description = "Disallows a player from chatting, using signs and executing some commands permanently."
 )
-@Permission(Permissions.MuteChatCommand)
-public class IpMuteCommand extends CommandExecutor {
-    public IpMuteCommand() {
+@Permission(Permissions.MuteCommand)
+public class MuteCommand extends CommandExecutor {
+    public MuteCommand() {
         register("mute", Collections.singletonList(
                 Arguments.createArgument("player", Arguments.offlinePlayerArgument())
         ));
@@ -74,7 +73,7 @@ public class IpMuteCommand extends CommandExecutor {
                     .replace("{REASON}", reason));
         }
 
-        PunishmentsDB.registerData("ipmutes", new PunishmentsDB.PunishmentData(IpBanCommand.getPlayerIp(victim), true, reason, -1, actor.getName()));
+        PunishmentsDB.registerData("mutes", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), true, reason, -1, actor.getName()));
 
         actor.sendMessage(VaultLoader.getMessage("punishments.mute.sent").replace("{PLAYER}", victim.getFormattedName()));
 

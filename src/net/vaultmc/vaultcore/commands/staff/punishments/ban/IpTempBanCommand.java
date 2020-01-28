@@ -16,12 +16,12 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.staff.punishments.ban;
+package net.vaultmc.vaultcore.commands.staff.punishments.ban;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentUtils;
-import net.vaultmc.vaultcore.staff.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
