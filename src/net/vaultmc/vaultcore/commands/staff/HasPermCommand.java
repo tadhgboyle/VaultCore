@@ -32,14 +32,9 @@ public class HasPermCommand extends CommandExecutor {
 	@SubCommand("hasPermSelf")
 	@PlayerOnly
 	public void hasPermSelf(VLPlayer sender, String permission) {
-		String status = null;
-		if (sender.hasPermission(permission)) {
-			status = ChatColor.GREEN + "have";
-		} else {
-			status = ChatColor.RED + "don't have";
-		}
-		sender.sendMessage(
-				Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.hasperm.self"), status, permission));
+		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.hasperm.self"),
+				(sender.hasPermission(permission)) ? ChatColor.GREEN + "have" : ChatColor.RED + "dont' have",
+				permission));
 	}
 
 	@SubCommand("hasPermOther")
@@ -49,13 +44,9 @@ public class HasPermCommand extends CommandExecutor {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
 			return;
 		}
-		String status = null;
-		if (target.hasPermission(permission)) {
-			status = ChatColor.GREEN + "has";
-		} else {
-			status = ChatColor.RED + "doesn't have";
-		}
 		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.hasperm.other"),
-				target.getFormattedName(), status, permission));
+				target.getFormattedName(),
+				(target.hasPermission(permission)) ? ChatColor.GREEN + "has" : ChatColor.RED + "doesn't have",
+				permission));
 	}
 }

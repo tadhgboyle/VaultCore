@@ -174,14 +174,6 @@ public class ModMode extends CommandExecutor implements Listener, Runnable {
                                     ChatColor.GRAY + "Toggles invisibility."
                             )).build());
                 }
-
-                inv.setItem(7, new ItemStackBuilder(Material.ARROW)
-                        .name(ChatColor.GOLD + "CPS Test")
-                        .lore(Arrays.asList(
-                                "",
-                                ChatColor.GRAY + "Runs a CPS test for 10 seconds",
-                                ChatColor.GRAY + "on the targeted player."
-                        )).build());
             }
         }
     }

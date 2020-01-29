@@ -1,15 +1,22 @@
 package net.vaultmc.vaultcore.commands.teleport;
 
+import java.util.Collections;
+
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.Aliases;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-
-import java.util.Collections;
 
 @RootCommand(literal = "tphere", description = "Teleport a player to you.")
 @Permission(Permissions.TeleportCommandHere)
+@Aliases("tph")
 @PlayerOnly
 public class TPHereCommand extends CommandExecutor {
     public TPHereCommand() {

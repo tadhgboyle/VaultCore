@@ -25,7 +25,7 @@ import net.vaultmc.vaultcore.commands.teleport.*;
 import net.vaultmc.vaultcore.commands.worldtp.CRCommand;
 import net.vaultmc.vaultcore.commands.worldtp.SVCommand;
 import net.vaultmc.vaultcore.listeners.*;
-import net.vaultmc.vaultcore.ported.inventory.InventoryStorageListeners;
+import net.vaultmc.vaultcore.listeners.inventory.InventoryStorageListeners;
 import net.vaultmc.vaultcore.survival.SleepHandler;
 
 public class Registry {
@@ -46,11 +46,11 @@ public class Registry {
 		new BackCommand();
 		new DiscordCommand();
 		new PingCommand();
-		new PlayTime();
+		new PlayTimeCommand();
 		new RanksCommand();
 		new SeenCommand();
 		new TokenCommand();
-		new WildTeleport();
+		new WildTeleportCommand();
 		new GrantCommand();
 		new GameModeCommand();
 		new GMCreativeCommand();
