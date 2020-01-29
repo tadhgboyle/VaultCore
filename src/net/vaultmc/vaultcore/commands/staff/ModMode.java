@@ -38,7 +38,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.ported.report.Report;
+import net.vaultmc.vaultcore.commands.report.Report;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.commands.Aliases;

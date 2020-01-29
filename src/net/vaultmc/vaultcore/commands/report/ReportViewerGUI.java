@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.report;
+package net.vaultmc.vaultcore.commands.report;
 
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;

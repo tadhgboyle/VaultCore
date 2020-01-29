@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.report;
+package net.vaultmc.vaultcore.commands.report;
 
 import lombok.Getter;
 import lombok.Setter;

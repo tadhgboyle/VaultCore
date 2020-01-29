@@ -150,10 +150,13 @@ vaultcore:
   console_only: "&cThat command can only be run by Console."
   listeners:
     joinquit:
-      new_player: "&eWelcome {PLAYER}&e to VaultMC! (&6#{COUNT}&e)"
+      new_player: "&eWelcome {PLAYER}&e to VaultMC! (&2#{COUNT}&e)"
       event_message: "{PLAYER}&e has {EVENT}&e."
   runnables:
     rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
+  survival:
+    time_set_day: "&eThe night has passed in &6Survival&e."
+    players_needed: "&eOnly &2{PLAYERS}&e needed to skip the night in Survival."
   commands:
     back:
       success: "&eYou have been teleported to your previous location."

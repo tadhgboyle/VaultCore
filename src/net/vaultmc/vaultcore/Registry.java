@@ -20,6 +20,8 @@ import net.vaultmc.vaultcore.commands.economy.TransferCommand;
 import net.vaultmc.vaultcore.commands.msg.MsgCommand;
 import net.vaultmc.vaultcore.commands.msg.ReplyCommand;
 import net.vaultmc.vaultcore.commands.msg.SocialSpyCommand;
+import net.vaultmc.vaultcore.commands.report.ReportCommand;
+import net.vaultmc.vaultcore.commands.report.ReportsCommand;
 import net.vaultmc.vaultcore.commands.settings.SettingsCommand;
 import net.vaultmc.vaultcore.commands.settings.SettingsListener;
 import net.vaultmc.vaultcore.commands.staff.BrandCommand;
@@ -74,8 +76,6 @@ import net.vaultmc.vaultcore.listeners.ShutDownListener;
 import net.vaultmc.vaultcore.listeners.SignColours;
 import net.vaultmc.vaultcore.listeners.VanishListeners;
 import net.vaultmc.vaultcore.ported.inventory.InventoryStorageListeners;
-import net.vaultmc.vaultcore.ported.report.ReportCommand;
-import net.vaultmc.vaultcore.ported.report.ReportsCommand;
 
 public class Registry {
 	private static final VaultCore vault = VaultCore.getInstance();
@@ -121,7 +121,6 @@ public class Registry {
 		new StatsCommand();
 		new ListCommand();
 		new SocialSpyCommand();
-		
         new ModMode();
         new ReportCommand();
         new ReportsCommand();
@@ -129,7 +128,6 @@ public class Registry {
         new ChatUtils();
         new EconomyCommand();
         new MoneyCommand();
-        
         new TimeCommand();
         new TransferCommand();
         new VanishCommand();
@@ -138,20 +136,15 @@ public class Registry {
         new GameModeListeners();
         new WeatherCommand();
         new HelpCommand();
-        
         new BrandCommand();
-        
         new KickCommand();
         new BanCommand();
-        
         new MuteCommand();
         new UnbanCommand();
         new IpBanCommand();
-        
         new IpTempBanCommand();
         new IpMuteCommand();
         new IpTempMuteCommand();
-        
         new UnmuteCommand();
         new TempBanCommand();
         new TempMuteCommand();
@@ -167,5 +160,8 @@ public class Registry {
 		vault.registerEvents(new ShutDownListener());
         vault.registerEvents(new BannedListener());
         vault.registerEvents(new MutedListener());
+        /*
+        vault.registerEvents(new SleepHandler());
+        */
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import net.vaultmc.vaultcore.Permissions;
@@ -40,50 +41,58 @@ public class ListCommand extends CommandExecutor {
 		} else {
 			for (Player players : Bukkit.getOnlinePlayers()) {
 				VLPlayer player = VLPlayer.getPlayer(players);
+				String vanished = "";
+				if (!(sender instanceof ConsoleCommandSender)) {
+					if (!((VLPlayer) sender).hasPermission(Permissions.VanishCommand) && player.isVanished()) {
+						continue;
+					} else if (player.isVanished() && ((VLPlayer) sender).hasPermission(Permissions.VanishCommand)) {
+						vanished = ChatColor.GRAY + "" + ChatColor.ITALIC + " [VANISHED]";
+					}
+				}
 				String rank = player.getGroup();
 				switch (rank) {
 				case "admin":
-					admin.add(player.getName());
+					admin.add(player.getName() + vanished);
 					break;
 				case "moderator":
-					moderator.add(player.getName());
+					moderator.add(player.getName() + vanished);
 					break;
 				case "trusted":
-					trusted.add(player.getName());
+					trusted.add(player.getName() + vanished);
 					break;
 				case "patreon":
-					patreon.add(player.getName());
+					patreon.add(player.getName() + vanished);
 					break;
 				case "member":
-					member.add(player.getName());
+					member.add(player.getName() + vanished);
 					break;
 				default:
-					defaults.add(player.getName());
+					defaults.add(player.getName() + vanished);
 					break;
 				}
 			}
-			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.header"));
-			// todo with messages.yml
-			if (!admin.isEmpty())
-				sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.YELLOW + listToString(admin));
-			if (!moderator.isEmpty())
-				sender.sendMessage(ChatColor.DARK_AQUA + "Moderators: " + ChatColor.YELLOW + listToString(moderator));
-			if (!trusted.isEmpty())
-				sender.sendMessage(ChatColor.AQUA + "Trusted: " + ChatColor.YELLOW + listToString(trusted));
-			if (!patreon.isEmpty())
-				sender.sendMessage(ChatColor.WHITE + "Patreons: " + ChatColor.YELLOW + listToString(patreon));
-			if (!member.isEmpty())
-				sender.sendMessage(ChatColor.GRAY + "Members: " + ChatColor.YELLOW + listToString(admin));
-			if (!defaults.isEmpty())
-				sender.sendMessage(ChatColor.DARK_GRAY + "Defaults: " + ChatColor.YELLOW + listToString(defaults));
-
-			admin.clear();
-			moderator.clear();
-			trusted.clear();
-			patreon.clear();
-			member.clear();
-			defaults.clear();
 		}
+		sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.header"));
+		// todo with messages.yml
+		if (!admin.isEmpty())
+			sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.YELLOW + listToString(admin));
+		if (!moderator.isEmpty())
+			sender.sendMessage(ChatColor.DARK_AQUA + "Moderators: " + ChatColor.YELLOW + listToString(moderator));
+		if (!trusted.isEmpty())
+			sender.sendMessage(ChatColor.AQUA + "Trusted: " + ChatColor.YELLOW + listToString(trusted));
+		if (!patreon.isEmpty())
+			sender.sendMessage(ChatColor.WHITE + "Patreons: " + ChatColor.YELLOW + listToString(patreon));
+		if (!member.isEmpty())
+			sender.sendMessage(ChatColor.GRAY + "Members: " + ChatColor.YELLOW + listToString(member));
+		if (!defaults.isEmpty())
+			sender.sendMessage(ChatColor.DARK_GRAY + "Defaults: " + ChatColor.YELLOW + listToString(defaults));
+
+		admin.clear();
+		moderator.clear();
+		trusted.clear();
+		patreon.clear();
+		member.clear();
+		defaults.clear();
 	}
 
 	private String listToString(List<String> from) {

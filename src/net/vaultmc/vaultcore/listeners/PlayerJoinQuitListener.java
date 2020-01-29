@@ -79,11 +79,12 @@ public class PlayerJoinQuitListener implements Listener {
 		long lastseen = System.currentTimeMillis();
 		long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 		String rank = VaultCore.getChat().getPrimaryGroup(player);
+		String ip = player.getAddress().getAddress().getHostAddress();
 
 		quit.setQuitMessage(
 				Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
 						player.getDisplayName(), ChatColor.RED + "left"));
-		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, "");
+		playerDataQuery(uuid, "", 0, lastseen, playtime, rank, ip);
 	}
 
 	@SneakyThrows
@@ -91,7 +92,7 @@ public class PlayerJoinQuitListener implements Listener {
 			String rank, String ip) {
 		database.executeUpdateStatement(
 				"INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
-						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=? ip=?",
+						+ "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, lastseen=?, playtime=?, rank=?, ip=?",
 				uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, lastseen, playtime, rank, ip);
 	}
 
