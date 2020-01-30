@@ -32,23 +32,29 @@ public class SeenCommand extends CommandExecutor {
 	@SubCommand("seen")
 	public void seen(VLCommandSender sender, VLOfflinePlayer player) {
 		DBConnection database = VaultCore.getDatabase();
-		ResultSet rs = database.executeQueryStatement("SELECT lastseen FROM players WHERE username=?",
-				player.getName());
-		if (!rs.next()) {
-			sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
-			return;
-		}
-		long lastseen = rs.getLong("lastseen");
-		long currenttime = System.currentTimeMillis();
-		long duration = currenttime - lastseen;
-
-		String status;
-
+		long lastseen = 0;
+		String status = null;
 		if (player.isOnline()) {
-			status = ChatColor.GREEN + "online ";
+			ResultSet rs = database.executeQueryStatement("SELECT start_time FROM sessions WHERE username=? ORDER BY start_time DESC",
+					player.getName());
+			if (rs.next()) {
+				lastseen = rs.getLong("start_time");
+				status = ChatColor.GREEN + "online ";
+			}
+
 		} else {
+			ResultSet rs = database.executeQueryStatement("SELECT lastseen FROM players WHERE username=?",
+					player.getName());
+			if (!rs.next()) {
+				sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
+				return;
+			}
+			lastseen = rs.getLong("lastseen");
 			status = ChatColor.RED + "offline ";
 		}
+
+		long currenttime = System.currentTimeMillis();
+		long duration = currenttime - lastseen;
 
 		sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.seen"),
 				player.getFormattedName(), status, Utilities.millisToTime(duration)));
