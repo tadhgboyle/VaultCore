@@ -50,8 +50,8 @@ public class StatsCommand extends CommandExecutor {
 			return;
 		}
 		ResultSet stats = database.executeQueryStatement(
-				"SELECT COUNT(session_id) AS sessions, AVG(duration) AS duration FROM sessions WHERE username=?",
-				target.getName());
+				"SELECT COUNT(session_id) AS sessions, AVG(duration) AS duration FROM sessions WHERE uuid=?",
+				target.getUniqueId().toString());
 		if (!stats.next()) {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.stats.error"));
 			return;

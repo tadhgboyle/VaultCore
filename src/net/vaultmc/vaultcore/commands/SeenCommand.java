@@ -35,8 +35,8 @@ public class SeenCommand extends CommandExecutor {
 		long lastseen = 0;
 		String status = null;
 		if (player.isOnline()) {
-			ResultSet rs = database.executeQueryStatement("SELECT start_time FROM sessions WHERE username=? ORDER BY start_time DESC",
-					player.getName());
+			ResultSet rs = database.executeQueryStatement("SELECT start_time FROM sessions WHERE uuid=? ORDER BY start_time DESC",
+					player.getUniqueId().toString());
 			if (rs.next()) {
 				lastseen = rs.getLong("start_time");
 				status = ChatColor.GREEN + "online ";
