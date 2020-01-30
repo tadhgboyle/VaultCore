@@ -245,7 +245,7 @@ vaultcore:
     grant:
       no_permission: "&cYou don't have permission to use this rank."
       updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
-      updated_target: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
+      updated_player: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
     gamemode:
       self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
