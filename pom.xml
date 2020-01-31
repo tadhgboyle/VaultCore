@@ -4,7 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.vaultmc.vaultcore</groupId>
 	<artifactId>VaultCore</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-vanilla-SNAPSHOT</version>
+	
+	<distributionManagement>
+		<repository>
+			<id>vaultmc-repo</id>
+			<name>VaultMC Maven Repository</name>
+			<url>http://nexus.vaultmc.net/repository/vaultmc-artifacts/</url>
+		</repository>
+	</distributionManagement>
+	
 	<build>
 		<sourceDirectory>src/</sourceDirectory>
 		<finalName>VaultCore</finalName>
@@ -82,7 +91,7 @@
 		<dependency>
 			<groupId>net.vaultmc.vaultloader</groupId>
 			<artifactId>VaultLoader</artifactId>
-			<version>0.1</version>
+			<version>0.1-vanilla-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
