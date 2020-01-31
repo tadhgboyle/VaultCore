@@ -166,6 +166,7 @@ vaultcore:
     list:
       header: "&2--== [List] ==--"
       no_players_online: "&cThere are no players online."
+      player_vanished: "&7&o [VANISHED]"
     ping:
       self: "&eYour ping is &2{PING}&ems."
       other: "{TARGET}&e's ping is &2{PING}&ems."
