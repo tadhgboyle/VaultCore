@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.inventory;
+package net.vaultmc.vaultcore.listeners.inventory;
 
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;

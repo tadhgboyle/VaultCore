@@ -25,9 +25,9 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 @RootCommand(literal = "playtime", description = "Check yourself or other's play time.")
 @Permission(Permissions.PlayTime)
 @Aliases("pt")
-public class PlayTime extends CommandExecutor {
+public class PlayTimeCommand extends CommandExecutor {
 
-	public PlayTime() {
+	public PlayTimeCommand() {
 		register("playTimeSelf", Collections.emptyList());
 		register("playTimeOthers",
 				Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));

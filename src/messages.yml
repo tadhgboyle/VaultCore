@@ -166,6 +166,7 @@ vaultcore:
     list:
       header: "&2--== [List] ==--"
       no_players_online: "&cThere are no players online."
+      player_vanished: "&7&o [VANISHED]"
     ping:
       self: "&eYour ping is &2{PING}&ems."
       other: "{TARGET}&e's ping is &2{PING}&ems."
@@ -245,7 +246,7 @@ vaultcore:
     grant:
       no_permission: "&cYou don't have permission to use this rank."
       updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
-      updated_target: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
+      updated_player: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
     gamemode:
       self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."

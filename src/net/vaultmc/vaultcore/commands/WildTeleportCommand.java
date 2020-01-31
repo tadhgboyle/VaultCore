@@ -18,9 +18,9 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 @RootCommand(literal = "wild", description = "Teleport to a random location.")
 @Permission(Permissions.WildTeleport)
 @PlayerOnly
-public class WildTeleport extends CommandExecutor {
+public class WildTeleportCommand extends CommandExecutor {
 
-	public WildTeleport() {
+	public WildTeleportCommand() {
 		register("wild", Collections.emptyList());
 	}
 

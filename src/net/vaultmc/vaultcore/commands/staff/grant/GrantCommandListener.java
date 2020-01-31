@@ -44,7 +44,6 @@ public class GrantCommandListener implements Listener {
 						return;
 					}
 					Player target = Bukkit.getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
-					Bukkit.broadcastMessage(target.getDisplayName());
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 							"lp user " + target.getName() + " parent set " + rank);
 

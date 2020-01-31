@@ -16,7 +16,7 @@
  * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.vaultmc.vaultcore.ported.nametags;
+package net.vaultmc.vaultcore.runnables.nametags;
 
 import lombok.Getter;
 import net.minecraft.ChatFormatting;

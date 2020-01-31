@@ -34,7 +34,7 @@ public class CheckCommand extends CommandExecutor {
 	public void check(VLCommandSender sender, VLOfflinePlayer target) {
 		DBConnection database = VaultCore.getDatabase();
 		ResultSet rs = database.executeQueryStatement(
-				"SELECT uuid, username, firstseen, lastseen, rank, ip FROM players WHERE username=?", target.getName());
+				"SELECT uuid, username, firstseen, lastseen, rank, ip FROM players WHERE uuid=?", target.getUniqueId().toString());
 		if (!rs.next()) {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
 			return;

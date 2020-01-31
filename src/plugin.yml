@@ -5,5 +5,5 @@ version: 3.0.4
 description: The suite of tools created for the VaultMC server.
 website: https://www.vaultmc.net
 api-version: "1.15"
-depend: [Vault, VaultUtils]
+depend: [Vault]
 softdepend: [Multiverse-Core]
