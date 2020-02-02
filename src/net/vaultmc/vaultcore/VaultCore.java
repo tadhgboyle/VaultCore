@@ -1,7 +1,26 @@
 package net.vaultmc.vaultcore;
 
-import java.text.DecimalFormat;
-
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import lombok.Getter;
+import lombok.SneakyThrows;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.vaultmc.vaultcore.brand.BrandListener;
+import net.vaultmc.vaultcore.economy.EconomyImpl;
+import net.vaultmc.vaultcore.misc.runnables.PlayerNames;
+import net.vaultmc.vaultcore.misc.runnables.RankPromotions;
+import net.vaultmc.vaultcore.nametags.Nametags;
+import net.vaultmc.vaultcore.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.report.Report;
+import net.vaultmc.vaultcore.stats.Statistics;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.components.Component;
+import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
+import net.vaultmc.vaultloader.components.annotations.Version;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.configuration.Configuration;
+import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,33 +29,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
-import lombok.Getter;
-import lombok.SneakyThrows;
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.vaultmc.vaultcore.commands.economy.EconomyImpl;
-import net.vaultmc.vaultcore.commands.report.Report;
-import net.vaultmc.vaultcore.commands.staff.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.listeners.BrandListener;
-import net.vaultmc.vaultcore.runnables.PlayerNames;
-import net.vaultmc.vaultcore.runnables.RankPromotions;
-import net.vaultmc.vaultcore.runnables.Statistics;
-import net.vaultmc.vaultcore.runnables.nametags.Nametags;
-import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.components.Component;
-import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
-import net.vaultmc.vaultloader.components.annotations.Version;
-import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.configuration.Configuration;
-import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
+import java.text.DecimalFormat;
 
 @ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
         "Aberdeener", "yangyang200", "2xjtn"})
 @Version(major = 3, minor = 0, revision = 4)
-public class VaultCore extends Component implements Listener {
+public final class VaultCore extends Component implements Listener {
     public static final DecimalFormat numberFormat = new DecimalFormat("###,###.###");
     @Getter
     public static VaultCore instance;
@@ -72,7 +70,7 @@ public class VaultCore extends Component implements Listener {
     public static Chat getChat() {
         return chat;
     }
-    
+
     @Override
     public void onStartingReloaded() {
         isReloaded = true;

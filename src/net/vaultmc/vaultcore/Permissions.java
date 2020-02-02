@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore;
 
-public class Permissions {
-    // string name same as class for easy reference
+public final class Permissions {
     public static final String BackCommand = "vaultcore.back";
     public static final String DiscordCommand = "vaultcore.discord";
     public static final String MsgCommand = "vaultcore.msg";
@@ -39,7 +38,6 @@ public class Permissions {
     public static final String MuteChatCommandOverride = "vaultcore.mutechat.override";
     public static final String StaffChatCommand = "vaultcore.staffchat";
     public static final String TeleportCommand = "vaultcore.teleport";
-    public static final String TeleportCommandOther = "vaultcore.teleport.other";
     public static final String TeleportCommandHere = "vaultcore.teleport.here";
     public static final String GrantCommandMod = "vaultcore.grant.mod";
     public static final String GrantCommandAdmin = "vaultcore.grant.admin";
@@ -67,15 +65,9 @@ public class Permissions {
     public static final String BanCommand = "vaultcore.punishments.ban";
     public static final String KickCommand = "vaultcore.punishments.kick";
     public static final String MuteCommand = "vaultcore.punishments.mute";
-    public static final String IPBanCommand = "vaultcore.punishments.ipban";
-    public static final String UnbanCommand = "vaultcore.punishments.unban";
-    public static final String IPTempBanCommand = "vaultcore.punishments.tempipban";
-    public static final String IPMuteCommand = "vaultcore.punishments.ipmute";
-    public static final String IPTempMuteCommand = "vaultcore.punishments.tempipmute";
-    public static final String UnmuteCommand = "vaultcore.punishments.unmute";
-    public static final String TempBanCommand = "vaultcore.punishments.tempban";
-    public static final String TempMuteCommand = "vaultcore.punishments.tempmute";
     public static final String PunishmentNotify = "vaultcore.punishments.notify";
+    public static final String ChatColor = "vaultcore.chat.color";
 
-
+    private Permissions() {
+    }
 }
