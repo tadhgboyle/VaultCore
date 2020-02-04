@@ -139,6 +139,7 @@ vanish:
   player-state: "&eYou are now &6{STATE}&e."
   visible: "visible"
   invisible: "invisible"
+  staff_message: "{SENDER}&e has &6{STATE}&e."
   others-state: "&6{PLAYER}&e is now &6{STATE}&e."
 
 # VaultUtils end
@@ -232,7 +233,8 @@ vaultcore:
       sender: "&eYou have &6{STATUS}&e the chat."
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
     staffchat:
-      format: "&8[&cSC&8] {SENDER}&8: &b{MESSAGE}"
+      prefix: "&8[&cSC&8]"
+      format: "{SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
     tag:
       self_error: "&cYou can't tag yourself."
