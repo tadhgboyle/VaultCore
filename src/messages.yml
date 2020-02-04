@@ -165,23 +165,18 @@ tour:
       # TODO /claim
       text-survival: |-
         &6&lSurvival
-        &eSurvival has been a huge part of VaultMC's gameplay since its
-        &ebeginning. It's about generally having fun exploring and creating.
-
-        &eWhile in survival, you can use &6/claim&e to claim a chunk of land
-        &eas yours. You can also use &6/claim add <player>&e and &6/claim
-        &6remove <player>&e to allow/disallow players from interacting within your claim.
-
-        &eWe know sleeping could be a problem while surviving. For your
-        &econvinence, if half (or above) of the player slept, the night
-        &ewill be skipped.
+        &eSurvival has been a huge part of VaultMC's gameplay since its beginning. It's about generally having fun exploring and creating.
+        &a-
+        &eWhile in survival, you can use &6/claim&e to claim a chunk of land as yours. You can also use &6/claim add <player>&e and &6/claim remove <player>&e to allow/disallow players from interacting within your claim.
+        &a-
+        &eWe know sleeping could be a problem while surviving. For your convinence, if half (or above) of the player slept, the night will be skipped.
 
       text-clans: |-
         &6&lClans
         &eClans is generally Factions that you play on most of the servers, however it is simplified to make it easier to understand.
-
+        &a-
         &eTo get started in Clans, you can use &6/c create <clan>&e to create a clan, much like creating a Faction. You can also use &6/c join <clan>&e to join an existing clan.
-
+        &a-
         &eFor more information on Clans, you can visit
         &ehttps://github.com/VaultMC/VaultClans/wiki/Introduction-to-the-clans-gameplay.
 
@@ -200,8 +195,8 @@ tour:
       &6&lAn accident
       &eExactly one week later we (accidentally) launched for the world.
       &eWe had a strong month of 5-10 players online at all times, but unfortunately due to lack of management, staff and general disagreements we closed our doors.
-
-      &e(You may turn now)
+      &a-
+      &e(You can turn now)
 
     # Exactly redstoner history about lack of management, staff and general disagreements.
 
@@ -209,7 +204,7 @@ tour:
       &6&lA new start
       &eIt remained that way until August 2019. After a lengthy break, we were ready to give it another shot.
       &eSince then we have been adding rewriting nearly all the plugins to our custom suite, developing new game modes and expanding our network to include multiple servers.
-
+      &a-
       &e(You can still turn)
 
     the-rise-of-vaultmc: "Unused. Will add when VaultMC reaches 100+ online players at a time."
@@ -298,14 +293,14 @@ vaultcore:
       other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
     invsee:
       self_error: "&cPress e to open your own inventory."
-      excempt_error: "&cYou dont have permission to open this person's inventory."
+      excempt_error: "&cYou don't have permission to open this person's inventory."
     mute_chat:
       sender: "&eYou have &6{STATUS}&e the chat."
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
     staffchat:
       prefix: "&8[&cSC&8]"
       format: "{SENDER}&8: &b{MESSAGE}"
-      toggle: "&eYou have toggled staffchat &6{TOGGLE}&e."
+      toggle: "&eYou have toggled staff chat &6{TOGGLE}&e."
     tag:
       self_error: "&cYou can't tag yourself."
       add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
@@ -353,4 +348,14 @@ vaultcore:
     worldtp:
       never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
       teleported: "&eTeleported you to the &6{WORLD}&e world."
-        
+    claim:
+      must-be-in-survival: "&eYou must be in the &6Survival&e world to do this."
+      already-claimed: "&cThis chunk is already claimed!"
+      claimed: "&eYou claimed &6{X}, {Z}&e!"
+      unclaimed: "&eYou unclaimed &6{X}, {Z}&e!"
+      cannot-interact: "&cYou can't interact here!"
+      already-allowed: "&cThis player is already allowed!"
+      allowed: "&eAllowed &6{PLAYER}&e to interact inside your claim!"
+      removed: "&eNo longer allowing &6{PLAYER}&e to interact inside your claim."
+      not-allowed: "&cThis player couldn't interact in your claim right now!"
+      not-claimed: "&cYou hadn't claimed this chunk yet!"

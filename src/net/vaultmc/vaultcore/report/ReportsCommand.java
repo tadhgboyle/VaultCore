@@ -28,7 +28,7 @@ import java.util.Collections;
         literal = "reports",
         description = "Views currently available reports."
 )
-@Permission(Permissions.ReportsCommad)
+@Permission(Permissions.ReportsCommand)
 @PlayerOnly
 public class ReportsCommand extends CommandExecutor {
     public ReportsCommand() {

@@ -51,7 +51,7 @@ public final class Permissions {
     public static final String SocialSpyCommand = "vaultcore.socialspy";
     public static final String ModMode = "vaultcore.modmode";
     public static final String ReportCommand = "vaultcore.report";
-    public static final String ReportsCommad = "vaultcore.report.view";
+    public static final String ReportsCommand = "vaultcore.report.view";
     public static final String AFKCommand = "vaultcore.afk";
     public static final String AFKCommandOther = "vaultcore.afk.other";
     public static final String EconomyCommand = "vaultcore.economy";
@@ -68,7 +68,7 @@ public final class Permissions {
     public static final String PunishmentNotify = "vaultcore.punishments.notify";
     public static final String ChatColor = "vaultcore.chat.color";
     public static final String Tour = "vaultcore.tour";
-    public static final String TourAdmin = "vaultcore.tour.admin";
+    public static final String ClaimCommand = "vaultcore.claim";
 
     private Permissions() {
     }
