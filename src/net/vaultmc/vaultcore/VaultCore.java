@@ -106,7 +106,6 @@ public final class VaultCore extends Component implements Listener {
         }, 0L, minute * 2);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), PlayerNames::updatePlayerNames, 0L, minute / 6);
 
-        // VaultUtils start
         PunishmentsDB.createTables();
 
         for (String s : data.getConfig().getConfigurationSection("reports").getKeys(false)) {
@@ -116,10 +115,8 @@ public final class VaultCore extends Component implements Listener {
         data.save();
 
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
-
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
-        // VaultUtils end
 
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
                 ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",

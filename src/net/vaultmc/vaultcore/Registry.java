@@ -39,6 +39,9 @@ import net.vaultmc.vaultcore.survival.SleepHandler;
 import net.vaultmc.vaultcore.teleport.*;
 import net.vaultmc.vaultcore.teleport.worldtp.CRCommand;
 import net.vaultmc.vaultcore.teleport.worldtp.SVCommand;
+import net.vaultmc.vaultcore.tour.Tour;
+import net.vaultmc.vaultcore.tour.TourCommand;
+import net.vaultmc.vaultcore.tour.TourMusic;
 import net.vaultmc.vaultcore.vanish.VanishCommand;
 import net.vaultmc.vaultcore.vanish.VanishListeners;
 
@@ -113,6 +116,9 @@ public class Registry {
         new UnmuteCommand();
         new TempBanCommand();
         new TempMuteCommand();
+        new TourCommand();
+        new TourMusic();
+        new Tour();
     }
 
     public static void registerListeners() {
@@ -126,5 +132,6 @@ public class Registry {
         vault.registerEvents(new BannedListener());
         vault.registerEvents(new MutedListener());
         vault.registerEvents(new SleepHandler());
+        new Tour();
     }
 }

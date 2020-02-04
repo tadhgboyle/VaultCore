@@ -4,12 +4,7 @@ colours:
   variable2: "&2"
   warning: "&c"
 
-# VaultUtils start
-# This is the messages configuration file for VaultCore.
-
-# Translation requirements:
-# Use Yellow-Gold as the color scheme.
-# Wording should be direct.
+you-shouldnt-do-this: "&cYou shouldn't do this right now!"
 
 # Message that will be sent to the player related to mod modes.
 mod-mode:
@@ -142,7 +137,82 @@ vanish:
   staff_message: "{SENDER}&e has &6{STATE}&e."
   others-state: "&6{PLAYER}&e is now &6{STATE}&e."
 
-# VaultUtils end
+tour:
+  title: "&e&lTour"
+  welcome: |-
+    &eWelcome to the VaultMC tour.
+    &eThis tour will briefly introduce you to the games and the history of VaultMC.
+    &eYou can leave the tour by reconnecting to the server.
+
+  next: "&a[Next]"
+  continue: "Click to continue"
+
+  games:
+    title: "&eGames"
+
+    lobby:
+      title: "&eLobby"
+      text: |-
+        &6&lLobby
+        &eThe lobby is where your experience on VaultMC starts.
+
+        &eWhile in the lobby, you will be given a compass. Right click
+        &ethe compass to open the Server Navigator, whereas you can
+        &ejoin different worlds and servers.
+
+    survival:
+      title: "&eSurvival and clans"
+      # TODO /claim
+      text-survival: |-
+        &6&lSurvival
+        &eSurvival has been a huge part of VaultMC's gameplay since its
+        &ebeginning. It's about generally having fun exploring and creating.
+
+        &eWhile in survival, you can use &6/claim&e to claim a chunk of land
+        &eas yours. You can also use &6/claim add <player>&e and &6/claim
+        &6remove <player>&e to allow/disallow players from interacting within your claim.
+
+        &eWe know sleeping could be a problem while surviving. For your
+        &econvinence, if half (or above) of the player slept, the night
+        &ewill be skipped.
+
+      text-clans: |-
+        &6&lClans
+        &eClans is generally Factions that you play on most of the servers, however it is simplified to make it easier to understand.
+
+        &eTo get started in Clans, you can use &6/c create <clan>&e to create a clan, much like creating a Faction. You can also use &6/c join <clan>&e to join an existing clan.
+
+        &eFor more information on Clans, you can visit
+        &ehttps://github.com/VaultMC/VaultClans/wiki/Introduction-to-the-clans-gameplay.
+
+  history:
+    title: "&e&lHistory of VaultMC"
+
+    # I hope we can find the legacy island-ish lobby
+    displaying-legacy-lobby: |-
+      &6&lThe very beginning
+      &eOn February 11th 2019, the idea of VaultMC began.
+      &e2xjtn and Aberdeener started brain storming ideas for game modes, ranks and plugins right away.
+      &eOnly a couple days later 2xjtn brought his friend yangyang200 in to the project, he began development on the VaultCore plugin immediately.
+      &eWe're excited to see what happens next.
+
+    displaying-players: |-
+      &6&lAn accident
+      &eExactly one week later we (accidentally) launched for the world.
+      &eWe had a strong month of 5-10 players online at all times, but unfortunately due to lack of management, staff and general disagreements we closed our doors.
+
+      &e(You may turn now)
+
+    # Exactly redstoner history about lack of management, staff and general disagreements.
+
+    displaying-new-lobby: |-
+      &6&lA new start
+      &eIt remained that way until August 2019. After a lengthy break, we were ready to give it another shot.
+      &eSince then we have been adding rewriting nearly all the plugins to our custom suite, developing new game modes and expanding our network to include multiple servers.
+
+      &e(You can still turn)
+
+    the-rise-of-vaultmc: "Unused. Will add when VaultMC reaches 100+ online players at a time."
 
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."

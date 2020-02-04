@@ -67,6 +67,8 @@ public final class Permissions {
     public static final String MuteCommand = "vaultcore.punishments.mute";
     public static final String PunishmentNotify = "vaultcore.punishments.notify";
     public static final String ChatColor = "vaultcore.chat.color";
+    public static final String Tour = "vaultcore.tour";
+    public static final String TourAdmin = "vaultcore.tour.admin";
 
     private Permissions() {
     }
