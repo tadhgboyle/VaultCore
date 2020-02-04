@@ -25,7 +25,8 @@ public class SocialSpyCommand extends CommandExecutor {
         if (toggled.contains(player)) {
             toggled.remove(player);
             player.sendMessage(
-                    Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.toggle"), "off"));
+                    Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.toggle"), "off"
+                            /* FIXME When we are translating we will need "off" and "on" in messages.yml */));
         } else {
             toggled.add(player);
             player.sendMessage(
