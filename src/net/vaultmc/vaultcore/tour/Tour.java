@@ -199,7 +199,9 @@ public final class Tour extends ConstructorRegisterListener {
         player.getPlayer().setGravity(false);
         player.getPlayer().setInvulnerable(true);
         player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 255, false, false, false));
-        preventMoving.add(player.getUniqueId());
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        preventMovingOnly.add(player.getUniqueId());
         player.teleport(initial);
 
         clear(player);
@@ -222,8 +224,6 @@ public final class Tour extends ConstructorRegisterListener {
 
     public static void displayingPlayers(VLPlayer player) {
         player.teleport(players);
-        preventMoving.remove(player.getUniqueId());
-        preventMovingOnly.add(player.getUniqueId());
         clear(player);
 
         player.sendMessage(VaultLoader.getMessage("tour.history.displaying-players"));
@@ -454,6 +454,8 @@ public final class Tour extends ConstructorRegisterListener {
         player.setGameMode(GameMode.ADVENTURE);
         player.getPlayer().setGravity(true);
         player.getPlayer().setInvulnerable(false);
+        player.getPlayer().setAllowFlight(false);
+        player.getPlayer().setFlying(false);
         player.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
     }
 
@@ -476,6 +478,11 @@ public final class Tour extends ConstructorRegisterListener {
                 houseBuildingTasks.get(e.getPlayer().getUniqueId()).cancel();
                 houseBuildingTasks.remove(e.getPlayer().getUniqueId());
             }
+            e.getPlayer().setGravity(true);
+            e.getPlayer().setInvulnerable(false);
+            e.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
+            e.getPlayer().setAllowFlight(false);
+            e.getPlayer().setFlying(false);
             e.getPlayer().teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
         }
     }
