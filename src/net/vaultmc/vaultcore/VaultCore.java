@@ -97,7 +97,6 @@ public final class VaultCore extends Component implements Listener {
 
         setupChat();
         Registry.register();
-        Registry.registerListeners();
         int minute = (int) 1200L;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
             RankPromotions.memberPromotion();
