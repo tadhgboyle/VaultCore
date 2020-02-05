@@ -33,11 +33,11 @@ import java.util.UUID;
 
 public class InventoryStorageListeners extends ConstructorRegisterListener {
     public static final Map<String, String[]> worldGroups = ImmutableMap.of(
-            "lobby", new String[]{"Lobby", "newSpawn", "tour"},
-            "survival", new String[]{"Survival", "Survival_Nether", "Survival_End"},
-            "skyblock", new String[]{"skyblock", "skyblock_nether"},
+            "lobby", new String[]{"Lobby", "newSpawn", "tour", "legacy_lobby"},
+            "survival", new String[]{"Survival", "Survival_Nether", "Survival_End", "legacy_survival"},
+            "skyblock", new String[]{"skyblock", "skyblock_nether", "legacy_sb"},
             "clans", new String[]{"clans"},
-            "creative", new String[]{"creative"}
+            "creative", new String[]{"creative", "legacy_creative"}
     );
 
     public static String getGroupOf(String world) {

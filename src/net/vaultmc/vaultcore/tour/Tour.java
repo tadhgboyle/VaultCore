@@ -39,7 +39,7 @@ public final class Tour extends ConstructorRegisterListener {
     private static final HoverEvent nextHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
             new BaseComponent[]{new TextComponent(VaultLoader.getMessage("tour.continue"))});
     private static final Map<UUID, BukkitTask> houseBuildingTasks = new HashMap<>();
-    private static final Map<Location, BlockData> houseBlocks = new LinkedHashMap<>();
+    private static final Map<Location, BlockData> houseBlocks = new HashMap<>();
 
     static {
         BlockData oakPlanks = Material.OAK_PLANKS.createBlockData();
@@ -274,6 +274,26 @@ public final class Tour extends ConstructorRegisterListener {
         }, 0, 1);
     }
 
+    private static final Location secondLobbyCreative = new Location(world, 0, 84, 0, 0F, 33F);
+
+    public static void survivalAndClans3(VLPlayer player) {
+        clear(player);
+        player.sendMessage(VaultLoader.getMessage("tour.games.survival.text-clans"));
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), task -> {
+            if (!houseBuildingTasks.containsKey(player.getUniqueId())) {
+                TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
+                component.setHoverEvent(nextHover);
+                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour creative"));
+                player.sendMessage(component);
+                task.cancel();
+            }
+        }, 0, 10);
+    }
+
+    private static final Location plot = new Location(world, -106.5, 50, 99, 42F, 37F);
+    private static final Location secondLobbySB = new Location(world, 0, 84, 0, -90F, 33F);
+    private static final Location skyblock = new Location(world, -91.5, 75, -22.5, 135F, 43F);
+
     public static void survivalAndClans2(VLPlayer player) {
         clear(player);
         player.teleport(survival);
@@ -295,29 +315,114 @@ public final class Tour extends ConstructorRegisterListener {
                 houseBuildingTasks.get(player.getUniqueId()).cancel();
                 houseBuildingTasks.remove(player.getUniqueId());
             }
-        }, 0, 5));
-    }
-
-    public static void survivalAndClans3(VLPlayer player) {
-        clear(player);
-        player.sendMessage(VaultLoader.getMessage("tour.games.survival.text-clans"));
-        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), task -> {
-            if (!houseBuildingTasks.containsKey(player.getUniqueId())) {
-                TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
-                component.setHoverEvent(nextHover);
-                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour creative"));
-                player.sendMessage(component);
-                task.cancel();
-            }
-        }, 0, 10);
+        }, 0, 1));
     }
 
     public static void creative(VLPlayer player) {
         clear(player);
-        preventMoving.remove(player.getUniqueId());
+        player.teleport(secondLobbyCreative);
+        AtomicInteger count = new AtomicInteger();
+        AtomicInteger count0 = new AtomicInteger();
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), task -> {
+            count.getAndIncrement();
+            if (count.get() >= 165) {
+                Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), t -> {
+                    count0.getAndIncrement();
+                    if (count0.get() >= 133) {
+                        creative2(player);
+                        t.cancel();
+                        return;
+                    }
+                    Location location = player.getLocation().clone();
+                    location.setX(location.getX() - 0.2);
+                    location.setYaw(0F);
+                    location.setPitch(33F);
+                    player.teleport(location);
+                }, 0, 1);
+
+                task.cancel();
+                return;
+            }
+            Location location = player.getLocation().clone();
+            location.setX(location.getX() - 0.2);
+            location.setY(location.getY() - 0.2);
+            location.setYaw(0F);
+            location.setPitch(33F);
+            player.teleport(location);
+        }, 0, 1);
+    }
+
+    public static void creative2(VLPlayer player) {
+        player.teleport(plot);
+        clear(player);
+
+        player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.creative.title"), "", 10, 70, 20);
+
+        Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+            player.sendMessage(VaultLoader.getMessage("tour.games.creative.text"));
+            TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
+            component.setHoverEvent(nextHover);
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour skyblock"));
+            player.sendMessage(component);
+        }, 80L);
+    }
+
+    public static void skyblock(VLPlayer player) {
+        player.teleport(secondLobbySB);
+        clear(player);
+        AtomicInteger count = new AtomicInteger();
+        AtomicInteger count0 = new AtomicInteger();
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), task -> {
+            count.getAndIncrement();
+            if (count.get() >= 165) {
+                Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), t -> {
+                    count0.getAndIncrement();
+                    if (count0.get() >= 133) {
+                        skyblock2(player);
+                        t.cancel();
+                        return;
+                    }
+                    Location location = player.getLocation().clone();
+                    location.setX(location.getX() - 0.2);
+                    location.setYaw(-90F);
+                    location.setPitch(33F);
+                    player.teleport(location);
+                }, 0, 1);
+
+                task.cancel();
+                return;
+            }
+            Location location = player.getLocation().clone();
+            location.setX(location.getX() - 0.2);
+            location.setY(location.getY() - 0.2);
+            location.setYaw(-90F);
+            location.setPitch(33F);
+            player.teleport(location);
+        }, 0, 1);
+    }
+
+    public static void skyblock2(VLPlayer player) {
+        clear(player);
+        player.teleport(skyblock);
+
+        player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.skyblock.title"), "", 10, 70, 20);
+        Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+            player.sendMessage(VaultLoader.getMessage("tour.games.skyblock.text"));
+            TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
+            component.setHoverEvent(nextHover);
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour ending"));
+            player.sendMessage(component);
+        }, 80L);
+    }
+
+    public static void ending(VLPlayer player) {
+        clear(player);
         touringPlayers.remove(player.getUniqueId());
+        preventMoving.remove(player.getUniqueId());
+        preventMovingOnly.remove(player.getUniqueId());
+        player.sendMessage(VaultLoader.getMessage("tour.congrats"));
         player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
-        player.sendMessage("TODO");
+        player.setGameMode(GameMode.ADVENTURE);
     }
 
     @EventHandler
@@ -333,6 +438,8 @@ public final class Tour extends ConstructorRegisterListener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         if (touringPlayers.contains(e.getPlayer().getUniqueId())) {
             touringPlayers.remove(e.getPlayer().getUniqueId());
+            preventMoving.remove(e.getPlayer().getUniqueId());
+            preventMovingOnly.remove(e.getPlayer().getUniqueId());
             if (houseBuildingTasks.containsKey(e.getPlayer().getUniqueId())) {
                 houseBuildingTasks.get(e.getPlayer().getUniqueId()).cancel();
                 houseBuildingTasks.remove(e.getPlayer().getUniqueId());

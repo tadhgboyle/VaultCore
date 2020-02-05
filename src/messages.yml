@@ -146,6 +146,11 @@ tour:
 
   next: "&a[Next]"
   continue: "Click to continue"
+  congrats: |-
+    &6&lCongratulations!
+    &eYou finished the VaultMC tour. Now you have a basic understanding of what VaultMC is and what VaultMC provides.
+    &a-
+    &eKeep in mind, there are a lot of things still waiting for you to explore. Remember to check the tour frequently as it might contain new information!
 
   games:
     title: "&eGames"
@@ -160,9 +165,20 @@ tour:
         &ethe compass to open the Server Navigator, whereas you can
         &ejoin different worlds and servers.
 
+    skyblock:
+      title: "&eSkyBlock"
+      text: |-
+        &6&lSkyBlock
+        &eIt's like survival, but you survive on a floating island.
+        &a-
+        &eYou can create a cobblestone generator to gather the required resources. The cobblestone generator will even generate diamonds!
+        &a-
+        &eUse &6/is create&e to create your island or &6/is request <name>&e to send a request to co-op on an existing island. You should follow &6/is achievements&e to proceed on your adventure.
+        &a-
+        &eIf you played on the legacy VaultMC server, you can contact an administrator to recover your old island.
+
     survival:
       title: "&eSurvival and clans"
-      # TODO /claim
       text-survival: |-
         &6&lSurvival
         &eSurvival has been a huge part of VaultMC's gameplay since its beginning. It's about generally having fun exploring and creating.
@@ -178,7 +194,18 @@ tour:
         &eTo get started in Clans, you can use &6/c create <clan>&e to create a clan, much like creating a Faction. You can also use &6/c join <clan>&e to join an existing clan.
         &a-
         &eFor more information on Clans, you can visit
-        &ehttps://github.com/VaultMC/VaultClans/wiki/Introduction-to-the-clans-gameplay.
+        &ehttps://github.com/VaultMC/VaultClans/wiki/Introduction-to-the-clans-gameplay .
+
+    creative:
+      title: "&eCreative"
+      text: |-
+        &6&lCreative
+        &eIt's about simply having fun creating anything you want. From a dirt hut to advanced redstone computers, you can do anything in the creative world.
+        &a-
+        &eCommunity is always our priority. The buildings and machines you are seeing are all made by our community. There is no limit to your creation.
+        &a-
+        &eFor a detailed guide on creative, you can visit
+        &ehttps://github.com/IntellectualSites/PlotSquared/wiki .
 
   history:
     title: "&e&lHistory of VaultMC"
