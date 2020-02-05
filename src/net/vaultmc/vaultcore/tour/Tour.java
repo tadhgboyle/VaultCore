@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class Tour extends ConstructorRegisterListener {
@@ -248,16 +247,16 @@ public final class Tour extends ConstructorRegisterListener {
         AtomicInteger count0 = new AtomicInteger();
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), task -> {
             count.getAndIncrement();
-            if (count.get() >= 330) {
+            if (count.get() >= 165) {
                 Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), t -> {
                     count0.getAndIncrement();
-                    if (count0.get() >= 265) {
+                    if (count0.get() >= 133) {
                         survivalAndClans2(player);
                         t.cancel();
                         return;
                     }
                     Location location = player.getLocation().clone();
-                    location.setX(location.getX() - 0.1);
+                    location.setX(location.getX() - 0.2);
                     location.setYaw(90F);
                     location.setPitch(33F);
                     player.teleport(location);
@@ -267,8 +266,8 @@ public final class Tour extends ConstructorRegisterListener {
                 return;
             }
             Location location = player.getLocation().clone();
-            location.setX(location.getX() - 0.1);
-            location.setY(location.getY() - 0.1);
+            location.setX(location.getX() - 0.2);
+            location.setY(location.getY() - 0.2);
             location.setYaw(90F);
             location.setPitch(33F);
             player.teleport(location);

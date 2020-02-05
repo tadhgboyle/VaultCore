@@ -36,6 +36,8 @@ import net.vaultmc.vaultcore.stats.PlayTimeCommand;
 import net.vaultmc.vaultcore.stats.SeenCommand;
 import net.vaultmc.vaultcore.stats.StatsCommand;
 import net.vaultmc.vaultcore.survival.SleepHandler;
+import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
+import net.vaultmc.vaultcore.survival.claim.UnclaimCommand;
 import net.vaultmc.vaultcore.teleport.*;
 import net.vaultmc.vaultcore.teleport.worldtp.CRCommand;
 import net.vaultmc.vaultcore.teleport.worldtp.SVCommand;
@@ -48,7 +50,7 @@ import net.vaultmc.vaultcore.vanish.VanishListeners;
 public class Registry {
     private static final VaultCore vault = VaultCore.getInstance();
 
-    public static void registerCommands() {
+    public static void register() {
         new MsgCommand();
         new ReplyCommand();
         new SettingsCommand();
@@ -119,9 +121,8 @@ public class Registry {
         new TourCommand();
         new TourMusic();
         new Tour();
-    }
-
-    public static void registerListeners() {
+        new ClaimCommand();
+        new UnclaimCommand();
         vault.registerEvents(new GrantCommandListener());
         vault.registerEvents(new SignColours());
         vault.registerEvents(new PlayerJoinQuitListener());
@@ -132,6 +133,5 @@ public class Registry {
         vault.registerEvents(new BannedListener());
         vault.registerEvents(new MutedListener());
         vault.registerEvents(new SleepHandler());
-        new Tour();
     }
 }
