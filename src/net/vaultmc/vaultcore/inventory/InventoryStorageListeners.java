@@ -18,7 +18,6 @@
 
 package net.vaultmc.vaultcore.inventory;
 
-import com.google.common.collect.ImmutableMap;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.attribute.Attribute;
@@ -28,17 +27,21 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class InventoryStorageListeners extends ConstructorRegisterListener {
-    public static final Map<String, String[]> worldGroups = ImmutableMap.of(
-            "lobby", new String[]{"Lobby", "newSpawn", "tour", "legacy_lobby"},
-            "survival", new String[]{"Survival", "Survival_Nether", "Survival_End", "legacy_survival"},
-            "skyblock", new String[]{"skyblock", "skyblock_nether", "legacy_sb"},
-            "clans", new String[]{"clans"},
-            "creative", new String[]{"creative", "legacy_creative"}
-    );
+    public static final Map<String, String[]> worldGroups = new HashMap<>();
+
+    static {
+        worldGroups.put("lobby", new String[]{"Lobby", "newSpawn", "tour", "legacy_lobby"});
+        worldGroups.put("survival", new String[]{"Survival", "Survival_Nether", "Survival_End", "legacy_survival"});
+        worldGroups.put("skyblock", new String[]{"skyblock", "skyblock_nether", "legacy_sb"});
+        worldGroups.put("clans", new String[]{"clans"});
+        worldGroups.put("creative", new String[]{"creative", "legacy_creative"});
+        worldGroups.put("rpg", new String[]{"throwback"});
+    }
 
     public static String getGroupOf(String world) {
         for (Map.Entry<String, String[]> entry : worldGroups.entrySet()) {
