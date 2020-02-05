@@ -155,12 +155,22 @@ tour:
   games:
     title: "&eGames"
 
+    uhc:
+      title: "&eUHC"
+      text: |-
+        &6&lUHC
+        &eUHC means Ultra Hardcore Champion. It is survival with a world border that's constantly shrinking and PvP.
+        &a-
+        &eOn VaultMC, we have two modes of UHC: Normal and Cursed. Before the game begins, you can vote for a mode. If you voted for cursed mode, a random cursed mode between Entities Speed Boost, Inventory Swap, Location Swap, Random Drops, Random Potion Effect and PvP Starts Immediately.
+        &a-
+        &eEach round of UHC on VaultMC lasts for 45 minutes (except for PvP Starts Immediately which lasts for 35 minutes). There is a grace period of 10 minutes where you can't combat with others in the beginning.
+
     lobby:
       title: "&eLobby"
       text: |-
         &6&lLobby
         &eThe lobby is where your experience on VaultMC starts.
-
+        &a-
         &eWhile in the lobby, you will be given a compass. Right click
         &ethe compass to open the Server Navigator, whereas you can
         &ejoin different worlds and servers.

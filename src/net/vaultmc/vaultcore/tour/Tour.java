@@ -5,11 +5,15 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundSetBorderPacket;
+import net.minecraft.world.level.border.WorldBorder;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -318,6 +322,31 @@ public final class Tour extends ConstructorRegisterListener {
         }, 0, 1));
     }
 
+    private static final WorldBorder uhcBorder = new WorldBorder();
+
+    public static void creative2(VLPlayer player) {
+        player.teleport(plot);
+        clear(player);
+
+        player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.creative.title"), "", 10, 70, 20);
+
+        Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+            player.sendMessage(VaultLoader.getMessage("tour.games.creative.text"));
+            TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
+            component.setHoverEvent(nextHover);
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour skyblock"));
+            player.sendMessage(component);
+        }, 80L);
+    }
+
+    private static final Location uhc = new Location(world, 34, 74, 175);
+
+    static {
+        uhcBorder.setCenter(34, 175);
+        uhcBorder.world = ((CraftWorld) world).getHandle();
+        uhcBorder.setSize(10);
+    }
+
     public static void creative(VLPlayer player) {
         clear(player);
         player.teleport(secondLobbyCreative);
@@ -334,7 +363,7 @@ public final class Tour extends ConstructorRegisterListener {
                         return;
                     }
                     Location location = player.getLocation().clone();
-                    location.setX(location.getX() - 0.2);
+                    location.setZ(location.getZ() + 0.2);
                     location.setYaw(0F);
                     location.setPitch(33F);
                     player.teleport(location);
@@ -344,27 +373,12 @@ public final class Tour extends ConstructorRegisterListener {
                 return;
             }
             Location location = player.getLocation().clone();
-            location.setX(location.getX() - 0.2);
+            location.setZ(location.getZ() + 0.2);
             location.setY(location.getY() - 0.2);
             location.setYaw(0F);
             location.setPitch(33F);
             player.teleport(location);
         }, 0, 1);
-    }
-
-    public static void creative2(VLPlayer player) {
-        player.teleport(plot);
-        clear(player);
-
-        player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.creative.title"), "", 10, 70, 20);
-
-        Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
-            player.sendMessage(VaultLoader.getMessage("tour.games.creative.text"));
-            TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
-            component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour skyblock"));
-            player.sendMessage(component);
-        }, 80L);
     }
 
     public static void skyblock(VLPlayer player) {
@@ -383,7 +397,7 @@ public final class Tour extends ConstructorRegisterListener {
                         return;
                     }
                     Location location = player.getLocation().clone();
-                    location.setX(location.getX() - 0.2);
+                    location.setX(location.getX() + 0.2);
                     location.setYaw(-90F);
                     location.setPitch(33F);
                     player.teleport(location);
@@ -393,7 +407,7 @@ public final class Tour extends ConstructorRegisterListener {
                 return;
             }
             Location location = player.getLocation().clone();
-            location.setX(location.getX() - 0.2);
+            location.setX(location.getX() + 0.2);
             location.setY(location.getY() - 0.2);
             location.setYaw(-90F);
             location.setPitch(33F);
@@ -408,6 +422,20 @@ public final class Tour extends ConstructorRegisterListener {
         player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.skyblock.title"), "", 10, 70, 20);
         Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
             player.sendMessage(VaultLoader.getMessage("tour.games.skyblock.text"));
+            TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
+            component.setHoverEvent(nextHover);
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour uhc"));
+            player.sendMessage(component);
+        }, 80L);
+    }
+
+    public static void uhc(VLPlayer player) {
+        clear(player);
+        player.teleport(uhc);
+        ((CraftPlayer) player.getPlayer()).getHandle().connection.send(new ClientboundSetBorderPacket(uhcBorder, ClientboundSetBorderPacket.Type.INITIALIZE));
+        player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.uhc.title"), "", 10, 70, 20);
+        Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+            player.sendMessage(VaultLoader.getMessage("tour.games.uhc.text"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour ending"));
