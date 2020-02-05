@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.settings;
+package net.vaultmc.vaultcore.creative;
 
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.GameMode;
