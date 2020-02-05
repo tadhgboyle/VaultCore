@@ -17,6 +17,8 @@ import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
@@ -31,7 +33,7 @@ public final class Tour extends ConstructorRegisterListener {
 
     private static final World world = Bukkit.getWorld("tour");
 
-    private static final Location legacyLobby = new Location(world, 0, 4, 0);
+    private static final Location legacyLobby = new Location(world, 148.5, 71, 23.5, -24.6F, 27.6F);
     private static final Location players = new Location(world, 488.5, 48, 513.5, -90F, 0F);
     private static final Location initial = new Location(world, 440.5, 53, 469.5, 0F, -90F);
     private static final Location secondLobby = new Location(world, 0, 90, 0, -90F, 0F);
@@ -44,6 +46,12 @@ public final class Tour extends ConstructorRegisterListener {
             new BaseComponent[]{new TextComponent(VaultLoader.getMessage("tour.continue"))});
     private static final Map<UUID, BukkitTask> houseBuildingTasks = new HashMap<>();
     private static final Map<Location, BlockData> houseBlocks = new HashMap<>();
+    private static final Location secondLobbyCreative = new Location(world, 0, 84, 0, 0F, 33F);
+    private static final Location plot = new Location(world, -106.5, 50, 99, 42F, 37F);
+    private static final Location secondLobbySB = new Location(world, 0, 84, 0, -90F, 33F);
+    private static final Location skyblock = new Location(world, -91.5, 75, -22.5, 135F, 43F);
+    private static final WorldBorder uhcBorder = new WorldBorder();
+    private static final Location uhc = new Location(world, 34, 74, 175, 0F, 90F);
 
     static {
         BlockData oakPlanks = Material.OAK_PLANKS.createBlockData();
@@ -173,6 +181,12 @@ public final class Tour extends ConstructorRegisterListener {
         }
     }
 
+    static {
+        uhcBorder.setCenter(34, 175);
+        uhcBorder.world = ((CraftWorld) world).getHandle();
+        uhcBorder.setSize(10);
+    }
+
     private static void clear(VLPlayer player) {
         for (int i = 0; i < 100; i++) {
             player.sendMessage("\n");
@@ -181,7 +195,10 @@ public final class Tour extends ConstructorRegisterListener {
 
     public static void start(VLPlayer player) {
         touringPlayers.add(player.getUniqueId());
-        player.setGameMode(GameMode.SPECTATOR);
+        player.setGameMode(GameMode.ADVENTURE);
+        player.getPlayer().setGravity(false);
+        player.getPlayer().setInvulnerable(true);
+        player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 255, false, false, false));
         preventMoving.add(player.getUniqueId());
         player.teleport(initial);
 
@@ -278,8 +295,6 @@ public final class Tour extends ConstructorRegisterListener {
         }, 0, 1);
     }
 
-    private static final Location secondLobbyCreative = new Location(world, 0, 84, 0, 0F, 33F);
-
     public static void survivalAndClans3(VLPlayer player) {
         clear(player);
         player.sendMessage(VaultLoader.getMessage("tour.games.survival.text-clans"));
@@ -293,10 +308,6 @@ public final class Tour extends ConstructorRegisterListener {
             }
         }, 0, 10);
     }
-
-    private static final Location plot = new Location(world, -106.5, 50, 99, 42F, 37F);
-    private static final Location secondLobbySB = new Location(world, 0, 84, 0, -90F, 33F);
-    private static final Location skyblock = new Location(world, -91.5, 75, -22.5, 135F, 43F);
 
     public static void survivalAndClans2(VLPlayer player) {
         clear(player);
@@ -322,8 +333,6 @@ public final class Tour extends ConstructorRegisterListener {
         }, 0, 1));
     }
 
-    private static final WorldBorder uhcBorder = new WorldBorder();
-
     public static void creative2(VLPlayer player) {
         player.teleport(plot);
         clear(player);
@@ -337,14 +346,6 @@ public final class Tour extends ConstructorRegisterListener {
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour skyblock"));
             player.sendMessage(component);
         }, 80L);
-    }
-
-    private static final Location uhc = new Location(world, 34, 74, 175);
-
-    static {
-        uhcBorder.setCenter(34, 175);
-        uhcBorder.world = ((CraftWorld) world).getHandle();
-        uhcBorder.setSize(10);
     }
 
     public static void creative(VLPlayer player) {
@@ -451,6 +452,9 @@ public final class Tour extends ConstructorRegisterListener {
         player.sendMessage(VaultLoader.getMessage("tour.congrats"));
         player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
         player.setGameMode(GameMode.ADVENTURE);
+        player.getPlayer().setGravity(true);
+        player.getPlayer().setInvulnerable(false);
+        player.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
     }
 
     @EventHandler
