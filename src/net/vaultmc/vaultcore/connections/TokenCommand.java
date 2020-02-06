@@ -35,7 +35,7 @@ public class TokenCommand extends CommandExecutor {
         }
         player.sendMessage(VaultLoader.getMessage("vaultcore.commands.token.generating"));
 
-        String new_token = RandomStringUtils.random(8, true, false);
+        String new_token = RandomStringUtils.random(8, true, true);
 
         ResultSet duplicateCheck = database
                 .executeQueryStatement("SELECT username FROM players WHERE token='" + new_token + "'");

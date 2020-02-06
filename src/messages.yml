@@ -289,7 +289,7 @@ vaultcore:
       player_session_length: "{TARGETS}&e's average session length is {TIME}"
     token:
       generating: "&eGenerating your token..."
-      your_token: "&eYour token: &2{TOKEN}&e."
+      your_token: "&eYour token is: &2{TOKEN}&e."
       please_rerun: "&cPlease rerun the command."
     warp:
       not_exist: "&eThe warp &6{WARP}&e does not exist."
