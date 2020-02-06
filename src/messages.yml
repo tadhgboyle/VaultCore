@@ -139,6 +139,7 @@ vanish:
 
 tour:
   title: "&e&lTour"
+  invalid_section: "&cThat section does not exist."
   welcome: |-
     &eWelcome to the VaultMC tour.
     &eThis tour will briefly introduce you to the games and the history of VaultMC.

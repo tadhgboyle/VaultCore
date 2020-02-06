@@ -1,8 +1,8 @@
 package net.vaultmc.vaultcore.tour;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 
-import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.Arguments;
@@ -37,12 +37,16 @@ public class TourCommand extends CommandExecutor {
     }
 
     @SubCommand("tourStage")
-    @SneakyThrows
     public void tourStage(VLPlayer sender, String stage) {
         if (!Tour.getTouringPlayers().contains(sender.getUniqueId())) {
             sender.sendMessage(VaultLoader.getMessage("you-shouldnt-do-this"));
             return;
         }
-        Tour.class.getDeclaredMethod(stage, VLPlayer.class).invoke(null, sender);
+        try {
+			Tour.class.getDeclaredMethod(stage, VLPlayer.class).invoke(null, sender);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			sender.sendMessage(VaultLoader.getMessage("tour.invalid_section"));
+		}
     }
 }
