@@ -1,13 +1,17 @@
 package net.vaultmc.vaultcore.tour;
 
-import lombok.SneakyThrows;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.Arguments;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-
-import java.lang.reflect.Method;
-import java.util.Collections;
 
 /**
  * Start a tour on the executor.
@@ -33,12 +37,16 @@ public class TourCommand extends CommandExecutor {
     }
 
     @SubCommand("tourStage")
-    @SneakyThrows
     public void tourStage(VLPlayer sender, String stage) {
         if (!Tour.getTouringPlayers().contains(sender.getUniqueId())) {
             sender.sendMessage(VaultLoader.getMessage("you-shouldnt-do-this"));
             return;
         }
-        Tour.class.getDeclaredMethod(stage, VLPlayer.class).invoke(null, sender);
+        try {
+			Tour.class.getDeclaredMethod(stage, VLPlayer.class).invoke(null, sender);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			sender.sendMessage(VaultLoader.getMessage("tour.invalid_section"));
+		}
     }
 }

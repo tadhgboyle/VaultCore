@@ -134,11 +134,12 @@ vanish:
   player-state: "&eYou are now &6{STATE}&e."
   visible: "visible"
   invisible: "invisible"
-  staff_message: "{SENDER}&e has &6{STATE}&e."
+  staff_message: "&7&o{SENDER} has gone {STATE}."
   others-state: "&6{PLAYER}&e is now &6{STATE}&e."
 
 tour:
   title: "&e&lTour"
+  invalid_section: "&cThat section does not exist."
   welcome: |-
     &eWelcome to the VaultMC tour.
     &eThis tour will briefly introduce you to the games and the history of VaultMC.
@@ -161,7 +162,7 @@ tour:
         &6&lUHC
         &eUHC means Ultra Hardcore Champion. It is survival with a world border that's constantly shrinking and PvP.
         &a-
-        &eOn VaultMC, we have two modes of UHC: Normal and Cursed. Before the game begins, you can vote for a mode. If you voted for cursed mode, a random cursed mode between Entities Speed Boost, Inventory Swap, Location Swap, Random Drops, Random Potion Effect and PvP Starts Immediately.
+        &eOn VaultMC, we have two modes of UHC: Normal and Cursed. Before the game begins, you can vote for a mode. If you voted for cursed mode, a random cursed mode between Entities Speed Boost, Inventory Swap, Location Swap, Random Drops, Random Potion Effect and PvP Starts Immediately is used.
         &a-
         &eEach round of UHC on VaultMC lasts for 45 minutes (except for PvP Starts Immediately which lasts for 35 minutes). There is a grace period of 10 minutes where you can't combat with others in the beginning.
 
@@ -188,14 +189,14 @@ tour:
         &eIf you played on the legacy VaultMC server, you can contact an administrator to recover your old island.
 
     survival:
-      title: "&eSurvival and clans"
+      title: "&eSurvival and Clans"
       text-survival: |-
         &6&lSurvival
         &eSurvival has been a huge part of VaultMC's gameplay since its beginning. It's about generally having fun exploring and creating.
         &a-
         &eWhile in survival, you can use &6/claim&e to claim a chunk of land as yours. You can also use &6/claim add <player>&e and &6/claim remove <player>&e to allow/disallow players from interacting within your claim.
         &a-
-        &eWe know sleeping could be a problem while surviving. For your convinence, if half (or above) of the player slept, the night will be skipped.
+        &eWe know sleeping could be a problem while surviving. For your convinence, if half (or above) of players in the Survival world are sleeping, the night will be skipped.
 
       text-clans: |-
         &6&lClans
@@ -243,8 +244,9 @@ tour:
       &eSince then we have been adding rewriting nearly all the plugins to our custom suite, developing new game modes and expanding our network to include multiple servers.
       &a-
       &e(You can still turn)
-
+   
     the-rise-of-vaultmc: "Unused. Will add when VaultMC reaches 100+ online players at a time."
+    # ^ This is awesome.
 
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
@@ -288,7 +290,7 @@ vaultcore:
       player_session_length: "{TARGETS}&e's average session length is {TIME}"
     token:
       generating: "&eGenerating your token..."
-      your_token: "&eYour token: &2{TOKEN}&e."
+      your_token: "&eYour token is: &2{TOKEN}&e."
       please_rerun: "&cPlease rerun the command."
     warp:
       not_exist: "&eThe warp &6{WARP}&e does not exist."
