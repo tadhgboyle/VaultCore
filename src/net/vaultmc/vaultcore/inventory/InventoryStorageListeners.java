@@ -40,7 +40,7 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
         worldGroups.put("skyblock", new String[]{"skyblock", "skyblock_nether", "legacy_sb"});
         worldGroups.put("clans", new String[]{"clans"});
         worldGroups.put("creative", new String[]{"creative", "legacy_creative"});
-        worldGroups.put("rpg", new String[]{"throwback"});
+        worldGroups.put("rpg", new String[]{"throwback", "throwback2"});
     }
 
     public static String getGroupOf(String world) {
