@@ -5,7 +5,7 @@
 	<groupId>net.vaultmc.vaultcore</groupId>
 	<artifactId>VaultCore</artifactId>
 	<version>0.0.1-vanilla-SNAPSHOT</version>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>vaultmc-repo</id>
@@ -13,7 +13,7 @@
 			<url>http://nexus.vaultmc.net/repository/vaultmc-artifacts/</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<build>
 		<sourceDirectory>src/</sourceDirectory>
 		<finalName>VaultCore</finalName>
@@ -65,6 +65,17 @@
 			<id>papermc-repo</id>
 			<url>https://papermc.io/repo/repository/maven-public/</url>
 		</repository>
+
+		<repository>
+			<id>sk89q-snapshots</id>
+			<url>http://maven.sk89q.com/artifactory/repo</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -100,6 +111,12 @@
 			<artifactId>craftbukkit-remapped</artifactId>
 			<version>1.15.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sk89q.worldedit</groupId>
+			<artifactId>worldedit-bukkit</artifactId>
+			<version>7.1.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
