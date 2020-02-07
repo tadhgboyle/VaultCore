@@ -70,6 +70,7 @@ public final class Permissions {
     public static final String Tour = "vaultcore.tour";
     public static final String ClaimCommand = "vaultcore.claim";
     public static final String SchemCommand = "vaultcore.schem";
+    public static final String SchemCommandDelete = "vaultcore.schem.delete.other";
 
     private Permissions() {
     }

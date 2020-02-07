@@ -1,11 +1,8 @@
 package net.vaultmc.vaultcore.misc.listeners;
 
-import lombok.SneakyThrows;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.DBConnection;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import java.io.File;
+import java.sql.ResultSet;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
@@ -15,7 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.sql.ResultSet;
+import lombok.SneakyThrows;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.DBConnection;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 public class PlayerJoinQuitListener implements Listener {
 	static DBConnection database = VaultCore.getDatabase();
@@ -68,6 +70,14 @@ public class PlayerJoinQuitListener implements Listener {
 						player.getFormattedName(), ChatColor.GREEN + "joined"));
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				VaultCore.getInstance().getConfig().getString("welcome-message")));
+
+		File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getName() + "/");
+		if (!directory.exists()) {
+			directory.mkdir();
+			directory.setExecutable(true);
+			directory.setReadable(true);
+			directory.setWritable(true);
+		}
 	}
 
 	@EventHandler
