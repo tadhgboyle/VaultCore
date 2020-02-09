@@ -1,47 +1,30 @@
 package net.vaultmc.vaultcore.creative;
 
-import java.util.List;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
 import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
-import com.sk89q.worldedit.session.SessionOwner;
-
+import com.sk89q.worldedit.extent.clipboard.io.*;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.Arguments;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @RootCommand(literal = "vcschem", description = "Save or Load a schematic.")
 @Permission(Permissions.SchemCommand)
 @PlayerOnly
 public class SchemCommand extends CommandExecutor {
-	
     private static final List<String> mySchems = new ArrayList<>();
 
 	public SchemCommand() {
@@ -66,7 +49,7 @@ public class SchemCommand extends CommandExecutor {
 		@SuppressWarnings("unused")
 		Clipboard clipboard;
 		try {
-			clipboard = WorldEdit.getInstance().getSessionManager().get((SessionOwner) BukkitAdapter.adapt(player))
+			clipboard = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(player))
 					.getClipboard().getClipboard();
 		} catch (EmptyClipboardException e1) {
 			// TODO @Aberdeener - Not make them make a selection before pasting, or is this a WE API issue?
@@ -97,7 +80,7 @@ public class SchemCommand extends CommandExecutor {
 
 		Clipboard clipboard = null;
 		try {
-			clipboard = WorldEdit.getInstance().getSessionManager().get((SessionOwner) BukkitAdapter.adapt(player))
+			clipboard = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(player))
 					.getClipboard().getClipboard();
 		} catch (EmptyClipboardException e1) {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.schem.empty_clipboard"));

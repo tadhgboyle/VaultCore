@@ -32,7 +32,7 @@ public class ListCommand extends CommandExecutor {
 
     @SubCommand("list")
     public void list(VLCommandSender sender) {
-        if (Bukkit.getOnlinePlayers().toArray().length == 0) {
+        if (Bukkit.getOnlinePlayers().size() == 0) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.no_players_online"));
         } else {
             for (Player players : Bukkit.getOnlinePlayers()) {
@@ -50,22 +50,22 @@ public class ListCommand extends CommandExecutor {
                 String rank = player.getGroup();
                 switch (rank) {
                     case "admin":
-                        admin.add(player.getName() + vanished);
+                        admin.add(player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "moderator":
-                        moderator.add(player.getName() + vanished);
+                        moderator.add(player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "trusted":
-                        trusted.add(player.getName() + vanished);
+                        trusted.add(player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "patreon":
-                        patreon.add(player.getName() + vanished);
+                        patreon.add(player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "member":
-                        member.add(player.getName() + vanished);
+                        member.add(player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     default:
-                        defaults.add(player.getName() + vanished);
+                        defaults.add(player.getName() + vanished + ChatColor.YELLOW);
                         break;
                 }
             }
