@@ -50,7 +50,7 @@ public class TagCommand extends CommandExecutor {
     @SneakyThrows
     private void tagAddQuery(VLPlayer author, VLOfflinePlayer target, String content) {
         DBConnection database = VaultCore.getDatabase();
-    	database.executeUpdateStatement("INSERT INTO tags (player, author, content, timestamp) VALUES (?, ?, ?, ?)",
+        database.executeUpdateStatement("INSERT INTO tags (player, author, content, timestamp) VALUES (?, ?, ?, ?)",
                 target.getUniqueId().toString(), author.getUniqueId().toString(), content, System.currentTimeMillis());
         ResultSet id = database.executeQueryStatement("SELECT MAX(id) AS latest_id FROM tags");
         String tagId = null;
@@ -64,7 +64,7 @@ public class TagCommand extends CommandExecutor {
     @SneakyThrows
     @SubCommand("tagList")
     public void tagList(VLCommandSender sender, VLOfflinePlayer target) {
-		DBConnection database = VaultCore.getDatabase();
+        DBConnection database = VaultCore.getDatabase();
         ResultSet tags = database.executeQueryStatement(
                 "SELECT id, player, content, timestamp FROM tags WHERE (player = ? AND status = '0')",
                 target.getUniqueId().toString());
@@ -89,7 +89,7 @@ public class TagCommand extends CommandExecutor {
     @SubCommand("tagDelete")
     @Permission(Permissions.TagCommandDelete)
     public void tagDelete(VLCommandSender sender, int id) {
-		DBConnection database = VaultCore.getDatabase();
+        DBConnection database = VaultCore.getDatabase();
         ResultSet tags = database.executeQueryStatement("SELECT id, player, status FROM tags WHERE id = ?", id);
         if (tags.next()) {
             if (tags.getInt("status") == 1) {

@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.msg;
+package net.vaultmc.vaultcore.chat.msg;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;

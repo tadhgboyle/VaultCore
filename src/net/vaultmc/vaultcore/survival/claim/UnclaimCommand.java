@@ -9,7 +9,8 @@ import org.bukkit.Chunk;
 import java.util.Collections;
 import java.util.List;
 
-import static net.vaultmc.vaultcore.survival.claim.ClaimCommand.*;
+import static net.vaultmc.vaultcore.survival.claim.ClaimCommand.deserializeChunks;
+import static net.vaultmc.vaultcore.survival.claim.ClaimCommand.serializeChunks;
 
 @RootCommand(
         literal = "claim",

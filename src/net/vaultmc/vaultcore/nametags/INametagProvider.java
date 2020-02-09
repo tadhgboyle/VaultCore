@@ -31,7 +31,6 @@ public interface INametagProvider {
     @AllArgsConstructor
     @ToString
     @EqualsAndHashCode
-
     class Nametag {
         @Getter
         private String prefix;

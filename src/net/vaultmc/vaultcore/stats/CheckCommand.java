@@ -18,7 +18,7 @@ import java.util.Collections;
 @RootCommand(literal = "check", description = "Get info about a player.")
 @Permission(Permissions.CheckCommand)
 public class CheckCommand extends CommandExecutor {
-	public CheckCommand() {
+    public CheckCommand() {
         register("check",
                 Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }

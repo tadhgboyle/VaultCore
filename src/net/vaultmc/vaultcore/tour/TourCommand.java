@@ -1,17 +1,12 @@
 package net.vaultmc.vaultcore.tour;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
-
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.Arguments;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
+import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 
 /**
  * Start a tour on the executor.
@@ -43,10 +38,10 @@ public class TourCommand extends CommandExecutor {
             return;
         }
         try {
-			Tour.class.getDeclaredMethod(stage, VLPlayer.class).invoke(null, sender);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			sender.sendMessage(VaultLoader.getMessage("tour.invalid_section"));
-		}
+            Tour.class.getDeclaredMethod(stage, VLPlayer.class).invoke(null, sender);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+                | SecurityException e) {
+            sender.sendMessage(VaultLoader.getMessage("tour.invalid_section"));
+        }
     }
 }

@@ -40,6 +40,33 @@ public class ClaimCommand extends CommandExecutor implements Listener {
         VaultCore.getInstance().registerEvents(this);
     }
 
+    private static VLOfflinePlayer isAlreadyClaimed(Chunk chunk) {
+        for (File file : VaultLoader.getPlayerDataFolder().listFiles()) {
+            VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(
+                    UUID.fromString(file.getName().replace(".yml", "")));
+            if (deserializeChunks(player.getDataConfig().getStringList("claim.chunks")).contains(chunk)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    static List<Chunk> deserializeChunks(List<String> chunks) {
+        return chunks.stream().map(s -> {
+            try {
+                String[] data = s.split("\\|");
+                return Bukkit.getWorld(data[0]).getChunkAt(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
+    }
+
+    static List<String> serializeChunks(List<Chunk> chunks) {
+        return chunks.stream().map(c -> c.getWorld().getName() + "|" + c.getX() + "|" + c.getZ()).collect(Collectors.toList());
+    }
+
     @SubCommand("add")
     public void add(VLPlayer sender, VLOfflinePlayer player) {
         List<String> players = sender.getDataConfig().getStringList("claim.allowed-players");
@@ -75,17 +102,6 @@ public class ClaimCommand extends CommandExecutor implements Listener {
                 .stream().map(uuid -> new WrappedSuggestion(VLPlayer.getPlayer(UUID.fromString(uuid)).getName())).collect(Collectors.toList());
     }
 
-    private static VLOfflinePlayer isAlreadyClaimed(Chunk chunk) {
-        for (File file : VaultLoader.getPlayerDataFolder().listFiles()) {
-            VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(
-                    UUID.fromString(file.getName().replace(".yml", "")));
-            if (deserializeChunks(player.getDataConfig().getStringList("claim.chunks")).contains(chunk)) {
-                return player;
-            }
-        }
-        return null;
-    }
-
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (!e.getPlayer().getWorld().getName().contains("Survival")) return;
@@ -114,21 +130,5 @@ public class ClaimCommand extends CommandExecutor implements Listener {
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.claimed").replace("{X}",
                 String.valueOf(sender.getLocation().getChunk().getX())).replace("{Z}",
                 String.valueOf(sender.getLocation().getChunk().getZ())));
-    }
-
-    static List<Chunk> deserializeChunks(List<String> chunks) {
-        return chunks.stream().map(s -> {
-            try {
-                String[] data = s.split("\\|");
-                return Bukkit.getWorld(data[0]).getChunkAt(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return null;
-        }).collect(Collectors.toList());
-    }
-
-    static List<String> serializeChunks(List<Chunk> chunks) {
-        return chunks.stream().map(c -> c.getWorld().getName() + "|" + c.getX() + "|" + c.getZ()).collect(Collectors.toList());
     }
 }
