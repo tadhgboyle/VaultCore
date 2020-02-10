@@ -19,6 +19,7 @@
 package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -53,10 +54,9 @@ public class ChatUtils extends ConstructorRegisterListener {
         }
 
         // Staff chat
-        if (e.getMessage().startsWith("#") || StaffChatCommand.toggled.contains(player.getUniqueId()) && player.hasPermission(Permissions.StaffChatCommand)) {
-            e.getRecipients().removeIf(x -> !x.hasPermission(Permissions.StaffChatCommand));
-            e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "SC" + ChatColor.DARK_GRAY + "] " +
-                    player.getFormattedName() + ChatColor.DARK_GRAY + ": " + ChatColor.AQUA + "%2$s");
+        if ((e.getMessage().startsWith("#") || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
+            StaffChatCommand.chat(player, e.getMessage().replaceFirst("#", ""));
+            e.setCancelled(true);
             return;
         }
 

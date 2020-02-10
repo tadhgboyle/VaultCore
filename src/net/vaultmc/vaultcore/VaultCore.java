@@ -8,11 +8,16 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.vaultmc.vaultcore.brand.BrandCommand;
 import net.vaultmc.vaultcore.brand.BrandListener;
-import net.vaultmc.vaultcore.chat.*;
+import net.vaultmc.vaultcore.chat.ChatUtils;
+import net.vaultmc.vaultcore.chat.ClearChatCommand;
+import net.vaultmc.vaultcore.chat.ConsoleSay;
+import net.vaultmc.vaultcore.chat.MuteChatCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgPMListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
+import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
+import net.vaultmc.vaultcore.chat.staff.StaffChatPMListener;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.creative.CycleListener;
@@ -247,6 +252,9 @@ public final class VaultCore extends Component implements Listener {
 
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "vaultcore:tell", new MsgPMListener());
         getServer().getMessenger().registerOutgoingPluginChannel(this.getBukkitPlugin(), "vaultcore:tell");
+
+        getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "vaultcore:staff_chat", new StaffChatPMListener());
+        getServer().getMessenger().registerOutgoingPluginChannel(this.getBukkitPlugin(), "vaultcore:staff_chat");
 
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
                 ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
