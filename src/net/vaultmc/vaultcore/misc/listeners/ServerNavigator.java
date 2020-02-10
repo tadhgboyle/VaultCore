@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -111,7 +112,12 @@ public class ServerNavigator extends ConstructorRegisterListener {
                     }
                     break;
                 case 2:
-                    player.getPlayer().performCommand("clwtp");
+                    FileConfiguration data = player.getDataConfig();
+                    if (!data.contains("locations.clans")) {
+                        player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
+                    } else {
+                        player.teleport(data.getLocation("locations.clans"));
+                    }
                     break;
                 case 3:
                     player.getPlayer().performCommand("is");
@@ -129,6 +135,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
                     player.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", output.toByteArray());
                     break;
             }
+            e.setCancelled(true);
         }
     }
 
