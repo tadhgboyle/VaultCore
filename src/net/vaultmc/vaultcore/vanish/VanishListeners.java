@@ -25,6 +25,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class VanishListeners extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -37,6 +38,13 @@ public class VanishListeners extends ConstructorRegisterListener {
                 e.getPlayer().sendMessage(ChatColor.YELLOW + "You are still invisible!");
                 e.setJoinMessage(null);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        if (VLPlayer.getPlayer(e.getPlayer()).isVanished()) {
+            e.setQuitMessage(null);
         }
     }
 
