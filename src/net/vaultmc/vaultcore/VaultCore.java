@@ -10,6 +10,7 @@ import net.vaultmc.vaultcore.brand.BrandCommand;
 import net.vaultmc.vaultcore.brand.BrandListener;
 import net.vaultmc.vaultcore.chat.*;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
+import net.vaultmc.vaultcore.chat.msg.MsgPMListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
@@ -241,6 +242,11 @@ public final class VaultCore extends Component implements Listener {
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
+        getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
+        getServer().getMessenger().registerIncomingPluginChannel(VaultLoader.getInstance(), "BungeeCord", new MessengerUtils());
+
+        getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "vaultcore:tell", new MsgPMListener());
+        getServer().getMessenger().registerOutgoingPluginChannel(this.getBukkitPlugin(), "vaultcore:tell");
 
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
                 ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
@@ -251,9 +257,6 @@ public final class VaultCore extends Component implements Listener {
                 ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
                         + ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
                         + ChatColor.GREEN + "."});
-
-        this.getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
-
     }
 
     public FileConfiguration getConfig() {
