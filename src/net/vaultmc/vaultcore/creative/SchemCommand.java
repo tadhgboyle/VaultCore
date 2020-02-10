@@ -50,11 +50,11 @@ public class SchemCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.schem.bad-path"));
             return;
         }
-        File file = new File(VaultCore.getInstance().getDataFolder(), "schem/" + sender.getName() + "/" + filename + ".schem").getAbsoluteFile();
+        File file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getName() + "/" + filename + ".schem").getAbsoluteFile();
         if (!file.exists()) {
-            file = new File(VaultCore.getInstance().getDataFolder(), "schem/" + sender.getName() + "/" + filename + ".schematic").getAbsoluteFile();
+            file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getName() + "/" + filename + ".schematic").getAbsoluteFile();
             if (!file.exists()) {
-                file = new File(VaultCore.getInstance().getDataFolder(), "schem/" + sender.getName() + "/" + filename).getAbsoluteFile();
+                file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getName() + "/" + filename).getAbsoluteFile();
                 if (!file.exists()) {
                     sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.schem.not_found").replace("{SCHEM}", filename));
                     return;
@@ -82,10 +82,10 @@ public class SchemCommand extends CommandExecutor {
         }
         File file;
         if (filename.endsWith(".schem") || filename.endsWith(".schematic")) {
-            file = new File(VaultCore.getInstance().getDataFolder(), "schem/" + sender.getName() + "/" +
+            file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getName() + "/" +
                     filename).getAbsoluteFile();
         } else {
-            file = new File(VaultCore.getInstance().getDataFolder(), "schem/" + sender.getName() + "/" +
+            file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getName() + "/" +
                     filename + ".schem").getAbsoluteFile();
         }
 
