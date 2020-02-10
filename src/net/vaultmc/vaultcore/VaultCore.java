@@ -15,6 +15,7 @@ import net.vaultmc.vaultcore.chat.MuteChatCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
+import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.creative.CycleListener;
