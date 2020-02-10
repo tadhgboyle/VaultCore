@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class ServerNavigator extends ConstructorRegisterListener {
-    private static final ItemStack compass = new ItemStackBuilder(Material.COMPASS)
+    private static final ItemStack compass = new ItemStackBuilder(Material.PAPER)
             .name(ChatColor.GREEN + "Server Navigator")
             .lore(Arrays.asList(
                     ChatColor.GRAY + "Easily navigate through worlds",
