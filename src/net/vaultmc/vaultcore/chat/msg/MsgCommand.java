@@ -25,15 +25,7 @@ public class MsgCommand extends CommandExecutor {
                 Arguments.createArgument("message", Arguments.greedyString())));
     }
 
-    @SubCommand("msg")
-    public void msg(VLPlayer player, VLPlayer target, String message) {
-        if (target == null) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.player_offline"));
-        }
-        if (target == player) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.self_error"));
-            return;
-        }
+    public static void pm(VLPlayer player, VLPlayer target, String message) {
         if (!target.getDataConfig().getBoolean("settings.msg")) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.player_disabled_messaging"));
         } else {
@@ -53,5 +45,17 @@ public class MsgCommand extends CommandExecutor {
             }
 
         }
+    }
+
+    @SubCommand("msg")
+    public void msg(VLPlayer player, VLPlayer target, String message) {
+        if (target == null) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.player_offline"));
+        }
+        if (target == player) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.self_error"));
+            return;
+        }
+        pm(player, target, message);
     }
 }

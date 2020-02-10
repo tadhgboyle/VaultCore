@@ -4,7 +4,6 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
 
 import java.util.Collections;
 
@@ -23,6 +22,11 @@ public class ReplyCommand extends CommandExecutor {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
             return;
         }
-        MsgCommand.pm(player, Bukkit.getOfflinePlayer(MsgCommand.getReplies().get(player.getUniqueId())), message);
+        VLPlayer target = VLPlayer.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
+        if (target == null) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
+            return;
+        }
+        MsgCommand.pm(player, target, message);
     }
 }
