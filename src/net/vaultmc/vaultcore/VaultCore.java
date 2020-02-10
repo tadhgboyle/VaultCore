@@ -13,11 +13,8 @@ import net.vaultmc.vaultcore.chat.ClearChatCommand;
 import net.vaultmc.vaultcore.chat.ConsoleSay;
 import net.vaultmc.vaultcore.chat.MuteChatCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
-import net.vaultmc.vaultcore.chat.msg.MsgPMListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
-import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
-import net.vaultmc.vaultcore.chat.staff.StaffChatPMListener;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.creative.CycleListener;
@@ -138,35 +135,11 @@ public final class VaultCore extends Component implements Listener {
                 "VaultMC_Punishments", getConfig().getString("mysql.user"),
                 getConfig().getString("mysql.password"));
 
-        getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
-        getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
-        getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
-        getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
-        getServer().getMessenger().registerIncomingPluginChannel(VaultLoader.getInstance(), "BungeeCord", new MessengerUtils());
-
-        getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "BungeeCord", new MsgPMListener());
-
-        getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "vaultcore:staff_chat", new StaffChatPMListener());
-        getServer().getMessenger().registerOutgoingPluginChannel(this.getBukkitPlugin(), "vaultcore:staff_chat");
+        VaultLoader.getInstance().getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(),
+                "BungeeCord");
 
         setupChat();
 
-        if ("vaultmc".equalsIgnoreCase(getConfig().getString("server"))) {
-            new CRCommand();
-            new SVCommand();
-            new InventoryStorageListeners();
-            new GameModeListeners();
-            new TourCommand();
-            new TourMusic();
-            new Tour();
-            new ClaimCommand();
-            new UnclaimCommand();
-            new SchemCommand();
-            new ServerNavigator();
-            registerEvents(new SleepHandler());
-            registerEvents(new CycleListener());
-            registerEvents(new ShutDownListener());
-        }
         new MsgCommand();
         new ReplyCommand();
         new SettingsCommand();
@@ -176,6 +149,8 @@ public final class VaultCore extends Component implements Listener {
         new TPHereCommand();
         new TPDenyCommand();
         new WarpCommand();
+        new CRCommand();
+        new SVCommand();
         new BackCommand();
         new DiscordCommand();
         new PingCommand();
@@ -216,6 +191,8 @@ public final class VaultCore extends Component implements Listener {
         new TransferCommand();
         new VanishCommand();
         new VanishListeners();
+        new InventoryStorageListeners();
+        new GameModeListeners();
         new WeatherCommand();
         new HelpCommand();
         new BrandCommand();
@@ -230,13 +207,23 @@ public final class VaultCore extends Component implements Listener {
         new UnmuteCommand();
         new TempBanCommand();
         new TempMuteCommand();
+        new TourCommand();
+        new TourMusic();
+        new Tour();
+        new ClaimCommand();
+        new UnclaimCommand();
+        new SchemCommand();
+        new ServerNavigator();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
         registerEvents(new PlayerTPListener());
         registerEvents(new SettingsListener());
+        registerEvents(new CycleListener());
+        registerEvents(new ShutDownListener());
         registerEvents(new BannedListener());
         registerEvents(new MutedListener());
+        registerEvents(new SleepHandler());
 
         int minute = (int) 1200L;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
@@ -254,6 +241,10 @@ public final class VaultCore extends Component implements Listener {
         }
         data.save();
 
+        getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
+        getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
+        getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
+
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
                 ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
                 ChatColor.YELLOW + " /\\   /\\__ _ _   _| | |_  " + ChatColor.GOLD + "/ __\\___  _ __ ___ ",
@@ -263,6 +254,9 @@ public final class VaultCore extends Component implements Listener {
                 ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
                         + ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
                         + ChatColor.GREEN + "."});
+
+        this.getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
+
     }
 
     public FileConfiguration getConfig() {

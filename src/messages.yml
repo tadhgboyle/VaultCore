@@ -302,7 +302,8 @@ vaultcore:
       teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
       wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
     msg:
-      failed: "&cFailed to send the message to the target."
+      self_error: "&cYou can't message yourself."
+      player_disabled_messaging: "&cThat player has disabled messaging."
       format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
       you: "&6You"
     reply:
