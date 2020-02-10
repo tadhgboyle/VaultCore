@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class ServerNavigator extends ConstructorRegisterListener {
-    private static final ItemStack compass = new ItemStackBuilder(Material.PAPER)
+    private static final ItemStack paper = new ItemStackBuilder(Material.PAPER)
             .name(ChatColor.GREEN + "Server Navigator")
             .lore(Arrays.asList(
                     ChatColor.GRAY + "Easily navigate through worlds",
@@ -98,6 +98,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
                                 "Survival"));
                     }
+                    break;
                 case 1:
                     Location cr = player.getDataConfig().getLocation("locations.cr");
                     if (cr == null) {
@@ -135,7 +136,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
-                    e.getPlayer().getInventory().setItem(4, compass));
+                    e.getPlayer().getInventory().setItem(4, paper));
         }
     }
 
@@ -143,23 +144,25 @@ public class ServerNavigator extends ConstructorRegisterListener {
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
-                    e.getPlayer().getInventory().setItem(4, compass));
+                    e.getPlayer().getInventory().setItem(4, paper));
         }
     }
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent e) {
-        if (e.getItemDrop().getItemStack() == compass) e.setCancelled(true);
+        if (e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator"))
+            e.setCancelled(true);
     }
 
     @EventHandler
     public void onClickCompass(InventoryClickEvent e) {
-        if (e.getClickedInventory() instanceof PlayerInventory && e.getCurrentItem() == compass) e.setCancelled(true);
+        if (e.getClickedInventory() instanceof PlayerInventory && e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator"))
+            e.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getItem() == compass) {
+        if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator")) {
             e.getPlayer().openInventory(inv);
         }
     }
