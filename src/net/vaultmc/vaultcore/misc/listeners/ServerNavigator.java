@@ -133,7 +133,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        if (e.getPlayer().getWorld().equals("Lobby")) {
+        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
                     e.getPlayer().getInventory().setItem(4, compass));
         }
@@ -141,7 +141,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
-        if (e.getPlayer().getWorld().equals("Lobby")) {
+        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
                     e.getPlayer().getInventory().setItem(4, compass));
         }
