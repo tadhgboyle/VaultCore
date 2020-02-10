@@ -1,15 +1,10 @@
 package net.vaultmc.vaultcore.misc.listeners;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
-import net.vaultmc.vaultloader.utils.ItemStackBuilder;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -24,8 +19,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.Arrays;
-import java.util.Collections;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.ItemStackBuilder;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 public class ServerNavigator extends ConstructorRegisterListener {
     private static final ItemStack paper = new ItemStackBuilder(Material.PAPER)
@@ -90,26 +90,10 @@ public class ServerNavigator extends ConstructorRegisterListener {
             VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
             switch (e.getSlot()) {
                 case 0:
-                    Location sv = player.getDataConfig().getLocation("locations.sv");
-                    if (sv == null) {
-                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
-                        player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());
-                    } else {
-                        player.teleport(sv);
-                        player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
-                                "Survival"));
-                    }
+                    player.getPlayer().performCommand("sv");
                     break;
                 case 1:
-                    Location cr = player.getDataConfig().getLocation("locations.cr");
-                    if (cr == null) {
-                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
-                        player.teleport(Bukkit.getWorld("creative").getSpawnLocation());
-                    } else {
-                        player.teleport(cr);
-                        player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
-                                "Creative"));
-                    }
+                    player.getPlayer().performCommand("cr");
                     break;
                 case 2:
                     FileConfiguration data = player.getDataConfig();
