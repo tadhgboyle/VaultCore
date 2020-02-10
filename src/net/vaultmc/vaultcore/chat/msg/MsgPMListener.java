@@ -32,6 +32,8 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
             return;
         }
 
+        System.out.println("Adding to response: " + id + " " + from.getName() + " " + to.getName() + " " + message + " " + response);
+
         if (response) {
             responses.remove(id);
             from.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
@@ -70,6 +72,8 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
         stream.writeShort(result.length);
         stream.write(result);
 
+        System.out.println("Sending success for " + id + " " + from + " " + to + " " + message);
+
         os.close();
         Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", sendingStream.toByteArray());
         stream.close();
@@ -96,6 +100,8 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
         stream.writeShort(result.length);
         stream.write(result);
 
+        System.out.println("Sending failure for " + id + " " + from + " " + to + " " + message);
+
         os.close();
         Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", sendingStream.toByteArray());
         stream.close();
@@ -109,8 +115,16 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
     @Override
     @SneakyThrows
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (channel.equals("vaultcore:tell")) {
-            DataInputStream stream = new DataInputStream(new ByteArrayInputStream(message));
+        DataInputStream bungee = new DataInputStream(new ByteArrayInputStream(message));
+        String subChannel = bungee.readUTF();
+        System.out.println("subChannel = " + subChannel);
+        if (subChannel.equals("vaultcore:tell")) {
+            byte[] bytes = new byte[bungee.readShort()];
+            bungee.readFully(bytes);
+            bungee.close();
+            System.out.println("bytes = " + Arrays.toString(bytes));
+
+            DataInputStream stream = new DataInputStream(new ByteArrayInputStream(bytes));
             String command = stream.readUTF();  // Must be TellFromTo or TellStatus
             String id = stream.readUTF();  // This will be used to identify the message when returning.
             // Must be unique for each message. Use UUID.randomUUID().
@@ -120,6 +134,8 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
                 VLOfflinePlayer from = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(stream.readUTF()));
                 VLPlayer target = VLPlayer.getPlayer(UUID.fromString(stream.readUTF()));
                 String msg = stream.readUTF();
+
+                System.out.println("Received TellFromTo: " + from.getName() + " " + target.getName() + " " + msg);
 
                 if (target != null && target.getDataConfig().getBoolean("settings.msg", true)) {
                     //from.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
@@ -148,6 +164,7 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
                     VLOfflinePlayer to = !"null".equals(toUID) ? VLOfflinePlayer.getOfflinePlayer(UUID.fromString(toUID)) : null;
                     String msg = stream.readUTF();
                     boolean response = stream.readUTF().equals("Success");
+                    System.out.println("Received TellStatus");
                     addToResponse(uuid, from, to, msg, response);
                 }
             }

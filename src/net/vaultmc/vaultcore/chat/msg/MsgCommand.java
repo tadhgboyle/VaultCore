@@ -63,11 +63,12 @@ public class MsgCommand extends CommandExecutor {
         os.writeUTF(message);
 
         byte[] msg = dataStream.toByteArray();
+        System.out.println("msg = " + Arrays.toString(msg));
         stream.writeShort(msg.length);
         stream.write(msg);
         os.close();
 
-        sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "vaultcore:tell", bos.toByteArray());
+        sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
         stream.close();
     }
 

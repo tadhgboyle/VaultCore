@@ -304,6 +304,7 @@ vaultcore:
     msg:
       failed: "&cFailed to send the message to the target."
       format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+      you: "&6You"
     reply:
       noone_error: "&cYou have no one to reply to."
     socialspy:

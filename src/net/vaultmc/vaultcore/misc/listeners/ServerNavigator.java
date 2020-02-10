@@ -1,8 +1,11 @@
 package net.vaultmc.vaultcore.misc.listeners;
 
-import java.util.Arrays;
-import java.util.Collections;
-
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.ItemStackBuilder;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,13 +22,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
-import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
-import net.vaultmc.vaultloader.utils.ItemStackBuilder;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ServerNavigator extends ConstructorRegisterListener {
     private static final ItemStack paper = new ItemStackBuilder(Material.PAPER)
@@ -147,6 +145,8 @@ public class ServerNavigator extends ConstructorRegisterListener {
 
     @EventHandler
     public void onClickCompass(InventoryClickEvent e) {
+        if (e.getCurrentItem() == null) return;
+        if (!e.getCurrentItem().hasItemMeta()) return;
         if (e.getClickedInventory() instanceof PlayerInventory && e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator"))
             e.setCancelled(true);
     }
