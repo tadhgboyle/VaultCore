@@ -42,15 +42,9 @@ public class MsgCommand extends CommandExecutor {
         return VLPlayer.getOnlinePlayers().stream().map(p -> new WrappedSuggestion(p.getName())).collect(Collectors.toList());
     }
 
-    @SubCommand("msg")
     @SneakyThrows
-    public void msg(VLPlayer sender, String target, String message) {
-        OfflinePlayer player = Bukkit.getOfflinePlayer(target);
-        if (player == null) {
-            sender.sendMessage(OfflinePlayerArgument.NO_PLAYERS_FOUND.create().getMessage());
-            return;
-        }
-        String uuid = player.getUniqueId().toString();
+    static void pm(VLPlayer sender, OfflinePlayer target, String message) {
+        String uuid = target.getUniqueId().toString();
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream stream = new DataOutputStream(bos);
@@ -75,5 +69,16 @@ public class MsgCommand extends CommandExecutor {
 
         sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "vaultcore:tell", bos.toByteArray());
         stream.close();
+    }
+
+    @SubCommand("msg")
+    @SneakyThrows
+    public void msg(VLPlayer sender, String target, String message) {
+        OfflinePlayer player = Bukkit.getOfflinePlayer(target);
+        if (player == null) {
+            sender.sendMessage(OfflinePlayerArgument.NO_PLAYERS_FOUND.create().getMessage());
+            return;
+        }
+        pm(sender, player, message);
     }
 }

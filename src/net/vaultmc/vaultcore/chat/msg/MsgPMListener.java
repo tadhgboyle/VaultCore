@@ -36,6 +36,7 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
             responses.remove(id);
             from.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
                     from.getFormattedName(), to.getFormattedName(), message));
+            MsgCommand.getReplies().put(from.getUniqueId(), to.getUniqueId());
             return;
         }
         Set<Boolean> b = responses.getOrDefault(id, new HashSet<>());
