@@ -409,5 +409,8 @@ vaultcore:
       empty-clipboard: "&cCannot save that schematic, your clipboard is empty."
       list:
         header: "&2--== [Schematics] ==--"
-        no_schems: "&cYou have no schematics."
-        total: "&eYou have a total of &2{SCHEMS}&e."
+        no_schems: "&c{TARGET} has no schematics."
+        total: "&e{TARGET} has a total of &2{AMOUNT}&e {SCHEMS}."
+      deleted: "&6{SCHEM}&e has been deleted."
+      not_deleted: "&c{SCHEM} could not be deleted. Please contact an Administrator for help."
+      deleted_target: "{SENDER}&e has deleted your schematic &6{SCHEM}&e."
