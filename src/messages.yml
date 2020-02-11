@@ -286,6 +286,7 @@ buggy:
       &ePage &a{PAGE}&e of &a{MAX_PAGE}&e.
     showing: "&eShowing &a[{TYPE}]&e."
     opened-only: "Opened Only"
+    all: "All"
     closed: "Closed"
     hover:
       reporter: "&eReporter: &6{REPORTER}"

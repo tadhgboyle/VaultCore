@@ -202,25 +202,33 @@ public class BuggyCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
             return;
         }
-        sender.sendMessage(bug.getTitle());
+        sender.sendMessage(ChatColor.GREEN + bug.getTitle());
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.DESCRIPTION.getKey()) + ":");
-        sender.sendMessage(bug.getDescription());
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + bug.getDescription());
+        sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.EXPECTED_BEHAVIOR.getKey()) + ":");
-        sender.sendMessage(bug.getExpectedBehavior());
+        sender.sendMessage(ChatColor.GREEN + bug.getExpectedBehavior());
+        sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.ACTUAL_BEHAVIOR.getKey()) + ":");
-        sender.sendMessage(bug.getActualBehavior());
+        sender.sendMessage(ChatColor.GREEN + bug.getActualBehavior());
+        sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.STEPS_TO_REPRODUCE.getKey()) + ":");
         for (int i = 0; i < bug.getStepsToReproduce().size(); i++) {
-            sender.sendMessage(ChatColor.YELLOW.toString() + (i + 1) + ". " + bug.getStepsToReproduce().get(i));
+            sender.sendMessage(ChatColor.GREEN.toString() + (i + 1) + ". " + bug.getStepsToReproduce().get(i));
         }
+        sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.ADDITIONAL_INFORMATION.getKey()) + ":");
-        sender.sendMessage(bug.getAdditionalInformation());
+        sender.sendMessage(ChatColor.GREEN + bug.getAdditionalInformation());
+        sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.reporter") + ":");
         sender.sendMessage(bug.getReporter().getFormattedName());
+        sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.assignees") + ":");
         sender.sendMessage(bug.getAssignee().size() == 0 ? "-" : listToString(bug.getAssignee()));
+        sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.uid") + ":");
-        sender.sendMessage(ChatColor.GOLD + bug.getUniqueId().toString());
+        sender.sendMessage(ChatColor.GREEN + bug.getUniqueId().toString());
     }
 
     @SubCommand("bugs")
