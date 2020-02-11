@@ -254,12 +254,14 @@ buggy:
     &eTo cancel anytime, type &6CANCEL&e (in all caps).
     &ePlease send meaningful bug reports and do not mess around with the system.
     &a--------
+  cancelled: "&eCancelled."
+  status-set: "&eSet status of &6{BUG}&e to &6{STATUS}&e."
   title: "&ePlease enter the title of your bug report:"
   description: "&ePlease enter a brief description of the bug you discovered:"
   expected-behavior: "&ePlease enter your expected behavior:"
   actual-behavior: "&ePlease enter the actual behavior:"
   steps-to-reproduce: "&ePlease enter the steps to reproduce the bug."
-  type-another-or-at: "&eType the next step to reproduce, or &6@&e to continue."
+  type-another-or-at: "&eType the next step to reproduce, or &6!&e to continue."
   additional-information: "&ePlease enter any additional information, or &6None&e if none:"
   finished: "&eThank you for contributing to the server! Your bug is reported with unique ID &6{UID}&e."
   only-pages: "&cThere are only {PAGE} pages."

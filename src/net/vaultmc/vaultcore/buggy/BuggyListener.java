@@ -7,6 +7,7 @@ import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +18,18 @@ public class BuggyListener extends ConstructorRegisterListener {
     static final Map<UUID, Bug> bugs = new HashMap<>();
 
     @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        stages.remove(e.getPlayer().getUniqueId());
+        bugs.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
     public void onPlayerCreateBug(AsyncPlayerChatEvent e) {
         if (stages.containsKey(e.getPlayer().getUniqueId())) {
             VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-            if (e.getMessage().equals("CANCEL")) {
+            if (e.getMessage().trim().equalsIgnoreCase("CANCEL")) {
                 player.sendMessage(VaultLoader.getMessage("buggy.cancelled"));
+                e.setCancelled(true);
                 stages.remove(e.getPlayer().getUniqueId());
                 bugs.remove(e.getPlayer().getUniqueId());
                 return;
@@ -48,7 +56,7 @@ public class BuggyListener extends ConstructorRegisterListener {
                     stages.put(player.getUniqueId(), Stage.STEPS_TO_REPRODUCE);
                     break;
                 case STEPS_TO_REPRODUCE:
-                    if (e.getMessage().equals("@")) {
+                    if (e.getMessage().trim().equals("!")) {
                         player.sendMessage(VaultLoader.getMessage("buggy.additional-information"));
                         stages.put(player.getUniqueId(), Stage.ADDITIONAL_INFORMATION);
                         break;
@@ -61,8 +69,8 @@ public class BuggyListener extends ConstructorRegisterListener {
                     player.sendMessage(VaultLoader.getMessage("buggy.finished").replace("{UID}",
                             bugs.get(player.getUniqueId()).getUniqueId().toString()));
                     stages.remove(player.getUniqueId());
+                    bugs.get(player.getUniqueId()).setStatus(Bug.Status.OPEN);
                     Bug.getBugs().add(bugs.get(player.getUniqueId()));
-
                     break;
             }
             e.setCancelled(true);

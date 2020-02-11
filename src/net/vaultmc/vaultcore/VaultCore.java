@@ -71,7 +71,6 @@ import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -144,7 +143,6 @@ public final class VaultCore extends Component implements Listener {
                 "BungeeCord");
 
         setupChat();
-        ConfigurationSerialization.registerClass(Bug.class);
         Bug.load();
 
         new MsgCommand();

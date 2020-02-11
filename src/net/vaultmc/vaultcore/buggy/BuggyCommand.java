@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
@@ -36,6 +37,12 @@ public class BuggyCommand extends CommandExecutor {
         ));
         register("bug", Arrays.asList(
                 Arguments.createLiteral("bug"),
+                Arguments.createArgument("uid", Arguments.greedyString())
+        ));
+        register("status", Arrays.asList(
+                Arguments.createLiteral("bug"),
+                Arguments.createLiteral("status"),
+                Arguments.createArgument("status", Arguments.word()),
                 Arguments.createArgument("uid", Arguments.greedyString())
         ));
         register("assign", Arrays.asList(
@@ -67,6 +74,51 @@ public class BuggyCommand extends CommandExecutor {
             sb.append(ChatColor.YELLOW.toString()).append(", ").append(player.getFormattedName());
         }
         return sb.toString();
+    }
+
+    @TabCompleter(
+            subCommand = "status",
+            argument = "status"
+    )
+    public List<WrappedSuggestion> suggestStatus(VLPlayer sender, String remaining) {
+        return Arrays.stream(Bug.Status.values()).map(s -> new WrappedSuggestion(s.toString().toLowerCase())).collect(Collectors.toList());
+    }
+
+    @SubCommand("status")
+    @Permission(Permissions.BuggyAdmin)
+    public void status(VLPlayer sender, String name, String uid) {
+        Bug.Status status;
+
+        try {
+            status = Bug.Status.valueOf(name.toUpperCase());
+        } catch (Exception ex) {
+            sender.sendMessage(ChatColor.RED + "Bad status.");
+            return;
+        }
+
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(uid);
+        } catch (Exception ex) {
+            sender.sendMessage(ChatColor.RED + "Bad UUID");
+            return;
+        }
+        Bug bug = null;
+        for (Bug x : Bug.getBugs()) {
+            if (x.getUniqueId() == uuid) {
+                bug = x;
+                break;
+            }
+        }
+        if (bug == null) {
+            sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
+            return;
+        }
+
+        bug.setStatus(status);
+        sender.sendMessage(VaultLoader.getMessage("buggy.status-set")
+                .replace("{BUG}", bug.getTitle())
+                .replace("{STATUS}", name));
     }
 
     @SubCommand("assign")

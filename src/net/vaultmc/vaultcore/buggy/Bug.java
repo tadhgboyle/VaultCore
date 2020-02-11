@@ -4,13 +4,15 @@ import lombok.Data;
 import lombok.Getter;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
-public class Bug implements ConfigurationSerializable {
+public class Bug {
     @Getter
     private static final List<Bug> bugs = new ArrayList<>();
     private String title;
@@ -52,18 +54,18 @@ public class Bug implements ConfigurationSerializable {
 
     public static void load() {
         for (String key : VaultCore.getInstance().getData().getConfigurationSection("bugs").getKeys(false)) {
-            bugs.add((Bug) VaultCore.getInstance().getData().get("bugs." + key));
+            bugs.add(Bug.deserialize(VaultCore.getInstance().getData().getConfigurationSection("bugs." + key)));
         }
     }
 
     public static void save() {
         for (Bug bug : bugs) {
-            VaultCore.getInstance().getData().set("bugs." + bug.getUniqueId().toString(), bug);
+            bug.serialize(VaultCore.getInstance().getData().createSection(bug.getUniqueId().toString()));
         }
         VaultCore.getInstance().saveConfig();
     }
 
-    public static Bug deserialize(Map<String, Object> map) {
+    public static Bug deserialize(ConfigurationSection map) {
         return new Bug((String) map.get("title"), (String) map.get("description"), (String) map.get("actual-behavior"),
                 (String) map.get("expected-behavior"), (List<String>) map.get("steps-to-reproduce"),
                 (String) map.get("additional-information"), (boolean) map.get("hidden"),
@@ -72,21 +74,18 @@ public class Bug implements ConfigurationSerializable {
                 UUID.fromString((String) map.get("uuid")), Status.valueOf((String) map.get("status")));
     }
 
-    @Override
-    public Map<String, Object> serialize() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("title", title);
-        map.put("description", description);
-        map.put("actual-behavior", actualBehavior);
-        map.put("expected-behavior", expectedBehavior);
-        map.put("steps-to-reproduce", stepsToReproduce);
-        map.put("additional-information", additionalInformation);
-        map.put("hidden", hidden);
-        map.put("status", status.toString());
-        map.put("reporter", reporter.getUniqueId().toString());
-        map.put("assignee", assignee.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
-        map.put("uuid", uniqueId.toString());
-        return map;
+    public void serialize(ConfigurationSection section) {
+        section.set("title", title);
+        section.set("description", description);
+        section.set("actual-behavior", actualBehavior);
+        section.set("expected-behavior", expectedBehavior);
+        section.set("steps-to-reproduce", stepsToReproduce);
+        section.set("additional-information", additionalInformation);
+        section.set("hidden", hidden);
+        section.set("status", status.toString());
+        section.set("reporter", reporter.getUniqueId().toString());
+        section.set("assignee", assignee.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
+        section.set("uuid", uniqueId.toString());
     }
 
     public enum Status {
