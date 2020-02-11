@@ -8,6 +8,9 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.vaultmc.vaultcore.brand.BrandCommand;
 import net.vaultmc.vaultcore.brand.BrandListener;
+import net.vaultmc.vaultcore.buggy.Bug;
+import net.vaultmc.vaultcore.buggy.BuggyCommand;
+import net.vaultmc.vaultcore.buggy.BuggyListener;
 import net.vaultmc.vaultcore.chat.ChatUtils;
 import net.vaultmc.vaultcore.chat.ClearChatCommand;
 import net.vaultmc.vaultcore.chat.ConsoleSay;
@@ -68,6 +71,7 @@ import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -140,6 +144,8 @@ public final class VaultCore extends Component implements Listener {
                 "BungeeCord");
 
         setupChat();
+        ConfigurationSerialization.registerClass(Bug.class);
+        Bug.load();
 
         new MsgCommand();
         new ReplyCommand();
@@ -215,6 +221,8 @@ public final class VaultCore extends Component implements Listener {
         new UnclaimCommand();
         new SchemCommand();
         new ServerNavigator();
+        new BuggyCommand();
+        new BuggyListener();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
@@ -320,5 +328,6 @@ public final class VaultCore extends Component implements Listener {
     public void onDisable() {
         database.close();
         pDatabase.close();
+        Bug.save();
     }
 }

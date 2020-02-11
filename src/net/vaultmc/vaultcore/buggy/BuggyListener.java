@@ -1,0 +1,78 @@
+package net.vaultmc.vaultcore.buggy;
+
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+public class BuggyListener extends ConstructorRegisterListener {
+    static final Map<UUID, Stage> stages = new HashMap<>();
+    static final Map<UUID, Bug> bugs = new HashMap<>();
+
+    @EventHandler
+    public void onPlayerCreateBug(AsyncPlayerChatEvent e) {
+        if (stages.containsKey(e.getPlayer().getUniqueId())) {
+            VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+            if (e.getMessage().equals("CANCEL")) {
+                player.sendMessage(VaultLoader.getMessage("buggy.cancelled"));
+                stages.remove(e.getPlayer().getUniqueId());
+                bugs.remove(e.getPlayer().getUniqueId());
+                return;
+            }
+            switch (stages.get(e.getPlayer().getUniqueId())) {
+                case TITLE:
+                    bugs.get(player.getUniqueId()).setTitle(e.getMessage());
+                    player.sendMessage(VaultLoader.getMessage("buggy.description"));
+                    stages.put(player.getUniqueId(), Stage.DESCRIPTION);
+                    break;
+                case DESCRIPTION:
+                    bugs.get(player.getUniqueId()).setDescription(e.getMessage());
+                    player.sendMessage(VaultLoader.getMessage("buggy.expected-behavior"));
+                    stages.put(player.getUniqueId(), Stage.EXPECTED_BEHAVIOR);
+                    break;
+                case EXPECTED_BEHAVIOR:
+                    bugs.get(player.getUniqueId()).setExpectedBehavior(e.getMessage());
+                    player.sendMessage(VaultLoader.getMessage("buggy.actual-behavior"));
+                    stages.put(player.getUniqueId(), Stage.ACTUAL_BEHAVIOR);
+                    break;
+                case ACTUAL_BEHAVIOR:
+                    bugs.get(player.getUniqueId()).setActualBehavior(e.getMessage());
+                    player.sendMessage(VaultLoader.getMessage("buggy.steps-to-reproduce"));
+                    stages.put(player.getUniqueId(), Stage.STEPS_TO_REPRODUCE);
+                    break;
+                case STEPS_TO_REPRODUCE:
+                    if (e.getMessage().equals("@")) {
+                        player.sendMessage(VaultLoader.getMessage("buggy.additional-information"));
+                        stages.put(player.getUniqueId(), Stage.ADDITIONAL_INFORMATION);
+                        break;
+                    }
+                    bugs.get(player.getUniqueId()).getStepsToReproduce().add(e.getMessage());
+                    player.sendMessage(VaultLoader.getMessage("buggy.type-another-or-at"));
+                    break;
+                case ADDITIONAL_INFORMATION:
+                    bugs.get(player.getUniqueId()).setAdditionalInformation(e.getMessage());
+                    player.sendMessage(VaultLoader.getMessage("buggy.finished").replace("{UID}",
+                            bugs.get(player.getUniqueId()).getUniqueId().toString()));
+                    stages.remove(player.getUniqueId());
+                    Bug.getBugs().add(bugs.get(player.getUniqueId()));
+
+                    break;
+            }
+            e.setCancelled(true);
+        }
+    }
+
+    public enum Stage {
+        TITLE,
+        DESCRIPTION,
+        ACTUAL_BEHAVIOR,
+        EXPECTED_BEHAVIOR,
+        STEPS_TO_REPRODUCE,
+        ADDITIONAL_INFORMATION
+    }
+}

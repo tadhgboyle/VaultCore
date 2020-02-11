@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore;
 
 public final class Permissions {
+    public static final String BuggyCommand = "vaultcore.buggy";
     public static final String BackCommand = "vaultcore.back";
     public static final String DiscordCommand = "vaultcore.discord";
     public static final String MsgCommand = "vaultcore.msg";

@@ -221,7 +221,7 @@ tour:
   history:
     title: "&e&lHistory of VaultMC"
 
-    # I hope we can find the legacy island-ish lobby
+    # I hope we can find the legacy island-ish lobby (We did!)
     displaying-legacy-lobby: |-
       &6&lThe very beginning
       &eOn February 11th 2019, the idea of VaultMC began.
@@ -244,9 +244,43 @@ tour:
       &eSince then we have been adding rewriting nearly all the plugins to our custom suite, developing new game modes and expanding our network to include multiple servers.
       &a-
       &e(You can still turn)
-   
+
     the-rise-of-vaultmc: "Unused. Will add when VaultMC reaches 100+ online players at a time."
     # ^ This is awesome.
+
+buggy:
+  notice: |-
+    &eMake sure you have checked &6/buggy bugs&e to see if an existing bug report already exist!
+    &eTo cancel anytime, type &6CANCEL&e (in all caps).
+    &ePlease send meaningful bug reports and do not mess around with the system.
+    &a--------
+  title: "&ePlease enter the title of your bug report:"
+  description: "&ePlease enter a brief description of the bug you discovered:"
+  expected-behavior: "&ePlease enter your expected behavior:"
+  actual-behavior: "&ePlease enter the actual behavior:"
+  steps-to-reproduce: "&ePlease enter the steps to reproduce the bug."
+  type-another-or-at: "&eType the next step to reproduce, or &6@&e to continue."
+  finished: "&eThank you for contributing to the server! Your bug is reported with unique ID &6{UID}&e."
+  only-pages: "&cThere are only {PAGE} pages."
+  bugs:
+    header: |-
+      &eBuggy Bug Tracker
+      &ePage &a{PAGE}&e of &a{MAX_PAGE}&e.
+    showing: "&eShowing &a[{TYPE}]&e."
+    opened-only: "Opened Only"
+    closed: "Closed"
+    hover:
+      reporter: "&eReporter: &6{REPORTER}"
+      assignees: "&eAssignees: &6{ASSIGNEES}"
+      status: "&eStatus: &a{STATUS}"
+    status:
+      open: "Open"
+      closed: "Closed"
+      resolved: "Resolved"
+      reopened: "Reopened"
+      postponed: "Postponed"
+      duplicate: "Duplicate"
+      intended: "Intended"
 
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
