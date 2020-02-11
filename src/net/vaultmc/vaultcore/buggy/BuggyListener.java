@@ -1,5 +1,7 @@
 package net.vaultmc.vaultcore.buggy;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -67,12 +69,16 @@ public class BuggyListener extends ConstructorRegisterListener {
         }
     }
 
+    @AllArgsConstructor
     public enum Stage {
-        TITLE,
-        DESCRIPTION,
-        ACTUAL_BEHAVIOR,
-        EXPECTED_BEHAVIOR,
-        STEPS_TO_REPRODUCE,
-        ADDITIONAL_INFORMATION
+        TITLE("buggy.stage.title"),
+        DESCRIPTION("buggy.stage.description"),
+        ACTUAL_BEHAVIOR("buggy.stage.actual-behavior"),
+        EXPECTED_BEHAVIOR("buggy.stage.expected-behavior"),
+        STEPS_TO_REPRODUCE("buggy.stage.steps-to-reproduce"),
+        ADDITIONAL_INFORMATION("buggy.stage.additional-information");
+
+        @Getter
+        private String key;
     }
 }

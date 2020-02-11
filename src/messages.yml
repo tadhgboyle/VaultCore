@@ -260,8 +260,24 @@ buggy:
   actual-behavior: "&ePlease enter the actual behavior:"
   steps-to-reproduce: "&ePlease enter the steps to reproduce the bug."
   type-another-or-at: "&eType the next step to reproduce, or &6@&e to continue."
+  additional-information: "&ePlease enter any additional information, or &6None&e if none:"
   finished: "&eThank you for contributing to the server! Your bug is reported with unique ID &6{UID}&e."
   only-pages: "&cThere are only {PAGE} pages."
+  no-bug-found: "&cNo bug was found"
+  reporter: "Reporter"
+  assignees: "Assignees"
+  uid: "UID"
+  assigned: "&eAssigned &6{PLAYER}&e to &6{BUG}&e."
+  unassigned: "&eUnassigned &6{PLAYER}&e from &6{BUG}&e."
+  you-assigned: "&eYou are assigned to the bug &6{BUG} ({UID})&e."
+  you-unassigned: "&eYou are no longer assigned to the bug &6{BUG} ({UID})&e."
+  stage:
+    title: "Title"
+    description: "Description"
+    expected-behavior: "Expected Behavior"
+    actual-behavior: "Actual Behavior"
+    steps-to-reproduce: "Steps to reproduce"
+    additional-information: "Additional Information"
   bugs:
     header: |-
       &eBuggy Bug Tracker

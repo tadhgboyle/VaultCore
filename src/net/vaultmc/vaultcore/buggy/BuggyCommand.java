@@ -11,10 +11,7 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RootCommand(
@@ -41,6 +38,18 @@ public class BuggyCommand extends CommandExecutor {
                 Arguments.createLiteral("bug"),
                 Arguments.createArgument("uid", Arguments.greedyString())
         ));
+        register("assign", Arrays.asList(
+                Arguments.createLiteral("bug"),
+                Arguments.createLiteral("assign"),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
+                Arguments.createArgument("uid", Arguments.greedyString())
+        ));
+        register("unassign", Arrays.asList(
+                Arguments.createLiteral("bug"),
+                Arguments.createLiteral("unassign"),
+                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
+                Arguments.createArgument("uid", Arguments.greedyString())
+        ));
         register("report", Collections.singletonList(
                 Arguments.createLiteral("report")
         ));
@@ -58,6 +67,108 @@ public class BuggyCommand extends CommandExecutor {
             sb.append(ChatColor.YELLOW.toString()).append(", ").append(player.getFormattedName());
         }
         return sb.toString();
+    }
+
+    @SubCommand("assign")
+    @Permission(Permissions.BuggyAdmin)
+    public void assign(VLPlayer sender, VLOfflinePlayer player, String uid) {
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(uid);
+        } catch (Exception ex) {
+            sender.sendMessage(ChatColor.RED + "Bad UUID");
+            return;
+        }
+        Bug bug = null;
+        for (Bug x : Bug.getBugs()) {
+            if (x.getUniqueId() == uuid) {
+                bug = x;
+                break;
+            }
+        }
+        if (bug == null) {
+            sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
+            return;
+        }
+
+        bug.getAssignee().add(player);
+        player.sendOrScheduleMessage(VaultLoader.getMessage("buggy.you-assigned")
+                .replace("{BUG}", bug.getTitle())
+                .replace("{UID}", bug.getUniqueId().toString()));
+        sender.sendMessage(VaultLoader.getMessage("buggy.assigned")
+                .replace("{PLAYER}", player.getFormattedName())
+                .replace("{BUG}", bug.getTitle()));
+    }
+
+    @SubCommand("unassign")
+    @Permission(Permissions.BuggyAdmin)
+    public void unassign(VLPlayer sender, VLOfflinePlayer player, String uid) {
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(uid);
+        } catch (Exception ex) {
+            sender.sendMessage(ChatColor.RED + "Bad UUID");
+            return;
+        }
+        Bug bug = null;
+        for (Bug x : Bug.getBugs()) {
+            if (x.getUniqueId() == uuid) {
+                bug = x;
+                break;
+            }
+        }
+        if (bug == null) {
+            sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
+            return;
+        }
+        bug.getAssignee().remove(player);
+        player.sendOrScheduleMessage(VaultLoader.getMessage("buggy.you-unassigned")
+                .replace("{BUG}", bug.getTitle())
+                .replace("{UID}", bug.getUniqueId().toString()));
+        sender.sendMessage(VaultLoader.getMessage("buggy.unassigned")
+                .replace("{PLAYER}", player.getFormattedName())
+                .replace("{BUG}", bug.getTitle()));
+    }
+
+    @SubCommand("bug")
+    public void bug(VLPlayer sender, String uid) {
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(uid);
+        } catch (Exception ex) {
+            sender.sendMessage(ChatColor.RED + "Bad UUID");
+            return;
+        }
+        Bug bug = null;
+        for (Bug x : Bug.getBugs()) {
+            if (x.getUniqueId() == uuid) {
+                bug = x;
+                break;
+            }
+        }
+        if (bug == null) {
+            sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
+            return;
+        }
+        sender.sendMessage(bug.getTitle());
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.DESCRIPTION.getKey()) + ":");
+        sender.sendMessage(bug.getDescription());
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.EXPECTED_BEHAVIOR.getKey()) + ":");
+        sender.sendMessage(bug.getExpectedBehavior());
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.ACTUAL_BEHAVIOR.getKey()) + ":");
+        sender.sendMessage(bug.getActualBehavior());
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.STEPS_TO_REPRODUCE.getKey()) + ":");
+        for (int i = 0; i < bug.getStepsToReproduce().size(); i++) {
+            sender.sendMessage(ChatColor.YELLOW.toString() + (i + 1) + ". " + bug.getStepsToReproduce().get(i));
+        }
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.ADDITIONAL_INFORMATION.getKey()) + ":");
+        sender.sendMessage(bug.getAdditionalInformation());
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.reporter") + ":");
+        sender.sendMessage(bug.getReporter().getFormattedName());
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.assignees") + ":");
+        sender.sendMessage(bug.getAssignee().size() == 0 ? "-" : listToString(bug.getAssignee()));
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.uid") + ":");
+        sender.sendMessage(ChatColor.GOLD + bug.getUniqueId().toString());
     }
 
     @SubCommand("bugs")
