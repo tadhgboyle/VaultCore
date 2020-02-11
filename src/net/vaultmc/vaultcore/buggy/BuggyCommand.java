@@ -203,8 +203,8 @@ public class BuggyCommand extends CommandExecutor {
             return;
         }
         sender.sendMessage(ChatColor.GREEN + bug.getTitle());
-        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.DESCRIPTION.getKey()) + ":");
         sender.sendMessage("");
+        sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.DESCRIPTION.getKey()) + ":");
         sender.sendMessage(ChatColor.GREEN + bug.getDescription());
         sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage(BuggyListener.Stage.EXPECTED_BEHAVIOR.getKey()) + ":");
