@@ -299,7 +299,7 @@ public class BuggyCommand extends CommandExecutor {
         showing.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + (page + 1) + " " + !openedOnly));
         sender.sendMessage(showing);
 
-        TextComponent arrows = page != 1 ? new TextComponent(ChatColor.GOLD + "\u2190") : new TextComponent(" ");
+        TextComponent arrows = page != 0 ? new TextComponent(ChatColor.GOLD + "\u2190") : new TextComponent(" ");
         arrows.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + page + " " + openedOnly));
         arrows.addExtra(new TextComponent("                              "));
         TextComponent next = (page + 1 != pages) ? new TextComponent(ChatColor.GOLD + "\u2192") : new TextComponent(" ");
