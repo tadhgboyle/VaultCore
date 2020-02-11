@@ -71,6 +71,7 @@ public class BuggyListener extends ConstructorRegisterListener {
                     stages.remove(player.getUniqueId());
                     bugs.get(player.getUniqueId()).setStatus(Bug.Status.OPEN);
                     Bug.getBugs().add(bugs.get(player.getUniqueId()));
+                    bugs.remove(player.getUniqueId());
                     break;
             }
             e.setCancelled(true);

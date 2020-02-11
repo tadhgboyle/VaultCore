@@ -60,7 +60,7 @@ public class Bug {
 
     public static void save() {
         for (Bug bug : bugs) {
-            bug.serialize(VaultCore.getInstance().getData().createSection(bug.getUniqueId().toString()));
+            bug.serialize(VaultCore.getInstance().getData().createSection("bugs." + bug.getUniqueId().toString()));
         }
         VaultCore.getInstance().saveConfig();
     }

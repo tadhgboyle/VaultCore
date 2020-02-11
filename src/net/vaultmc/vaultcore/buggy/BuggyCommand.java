@@ -241,11 +241,19 @@ public class BuggyCommand extends CommandExecutor {
 
         int pages;
         if (openedOnly) {
-            pages = Bug.getBugs().stream().filter(b ->
+            int size = Bug.getBugs().stream().filter(b ->
                     (b.getStatus() == Bug.Status.OPEN || b.getStatus() == Bug.Status.REOPENED) && b.getStatus() != Bug.Status.CREATING)
-                    .collect(Collectors.toSet()).size() / 7;
+                    .collect(Collectors.toSet()).size();
+            pages = size / 7;
+            if (size % 7 != 0) {
+                pages++;
+            }
         } else {
-            pages = Bug.getBugs().stream().filter(b -> b.getStatus() != Bug.Status.CREATING).collect(Collectors.toSet()).size() / 7;
+            int size = Bug.getBugs().stream().filter(b -> b.getStatus() != Bug.Status.CREATING).collect(Collectors.toSet()).size();
+            pages = size / 7;
+            if (size % 7 != 0) {
+                pages++;
+            }
         }
 
         if (page > pages) {
