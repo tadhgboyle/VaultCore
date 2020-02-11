@@ -105,7 +105,7 @@ public class BuggyCommand extends CommandExecutor {
         }
         Bug bug = null;
         for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId() == uuid) {
+            if (x.getUniqueId().toString().equals(uuid.toString())) {
                 bug = x;
                 break;
             }
@@ -133,7 +133,7 @@ public class BuggyCommand extends CommandExecutor {
         }
         Bug bug = null;
         for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId() == uuid) {
+            if (x.getUniqueId().toString().equals(uuid.toString())) {
                 bug = x;
                 break;
             }
@@ -164,7 +164,7 @@ public class BuggyCommand extends CommandExecutor {
         }
         Bug bug = null;
         for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId() == uuid) {
+            if (x.getUniqueId().toString().equals(uuid.toString())) {
                 bug = x;
                 break;
             }
@@ -193,7 +193,7 @@ public class BuggyCommand extends CommandExecutor {
         }
         Bug bug = null;
         for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId() == uuid) {
+            if (x.getUniqueId().toString().equals(uuid.toString())) {
                 bug = x;
                 break;
             }
@@ -288,7 +288,7 @@ public class BuggyCommand extends CommandExecutor {
         TextComponent showing = new TextComponent(VaultLoader.getMessage("buggy.bugs.showing")
                 .replace("{TYPE}", openedOnly ? VaultLoader.getMessage("buggy.bugs.opened-only") :
                         VaultLoader.getMessage("buggy.bugs.all")));
-        showing.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + page + " " + !openedOnly));
+        showing.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + (page + 1) + " " + !openedOnly));
         sender.sendMessage(showing);
 
         TextComponent arrows = page != 1 ? new TextComponent(ChatColor.GOLD + "\u2190") : new TextComponent(" ");
