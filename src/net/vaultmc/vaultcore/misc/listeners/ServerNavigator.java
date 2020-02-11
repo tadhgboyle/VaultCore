@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.misc.listeners;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
@@ -86,36 +87,38 @@ public class ServerNavigator extends ConstructorRegisterListener {
         if (e.getClickedInventory() instanceof PlayerInventory) return;
         if (e.getInventory() == inv) {
             VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
-            switch (e.getSlot()) {
-                case 0:
-                    player.getPlayer().performCommand("sv");
-                    break;
-                case 1:
-                    player.getPlayer().performCommand("cr");
-                    break;
-                case 2:
-                    FileConfiguration data = player.getDataConfig();
-                    if (!data.contains("locations.clans")) {
-                        player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
-                    } else {
-                        player.teleport(data.getLocation("locations.clans"));
-                    }
-                    break;
-                case 3:
-                    player.getPlayer().performCommand("is");
-                    break;
-                case 4:
-                    ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                    out.writeUTF("Connect");
-                    out.writeUTF("uhc");
-                    player.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
-                    break;
-                case 5:
-                    ByteArrayDataOutput output = ByteStreams.newDataOutput();
-                    output.writeUTF("Connect");
-                    output.writeUTF("backup");
-                    player.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", output.toByteArray());
-                    break;
+            if (!Tour.getTouringPlayers().contains(player.getUniqueId())) {
+                switch (e.getSlot()) {
+                    case 0:
+                        player.getPlayer().performCommand("sv");
+                        break;
+                    case 1:
+                        player.getPlayer().performCommand("cr");
+                        break;
+                    case 2:
+                        FileConfiguration data = player.getDataConfig();
+                        if (!data.contains("locations.clans")) {
+                            player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
+                        } else {
+                            player.teleport(data.getLocation("locations.clans"));
+                        }
+                        break;
+                    case 3:
+                        player.getPlayer().performCommand("is");
+                        break;
+                    case 4:
+                        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                        out.writeUTF("Connect");
+                        out.writeUTF("uhc");
+                        player.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
+                        break;
+                    case 5:
+                        ByteArrayDataOutput output = ByteStreams.newDataOutput();
+                        output.writeUTF("Connect");
+                        output.writeUTF("backup");
+                        player.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", output.toByteArray());
+                        break;
+                }
             }
             e.setCancelled(true);
         }
