@@ -276,9 +276,9 @@ public class BuggyCommand extends CommandExecutor {
         for (Bug bug : toShow) {
             TextComponent component = new TextComponent(ChatColor.GREEN + bug.getTitle());
             component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
-                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.reporter").replace("{REPORTER}", bug.getReporter().getFormattedName())),
-                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.assignees").replace("{ASSIGNEES}", listToString(bug.getAssignee()))),
-                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.status").replace("{STATUS}", VaultLoader.getMessage(bug.getStatus().getKey())))
+                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.reporter").replace("{REPORTER}", bug.getReporter().getFormattedName()) + "\n"),
+                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.assignees").replace("{ASSIGNEES}", listToString(bug.getAssignee())) + "\n"),
+                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.status").replace("{STATUS}", VaultLoader.getMessage(bug.getStatus().getKey())) + "\n")
             }));
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bug " + bug.getUniqueId().toString()));
             sender.sendMessage(component);
@@ -291,10 +291,10 @@ public class BuggyCommand extends CommandExecutor {
         showing.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + page + " " + !openedOnly));
         sender.sendMessage(showing);
 
-        TextComponent arrows = new TextComponent(ChatColor.GOLD + "\u2190");
+        TextComponent arrows = page != 1 ? new TextComponent(ChatColor.GOLD + "\u2190") : new TextComponent(" ");
         arrows.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + page + " " + openedOnly));
         arrows.addExtra(new TextComponent("                              "));
-        TextComponent next = new TextComponent(ChatColor.GOLD + "\u2192");
+        TextComponent next = (page + 1 != pages) ? new TextComponent(ChatColor.GOLD + "\u2192") : new TextComponent(" ");
         next.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + (page + 2) + " " + openedOnly));
         arrows.addExtra(next);
         sender.sendMessage(arrows);
