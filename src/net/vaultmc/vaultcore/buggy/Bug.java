@@ -51,15 +51,16 @@ public class Bug implements ConfigurationSerializable {
     }
 
     public static void load() {
-        for (String key : VaultCore.getInstance().getConfig().getConfigurationSection("bugs").getKeys(false)) {
-            bugs.add((Bug) VaultCore.getInstance().getConfig().get("bugs." + key));
+        for (String key : VaultCore.getInstance().getData().getConfigurationSection("bugs").getKeys(false)) {
+            bugs.add((Bug) VaultCore.getInstance().getData().get("bugs." + key));
         }
     }
 
     public static void save() {
         for (Bug bug : bugs) {
-            VaultCore.getInstance().getConfig().set("bugs." + bug.getUniqueId().toString(), bug);
+            VaultCore.getInstance().getData().set("bugs." + bug.getUniqueId().toString(), bug);
         }
+        VaultCore.getInstance().saveConfig();
     }
 
     public static Bug deserialize(Map<String, Object> map) {
