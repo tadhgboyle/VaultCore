@@ -123,7 +123,7 @@ public class BuggyCommand extends CommandExecutor {
         TextComponent arrows = new TextComponent(ChatColor.GOLD + "\u2190");
         arrows.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + page + " " + openedOnly));
         arrows.addExtra(new TextComponent("                              "));
-        TextComponent next = new TextComponent(ChatColor.GOLD + "\u2191");
+        TextComponent next = new TextComponent(ChatColor.GOLD + "\u2192");
         next.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + (page + 2) + " " + openedOnly));
         arrows.addExtra(next);
         sender.sendMessage(arrows);
