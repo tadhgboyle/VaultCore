@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.chat.msg;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -27,6 +28,19 @@ public class ReplyCommand extends CommandExecutor {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
             return;
         }
-        MsgCommand.pm(player, target, message);
+        player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                player.getFormattedName(), target.getFormattedName(), message));
+        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                player.getFormattedName(), target.getFormattedName(), message));
+        MsgCommand.getReplies().put(player.getUniqueId(), target.getUniqueId());
+
+        for (VLPlayer socialspy : SocialSpyCommand.toggled) {
+            if (!socialspy.getFormattedName().equals(player.getFormattedName())
+                    && !socialspy.getFormattedName().equals(target.getFormattedName())) {
+                socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
+                        + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                        player.getFormattedName(), target.getFormattedName(), message));
+            }
+        }
     }
 }

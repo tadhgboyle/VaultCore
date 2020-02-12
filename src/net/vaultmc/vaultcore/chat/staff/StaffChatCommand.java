@@ -24,7 +24,7 @@ public class StaffChatCommand extends CommandExecutor {
     }
 
     @SubCommand("chat")
-    public void chat(VLCommandSender sender, String message) {
+    public static void chat(VLCommandSender sender, String message) {
         for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
             if (player.hasPermission(Permissions.StaffChatCommand)) {
                 player.sendMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.prefix")
