@@ -137,6 +137,8 @@ public class ServerNavigator extends ConstructorRegisterListener {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
                     e.getPlayer().getInventory().setItem(4, paper));
+        } else {
+            e.getPlayer().getInventory().clear(4);
         }
     }
 

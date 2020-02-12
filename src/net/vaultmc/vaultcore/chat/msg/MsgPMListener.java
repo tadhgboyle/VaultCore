@@ -32,7 +32,7 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
             return;
         }
 
-        System.out.println("Adding to response: " + id + " " + from.getName() + " " + to.getName() + " " + message + " " + response);
+        Bukkit.getLogger().info("Adding to response: " + id + " " + from.getName() + " " + to.getName() + " " + message + " " + response);
 
         if (response) {
             responses.remove(id);
@@ -43,12 +43,14 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
         }
         Set<Boolean> b = responses.getOrDefault(id, new HashSet<>());
         b.add(false);
-        if (b.size() >= MessengerUtils.getServersBlocking().size()) {
-            responses.remove(id);
-            from.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.failed"));
-            return;
-        }
-        responses.put(id, b);
+        MessengerUtils.getServers(servers -> {
+            if (b.size() >= servers.size()) {
+                responses.remove(id);
+                from.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.failed"));
+                return;
+            }
+            responses.put(id, b);
+        });
     }
 
     @SneakyThrows
@@ -72,7 +74,7 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
         stream.writeShort(result.length);
         stream.write(result);
 
-        System.out.println("Sending success for " + id + " " + from + " " + to + " " + message);
+        Bukkit.getLogger().info("Sending success for " + id + " " + from + " " + to + " " + message);
 
         os.close();
         Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", sendingStream.toByteArray());
@@ -81,10 +83,16 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
 
     @SneakyThrows
     private static void failure(String id, String from, String to, String message) {
+        sendTellStatusTo(id, from, to, message, "ALL", "Failure");
+        MessengerUtils.getThisServer(server -> sendTellStatusTo(id, from, to, message, server, "Success"));
+    }
+
+    @SneakyThrows
+    private static void sendTellStatusTo(String id, String from, String to, String message, String server, String status) {
         ByteArrayOutputStream sendingStream = new ByteArrayOutputStream();
         DataOutputStream stream = new DataOutputStream(sendingStream);
         stream.writeUTF("Forward");
-        stream.writeUTF("ALL");
+        stream.writeUTF(server);
         stream.writeUTF("vaultcore:tell");
 
         ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
@@ -94,13 +102,11 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
         os.writeUTF(from);
         os.writeUTF(to);
         os.writeUTF(message);
-        os.writeUTF("Failure");
+        os.writeUTF(status);
         byte[] result = dataStream.toByteArray();
 
         stream.writeShort(result.length);
         stream.write(result);
-
-        System.out.println("Sending failure for " + id + " " + from + " " + to + " " + message);
 
         os.close();
         Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", sendingStream.toByteArray());
@@ -117,12 +123,12 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         DataInputStream bungee = new DataInputStream(new ByteArrayInputStream(message));
         String subChannel = bungee.readUTF();
-        System.out.println("subChannel = " + subChannel);
-        if (subChannel.equals("vaultcore:tell")) {
+        Bukkit.getLogger().info("subChannel = " + subChannel);
+        if (subChannel.equalsIgnoreCase("vaultcore:tell")) {
             byte[] bytes = new byte[bungee.readShort()];
             bungee.readFully(bytes);
             bungee.close();
-            System.out.println("bytes = " + Arrays.toString(bytes));
+            Bukkit.getLogger().info("bytes = " + Arrays.toString(bytes));
 
             DataInputStream stream = new DataInputStream(new ByteArrayInputStream(bytes));
             String command = stream.readUTF();  // Must be TellFromTo or TellStatus
@@ -135,7 +141,7 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
                 VLPlayer target = VLPlayer.getPlayer(UUID.fromString(stream.readUTF()));
                 String msg = stream.readUTF();
 
-                System.out.println("Received TellFromTo: " + from.getName() + " " + target.getName() + " " + msg);
+                Bukkit.getLogger().info("Received TellFromTo: " + from.getName() + " " + target.getName() + " " + msg);
 
                 if (target != null && target.getDataConfig().getBoolean("settings.msg", true)) {
                     //from.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
@@ -164,7 +170,7 @@ public class MsgPMListener extends ConstructorRegisterListener implements Plugin
                     VLOfflinePlayer to = !"null".equals(toUID) ? VLOfflinePlayer.getOfflinePlayer(UUID.fromString(toUID)) : null;
                     String msg = stream.readUTF();
                     boolean response = stream.readUTF().equals("Success");
-                    System.out.println("Received TellStatus");
+                    Bukkit.getLogger().info("Received TellStatus");
                     addToResponse(uuid, from, to, msg, response);
                 }
             }

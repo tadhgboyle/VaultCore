@@ -16,8 +16,14 @@ public class StaffChatPMListener implements PluginMessageListener {
     @Override
     @SneakyThrows
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (channel.equalsIgnoreCase("vaultcore:staff_chat")) {
-            DataInputStream stream = new DataInputStream(new ByteArrayInputStream(message));
+        DataInputStream bungee = new DataInputStream(new ByteArrayInputStream(message));
+        if (bungee.readUTF().equals("vaultcore:staff_chat")) {
+            byte[] buffer = new byte[bungee.readShort()];
+            bungee.readFully(buffer);
+            bungee.close();
+
+            DataInputStream stream = new DataInputStream(new ByteArrayInputStream(buffer));
+
             String command = stream.readUTF();  // Must be Send or SetAlwaysOn
             if ("Send".equalsIgnoreCase(command)) {
                 String nameFrom = stream.readUTF();

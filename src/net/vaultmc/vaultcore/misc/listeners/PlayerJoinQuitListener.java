@@ -12,6 +12,7 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -29,6 +30,13 @@ public class PlayerJoinQuitListener implements Listener {
             total_players = rs.getString(1);
         }
         return total_players;
+    }
+
+    @EventHandler
+    public void preLogin(AsyncPlayerPreLoginEvent e) {
+        if (e.getName().equalsIgnoreCase("vaultmc")) {
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Username not allowed (Error: Reserved Username)");
+        }
     }
 
     @EventHandler
