@@ -21,11 +21,15 @@ package net.vaultmc.vaultcore.vanish;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServerListPingEvent;
+
+import java.util.Iterator;
 
 public class VanishListeners extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -37,6 +41,16 @@ public class VanishListeners extends ConstructorRegisterListener {
                 VanishCommand.setVanishState(player, true);
                 e.getPlayer().sendMessage(ChatColor.YELLOW + "You are still invisible!");
                 e.setJoinMessage(null);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onMultiplayerPagePing(ServerListPingEvent e) {
+        Iterator<Player> it = e.iterator();
+        while (it.hasNext()) {
+            if (VanishCommand.vanished.containsKey(it.next().getUniqueId())) {
+                it.remove();
             }
         }
     }
