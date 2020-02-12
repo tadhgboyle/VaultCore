@@ -209,14 +209,14 @@ public class BuggyCommand extends CommandExecutor {
         int pages;
         if (openedOnly) {
             int size = Bug.getBugs().stream().filter(b ->
-                    (b.getStatus() == Bug.Status.OPEN || b.getStatus() == Bug.Status.REOPENED) && b.getStatus() != Bug.Status.CREATING)
+                    (b.getStatus() == Bug.Status.OPEN || b.getStatus() == Bug.Status.REOPENED) && b.getStatus() != Bug.Status.CREATING && !b.isHidden())
                     .collect(Collectors.toSet()).size();
             pages = size / 7;
             if (size % 7 != 0) {
                 pages++;
             }
         } else {
-            int size = Bug.getBugs().stream().filter(b -> b.getStatus() != Bug.Status.CREATING).collect(Collectors.toSet()).size();
+            int size = Bug.getBugs().stream().filter(b -> b.getStatus() != Bug.Status.CREATING && !b.isHidden()).collect(Collectors.toSet()).size();
             pages = size / 7;
             if (size % 7 != 0) {
                 pages++;
@@ -241,6 +241,7 @@ public class BuggyCommand extends CommandExecutor {
                 .replace("{PAGE}", String.valueOf(page + 1))
                 .replace("{MAX_PAGE}", String.valueOf(pages)));
         for (Bug bug : toShow) {
+            if (bug.isHidden()) continue;
             TextComponent component = new TextComponent(ChatColor.GREEN + bug.getTitle());
             component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
                     new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.reporter").replace("{REPORTER}", bug.getReporter().getFormattedName()) + "\n"),

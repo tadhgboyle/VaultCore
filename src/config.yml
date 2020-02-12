@@ -9,8 +9,8 @@ mysql:
   host: localhost
   port: 3306
   database: VaultMC_Data
-  user: tadhg
-  password: Stjames123b!
+  user: null
+  password: null
 
 # Mod mode.
 mod-mode:

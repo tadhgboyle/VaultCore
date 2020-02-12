@@ -66,13 +66,19 @@ public class BuggyListener extends ConstructorRegisterListener {
                     break;
                 case ADDITIONAL_INFORMATION:
                     bugs.get(player.getUniqueId()).setAdditionalInformation(e.getMessage());
+                    player.sendMessage(VaultLoader.getMessage("buggy.should-hide"));
+                    stages.put(player.getUniqueId(), Stage.SHOULD_HIDE);
+                    break;
+                case SHOULD_HIDE:
                     player.sendMessage(VaultLoader.getMessage("buggy.finished").replace("{UID}",
-                            bugs.get(player.getUniqueId()).getUniqueId().toString()));
+                            bugs.get(player.getUniqueId()).getUniqueId()));
                     stages.remove(player.getUniqueId());
                     bugs.get(player.getUniqueId()).setStatus(Bug.Status.OPEN);
+                    if (e.getMessage().equalsIgnoreCase("Yes")) {
+                        bugs.get(player.getUniqueId()).setHidden(true);
+                    }
                     Bug.getBugs().add(bugs.get(player.getUniqueId()));
                     bugs.remove(player.getUniqueId());
-                    break;
             }
             e.setCancelled(true);
         }
@@ -85,7 +91,8 @@ public class BuggyListener extends ConstructorRegisterListener {
         ACTUAL_BEHAVIOR("buggy.stage.actual-behavior"),
         EXPECTED_BEHAVIOR("buggy.stage.expected-behavior"),
         STEPS_TO_REPRODUCE("buggy.stage.steps-to-reproduce"),
-        ADDITIONAL_INFORMATION("buggy.stage.additional-information");
+        ADDITIONAL_INFORMATION("buggy.stage.additional-information"),
+        SHOULD_HIDE("buggy.stage.should-hide");
 
         @Getter
         private String key;
