@@ -16,11 +16,9 @@ import net.vaultmc.vaultcore.chat.ClearChatCommand;
 import net.vaultmc.vaultcore.chat.ConsoleSay;
 import net.vaultmc.vaultcore.chat.MuteChatCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
-import net.vaultmc.vaultcore.chat.msg.MsgPMListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
-import net.vaultmc.vaultcore.chat.staff.StaffChatPMListener;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.creative.CycleListener;
@@ -146,9 +144,6 @@ public final class VaultCore extends Component implements Listener {
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
         getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
-        getServer().getMessenger().registerIncomingPluginChannel(VaultLoader.getInstance(), "bungeecord:main", new MessengerUtils());
-        getServer().getMessenger().registerIncomingPluginChannel(VaultLoader.getInstance(), "bungeecord:main", new MsgPMListener());
-        getServer().getMessenger().registerIncomingPluginChannel(VaultLoader.getInstance(), "bungeecord:main", new StaffChatPMListener());
 
         new CRCommand();
         new SVCommand();
