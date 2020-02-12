@@ -23,22 +23,24 @@ public class Bug {
     private String additionalInformation;
     private Status status;
     private boolean hidden;
-    private UUID uniqueId;
+    private static int currentId;
     private VLOfflinePlayer reporter;
     private List<VLOfflinePlayer> assignee;
+    private String uniqueId;
 
     public Bug() {
-        this(null, null, null, null, new ArrayList<>(), null, false, null, new ArrayList<>(), UUID.randomUUID(), Status.CREATING);
+        this(null, null, null, null, new ArrayList<>(), null, false, null, new ArrayList<>(),
+                "VAULTMC-" + currentId++, Status.CREATING);
     }
 
     Bug(String title, String description, String actualBehavior, String expectedBehavior, List<String> stepsToReproduce,
-        String additionalInformation, boolean hidden, VLOfflinePlayer reporter, List<VLOfflinePlayer> assignee, UUID uuid) {
+        String additionalInformation, boolean hidden, VLOfflinePlayer reporter, List<VLOfflinePlayer> assignee, String uuid) {
         this(title, description, actualBehavior, expectedBehavior, stepsToReproduce,
                 additionalInformation, hidden, reporter, assignee, uuid, Status.OPEN);
     }
 
     Bug(String title, String description, String actualBehavior, String expectedBehavior, List<String> stepsToReproduce,
-        String additionalInformation, boolean hidden, VLOfflinePlayer reporter, List<VLOfflinePlayer> assignee, UUID uuid, Status status) {
+        String additionalInformation, boolean hidden, VLOfflinePlayer reporter, List<VLOfflinePlayer> assignee, String uuid, Status status) {
         this.title = title;
         this.description = description;
         this.actualBehavior = actualBehavior;
@@ -52,16 +54,27 @@ public class Bug {
         uniqueId = uuid;
     }
 
+    public static Bug getBug(String uuid) {
+        for (Bug bug : bugs) {
+            if (bug.getUniqueId().equals(uuid)) {
+                return bug;
+            }
+        }
+        return null;
+    }
+
     public static void load() {
         for (String key : VaultCore.getInstance().getData().getConfigurationSection("bugs").getKeys(false)) {
             bugs.add(Bug.deserialize(VaultCore.getInstance().getData().getConfigurationSection("bugs." + key)));
         }
+        currentId = VaultCore.getInstance().getData().getInt("bugs-current-id", 0);
     }
 
     public static void save() {
         for (Bug bug : bugs) {
-            bug.serialize(VaultCore.getInstance().getData().createSection("bugs." + bug.getUniqueId().toString()));
+            bug.serialize(VaultCore.getInstance().getData().createSection("bugs." + bug.getUniqueId()));
         }
+        VaultCore.getInstance().getData().set("bugs-current-id", currentId);
         VaultCore.getInstance().saveConfig();
     }
 
@@ -71,7 +84,7 @@ public class Bug {
                 (String) map.get("additional-information"), (boolean) map.get("hidden"),
                 VLOfflinePlayer.getOfflinePlayer(UUID.fromString((String) map.get("reporter"))),
                 ((List<String>) map.get("assignee")).stream().map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s))).collect(Collectors.toList()),
-                UUID.fromString((String) map.get("uuid")), Status.valueOf((String) map.get("status")));
+                (String) map.get("uuid"), Status.valueOf((String) map.get("status")));
     }
 
     public void serialize(ConfigurationSection section) {
@@ -85,7 +98,7 @@ public class Bug {
         section.set("status", status.toString());
         section.set("reporter", reporter.getUniqueId().toString());
         section.set("assignee", assignee.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
-        section.set("uuid", uniqueId.toString());
+        section.set("uuid", uniqueId);
     }
 
     public enum Status {

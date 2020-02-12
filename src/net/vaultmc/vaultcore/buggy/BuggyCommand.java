@@ -12,7 +12,10 @@ import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RootCommand(
@@ -77,6 +80,14 @@ public class BuggyCommand extends CommandExecutor {
     }
 
     @TabCompleter(
+            subCommand = "bug|status|assign|unassign",
+            argument = "uid"
+    )
+    public List<WrappedSuggestion> suggestBugs(VLPlayer sender, String remaining) {
+        return Bug.getBugs().stream().map(bug -> new WrappedSuggestion(bug.getUniqueId())).collect(Collectors.toList());
+    }
+
+    @TabCompleter(
             subCommand = "status",
             argument = "status"
     )
@@ -96,20 +107,7 @@ public class BuggyCommand extends CommandExecutor {
             return;
         }
 
-        UUID uuid;
-        try {
-            uuid = UUID.fromString(uid);
-        } catch (Exception ex) {
-            sender.sendMessage(ChatColor.RED + "Bad UUID");
-            return;
-        }
-        Bug bug = null;
-        for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId().toString().equals(uuid.toString())) {
-                bug = x;
-                break;
-            }
-        }
+        Bug bug = Bug.getBug(uid);
         if (bug == null) {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
             return;
@@ -124,20 +122,7 @@ public class BuggyCommand extends CommandExecutor {
     @SubCommand("assign")
     @Permission(Permissions.BuggyAdmin)
     public void assign(VLPlayer sender, VLOfflinePlayer player, String uid) {
-        UUID uuid;
-        try {
-            uuid = UUID.fromString(uid);
-        } catch (Exception ex) {
-            sender.sendMessage(ChatColor.RED + "Bad UUID");
-            return;
-        }
-        Bug bug = null;
-        for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId().toString().equals(uuid.toString())) {
-                bug = x;
-                break;
-            }
-        }
+        Bug bug = Bug.getBug(uid);
         if (bug == null) {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
             return;
@@ -146,7 +131,7 @@ public class BuggyCommand extends CommandExecutor {
         bug.getAssignee().add(player);
         player.sendOrScheduleMessage(VaultLoader.getMessage("buggy.you-assigned")
                 .replace("{BUG}", bug.getTitle())
-                .replace("{UID}", bug.getUniqueId().toString()));
+                .replace("{UID}", bug.getUniqueId()));
         sender.sendMessage(VaultLoader.getMessage("buggy.assigned")
                 .replace("{PLAYER}", player.getFormattedName())
                 .replace("{BUG}", bug.getTitle()));
@@ -155,20 +140,7 @@ public class BuggyCommand extends CommandExecutor {
     @SubCommand("unassign")
     @Permission(Permissions.BuggyAdmin)
     public void unassign(VLPlayer sender, VLOfflinePlayer player, String uid) {
-        UUID uuid;
-        try {
-            uuid = UUID.fromString(uid);
-        } catch (Exception ex) {
-            sender.sendMessage(ChatColor.RED + "Bad UUID");
-            return;
-        }
-        Bug bug = null;
-        for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId().toString().equals(uuid.toString())) {
-                bug = x;
-                break;
-            }
-        }
+        Bug bug = Bug.getBug(uid);
         if (bug == null) {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
             return;
@@ -176,7 +148,7 @@ public class BuggyCommand extends CommandExecutor {
         bug.getAssignee().remove(player);
         player.sendOrScheduleMessage(VaultLoader.getMessage("buggy.you-unassigned")
                 .replace("{BUG}", bug.getTitle())
-                .replace("{UID}", bug.getUniqueId().toString()));
+                .replace("{UID}", bug.getUniqueId()));
         sender.sendMessage(VaultLoader.getMessage("buggy.unassigned")
                 .replace("{PLAYER}", player.getFormattedName())
                 .replace("{BUG}", bug.getTitle()));
@@ -184,20 +156,7 @@ public class BuggyCommand extends CommandExecutor {
 
     @SubCommand("bug")
     public void bug(VLPlayer sender, String uid) {
-        UUID uuid;
-        try {
-            uuid = UUID.fromString(uid);
-        } catch (Exception ex) {
-            sender.sendMessage(ChatColor.RED + "Bad UUID");
-            return;
-        }
-        Bug bug = null;
-        for (Bug x : Bug.getBugs()) {
-            if (x.getUniqueId().toString().equals(uuid.toString())) {
-                bug = x;
-                break;
-            }
-        }
+        Bug bug = Bug.getBug(uid);
         if (bug == null) {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
             return;
@@ -228,7 +187,7 @@ public class BuggyCommand extends CommandExecutor {
         sender.sendMessage(bug.getAssignee().size() == 0 ? "-" : listToString(bug.getAssignee()));
         sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.uid") + ":");
-        sender.sendMessage(ChatColor.GREEN + bug.getUniqueId().toString());
+        sender.sendMessage(ChatColor.GREEN + bug.getUniqueId());
     }
 
     @SubCommand("bugs")
@@ -288,7 +247,7 @@ public class BuggyCommand extends CommandExecutor {
                     new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.assignees").replace("{ASSIGNEES}", listToString(bug.getAssignee())) + "\n"),
                     new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.status").replace("{STATUS}", VaultLoader.getMessage(bug.getStatus().getKey())) + "\n")
             }));
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bug " + bug.getUniqueId().toString()));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bug " + bug.getUniqueId()));
             sender.sendMessage(component);
         }
 
