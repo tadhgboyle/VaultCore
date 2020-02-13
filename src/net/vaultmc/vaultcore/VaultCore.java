@@ -130,6 +130,7 @@ public final class VaultCore extends Component implements Listener {
         config = ConfigurationManager.loadConfiguration("config.yml", this);
         data = ConfigurationManager.loadConfiguration("data.yml", this);
         inv = ConfigurationManager.loadConfiguration("inventory.yml", this);
+        locations = ConfigurationManager.loadConfiguration("locations.yml", this);
 
         database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
                 getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
@@ -247,7 +248,6 @@ public final class VaultCore extends Component implements Listener {
         }
         data.save();
 
-
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
                 ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
                 ChatColor.YELLOW + " /\\   /\\__ _ _   _| | |_  " + ChatColor.GOLD + "/ __\\___  _ __ ___ ",
@@ -288,6 +288,7 @@ public final class VaultCore extends Component implements Listener {
         config.save();
         data.save();
         inv.save();
+        locations.save();
     }
 
     public void reloadConfig() {
@@ -320,5 +321,8 @@ public final class VaultCore extends Component implements Listener {
         database.close();
         pDatabase.close();
         Bug.save();
+        inv.save();
+        locations.save();
+        data.save();
     }
 }
