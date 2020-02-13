@@ -33,6 +33,7 @@ import net.vaultmc.vaultcore.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.grant.GrantCommand;
 import net.vaultmc.vaultcore.grant.GrantCommandListener;
+import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
 import net.vaultmc.vaultcore.misc.listeners.*;
@@ -222,6 +223,7 @@ public final class VaultCore extends Component implements Listener {
         new UnmuteCommand();
         new TempBanCommand();
         new TempMuteCommand();
+        new InventoryStorageListeners();
         new ClaimCommand();
         new UnclaimCommand();
         new SchemCommand();

@@ -15,6 +15,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -457,6 +458,13 @@ public final class Tour extends ConstructorRegisterListener {
         player.getPlayer().setAllowFlight(false);
         player.getPlayer().setFlying(false);
         player.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
+    }
+
+    @EventHandler
+    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+        if (touringPlayers.contains(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
