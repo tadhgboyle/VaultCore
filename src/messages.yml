@@ -392,7 +392,7 @@ vaultcore:
       sender: "&eYou have &6{STATUS}&e the chat."
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
     staffchat:
-      prefix: "&8[&cSC&8]"
+      prefix: "&8[&cSC&8] "
       format: "{SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled staff chat &6{TOGGLE}&e."
     tag:
