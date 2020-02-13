@@ -56,7 +56,7 @@ public class SchemCommand extends CommandExecutor {
 	@SubCommand("loadSchem")
 	@SneakyThrows // VL will handle sending a message to the player and it sends more detailed
 					// messages.
-	private void loadSchem(VLPlayer sender, String filename) {
+	public void loadSchem(VLPlayer sender, String filename) {
 		Player sessionOwner = BukkitAdapter.adapt(sender.getPlayer());
 		if (filename.contains("..") || filename.contains("/")) {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.schem.bad-path"));
@@ -92,7 +92,7 @@ public class SchemCommand extends CommandExecutor {
 
 	@SubCommand("saveSchem")
 	@SneakyThrows
-	private void saveSchem(VLPlayer sender, String filename) {
+	public void saveSchem(VLPlayer sender, String filename) {
 		Player sessionOwner = BukkitAdapter.adapt(sender.getPlayer());
 		if (filename.contains("..") || filename.contains("/")) {
 			sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.schem.bad-path"));
@@ -133,23 +133,23 @@ public class SchemCommand extends CommandExecutor {
 	}
 
 	@SubCommand("listSchemSelf")
-	private void listSchemSelf(VLPlayer sender) {
+	public void listSchemSelf(VLPlayer sender) {
 		listSchem(sender, null);
 	}
 
 	@SubCommand("listSchemOther")
-	private void listSchemOther(VLPlayer sender, VLOfflinePlayer target) {
+	public void listSchemOther(VLPlayer sender, VLOfflinePlayer target) {
 		listSchem(sender, target);
 	}
 
 	@SubCommand("delSchemSelf")
-	private void delSchemSelf(VLPlayer sender, String filename) {
+	public void delSchemSelf(VLPlayer sender, String filename) {
 		delSchem(sender, null, filename);
 	}
 
 	@SubCommand("delSchemOther")
 	@Permission(Permissions.SchemCommandDelete)
-	private void delSchemOther(VLPlayer sender, VLOfflinePlayer target, String filename) {
+	public void delSchemOther(VLPlayer sender, VLOfflinePlayer target, String filename) {
 		delSchem(sender, target, filename);
 	}
 
@@ -201,6 +201,7 @@ public class SchemCommand extends CommandExecutor {
 				}
 			}
 		} else {
+			// TODO sometimes this doesnt work -- file permissions possibly?
 			if (file.delete()) {
 				sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.schem.not_deleted"),
 						filename));

@@ -32,7 +32,7 @@ public class HealCommand extends CommandExecutor {
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.other"),
                 "healed", target.getFormattedName()));
         target.heal();
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.receiver"),
+        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.receiver"),
                 "healed", sender.getFormattedName()));
     }
 }
