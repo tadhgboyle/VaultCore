@@ -218,7 +218,7 @@ public final class Tour extends ConstructorRegisterListener {
             player.sendMessage(VaultLoader.getMessage("tour.history.displaying-legacy-lobby"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour displayingPlayers"));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage displayingPlayers"));
             player.sendMessage(component);
         }, 110L);
     }
@@ -230,7 +230,7 @@ public final class Tour extends ConstructorRegisterListener {
         player.sendMessage(VaultLoader.getMessage("tour.history.displaying-players"));
         TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
         component.setHoverEvent(nextHover);
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour displayingNewLobby"));
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage displayingNewLobby"));
         player.sendMessage(component);
     }
 
@@ -241,7 +241,7 @@ public final class Tour extends ConstructorRegisterListener {
         player.sendMessage(VaultLoader.getMessage("tour.history.displaying-new-lobby"));
         TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
         component.setHoverEvent(nextHover);
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour lobbyIntroduction"));
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage lobbyIntroduction"));
         player.sendMessage(component);
     }
 
@@ -257,7 +257,7 @@ public final class Tour extends ConstructorRegisterListener {
             player.sendMessage(VaultLoader.getMessage("tour.games.lobby.text"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour survivalAndClans"));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage survivalAndClans"));
             player.sendMessage(component);
         }, 140L);
     }
@@ -303,7 +303,7 @@ public final class Tour extends ConstructorRegisterListener {
             if (!houseBuildingTasks.containsKey(player.getUniqueId())) {
                 TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
                 component.setHoverEvent(nextHover);
-                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour creative"));
+                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage creative"));
                 player.sendMessage(component);
                 task.cancel();
             }
@@ -318,7 +318,7 @@ public final class Tour extends ConstructorRegisterListener {
             player.sendMessage(VaultLoader.getMessage("tour.games.survival.text-survival"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour survivalAndClans3"));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage survivalAndClans3"));
             player.sendMessage(component);
         }, 80L);
 
@@ -344,7 +344,7 @@ public final class Tour extends ConstructorRegisterListener {
             player.sendMessage(VaultLoader.getMessage("tour.games.creative.text"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour skyblock"));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage skyblock"));
             player.sendMessage(component);
         }, 80L);
     }
@@ -426,7 +426,7 @@ public final class Tour extends ConstructorRegisterListener {
             player.sendMessage(VaultLoader.getMessage("tour.games.skyblock.text"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour uhc"));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage uhc"));
             player.sendMessage(component);
         }, 80L);
     }
@@ -440,7 +440,7 @@ public final class Tour extends ConstructorRegisterListener {
             player.sendMessage(VaultLoader.getMessage("tour.games.uhc.text"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour ending"));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage ending"));
             player.sendMessage(component);
         }, 80L);
     }
@@ -462,7 +462,7 @@ public final class Tour extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
-        if (touringPlayers.contains(e.getPlayer().getUniqueId())) {
+        if (touringPlayers.contains(e.getPlayer().getUniqueId()) && !e.getMessage().startsWith("/tourStage")) {
             e.setCancelled(true);
         }
     }

@@ -58,6 +58,7 @@ import net.vaultmc.vaultcore.teleport.worldtp.SVCommand;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultcore.tour.TourCommand;
 import net.vaultmc.vaultcore.tour.TourMusic;
+import net.vaultmc.vaultcore.tour.TourStageCommand;
 import net.vaultmc.vaultcore.vanish.VanishCommand;
 import net.vaultmc.vaultcore.vanish.VanishListeners;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -151,6 +152,7 @@ public final class VaultCore extends Component implements Listener {
         new SVCommand();
         new WildTeleportCommand();
         new TourCommand();
+        new TourStageCommand();
         new TourMusic();
         new Tour();
         new SchemCommand();
