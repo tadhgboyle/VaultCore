@@ -207,16 +207,19 @@ public class BuggyCommand extends CommandExecutor {
         }
 
         int pages;
+        List<Bug> canDisplay;
         if (openedOnly) {
-            int size = Bug.getBugs().stream().filter(b ->
+            canDisplay = Bug.getBugs().stream().filter(b ->
                     (b.getStatus() == Bug.Status.OPEN || b.getStatus() == Bug.Status.REOPENED) && b.getStatus() != Bug.Status.CREATING && !b.isHidden())
-                    .collect(Collectors.toSet()).size();
+                    .collect(Collectors.toList());
+            int size = canDisplay.size();
             pages = size / 7;
             if (size % 7 != 0) {
                 pages++;
             }
         } else {
-            int size = Bug.getBugs().stream().filter(b -> b.getStatus() != Bug.Status.CREATING && !b.isHidden()).collect(Collectors.toSet()).size();
+            canDisplay = Bug.getBugs().stream().filter(b -> b.getStatus() != Bug.Status.CREATING && !b.isHidden()).collect(Collectors.toList());
+            int size = canDisplay.size();
             pages = size / 7;
             if (size % 7 != 0) {
                 pages++;
@@ -231,7 +234,7 @@ public class BuggyCommand extends CommandExecutor {
         List<Bug> toShow = new ArrayList<>();
         for (int i = page * 7; i < page * 7 + 6; i++) {
             try {
-                toShow.add(Bug.getBugs().get(i));
+                toShow.add(canDisplay.get(i));
             } catch (IndexOutOfBoundsException ex) {
                 break;
             }

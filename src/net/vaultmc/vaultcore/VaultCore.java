@@ -45,6 +45,7 @@ import net.vaultmc.vaultcore.punishments.kick.KickCommand;
 import net.vaultmc.vaultcore.punishments.mute.*;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
+import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.settings.SettingsListener;
 import net.vaultmc.vaultcore.stats.*;
@@ -202,6 +203,7 @@ public final class VaultCore extends Component implements Listener {
         new SocialSpyCommand();
         new ModMode();
         new ReportCommand();
+        new ReportsCommand();
         new AFKCommand();
         new ChatUtils();
         new EconomyCommand();

@@ -8,16 +8,15 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
 public class Report {
     @Getter
-    private static final Set<Report> reports = new HashSet<>();
+    private static final List<Report> reports = new ArrayList<>();
     private VLOfflinePlayer target;
     private List<VLOfflinePlayer> assignees;
 
@@ -49,8 +48,17 @@ public class Report {
         this.id = "REPORT-" + currentId;
     }
 
-    public static Set<Report> getActiveReports() {
-        return reports.stream().filter(report -> report.status == Status.OPEN).collect(Collectors.toSet());
+    public static List<Report> getActiveReports() {
+        return reports.stream().filter(report -> report.status == Status.OPEN).collect(Collectors.toList());
+    }
+
+    public static Report getReport(String id) {
+        for (Report report : reports) {
+            if (report.getId().equalsIgnoreCase(id)) {
+                return report;
+            }
+        }
+        return null;
     }
 
     public static void load() {
@@ -63,13 +71,15 @@ public class Report {
 
     public static void save() {
         VaultCore.getInstance().getData().set("reports", null);
+        VaultCore.getInstance().getData().createSection("reports");
         for (Report report : reports) {
-            report.serialize(VaultCore.getInstance().getData().getConfigurationSection("reports." + report.getId()));
+            report.serialize(VaultCore.getInstance().getData().createSection("reports." + report.getId()));
         }
+        VaultCore.getInstance().saveConfig();
     }
 
     public static Report deserialize(ConfigurationSection section) {
-        if (section.contains("::serializeType") && !section.getString("::serializeType").equals("net.vaultmc.vaultcore.report.Report")) {
+        if (section.contains("serializeType") && !section.getString("serializeType").equals("net.vaultmc.vaultcore.report.Report")) {
             throw new IllegalArgumentException("Invalid ConfigurationSection");
         }
         return new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(section.getString("reporter"))),
@@ -80,7 +90,7 @@ public class Report {
     }
 
     public void serialize(ConfigurationSection section) {
-        section.set("::serializeType", "net.vaultmc.vaultcore.report.Report");
+        section.set("serialType", "net.vaultmc.vaultcore.report.Report");
         section.set("reporter", reporter.getUniqueId().toString());
         section.set("target", target.getUniqueId().toString());
         section.set("assignees", assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));

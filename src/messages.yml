@@ -36,6 +36,17 @@ report:
   inventory:
     title: "&rReport"
     finish: "&6Finish"
+    reporter: "&eReporter: &6{REPORTER}"
+    target: "&eTarget: &6{TARGET}"
+    reasons: "&eReasons: &a{REASONS}"
+    assignees: "&eAssignees: &a{ASSIGNEES}"
+    status: "&eStatus: &6{STATUS}"
+    left-click: "&bLeft click to change status!"
+    middle-click: "&bShift click to self-unassign!"
+    right-click: "&bRight click to self-assign!"
+  set-status: "&eSet the status of &6{ID}&e to &6{STATUS}&e."
+  assigned: "&eAssigned you to &6{ID}&e."
+  unassigned: "&eUnassigned you from &6{ID}&e."
 
 brand: "&6{PLAYER}&e's client brand is &6{BRAND}&e. Please keep in mind this might be inaccurate."
 brand-not-ready: "&cThis player isn't currently ready for checking brand!"
