@@ -42,7 +42,7 @@ report:
     assignees: "&eAssignees: &a{ASSIGNEES}"
     status: "&eStatus: &6{STATUS}"
     left-click: "&bLeft click to change status!"
-    middle-click: "&bShift click to self-unassign!"
+    shift-click: "&bShift click to self-unassign!"
     right-click: "&bRight click to self-assign!"
   set-status: "&eSet the status of &6{ID}&e to &6{STATUS}&e."
   assigned: "&eAssigned you to &6{ID}&e."
