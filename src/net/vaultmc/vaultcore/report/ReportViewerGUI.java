@@ -52,7 +52,7 @@ public class ReportViewerGUI implements Listener {
             page = Report.reports.size() / 36 + 1;
         }
 
-        this.inv = new PagedInventory(page, "Reports (%s/%s)", 54);
+        this.inv = new PagedInventory(page, ChatColor.RESET + "Reports (%s/%s)", 54);
 
         for (int i = 0; i < page; i++) {
             Inventory inventory = this.inv.getInventory(i);
@@ -75,7 +75,7 @@ public class ReportViewerGUI implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getClickedInventory() instanceof PlayerInventory) return;
-        if (inv.getInventories().contains(e.getInventory()) && e.getWhoClicked() instanceof VLPlayer) {
+        if (e.getView().getTitle().startsWith(ChatColor.RESET + "Reports") && e.getWhoClicked() instanceof VLPlayer) {
             VLPlayer player = (VLPlayer) e.getWhoClicked();
             e.setCancelled(true);
 
