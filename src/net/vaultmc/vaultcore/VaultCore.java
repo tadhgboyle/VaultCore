@@ -176,6 +176,7 @@ public final class VaultCore extends Component implements Listener {
         new PingCommand();
         new PlayTimeCommand();
         new RanksCommand();
+        new SpeedCommand();
         new SeenCommand();
         new TokenCommand();
         new GrantCommand();

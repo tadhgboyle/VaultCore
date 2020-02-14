@@ -113,15 +113,15 @@ public final class Utilities {
     }
 
     /**
-     * @param from - String List to turn into comma seperated String.
+     * @param admin - String List to turn into comma seperated String.
      * @return Comma seperated List<String>
      * @author Aberdeener
      */
-    public static String listToString(List<String> from) {
+    public static String listToString(Collection<String> admin) {
 
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (String word : from) {
+        for (String word : admin) {
             if (first) {
                 sb.append(word);
                 first = false;

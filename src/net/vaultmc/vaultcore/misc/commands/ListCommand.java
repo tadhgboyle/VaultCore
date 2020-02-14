@@ -1,29 +1,34 @@
 package net.vaultmc.vaultcore.misc.commands;
 
+import java.text.Collator;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.TreeSet;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.Aliases;
+import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
+import net.vaultmc.vaultloader.utils.commands.Permission;
+import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @RootCommand(literal = "list", description = "See who is online.")
 @Permission(Permissions.ListCommand)
 @Aliases("online")
 public class ListCommand extends CommandExecutor {
-    private static final List<String> admin = new ArrayList<>();
-    private static final List<String> moderator = new ArrayList<>();
-    private static final List<String> trusted = new ArrayList<>();
-    private static final List<String> patreon = new ArrayList<>();
-    private static final List<String> member = new ArrayList<>();
-    private static final List<String> defaults = new ArrayList<>();
+    private static final Collection<String> admin = new TreeSet<String>(Collator.getInstance());
+    private static final Collection<String> moderator = new TreeSet<String>(Collator.getInstance());
+    private static final Collection<String> trusted = new TreeSet<String>(Collator.getInstance());
+    private static final Collection<String> patreon = new TreeSet<String>(Collator.getInstance());
+    private static final Collection<String> member = new TreeSet<String>(Collator.getInstance());
+    private static final Collection<String> defaults = new TreeSet<String>(Collator.getInstance());
 
     public ListCommand() {
         unregisterExisting();
@@ -35,8 +40,7 @@ public class ListCommand extends CommandExecutor {
         if (Bukkit.getOnlinePlayers().size() == 0) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.no_players_online"));
         } else {
-            for (Player players : Bukkit.getOnlinePlayers()) {
-                VLPlayer player = VLPlayer.getPlayer(players);
+            for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
                 String vanished = "";
                 if (sender instanceof VLPlayer) {
                     if (!((VLPlayer) sender).hasPermission(Permissions.VanishCommand) && player.isVanished()) {

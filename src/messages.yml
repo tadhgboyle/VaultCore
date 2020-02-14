@@ -484,3 +484,8 @@ vaultcore:
       deleted: "&6{SCHEM}&e has been deleted."
       not_deleted: "&c{SCHEM} could not be deleted. Please contact an Administrator for help."
       deleted_target: "{SENDER}&e has deleted your schematic &6{SCHEM}&e."
+    speed:
+      invalid_movement: "&cInvalid movement. Try fly or walk."
+      sender_set_to: "&eYour &6{MOVEMENT}&e speed has been set to &2{SPEED}&e."
+      sender_target: "&eYou have set {TARGET}&e's &6{MOVEMENT}&e speed to &2{SPEED}&e."
+      target_set_to: "&eYour &6{MOVEMENT}&e speed has been set to&2{SPEED}&e by {SENDER}&e."

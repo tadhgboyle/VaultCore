@@ -73,7 +73,9 @@ public final class Permissions {
     public static final String ClaimCommand = "vaultcore.claim";
     public static final String SchemCommand = "vaultcore.schem";
     public static final String SchemCommandDelete = "vaultcore.schem.delete.other";
-
+    public static final String SpeedCommand = "vaultcore.speed";
+    public static final String SpeedCommandOther = "vaultcore.speed.other";
+    
     private Permissions() {
     }
 }
