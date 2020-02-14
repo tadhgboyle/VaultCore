@@ -108,7 +108,7 @@ public class ReportsCommand extends CommandExecutor implements Listener {
         }
 
         pages--;
-        if (pages == -1) {
+        if (pages <= 0) {
             sender.sendMessage(VaultLoader.getMessage("report.no-reports"));
         }
 
@@ -116,8 +116,8 @@ public class ReportsCommand extends CommandExecutor implements Listener {
             throw new IllegalArgumentException("page (max = " + pages + ")");
         }
 
-        List<Report> reports = openedOnly ? Report.getReports().subList(page * 36, page * 36 + 35) :
-                Report.getActiveReports().subList(page * 36, page * 36 + 35);
+        List<Report> reports = openedOnly ? Report.getReports().subList(page * 36, Math.min(Report.getReports().size(), page * 36 + 35)) :
+                Report.getActiveReports().subList(page * 36, Math.min(Report.getActiveReports().size(), page * 36 + 35));
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.RESET + "Reports (" + (page + 1) + "/" + (pages + 1) + ")");
         for (Report report : reports) {
             inv.addItem(getItemStack(report));
