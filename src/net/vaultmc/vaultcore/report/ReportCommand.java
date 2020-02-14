@@ -1,25 +1,24 @@
 package net.vaultmc.vaultcore.report;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.Items;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 
 import java.util.*;
 
@@ -34,45 +33,65 @@ public class ReportCommand extends CommandExecutor implements Listener {
 
     public ReportCommand() {
         register("report", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
-        register("addReason", Collections.singletonList(Arguments.createArgument("reason", Arguments.word())));
-        register("next", Collections.singletonList(Arguments.createLiteral("next")));
-        register("cancel", Collections.singletonList(Arguments.createLiteral("cancel")));
         VaultCore.getInstance().registerEvents(this);
     }
 
-    private static net.minecraft.world.item.ItemStack generateBook(ReportData data) {
-        net.minecraft.world.item.ItemStack item = new net.minecraft.world.item.ItemStack(Items.WRITTEN_BOOK);
-        CompoundTag tag = item.getOrCreateTag();
-        ListTag pages = new ListTag();
-        TextComponent root = new TextComponent("Reporting " + data.getTarget().getFormattedName() + ":\n\n");
-        for (Report.Reason reason : Report.Reason.values()) {
+    private static Inventory generateInventory(ReportData data) {
+        Inventory inv = Bukkit.createInventory(null, 54, VaultLoader.getMessage("report.inventory.title"));
+        inv.setItem(13, new ItemStackBuilder(Material.PLAYER_HEAD)
+                .name(ChatColor.GRAY + "Reporting: " + data.getTarget().getFormattedName())
+                .build());
+        for (int i = 0; i < Report.Reason.values().length; i++) {
+            Report.Reason reason = Report.Reason.values()[i];
             if (data.getReasons().contains(reason)) {
-                root.addSibling(Component.Serializer.fromJson(
-                        "{\"text\":\"\\u2713 " + VaultLoader.getMessage(reason.getKey()) + "\"," +
-                                "\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/report " + reason.toString() + "\"}," +
-                                "\"hoverEvent\":{\"action\":\"show_text\",   \"value\":{\"text\":\"" + VaultLoader.getMessage(
-                                "report.deselect").replace("{REASON}", VaultLoader.getMessage(reason.getKey())) + "\"}}}"
-                ));
+                inv.setItem(28 + i, new ItemStackBuilder(reason.getItem())
+                        .name(VaultLoader.getMessage(reason.getKey()))
+                        .enchant(Enchantment.DURABILITY, 5)
+                        .hideFlags(ItemFlag.HIDE_ENCHANTS)
+                        .build());
             } else {
-                root.addSibling(Component.Serializer.fromJson(
-                        "{\"text\":\"\\u25CB " + VaultLoader.getMessage(reason.getKey()) + "\"," +
-                                "\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/report " + reason.toString() + "\"}," +
-                                "\"hoverEvent\":{\"action\":\"show_text\",   \"value\":{\"text\":\"" + VaultLoader.getMessage(
-                                "report.select").replace("{REASON}", VaultLoader.getMessage(reason.getKey())) + "\"}}}"
-                ));
+                inv.setItem(28 + i, new ItemStackBuilder(reason.getItem())
+                        .name(VaultLoader.getMessage(reason.getKey()))
+                        .build());
             }
         }
-        root.addSibling(new TextComponent("\n\n"));
-        root.addSibling(Component.Serializer.fromJson(
-                "{\"text\":\"" + VaultLoader.getMessage("report.next") + "\n\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/report next\"}}"
-        ));
-        root.addSibling(Component.Serializer.fromJson(
-                "{\"text\":\"" + VaultLoader.getMessage("report.cancel") + "\n\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/report cancel\"}}"
-        ));
-        pages.add(8, StringTag.valueOf(Component.Serializer.toJson(root)));
-        tag.set("pages", pages);
-        item.setTag(tag);
-        return item;
+        inv.setItem(49, new ItemStackBuilder(Material.WRITABLE_BOOK)
+                .name(VaultLoader.getMessage("report.inventory.finish"))
+                .build());
+        return inv;
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getView().getTitle().equals(VaultLoader.getMessage("report.inventory.title"))) {
+            data.remove(e.getPlayer().getUniqueId());
+        }
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (e.getView().getTitle().equals(VaultLoader.getMessage("report.inventory.title"))) {
+            ReportData data = ReportCommand.data.get(e.getWhoClicked().getUniqueId());
+            if (e.getSlot() >= 28 && e.getSlot() <= 34) {
+                Report.Reason reason = Report.Reason.values()[e.getSlot() - 28];
+                if (data.getReasons().contains(reason)) {
+                    data.getReasons().remove(reason);
+                } else {
+                    data.getReasons().add(reason);
+                }
+
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
+                    e.getWhoClicked().closeInventory();
+                    e.getWhoClicked().openInventory(generateInventory(data));
+                });
+            }
+
+            if (e.getSlot() == 49) {
+                Report.getReports().add(new Report(VLOfflinePlayer.getOfflinePlayer((Player) e.getWhoClicked()),
+                        data.getTarget(), new ArrayList<>(), data.getReasons(), Report.Status.OPEN));
+            }
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -83,38 +102,8 @@ public class ReportCommand extends CommandExecutor implements Listener {
     @SubCommand("report")
     public void report(VLPlayer reporter, VLOfflinePlayer target) {
         if (!data.containsKey(reporter.getUniqueId())) {
-            data.put(reporter.getUniqueId(), new ReportData(target, new HashSet<>()));
+            data.put(reporter.getUniqueId(), new ReportData(target, new ArrayList<>()));
         }
-        ItemStack oldHand = reporter.getInventory().getItemInMainHand().clone();
-        net.minecraft.world.item.ItemStack book = generateBook(data.get(reporter.getUniqueId()));
-        reporter.getInventory().setItemInMainHand(book.getBukkitStack());
-        ((CraftPlayer) reporter.getPlayer()).getHandle().openBook(book, InteractionHand.MAIN_HAND);
-        reporter.getInventory().setItemInMainHand(oldHand);
-    }
-
-    @SubCommand("addReason")
-    public void addReason(VLPlayer reporter, String reason) {
-        if (!data.containsKey(reporter.getUniqueId()))
-            return;
-        data.get(reporter.getUniqueId()).addReason(Report.Reason.valueOf(reason));
-    }
-
-    @SubCommand("next")
-    public void next(VLPlayer player) {
-        if (!data.containsKey(player.getUniqueId())) return;
-
-    }
-
-    @SubCommand("cancel")
-    public void cancel(VLPlayer player) {
-        if (!data.containsKey(player.getUniqueId())) return;
-        data.remove(player.getUniqueId());
-        ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
-        BookMeta meta = (BookMeta) book.getItemMeta();
-        meta.setTitle("Cancel");
-        meta.addPage(VaultLoader.getMessage("report.cancel-page"));
-        book.setItemMeta(meta);
-        player.getPlayer().openBook(book);
-
+        reporter.openInventory(generateInventory(data.get(reporter.getUniqueId())));
     }
 }

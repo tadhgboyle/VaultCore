@@ -4,15 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @Data
 public class ReportData {
     private VLOfflinePlayer target;
-    private Set<Report.Reason> reasons;
-
-    public void addReason(Report.Reason reason) {
-        reasons.add(reason);
-    }
+    private List<Report.Reason> reasons;
 }
