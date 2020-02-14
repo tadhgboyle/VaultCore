@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Data
 public class Report {
     @Getter
@@ -25,6 +24,15 @@ public class Report {
     private Reason reason;
     private Status status;
     private String id;
+
+    public Report(VLOfflinePlayer reporter, VLOfflinePlayer target, List<VLOfflinePlayer> assignees, Reason reason, Status status, String id) {
+        this.id = id;
+        this.reporter = reporter;
+        this.target = target;
+        this.assignees = assignees;
+        this.reason = reason;
+        this.status = status;
+    }
 
     public Report(VLOfflinePlayer reporter, VLOfflinePlayer target, List<VLOfflinePlayer> assignees, Reason reason, Status status) {
         int currentId = VaultCore.getInstance().getData().getInt("report-current-id", 0);
@@ -38,6 +46,10 @@ public class Report {
         this.reason = reason;
         this.status = status;
         this.id = "REPORT-" + currentId;
+    }
+
+    public static Set<Report> getActiveReports() {
+        return reports.stream().filter(report -> report.status == Status.OPEN).collect(Collectors.toSet());
     }
 
     public static void load() {

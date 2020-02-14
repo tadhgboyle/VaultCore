@@ -124,7 +124,7 @@ public class ModMode extends CommandExecutor implements Listener, Runnable {
                                 ChatColor.GRAY + "player."
                         )).build());
 
-                if (Report.getActiveReports() == 0) {
+                if (Report.getActiveReports().size() == 0) {
                     inv.setItem(3, new ItemStackBuilder(Material.BOOK)
                             .name(ChatColor.GOLD + "Active Reports: " + ChatColor.GREEN + "0")
                             .lore(Arrays.asList(
@@ -132,19 +132,19 @@ public class ModMode extends CommandExecutor implements Listener, Runnable {
                                     ChatColor.GRAY + "View the statuses and perform",
                                     ChatColor.GRAY + "operation on all reports."
                             )).build());
-                } else if (Report.getActiveReports() <= 64) {
+                } else if (Report.getActiveReports().size() <= 64) {
                     inv.setItem(3, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                            .name(ChatColor.GOLD + "Active Reports: " + ChatColor.YELLOW + Report.getActiveReports())
+                            .name(ChatColor.GOLD + "Active Reports: " + ChatColor.YELLOW + Report.getActiveReports().size())
                             .lore(Arrays.asList(
                                     "",
                                     ChatColor.GRAY + "View the statuses and perform",
                                     ChatColor.GRAY + "operation on all reports."
                             ))
-                            .amount(Report.getActiveReports())
+                            .amount(Report.getActiveReports().size())
                             .build());
                 } else {
                     inv.setItem(3, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                            .name(ChatColor.GOLD + "Active Reports: " + ChatColor.YELLOW + Report.getActiveReports())
+                            .name(ChatColor.GOLD + "Active Reports: " + ChatColor.YELLOW + Report.getActiveReports().size())
                             .lore(Arrays.asList(
                                     "",
                                     ChatColor.GRAY + "View the statuses and perform",
