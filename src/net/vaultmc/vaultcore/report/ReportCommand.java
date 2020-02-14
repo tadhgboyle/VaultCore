@@ -83,13 +83,19 @@ public class ReportCommand extends CommandExecutor implements Listener {
 
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
                     e.getWhoClicked().closeInventory();
+                    ReportCommand.data.put(e.getWhoClicked().getUniqueId(), data);
                     e.getWhoClicked().openInventory(generateInventory(data));
                 });
             }
 
             if (e.getSlot() == 49) {
-                Report.getReports().add(new Report(VLOfflinePlayer.getOfflinePlayer((Player) e.getWhoClicked()),
-                        data.getTarget(), new ArrayList<>(), data.getReasons(), Report.Status.OPEN));
+                Report report = new Report(VLOfflinePlayer.getOfflinePlayer((Player) e.getWhoClicked()),
+                        data.getTarget(), new ArrayList<>(), data.getReasons(), Report.Status.OPEN);
+                Report.getReports().add(report);
+                e.getWhoClicked().closeInventory();
+                e.getWhoClicked().sendMessage(VaultLoader.getMessage("report.reported")
+                        .replace("{PLAYER}", data.getTarget().getFormattedName())
+                        .replace("{ID}", report.getId()));
             }
             e.setCancelled(true);
         }

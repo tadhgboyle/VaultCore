@@ -14,6 +14,7 @@ mod-mode:
   teleportation: "&eTeleporting you to &6{PLAYER}&e!"  # Random teleportation
 
 report:
+  reported: "&eSuccessfully reported {PLAYER}&e (&6{ID}&e). A moderator will investigate on this as soon as possible."
   reasons:
     kill-aura: "Kill Aura"
     speed: "Speed"
