@@ -462,7 +462,7 @@ public final class Tour extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
-        if (touringPlayers.contains(e.getPlayer().getUniqueId()) && !e.getMessage().startsWith("/tourStage")) {
+        if (touringPlayers.contains(e.getPlayer().getUniqueId()) && !e.getMessage().startsWith("/tourstage")) {
             e.setCancelled(true);
         }
     }
