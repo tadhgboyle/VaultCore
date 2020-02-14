@@ -108,6 +108,9 @@ public class ReportsCommand extends CommandExecutor implements Listener {
         }
 
         pages--;
+        if (pages == -1) {
+            sender.sendMessage(VaultLoader.getMessage("report.no-reports"));
+        }
 
         if (page > pages) {
             throw new IllegalArgumentException("page (max = " + pages + ")");
