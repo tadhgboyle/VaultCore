@@ -45,7 +45,6 @@ import net.vaultmc.vaultcore.punishments.kick.KickCommand;
 import net.vaultmc.vaultcore.punishments.mute.*;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
-import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.settings.SettingsListener;
 import net.vaultmc.vaultcore.stats.*;
@@ -202,7 +201,6 @@ public final class VaultCore extends Component implements Listener {
         new SocialSpyCommand();
         new ModMode();
         new ReportCommand();
-        new ReportsCommand();
         new AFKCommand();
         new ChatUtils();
         new EconomyCommand();
@@ -243,12 +241,7 @@ public final class VaultCore extends Component implements Listener {
         registerEvents(new MutedListener());
 
         PunishmentsDB.createTables();
-
-        for (String s : data.getConfig().getConfigurationSection("reports").getKeys(false)) {
-            Report.reports.add(Report.deserialize(data.getConfig(), s));
-            data.getConfig().set("reports." + s, null);
-        }
-        data.save();
+        Report.load();
 
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
                 ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
@@ -326,5 +319,6 @@ public final class VaultCore extends Component implements Listener {
         inv.save();
         locations.save();
         data.save();
+        Report.save();
     }
 }

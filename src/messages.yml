@@ -13,11 +13,25 @@ mod-mode:
 
   teleportation: "&eTeleporting you to &6{PLAYER}&e!"  # Random teleportation
 
-# Messages related to reporting:
 report:
-  no-reasons: "&cYou hadn't selected any reasons yet!"
-  reported: "&eYou have reported &6{VICTIM}&e!"
-  player-report: "&6{REPORTER}&e reported &6{VICTIM}&e for &6{REASONS}&e."
+  reasons:
+    kill-aura: "Kill Aura"
+    speed: "Speed"
+    water-walking: "Water Walking (Jesus)"
+    fly: "Fly"
+    cheats-other: "Cheats (Other)"
+    inappropriate-skin: "Inappropriate Skin"
+    chat-violation: "Chat Violation"
+  status:
+    open: "&eOpen"
+    closed: "&cClosed"
+    false: "&cFalse"
+    resolved: "&aResolved"
+  select: "&7Click to select {REASON}"
+  deselect: "&7Click to deselect {REASON}"
+  next: "&a[NEXT]"
+  cancel: "&c[CANCEL]"
+  cancel-page: "Report cancelled."
 
 brand: "&6{PLAYER}&e's client brand is &6{BRAND}&e. Please keep in mind this might be inaccurate."
 brand-not-ready: "&cThis player isn't currently ready for checking brand!"

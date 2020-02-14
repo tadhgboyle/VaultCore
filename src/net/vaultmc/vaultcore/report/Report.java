@@ -1,87 +1,103 @@
-/*
- * VaultUtils: VaultMC functionalities provider.
- * Copyright (C) 2020 yangyang200
- *
- * VaultUtils is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * VaultUtils is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 package net.vaultmc.vaultcore.report;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@AllArgsConstructor
+@Data
 public class Report {
-    public static final List<Report> reports = new ArrayList<>();
     @Getter
+    private static final Set<Report> reports = new HashSet<>();
+    private VLOfflinePlayer target;
+    private List<VLOfflinePlayer> assignees;
+
     private VLOfflinePlayer reporter;
-    @Getter
-    private VLOfflinePlayer victim;
-    @Getter
-    private List<String> reasons;
-    @Getter
-    @Setter
-    private boolean open;
-    @Getter
-    @Setter
-    private VLOfflinePlayer assignee;
+    private Reason reason;
+    private Status status;
+    private String id;
 
-    public Report(VLOfflinePlayer reporter, VLOfflinePlayer victim, List<String> reasons) {
-        this.reporter = reporter;
-        this.victim = victim;
-        this.reasons = reasons;
-        this.open = true;
-
-        reports.add(this);
-    }
-
-    public static int getActiveReports() {
-        int output = 0;
-        for (Report report : reports) if (report.open) output++;
-        return output;
-    }
-
-    public static Report getReport(VLOfflinePlayer reporter, VLOfflinePlayer victim) {
-        for (Report report : reports) {
-            if (report.getReporter() == reporter && report.getVictim() == victim) {
-                return report;
-            }
-        }
-        return null;
-    }
-
-    public static Report deserialize(FileConfiguration conf, String path) {
-        Report report = new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(conf.getString(path + ".reporter"))),
-                VLOfflinePlayer.getOfflinePlayer(UUID.fromString(conf.getString(path + ".victim"))),
-                conf.getStringList(path + ".reasons"));
-        report.setOpen(conf.getBoolean(path + ".open"));
-        report.setAssignee(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(conf.getString(path + ".assignee"))));
-        return report;
-    }
-
-    public void serialize(FileConfiguration conf, String path) {
-        conf.set(path + ".reporter", reporter.getUniqueId().toString());
-        conf.set(path + ".victim", victim.getUniqueId().toString());
-        conf.set(path + ".reasons", reasons);
-        conf.set(path + ".open", open);
-        conf.set(path + ".assignee", assignee.getUniqueId().toString());
+    public Report(VLOfflinePlayer reporter, VLOfflinePlayer target, List<VLOfflinePlayer> assignees, Reason reason, Status status) {
+        int currentId = VaultCore.getInstance().getData().getInt("report-current-id", 0);
+        currentId++;
+        VaultCore.getInstance().getData().set("report-current-id", currentId);
         VaultCore.getInstance().saveConfig();
+
+        this.reporter = reporter;
+        this.target = target;
+        this.assignees = assignees;
+        this.reason = reason;
+        this.status = status;
+        this.id = "REPORT-" + currentId;
+    }
+
+    public static void load() {
+        if (!VaultCore.getInstance().getData().contains("reports"))
+            VaultCore.getInstance().getData().createSection("reports");
+        for (String key : VaultCore.getInstance().getData().getConfigurationSection("reports").getKeys(false)) {
+            reports.add(deserialize(VaultCore.getInstance().getData().getConfigurationSection("reports." + key)));
+        }
+    }
+
+    public static void save() {
+        VaultCore.getInstance().getData().set("reports", null);
+        for (Report report : reports) {
+            report.serialize(VaultCore.getInstance().getData().getConfigurationSection("reports." + report.getId()));
+        }
+    }
+
+    public static Report deserialize(ConfigurationSection section) {
+        if (section.contains("::serializeType") && !section.getString("::serializeType").equals("net.vaultmc.vaultcore.report.Report")) {
+            throw new IllegalArgumentException("Invalid ConfigurationSection");
+        }
+        return new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(section.getString("reporter"))),
+                VLOfflinePlayer.getOfflinePlayer(UUID.fromString(section.getString("reporter"))),
+                section.getStringList("assignees").stream().map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s))).collect(Collectors.toList()),
+                Reason.valueOf(section.getString("reason")), Status.valueOf(section.getString("status")),
+                section.getString("id"));
+    }
+
+    public void serialize(ConfigurationSection section) {
+        section.set("::serializeType", "net.vaultmc.vaultcore.report.Report");
+        section.set("reporter", reporter.getUniqueId().toString());
+        section.set("target", target.getUniqueId().toString());
+        section.set("assignees", assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
+        section.set("reason", reason.toString());
+        section.set("status", status.toString());
+        section.set("id", id);
+    }
+
+    @AllArgsConstructor
+    public enum Reason {
+        KILL_AURA("report.reasons.kill-aura"),
+        SPEED("report.reasons.speed"),
+        WATER_WALKING("report.reasons.water-walking"),
+        FLY("report.reasons.fly"),
+        CHEATS_OTHER("report.reasons.cheats-other"),
+        INAPPROPRIATE_SKIN("report.reasons.inappropriate-skin"),
+        CHAT_VIOLATION("report.reasons.chat-violation");
+
+        @Getter
+        private String key;
+    }
+
+    @AllArgsConstructor
+    public enum Status {
+        OPEN("report.status.open"),
+        CLOSED("report.status.closed"),
+        FALSE("report.status.false"),
+        RESOLVED("report.status.resolved");
+
+        @Getter
+        private String key;
     }
 }
