@@ -40,18 +40,19 @@ public class ReportCommand extends CommandExecutor implements Listener {
         Inventory inv = Bukkit.createInventory(null, 54, VaultLoader.getMessage("report.inventory.title"));
         inv.setItem(13, new ItemStackBuilder(Material.PLAYER_HEAD)
                 .name(ChatColor.GRAY + "Reporting: " + data.getTarget().getFormattedName())
+                .skullOwner(data.getTarget())
                 .build());
         for (int i = 0; i < Report.Reason.values().length; i++) {
             Report.Reason reason = Report.Reason.values()[i];
             if (data.getReasons().contains(reason)) {
                 inv.setItem(28 + i, new ItemStackBuilder(reason.getItem())
-                        .name(VaultLoader.getMessage(reason.getKey()))
+                        .name(ChatColor.RESET + VaultLoader.getMessage(reason.getKey()))
                         .enchant(Enchantment.DURABILITY, 5)
                         .hideFlags(ItemFlag.HIDE_ENCHANTS)
                         .build());
             } else {
                 inv.setItem(28 + i, new ItemStackBuilder(reason.getItem())
-                        .name(VaultLoader.getMessage(reason.getKey()))
+                        .name(ChatColor.RESET + VaultLoader.getMessage(reason.getKey()))
                         .build());
             }
         }
