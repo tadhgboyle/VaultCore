@@ -162,7 +162,7 @@ public class ReportsCommand extends CommandExecutor implements Listener {
                 if (e.isLeftClick()) {
                     int index = Arrays.asList(Report.Status.values()).indexOf(report.getStatus());
                     if (index == Report.Status.values().length - 1) {
-                        index = 0;
+                        index = -1;
                     }
                     report.setStatus(Report.Status.values()[index + 1]);
                     player.sendMessage(VaultLoader.getMessage("report.set-status")
