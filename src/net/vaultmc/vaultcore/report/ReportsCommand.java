@@ -108,12 +108,10 @@ public class ReportsCommand extends CommandExecutor implements Listener {
         }
 
         pages--;
-        if (pages < 0) {
-            sender.sendMessage(VaultLoader.getMessage("report.no-reports"));
-        }
 
         if (page > pages) {
-            throw new IllegalArgumentException("page (max = " + pages + ")");
+            sender.sendMessage(VaultLoader.getMessage("report.incorrect-page"));
+            return;
         }
 
         List<Report> reports = openedOnly ? Report.getReports().subList(page * 36, Math.min(Report.getReports().size(), page * 36 + 35)) :
