@@ -63,7 +63,7 @@ public class LolCommand extends CommandExecutor {
         if (System.currentTimeMillis() - LAST_LOL > COOLDOWN || LAST_LOL == 0) {
             int id = ThreadLocalRandom.current().nextInt(0, lolsList.size());
             for (Player players : Bukkit.getOnlinePlayers()) {
-                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), lolsList.get(id)));
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), ChatColor.translateAlternateColorCodes('&', String.valueOf(lolsList.get(id)))));
             }
             LAST_LOL = System.currentTimeMillis();
         } else {
@@ -101,12 +101,14 @@ public class LolCommand extends CommandExecutor {
             return;
         }
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.header"));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.page_number"), page + 1, MAX_PAGES + 1));
         int displayed = 0;
         for (int i = page * PAGE_SIZE; displayed < PAGE_SIZE; ++i, ++displayed) {
             try {
                 String lol = String.valueOf(lolsList.get(i));
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.format"), i, ChatColor.translateAlternateColorCodes('&', lol)));
             } catch (IndexOutOfBoundsException ignored) {
+                // if last page only has 3 entries etc
             }
         }
     }

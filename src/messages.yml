@@ -344,6 +344,9 @@ vaultcore:
       event_message: "{PLAYER}&e has {EVENT}&e."
   runnables:
     rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
+    clearlag:
+      warning: "&eAll entities will be cleared in 1 minute!"
+      cleared: "&eCleared &2{CLEARED}&e entities in &2{WORLDS}&e worlds."
   survival:
     time_set_day: "&eThe night has passed in &6Survival&e."
     players_needed: "&eOnly &2{PLAYERS}&e needed to skip the night in Survival."
@@ -513,7 +516,8 @@ vaultcore:
       list:
         max_pages: "&c{PAGE} is too high. Max pages: {MAX}."
         header: "&2--== [Lol] ==--"
-        format: "&6{ID}&e:&r {LOL}"
+        page_number: "&ePage &2{PAGE}&e of &2{MAX}&e"
+        format: "&6{ID}&e:&7 {LOL}"
       add:
         added: "&eAdded the lol #&2{ID}&e."
         already_exists: "&cThat lol already exists (#{ID})"

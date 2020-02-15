@@ -16,7 +16,6 @@ import net.vaultmc.vaultcore.chat.ClearChatCommand;
 import net.vaultmc.vaultcore.chat.ConsoleSay;
 import net.vaultmc.vaultcore.chat.MuteChatCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
-import net.vaultmc.vaultcore.chat.msg.MsgSocketListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
@@ -49,7 +48,6 @@ import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.settings.SettingsListener;
-import net.vaultmc.vaultcore.socket.GeneralSocketListener;
 import net.vaultmc.vaultcore.stats.*;
 import net.vaultmc.vaultcore.survival.SleepHandler;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
@@ -149,9 +147,9 @@ public final class VaultCore extends Component implements Listener {
 
         setupChat();
         Bug.load();
-
+        /*
         socket = new Socket(config.getConfig().getString("socket.host"), config.getConfig().getInt("socket.port"));
-
+        */
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
@@ -253,8 +251,10 @@ public final class VaultCore extends Component implements Listener {
         registerEvents(new BannedListener());
         registerEvents(new MutedListener());
 
+        /*
         new GeneralSocketListener();
         new MsgSocketListener();
+         */
 
         PunishmentsDB.createTables();
         Report.load();
