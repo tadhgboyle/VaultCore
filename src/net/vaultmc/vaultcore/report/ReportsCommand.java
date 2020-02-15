@@ -140,7 +140,7 @@ public class ReportsCommand extends CommandExecutor implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getClickedInventory() instanceof PlayerInventory) return;
-        if (e.getView().getTitle().equals(ChatColor.RESET + "Reports")) {
+        if (e.getView().getTitle().startsWith(ChatColor.RESET + "Reports")) {
             if (e.getCurrentItem() == null) return;
             int page = Integer.parseInt(e.getView().getTitle().split("\\(")[1].split("/")[0]);
             boolean openedOnly = e.getInventory().getItem(49).getType() == Material.LIME_WOOL;
