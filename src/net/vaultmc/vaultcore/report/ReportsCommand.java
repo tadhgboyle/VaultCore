@@ -164,7 +164,7 @@ public class ReportsCommand extends CommandExecutor implements Listener {
                     if (index == Report.Status.values().length - 1) {
                         index = 0;
                     }
-                    report.setStatus(Report.Status.values()[index]);
+                    report.setStatus(Report.Status.values()[index + 1]);
                     player.sendMessage(VaultLoader.getMessage("report.set-status")
                             .replace("{ID}", report.getId())
                             .replace("{STATUS}", VaultLoader.getMessage(report.getStatus().getKey())));
