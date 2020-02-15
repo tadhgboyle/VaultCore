@@ -45,9 +45,10 @@ public class MsgSocketListener extends BukkitRunnable {
         } else {
             responses.put(id, false);
             String ping = UUID.randomUUID().toString();
-            GeneralSocketListener.getWriter().write("Ping" + VaultCore.SEPARATOR + ping);
+            GeneralSocketListener.getWriter().write("Ping" + VaultCore.SEPARATOR + ping + "\n");
             Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
                 if (responses.size() == GeneralSocketListener.getPong().get(ping)) {
+                    VaultCore.getInstance().getLogger().info("Received pong " + GeneralSocketListener.getPong().get(ping) + " from global server");
                     if (!responses.containsValue(true)) {
                         from.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.failed"));
                     }
@@ -61,7 +62,7 @@ public class MsgSocketListener extends BukkitRunnable {
     @SneakyThrows
     private static void status(String status, String id, UUID from, UUID to, String message) {
         writer.write("MsgStatus" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + from.toString() + VaultCore.SEPARATOR +
-                to.toString() + VaultCore.SEPARATOR + message + VaultCore.SEPARATOR + status);
+                to.toString() + VaultCore.SEPARATOR + message + VaultCore.SEPARATOR + status + "\n");
     }
 
     @Override
@@ -70,6 +71,7 @@ public class MsgSocketListener extends BukkitRunnable {
         String response = reader.readLine();
         if (response != null) {
             if (response.startsWith("MsgFromTo")) {
+                VaultCore.getInstance().getLogger().info("Received " + response + " from global server");
                 String[] parts = response.split(VaultCore.SEPARATOR);
 
                 String id = parts[1];
@@ -100,6 +102,7 @@ public class MsgSocketListener extends BukkitRunnable {
                     status("Failure", id, UUID.fromString(parts[2]), UUID.fromString(parts[3]), message);
                 }
             } else if (response.startsWith("MsgStatus")) {
+                VaultCore.getInstance().getLogger().info("Received " + response + " from global server");
                 String[] parts = response.split(VaultCore.SEPARATOR);
                 UUID id = UUID.fromString(parts[1]);
                 if (MsgCommand.getSessions().containsValue(id)) {

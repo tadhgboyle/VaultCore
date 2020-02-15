@@ -337,10 +337,5 @@ public final class VaultCore extends Component implements Listener {
         locations.save();
         data.save();
         Report.save();
-        MsgSocketListener.getReader().close();
-        MsgSocketListener.getWriter().close();
-        GeneralSocketListener.getReader().close();
-        GeneralSocketListener.getWriter().close();
-        socket.close();
     }
 }

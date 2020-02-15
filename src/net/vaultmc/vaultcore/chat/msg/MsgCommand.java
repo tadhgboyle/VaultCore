@@ -43,7 +43,7 @@ public class MsgCommand extends CommandExecutor implements Listener {
         sessions.put(player.getUniqueId(), session);
         sessionsReversed.put(session, player.getUniqueId());
         MsgSocketListener.getWriter().write("TellFromTo" + VaultCore.SEPARATOR + session.toString() + VaultCore.SEPARATOR +
-                player.getUniqueId().toString() + VaultCore.SEPARATOR + target.getUniqueId().toString() + VaultCore.SEPARATOR + message);
+                player.getUniqueId().toString() + VaultCore.SEPARATOR + target.getUniqueId().toString() + VaultCore.SEPARATOR + message + "\n");
         MsgSocketListener.getWriter().flush();
     }
 
