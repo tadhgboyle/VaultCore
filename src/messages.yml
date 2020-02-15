@@ -509,7 +509,7 @@ vaultcore:
       target_set_to: "&eYour &6{MOVEMENT}&e speed has been set to&2{SPEED}&e by {SENDER}&e."
       find_self: "&eYour &6{MOVEMENT}&e speed is &2{SPEED}&e."
     lol:
-      format: "{SENDER}&e:&r {LOL}"
+      format: "&c[Lol] {SENDER}&8:&7 {LOL}"
       cooldown: "&cYou must wait &e{TIME}&c seconds to use /lol again."
       list:
         max_pages: "&c{PAGE} is too high. Max pages: {MAX}."

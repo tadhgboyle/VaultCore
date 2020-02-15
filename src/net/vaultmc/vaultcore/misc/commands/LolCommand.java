@@ -8,6 +8,7 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -77,7 +78,7 @@ public class LolCommand extends CommandExecutor {
         if (System.currentTimeMillis() - LAST_LOL > COOLDOWN || LAST_LOL == 0) {
             try {
                 for (Player players : Bukkit.getOnlinePlayers()) {
-                    players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), lolsList.get(id)));
+                    players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), ChatColor.translateAlternateColorCodes('&', String.valueOf(lolsList.get(id)))));
                 }
                 LAST_LOL = System.currentTimeMillis();
                 // if they typed too high a number
@@ -104,7 +105,7 @@ public class LolCommand extends CommandExecutor {
         for (int i = page * PAGE_SIZE; displayed < PAGE_SIZE; ++i, ++displayed) {
             try {
                 String lol = String.valueOf(lolsList.get(i));
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.format"), i, lol));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.format"), i, ChatColor.translateAlternateColorCodes('&', lol)));
             } catch (IndexOutOfBoundsException ignored) {
             }
         }
@@ -138,7 +139,7 @@ public class LolCommand extends CommandExecutor {
             }
             // if they typed too high a number
         } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.delete.not_found"), id, lolsList.size()));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.delete.not_found"), id, lolsList.size() - 1));
         }
     }
 
