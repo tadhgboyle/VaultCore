@@ -29,9 +29,9 @@ public class SpeedCommand extends CommandExecutor {
     @PlayerOnly
     public static void speedFind(VLPlayer sender) {
         if (sender.isFlying()) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.speed.find_self"), "flying", Bukkit.getPlayer(sender.getUniqueId()).getFlySpeed() * 10));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.speed.find_self"), "flying", Math.round(Bukkit.getPlayer(sender.getUniqueId()).getFlySpeed() * 10)));
         } else {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.speed.find_self"), "walking", Bukkit.getPlayer(sender.getUniqueId()).getWalkSpeed() * 10));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.speed.find_self"), "walking", Math.round(Bukkit.getPlayer(sender.getUniqueId()).getWalkSpeed() * 10)));
         }
     }
 

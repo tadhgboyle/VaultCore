@@ -31,6 +31,8 @@ public class LolCommand extends CommandExecutor {
     private static FileWriter updatedLols;
     private static long LAST_LOL = 0;
     private static long COOLDOWN = 15000;
+    private static int PAGE_SIZE = 7;
+
     JSONParser parser = new JSONParser();
     Object obj;
 
@@ -48,7 +50,7 @@ public class LolCommand extends CommandExecutor {
         register("lol", Collections.emptyList());
         register("lolId", Collections.singletonList(Arguments.createArgument("id", Arguments.integerArgument())));
         register("lolList",
-                Collections.singletonList(Arguments.createLiteral("list")));
+                Arrays.asList(Arguments.createLiteral("list"), Arguments.createArgument("page", Arguments.integerArgument(1))));
         register("lolAdd",
                 Arrays.asList(Arguments.createLiteral("add"), Arguments.createArgument("text", Arguments.greedyString())));
         register("lolDelete",
@@ -80,7 +82,7 @@ public class LolCommand extends CommandExecutor {
                 LAST_LOL = System.currentTimeMillis();
                 // if they typed too high a number
             } catch (IndexOutOfBoundsException e) {
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.not_found"), id, lolsList.size()));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.not_found"), id, lolsList.size() - 1));
             }
         } else {
             int secs = (14 - (int) Math.ceil((System.currentTimeMillis() - LAST_LOL) / 1000));
@@ -89,8 +91,23 @@ public class LolCommand extends CommandExecutor {
     }
 
     @SubCommand("lolList")
-    public static void lolList(VLCommandSender sender) {
-
+    @Permission(Permissions.LolCommandId)
+    public static void lolList(VLCommandSender sender, int page) {
+        page = page - 1;
+        int MAX_PAGES = (int) Math.floor(lolsList.size() / PAGE_SIZE);
+        if (page + 1 > MAX_PAGES + 1) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.max_pages"), page + 1, MAX_PAGES + 1));
+            return;
+        }
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.header"));
+        int displayed = 0;
+        for (int i = page * PAGE_SIZE; displayed < PAGE_SIZE; ++i, ++displayed) {
+            try {
+                String lol = String.valueOf(lolsList.get(i));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.format"), i, lol));
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        }
     }
 
     @SubCommand("lolAdd")
@@ -99,12 +116,12 @@ public class LolCommand extends CommandExecutor {
         if (!lolsList.contains(text)) {
             lolsList.add(text);
             if (saveLols()) {
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.added"), lolsList.size()));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.add.added"), lolsList.size() - 1));
             } else {
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.not_added"), lolsList.size() + 1));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.add.not_added"), lolsList.size() - 1));
             }
         } else {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.already_exists"), lolsList.indexOf(text)));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.add.already_exists"), lolsList.indexOf(text)));
         }
     }
 
@@ -112,16 +129,16 @@ public class LolCommand extends CommandExecutor {
     @Permission(Permissions.LolCommandEdit)
     public static void lolDelete(VLPlayer sender, int id) {
         try {
-            lolsList.remove(id - 1);
+            lolsList.remove(id);
             if (saveLols()) {
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.deleted"), id));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.delete.deleted"), id));
             } else {
                 // if we have an exception
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.not_deleted"), id));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.delete.not_deleted"), id));
             }
             // if they typed too high a number
         } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.not_found"), id, lolsList.size()));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.delete.not_found"), id, lolsList.size()));
         }
     }
 
