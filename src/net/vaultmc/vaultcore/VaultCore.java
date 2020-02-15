@@ -16,6 +16,7 @@ import net.vaultmc.vaultcore.chat.ClearChatCommand;
 import net.vaultmc.vaultcore.chat.ConsoleSay;
 import net.vaultmc.vaultcore.chat.MuteChatCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
+import net.vaultmc.vaultcore.chat.msg.MsgSocketListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
@@ -48,6 +49,7 @@ import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.settings.SettingsListener;
+import net.vaultmc.vaultcore.socket.GeneralSocketListener;
 import net.vaultmc.vaultcore.stats.*;
 import net.vaultmc.vaultcore.survival.SleepHandler;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
@@ -76,6 +78,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 
+import java.net.Socket;
 import java.text.DecimalFormat;
 
 @ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
@@ -83,14 +86,18 @@ import java.text.DecimalFormat;
 @Version(major = 3, minor = 0, revision = 4)
 public final class VaultCore extends Component implements Listener {
     public static final DecimalFormat numberFormat = new DecimalFormat("###,###.###");
+    public static final String SEPARATOR = "\u200B";  // Zero width space
     @Getter
-    public static VaultCore instance;
+    private static VaultCore instance;
     public static boolean isReloaded = false;
     private static Chat chat = null;
     @Getter
     private static DBConnection database;
     @Getter
     private static DBConnection pDatabase;
+    @Getter
+    private static Socket socket;
+
     private Configuration config;
     private Configuration locations;
     private Configuration data;
@@ -142,6 +149,8 @@ public final class VaultCore extends Component implements Listener {
 
         setupChat();
         Bug.load();
+
+        socket = new Socket(config.getConfig().getString("socket.host"), config.getConfig().getInt("socket.port"));
 
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
@@ -244,6 +253,9 @@ public final class VaultCore extends Component implements Listener {
         registerEvents(new BannedListener());
         registerEvents(new MutedListener());
 
+        new GeneralSocketListener();
+        new MsgSocketListener();
+
         PunishmentsDB.createTables();
         Report.load();
 
@@ -316,6 +328,7 @@ public final class VaultCore extends Component implements Listener {
     }
 
     @Override
+    @SneakyThrows
     public void onDisable() {
         database.close();
         pDatabase.close();
@@ -324,5 +337,10 @@ public final class VaultCore extends Component implements Listener {
         locations.save();
         data.save();
         Report.save();
+        MsgSocketListener.getReader().close();
+        MsgSocketListener.getWriter().close();
+        GeneralSocketListener.getReader().close();
+        GeneralSocketListener.getWriter().close();
+        socket.close();
     }
 }

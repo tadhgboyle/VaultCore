@@ -1,9 +1,9 @@
 package net.vaultmc.vaultcore.chat.msg;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
@@ -19,28 +19,10 @@ public class ReplyCommand extends CommandExecutor {
 
     @SubCommand("r")
     public void reply(VLPlayer player, String message) {
-        if (!MsgCommand.getReplies().containsValue(player.getUniqueId())) {
+        if (!MsgCommand.getReplies().containsKey(player.getUniqueId())) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
             return;
         }
-        VLPlayer target = VLPlayer.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
-        if (target == null) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
-            return;
-        }
-        player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-                player.getFormattedName(), target.getFormattedName(), message));
-        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-                player.getFormattedName(), target.getFormattedName(), message));
-        MsgCommand.getReplies().put(player.getUniqueId(), target.getUniqueId());
-
-        for (VLPlayer socialspy : SocialSpyCommand.toggled) {
-            if (!socialspy.getFormattedName().equals(player.getFormattedName())
-                    && !socialspy.getFormattedName().equals(target.getFormattedName())) {
-                socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
-                        + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-                        player.getFormattedName(), target.getFormattedName(), message));
-            }
-        }
+        MsgCommand.pm(player, VLOfflinePlayer.getOfflinePlayer(MsgCommand.getReplies().get(player.getUniqueId())), message);
     }
 }

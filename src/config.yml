@@ -11,6 +11,9 @@ mysql:
   database: VaultMC_Data
   user: null
   password: null
+socket:
+  host: localhost
+  port: 65131
 
 # Mod mode.
 mod-mode:

@@ -388,9 +388,8 @@ vaultcore:
       wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
     msg:
       self_error: "&cYou can't message yourself."
-      player_disabled_messaging: "&cThat player has disabled messaging."
       format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
-      you: "&6You"
+      failed: "&cMessaging failed."
     reply:
       noone_error: "&cYou have no one to reply to."
     socialspy:
