@@ -13,7 +13,6 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,7 +20,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.UUID;
 
-public class MsgSocketListener extends BukkitRunnable {
+public class MsgSocketListener implements Runnable {
     private static final Multimap<UUID, Boolean> responses = HashMultimap.create();
     @Getter
     private static BufferedReader reader;
@@ -30,7 +29,8 @@ public class MsgSocketListener extends BukkitRunnable {
 
     @SneakyThrows
     public MsgSocketListener() {
-        runTaskTimerAsynchronously(VaultLoader.getInstance(), 5, 5);
+        // Don't tell me this is not recommended. I've used the scheduler before.
+        new Thread(this, "Messaging Socket Listener").start();
         if (reader == null) reader = new BufferedReader(new InputStreamReader(VaultCore.getSocket().getInputStream()));
         if (writer == null)
             writer = new BufferedWriter(new OutputStreamWriter(VaultCore.getSocket().getOutputStream()));
@@ -68,47 +68,49 @@ public class MsgSocketListener extends BukkitRunnable {
     @Override
     @SneakyThrows
     public void run() {
-        String response = reader.readLine();
-        if (response != null) {
-            if (response.startsWith("MsgFromTo")) {
-                VaultCore.getInstance().getLogger().info("Received " + response + " from global server");
-                String[] parts = response.split(VaultCore.SEPARATOR);
+        while (true) {
+            String response;
+            while ((response = reader.readLine()) != null) {
+                if (response.startsWith("MsgFromTo")) {
+                    VaultCore.getInstance().getLogger().info("Received " + response + " from global server");
+                    String[] parts = response.split(VaultCore.SEPARATOR);
 
-                String id = parts[1];
-                VLOfflinePlayer from = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(parts[2]));
-                VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[3]));
-                String message = from.hasPermission(Permissions.ChatColor) ? ChatColor.translateAlternateColorCodes('&', parts[4].trim()) : parts[4].trim();
-                if (to == null) {
-                    status("Failure", id, UUID.fromString(parts[2]), UUID.fromString(parts[3]), message);
-                    return;
-                }
-
-                if (to.getDataConfig().getBoolean("settings.msg", true)) {
-                    to.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-                            from.getFormattedName(), to.getFormattedName(), message));
-                    MsgCommand.getReplies().put(from.getUniqueId(), to.getUniqueId());
-
-                    for (VLPlayer socialspy : SocialSpyCommand.toggled) {
-                        if (!socialspy.getFormattedName().equals(from.getFormattedName())
-                                && !socialspy.getFormattedName().equals(to.getFormattedName())) {
-                            socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
-                                    + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-                                    from.getFormattedName(), to.getFormattedName(), message));
-                        }
+                    String id = parts[1];
+                    VLOfflinePlayer from = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(parts[2]));
+                    VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[3]));
+                    String message = from.hasPermission(Permissions.ChatColor) ? ChatColor.translateAlternateColorCodes('&', parts[4].trim()) : parts[4].trim();
+                    if (to == null) {
+                        status("Failure", id, UUID.fromString(parts[2]), UUID.fromString(parts[3]), message);
+                        return;
                     }
 
-                    status("Success", id, UUID.fromString(parts[2]), UUID.fromString(parts[3]), message);
-                } else {
-                    status("Failure", id, UUID.fromString(parts[2]), UUID.fromString(parts[3]), message);
-                }
-            } else if (response.startsWith("MsgStatus")) {
-                VaultCore.getInstance().getLogger().info("Received " + response + " from global server");
-                String[] parts = response.split(VaultCore.SEPARATOR);
-                UUID id = UUID.fromString(parts[1]);
-                if (MsgCommand.getSessions().containsValue(id)) {
-                    VLPlayer from = VLPlayer.getPlayer(MsgCommand.getSessionsReversed().get(id));
-                    addToResponse(id, from, VLOfflinePlayer.getOfflinePlayer(UUID.fromString(parts[3])),
-                            parts[4], parts[5].equals("Success"));
+                    if (to.getDataConfig().getBoolean("settings.msg", true)) {
+                        to.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                                from.getFormattedName(), to.getFormattedName(), message));
+                        MsgCommand.getReplies().put(from.getUniqueId(), to.getUniqueId());
+
+                        for (VLPlayer socialspy : SocialSpyCommand.toggled) {
+                            if (!socialspy.getFormattedName().equals(from.getFormattedName())
+                                    && !socialspy.getFormattedName().equals(to.getFormattedName())) {
+                                socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
+                                        + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                                        from.getFormattedName(), to.getFormattedName(), message));
+                            }
+                        }
+
+                        status("Success", id, UUID.fromString(parts[2]), UUID.fromString(parts[3]), message);
+                    } else {
+                        status("Failure", id, UUID.fromString(parts[2]), UUID.fromString(parts[3]), message);
+                    }
+                } else if (response.startsWith("MsgStatus")) {
+                    VaultCore.getInstance().getLogger().info("Received " + response + " from global server");
+                    String[] parts = response.split(VaultCore.SEPARATOR);
+                    UUID id = UUID.fromString(parts[1]);
+                    if (MsgCommand.getSessions().containsValue(id)) {
+                        VLPlayer from = VLPlayer.getPlayer(MsgCommand.getSessionsReversed().get(id));
+                        addToResponse(id, from, VLOfflinePlayer.getOfflinePlayer(UUID.fromString(parts[3])),
+                                parts[4], parts[5].equals("Success"));
+                    }
                 }
             }
         }
