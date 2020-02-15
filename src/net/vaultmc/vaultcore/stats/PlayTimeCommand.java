@@ -17,7 +17,6 @@ import java.util.Collections;
 
 @RootCommand(literal = "playtime", description = "Check yourself or other's play time.")
 @Permission(Permissions.PlayTime)
-@Aliases("pt")
 public class PlayTimeCommand extends CommandExecutor {
     public PlayTimeCommand() {
         register("playTimeSelf", Collections.emptyList());
