@@ -76,6 +76,7 @@ public final class Permissions {
     public static final String SpeedCommand = "vaultcore.speed";
     public static final String SpeedCommandOther = "vaultcore.speed.other";
     public static final String LolCommand = "vaultcore.lol";
+    public static final String LolCommandId = "vaultcore.lol.id";
     public static final String LolCommandEdit = "vaultcore.lol.edit";
 
     private Permissions() {

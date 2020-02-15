@@ -5,6 +5,7 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -45,6 +46,7 @@ public class LolCommand extends CommandExecutor {
 
     public LolCommand() {
         register("lol", Collections.emptyList());
+        register("lolId", Collections.singletonList(Arguments.createArgument("id", Arguments.integerArgument())));
         register("lolList",
                 Collections.singletonList(Arguments.createLiteral("list")));
         register("lolAdd",
@@ -54,7 +56,7 @@ public class LolCommand extends CommandExecutor {
     }
 
     @SubCommand("lol")
-    public static void lol(VLPlayer sender) {
+    public static void lol(VLCommandSender sender) {
         if (System.currentTimeMillis() - LAST_LOL > COOLDOWN || LAST_LOL == 0) {
             int id = ThreadLocalRandom.current().nextInt(0, lolsList.size());
             for (Player players : Bukkit.getOnlinePlayers()) {
@@ -62,18 +64,38 @@ public class LolCommand extends CommandExecutor {
             }
             LAST_LOL = System.currentTimeMillis();
         } else {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.cooldown"), Utilities.millisToTime(System.currentTimeMillis() - LAST_LOL)));
+            int secs = (14 - (int) Math.ceil((System.currentTimeMillis() - LAST_LOL) / 1000));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.cooldown"), secs));
+        }
+    }
+
+    @SubCommand("lolId")
+    @Permission(Permissions.LolCommandId)
+    public static void lolId(VLCommandSender sender, int id) {
+        if (System.currentTimeMillis() - LAST_LOL > COOLDOWN || LAST_LOL == 0) {
+            try {
+                for (Player players : Bukkit.getOnlinePlayers()) {
+                    players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), lolsList.get(id)));
+                }
+                LAST_LOL = System.currentTimeMillis();
+                // if they typed too high a number
+            } catch (IndexOutOfBoundsException e) {
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.not_found"), id, lolsList.size()));
+            }
+        } else {
+            int secs = (14 - (int) Math.ceil((System.currentTimeMillis() - LAST_LOL) / 1000));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.cooldown"), secs));
         }
     }
 
     @SubCommand("lolList")
-    public static void lolList(VLPlayer sender) {
+    public static void lolList(VLCommandSender sender) {
 
     }
 
     @SubCommand("lolAdd")
     @Permission(Permissions.LolCommandEdit)
-    public static void lolAdd(VLPlayer sender, String text) {
+    public static void lolAdd(VLCommandSender sender, String text) {
         if (!lolsList.contains(text)) {
             lolsList.add(text);
             if (saveLols()) {
