@@ -475,6 +475,7 @@ vaultcore:
       never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
       teleported: "&eTeleported you to the &6{WORLD}&e world."
     claim:
+      reserved: "&cThis chunk is reserved!"
       must-be-in-survival: "&eYou must be in the &6Survival&e world to do this."
       already-claimed: "&cThis chunk is already claimed!"
       claimed: "&eYou claimed &6{X}, {Z}&e!"

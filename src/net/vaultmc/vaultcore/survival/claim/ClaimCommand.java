@@ -119,6 +119,10 @@ public class ClaimCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.must-be-in-survival"));
             return;
         }
+        if ((sender.getLocation().getChunk().getX() == -37 || sender.getLocation().getChunk().getX() == -38) && sender.getLocation().getChunk().getZ() == -7) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.reserved"));
+            return;
+        }
         List<Chunk> chunks = deserializeChunks(sender.getDataConfig().getStringList("claim.chunks"));
         if (isAlreadyClaimed(sender.getLocation().getChunk()) != null) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.already-claimed"));

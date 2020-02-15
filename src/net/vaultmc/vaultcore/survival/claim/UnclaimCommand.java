@@ -13,7 +13,7 @@ import static net.vaultmc.vaultcore.survival.claim.ClaimCommand.deserializeChunk
 import static net.vaultmc.vaultcore.survival.claim.ClaimCommand.serializeChunks;
 
 @RootCommand(
-        literal = "claim",
+        literal = "unclaim",
         description = "Claim a chunk for you."
 )
 @Permission(Permissions.ClaimCommand)
