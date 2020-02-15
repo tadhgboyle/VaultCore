@@ -159,7 +159,17 @@ public class ReportsCommand extends CommandExecutor implements Listener {
                 reports(player, openedOnly, page);
             } else {
                 Report report = Report.getReport(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
-                if (e.isLeftClick()) {
+                if (e.isShiftClick()) {
+                    report.getAssignees().remove(player);
+                    player.closeInventory();
+                    player.sendMessage(VaultLoader.getMessage("report.unassigned").replace("{ID}", report.getId()));
+                    reports(player, openedOnly, page);
+                } else if (e.isRightClick()) {
+                    report.getAssignees().add(player);
+                    player.closeInventory();
+                    player.sendMessage(VaultLoader.getMessage("report.assigned").replace("{ID}", report.getId()));
+                    reports(player, openedOnly, page);
+                } else if (e.isLeftClick()) {
                     int index = Arrays.asList(Report.Status.values()).indexOf(report.getStatus());
                     if (index == Report.Status.values().length - 1) {
                         index = -1;
@@ -169,16 +179,6 @@ public class ReportsCommand extends CommandExecutor implements Listener {
                             .replace("{ID}", report.getId())
                             .replace("{STATUS}", VaultLoader.getMessage(report.getStatus().getKey())));
                     player.closeInventory();
-                    reports(player, openedOnly, page);
-                } else if (e.isRightClick()) {
-                    report.getAssignees().add(player);
-                    player.closeInventory();
-                    player.sendMessage(VaultLoader.getMessage("report.assigned").replace("{ID}", report.getId()));
-                    reports(player, openedOnly, page);
-                } else if (e.isShiftClick()) {
-                    report.getAssignees().remove(player);
-                    player.closeInventory();
-                    player.sendMessage(VaultLoader.getMessage("report.unassigned").replace("{ID}", report.getId()));
                     reports(player, openedOnly, page);
                 }
             }
