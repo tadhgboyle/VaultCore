@@ -506,3 +506,13 @@ vaultcore:
       sender_set_to: "&eYour &6{MOVEMENT}&e speed has been set to &2{SPEED}&e."
       sender_target: "&eYou have set {TARGET}&e's &6{MOVEMENT}&e speed to &2{SPEED}&e."
       target_set_to: "&eYour &6{MOVEMENT}&e speed has been set to&2{SPEED}&e by {SENDER}&e."
+      find_self: "&eYour &6{MOVEMENT}&e speed is &2{SPEED}&e"
+    lol:
+      format: "{SENDER}&e: {LOL}"
+      cooldown: "&cYou must wait {TIME} to use /lol again."
+      added: "&eAdded the lol #&2{ID}&e."
+      already_exists: "&cThat lol already exists (#{ID})"
+      not_added: "&clol #&2{ID}&e could not be saved."
+      deleted: "&eDeleted the lol #&2{ID}&e."
+      not_deleted: "&clol #{ID} could not be deleted."
+      not_found: "&clol #{ID} could not be found. Max: {MAX}"

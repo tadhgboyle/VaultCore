@@ -234,6 +234,7 @@ public final class VaultCore extends Component implements Listener {
         new ServerNavigator();
         new BuggyCommand();
         new BuggyListener();
+        new LolCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
