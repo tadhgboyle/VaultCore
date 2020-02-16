@@ -55,7 +55,8 @@ public class VanishCommand extends CommandExecutor {
 		for (Map.Entry<UUID, Boolean> x : vanished.entrySet()) {
 			if (x.getKey().toString().equals(player.getUniqueId().toString()))
 				continue;
-			if (VLPlayer.getPlayer(x.getKey()) != null && x.getValue()) {
+			VLPlayer y = VLPlayer.getPlayer(x.getKey());
+			if (y != null && x.getValue() && !y.hasPermission(Permissions.VanishCommand)) {
 				player.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), Bukkit.getPlayer(x.getKey()));
 			}
 		}
