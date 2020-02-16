@@ -107,6 +107,10 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
                     } catch (IllegalArgumentException ignored) {
                     }
                 }
+            } else {
+                for (PotionEffectType type : PotionEffectType.values()) {
+                    e.getPlayer().removePotionEffect(type);
+                }
             }
 
             VaultCore.getInstance().saveConfig();
