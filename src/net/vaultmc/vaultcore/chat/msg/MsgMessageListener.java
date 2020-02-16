@@ -33,7 +33,7 @@ public class MsgMessageListener extends ConstructorRegisterListener {
             String ping = UUID.randomUUID().toString();
             SQLMessenger.sendGlobalMessage("Ping" + VaultCore.SEPARATOR + ping);
             Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
-                if (responses.size() == PingService.getPong().get(ping)) {
+                if (responses.get(id).size() == PingService.getPong().get(ping)) {
                     if (!responses.containsValue(true)) {
                         from.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.failed"));
                     }
@@ -54,7 +54,6 @@ public class MsgMessageListener extends ConstructorRegisterListener {
     public void onMessageReceived(MessageReceivedEvent e) {
         String response = e.getMessage();
         if (response.startsWith("MsgFromTo")) {
-            VaultCore.getInstance().getLogger().info("Received " + response + " from global server");
             String[] parts = response.split(VaultCore.SEPARATOR);
 
             String id = parts[1];

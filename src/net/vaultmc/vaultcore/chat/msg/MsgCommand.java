@@ -43,7 +43,7 @@ public class MsgCommand extends CommandExecutor implements Listener {
         UUID session = UUID.randomUUID();
         sessions.put(player.getUniqueId(), session);
         sessionsReversed.put(session, player.getUniqueId());
-        SQLMessenger.sendGlobalMessage("TellFromTo" + VaultCore.SEPARATOR + session.toString() + VaultCore.SEPARATOR +
+        SQLMessenger.sendGlobalMessage("MsgFromTo" + VaultCore.SEPARATOR + session.toString() + VaultCore.SEPARATOR +
                 player.getUniqueId().toString() + VaultCore.SEPARATOR + target.getUniqueId().toString() + VaultCore.SEPARATOR + message);
     }
 

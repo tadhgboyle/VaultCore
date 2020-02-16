@@ -78,7 +78,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 
-import java.net.Socket;
 import java.text.DecimalFormat;
 
 @ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
@@ -86,7 +85,7 @@ import java.text.DecimalFormat;
 @Version(major = 3, minor = 0, revision = 4)
 public final class VaultCore extends Component implements Listener {
     public static final DecimalFormat numberFormat = new DecimalFormat("###,###.###");
-    public static final String SEPARATOR = "\u200B";  // Zero width space
+    public static final String SEPARATOR = "\u00a7â";  // I hope nobody will type this using another client
     @Getter
     private static VaultCore instance;
     public static boolean isReloaded = false;
@@ -95,8 +94,6 @@ public final class VaultCore extends Component implements Listener {
     private static DBConnection database;
     @Getter
     private static DBConnection pDatabase;
-    @Getter
-    private static Socket socket;
 
     private Configuration config;
     private Configuration locations;
@@ -149,9 +146,6 @@ public final class VaultCore extends Component implements Listener {
 
         setupChat();
         Bug.load();
-        /*
-        socket = new Socket(config.getConfig().getString("socket.host"), config.getConfig().getInt("socket.port"));
-        */
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());

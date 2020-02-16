@@ -19,6 +19,10 @@ public class PingService extends ConstructorRegisterListener {
         if (e.getMessage().startsWith("Ping")) {
             SQLMessenger.sendGlobalMessage("Pong" + VaultCore.SEPARATOR + e.getMessage().split(VaultCore.SEPARATOR)[1] +
                     VaultCore.SEPARATOR + "VaultCore at your service.");
+        } else if (e.getMessage().startsWith("Pong")) {
+            int i = pong.getOrDefault(e.getMessage().split(VaultCore.SEPARATOR)[1], 0);
+            i++;
+            pong.put(e.getMessage().split(VaultCore.SEPARATOR)[1], i);
         }
     }
 }
