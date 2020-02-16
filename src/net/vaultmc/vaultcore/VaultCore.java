@@ -251,11 +251,6 @@ public final class VaultCore extends Component implements Listener {
         registerEvents(new BannedListener());
         registerEvents(new MutedListener());
 
-        /*
-        new GeneralSocketListener();
-        new MsgSocketListener();
-         */
-
         PunishmentsDB.createTables();
         Report.load();
 

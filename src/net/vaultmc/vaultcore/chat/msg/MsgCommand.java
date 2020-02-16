@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -38,13 +40,21 @@ public class MsgCommand extends CommandExecutor implements Listener {
     }
 
     @SneakyThrows
-    static void pm(VLPlayer player, VLOfflinePlayer target, String message) {
-        UUID session = UUID.randomUUID();
-        sessions.put(player.getUniqueId(), session);
-        sessionsReversed.put(session, player.getUniqueId());
-        MsgSocketListener.getWriter().write("TellFromTo" + VaultCore.SEPARATOR + session.toString() + VaultCore.SEPARATOR +
-                player.getUniqueId().toString() + VaultCore.SEPARATOR + target.getUniqueId().toString() + VaultCore.SEPARATOR + message + "\n");
-        MsgSocketListener.getWriter().flush();
+    static void pm(VLPlayer from, VLOfflinePlayer to, String message) {
+        from.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                from.getFormattedName(), to.getFormattedName(), message));
+        to.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                from.getFormattedName(), to.getFormattedName(), message));
+        MsgCommand.getReplies().put(from.getUniqueId(), to.getUniqueId());
+
+        for (VLPlayer socialspy : SocialSpyCommand.toggled) {
+            if (!socialspy.getFormattedName().equals(from.getFormattedName())
+                    && !socialspy.getFormattedName().equals(to.getFormattedName())) {
+                socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
+                        + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                        from.getFormattedName(), to.getFormattedName(), message));
+            }
+        }
     }
 
     @EventHandler
