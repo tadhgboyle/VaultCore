@@ -18,7 +18,9 @@
 
 package net.vaultmc.vaultcore.vanish;
 
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,6 +32,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import java.util.Iterator;
+import java.util.UUID;
 
 public class VanishListeners extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -68,6 +71,16 @@ public class VanishListeners extends ConstructorRegisterListener {
         VanishCommand.update(player);
         if (VanishCommand.vanished.getOrDefault(player.getUniqueId(), false)) {
             VanishCommand.setVanishState(player, true);
+        }
+    }
+
+    @EventHandler
+    public void onMessageReceived(MessageReceivedEvent e) {
+        if (e.getMessage().startsWith("Vanish")) {
+            String[] parts = e.getMessage().trim().split(VaultCore.SEPARATOR);
+            UUID uuid = UUID.fromString(parts[1]);
+            boolean vanished = Boolean.parseBoolean(parts[2]);
+            VanishCommand.vanished.put(uuid, vanished);
         }
     }
 }

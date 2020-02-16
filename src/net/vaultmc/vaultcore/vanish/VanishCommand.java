@@ -5,6 +5,7 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -29,9 +30,8 @@ public class VanishCommand extends CommandExecutor {
 	}
 
 	public static void setVanishState(VLPlayer player, boolean vanish) {
+		SQLMessenger.sendGlobalMessage("Vanish" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + vanish);
 		if (vanish) {
-			vanished.put(player.getUniqueId(), true);
-
 			for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
 				if (i == player)
 					continue;
@@ -40,8 +40,6 @@ public class VanishCommand extends CommandExecutor {
 				i.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), player.getPlayer());
 			}
 		} else {
-			vanished.remove(player.getUniqueId());
-
 			for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
 				if (i == player)
 					continue;

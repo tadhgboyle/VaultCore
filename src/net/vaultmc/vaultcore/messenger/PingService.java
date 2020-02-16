@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.connection;
+package net.vaultmc.vaultcore.messenger;
 
 import lombok.Getter;
 import net.vaultmc.vaultcore.VaultCore;

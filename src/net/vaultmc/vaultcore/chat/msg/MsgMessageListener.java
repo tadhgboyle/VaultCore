@@ -6,7 +6,7 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.connection.PingService;
+import net.vaultmc.vaultcore.messenger.PingService;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
@@ -52,7 +52,7 @@ public class MsgMessageListener extends ConstructorRegisterListener {
 
     @EventHandler
     public void onMessageReceived(MessageReceivedEvent e) {
-        String response = e.getMessage();
+        String response = e.getMessage().trim();
         if (response.startsWith("MsgFromTo")) {
             String[] parts = response.split(VaultCore.SEPARATOR);
 
