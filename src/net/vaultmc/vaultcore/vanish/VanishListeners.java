@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.UUID;
 
 public class VanishListeners extends ConstructorRegisterListener {
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (!e.getJoinMessage().startsWith("[VANISH_FAKE_JOIN]")) {
