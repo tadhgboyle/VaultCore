@@ -99,7 +99,8 @@ public class Report {
             if (rs.next()) {
                 return new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("reporter"))),
                         VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("target"))),
-                        Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(p -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(p))).collect(Collectors.toList()),
+                        rs.getString("assignees").trim().equals("") ? new ArrayList<>()
+                                : Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(p -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(p))).collect(Collectors.toList()),
                         Arrays.stream(rs.getString("reasons").split(VaultCore.SEPARATOR)).map(Reason::valueOf).collect(Collectors.toList()),
                         Status.valueOf(rs.getString("status")), rs.getString("id"));
             }

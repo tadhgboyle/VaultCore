@@ -102,7 +102,8 @@ public class Bug {
                         rs.getString("expectedBehavior"), Arrays.asList(rs.getString("stepsToReproduce").split(VaultCore.SEPARATOR)),
                         rs.getString("additionalInformation"),
                         rs.getBoolean("hidden"), VLOfflinePlayer.getOfflinePlayer(rs.getString("reporter")),
-                        Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s)))
+                        rs.getString("assignees").trim().equals("") ? new ArrayList<>()
+                                : Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s)))
                                 .collect(Collectors.toList()), rs.getString("id"), Status.valueOf(rs.getString("status")));
             }
         }
