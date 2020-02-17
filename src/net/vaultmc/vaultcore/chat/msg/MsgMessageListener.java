@@ -68,7 +68,7 @@ public class MsgMessageListener extends ConstructorRegisterListener {
             if (to.getDataConfig().getBoolean("settings.msg", true)) {
                 to.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
                         from.getFormattedName(), to.getFormattedName(), message));
-                MsgCommand.getReplies().put(from.getUniqueId(), to.getUniqueId());
+                MsgCommand.getReplies().put(to.getUniqueId(), from.getUniqueId());
 
                 for (VLPlayer socialspy : SocialSpyCommand.toggled) {
                     if (!socialspy.getFormattedName().equals(from.getFormattedName())
