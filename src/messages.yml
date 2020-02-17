@@ -287,6 +287,7 @@ buggy:
     &a--------
   cancelled: "&eCancelled."
   status-set: "&eSet status of &6{BUG}&e to &6{STATUS}&e."
+  total-assigned: "&6{BUGS}&e bugs are assigned to you!"
   title: "&ePlease enter the title of your bug report:"
   description: "&ePlease enter a brief description of the bug you discovered:"
   expected-behavior: "&ePlease enter your expected behavior:"

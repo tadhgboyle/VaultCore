@@ -4,14 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class BuggyListener extends ConstructorRegisterListener {
     static final Map<UUID, Stage> stages = new HashMap<>();
@@ -21,6 +24,20 @@ public class BuggyListener extends ConstructorRegisterListener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         stages.remove(e.getPlayer().getUniqueId());
         bugs.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void annoyAssignedPlayers(PlayerJoinEvent e) {
+        int bugs = 0;
+        for (Bug bug : Bug.getBugs()) {
+            if (bug.getAssignee().stream().map(VLOfflinePlayer::getUniqueId).collect(Collectors.toSet()).contains(e.getPlayer().getUniqueId()) &&
+                    (bug.getStatus() == Bug.Status.OPEN || bug.getStatus() == Bug.Status.REOPENED)) {
+                bugs++;
+            }
+        }
+        if (bugs > 0) {
+            e.getPlayer().sendMessage(VaultLoader.getMessage("buggy.total-assigned").replace("{BUGS}", String.valueOf(bugs)));
+        }
     }
 
     @EventHandler
