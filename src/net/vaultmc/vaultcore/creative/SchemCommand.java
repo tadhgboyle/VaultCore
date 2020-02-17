@@ -42,8 +42,7 @@ public class SchemCommand extends CommandExecutor {
     }
 
     @SubCommand("loadSchem")
-    @SneakyThrows // VL will handle sending a message to the player and it sends more detailed
-    // messages.
+    @SneakyThrows
     public void loadSchem(VLPlayer sender, String filename) {
         Player sessionOwner = BukkitAdapter.adapt(sender.getPlayer());
         if (filename.contains("..") || filename.contains("/")) {
@@ -51,10 +50,10 @@ public class SchemCommand extends CommandExecutor {
             return;
         }
         File file = new File(VaultCore.getInstance().getDataFolder(),
-                "/schems/" + sender.getName() + "/" + filename + ".schem").getAbsoluteFile();
+                "/schems/" + sender.getUniqueId().toString() + "/" + filename + ".schem").getAbsoluteFile();
         if (!file.exists()) {
             file = new File(VaultCore.getInstance().getDataFolder(),
-                    "/schems/" + sender.getName() + "/" + filename + ".schematic").getAbsoluteFile();
+                    "/schems/" + sender.getUniqueId().toString() + "/" + filename + ".schematic").getAbsoluteFile();
             if (!file.exists()) {
                 file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getName() + "/" + filename)
                         .getAbsoluteFile();
@@ -150,8 +149,7 @@ public class SchemCommand extends CommandExecutor {
     }
 
     public void listSchem(VLPlayer sender, VLOfflinePlayer target) {
-
-        String subFolder = null;
+        String subFolder;
 
         if (target != null) {
             if (target.getFirstPlayed() == 0L) {
@@ -162,8 +160,7 @@ public class SchemCommand extends CommandExecutor {
         } else {
             subFolder = sender.getUniqueId().toString();
         }
-        File schemDir = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + subFolder + "/")
-                .getAbsoluteFile();
+        File schemDir = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + subFolder + "/").getAbsoluteFile();
         if (schemDir.exists() && schemDir.list().length > 0) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.schem.list.header"));
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.schem.list.total"),
@@ -172,14 +169,13 @@ public class SchemCommand extends CommandExecutor {
                 sender.sendMessage(ChatColor.GOLD + schem);
             }
         } else {
-            sender.sendMessage(Utilities
-                    .formatMessage(VaultLoader.getMessage("vaultcore.commands.schem.list.no_schems"), subFolder));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.schem.list.no_schems"), target != null ? target.getFormattedName() : sender.getFormattedName()));
         }
     }
 
     @SneakyThrows
     public void delSchem(VLPlayer sender, VLOfflinePlayer target, String filename) {
-        String subFolder = null;
+        String subFolder;
 
         if (target != null) {
             subFolder = target.getUniqueId().toString();
@@ -189,15 +185,13 @@ public class SchemCommand extends CommandExecutor {
         File file = new File(VaultCore.getInstance().getDataFolder(),
                 "/schems/" + subFolder + "/" + filename + ".schem").getAbsoluteFile();
         if (!file.exists()) {
-            file = new File(VaultCore.getInstance().getDataFolder(),
-                    "/schems/" + subFolder + "/" + filename + ".schematic").getAbsoluteFile();
+            file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + subFolder + "/" + filename + ".schematic").getAbsoluteFile();
             if (!file.exists()) {
                 file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + subFolder + "/" + filename)
                         .getAbsoluteFile();
                 if (!file.exists()) {
                     sender.sendMessage(Utilities
                             .formatMessage(VaultLoader.getMessage("vaultcore.commands.schem.not_found"), filename));
-                    return;
                 }
             }
         } else {
