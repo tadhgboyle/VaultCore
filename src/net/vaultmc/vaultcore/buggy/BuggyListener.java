@@ -6,6 +6,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class BuggyListener extends ConstructorRegisterListener {
+public class BuggyListener extends ConstructorRegisterListener implements Runnable {
     static final Map<UUID, Stage> stages = new HashMap<>();
     static final Map<UUID, Bug> bugs = new HashMap<>();
 
@@ -24,6 +25,7 @@ public class BuggyListener extends ConstructorRegisterListener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         stages.remove(e.getPlayer().getUniqueId());
         bugs.remove(e.getPlayer().getUniqueId());
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 0L, 12000L);
     }
 
     @EventHandler
@@ -98,6 +100,26 @@ public class BuggyListener extends ConstructorRegisterListener {
                     bugs.remove(player.getUniqueId());
             }
             e.setCancelled(true);
+        }
+    }
+
+    @Override
+    public void run() {
+        Map<VLPlayer, Integer> map = new HashMap<>();
+        for (Bug bug : Bug.getBugs()) {
+            if (bug.getStatus() == Bug.Status.OPEN || bug.getStatus() == Bug.Status.REOPENED) {
+                for (VLOfflinePlayer assignee : bug.getAssignee()) {
+                    if (assignee.isOnline()) {
+                        int i = map.getOrDefault(assignee.getOnlinePlayer(), 0);
+                        i++;
+                        map.put(assignee.getOnlinePlayer(), i);
+                    }
+                }
+            }
+        }
+
+        for (Map.Entry<VLPlayer, Integer> entry : map.entrySet()) {
+            entry.getKey().sendMessage(VaultLoader.getMessage("buggy.total-assigned").replace("{BUGS}", String.valueOf(entry.getValue())));
         }
     }
 
