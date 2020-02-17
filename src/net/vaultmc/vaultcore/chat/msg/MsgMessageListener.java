@@ -40,7 +40,7 @@ public class MsgMessageListener extends ConstructorRegisterListener {
                     responses.removeAll(id);
                     PingService.getPong().remove(ping);
                 }
-            }, 5);
+            }, 10);
         }
     }
 
