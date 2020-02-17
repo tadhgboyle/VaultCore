@@ -101,7 +101,7 @@ public class Bug {
                 return new Bug(rs.getString("title"), rs.getString("description"), rs.getString("actualBehavior"),
                         rs.getString("expectedBehavior"), Arrays.asList(rs.getString("stepsToReproduce").split(VaultCore.SEPARATOR)),
                         rs.getString("additionalInformation"),
-                        rs.getBoolean("hidden"), VLOfflinePlayer.getOfflinePlayer(rs.getString("reporter")),
+                        rs.getBoolean("hidden"), VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("reporter"))),
                         rs.getString("assignees").trim().equals("") ? new ArrayList<>()
                                 : Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s)))
                                 .collect(Collectors.toList()), rs.getString("id"), Status.valueOf(rs.getString("status")));
