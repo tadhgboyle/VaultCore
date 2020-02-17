@@ -227,7 +227,17 @@ public class BuggyCommand extends CommandExecutor {
         }
 
         if (page > pages) {
-            sender.sendMessage(VaultLoader.getMessage("buggy.only-pages").replace("{PAGE}", String.valueOf(pages)));
+            if (pages == 0) {
+                sender.sendMessage(VaultLoader.getMessage("buggy.no-bugs"));
+            }
+            if (openedOnly) {
+                TextComponent component = new TextComponent(VaultLoader.getMessage("buggy.toggle-to-all"));
+                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bugs " + page + " false"));
+                sender.sendMessage(component);
+            }
+            if (pages != 0) {
+                sender.sendMessage(VaultLoader.getMessage("buggy.only-pages").replace("{PAGE}", String.valueOf(pages)));
+            }
             return;
         }
         page--;

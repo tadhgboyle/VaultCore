@@ -288,6 +288,8 @@ buggy:
   cancelled: "&eCancelled."
   status-set: "&eSet status of &6{BUG}&e to &6{STATUS}&e."
   total-assigned: "&6{BUGS}&e bugs are assigned to you!"
+  no-bugs: "&eAwesome! There are no bugs under this category."
+  toggle-to-all: "&eYou might want to switch to the &6All bugs&e category to see more bugs. &a[Click here]&e to switch to &6All bugs&e."
   title: "&ePlease enter the title of your bug report:"
   description: "&ePlease enter a brief description of the bug you discovered:"
   expected-behavior: "&ePlease enter your expected behavior:"
