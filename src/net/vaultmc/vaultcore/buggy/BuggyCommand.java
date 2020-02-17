@@ -128,7 +128,7 @@ public class BuggyCommand extends CommandExecutor {
             return;
         }
 
-        bug.getAssignee().add(player);
+        bug.getAssignees().add(player);
         player.sendOrScheduleMessage(VaultLoader.getMessage("buggy.you-assigned")
                 .replace("{BUG}", bug.getTitle())
                 .replace("{UID}", bug.getUniqueId()));
@@ -145,7 +145,7 @@ public class BuggyCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
             return;
         }
-        bug.getAssignee().remove(player);
+        bug.getAssignees().remove(player);
         player.sendOrScheduleMessage(VaultLoader.getMessage("buggy.you-unassigned")
                 .replace("{BUG}", bug.getTitle())
                 .replace("{UID}", bug.getUniqueId()));
@@ -184,7 +184,7 @@ public class BuggyCommand extends CommandExecutor {
         sender.sendMessage(bug.getReporter().getFormattedName());
         sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.assignees") + ":");
-        sender.sendMessage(bug.getAssignee().size() == 0 ? "-" : listToString(bug.getAssignee()));
+        sender.sendMessage(bug.getAssignees().size() == 0 ? "-" : listToString(bug.getAssignees()));
         sender.sendMessage("");
         sender.sendMessage(ChatColor.YELLOW + VaultLoader.getMessage("buggy.uid") + ":");
         sender.sendMessage(ChatColor.GREEN + bug.getUniqueId());
@@ -248,7 +248,7 @@ public class BuggyCommand extends CommandExecutor {
             TextComponent component = new TextComponent(ChatColor.GREEN + bug.getTitle());
             component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
                     new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.reporter").replace("{REPORTER}", bug.getReporter().getFormattedName()) + "\n"),
-                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.assignees").replace("{ASSIGNEES}", listToString(bug.getAssignee())) + "\n"),
+                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.assignees").replace("{ASSIGNEES}", listToString(bug.getAssignees())) + "\n"),
                     new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.status").replace("{STATUS}", VaultLoader.getMessage(bug.getStatus().getKey())) + "\n")
             }));
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bug " + bug.getUniqueId()));

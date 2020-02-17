@@ -145,6 +145,7 @@ public final class VaultCore extends Component implements Listener {
                 getConfig().getString("mysql.password"));
 
         setupChat();
+        Bug.dbInit();
         Bug.load();
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
@@ -323,12 +324,12 @@ public final class VaultCore extends Component implements Listener {
     @Override
     @SneakyThrows
     public void onDisable() {
+        Bug.save();
+        Report.save();
         database.close();
         pDatabase.close();
-        Bug.save();
         inv.save();
         locations.save();
         data.save();
-        Report.save();
     }
 }

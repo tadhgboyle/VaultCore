@@ -26,13 +26,18 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
         stages.remove(e.getPlayer().getUniqueId());
         bugs.remove(e.getPlayer().getUniqueId());
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 0L, 12000L);
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), () -> {
+            Bug.save();
+            Bug.getBugs().clear();
+            Bug.load();
+        }, 0L, 2400L);
     }
 
     @EventHandler
     public void annoyAssignedPlayers(PlayerJoinEvent e) {
         int bugs = 0;
         for (Bug bug : Bug.getBugs()) {
-            if (bug.getAssignee().stream().map(VLOfflinePlayer::getUniqueId).collect(Collectors.toSet()).contains(e.getPlayer().getUniqueId()) &&
+            if (bug.getAssignees().stream().map(VLOfflinePlayer::getUniqueId).collect(Collectors.toSet()).contains(e.getPlayer().getUniqueId()) &&
                     (bug.getStatus() == Bug.Status.OPEN || bug.getStatus() == Bug.Status.REOPENED)) {
                 bugs++;
             }
@@ -96,6 +101,7 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
                     if (e.getMessage().equalsIgnoreCase("Yes")) {
                         bugs.get(player.getUniqueId()).setHidden(true);
                     }
+                    bugs.get(player.getUniqueId()).serialize();
                     Bug.getBugs().add(bugs.get(player.getUniqueId()));
                     bugs.remove(player.getUniqueId());
             }
@@ -108,7 +114,7 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
         Map<VLPlayer, Integer> map = new HashMap<>();
         for (Bug bug : Bug.getBugs()) {
             if (bug.getStatus() == Bug.Status.OPEN || bug.getStatus() == Bug.Status.REOPENED) {
-                for (VLOfflinePlayer assignee : bug.getAssignee()) {
+                for (VLOfflinePlayer assignee : bug.getAssignees()) {
                     if (assignee.isOnline()) {
                         int i = map.getOrDefault(assignee.getOnlinePlayer(), 0);
                         i++;
