@@ -31,7 +31,7 @@ public class LagCommand extends CommandExecutor {
         String osInfo = operatingSystemMXBean.getArch() + " " + operatingSystemMXBean.getName() + ", " + operatingSystemMXBean.getVersion();
         String cpuInfo = operatingSystemMXBean.getProcessCpuLoad() + " " + Runtime.getRuntime().availableProcessors() + " " + threadSet.size();
         String uptime = Utilities.millisToTime(VaultCore.getStartTime());
-        String tps = Bukkit.getServer().getTPS()[0] + " " + Bukkit.getServer().getTPS()[1] + " " + Bukkit.getServer().getTPS()[2] + " " + Bukkit.getServer().getTPS()[3];
+        String tps = Bukkit.getServer().getTPS()[0] + "";
         String ramInfo = operatingSystemMXBean.getFreePhysicalMemorySize() + "/" + operatingSystemMXBean.getTotalPhysicalMemorySize();
         String javaVersion = System.getProperty("java.version");
         long maxSpace = new File("/").getTotalSpace();
