@@ -34,6 +34,13 @@ public class ReportCommand extends CommandExecutor implements Listener {
     public ReportCommand() {
         register("report", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
         VaultCore.getInstance().registerEvents(this);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), ReportCommand::update, 2400, 2400);
+    }
+
+    public static void update() {
+        Report.save();
+        Report.getReports().clear();
+        Report.load();
     }
 
     private static Inventory generateInventory(ReportData data) {

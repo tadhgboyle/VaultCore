@@ -26,7 +26,7 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
         stages.remove(e.getPlayer().getUniqueId());
         bugs.remove(e.getPlayer().getUniqueId());
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 0L, 12000L);
-        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), () -> {
             Bug.save();
             Bug.getBugs().clear();
             Bug.load();

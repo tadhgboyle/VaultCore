@@ -98,17 +98,17 @@ public class Bug {
 
     public static void dbInit() {
         VaultCore.getDatabase().executeUpdateStatement("CREATE TABLE IF NOT EXISTS bugs (" +
-                "id TEXT," +
-                "title TEXT," +
-                "description TEXT," +
-                "actualBehavior TEXT," +
-                "expectedBehavior TEXT," +
-                "stepsToReproduce TEXT," +
-                "additionalInformation TEXT," +
-                "status VARCHAR(10)," +
-                "hidden BOOLEAN," +
-                "reporter CHAR(36)," +
-                "assignees TEXT" +
+                "id TEXT NOT NULL," +
+                "title TEXT NOT NULL," +
+                "description TEXT NOT NULL," +
+                "actualBehavior TEXT NOT NULL," +
+                "expectedBehavior TEXT NOT NULL," +
+                "stepsToReproduce TEXT NOT NULL," +
+                "additionalInformation TEXT NOT NULL," +
+                "status VARCHAR(10) NOT NULL," +
+                "hidden BOOLEAN NOT NULL," +
+                "reporter CHAR(36) NOT NULL," +
+                "assignees TEXT NOT NULL" +
                 ")");
     }
 

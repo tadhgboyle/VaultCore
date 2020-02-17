@@ -3,12 +3,15 @@ package net.vaultmc.vaultcore.report;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -65,7 +68,7 @@ public class Report {
         if (!VaultCore.getInstance().getData().contains("reports"))
             VaultCore.getInstance().getData().createSection("reports");
         for (String key : VaultCore.getInstance().getData().getConfigurationSection("reports").getKeys(false)) {
-            reports.add(deserialize(VaultCore.getInstance().getData().getConfigurationSection("reports." + key)));
+            reports.add(deserialize(key));
         }
     }
 
@@ -73,23 +76,54 @@ public class Report {
         VaultCore.getInstance().getData().set("reports", null);
         VaultCore.getInstance().getData().createSection("reports");
         for (Report report : reports) {
-            report.serialize(VaultCore.getInstance().getData().createSection("reports." + report.getId()));
+            report.serialize();
         }
         VaultCore.getInstance().saveConfig();
     }
 
-    public static Report deserialize(ConfigurationSection section) {
-        if (section.contains("serializeType") && !section.getString("serializeType").equals("net.vaultmc.vaultcore.report.Report")) {
-            throw new IllegalArgumentException("Invalid ConfigurationSection");
+    @SneakyThrows
+    public static Report deserialize(String id) {
+        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT * FROM reports WHERE id=?", id)) {
+            if (rs.next()) {
+                return new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("reporter"))),
+                        VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("target"))),
+                        Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(p -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(p))).collect(Collectors.toList()),
+                        Arrays.stream(rs.getString("reasons").split(VaultCore.SEPARATOR)).map(Reason::valueOf).collect(Collectors.toList()),
+                        Status.valueOf(rs.getString("status")), rs.getString("id"));
+            }
         }
-        return new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(section.getString("reporter"))),
-                VLOfflinePlayer.getOfflinePlayer(UUID.fromString(section.getString("reporter"))),
-                section.getStringList("assignees").stream().map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s))).collect(Collectors.toList()),
-                section.getStringList("reasons").stream().map(Reason::valueOf).collect(Collectors.toList()),
-                Status.valueOf(section.getString("status")), section.getString("id"));
+        return null;
     }
 
-    public void serialize(ConfigurationSection section) {
+    public static void dbInit() {
+        VaultCore.getDatabase().executeUpdateStatement("CREATE TABLE IF NOT EXISTS reports (" +
+                "id TEXT NOT NULL," +
+                "reporter CHAR(36) NOT NULL," +
+                "target CHAR(36) NOT NULL," +
+                "assignees TEXT NOT NULL," +
+                "reasons TEXT NOT NULL," +
+                "status VARCHAR(10) NOT NULL" +
+                ")");
+    }
+
+    @SneakyThrows
+    public void serialize() {
+        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT reporter FROM reports WHERE id=?", id)) {
+            if (rs.next()) {
+                VaultCore.getDatabase().executeUpdateStatement("UPDATE reports SET reporter=?, target=?, assignees=?, reasons=?, status=? WHERE id=?",
+                        reporter.getUniqueId().toString(), target.getUniqueId().toString(),
+                        assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)),
+                        reasons.stream().map(Reason::toString).collect(Collectors.joining(VaultCore.SEPARATOR)), status.toString(), id);
+            } else {
+                VaultCore.getDatabase().executeUpdateStatement("INSERT INTO reports (id, reporter, target, assignees, reasons, status) " +
+                                "VALUES (?, ?, ?, ?, ?, ?)",
+                        id, reporter.getUniqueId().toString(), target.getUniqueId().toString(),
+                        assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)),
+                        reasons.stream().map(Reason::toString).collect(Collectors.joining(VaultCore.SEPARATOR)), status.toString());
+            }
+        }
+
+        ConfigurationSection section = VaultCore.getInstance().getData().createSection("reports." + id);
         section.set("serialType", "net.vaultmc.vaultcore.report.Report");
         section.set("reporter", reporter.getUniqueId().toString());
         section.set("target", target.getUniqueId().toString());

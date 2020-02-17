@@ -145,6 +145,7 @@ public final class VaultCore extends Component implements Listener {
                 getConfig().getString("mysql.password"));
 
         setupChat();
+        Report.dbInit();
         Bug.dbInit();
         Bug.load();
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
