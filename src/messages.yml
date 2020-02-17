@@ -529,3 +529,12 @@ vaultcore:
         deleted: "&eDeleted the lol #&2{ID}&e."
         not_deleted: "&clol #{ID} could not be deleted."
         not_found: "&clol #{ID} could not be found. Max: {MAX}"
+    lag:
+      message: |-
+        &eOS: &a{OS}
+        &eCPU: &a{CPU}
+        &eUptime: &a{UPTIME}
+        &eTPS: &a{TPS}
+        &eRAM: &a{RAM}
+        &eJava: &a{JAVA}
+        &eDisk: &a{DISK}
