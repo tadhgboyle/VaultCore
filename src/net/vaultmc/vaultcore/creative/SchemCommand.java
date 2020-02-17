@@ -88,11 +88,11 @@ public class SchemCommand extends CommandExecutor {
         }
         File file;
         if (filename.endsWith(".schem") || filename.endsWith(".schematic")) {
-            file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getName() + "/" + filename)
+            file = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + sender.getUniqueId().toString() + "/" + filename)
                     .getAbsoluteFile();
         } else {
             file = new File(VaultCore.getInstance().getDataFolder(),
-                    "/schems/" + sender.getName() + "/" + filename + ".schem").getAbsoluteFile();
+                    "/schems/" + sender.getUniqueId().toString() + "/" + filename + ".schem").getAbsoluteFile();
         }
 
         if (!file.exists()) {
@@ -158,9 +158,9 @@ public class SchemCommand extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
                 return;
             }
-            subFolder = target.getName();
+            subFolder = target.getUniqueId().toString();
         } else {
-            subFolder = sender.getName();
+            subFolder = sender.getUniqueId().toString();
         }
         File schemDir = new File(VaultCore.getInstance().getDataFolder(), "/schems/" + subFolder + "/")
                 .getAbsoluteFile();
@@ -182,9 +182,9 @@ public class SchemCommand extends CommandExecutor {
         String subFolder = null;
 
         if (target != null) {
-            subFolder = target.getName();
+            subFolder = target.getUniqueId().toString();
         } else {
-            subFolder = sender.getName();
+            subFolder = sender.getUniqueId().toString();
         }
         File file = new File(VaultCore.getInstance().getDataFolder(),
                 "/schems/" + subFolder + "/" + filename + ".schem").getAbsoluteFile();
@@ -201,7 +201,6 @@ public class SchemCommand extends CommandExecutor {
                 }
             }
         } else {
-            // TODO sometimes this doesnt work -- file permissions possibly?
             if (file.delete()) {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.schem.not_deleted"),
                         filename));

@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.vaultmc.vaultcore</groupId>
 	<artifactId>VaultCore</artifactId>
@@ -47,11 +47,6 @@
 
 	<repositories>
 		<repository>
-			<id>dmulloy2-repo</id>
-			<url>http://repo.dmulloy2.net/nexus/repository/public/</url>
-		</repository>
-
-		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
@@ -85,6 +80,7 @@
 			<version>1.15.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

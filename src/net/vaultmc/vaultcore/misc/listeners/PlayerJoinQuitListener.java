@@ -78,7 +78,7 @@ public class PlayerJoinQuitListener implements Listener {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 VaultCore.getInstance().getConfig().getString("welcome-message")));
 
-        File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getName() + "/");
+        File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getUniqueId().toString() + "/");
         if (!directory.exists()) {
             directory.mkdir();
             directory.setExecutable(true);

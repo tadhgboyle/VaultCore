@@ -94,7 +94,8 @@ public final class VaultCore extends Component implements Listener {
     private static DBConnection database;
     @Getter
     private static DBConnection pDatabase;
-
+    @Getter
+    private static long startTime;
     private Configuration config;
     private Configuration locations;
     private Configuration data;
@@ -152,6 +153,8 @@ public final class VaultCore extends Component implements Listener {
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
         getServer().getMessenger().registerOutgoingPluginChannel(VaultLoader.getInstance(), "BungeeCord");
+
+        startTime = System.currentTimeMillis();
 
         new CRCommand();
         new SVCommand();
@@ -242,6 +245,7 @@ public final class VaultCore extends Component implements Listener {
         new BuggyCommand();
         new BuggyListener();
         new LolCommand();
+        new LagCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
