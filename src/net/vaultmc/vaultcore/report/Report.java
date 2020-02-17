@@ -68,7 +68,11 @@ public class Report {
         if (!VaultCore.getInstance().getData().contains("reports"))
             VaultCore.getInstance().getData().createSection("reports");
         for (String key : VaultCore.getInstance().getData().getConfigurationSection("reports").getKeys(false)) {
-            reports.add(deserialize(key));
+            Report report = deserialize(key);
+            if (report == null) {
+                report = deserialize(VaultCore.getInstance().getData().getConfigurationSection("reports." + key));
+            }
+            reports.add(report);
         }
     }
 
@@ -79,6 +83,14 @@ public class Report {
             report.serialize();
         }
         VaultCore.getInstance().saveConfig();
+    }
+
+    public static Report deserialize(ConfigurationSection section) {
+        return new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(section.getString("reporter"))),
+                VLOfflinePlayer.getOfflinePlayer(UUID.fromString(section.getString("reporter"))),
+                section.getStringList("assignees").stream().map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s))).collect(Collectors.toList()),
+                section.getStringList("reasons").stream().map(Reason::valueOf).collect(Collectors.toList()),
+                Status.valueOf(section.getString("status")), section.getString("id"));
     }
 
     @SneakyThrows
@@ -124,7 +136,6 @@ public class Report {
         }
 
         ConfigurationSection section = VaultCore.getInstance().getData().createSection("reports." + id);
-        section.set("serialType", "net.vaultmc.vaultcore.report.Report");
         section.set("reporter", reporter.getUniqueId().toString());
         section.set("target", target.getUniqueId().toString());
         section.set("assignees", assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));

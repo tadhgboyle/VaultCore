@@ -68,7 +68,11 @@ public class Bug {
 
     public static void load() {
         for (String key : VaultCore.getInstance().getData().getConfigurationSection("bugs").getKeys(false)) {
-            bugs.add(Bug.deserialize(key));
+            Bug bug = Bug.deserialize(key);
+            if (bug == null) {
+                bug = Bug.deserialize(VaultCore.getInstance().getData().getConfigurationSection("bugs." + key));
+            }
+            bugs.add(bug);
         }
         currentId = VaultCore.getInstance().getData().getInt("bugs-current-id", 0);
     }
@@ -79,6 +83,15 @@ public class Bug {
         }
         VaultCore.getInstance().getData().set("bugs-current-id", currentId);
         VaultCore.getInstance().saveConfig();
+    }
+
+    public static Bug deserialize(ConfigurationSection map) {
+        return new Bug((String) map.get("title"), (String) map.get("description"), (String) map.get("actual-behavior"),
+                (String) map.get("expected-behavior"), (List<String>) map.get("steps-to-reproduce"),
+                (String) map.get("additional-information"), (boolean) map.get("hidden"),
+                VLOfflinePlayer.getOfflinePlayer(UUID.fromString((String) map.get("reporter"))),
+                ((List<String>) map.get("assignee")).stream().map(s -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(s))).collect(Collectors.toList()),
+                (String) map.get("uuid"), Status.valueOf((String) map.get("status")));
     }
 
     @SneakyThrows
