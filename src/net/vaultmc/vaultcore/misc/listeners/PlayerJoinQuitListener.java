@@ -55,8 +55,9 @@ public class PlayerJoinQuitListener implements Listener {
         String ip = player.getAddress().getAddress().getHostAddress();
 
         String prefix = ChatColor.translateAlternateColorCodes('&', player.getPrefix());
+        String suffix = ChatColor.translateAlternateColorCodes('&', player.getSuffix());
 
-        player.getPlayer().setDisplayName(prefix + username);
+        player.getPlayer().setDisplayName(prefix + username + suffix);
         player.getPlayer().setPlayerListName(player.getDisplayName());
 
         playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);

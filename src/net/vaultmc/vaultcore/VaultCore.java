@@ -247,6 +247,7 @@ public final class VaultCore extends Component implements Listener {
         new LolCommand();
         new LagCommand();
         new HubCommand();
+        new ClearCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
