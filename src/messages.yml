@@ -530,3 +530,7 @@ vaultcore:
         not_deleted: "&clol #{ID} could not be deleted."
     lag:
       header: "&2--== [Lag] ==--"
+    clear:
+      self: "&eYou successfully cleared your inventory."
+      other_sender: "&eYou cleared {TARGET}&e's inventory."
+      other_target: "{SENDER}&e has cleared your inventory."

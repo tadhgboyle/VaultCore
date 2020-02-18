@@ -4,6 +4,9 @@ import net.vaultmc.vaultloader.VaultLoader;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -115,15 +118,15 @@ public final class Utilities {
     }
 
     /**
-     * @param admin - String List to turn into comma seperated String.
+     * @param list - String List to turn into comma seperated String.
      * @return Comma seperated List<String>
      * @author Aberdeener
      */
-    public static String listToString(Collection<String> admin) {
+    public static String listToString(Collection<String> list) {
 
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (String word : admin) {
+        for (String word : list) {
             if (first) {
                 sb.append(word);
                 first = false;
@@ -132,5 +135,51 @@ public final class Utilities {
             sb.append(", " + word);
         }
         return sb.toString();
+    }
+
+    /**
+     * @param bytes - Storage in bytes to convert to human readable kb/mb/gb etc
+     * @return Human readable storage
+     */
+    public static String bytesToReadable(long bytes) {
+        long b = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
+        return b < 1024L ? bytes + " B"
+                : b <= 0xfffccccccccccccL >> 40 ? String.format("%.1f KiB", bytes / 0x1p10)
+                : b <= 0xfffccccccccccccL >> 30 ? String.format("%.1f MiB", bytes / 0x1p20)
+                : b <= 0xfffccccccccccccL >> 20 ? String.format("%.1f GiB", bytes / 0x1p30)
+                : b <= 0xfffccccccccccccL >> 10 ? String.format("%.1f TiB", bytes / 0x1p40)
+                : b <= 0xfffccccccccccccL ? String.format("%.1f PiB", (bytes >> 10) / 0x1p40)
+                : String.format("%.1f EiB", (bytes >> 20) / 0x1p40);
+    }
+
+    /**
+     * @param command - Shell command to run
+     * @return Output of command
+     * @author Aberdeener
+     */
+    public static String execCommand(String command) {
+        Runtime rt = Runtime.getRuntime();
+        Process proc;
+        try {
+            proc = rt.exec(command);
+        } catch (IOException e) {
+            return "An error occurred executing the command.";
+        }
+        BufferedReader stdInput = new BufferedReader(new
+                InputStreamReader(proc.getInputStream()));
+        BufferedReader stdError = new BufferedReader(new
+                InputStreamReader(proc.getErrorStream()));
+        try {
+            String s = null;
+            while ((s = stdInput.readLine()) != null) {
+                return s;
+            }
+            while ((s = stdError.readLine()) != null) {
+                return s;
+            }
+        } catch (IOException e) {
+            return "An error occured during the command.";
+        }
+        return null;
     }
 }
