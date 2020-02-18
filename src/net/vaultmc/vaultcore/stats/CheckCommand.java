@@ -42,13 +42,8 @@ public class CheckCommand extends CommandExecutor {
 
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.check.header"));
 
-        if (target.isOnline()) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"),
-                    "Checking", username));
-        } else {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"),
-                    "Checking", username + ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]"));
-        }
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"), "Checking", username + (target.isOnline() ? "" : ChatColor.GRAY + " " + ChatColor.ITALIC + "[OFFLINE]")));
+
         sender.sendMessage(
                 Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"), "UUID", uuid));
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"),
@@ -59,9 +54,9 @@ public class CheckCommand extends CommandExecutor {
                 Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"), "Last IP", ip));
         sender.sendMessage(
                 Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"), "Rank", rank));
+        // TODO @aberdeener -- link shortener api
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"), "WebUI",
-                "https://database.vaultmc.net/?user=" + target.getName()));
+                "https://database.vaultmc.net/?user=" + target.getUniqueId().toString()));
         sender.performCommand("tag list " + target.getName());
-
     }
 }

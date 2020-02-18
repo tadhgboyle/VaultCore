@@ -43,7 +43,7 @@ public class PlayTimeCommand extends CommandExecutor {
     private void printPlayTimeOnline(VLPlayer player, VLCommandSender sender) {
         long t = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.online_player"),
-                player.getFormattedName(), Utilities.millisToTime(t)));
+                player.getFormattedName(), Utilities.millisToTime(t, true)));
     }
 
     @SneakyThrows
@@ -60,6 +60,6 @@ public class PlayTimeCommand extends CommandExecutor {
         long playtime = rs.getLong("playtime");
         long t = (long) (playtime * 0.05 * 1000);
         player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.offline_player"),
-                target.getFormattedName(), Utilities.millisToTime(t)));
+                target.getFormattedName(), Utilities.millisToTime(t, true)));
     }
 }

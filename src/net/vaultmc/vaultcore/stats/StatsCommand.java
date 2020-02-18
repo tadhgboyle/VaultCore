@@ -55,6 +55,6 @@ public class StatsCommand extends CommandExecutor {
                 target.getFormattedName(), stats.getString("sessions")));
         sender.sendMessage(
                 Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.stats.player_session_length"),
-                        target.getFormattedName(), Utilities.millisToTime(stats.getInt("duration"))));
+                        target.getFormattedName(), Utilities.millisToTime(stats.getInt("duration"), true)));
     }
 }

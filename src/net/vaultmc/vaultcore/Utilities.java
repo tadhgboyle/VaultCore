@@ -51,7 +51,7 @@ public final class Utilities {
      * @return Duration from milliseconds
      * @author Aberdeener
      */
-    public static String millisToTime(long millis) {
+    public static String millisToTime(long millis, boolean newline) {
 
         long millisInSecond = 1000L;
         long millisInMinute = 60000L;
@@ -88,8 +88,10 @@ public final class Utilities {
                 int position = new ArrayList<String>(timeparts.keySet()).indexOf(section);
                 String ending = (duration == 1 ? ", " : "s, ");
                 // if the second last entry is == 1, we can assume we dont need a break
-                if (position == 4) {
+                if (position == 4 && newline) {
                     ending = (duration == 1 ? " and " : "s \nand ");
+                } else if (position == 4 && !newline) {
+                    ending = (duration == 1 ? " and " : "s and ");
                 }
                 // if it is the last entry then add a period
                 if (position == 5) {
