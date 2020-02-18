@@ -88,8 +88,11 @@ public class Bug {
     }
 
     public static void save() {
-        for (Bug bug : bugs) {
-            bug.serialize();
+        try {
+            for (Bug bug : bugs) {
+                bug.serialize();
+            }
+        } catch (ConcurrentModificationException ignored) {
         }
         VaultCore.getInstance().getData().set("bugs-current-id", currentId);
         VaultCore.getInstance().saveConfig();
