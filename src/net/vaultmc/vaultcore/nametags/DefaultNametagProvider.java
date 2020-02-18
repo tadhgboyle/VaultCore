@@ -53,6 +53,6 @@ public class DefaultNametagProvider implements INametagProvider {
 
     @Override
     public Nametag provideNametag(VLPlayer player, World world) {
-        return new Nametag("", "", getSortPriority(player));
+        return new Nametag(player.getPrefix(world), player.getSuffix(world), getSortPriority(player));
     }
 }
