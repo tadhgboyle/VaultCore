@@ -48,13 +48,13 @@ public class PlayerJoinQuitListener implements Listener {
         }
         String uuid = player.getUniqueId().toString();
         String username = player.getName();
-        long firstseen = player.getFirstPlayed();
-        long lastseen = System.currentTimeMillis();
+        long firstSeen = player.getFirstPlayed();
+        long lastSeen = System.currentTimeMillis();
         long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
         String rank = player.getGroup();
         String ip = player.getAddress().getAddress().getHostAddress();
 
-        playerDataQuery(uuid, username, firstseen, lastseen, playtime, rank, ip);
+        playerDataQuery(uuid, username, firstSeen, lastSeen, playtime, rank, ip);
 
         if (!player.getDataConfig().contains("settings")) {
             player.getDataConfig().set("settings.msg", true);
@@ -87,18 +87,18 @@ public class PlayerJoinQuitListener implements Listener {
 
     @EventHandler
     @SneakyThrows
-    public void onQuit(PlayerQuitEvent quit) {
-        Player player = quit.getPlayer();
+    public void onQuit(PlayerQuitEvent e) {
+        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         String uuid = player.getUniqueId().toString();
-        long lastseen = System.currentTimeMillis();
+        long lastSeen = System.currentTimeMillis();
         long playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
-        String rank = VaultCore.getChat().getPrimaryGroup(player);
+        String rank = player.getGroup();
         String ip = player.getAddress().getAddress().getHostAddress();
 
-        quit.setQuitMessage(
+        e.setQuitMessage(
                 Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
-                        player.getDisplayName(), ChatColor.RED + "left"));
-        playerDataQuery(uuid, "", 0, lastseen, playtime, rank, ip);
+                        player.getFormattedName(), ChatColor.RED + "left"));
+        playerDataQuery(uuid, "", 0, lastSeen, playtime, rank, ip);
     }
 
     @SneakyThrows
