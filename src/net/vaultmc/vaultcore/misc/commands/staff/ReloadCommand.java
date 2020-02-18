@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.misc.commands;
+package net.vaultmc.vaultcore.misc.commands.staff;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
