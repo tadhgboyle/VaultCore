@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -55,6 +56,14 @@ public class MsgCommand extends CommandExecutor implements Listener {
 
     @SubCommand("msg")
     public void msg(VLPlayer player, VLOfflinePlayer target, String message) {
+        if (player == target) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.self_error"));
+            return;
+        }
+        if (!VLPlayer.getOnlinePlayers().contains(target)) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.player_offline"));
+            return;
+        }
         pm(player, target, message);
     }
 }

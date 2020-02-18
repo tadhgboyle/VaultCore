@@ -8,11 +8,13 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
 import java.util.Collections;
-import java.util.Set;
 
 @RootCommand(
         literal = "lag",
@@ -22,7 +24,7 @@ import java.util.Set;
 @Aliases("tps")
 public class LagCommand extends CommandExecutor {
     private static final OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-    private static final Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+    private static DecimalFormat numberFormat = new DecimalFormat("###.##");
 
     public LagCommand() {
         unregisterExisting();
@@ -31,23 +33,32 @@ public class LagCommand extends CommandExecutor {
 
     @SubCommand("lag")
     public static void lag(VLCommandSender sender) {
-        String osInfo = operatingSystemMXBean.getArch() + " " + operatingSystemMXBean.getName() + ", " + operatingSystemMXBean.getVersion();
-        String load = operatingSystemMXBean.getProcessCpuLoad() < 0 ? "Unavailable" : operatingSystemMXBean.getProcessCpuLoad() * 100 + "%";
-        String cpuInfo = "Load: " + load + " Processors: " + Runtime.getRuntime().availableProcessors() + " Threads: " + threadSet.size();
+        String osInfo = ChatColor.GOLD + operatingSystemMXBean.getArch() + ChatColor.YELLOW + " (" + operatingSystemMXBean.getName() + ", " + ChatColor.YELLOW + " Kernel: " + ChatColor.GOLD + operatingSystemMXBean.getVersion() + ChatColor.YELLOW + ")";
+        String load = operatingSystemMXBean.getProcessCpuLoad() < 0 ? "Unavailable" : numberFormat.format(operatingSystemMXBean.getSystemCpuLoad() * 100) + "%";
+        String cpuInfo = ChatColor.DARK_GREEN + load + ChatColor.YELLOW + " Cores: " + ChatColor.DARK_GREEN + Runtime.getRuntime().availableProcessors();
         String uptime = Utilities.millisToTime(System.currentTimeMillis() - VaultCore.getStartTime());
-        String tps = Math.round(Bukkit.getTPS()[0]) + ", " + Math.round(Bukkit.getTPS()[1]) + ", " + Math.round(Bukkit.getTPS()[2]);
-        String ramInfo = (operatingSystemMXBean.getFreePhysicalMemorySize() / 1048576) + " MB / " + (operatingSystemMXBean.getTotalPhysicalMemorySize() / 1048576) + " MB";
-        String javaVersion = System.getProperty("java.version");
-        long maxSpace = new File("/").getTotalSpace();
+        String tps = "" + ChatColor.DARK_GREEN + Math.round(Bukkit.getTPS()[0]) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + Math.round(Bukkit.getTPS()[1]) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + Math.round(Bukkit.getTPS()[2]);
+
+        long freeRam = operatingSystemMXBean.getFreePhysicalMemorySize();
+        long maxRam = operatingSystemMXBean.getTotalPhysicalMemorySize();
+        long usedRam = maxRam - freeRam;
+        double ramPercent = ((double) usedRam / maxRam) * 100;
+        String ramInfo = "" + ChatColor.GOLD + numberFormat.format(ramPercent) + "% " + ChatColor.DARK_GREEN + FileUtils.byteCountToDisplaySize(usedRam) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + FileUtils.byteCountToDisplaySize(maxRam);
+        String javaVersion = ChatColor.GOLD + System.getProperty("java.runtime.version");
+
         long freeSpace = new File("/").getFreeSpace();
-        String diskInfo = (freeSpace / 1048576) + " MB / " + (maxSpace / 1048576) + " MB";
-        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lag.message")
-                .replace("{OS}", osInfo)
-                .replace("{CPU}", cpuInfo)
-                .replace("{UPTIME}", uptime)
-                .replace("{TPS}", tps)
-                .replace("{RAM}", ramInfo)
-                .replace("{JAVA}", javaVersion)
-                .replace("{DISK}", diskInfo));
+        long maxSpace = new File("/").getTotalSpace();
+        long usedSpace = maxSpace - freeSpace;
+        double diskPercent = ((double) usedSpace / maxSpace) * 100;
+
+        String diskInfo = "" + ChatColor.GOLD + numberFormat.format(diskPercent) + "% " + ChatColor.DARK_GREEN + FileUtils.byteCountToDisplaySize(usedSpace) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + FileUtils.byteCountToDisplaySize(maxSpace);
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lag.header"));
+        sender.sendMessage(ChatColor.YELLOW + "Platform: " + osInfo);
+        sender.sendMessage(ChatColor.YELLOW + "CPU: " + cpuInfo);
+        sender.sendMessage(ChatColor.YELLOW + "Uptime: " + uptime);
+        sender.sendMessage(ChatColor.YELLOW + "TPS: " + tps);
+        sender.sendMessage(ChatColor.YELLOW + "RAM Usage: " + ramInfo);
+        sender.sendMessage(ChatColor.YELLOW + "Java Version: " + javaVersion);
+        sender.sendMessage(ChatColor.YELLOW + "Disk Usage: " + diskInfo);
     }
 }

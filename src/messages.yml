@@ -502,8 +502,8 @@ vaultcore:
       empty-clipboard: "&cCannot save that schematic, your clipboard is empty."
       list:
         header: "&2--== [Schematics] ==--"
-        no_schems: "&c{TARGET} has no schematics."
-        total: "&e{TARGET} has a total of &2{AMOUNT}&e {SCHEMS}."
+        no_schems: "{TARGET}&c has no schematics."
+        total: "{TARGET}&e has a total of &2{AMOUNT}&e {SCHEMS}."
       deleted: "&6{SCHEM}&e has been deleted."
       not_deleted: "&c{SCHEM} could not be deleted. Please contact an Administrator for help."
       deleted_target: "{SENDER}&e has deleted your schematic &6{SCHEM}&e."
@@ -516,8 +516,8 @@ vaultcore:
     lol:
       format: "&c[Lol] {SENDER}&8:&7 {LOL}"
       cooldown: "&cYou must wait &e{TIME}&c seconds to use /lol again."
+      max: "&c{PAGE} is too high. Max: {MAX}."
       list:
-        max_pages: "&c{PAGE} is too high. Max pages: {MAX}."
         header: "&2--== [Lol] ==--"
         page_number: "&ePage &2{PAGE}&e of &2{MAX}&e"
         format: "&6{ID}&e:&7 {LOL}"
@@ -528,13 +528,5 @@ vaultcore:
       delete:
         deleted: "&eDeleted the lol #&2{ID}&e."
         not_deleted: "&clol #{ID} could not be deleted."
-        not_found: "&clol #{ID} could not be found. Max: {MAX}"
     lag:
-      message: |-
-        &eOS: &a{OS}
-        &eCPU: &a{CPU}
-        &eUptime: &a{UPTIME}
-        &eTPS: &a{TPS}
-        &eRAM: &a{RAM}
-        &eJava: &a{JAVA}
-        &eDisk: &a{DISK}
+      header: "&2--== [Lag] ==--"

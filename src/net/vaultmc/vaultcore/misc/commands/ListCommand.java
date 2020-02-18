@@ -1,23 +1,18 @@
 package net.vaultmc.vaultcore.misc.commands;
 
+import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+
 import java.text.Collator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.TreeSet;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-
-import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.commands.Aliases;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
-import net.vaultmc.vaultloader.utils.commands.SubCommand;
-import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 @RootCommand(literal = "list", description = "See who is online.")
 @Permission(Permissions.ListCommand)
@@ -74,7 +69,6 @@ public class ListCommand extends CommandExecutor {
                 }
             }
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.header"));
-            // todo with messages.yml
             if (!admin.isEmpty())
                 sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.YELLOW + Utilities.listToString(admin));
             if (!moderator.isEmpty())

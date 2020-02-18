@@ -83,7 +83,7 @@ public class LolCommand extends CommandExecutor {
                 LAST_LOL = System.currentTimeMillis();
                 // if they typed too high a number
             } catch (IndexOutOfBoundsException e) {
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.not_found"), id, lolsList.size() - 1));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.max"), id, lolsList.size() - 1));
             }
         } else {
             int secs = (14 - (int) Math.ceil((System.currentTimeMillis() - LAST_LOL) / 1000));
@@ -97,7 +97,7 @@ public class LolCommand extends CommandExecutor {
         page = page - 1;
         int MAX_PAGES = (int) Math.floor(lolsList.size() / PAGE_SIZE);
         if (page + 1 > MAX_PAGES + 1) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.max_pages"), page + 1, MAX_PAGES + 1));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.max"), page + 1, MAX_PAGES + 1));
             return;
         }
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.header"));
