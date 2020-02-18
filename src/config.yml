@@ -15,6 +15,8 @@ socket:
   host: localhost
   port: 65131
 
+buggy-webhook-link: null
+
 # Mod mode.
 mod-mode:
   # How much delay (in 1/20 of a second, ticks) should the inventory be updated.

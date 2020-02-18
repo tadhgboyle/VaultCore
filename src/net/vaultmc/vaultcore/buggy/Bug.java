@@ -1,5 +1,7 @@
 package net.vaultmc.vaultcore.buggy;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import lombok.Data;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -7,6 +9,10 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -175,5 +181,66 @@ public class Bug {
         Status(String key) {
             this.key = key;
         }
+    }
+
+    @SneakyThrows
+    public void sendWebhook() {
+        JsonObject request = new JsonObject();
+        request.addProperty("avatar_url", "https://crafatar.com/avatars/" + reporter.getUniqueId().toString());
+        request.addProperty("payload_json", "application/json");
+        JsonArray embeds = new JsonArray();
+        JsonObject embed = new JsonObject();
+        embed.addProperty("title", "Buggy Bug Tracker");
+        embed.addProperty("type", "rich");
+        embed.addProperty("description", "A new bug is reported.");
+        JsonArray fields = new JsonArray();
+        JsonObject id = new JsonObject();
+        id.addProperty("name", "ID");
+        id.addProperty("value", uniqueId);
+        fields.add(id);
+        JsonObject title = new JsonObject();
+        title.addProperty("name", "Title");
+        title.addProperty("value", this.title);
+        fields.add(title);
+        JsonObject description = new JsonObject();
+        description.addProperty("name", "Description");
+        description.addProperty("value", this.description);
+        fields.add(description);
+        JsonObject expectedBehavior = new JsonObject();
+        expectedBehavior.addProperty("name", "Expected Behavior");
+        expectedBehavior.addProperty("value", this.expectedBehavior);
+        fields.add(expectedBehavior);
+        JsonObject actualBehavior = new JsonObject();
+        actualBehavior.addProperty("name", "Actual Behavior");
+        actualBehavior.addProperty("value", this.actualBehavior);
+        fields.add(actualBehavior);
+        JsonObject stepsToReproduce = new JsonObject();
+        stepsToReproduce.addProperty("name", "Steps to Reproduce");
+        stepsToReproduce.addProperty("value", String.join(", ", this.stepsToReproduce));
+        fields.add(stepsToReproduce);
+        JsonObject additionalInformation = new JsonObject();
+        additionalInformation.addProperty("name", "Additional Information");
+        additionalInformation.addProperty("value", this.additionalInformation);
+        fields.add(additionalInformation);
+        JsonObject isExploit = new JsonObject();
+        isExploit.addProperty("name", "Is Exploit");
+        isExploit.addProperty("value", String.valueOf(hidden));
+        fields.add(isExploit);
+        JsonObject reporter = new JsonObject();
+        reporter.addProperty("name", "Reporter");
+        reporter.addProperty("value", this.reporter.getName());
+        fields.add(reporter);
+        embed.add("fields", fields);
+        embeds.add(embed);
+        request.add("embeds", embeds);
+
+        URLConnection connection = new URL(VaultCore.getInstance().getConfig().getString("buggy-webhook-link")).openConnection();
+        connection.setDoInput(true);
+        connection.addRequestProperty("User-Agent", "VaultMC Buggy Bug Tracker: vaultmc.net");
+        connection.setRequestProperty("Content-Type", "application/json");
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+        writer.write(request.toString());
+        writer.close();
+        connection.connect();
     }
 }

@@ -94,16 +94,17 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
                     stages.put(player.getUniqueId(), Stage.SHOULD_HIDE);
                     break;
                 case SHOULD_HIDE:
-                    player.sendMessage(VaultLoader.getMessage("buggy.finished").replace("{UID}",
-                            bugs.get(player.getUniqueId()).getUniqueId()));
+                    Bug bug = bugs.get(player.getUniqueId());
+                    player.sendMessage(VaultLoader.getMessage("buggy.finished").replace("{UID}", bug.getUniqueId()));
                     stages.remove(player.getUniqueId());
-                    bugs.get(player.getUniqueId()).setStatus(Bug.Status.OPEN);
+                    bug.setStatus(Bug.Status.OPEN);
                     if (e.getMessage().equalsIgnoreCase("Yes")) {
-                        bugs.get(player.getUniqueId()).setHidden(true);
+                        bug.setHidden(true);
                     }
-                    bugs.get(player.getUniqueId()).serialize();
-                    Bug.getBugs().add(bugs.get(player.getUniqueId()));
+                    bug.serialize();
+                    Bug.getBugs().add(bug);
                     bugs.remove(player.getUniqueId());
+                    bug.sendWebhook();
             }
             e.setCancelled(true);
         }
