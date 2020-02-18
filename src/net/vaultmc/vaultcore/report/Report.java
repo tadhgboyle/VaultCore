@@ -135,14 +135,6 @@ public class Report {
                         reasons.stream().map(Reason::toString).collect(Collectors.joining(VaultCore.SEPARATOR)), status.toString());
             }
         }
-
-        ConfigurationSection section = VaultCore.getInstance().getData().createSection("reports." + id);
-        section.set("reporter", reporter.getUniqueId().toString());
-        section.set("target", target.getUniqueId().toString());
-        section.set("assignees", assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
-        section.set("reasons", reasons.stream().map(Reason::toString).collect(Collectors.toList()));
-        section.set("status", status.toString());
-        section.set("id", id);
     }
 
     @AllArgsConstructor

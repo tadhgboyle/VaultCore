@@ -153,20 +153,6 @@ public class Bug {
                         assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)), uniqueId);
             }
         }
-
-        ConfigurationSection section = VaultCore.getInstance().getData().createSection("bugs." + getUniqueId());
-        section.set("title", title);
-        section.set("description", description);
-        section.set("actual-behavior", actualBehavior);
-        section.set("expected-behavior", expectedBehavior);
-        section.set("steps-to-reproduce", stepsToReproduce);
-        section.set("additional-information", additionalInformation);
-        section.set("hidden", hidden);
-        section.set("status", status.toString());
-        section.set("reporter", reporter.getUniqueId().toString());
-        section.set("assignee", assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
-        section.set("uuid", uniqueId);
-        VaultCore.getInstance().saveConfig();
     }
 
     public enum Status {
