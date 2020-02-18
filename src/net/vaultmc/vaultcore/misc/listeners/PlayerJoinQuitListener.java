@@ -41,8 +41,11 @@ public class PlayerJoinQuitListener implements Listener {
 
     @EventHandler
     @SneakyThrows
-    public void onJoin(PlayerJoinEvent join) {
-        VLPlayer player = VLPlayer.getPlayer(join.getPlayer());
+    public void onJoin(PlayerJoinEvent e) {
+        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+        if (player.getWorld().getName().equalsIgnoreCase("Lobby")) {
+            player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
+        }
         String uuid = player.getUniqueId().toString();
         String username = player.getName();
         long firstseen = player.getFirstPlayed();
@@ -72,7 +75,7 @@ public class PlayerJoinQuitListener implements Listener {
                                 player.getFormattedName(), count()));
             }
         }
-        join.setJoinMessage(
+        e.setJoinMessage(
                 Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
                         player.getFormattedName(), ChatColor.GREEN + "joined"));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
