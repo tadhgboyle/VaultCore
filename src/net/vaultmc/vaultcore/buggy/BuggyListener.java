@@ -58,6 +58,7 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
                 bugs.remove(e.getPlayer().getUniqueId());
                 return;
             }
+            e.setCancelled(true);
             switch (stages.get(e.getPlayer().getUniqueId())) {
                 case TITLE:
                     bugs.get(player.getUniqueId()).setTitle(e.getMessage());
@@ -104,9 +105,8 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
                     bug.serialize();
                     Bug.getBugs().add(bug);
                     bugs.remove(player.getUniqueId());
-                    bug.sendWebhook();
+                    break;
             }
-            e.setCancelled(true);
         }
     }
 

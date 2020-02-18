@@ -11,17 +11,21 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
 public class Bug {
+    private static final SimpleDateFormat ios8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+    static {
+        ios8601.setTimeZone(TimeZone.getTimeZone("CET"));
+    }
+
     @Getter
     private static final List<Bug> bugs = new ArrayList<>();
     private static int currentId;
@@ -187,12 +191,13 @@ public class Bug {
     public void sendWebhook() {
         JsonObject request = new JsonObject();
         request.addProperty("avatar_url", "https://crafatar.com/avatars/" + reporter.getUniqueId().toString());
-        request.addProperty("payload_json", "application/json");
         JsonArray embeds = new JsonArray();
         JsonObject embed = new JsonObject();
         embed.addProperty("title", "Buggy Bug Tracker");
         embed.addProperty("type", "rich");
         embed.addProperty("description", "A new bug is reported.");
+        embed.addProperty("timestamp", ios8601.format(new Date()));
+        embed.addProperty("color", 0xff0000);
         JsonArray fields = new JsonArray();
         JsonObject id = new JsonObject();
         id.addProperty("name", "ID");
@@ -234,7 +239,11 @@ public class Bug {
         embeds.add(embed);
         request.add("embeds", embeds);
 
-        URLConnection connection = new URL(VaultCore.getInstance().getConfig().getString("buggy-webhook-link")).openConnection();
+        VaultCore.getInstance().getLogger().info("Sending request to Discord: " + request.toString());
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(VaultCore.getInstance().getConfig().getString("buggy-webhook-link") + "?wait=true").openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
         connection.setDoInput(true);
         connection.addRequestProperty("User-Agent", "VaultMC Buggy Bug Tracker: vaultmc.net");
         connection.setRequestProperty("Content-Type", "application/json");
@@ -242,5 +251,8 @@ public class Bug {
         writer.write(request.toString());
         writer.close();
         connection.connect();
+
+        Scanner scanner = new Scanner(connection.getInputStream()).useDelimiter("\\A");
+        VaultCore.getInstance().getLogger().info("Received " + scanner.next() + " from Discord");
     }
 }
