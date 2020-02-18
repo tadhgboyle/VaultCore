@@ -25,4 +25,8 @@ public class PingService extends ConstructorRegisterListener {
             pong.put(e.getMessage().split(VaultCore.SEPARATOR)[1], i);
         }
     }
+
+    public static void ping(String session) {
+        SQLMessenger.sendGlobalMessage("Ping" + VaultCore.SEPARATOR + session);
+    }
 }
