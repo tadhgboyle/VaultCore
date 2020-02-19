@@ -28,6 +28,7 @@ import net.vaultmc.vaultloader.utils.commands.arguments.custom.OfflinePlayerArgu
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -129,7 +130,7 @@ public class TempBanCommand extends CommandExecutor {
         }
 
         PunishmentsDB.registerData("tempbans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
-                true, reason, PunishmentUtils.currentTime() + expiry, actor.getName()));
+                true, reason, PunishmentUtils.currentTime() + expiry, (actor instanceof VLPlayer) ? ((VLPlayer) actor).getUniqueId().toString() : "CONSOLE"));
 
         /*
         data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.status", true);

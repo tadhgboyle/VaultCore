@@ -88,12 +88,12 @@ punishments:
   integer-format-error: "&cYou must enter a valid integer!"
 
   ban:
-    announcement: "&e{ACTOR} banned {PLAYER}&e for &6{REASON}"
+    announcement: "&e{ACTOR}&e banned {PLAYER}&e for &6{REASON}"
     disconnect: |
       &cYou are permanently banned from this server!
       &6Reason: &e{REASON}
       &6Issuer: {ACTOR}
-      &Appeal: &ehttps://discord.vaultmc.net
+      &aAppeal: &ehttps://discord.vaultmc.net
     sent: "&eSuccessfully banned {PLAYER}&e"
 
   unban:

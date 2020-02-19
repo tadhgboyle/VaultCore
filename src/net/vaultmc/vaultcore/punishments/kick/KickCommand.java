@@ -63,7 +63,7 @@ public class KickCommand extends CommandExecutor {
     }
 
     private void kickVLPlayer(VLPlayer kicked, VLCommandSender sender, String reason, boolean silent) {
-        PunishmentsDB.registerData("kicks", new PunishmentsDB.PunishmentData(kicked.getUniqueId().toString(), false, reason, -1, sender.getName()));
+        PunishmentsDB.registerData("kicks", new PunishmentsDB.PunishmentData(kicked.getUniqueId().toString(), false, reason, -1, (sender instanceof VLPlayer) ? ((VLPlayer) sender).getUniqueId().toString() : "CONSOLE"));
 
         kicked.kick(VaultLoader.getMessage("punishments.kick.disconnect")
                 .replace("{ACTOR}", sender.getFormattedName())

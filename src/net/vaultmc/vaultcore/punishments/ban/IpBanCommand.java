@@ -98,7 +98,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
         }
 
         PunishmentsDB.registerData("ipbans", new PunishmentsDB.PunishmentData(getPlayerIp(victim),
-                true, reason, -1, actor.getName()));
+                true, reason, -1, (actor instanceof VLPlayer) ? ((VLPlayer) actor).getUniqueId().toString() : "CONSOLE"));
 
         /*
         data.set("vaultutils." + victim.getUniqueId().toString() + ".ban.status", true);

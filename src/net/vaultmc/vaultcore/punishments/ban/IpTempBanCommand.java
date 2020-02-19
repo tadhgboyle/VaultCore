@@ -129,7 +129,7 @@ public class IpTempBanCommand extends CommandExecutor {
         }
 
         PunishmentsDB.registerData("iptempbans", new PunishmentsDB.PunishmentData(IpBanCommand.getPlayerIp(victim),
-                true, reason, PunishmentUtils.currentTime() + expiry, actor.getName()));
+                true, reason, PunishmentUtils.currentTime() + expiry, (actor instanceof VLPlayer) ? ((VLPlayer) actor).getUniqueId().toString() : "CONSOLE"));
 
         /*
         data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.status", true);

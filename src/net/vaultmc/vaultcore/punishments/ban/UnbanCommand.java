@@ -34,6 +34,7 @@ import java.util.Collections;
         literal = "unban",
         description = "Re-allows a banned player to join the server."
 )
+@Aliases({"pardon"})
 @Permission(Permissions.BanCommand)
 public class UnbanCommand extends CommandExecutor {
     public UnbanCommand() {
