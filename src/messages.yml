@@ -347,9 +347,6 @@ vaultcore:
       event_message: "{PLAYER}&e has {EVENT}&e."
   runnables:
     rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
-    clearlag:
-      warning: "&eAll entities will be cleared in 1 minute!"
-      cleared: "&eCleared &2{CLEARED}&e entities in &2{WORLDS}&e worlds."
   survival:
     time_set_day: "&eThe night has passed in &6Survival&e."
     players_needed: "&eOnly &2{PLAYERS}&e needed to skip the night in Survival."
@@ -387,7 +384,7 @@ vaultcore:
     warp:
       not_exist: "&eThe warp &6{WARP}&e does not exist."
       set: "&eSet the warp &6{WARP}&e to your location."
-      already_exist: "The warp &6{WARP}&e has already been set. Try to delete it first."
+      already_exist: "&eThe warp &6{WARP}&e has already been set. Try to delete it first."
       teleported: "&eYou have been teleported to &6{WARP}&e."
       deleted: "&eYou have deleted the warp &6{WARP}&e."
     wild:
