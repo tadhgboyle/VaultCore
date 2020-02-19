@@ -6,14 +6,12 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.messenger.PingService;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 
@@ -30,17 +28,12 @@ public class MsgMessageListener extends ConstructorRegisterListener {
                     from.getFormattedName(), to.getFormattedName(), message));
         } else {
             responses.put(id, false);
-            String ping = UUID.randomUUID().toString();
-            SQLMessenger.sendGlobalMessage("Ping" + VaultCore.SEPARATOR + ping);
-            Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
-                if (responses.get(id).size() == PingService.getPong().get(ping)) {
-                    if (!responses.get(id).contains(true)) {
-                        from.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.failed"));
-                    }
-                    responses.removeAll(id);
-                    PingService.getPong().remove(ping);
+            if (responses.get(id).size() == VaultCore.TOTAL_SERVERS) {
+                if (!responses.get(id).contains(true)) {
+                    from.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.failed"));
                 }
-            }, 10);
+                responses.removeAll(id);
+            }
         }
     }
 

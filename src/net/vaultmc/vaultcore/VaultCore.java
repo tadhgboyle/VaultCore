@@ -89,6 +89,7 @@ import java.text.DecimalFormat;
 public final class VaultCore extends Component implements Listener {
     public static final DecimalFormat numberFormat = new DecimalFormat("###,###.###");
     public static final String SEPARATOR = "\u00a7â";  // I hope nobody will type this using another client
+    public static final int TOTAL_SERVERS = 3;
     @Getter
     private static VaultCore instance;
     public static boolean isReloaded = false;

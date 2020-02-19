@@ -5,14 +5,12 @@ import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.messenger.PingService;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -69,26 +67,21 @@ public class TPACommand extends CommandExecutor implements Listener {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
             String id = parts[1];
             tpaRequestStatus.put(id, parts[2].equals("Sent"));
-            String session = UUID.randomUUID().toString();
-            PingService.ping(session);
-            Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
-                if (tpaRequestStatus.get(id).size() == PingService.getPong().get(session)) {
-                    if (tpaRequestStatus.get(id).contains(true)) {
-                        VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
-                        if (player != null) {
-                            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
-                                    VLOfflinePlayer.getOfflinePlayer(sessions.get(id).getTo()).getFormattedName()));
-                        }
-                    } else {
-                        VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
-                        if (player != null) {
-                            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_failed"));
-                        }
+            if (tpaRequestStatus.get(id).size() == VaultCore.TOTAL_SERVERS) {
+                if (tpaRequestStatus.get(id).contains(true)) {
+                    VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
+                    if (player != null) {
+                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
+                                VLOfflinePlayer.getOfflinePlayer(sessions.get(id).getTo()).getFormattedName()));
                     }
-                    PingService.getPong().remove(session);
-                    tpaRequestStatus.removeAll(id);
+                } else {
+                    VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
+                    if (player != null) {
+                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_failed"));
+                    }
                 }
-            }, 20);
+                tpaRequestStatus.removeAll(id);
+            }
         }
     }
 

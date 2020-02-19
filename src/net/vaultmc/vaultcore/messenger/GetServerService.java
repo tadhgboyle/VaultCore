@@ -3,13 +3,11 @@ package net.vaultmc.vaultcore.messenger;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 
 import java.util.HashMap;
@@ -44,25 +42,20 @@ public class GetServerService extends ConstructorRegisterListener {
             int i = count.getOrDefault(uuid, 0);
             i++;
             count.put(uuid, i);
-            String pingSession = UUID.randomUUID().toString();
-            PingService.ping(pingSession);
-            int finalI = i;
-            Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
-                if (!response.equalsIgnoreCase("failure")) {
-                    for (GeneralCallback<String> callback : callbacks.get(uuid)) {
-                        callback.getSuccess().accept(response);
-                    }
-                    callbacks.removeAll(uuid);
-                    return;
+            if (!response.equalsIgnoreCase("failure")) {
+                for (GeneralCallback<String> callback : callbacks.get(uuid)) {
+                    callback.getSuccess().accept(response);
                 }
+                callbacks.removeAll(uuid);
+                return;
+            }
 
-                if (finalI == PingService.getPong().get(pingSession) && callbacks.containsKey(uuid)) {
-                    for (GeneralCallback<String> callback : callbacks.get(uuid)) {
-                        callback.getFailure().accept("failure");
-                    }
-                    callbacks.removeAll(uuid);
+            if (i == VaultCore.TOTAL_SERVERS && callbacks.containsKey(uuid)) {
+                for (GeneralCallback<String> callback : callbacks.get(uuid)) {
+                    callback.getFailure().accept("failure");
                 }
-            }, 5);
+                callbacks.removeAll(uuid);
+            }
         } else if (e.getMessage().startsWith("312Message")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
             if (VLPlayer.getPlayer(UUID.fromString(parts[1])) != null) {
