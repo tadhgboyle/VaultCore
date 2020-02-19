@@ -20,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @RootCommand(literal = "lol", description = "The chat based soundboard.")
@@ -63,8 +64,9 @@ public class LolCommand extends CommandExecutor {
     public static void lol(VLCommandSender sender) {
         if (System.currentTimeMillis() - LAST_LOL > COOLDOWN || LAST_LOL == 0) {
             int id = ThreadLocalRandom.current().nextInt(0, lolsList.size());
-            for (Player players : Bukkit.getOnlinePlayers()) {
-                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), ChatColor.translateAlternateColorCodes('&', String.valueOf(lolsList.get(id)))));
+            String victim = ((VLPlayer) VLPlayer.getOnlinePlayers().toArray()[new Random().nextInt(VLPlayer.getOnlinePlayers().size())]).getName();
+            for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), ChatColor.translateAlternateColorCodes('&', String.valueOf(lolsList.get(id)))).replace("{PLAYER}", victim));
             }
             LAST_LOL = System.currentTimeMillis();
         } else {
