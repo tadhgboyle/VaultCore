@@ -63,6 +63,11 @@ public class GetServerService extends ConstructorRegisterListener {
                     callbacks.removeAll(uuid);
                 }
             }, 5);
+        } else if (e.getMessage().startsWith("312Message")) {
+            String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
+            if (VLPlayer.getPlayer(UUID.fromString(parts[1])) != null) {
+                VLPlayer.getPlayer(UUID.fromString(parts[1])).sendMessage(parts[2]);
+            }
         }
     }
 }
