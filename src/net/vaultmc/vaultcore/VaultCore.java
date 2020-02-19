@@ -35,6 +35,7 @@ import net.vaultmc.vaultcore.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.grant.GrantCommand;
 import net.vaultmc.vaultcore.grant.GrantCommandListener;
 import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
+import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultcore.messenger.PingService;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
@@ -248,6 +249,7 @@ public final class VaultCore extends Component implements Listener {
         new LolCommand();
         new LagCommand();
         new HubCommand();
+        new GetServerService();
         new ClearCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
