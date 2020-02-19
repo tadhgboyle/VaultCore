@@ -26,7 +26,7 @@ public class InvseeCommand extends CommandExecutor implements Listener {
             return;
         }
 
-        if (target.hasPermission(Permissions.InvseeExempt)) {
+        if (target.hasPermission(Permissions.InvseeExempt) && !sender.hasPermission(Permissions.InvSeeAdmin)) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.invsee.excempt_error"));
             return;
         }

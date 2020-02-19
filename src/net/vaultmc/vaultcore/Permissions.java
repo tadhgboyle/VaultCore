@@ -22,6 +22,7 @@ public final class Permissions {
     public static final String WorldTPCommandCreative = "vaultcore.worlds.creative";
     public static final String WorldTPCommandSurvival = "vaultcore.worlds.survival";
     public static final String SettingsCommand = "vaultcore.settings";
+    public static final String InvSeeAdmin = "vaultcore.invsee.admin";
     public static final String CheckCommand = "vaultcore.check";
     public static final String ClearChatCommand = "vaultcore.clearchat";
     public static final String FeedCommand = "vaultcore.feed";
