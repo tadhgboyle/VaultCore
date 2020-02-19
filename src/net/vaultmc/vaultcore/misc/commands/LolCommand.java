@@ -50,7 +50,8 @@ public class LolCommand extends CommandExecutor {
     public LolCommand() {
         register("lol", Collections.emptyList());
         register("lolId", Collections.singletonList(Arguments.createArgument("id", Arguments.integerArgument())));
-        register("lolList",
+        register("lolList", Collections.singletonList(Arguments.createLiteral("list")));
+        register("lolListPage",
                 Arrays.asList(Arguments.createLiteral("list"), Arguments.createArgument("page", Arguments.integerArgument(1))));
         register("lolAdd",
                 Arrays.asList(Arguments.createLiteral("add"), Arguments.createArgument("text", Arguments.greedyString())));
@@ -93,11 +94,28 @@ public class LolCommand extends CommandExecutor {
 
     @SubCommand("lolList")
     @Permission(Permissions.LolCommandId)
-    public static void lolList(VLCommandSender sender, int page) {
+    public static void lolList(VLCommandSender sender) {
+        lolListPages(sender, 1);
+    }
+
+    @SubCommand("lolListPage")
+    @Permission(Permissions.LolCommandId)
+    public static void lolListPage(VLCommandSender sender, int page) {
+        lolListPages(sender, page);
+    }
+
+    public static void lolListPages(VLCommandSender sender, int page) {
         page = page - 1;
         int MAX_PAGES = (int) Math.floor(lolsList.size() / PAGE_SIZE);
+
         if (page + 1 > MAX_PAGES + 1) {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.max"), page + 1, MAX_PAGES + 1));
+            return;
+        }
+        /* check if page will be empty */
+        // TODO fix this.
+        if ((lolsList.size() / PAGE_SIZE) < page + 1) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.max"), page + 1, MAX_PAGES));
             return;
         }
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.header"));

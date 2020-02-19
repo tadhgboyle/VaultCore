@@ -35,7 +35,7 @@ public class LagCommand extends CommandExecutor {
         String osInfo = ChatColor.GOLD + operatingSystemMXBean.getArch() + ChatColor.YELLOW + " (" + operatingSystemMXBean.getName() + ", " + ChatColor.YELLOW + " Kernel: " + ChatColor.GOLD + operatingSystemMXBean.getVersion() + ChatColor.YELLOW + ")";
         String load = operatingSystemMXBean.getProcessCpuLoad() < 0 ? "Unavailable" : numberFormat.format(operatingSystemMXBean.getSystemCpuLoad() * 100) + "%";
         String cpuInfo = ChatColor.DARK_GREEN + load + ChatColor.YELLOW + " Cores: " + ChatColor.DARK_GREEN + Runtime.getRuntime().availableProcessors();
-        String tps = "" + ChatColor.DARK_GREEN + Math.round(Bukkit.getTPS()[0]) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + Math.round(Bukkit.getTPS()[1]) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + Math.round(Bukkit.getTPS()[2]);
+        String tps = "" + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[0]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[1]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[2]).substring(0, 5);
 
         long freeRam = operatingSystemMXBean.getFreePhysicalMemorySize();
         long maxRam = operatingSystemMXBean.getTotalPhysicalMemorySize();

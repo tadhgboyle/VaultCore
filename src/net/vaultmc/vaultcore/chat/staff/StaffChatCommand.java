@@ -9,6 +9,7 @@ import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -56,7 +57,7 @@ public class StaffChatCommand extends CommandExecutor implements Listener {
                 if (player.hasPermission(Permissions.StaffChatCommand)) {
                     player.sendMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.prefix")
                             + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.format"),
-                            parts[1], parts[2]));
+                            parts[1], ChatColor.translateAlternateColorCodes('&', parts[2])));
                 }
             }
         } else if (e.getMessage().startsWith("SCSetAlwaysOn")) {
