@@ -19,6 +19,7 @@
 package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
 import net.vaultmc.vaultcore.tour.Tour;
@@ -67,7 +68,8 @@ public class ChatUtils extends ConstructorRegisterListener {
         }
 
         formatChat(e);
-        e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
+        if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
+            e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
     }
 
     @EventHandler(priority = EventPriority.LOW)

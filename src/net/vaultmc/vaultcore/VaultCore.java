@@ -171,6 +171,7 @@ public final class VaultCore extends Component implements Listener {
             new ClaimCommand();
             new UnclaimCommand();
             new SchemCommand();
+            new ServerNavigator();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
@@ -247,7 +248,6 @@ public final class VaultCore extends Component implements Listener {
         new TempBanCommand();
         new TempMuteCommand();
         new InventoryStorageListeners();
-        new ServerNavigator();
         new BuggyCommand();
         new BuggyListener();
         new LolCommand();
