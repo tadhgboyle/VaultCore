@@ -51,6 +51,6 @@ public class SeenCommand extends CommandExecutor {
         long duration = currenttime - lastseen;
 
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.seen"),
-                player.getFormattedName(), status, Utilities.millisToTime(duration, true)));
+                player.getFormattedName(), status, Utilities.millisToTime(duration, true, true)));
     }
 }

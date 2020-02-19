@@ -15,6 +15,7 @@ import java.util.Collections;
 public class ClearCommand extends CommandExecutor {
 
     public ClearCommand() {
+        unregisterExisting();
         register("clearSelf", Collections.emptyList());
         register("clearOthers",
                 Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));

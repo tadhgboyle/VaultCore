@@ -54,7 +54,7 @@ public final class Utilities {
      * @return Duration from milliseconds
      * @author Aberdeener
      */
-    public static String millisToTime(long millis, boolean newline) {
+    public static String millisToTime(long millis, boolean newline, boolean period) {
 
         long millisInSecond = 1000L;
         long millisInMinute = 60000L;
@@ -98,7 +98,11 @@ public final class Utilities {
                 }
                 // if it is the last entry then add a period
                 if (position == 5) {
-                    ending = (duration == 1 ? ". " : "s.");
+                    if (period) {
+                        ending = (duration == 1 ? ". " : "s.");
+                    } else {
+                        ending = (duration == 1 ? " " : "s");
+                    }
                 }
                 sb.append(ChatColor.DARK_GREEN + "" + duration + ChatColor.YELLOW + " " + section + ending);
             }
