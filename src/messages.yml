@@ -467,6 +467,7 @@ vaultcore:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{TARGET}&e has teleported you to them."
     teleport:
+      failed: "&cTeleportation failed."
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."
       target_error: "&cUse /tphere or /tp to do that."

@@ -10,11 +10,13 @@ public class GeneralCallback<T> {
     @Getter
     private Consumer<T> failure;
 
-    public void success(Consumer<T> consumer) {
+    public GeneralCallback<T> success(Consumer<T> consumer) {
         success = consumer;
+        return this;
     }
 
-    public void failure(Consumer<T> consumer) {
+    public GeneralCallback<T> failure(Consumer<T> consumer) {
         failure = consumer;
+        return this;
     }
 }

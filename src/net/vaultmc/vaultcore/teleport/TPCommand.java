@@ -1,24 +1,36 @@
 package net.vaultmc.vaultcore.teleport;
 
+import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.messenger.GeneralCallback;
+import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
+import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Location;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.UUID;
 
 @RootCommand(literal = "teleport", description = "Teleport to a player.")
 @Permission(Permissions.TeleportCommand)
 @Aliases("tp")
-public class TPCommand extends CommandExecutor {
+public class TPCommand extends CommandExecutor implements Listener {
     public TPCommand() {
         unregisterExisting();
         register("teleportToPlayer",
-                Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+                Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
         register("teleportPlayerToPlayer",
                 Arrays.asList(Arguments.createArgument("target", Arguments.playerArgument()),
                         Arguments.createArgument("to", Arguments.playerArgument())));
@@ -28,6 +40,41 @@ public class TPCommand extends CommandExecutor {
                 Arguments.createArgument("target", Arguments.playerArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument())
         ));
+        VaultCore.getInstance().registerEvents(this);
+    }
+
+    @SneakyThrows
+    public static void teleport(VLOfflinePlayer sender, VLOfflinePlayer target) {
+        GetServerService.getServer(sender, new GeneralCallback<String>()
+                .success(server -> GetServerService.getServer(target, new GeneralCallback<String>()
+                        .success(x -> {
+                            if (x.equalsIgnoreCase(server)) {
+                                sender.getOnlinePlayer().teleport(target.getOnlinePlayer());
+                            } else {
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                DataOutputStream stream = new DataOutputStream(bos);
+                                stream.writeUTF("Connect");
+                                stream.writeUTF(x);
+                                sender.getOnlinePlayer().getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+                                stream.close();
+                                SQLMessenger.sendGlobalMessage("Teleport" + VaultCore.SEPARATOR + sender.getUniqueId().toString() +
+                                        VaultCore.SEPARATOR + target.getUniqueId().toString());
+                            }
+                        })
+                        .failure(x -> sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed")))))
+                .failure(server -> {
+                }));
+    }
+
+    @EventHandler
+    public void onMessageReceived(MessageReceivedEvent e) {
+        if (e.getMessage().startsWith("Teleport")) {
+            String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
+            VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
+            VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
+            if (from == null || to == null) return;
+            from.teleport(to);
+        }
     }
 
     @SubCommand("teleportToLocation")
@@ -49,31 +96,20 @@ public class TPCommand extends CommandExecutor {
 
     @SubCommand("teleportToPlayer")
     @PlayerOnly
-    public void teleportToPlayer(VLPlayer sender, VLPlayer target) {
+    public void teleportToPlayer(VLPlayer sender, VLOfflinePlayer target) {
         if (sender == target) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }
-        sender.teleport(target.getLocation());
-        sender.sendMessage(Utilities.formatMessage(
-                VaultLoader.getMessage("vaultcore.commands.teleport.sender_to_player"), target.getFormattedName()));
+        teleport(sender, target);
     }
 
     @SubCommand("teleportPlayerToPlayer")
-    public void teleportPlayerToPlayer(VLCommandSender sender, VLPlayer target, VLPlayer to) {
+    public void teleportPlayerToPlayer(VLCommandSender sender, VLOfflinePlayer target, VLOfflinePlayer to) {
         if (target == sender || to == sender) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.target_error"));
             return;
         }
-        target.teleport(to.getLocation());
-        sender.sendMessage(
-                Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_player_sender"),
-                        target.getFormattedName(), to.getFormattedName()));
-        target.sendMessage(
-                Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_player_target"),
-                        sender.getFormattedName(), to.getFormattedName()));
-        to.sendMessage(
-                Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_player_receiver"),
-                        sender.getFormattedName(), target.getFormattedName()));
+        teleport(target, to);
     }
 }
