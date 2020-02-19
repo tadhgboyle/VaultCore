@@ -465,7 +465,7 @@ vaultcore:
         request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
     tphere:
       sender: "&eYou have teleported {TARGET}&e to you."
-      target: "{TARGET}&e has teleported you to them."
+      target: "{SENDER}&e has teleported you to them."
     teleport:
       failed: "&cTeleportation failed."
       self_error: "&cYou can't teleport to yourself."

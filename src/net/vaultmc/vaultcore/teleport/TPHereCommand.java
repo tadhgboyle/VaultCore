@@ -23,6 +23,13 @@ public class TPHereCommand extends CommandExecutor {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }
-        TPCommand.teleport(target, player);
+        TPCommand.teleport(target, player, status -> {
+            if (status) {
+                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tphere.sender").replace("{TARGET}", target.getFormattedName()));
+                target.getOnlinePlayer().sendMessage(VaultLoader.getMessage("vaultcore.commands.tphere.target").replace("{SENDER}", player.getFormattedName()));
+            } else {
+                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed"));
+            }
+        });
     }
 }
