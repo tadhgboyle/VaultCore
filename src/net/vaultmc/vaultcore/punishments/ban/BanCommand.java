@@ -69,7 +69,7 @@ public class BanCommand extends CommandExecutor {
         }
 
         PunishmentsDB.registerData("bans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
-                true, reason, -1, actor.getFormattedName()));
+                true, reason, -1, (actor instanceof VLPlayer) ? ((VLPlayer) actor).getUniqueId().toString() : "CONSOLE"));
 
         actor.sendMessage(VaultLoader.getMessage("punishments.ban.sent").replace("{PLAYER}", victim.getFormattedName()));
 

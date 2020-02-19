@@ -24,6 +24,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -73,7 +74,7 @@ public class MuteCommand extends CommandExecutor {
                     .replace("{REASON}", reason));
         }
 
-        PunishmentsDB.registerData("mutes", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), true, reason, -1, actor.getName()));
+        PunishmentsDB.registerData("mutes", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), true, reason, -1, (actor instanceof VLPlayer) ? ((VLPlayer) actor).getUniqueId().toString() : "CONSOLE"));
 
         actor.sendMessage(VaultLoader.getMessage("punishments.mute.sent").replace("{PLAYER}", victim.getFormattedName()));
 
