@@ -44,13 +44,13 @@ public class PlayTimeCommand extends CommandExecutor {
     private void printPlayTimeOnline(VLPlayer player, VLCommandSender sender) {
         long playtime = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.online_player"),
-                player.getFormattedName(), Utilities.millisToTime(playtime, true)));
+                player.getFormattedName(), Utilities.millisToTime(playtime, true, true)));
         if (player == sender) {
             if (player.getGroup().equalsIgnoreCase("default")) {
-                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(playtime - RankPromotions.MEMBER_TIME, false), "Member"));
+                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(playtime - RankPromotions.MEMBER_TIME, true, false), "Member"));
             }
             if (player.getGroup().equalsIgnoreCase("member")) {
-                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(playtime - RankPromotions.PATREON_TIME, false), "Patreon"));
+                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(playtime - RankPromotions.PATREON_TIME, true, false), "Patreon"));
             }
         }
     }
@@ -70,6 +70,6 @@ public class PlayTimeCommand extends CommandExecutor {
         long playtime = rs.getLong("playtime");
         long t = (long) (playtime * 0.05 * 1000);
         player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.offline_player"),
-                target.getFormattedName(), Utilities.millisToTime(t, true)));
+                target.getFormattedName(), Utilities.millisToTime(t, true, true)));
     }
 }

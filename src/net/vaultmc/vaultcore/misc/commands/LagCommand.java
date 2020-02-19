@@ -53,7 +53,7 @@ public class LagCommand extends CommandExecutor {
         sender.sendMessage(ChatColor.YELLOW + "Platform: " + osInfo);
         sender.sendMessage(ChatColor.YELLOW + "Java Version: " + ChatColor.GOLD + System.getProperty("java.runtime.version"));
         sender.sendMessage(ChatColor.YELLOW + "CPU: " + cpuInfo);
-        sender.sendMessage(ChatColor.YELLOW + "Uptime: " + Utilities.millisToTime(System.currentTimeMillis() - VaultCore.getStartTime(), false));
+        sender.sendMessage(ChatColor.YELLOW + "Uptime: " + Utilities.millisToTime(System.currentTimeMillis() - VaultCore.getStartTime(), false, true));
         sender.sendMessage(ChatColor.YELLOW + "TPS: " + tps);
         sender.sendMessage(ChatColor.YELLOW + "RAM Usage: " + ramInfo);
         sender.sendMessage(ChatColor.YELLOW + "Disk Usage: " + diskInfo);
