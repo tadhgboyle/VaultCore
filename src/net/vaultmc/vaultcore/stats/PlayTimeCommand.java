@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.misc.runnables.RankPromotions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -41,21 +42,30 @@ public class PlayTimeCommand extends CommandExecutor {
     }
 
     private void printPlayTimeOnline(VLPlayer player, VLCommandSender sender) {
-        long t = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
+        long playtime = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.online_player"),
-                player.getFormattedName(), Utilities.millisToTime(t, true)));
+                player.getFormattedName(), Utilities.millisToTime(playtime, true)));
+        if (player == sender) {
+            if (player.getGroup().equalsIgnoreCase("default")) {
+                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(playtime - RankPromotions.MEMBER_TIME, false), "Member"));
+            }
+            if (player.getGroup().equalsIgnoreCase("member")) {
+                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(playtime - RankPromotions.PATREON_TIME, false), "Patreon"));
+            }
+        }
     }
 
     @SneakyThrows
     private void printPlayTimeOffline(VLCommandSender player, VLOfflinePlayer target) {
         DBConnection database = VaultCore.getDatabase();
 
-        ResultSet rs = database.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?",
-                target.getName());
-        if (!rs.next()) {
+        if (target.getFirstPlayed() == 0L) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
+
+        ResultSet rs = database.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?",
+                target.getName());
 
         long playtime = rs.getLong("playtime");
         long t = (long) (playtime * 0.05 * 1000);

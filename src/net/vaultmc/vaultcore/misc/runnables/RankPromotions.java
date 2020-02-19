@@ -8,6 +8,10 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 public class RankPromotions {
+
+    public static int MEMBER_TIME = 720000;
+    public static int PATREON_TIME = 2520000;
+
     public static void memberPromotion() {
         for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
             String group = player.getGroup();
@@ -16,7 +20,7 @@ public class RankPromotions {
             }
             int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
             // 10 hours in ticks
-            if (playtime > 720000) {
+            if (playtime > MEMBER_TIME) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set member");
 
                 for (Player players : Bukkit.getOnlinePlayers()) {
@@ -36,7 +40,7 @@ public class RankPromotions {
             }
             int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
             // 35 hours in ticks
-            if (playtime > 2520000) {
+            if (playtime > PATREON_TIME) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                         "lp user " + player.getName() + " parent set patreon");
                 for (Player players : Bukkit.getOnlinePlayers()) {

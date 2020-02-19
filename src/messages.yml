@@ -369,6 +369,7 @@ vaultcore:
     playtime:
       online_player: "{TARGET} &ehas played for {TIME}"
       offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for {TIME}"
+      rank_wait: "&eYou are only {TIME}&e away from &6{RANK}&e!"
     ranks:
       player_header: "&2--== [Player Ranks] ==--"
       staff_header: "&2--== [Staff Ranks] ==--"

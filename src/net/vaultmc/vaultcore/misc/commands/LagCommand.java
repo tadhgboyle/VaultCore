@@ -41,13 +41,13 @@ public class LagCommand extends CommandExecutor {
         long maxRam = operatingSystemMXBean.getTotalPhysicalMemorySize();
         long usedRam = maxRam - freeRam;
         double ramPercent = ((double) usedRam / maxRam) * 100;
-        String ramInfo = "" + ChatColor.GOLD + numberFormat.format(ramPercent) + "% " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedRam) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxRam);
+        String ramInfo = "" + ChatColor.GOLD + numberFormat.format(ramPercent) + "%" + ChatColor.YELLOW + " - " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedRam) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxRam);
 
         long freeSpace = new File("/").getFreeSpace();
         long maxSpace = new File("/").getTotalSpace();
         long usedSpace = maxSpace - freeSpace;
         double diskPercent = ((double) usedSpace / maxSpace) * 100;
-        String diskInfo = "" + ChatColor.GOLD + numberFormat.format(diskPercent) + "% " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedSpace) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxSpace);
+        String diskInfo = "" + ChatColor.GOLD + numberFormat.format(diskPercent) + "%" + ChatColor.YELLOW + " - " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedSpace) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxSpace);
 
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lag.header"));
         sender.sendMessage(ChatColor.YELLOW + "Platform: " + osInfo);
