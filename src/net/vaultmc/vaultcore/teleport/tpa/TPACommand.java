@@ -64,7 +64,7 @@ public class TPACommand extends CommandExecutor implements Listener {
             }
             SQLMessenger.sendGlobalMessage("02TPARequestStatus" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + "Sent");
             sessions.put(id, new TPASessionData(from.getUniqueId(), to.getUniqueId()));
-            to.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_received").replace("{TARGET}", from.getFormattedName()));
+            to.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_received").replace("{SENDER}", from.getFormattedName()));
         } else if (e.getMessage().startsWith("02TPARequestStatus")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
             String id = parts[1];
@@ -88,7 +88,7 @@ public class TPACommand extends CommandExecutor implements Listener {
                     PingService.getPong().remove(session);
                     tpaRequestStatus.removeAll(id);
                 }
-            }, 5);
+            }, 20);
         }
     }
 
