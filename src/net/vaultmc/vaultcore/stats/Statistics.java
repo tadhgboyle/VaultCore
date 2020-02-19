@@ -14,6 +14,7 @@ import java.util.List;
 public class Statistics {
     @SneakyThrows
     public static void statistics() {
+        if (!VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) return;
         DBConnection database = VaultCore.getDatabase();
         long timestamp = System.currentTimeMillis();
         double tps = Bukkit.getServer().getTPS()[0];
