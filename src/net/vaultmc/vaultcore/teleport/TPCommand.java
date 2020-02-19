@@ -13,6 +13,7 @@ import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -83,7 +84,7 @@ public class TPCommand extends CommandExecutor implements Listener {
             VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
             VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
             if (from == null || to == null) return;
-            from.teleport(to);
+            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> from.teleport(to));
         }
     }
 
