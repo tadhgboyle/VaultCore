@@ -35,7 +35,7 @@ public class GetServerService extends ConstructorRegisterListener {
                 SQLMessenger.sendGlobalMessage("PlayerServerResponse" + VaultCore.SEPARATOR + player.getUniqueId().toString() +
                         VaultCore.SEPARATOR + VaultCore.getInstance().getConfig().getString("server"));
             } else {
-                SQLMessenger.sendGlobalMessage("PlayerServerResponse" + VaultCore.SEPARATOR + player.getUniqueId().toString() +
+                SQLMessenger.sendGlobalMessage("PlayerServerResponse" + VaultCore.SEPARATOR + e.getMessage().split(VaultCore.SEPARATOR)[1] +
                         VaultCore.SEPARATOR + "failure");
             }
         } else if (e.getMessage().startsWith("PlayerServerResponse")) {
