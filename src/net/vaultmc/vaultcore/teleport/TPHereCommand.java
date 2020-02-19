@@ -1,9 +1,9 @@
 package net.vaultmc.vaultcore.teleport;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
@@ -14,20 +14,15 @@ import java.util.Collections;
 @PlayerOnly
 public class TPHereCommand extends CommandExecutor {
     public TPHereCommand() {
-        register("tphere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+        register("tphere", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
 
     @SubCommand("tphere")
-    public void tpaHere(VLPlayer player, VLPlayer target) {
+    public void tpaHere(VLPlayer player, VLOfflinePlayer target) {
         if (target == player) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }
-        target.teleport(player.getLocation());
-        player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.sender"),
-                target.getFormattedName()));
-        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.target"),
-                player.getFormattedName()));
-
+        TPCommand.teleport(target, player);
     }
 }

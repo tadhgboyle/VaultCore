@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.teleport;
+package net.vaultmc.vaultcore.teleport.tpa;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
@@ -7,14 +7,14 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RootCommand(literal = "tpahere", description = "Request for a player to teleport you.")
 @Permission(Permissions.TPAHereCommand)
 @PlayerOnly
 public class TPAHereCommand extends CommandExecutor {
-    private static HashMap<UUID, UUID> requestsHere = TPACommand.getRequestsHere();
+    private static Map<UUID, UUID> requestsHere = TPACommand.getRequestsHere();
 
     public TPAHereCommand() {
         register("tpahere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));

@@ -450,7 +450,7 @@ vaultcore:
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
       other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
     tpa:
-      target_disabled_tpa: "&cThat player has disabled TPSs."
+      request-failed: "&cRequest failed."
       requests:
         no_request_error: "&cYou don't have a pending request."
         response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
