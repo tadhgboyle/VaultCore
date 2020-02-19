@@ -159,21 +159,27 @@ public final class VaultCore extends Component implements Listener {
 
         startTime = System.currentTimeMillis();
 
-        new CRCommand();
-        new SVCommand();
-        new WildTeleportCommand();
-        new TourCommand();
-        new TourStageCommand();
-        new TourMusic();
-        new Tour();
-        new SchemCommand();
-        registerEvents(new CycleListener());
-        registerEvents(new SleepHandler());
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
-            RankPromotions.memberPromotion();
-            RankPromotions.patreonPromotion();
-            Statistics.statistics();
-        }, 0L, 2400L);
+        if (getConfig().getString("server").trim().equalsIgnoreCase("vaultmc")) {
+            new CRCommand();
+            new SVCommand();
+            new WildTeleportCommand();
+            new TourCommand();
+            new TourStageCommand();
+            new TourMusic();
+            new Tour();
+            new ClaimCommand();
+            new UnclaimCommand();
+            new SchemCommand();
+            registerEvents(new ShutDownListener());
+            registerEvents(new CycleListener());
+            registerEvents(new SleepHandler());
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
+                RankPromotions.memberPromotion();
+                RankPromotions.patreonPromotion();
+                Statistics.statistics();
+            }, 0L, 2400L);
+        }
+
         new MsgCommand();
         new MsgMessageListener();
         new PingService();
@@ -240,9 +246,6 @@ public final class VaultCore extends Component implements Listener {
         new TempBanCommand();
         new TempMuteCommand();
         new InventoryStorageListeners();
-        new ClaimCommand();
-        new UnclaimCommand();
-        new SchemCommand();
         new ServerNavigator();
         new BuggyCommand();
         new BuggyListener();
@@ -255,7 +258,6 @@ public final class VaultCore extends Component implements Listener {
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
         registerEvents(new PlayerTPListener());
-        registerEvents(new ShutDownListener());
         registerEvents(new BannedListener());
         registerEvents(new MutedListener());
 

@@ -1,4 +1,5 @@
 staffchat-prefix: "&8[&cSC&8] "
+server: woo
 welcome-message: |-
   &7Welcome to &6eVault&6MC&7!
   &7To learn about our server ranks: &e/ranks
