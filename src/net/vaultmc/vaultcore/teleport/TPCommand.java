@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
@@ -53,19 +54,23 @@ public class TPCommand extends CommandExecutor implements Listener {
         GetServerService.getServer(sender, new GeneralCallback<String>()
                 .success(server -> GetServerService.getServer(target, new GeneralCallback<String>()
                         .success(x -> {
-                            if (x.equalsIgnoreCase(server)) {
-                                sender.getOnlinePlayer().teleport(target.getOnlinePlayer());
-                            } else {
-                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                DataOutputStream stream = new DataOutputStream(bos);
-                                stream.writeUTF("Connect");
-                                stream.writeUTF(x);
-                                sender.getOnlinePlayer().getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
-                                stream.close();
-                                SQLMessenger.sendGlobalMessage("Teleport" + VaultCore.SEPARATOR + sender.getUniqueId().toString() +
-                                        VaultCore.SEPARATOR + target.getUniqueId().toString());
+                            try {
+                                if (x.equalsIgnoreCase(server)) {
+                                    sender.getOnlinePlayer().teleport(target.getOnlinePlayer());
+                                } else {
+                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                    DataOutputStream stream = new DataOutputStream(bos);
+                                    stream.writeUTF("Connect");
+                                    stream.writeUTF(x);
+                                    sender.getOnlinePlayer().getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+                                    stream.close();
+                                    SQLMessenger.sendGlobalMessage("Teleport" + VaultCore.SEPARATOR + sender.getUniqueId().toString() +
+                                            VaultCore.SEPARATOR + target.getUniqueId().toString());
+                                }
+                                callback.accept(true);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
                             }
-                            callback.accept(true);
                         })
                         .failure(x -> callback.accept(false))))
                 .failure(server -> callback.accept(false)));
@@ -108,16 +113,20 @@ public class TPCommand extends CommandExecutor implements Listener {
             return;
         }
         teleport(sender, target, status -> {
-            if (status) {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                DataOutputStream stream = new DataOutputStream(bos);
-                stream.writeUTF("Message");
-                stream.writeUTF(sender.getName());
-                stream.writeUTF(VaultLoader.getMessage("vaultcore.commands.teleport.sender_to_player").replace("{TARGET}", target.getFormattedName()));
-                Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
-                stream.close();
-            } else {
-                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed"));
+            try {
+                if (status) {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    DataOutputStream stream = new DataOutputStream(bos);
+                    stream.writeUTF("Message");
+                    stream.writeUTF(sender.getName());
+                    stream.writeUTF(VaultLoader.getMessage("vaultcore.commands.teleport.sender_to_player").replace("{TARGET}", target.getFormattedName()));
+                    Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+                    stream.close();
+                } else {
+                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed"));
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }
@@ -130,26 +139,32 @@ public class TPCommand extends CommandExecutor implements Listener {
             return;
         }
         teleport(target, to, status -> {
-            if (status) {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                DataOutputStream stream = new DataOutputStream(bos);
-                stream.writeUTF("Message");
-                stream.writeUTF(target.getName());
-                stream.writeUTF(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_player_target")
-                        .replace("{SENDER}", sender.getFormattedName())
-                        .replace("{TARGET}", to.getFormattedName()));
-                Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
-                stream.close();
+            try {
+                if (status) {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    DataOutputStream stream = new DataOutputStream(bos);
+                    stream.writeUTF("Message");
+                    stream.writeUTF(target.getName());
+                    stream.writeUTF(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_player_target")
+                            .replace("{SENDER}", sender.getFormattedName())
+                            .replace("{TARGET}", to.getFormattedName()));
+                    Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+                    stream.close();
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                DataOutputStream dos = new DataOutputStream(baos);
-                dos.writeUTF("Message");
-                dos.writeUTF(target.getName());
-                dos.writeUTF(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_player_receiver")
-                        .replace("{SENDER}", sender.getFormattedName())
-                        .replace("{TARGET}", target.getFormattedName()));
-                Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", baos.toByteArray());
-                dos.close();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    DataOutputStream dos = new DataOutputStream(baos);
+                    dos.writeUTF("Message");
+                    dos.writeUTF(target.getName());
+                    dos.writeUTF(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_player_receiver")
+                            .replace("{SENDER}", sender.getFormattedName())
+                            .replace("{TARGET}", target.getFormattedName()));
+                    Bukkit.getWorlds().get(0).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", baos.toByteArray());
+                    dos.close();
+                } else {
+                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed"));
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }
