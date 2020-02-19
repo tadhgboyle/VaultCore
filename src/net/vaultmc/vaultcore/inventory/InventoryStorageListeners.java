@@ -55,7 +55,8 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
-        if (!getGroupOf(e.getFrom().getName()).equals(getGroupOf(e.getPlayer().getWorld().getName()))) {
+        if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc") &&
+                !getGroupOf(e.getFrom().getName()).equals(getGroupOf(e.getPlayer().getWorld().getName()))) {
             String from = getGroupOf(e.getFrom().getName());
             String to = getGroupOf(e.getPlayer().getWorld().getName());
             InventoryStorageUtils.storePlayerInventory(e.getPlayer().getInventory(),
