@@ -66,10 +66,13 @@ public class PlayTimeCommand extends CommandExecutor {
 
         ResultSet rs = database.executeQueryStatement("SELECT username, playtime FROM players WHERE username=?",
                 target.getName());
-
-        long playtime = rs.getLong("playtime");
-        long t = (long) (playtime * 0.05 * 1000);
-        player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.offline_player"),
-                target.getFormattedName(), Utilities.millisToTime(t, true, true)));
+        if (rs.next()) {
+            long playtime = rs.getLong("playtime");
+            long t = (long) (playtime * 0.05 * 1000);
+            player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.offline_player"),
+                    target.getFormattedName(), Utilities.millisToTime(t, true, true)));
+        } else {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
+        }
     }
 }
