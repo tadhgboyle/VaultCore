@@ -151,8 +151,6 @@ public final class VaultCore extends Component implements Listener {
 
         setupChat();
         Report.dbInit();
-        Bug.dbInit();
-        Bug.load();
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
@@ -173,6 +171,10 @@ public final class VaultCore extends Component implements Listener {
             new SchemCommand();
             new ServerNavigator();
             new LolCommand();
+            Bug.dbInit();
+            Bug.load();
+            new BuggyCommand();
+            new BuggyListener();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
@@ -249,8 +251,6 @@ public final class VaultCore extends Component implements Listener {
         new TempBanCommand();
         new TempMuteCommand();
         new InventoryStorageListeners();
-        new BuggyCommand();
-        new BuggyListener();
         new LagCommand();
         new HubCommand();
         new GetServerService();
