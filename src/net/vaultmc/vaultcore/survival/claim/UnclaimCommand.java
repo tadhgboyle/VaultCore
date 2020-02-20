@@ -29,13 +29,13 @@ public class UnclaimCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.must-be-in-survival"));
             return;
         }
-        List<Chunk> chunks = deserializeChunks(sender.getDataConfig().getStringList("claim.chunks"));
+        List<Chunk> chunks = deserializeChunks(sender.getPlayerData().getStringList("claim.chunks"));
         if (!chunks.contains(sender.getLocation().getChunk())) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-claimed"));
             return;
         }
         chunks.remove(sender.getLocation().getChunk());
-        sender.getDataConfig().set("claim.chunks", serializeChunks(chunks));
+        sender.getPlayerData().set("claim.chunks", serializeChunks(chunks));
         sender.saveData();
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.unclaimed").replace("{X}",
                 String.valueOf(sender.getLocation().getChunk().getX())).replace("{Z}",

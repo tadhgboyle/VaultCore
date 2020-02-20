@@ -56,7 +56,7 @@ public class TPACommand extends CommandExecutor implements Listener {
                 SQLMessenger.sendGlobalMessage("02TPARequestStatus" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + "Failure");
                 return;
             }
-            if (!to.getDataConfig().getBoolean("settings.tpa")) {
+            if (!to.getPlayerData().getBoolean("settings.tpa")) {
                 SQLMessenger.sendGlobalMessage("02TPARequestStatus" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + "Failure");
                 return;
             }

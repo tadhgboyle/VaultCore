@@ -2,15 +2,16 @@ package net.vaultmc.vaultcore.misc.listeners;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
+import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -96,11 +97,11 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         player.getPlayer().performCommand("cr");
                         break;
                     case 2:
-                        FileConfiguration data = player.getDataConfig();
+                        SQLPlayerData data = player.getPlayerData();
                         if (!data.contains("locations.clans")) {
                             player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
                         } else {
-                            player.teleport(data.getLocation("locations.clans"));
+                            player.teleport(Utilities.deserializeLocation(data.getString("locations.clans")));
                         }
                         break;
                     case 3:

@@ -1,5 +1,6 @@
 package net.vaultmc.vaultcore.teleport;
 
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -22,9 +23,9 @@ public class PlayerTPListener implements Listener {
             }
             VLPlayer player = VLPlayer.getPlayer(event.getPlayer());
             if (event.getFrom().getWorld().getName().equals("Survival")) {
-                player.getDataConfig().set("locations.sv", from);
+                player.getPlayerData().set("locations.sv", Utilities.serializeLocation(from));
             } else if (event.getFrom().getWorld().getName().equals("Creative")) {
-                player.getDataConfig().set("locations.cr", from);
+                player.getPlayerData().set("locations.cr", Utilities.serializeLocation(from));
             }
         }
     }

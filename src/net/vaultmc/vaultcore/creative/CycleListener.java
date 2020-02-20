@@ -13,7 +13,7 @@ public class CycleListener implements Listener {
     public void onInventoryCycle(PlayerItemHeldEvent event) {
         VLPlayer player = VLPlayer.getPlayer(event.getPlayer());
 
-        if (player.getDataConfig().getBoolean("settings.cycle")
+        if (player.getPlayerData().getBoolean("settings.cycle")
                 && player.getGameMode().equals(GameMode.CREATIVE)
                 && player.getWorld().getName().equalsIgnoreCase("Creative") && !player.isSneaking()) {
 

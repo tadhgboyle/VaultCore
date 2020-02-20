@@ -22,10 +22,10 @@ import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -121,7 +121,7 @@ public class EconomyImpl implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer player, String world) {
-        return VLOfflinePlayer.getOfflinePlayer(player).getDataConfig().getDouble("economy." + world, 0);
+        return VLOfflinePlayer.getOfflinePlayer(player).getPlayerData().getDouble("economy." + world, 0);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class EconomyImpl implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        FileConfiguration data = VLOfflinePlayer.getOfflinePlayer(player).getDataConfig();
+        SQLPlayerData data = VLOfflinePlayer.getOfflinePlayer(player).getPlayerData();
         if (data.contains("economy." + worldName)) {
             data.set("economy." + worldName, round(
                     data.getDouble("economy." + worldName) - amount));
@@ -195,7 +195,7 @@ public class EconomyImpl implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
-        FileConfiguration data = VLOfflinePlayer.getOfflinePlayer(player).getDataConfig();
+        SQLPlayerData data = VLOfflinePlayer.getOfflinePlayer(player).getPlayerData();
         if (data.contains("economy." + worldName)) {
             data.set("economy." + worldName, round(
                     data.getDouble("economy." + worldName) + amount));

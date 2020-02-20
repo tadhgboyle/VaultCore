@@ -26,7 +26,7 @@ public class TPAHereCommand extends CommandExecutor {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }
-        if (!player.getDataConfig().getBoolean("settings.tpa")) {
+        if (!player.getPlayerData().getBoolean("settings.tpa")) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.target_disabled_tpa"));
             return;
         }

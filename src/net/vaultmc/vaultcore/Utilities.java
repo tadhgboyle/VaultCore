@@ -2,7 +2,9 @@ package net.vaultmc.vaultcore;
 
 import net.vaultmc.vaultloader.VaultLoader;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +16,17 @@ import java.util.*;
 public final class Utilities {
     public static String string = VaultLoader.getMessage("colours.string");
     private static Map<String, Long> timeparts = new LinkedHashMap<>();
+
+    public static Location deserializeLocation(String s) {
+        if (s == null) return null;
+        String[] parts = s.split(VaultCore.SEPARATOR);
+        return new Location(Bukkit.getWorld(parts[0]), Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]));
+    }
+
+    public static String serializeLocation(Location location) {
+        return location.getWorld().getName() + VaultCore.SEPARATOR + location.getX() + VaultCore.SEPARATOR + location.getY() + VaultCore.SEPARATOR +
+                location.getZ();
+    }
 
     /**
      * @param message - Message from
