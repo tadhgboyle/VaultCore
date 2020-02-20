@@ -4,28 +4,40 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TokenValidator extends ListenerAdapter {
+
+    public Role adminRole;
+    public Role moderatorRole;
+    public Role staffRole;
+    public Role playersRole;
+    private Logger logger = VaultCore.getInstance().getLogger();
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 
         User user = event.getAuthor();
+        Member member = event.getMember();
         Message msg = event.getMessage();
         String message = event.getMessage().getContentStripped();
         MessageChannel channel = event.getChannel();
 
-        if (event.isFromType(ChannelType.TEXT)) {
+        adminRole = member.getGuild().getRoleById(615457221337153546L);
+        moderatorRole = member.getGuild().getRoleById(615457245551001600L);
+        staffRole = member.getGuild().getRoleById(615671876928143537L);
+        playersRole = member.getGuild().getRoleById(615457277247488010L);
 
+        if (event.isFromType(ChannelType.TEXT)) {
             if (user.isBot()) {
                 return;
             }
             if (channel.getId().equalsIgnoreCase("643313973592195093")) {
-                Member member = event.getMember();
-                String name = member.getEffectiveName();
                 validateToken(message, member, channel, msg);
             }
         }
@@ -38,38 +50,41 @@ public class TokenValidator extends ListenerAdapter {
 
             if (select_rs.next()) {
 
-                try {
-                    ResultSet duplicate_rs = VaultCore.getDatabase().executeQueryStatement("SELECT discord_id FROM players WHERE token = ?", message);
+                VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayerDiscord(member.getIdLong());
+                String nickname = player.getName();
+                member.modifyNickname(nickname).queue();
 
-                    if (duplicate_rs.next()) {
-
-                        String id = duplicate_rs.getString("discord_id");
-
-                        if (duplicate_rs.wasNull()) {
-                            System.out.println(duplicate_rs.getString("discord_id"));
-
-                            String nickname = select_rs.getString("username");
-                            System.out.println(member + " entered valid token. Nickname set to: " + nickname);
-                            member.modifyNickname(nickname).queue();
-                            member.getGuild().getTextChannelById("618221832801353728").sendMessage(member.getAsMention() + " Welcome to the Guild! Your nickname has been set to: `" + nickname + "`").queue();
-                            Role Players = member.getGuild().getRolesByName("Players", true).get(0);
-                            member.getGuild().addRoleToMember(member, Players).queue();
-                            msg.delete().queue();
-
-                            VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET discord_id = ? WHERE token = ?", member.getId(), message);
-                        } else {
-                            System.out.println(member + " entered a previously used token " + message);
-                            channel.sendMessage(member.getAsMention() + ", that token has already been used. If you need help, ask a staff member!").queue();
-                            msg.delete().queue();
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                Role primaryRole = null;
+                Role secondaryRole = null;
+                switch (player.getGroup()) {
+                    case "admin":
+                        primaryRole = adminRole;
+                        secondaryRole = staffRole;
+                        break;
+                    case "moderator":
+                        primaryRole = moderatorRole;
+                        secondaryRole = staffRole;
+                        break;
+                    default:
+                        primaryRole = playersRole;
+                        secondaryRole = null;
+                        break;
                 }
+                member.getGuild().addRoleToMember(member, primaryRole).queue();
+                if (secondaryRole != null) {
+                    member.getGuild().addRoleToMember(member, secondaryRole).queue();
+                }
+                logger.log(Level.INFO, member + " entered valid token. Nickname set to: " + nickname);
+                msg.delete().queue();
+                member.getGuild().getTextChannelById("618221832801353728").sendMessage(member.getAsMention() + " Welcome to the Guild! Your nickname has been set to: `" + nickname + "`.").queue();
+
+                VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET discord_id = ? WHERE token = ?", member.getId(), message);
+
+                // invalid token
             } else {
                 channel.sendMessage(member.getAsMention() + ", that token is invalid. If you need help, ask a staff member!").queue();
                 msg.delete().queue();
-                System.out.println(member + " entered invalid token.");
+                logger.log(Level.INFO, member + " entered invalid token.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
