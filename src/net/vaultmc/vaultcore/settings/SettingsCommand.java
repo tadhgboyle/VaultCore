@@ -42,7 +42,7 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                         sender.getPlayerData().getBoolean("settings.msg") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
                 ))
                 .build());
-        inv.setItem(12, new ItemStackBuilder(Material.BLAZE_ROD)
+        inv.setItem(13, new ItemStackBuilder(Material.BLAZE_ROD)
                 .name(ChatColor.YELLOW + "Inventory Cycling")
                 .lore(Arrays.asList(
                         ChatColor.GRAY + "Cycle through rows in your inventory when",
@@ -52,22 +52,13 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                         sender.getPlayerData().getBoolean("settings.cycle") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
                 ))
                 .build());
-        inv.setItem(14, new ItemStackBuilder(Material.COMPASS)
+        inv.setItem(15, new ItemStackBuilder(Material.COMPASS)
                 .name(ChatColor.YELLOW + "TPA")
                 .lore(Arrays.asList(
                         ChatColor.GRAY + "Allow other players to request to ",
                         ChatColor.GRAY + "teleport to you (or teleport to them).",
                         "",
                         sender.getPlayerData().getBoolean("settings.tpa") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
-                ))
-                .build());
-        inv.setItem(15, new ItemStackBuilder(Material.PAPER)
-                .name(ChatColor.YELLOW + "Swear Filter")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Automatically censor swear in ",
-                        ChatColor.GRAY + "the public chat.",
-                        "",
-                        sender.getPlayerData().getBoolean("settings.swearfilter") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
                 ))
                 .build());
         sender.openInventory(inv);
@@ -80,12 +71,10 @@ public class SettingsCommand extends CommandExecutor implements Listener {
             SQLPlayerData data = player.getPlayerData();
             if (e.getSlot() == 11) {
                 data.set("settings.msg", !data.getBoolean("settings.msg"));
-            } else if (e.getSlot() == 12) {
+            } else if (e.getSlot() == 13) {
                 data.set("settings.cycle", !data.getBoolean("settings.cycle"));
-            } else if (e.getSlot() == 14) {
-                data.set("settings.tpa", !data.getBoolean("settings.tpa"));
             } else if (e.getSlot() == 15) {
-                data.set("settings.swearfilter", !data.getBoolean("settings.swearfilter"));
+                data.set("settings.tpa", !data.getBoolean("settings.tpa"));
             }
             e.setCancelled(true);
             player.closeInventory();

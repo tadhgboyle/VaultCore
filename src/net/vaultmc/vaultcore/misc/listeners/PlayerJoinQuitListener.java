@@ -61,7 +61,6 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("settings.tpa", true);
             player.getPlayerData().set("settings.autotpa", false);
             player.getPlayerData().set("settings.cycle", false);
-            player.getPlayerData().set("settings.swearfilter", true);
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {
