@@ -57,7 +57,7 @@ public class TPCommand extends CommandExecutor implements Listener {
                             try {
                                 if (x.trim().equalsIgnoreCase(server.trim())) {
                                     VaultCore.getInstance().getLogger().info("Target on the same server. Teleporting.");
-                                    sender.getOnlinePlayer().getPlayer().teleport(target.getOnlinePlayer().getPlayer());
+                                    Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> sender.getOnlinePlayer().getPlayer().teleport(target.getOnlinePlayer().getPlayer()));
                                 } else {
                                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                                     DataOutputStream stream = new DataOutputStream(bos);
@@ -80,11 +80,13 @@ public class TPCommand extends CommandExecutor implements Listener {
     @EventHandler
     public void onMessageReceived(MessageReceivedEvent e) {
         if (e.getMessage().startsWith("Teleport")) {
-            String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
-            VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
-            if (from == null || to == null) return;
-            Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> from.teleport(to), 1);
+            Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+                String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
+                VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
+                VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
+                if (from == null || to == null) return;
+                from.teleport(to);
+            }, 5);
         }
     }
 
