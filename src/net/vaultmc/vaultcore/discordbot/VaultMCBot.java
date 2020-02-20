@@ -29,11 +29,11 @@ public class VaultMCBot extends ListenerAdapter {
                     .build();
             jda.awaitReady();
 
-            guild = jda.getGuildById("615457047403560960");
+            guild = jda.getGuildById(615457047403560960L);
 
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot started successfully...");
 
-            long minute = 1200L;
+            long minute = 60000L;
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
