@@ -49,6 +49,7 @@ import net.vaultmc.vaultcore.punishments.mute.*;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
+import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.*;
 import net.vaultmc.vaultcore.survival.SleepHandler;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
@@ -185,6 +186,7 @@ public final class VaultCore extends Component implements Listener {
             }, 0L, 2400L);
         }
 
+        new SettingsCommand();
         new MsgCommand();
         new MsgMessageListener();
         new PingService();
