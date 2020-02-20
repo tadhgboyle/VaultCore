@@ -9,6 +9,8 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,19 +32,25 @@ public class PlayerUpdater {
             }
             List<Role> roles = member.getRoles();
             String group = player.getGroup().toLowerCase();
-            String name = player.getName();
-
-            if (!member.getEffectiveName().equals(name)) {
-                member.modifyNickname(name).queue();
-                logger.info("Bot: Updated nick name for " + member.getEffectiveName() + " (" + member.getIdLong() + ")");
+            try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT username FROM players WHERE uuid=?", player.getUniqueId().toString())) {
+                if (rs.next()) {
+                    String name = rs.getString("username");
+                    if (!member.getEffectiveName().equals(name)) {
+                        member.modifyNickname(name).queue();
+                        logger.info("Bot: Updated nick name for " + member.getEffectiveName() + " (" + member.getIdLong() + ")");
+                    }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
 
-            if (!roles.equals(mappedRole.get(group))) {
-                for (Role role : guild.getRoles()) {
-                    guild.removeRoleFromMember(member, role);
-                }
+            if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
+                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue();
+                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue();
+                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue();
+                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue();
                 for (Role role : mappedRole.get(group)) {
-                    guild.addRoleToMember(member, role);
+                    guild.addRoleToMember(member, role).queue();
                 }
                 logger.info("Bot: Updated role for " + member.getEffectiveName() + " (" + member.getIdLong() + ")");
             }

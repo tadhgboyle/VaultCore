@@ -51,14 +51,11 @@ public class TokenValidator extends ListenerAdapter {
 
                 msg.delete().queue();
                 member.modifyNickname(player.getName()).queue();
-                for (Role role : VaultMCBot.getGuild().getRoles()) {
-                    VaultMCBot.getGuild().removeRoleFromMember(member, role);
-                }
                 for (Role role : PlayerUpdater.mappedRole.get(player.getGroup())) {
-                    VaultMCBot.getGuild().addRoleToMember(member, role);
+                    VaultMCBot.getGuild().addRoleToMember(member, role).queue();
                 }
-                logger.info("Successfully linked Minecraft account of player: " + player.getName());
-                VaultMCBot.getGuild().getTextChannelById("618221832801353728").sendMessage(member.getAsMention() + " Welcome to the Guild! Your nickname has been set to: `" + player.getName() + "`.").queue();
+                logger.info("Successfully linked Minecraft account of player: " + rs.getString("username"));
+                VaultMCBot.getGuild().getTextChannelById("618221832801353728").sendMessage(member.getAsMention() + " Welcome to the Guild! Your nickname has been set to: `" + rs.getString("username") + "`.").queue();
                 VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET discord_id = ? WHERE token = ?", member.getId(), message);
             } else {
                 channel.sendMessage(member.getAsMention() + ": The token is invalid. If you believe this information is wrong, please contact an administrator for help.").queue();
