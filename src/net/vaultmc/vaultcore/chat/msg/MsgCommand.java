@@ -60,10 +60,6 @@ public class MsgCommand extends CommandExecutor implements Listener {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.self_error"));
             return;
         }
-        if (!VLPlayer.getOnlinePlayers().contains(target)) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.player_offline"));
-            return;
-        }
         pm(player, target, message);
     }
 }

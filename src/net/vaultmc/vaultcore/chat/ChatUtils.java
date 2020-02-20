@@ -78,10 +78,10 @@ public class ChatUtils extends ConstructorRegisterListener {
         String[] parts = e.getMessage().split(" ");
 
         for (int i = 0; i < parts.length; i++) {
-            if (parts[i].startsWith("@")) {
+            if (parts[i].startsWith("@") && !parts[i].equals("@")) {
                 Player referred = Bukkit.getPlayer(parts[i].replace("@", ""));
                 if (referred == null) {
-                    parts[i] = ChatColor.RED + "@" + parts[i].replace("@", "") + ChatColor.RESET;
+                    parts[i] = ChatColor.WHITE + "@" + parts[i].replace("@", "") + ChatColor.RESET;
                     e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-offline"));
                 } else {
                     parts[i] = ChatColor.YELLOW + "@" + referred.getName() + ChatColor.RESET;

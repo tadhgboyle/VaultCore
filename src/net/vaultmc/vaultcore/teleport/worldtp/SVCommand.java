@@ -20,7 +20,7 @@ public class SVCommand extends CommandExecutor {
 
     @SubCommand("sv")
     public void sv(VLPlayer player) {
-        Location sv = player.getDataConfig().getLocation("locations.sv");
+        Location sv = Utilities.deserializeLocation(player.getPlayerData().getString("locations.sv"));
         if (sv == null) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
             player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());

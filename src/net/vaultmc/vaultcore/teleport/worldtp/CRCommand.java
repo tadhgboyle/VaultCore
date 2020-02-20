@@ -20,7 +20,7 @@ public class CRCommand extends CommandExecutor {
 
     @SubCommand("cr")
     public void cr(VLPlayer player) {
-        Location cr = player.getDataConfig().getLocation("locations.cr");
+        Location cr = Utilities.deserializeLocation(player.getPlayerData().getString("locations.cr"));
         if (cr == null) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
             player.teleport(Bukkit.getWorld("creative").getSpawnLocation());

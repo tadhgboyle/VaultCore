@@ -56,12 +56,12 @@ public class PlayerJoinQuitListener implements Listener {
 
         playerDataQuery(uuid, username, firstSeen, lastSeen, playtime, rank, ip);
 
-        if (!player.getDataConfig().contains("settings")) {
-            player.getDataConfig().set("settings.msg", true);
-            player.getDataConfig().set("settings.tpa", true);
-            player.getDataConfig().set("settings.autotpa", false);
-            player.getDataConfig().set("settings.cycle", false);
-            player.getDataConfig().set("settings.swearfilter", true);
+        if (!player.getPlayerData().contains("settings.msg")) {
+            player.getPlayerData().set("settings.msg", true);
+            player.getPlayerData().set("settings.tpa", true);
+            player.getPlayerData().set("settings.autotpa", false);
+            player.getPlayerData().set("settings.cycle", false);
+            player.getPlayerData().set("settings.swearfilter", true);
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {

@@ -44,7 +44,7 @@ public class ClaimCommand extends CommandExecutor implements Listener {
         for (File file : VaultLoader.getPlayerDataFolder().listFiles()) {
             VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(
                     UUID.fromString(file.getName().replace(".yml", "")));
-            if (deserializeChunks(player.getDataConfig().getStringList("claim.chunks")).contains(chunk)) {
+            if (deserializeChunks(player.getPlayerData().getStringList("claim.chunks")).contains(chunk)) {
                 return player;
             }
         }
@@ -69,26 +69,26 @@ public class ClaimCommand extends CommandExecutor implements Listener {
 
     @SubCommand("add")
     public void add(VLPlayer sender, VLOfflinePlayer player) {
-        List<String> players = sender.getDataConfig().getStringList("claim.allowed-players");
+        List<String> players = sender.getPlayerData().getStringList("claim.allowed-players");
         if (players.contains(player.getUniqueId().toString())) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.already-allowed"));
             return;
         }
         players.add(player.getUniqueId().toString());
-        sender.getDataConfig().set("claim.allowed-players", players);
+        sender.getPlayerData().set("claim.allowed-players", players);
         sender.saveData();
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.allowed").replace("{PLAYER}", player.getFormattedName()));
     }
 
     @SubCommand("remove")
     public void remove(VLPlayer sender, VLOfflinePlayer player) {
-        List<String> players = sender.getDataConfig().getStringList("claim.allowed-players");
+        List<String> players = sender.getPlayerData().getStringList("claim.allowed-players");
         if (!players.contains(player.getUniqueId().toString())) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-allowed"));
             return;
         }
         players.remove(player.getUniqueId().toString());
-        sender.getDataConfig().set("claim.allowed-players", players);
+        sender.getPlayerData().set("claim.allowed-players", players);
         sender.saveData();
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.removed").replace("{PLAYER}", player.getFormattedName()));
     }
@@ -98,7 +98,7 @@ public class ClaimCommand extends CommandExecutor implements Listener {
             argument = "player"
     )
     public List<WrappedSuggestion> suggestPlayers(VLPlayer sender, String remaining) {
-        return sender.getDataConfig().getStringList("claim.allowed-players")
+        return sender.getPlayerData().getStringList("claim.allowed-players")
                 .stream().map(uuid -> new WrappedSuggestion(VLPlayer.getPlayer(UUID.fromString(uuid)).getName())).collect(Collectors.toList());
     }
 
@@ -107,7 +107,7 @@ public class ClaimCommand extends CommandExecutor implements Listener {
         if (!e.getPlayer().getWorld().getName().contains("Survival")) return;
         VLOfflinePlayer owner = isAlreadyClaimed(e.getClickedBlock() != null ? e.getClickedBlock().getChunk() :
                 e.getPlayer().getChunk());
-        if (owner != null && !owner.getDataConfig().getStringList("claim.allowed-players").contains(e.getPlayer().getUniqueId().toString())) {
+        if (owner != null && !owner.getPlayerData().getStringList("claim.allowed-players").contains(e.getPlayer().getUniqueId().toString())) {
             e.getPlayer().sendMessage("vaultcore.commands.claim.cannot-interact");
             e.setCancelled(true);
         }
@@ -123,13 +123,13 @@ public class ClaimCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.reserved"));
             return;
         }
-        List<Chunk> chunks = deserializeChunks(sender.getDataConfig().getStringList("claim.chunks"));
+        List<Chunk> chunks = deserializeChunks(sender.getPlayerData().getStringList("claim.chunks"));
         if (isAlreadyClaimed(sender.getLocation().getChunk()) != null) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.already-claimed"));
             return;
         }
         chunks.add(sender.getLocation().getChunk());
-        sender.getDataConfig().set("claim.chunks", serializeChunks(chunks));
+        sender.getPlayerData().set("claim.chunks", serializeChunks(chunks));
         sender.saveData();
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.claimed").replace("{X}",
                 String.valueOf(sender.getLocation().getChunk().getX())).replace("{Z}",

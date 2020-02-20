@@ -58,7 +58,7 @@ public class MsgMessageListener extends ConstructorRegisterListener {
                 return;
             }
 
-            if (to.getDataConfig().getBoolean("settings.msg", true)) {
+            if (to.getPlayerData().getBoolean("settings.msg")) {
                 to.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
                         from.getFormattedName(), to.getFormattedName(), message));
                 MsgCommand.getReplies().put(to.getUniqueId(), from.getUniqueId());
