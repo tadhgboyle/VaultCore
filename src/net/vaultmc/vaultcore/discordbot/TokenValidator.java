@@ -72,7 +72,7 @@ public class TokenValidator extends ListenerAdapter {
         try {
             ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT discord_id FROM players WHERE token = ?", token);
             if (rs.next()) {
-                return !rs.getString("discord_id").isEmpty();
+                return rs.getString("discord_id") != null && !rs.getString("discord_id").isEmpty();
             }
         } catch (SQLException e) {
             e.printStackTrace();
