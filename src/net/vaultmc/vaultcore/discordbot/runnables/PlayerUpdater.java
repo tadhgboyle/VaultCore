@@ -12,21 +12,18 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static net.vaultmc.vaultloader.utils.player.VLOfflinePlayer.getOfflinePlayerDiscord;
 
 public class PlayerUpdater {
     public static Multimap<String, Role> mappedRole = HashMultimap.create();
     private static Guild guild = VaultMCBot.getGuild();
-    private static Logger logger = VaultCore.getInstance().getLogger();
 
     public static void updater() {
         for (Member member : guild.getMembers()) {
             if (member.isFake() || member.isOwner()) continue;
             VLOfflinePlayer player = getOfflinePlayerDiscord(member.getIdLong());
             if (player == null) {
-                logger.info("Bot: Can't find offline player for " + member.getEffectiveName() + " (" + member.getIdLong() + ")");
                 continue;
             }
             List<Role> roles = member.getRoles();
@@ -36,7 +33,6 @@ public class PlayerUpdater {
                     String name = rs.getString("username");
                     if (!member.getEffectiveName().equals(name)) {
                         member.modifyNickname(name).queue();
-                        logger.info("Bot: Updated nick name for " + member.getEffectiveName() + " (" + member.getIdLong() + ")");
                     }
                 }
             } catch (SQLException ex) {
@@ -51,7 +47,6 @@ public class PlayerUpdater {
                 for (Role role : mappedRole.get(group)) {
                     guild.addRoleToMember(member, role).queue();
                 }
-                logger.info("Bot: Updated role for " + member.getEffectiveName() + " (" + member.getIdLong() + ")");
             }
         }
     }

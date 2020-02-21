@@ -10,11 +10,8 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 public class TokenValidator extends ListenerAdapter {
-    private Logger logger = VaultCore.getInstance().getLogger();
-
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         User user = event.getAuthor();
@@ -54,7 +51,6 @@ public class TokenValidator extends ListenerAdapter {
                 for (Role role : PlayerUpdater.mappedRole.get(player.getGroup())) {
                     VaultMCBot.getGuild().addRoleToMember(member, role).queue();
                 }
-                logger.info("Successfully linked Minecraft account of player: " + rs.getString("username"));
                 VaultMCBot.getGuild().getTextChannelById("618221832801353728").sendMessage(member.getAsMention() + " Welcome to the Guild! Your nickname has been set to: `" + rs.getString("username") + "`.").queue();
                 VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET discord_id = ? WHERE token = ?", member.getId(), message);
             } else {
