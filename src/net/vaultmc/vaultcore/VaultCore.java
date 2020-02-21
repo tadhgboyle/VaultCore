@@ -178,6 +178,7 @@ public final class VaultCore extends Component implements Listener {
             Bug.load();
             new BuggyCommand();
             new BuggyListener();
+            new AFKCommand();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
@@ -231,7 +232,6 @@ public final class VaultCore extends Component implements Listener {
         new ModMode();
         new ReportCommand();
         new ReportsCommand();
-        new AFKCommand();
         new ChatUtils();
         new EconomyCommand();
         new MoneyCommand();
