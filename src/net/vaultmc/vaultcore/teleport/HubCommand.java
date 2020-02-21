@@ -8,6 +8,7 @@ import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -31,6 +32,12 @@ public class HubCommand extends CommandExecutor implements Listener {
     @SubCommand("hub")
     @SneakyThrows
     public void hub(VLPlayer sender) {
+
+        if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) {
+            sender.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
+            return;
+        }
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream stream = new DataOutputStream(bos);
         stream.writeUTF("Connect");
@@ -38,6 +45,10 @@ public class HubCommand extends CommandExecutor implements Listener {
         sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
         stream.close();
         SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
+
+        for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+            player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(" + sender.getName() + " has left to VaultMC)");
+        }
     }
 
     @EventHandler

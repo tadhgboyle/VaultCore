@@ -538,3 +538,8 @@ vaultcore:
       self: "&eYou successfully cleared your inventory."
       other_sender: "&eYou cleared {TARGET}&e's inventory."
       other_target: "{SENDER}&e has cleared your inventory."
+    logs:
+      already_searching: "&cThe logs are currently being searched. Please try again later."
+      minimum_length: "&cPlease enter a minimum of 3 characters."
+      header: "&2--== [Log] ==--"
+      no_matches: "&cNo matches for that phrase."

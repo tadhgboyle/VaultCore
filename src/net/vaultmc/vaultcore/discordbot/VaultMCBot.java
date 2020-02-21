@@ -56,7 +56,7 @@ public class VaultMCBot extends ListenerAdapter {
                 public void run() {
                     PlayerUpdater.updater();
                 }
-            }, 60000, 120000);
+            }, 120000, 240000);
 
         } catch (LoginException | InterruptedException e) {
             e.printStackTrace();
