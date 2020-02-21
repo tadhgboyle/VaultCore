@@ -73,7 +73,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (afk.containsKey(player)) {
-            player.teleport(afk.remove(player));
+            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.teleport(afk.remove(player)));
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
 
             for (VLPlayer p : VLPlayer.getOnlinePlayers()) {
