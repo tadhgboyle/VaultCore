@@ -117,17 +117,14 @@ public class LolCommand extends CommandExecutor {
         }
         /* check if page will be empty */
         // TODO fix this.
-        if ((lolsList.size() / PAGE_SIZE) < page + 1) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.max"), page + 1, MAX_PAGES));
-            return;
-        }
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.header"));
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.page_number"), page + 1, MAX_PAGES + 1));
         int displayed = 0;
         for (int i = page * PAGE_SIZE; displayed < PAGE_SIZE; ++i, ++displayed) {
             try {
                 String lol = String.valueOf(lolsList.get(i));
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.format"), i, ChatColor.translateAlternateColorCodes('&', lol)));
+                String victim = ((VLPlayer) VLPlayer.getOnlinePlayers().toArray()[new Random().nextInt(VLPlayer.getOnlinePlayers().size())]).getName();
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.format"), i, ChatColor.translateAlternateColorCodes('&', lol)).replace("{PLAYER}", victim));
             } catch (IndexOutOfBoundsException ignored) {
                 // if last page only has 3 entries etc
             }
