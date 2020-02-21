@@ -50,7 +50,7 @@ public class TokenValidator extends ListenerAdapter {
                 }
 
                 msg.delete().queue();
-                member.modifyNickname(player.getName()).queue();
+                member.modifyNickname(rs.getString("username").queue();
                 for (Role role : PlayerUpdater.mappedRole.get(player.getGroup())) {
                     VaultMCBot.getGuild().addRoleToMember(member, role).queue();
                 }
@@ -59,6 +59,7 @@ public class TokenValidator extends ListenerAdapter {
                 VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET discord_id = ? WHERE token = ?", member.getId(), message);
             } else {
                 channel.sendMessage(member.getAsMention() + ": The token is invalid. If you believe this information is wrong, please contact an administrator for help.").queue();
+                msg.delete().queue();
             }
         } catch (SQLException ex) {
             channel.sendMessage(member.getAsMention() + ": Failed to validate your token. Please contact an administrator for help. (SQLException: " + ex.getMessage() + ")").queue();
