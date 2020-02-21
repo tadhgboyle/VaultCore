@@ -14,6 +14,7 @@ import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,12 +39,12 @@ public class TPCommand extends CommandExecutor implements Listener {
         register("teleportToPlayer",
                 Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
         register("teleportPlayerToPlayer",
-                Arrays.asList(Arguments.createArgument("target", Arguments.playerArgument()),
-                        Arguments.createArgument("to", Arguments.playerArgument())));
+                Arrays.asList(Arguments.createArgument("target", Arguments.offlinePlayerArgument()),
+                        Arguments.createArgument("to", Arguments.offlinePlayerArgument())));
         register("teleportToLocation",
                 Collections.singletonList(Arguments.createArgument("location", Arguments.location3DArgument())));
         register("teleportPlayerTo", Arrays.asList(
-                Arguments.createArgument("target", Arguments.playerArgument()),
+                Arguments.createArgument("target", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument())
         ));
         VaultCore.getInstance().registerEvents(this);
@@ -99,12 +100,16 @@ public class TPCommand extends CommandExecutor implements Listener {
     }
 
     @SubCommand("teleportPlayerTo")
-    public void teleportPlayerTo(VLCommandSender sender, VLPlayer target, Location location) {
-        target.teleport(location);
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_location_sender"),
-                target.getFormattedName(), location.getX(), location.getY(), location.getZ()));
-        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_location_target"),
-                sender.getFormattedName(), location.getX(), location.getY(), location.getZ()));
+    public void teleportPlayerTo(VLCommandSender sender, VLOfflinePlayer target, Location location) {
+        if (target.isOnline()) {
+            target.getOnlinePlayer().teleport(location);
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_location_sender"),
+                    target.getFormattedName(), location.getX(), location.getY(), location.getZ()));
+            target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_location_target"),
+                    sender.getFormattedName(), location.getX(), location.getY(), location.getZ()));
+        } else {
+            sender.sendMessage(ChatColor.RED + "No player was found");
+        }
     }
 
     @SubCommand("teleportToPlayer")
