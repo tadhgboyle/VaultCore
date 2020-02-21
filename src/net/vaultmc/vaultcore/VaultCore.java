@@ -160,6 +160,7 @@ public final class VaultCore extends Component implements Listener {
         startTime = System.currentTimeMillis();
 
         if (getConfig().getString("server").trim().equalsIgnoreCase("vaultmc")) {
+            VaultMCBot.startVaultMCBot();
             new CRCommand();
             new SVCommand();
             new WildTeleportCommand();
@@ -186,7 +187,6 @@ public final class VaultCore extends Component implements Listener {
             }, 0L, 2400L);
         }
 
-        VaultMCBot.startVaultMCBot();
         new MsgCommand();
         new MsgMessageListener();
         new PingService();
