@@ -82,4 +82,5 @@ public final class Permissions {
     public static final String LagCommand = "vaultcore.lag";
     public static final String ClearCommand = "vaultcore.clear";
     public static final String ClearCommandOther = "vaultcore.clear.other";
+    public static final String AdminChatCommand = "vaultcore.staffchat.adminchat";
 }

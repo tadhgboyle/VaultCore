@@ -19,6 +19,7 @@ import net.vaultmc.vaultcore.chat.msg.MsgCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgMessageListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
+import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
@@ -258,6 +259,7 @@ public final class VaultCore extends Component implements Listener {
         new LagCommand();
         new HubCommand();
         new GetServerService();
+        new AdminChatCommand();
         new ClearCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
