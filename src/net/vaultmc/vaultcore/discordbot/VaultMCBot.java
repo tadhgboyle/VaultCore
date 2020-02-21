@@ -50,14 +50,13 @@ public class VaultMCBot extends ListenerAdapter {
 
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot started successfully...");
 
-            long minute = 60000L;
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     PlayerUpdater.updater();
                 }
-            }, minute, minute * 2);
+            }, 60000, 120000);
 
         } catch (LoginException | InterruptedException e) {
             e.printStackTrace();

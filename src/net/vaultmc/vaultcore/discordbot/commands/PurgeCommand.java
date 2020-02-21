@@ -18,6 +18,7 @@ public class PurgeCommand extends ListenerAdapter {
             return;
         }
 
+        message.delete().queue();
         if (msg.contains("!purge")) {
             if (member.getRoles().toString().contains("staff")) {
                 if (args.length == 2 && !args[1].equals("1")) {
@@ -30,6 +31,8 @@ public class PurgeCommand extends ListenerAdapter {
                 } else {
                     event.getTextChannel().sendMessage(member.getAsMention() + " you must supply a number of messages to purge. (Minimum 2)").queue();
                 }
+            } else {
+                event.getTextChannel().sendMessage(member.getAsMention() + " you can't use this command!").queue();
             }
         }
     }

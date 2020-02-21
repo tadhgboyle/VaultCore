@@ -50,7 +50,7 @@ public class TokenValidator extends ListenerAdapter {
                 }
 
                 msg.delete().queue();
-                member.modifyNickname(rs.getString("username").queue();
+                member.modifyNickname(rs.getString("username")).queue();
                 for (Role role : PlayerUpdater.mappedRole.get(player.getGroup())) {
                     VaultMCBot.getGuild().addRoleToMember(member, role).queue();
                 }
