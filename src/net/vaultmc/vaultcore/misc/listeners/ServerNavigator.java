@@ -160,8 +160,8 @@ public class ServerNavigator extends ConstructorRegisterListener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
-                && e.getPlayer().getInventory().getItemInMainHand() != null &&
-                e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator")) {
+                && e.getPlayer().getInventory().getItemInMainHand().hasItemMeta() &&
+                (ChatColor.GREEN + "Server Navigator").equals(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName())) {
             e.getPlayer().openInventory(inv);
         }
     }
