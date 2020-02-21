@@ -76,13 +76,14 @@ public class Bug {
         return null;
     }
 
+    @SneakyThrows
     public static void load() {
-        for (String key : VaultCore.getInstance().getData().getConfigurationSection("bugs").getKeys(false)) {
-            Bug bug = Bug.deserialize(key);
-            if (bug == null) {
-                bug = Bug.deserialize(VaultCore.getInstance().getData().getConfigurationSection("bugs." + key));
+        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT id FROM bugs")) {
+            while (rs.next()) {
+                Bug bug = Bug.deserialize(rs.getString("id"));
+                if (bug == null) return;
+                bugs.add(bug);
             }
-            bugs.add(bug);
         }
         currentId = VaultCore.getInstance().getData().getInt("bugs-current-id", 0);
     }
