@@ -210,7 +210,7 @@ public class BuggyCommand extends CommandExecutor {
         List<Bug> canDisplay;
         if (openedOnly) {
             canDisplay = Bug.getBugs().stream().filter(b ->
-                    (b.getStatus() == Bug.Status.OPEN || b.getStatus() == Bug.Status.REOPENED) && b.getStatus() != Bug.Status.CREATING && !b.isHidden())
+                    (b.getStatus() == Bug.Status.OPEN || b.getStatus() == Bug.Status.REOPENED || b.getStatus() == Bug.Status.POSTPONED) && b.getStatus() != Bug.Status.CREATING && !b.isHidden())
                     .collect(Collectors.toList());
             int size = canDisplay.size();
             pages = size / 7;
