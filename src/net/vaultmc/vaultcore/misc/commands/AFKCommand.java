@@ -26,6 +26,7 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,7 +45,8 @@ import java.util.Map;
 @Permission(Permissions.AFKCommand)
 public class AFKCommand extends CommandExecutor implements Listener {
     @Getter
-    private static final Map<VLPlayer, Boolean> afk = new HashMap<>();  // I have no plans of saving this in data.yml
+    private static final Map<VLPlayer, Location> afk = new HashMap<>();  // I have no plans of saving this in data.yml
+    private static final Location afkHub = new Location(Bukkit.getWorld("Lobby"), 121, 103, -6, 0F, 0F);
 
     public AFKCommand() {
         VaultCore.getInstance().registerEvents(this);
@@ -57,8 +59,8 @@ public class AFKCommand extends CommandExecutor implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (afk.getOrDefault(player, false)) {
-            afk.put(player, false);
+        if (afk.containsKey(player)) {
+            player.teleport(afk.remove(player));
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
 
             for (VLPlayer p : VLPlayer.getOnlinePlayers()) {
@@ -70,8 +72,8 @@ public class AFKCommand extends CommandExecutor implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (afk.getOrDefault(player, false)) {
-            afk.put(player, false);
+        if (afk.containsKey(player)) {
+            player.teleport(afk.remove(player));
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
 
             for (VLPlayer p : VLPlayer.getOnlinePlayers()) {
@@ -82,18 +84,22 @@ public class AFKCommand extends CommandExecutor implements Listener {
 
     @SubCommand("afkSelf")
     public void afkSelf(VLPlayer player) {
-        boolean newValue = !afk.getOrDefault(player, false);
-        afk.put(player, newValue);
+        boolean newValue = !afk.containsKey(player);
+        Location loc = null;
+        if (newValue) afk.put(player, player.getLocation());
+        else loc = afk.remove(player);
         player.setTemporaryData("afk", newValue);
 
         if (newValue) {
             player.sendMessage(VaultLoader.getMessage("you-afk"));
+            player.teleport(afkHub);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
                 p.sendMessage(VaultLoader.getMessage("afk.others-afk").replace("{PLAYER}", player.getFormattedName()));
             }
         } else {
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
+            if (loc != null) player.teleport(loc);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
                 p.sendMessage(VaultLoader.getMessage("afk.others-no-longer-afk").replace("{PLAYER}", player.getFormattedName()));
@@ -104,18 +110,22 @@ public class AFKCommand extends CommandExecutor implements Listener {
     @SubCommand("afkOthers")
     @Permission(Permissions.AFKCommandOther)
     public void afkOthers(VLCommandSender sender, VLPlayer player) {
-        boolean newValue = !afk.getOrDefault(player, false);
-        afk.put(player, newValue);
+        boolean newValue = !afk.containsKey(player);
+        Location loc = null;
+        if (newValue) afk.put(player, player.getLocation());
+        else loc = afk.remove(player);
         player.setTemporaryData("afk", newValue);
 
         if (newValue) {
             player.sendMessage(VaultLoader.getMessage("you-afk"));
+            player.teleport(afkHub);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
                 p.sendMessage(VaultLoader.getMessage("afk.others-afk").replace("{PLAYER}", player.getFormattedName()));
             }
         } else {
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
+            if (loc != null) player.teleport(loc);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
                 p.sendMessage(VaultLoader.getMessage("afk.others-no-longer-afk").replace("{PLAYER}", player.getFormattedName()));
