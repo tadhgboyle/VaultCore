@@ -23,6 +23,7 @@ import java.util.UUID;
         description = "Use Admin Chat."
 )
 @Permission(Permissions.AdminChatCommand)
+@Aliases("ac")
 public class AdminChatCommand extends CommandExecutor implements Listener {
     @Getter
     private static final Set<UUID> toggled = new HashSet<>();
@@ -40,6 +41,10 @@ public class AdminChatCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.toggle").replace("{TOGGLE}", "off"));
             SQLMessenger.sendGlobalMessage("521ACSetAlwaysOn" + VaultCore.SEPARATOR + sender.getUniqueId() + VaultCore.SEPARATOR + "false");
         } else {
+            if (StaffChatCommand.toggled.contains(sender.getUniqueId())) {
+                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.staff-chat-enabled"));
+                return;
+            }
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.toggle").replace("{TOGGLE}", "on"));
             SQLMessenger.sendGlobalMessage("521ACSetAlwaysOn" + VaultCore.SEPARATOR + sender.getUniqueId() + VaultCore.SEPARATOR + "true");
         }

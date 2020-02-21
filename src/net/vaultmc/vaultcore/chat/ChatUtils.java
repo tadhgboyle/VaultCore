@@ -20,11 +20,13 @@ package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,6 +59,12 @@ public class ChatUtils extends ConstructorRegisterListener {
         // Staff chat
         if ((e.getMessage().startsWith("#") || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
             StaffChatCommand.chat(player, e.getMessage().replaceFirst("#", ""));
+            e.setCancelled(true);
+            return;
+        }
+
+        if (AdminChatCommand.getToggled().contains(player.getUniqueId()) && player.hasPermission(Permissions.AdminChatCommand)) {
+            SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage());
             e.setCancelled(true);
             return;
         }

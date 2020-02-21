@@ -43,6 +43,10 @@ public class StaffChatCommand extends CommandExecutor implements Listener {
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "off"));
         } else {
+            if (AdminChatCommand.getToggled().contains(player.getUniqueId())) {
+                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.admin-chat-enabled"));
+                return;
+            }
             SQLMessenger.sendGlobalMessage("SCSetAlwaysOn" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + "true");
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "on"));

@@ -426,10 +426,12 @@ vaultcore:
       sender: "&eYou have &6{STATUS}&e the chat."
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
     staffchat:
+      admin-chat-enabled: "&eYou have to enable admin chat before toggling staff chat!"
       prefix: "&8[&cSC&8]&r "
       format: "{SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled staff chat &6{TOGGLE}&e."
     adminchat:
+      staff-chat-enabled: "&eYou have to disable staff chat before toggling admin chat!"
       format: "&8[&4AC&8] &r{SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled admin chat &6{TOGGLE}&e."
     tag:
