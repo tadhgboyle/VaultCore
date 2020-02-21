@@ -4,6 +4,7 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 
@@ -43,13 +44,13 @@ public class SpeedCommand extends CommandExecutor {
 
     @SubCommand("speedOther")
     @Permission(Permissions.SpeedCommandOther)
-    public static void speedOther(VLPlayer sender, VLPlayer target, int speed, String movement) {
+    public static void speedOther(VLCommandSender sender, VLPlayer target, int speed, String movement) {
         setSpeed(sender, target, speed, movement);
     }
 
-    private static void setSpeed(VLPlayer sender, VLPlayer target, int speed, String movement) {
+    private static void setSpeed(VLCommandSender sender, VLPlayer target, int speed, String movement) {
         float newSpeed;
-        if (speed / 10 > 1.0 || speed / 10 < -1.0) {
+        if (speed / 10D > 1.0 || speed / 10D < -1.0) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.speed.invalid_speed"));
             return;
         } else {
@@ -58,11 +59,11 @@ public class SpeedCommand extends CommandExecutor {
         switch (movement.toLowerCase()) {
             case "walk":
                 if (sender == target) {
-                    Bukkit.getPlayer(sender.getUniqueId()).setWalkSpeed(newSpeed);
+                    ((VLPlayer) sender).getPlayer().setWalkSpeed(newSpeed);
                     sender.sendMessage(Utilities.formatMessage(
                             VaultLoader.getMessage("vaultcore.commands.speed.sender_set_to"), "walk", speed));
                 } else {
-                    Bukkit.getPlayer(target.getUniqueId()).setWalkSpeed(speed);
+                    target.getPlayer().setWalkSpeed(speed);
                     sender.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.speed.sender_target"),
                                     target.getFormattedName(), "walk", speed));
@@ -73,11 +74,11 @@ public class SpeedCommand extends CommandExecutor {
                 break;
             case "fly":
                 if (sender == target) {
-                    Bukkit.getPlayer(sender.getUniqueId()).setFlySpeed(newSpeed);
+                    ((VLPlayer) sender).getPlayer().setFlySpeed(newSpeed);
                     sender.sendMessage(Utilities.formatMessage(
                             VaultLoader.getMessage("vaultcore.commands.speed.sender_set_to"), "fly", speed));
                 } else {
-                    Bukkit.getPlayer(target.getUniqueId()).setWalkSpeed(newSpeed);
+                    target.getPlayer().setWalkSpeed(newSpeed);
                     sender.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.speed.sender_target"),
                                     target.getFormattedName(), "fly", speed));
