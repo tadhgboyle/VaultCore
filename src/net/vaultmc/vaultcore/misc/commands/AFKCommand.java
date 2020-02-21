@@ -46,7 +46,7 @@ import java.util.Map;
 public class AFKCommand extends CommandExecutor implements Listener {
     @Getter
     private static final Map<VLPlayer, Location> afk = new HashMap<>();  // I have no plans of saving this in data.yml
-    private static final Location afkHub = new Location(Bukkit.getWorld("Lobby"), 121, 103, -6, 0F, 0F);
+    private static final Location afkHub = new Location(Bukkit.getWorld("Lobby"), 121.5, 103, -5.5, 0F, 0F);
 
     public AFKCommand() {
         VaultCore.getInstance().registerEvents(this);
