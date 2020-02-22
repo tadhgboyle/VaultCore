@@ -543,3 +543,4 @@ vaultcore:
       minimum_length: "&cPlease enter a minimum of 3 characters."
       header: "&2--== [Log] ==--"
       no_matches: "&cNo matches for that phrase."
+      error_reading: "&cThere was an error reading the logs. Please contact an Administrator."

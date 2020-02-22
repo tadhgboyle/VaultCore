@@ -3,11 +3,9 @@ package net.vaultmc.vaultcore.misc.commands.staff.logs;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import org.bukkit.ChatColor;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -31,39 +29,25 @@ public class LogsHandler implements Runnable {
         File logsDir = new File("/srv/" + VaultCore.getInstance().getConfig().getString("server") + "/logs/");
         for (File file : logsDir.listFiles()) {
             try {
-                Scanner scanner = new Scanner(file);
+                FileInputStream fileInputStream = new FileInputStream(file);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
                 int lineID = 0;
                 Pattern regex = Pattern.compile(search);
                 Matcher matcher = null;
                 String line = "";
-
                 if (file.getName().endsWith(".gz")) {
                     BufferedReader inputReader = new BufferedReader(
-                            new InputStreamReader(new GZIPInputStream(new FileInputStream(file))));
-                    while (inputReader.readLine() != null) {
-                        line = inputReader.readLine();
-                        lineID++;
-                        matcher = regex.matcher(line);
-                        if (matcher.find()) {
-                            if (line.endsWith(sender.getName() + " issued server command: /logs " + search)) continue;
-                            lineMatches.put(lineID, line);
-                            lineFiles.put(lineID, file.getName());
-                        }
-                    }
+                            new InputStreamReader(new GZIPInputStream(fileInputStream)));
+                    readLine(file, inputReader, lineID, regex);
                     inputReader.close();
                 } else {
-                    while (scanner.hasNextLine()) {
-                        line = scanner.nextLine();
-                        lineID++;
-                        matcher = regex.matcher(line);
-                        if (matcher.find()) {
-                            if (line.endsWith(sender.getName() + " issued server command: /logs " + search)) continue;
-                            lineMatches.put(lineID, line);
-                            lineFiles.put(lineID, file.getName());
-                        }
-                    }
+                    readLine(file, bufferedReader, lineID, regex);
+                    bufferedReader.close();
                 }
-            } catch (Exception ignored) {
+                lineID++;
+            } catch (IOException e) {
+                e.printStackTrace();
+                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.error_reading"));
             }
         }
         if (!lineMatches.isEmpty()) {
@@ -71,17 +55,35 @@ public class LogsHandler implements Runnable {
             for (int lineNumber : lineMatches.keySet()) {
                 String fileName = lineFiles.get(lineNumber);
                 String line = lineMatches.get(lineNumber);
-
                 String substring = line.substring(line.indexOf("/INFO]:") + 7);
 
-                sender.sendMessage(fileName + " -- " + substring);
+                sender.sendMessage(fileName + " - " + substring);
             }
             lineFiles.clear();
             lineMatches.clear();
-            LogsCommand.setSearching(false);
         } else {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.no_matches"));
-            LogsCommand.setSearching(false);
+        }
+        // allow others to search now that we have our results
+        LogsCommand.setSearching(false);
+    }
+
+    private void readLine(File file, BufferedReader bufferedReader, int lineID, Pattern regex) {
+        try {
+            String line;
+            Matcher matcher;
+            while (bufferedReader.readLine() != null) {
+                line = bufferedReader.readLine();
+                if (line.endsWith(sender.getName() + " issued server command: /logs " + search)) continue;
+                matcher = regex.matcher(line);
+                if (matcher.find()) {
+                    lineMatches.put(lineID, line);
+                    lineFiles.put(lineID, file.getName());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.error_reading"));
         }
     }
 }
