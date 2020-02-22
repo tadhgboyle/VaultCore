@@ -63,12 +63,16 @@ public class MsgMessageListener extends ConstructorRegisterListener {
                         from.getFormattedName(), to.getFormattedName(), message));
                 MsgCommand.getReplies().put(to.getUniqueId(), from.getUniqueId());
 
-                for (VLPlayer socialspy : SocialSpyCommand.toggled) {
-                    if (!socialspy.getFormattedName().equals(from.getFormattedName())
-                            && !socialspy.getFormattedName().equals(to.getFormattedName())) {
-                        socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
-                                + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
-                                from.getFormattedName(), to.getFormattedName(), message));
+                if (!from.hasPermission(Permissions.SocialSpyExempt) && !to.hasPermission(Permissions.SocialSpyExempt)) {
+                    for (UUID uuid : SocialSpyCommand.toggled) {
+                        VLPlayer socialspy = VLPlayer.getPlayer(uuid);
+                        if (socialspy == null) continue;
+                        if (!socialspy.getFormattedName().equals(from.getFormattedName())
+                                && !socialspy.getFormattedName().equals(to.getFormattedName())) {
+                            socialspy.sendMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.prefix")
+                                    + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"),
+                                    from.getFormattedName(), to.getFormattedName(), message));
+                        }
                     }
                 }
 
