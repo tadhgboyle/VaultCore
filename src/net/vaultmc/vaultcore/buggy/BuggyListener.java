@@ -12,6 +12,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -112,21 +113,24 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
 
     @Override
     public void run() {
-        Map<VLPlayer, Integer> map = new HashMap<>();
-        for (Bug bug : Bug.getBugs()) {
-            if (bug.getStatus() == Bug.Status.OPEN || bug.getStatus() == Bug.Status.REOPENED) {
-                for (VLOfflinePlayer assignee : bug.getAssignees()) {
-                    if (assignee.isOnline()) {
-                        int i = map.getOrDefault(assignee.getOnlinePlayer(), 0);
-                        i++;
-                        map.put(assignee.getOnlinePlayer(), i);
+        try {
+            Map<VLPlayer, Integer> map = new HashMap<>();
+            for (Bug bug : Bug.getBugs()) {
+                if (bug.getStatus() == Bug.Status.OPEN || bug.getStatus() == Bug.Status.REOPENED) {
+                    for (VLOfflinePlayer assignee : bug.getAssignees()) {
+                        if (assignee.isOnline()) {
+                            int i = map.getOrDefault(assignee.getOnlinePlayer(), 0);
+                            i++;
+                            map.put(assignee.getOnlinePlayer(), i);
+                        }
                     }
                 }
             }
-        }
 
-        for (Map.Entry<VLPlayer, Integer> entry : map.entrySet()) {
-            entry.getKey().sendMessage(VaultLoader.getMessage("buggy.total-assigned").replace("{BUGS}", String.valueOf(entry.getValue())));
+            for (Map.Entry<VLPlayer, Integer> entry : map.entrySet()) {
+                entry.getKey().sendMessage(VaultLoader.getMessage("buggy.total-assigned").replace("{BUGS}", String.valueOf(entry.getValue())));
+            }
+        } catch (ConcurrentModificationException ignored) {
         }
     }
 

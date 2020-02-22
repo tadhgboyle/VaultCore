@@ -77,12 +77,9 @@ public class Report {
     }
 
     public static void save() {
-        VaultCore.getInstance().getData().set("reports", null);
-        VaultCore.getInstance().getData().createSection("reports");
         for (Report report : reports) {
             report.serialize();
         }
-        VaultCore.getInstance().saveConfig();
     }
 
     public static Report deserialize(ConfigurationSection section) {
