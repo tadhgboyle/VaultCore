@@ -17,12 +17,12 @@ public class PurgeCommand extends ListenerAdapter {
             return;
         }
 
-        message.delete().queue();
         if (msg.contains("!purge")) {
             if (member.getRoles().toString().contains("staff")) {
                 if (args.length == 2 && !args[1].equals("1")) {
                     try {
-                        event.getTextChannel().deleteMessages(event.getChannel().getHistory().retrievePast(Integer.parseInt(args[1] + 1)).complete()).queue();
+                        event.getTextChannel().deleteMessages(event.getChannel().getHistory().retrievePast(Integer.parseInt(args[1])).complete()).queue();
+                        message.delete().queue();
                     } catch (NumberFormatException e) {
                         event.getTextChannel().sendMessage(member.getAsMention() + " you must supply a number of messages to purge. (Minimum 2)").queue();
                     }

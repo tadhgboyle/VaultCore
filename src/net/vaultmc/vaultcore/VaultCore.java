@@ -41,6 +41,7 @@ import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultcore.messenger.PingService;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
+import net.vaultmc.vaultcore.misc.commands.staff.logs.LogsCommand;
 import net.vaultmc.vaultcore.misc.listeners.*;
 import net.vaultmc.vaultcore.misc.runnables.RankPromotions;
 import net.vaultmc.vaultcore.nametags.Nametags;
@@ -190,6 +191,7 @@ public final class VaultCore extends Component implements Listener {
             }, 0L, 2400L);
         }
 
+        new LogsCommand();
         new SettingsCommand();
         new MsgCommand();
         new MsgMessageListener();
