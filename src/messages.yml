@@ -454,7 +454,7 @@ vaultcore:
       no_permission: "&cYou don't have permission to use this rank."
       updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
       updated_player: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
-      mod-no-perm: "&cYou cannot change an staff members rank!"
+      mod-no-perm: "&cYou cannot change a staff members rank!"
     gamemode:
       self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
@@ -554,3 +554,6 @@ vaultcore:
       total_count: "&eFound &2{MATCHES}&e matches for that phrase."
       warn_lag: "&cThis will cause lag. Enjoy."
       error_reading: "&cThere was an error reading the logs. Please contact an Administrator."
+    managebot:
+      invalid: "&cThe bot is currently &e{STATUS}&c."
+      complete: "&eThe bot has been &6{STATUS}&e."

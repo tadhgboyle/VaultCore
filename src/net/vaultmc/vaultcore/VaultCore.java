@@ -25,6 +25,7 @@ import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.creative.CycleListener;
 import net.vaultmc.vaultcore.creative.SchemCommand;
+import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
 import net.vaultmc.vaultcore.economy.*;
 import net.vaultmc.vaultcore.gamemode.GMCreativeCommand;
@@ -167,6 +168,7 @@ public final class VaultCore extends Component implements Listener {
 
         if (getConfig().getString("server").trim().equalsIgnoreCase("vaultmc")) {
             VaultMCBot.startVaultMCBot();
+            new ManageBotCommand();
             new CRCommand();
             new SVCommand();
             new WildTeleportCommand();

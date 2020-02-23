@@ -20,6 +20,7 @@ public class PlayerUpdater {
     private static Guild guild = VaultMCBot.getGuild();
 
     public static void updater() {
+        if (!VaultMCBot.isStarted()) return;
         for (Member member : guild.getMembers()) {
             if (member.isFake() || member.isOwner()) continue;
             VLOfflinePlayer player = getOfflinePlayerDiscord(member.getIdLong());

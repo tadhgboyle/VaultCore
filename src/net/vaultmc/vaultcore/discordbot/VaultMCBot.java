@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.discordbot;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -19,8 +20,12 @@ import java.util.logging.Level;
 
 public class VaultMCBot extends ListenerAdapter {
     @Getter
+    public static JDA jda;
+    @Getter
     public static Guild guild;
-
+    @Getter
+    @Setter
+    public static boolean started = false;
     public static Role admin;
     public static Role moderator;
     public static Role staff;
@@ -29,11 +34,12 @@ public class VaultMCBot extends ListenerAdapter {
     public static void startVaultMCBot() {
         try {
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot starting up...");
-            JDA jda = new JDABuilder(VaultCore.getInstance().getConfig().getString("token"))
+            jda = new JDABuilder(VaultCore.getInstance().getConfig().getString("token"))
                     .addEventListeners(new TokenValidator(), new PurgeCommand())
                     .setActivity(Activity.playing("on VaultMC.net"))
                     .build();
             jda.awaitReady();
+            started = true;
 
             guild = jda.getGuildById(615457047403560960L);
             admin = guild.getRoleById(615457221337153546L);

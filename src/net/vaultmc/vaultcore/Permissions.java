@@ -88,5 +88,6 @@ public final class Permissions {
     public static final String Home = "vaultcore.home";
     public static final String SetHomeBase = "vaultcore.sethome.";
     public static final String LogsCommandAdmin = "vaultcore.logs.admin";
+    public static final String VaultMCBotManage = "vaultcore.bot.manage";
 
 }
