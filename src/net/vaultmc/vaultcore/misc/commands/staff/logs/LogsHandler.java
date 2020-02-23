@@ -1,8 +1,10 @@
 package net.vaultmc.vaultcore.misc.commands.staff.logs;
 
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import org.bukkit.ChatColor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -68,14 +70,14 @@ public class LogsHandler implements Runnable {
         }
         if (!lineMatches.isEmpty()) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.header"));
+            // TODO pagination/date selection
             for (int lineNumber : lineMatches.keySet()) {
                 String fileName = lineFiles.get(lineNumber);
                 String line = lineMatches.get(lineNumber);
-
-                String substring = line.substring(line.indexOf("/INFO]:") + 7);
-
-                sender.sendMessage(fileName + " -- " + substring);
+                String substring = line.substring(line.lastIndexOf("/INFO]:") + 7);
+                sender.sendMessage(ChatColor.YELLOW + fileName + ChatColor.RESET + substring);
             }
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.logs.total_count"), lineMatches.size()));
             lineFiles.clear();
             lineMatches.clear();
             LogsCommand.setSearching(false);
