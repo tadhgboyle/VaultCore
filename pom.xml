@@ -52,6 +52,12 @@
 		</repository>
 
 		<repository>
+			<id>vaultmc-repo</id>
+			<name>VaultMC Maven Repository</name>
+			<url>http://nexus.vaultmc.net/repository/vaultmc-artifacts/</url>
+		</repository>
+
+		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
