@@ -37,7 +37,7 @@ public class ManageBotCommand extends CommandExecutor {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.managebot.invalid"), "started"));
         } else {
             VaultMCBot.startVaultMCBot();
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.managebot.complete"), "stopped"));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.managebot.complete"), "started"));
         }
     }
 
