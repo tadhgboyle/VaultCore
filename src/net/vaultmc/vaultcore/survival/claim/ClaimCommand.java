@@ -123,7 +123,7 @@ public class ClaimCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-enough"));
             return;
         }
-        if (sender.getLocation().getChunk().getX() <= -4489 && sender.getLocation().getChunk().getX() >= -4490 &&
+        if (sender.getLocation().getChunk().getX() <= -4488 && sender.getLocation().getChunk().getX() >= -4490 &&
                 sender.getLocation().getChunk().getZ() <= -3297 && sender.getLocation().getChunk().getZ() >= -3299) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.reserved"));
             return;
