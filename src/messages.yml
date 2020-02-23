@@ -502,6 +502,7 @@ vaultcore:
       removed: "&eNo longer allowing &6{PLAYER}&e to interact inside your claim."
       not-allowed: "&cThis player couldn't interact in your claim right now!"
       not-claimed: "&cYou hadn't claimed this chunk yet!"
+      not-enough: "&cYou need at least 1 experience level!"
     schem:
       loaded: "&6{SCHEM}&e has been loaded to your clipboard."
       saved: "&6{SCHEM}&e has been saved. Use &6/vcschem load&e to load it."
