@@ -20,33 +20,34 @@ public class PlayerUpdater {
     private static Guild guild = VaultMCBot.getGuild();
 
     public static void updater() {
-        if (!VaultMCBot.isStarted()) return;
-        for (Member member : guild.getMembers()) {
-            if (member.isFake() || member.isOwner()) continue;
-            VLOfflinePlayer player = getOfflinePlayerDiscord(member.getIdLong());
-            if (player == null) {
-                continue;
-            }
-            List<Role> roles = member.getRoles();
-            String group = player.getGroup().toLowerCase();
-            try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT username FROM players WHERE uuid=?", player.getUniqueId().toString())) {
-                if (rs.next()) {
-                    String name = rs.getString("username");
-                    if (!member.getEffectiveName().equals(name)) {
-                        member.modifyNickname(name).queue();
-                    }
+        if (VaultMCBot.isStarted()) {
+            for (Member member : guild.getMembers()) {
+                if (member.isFake() || member.isOwner()) continue;
+                VLOfflinePlayer player = getOfflinePlayerDiscord(member.getIdLong());
+                if (player == null) {
+                    continue;
                 }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+                List<Role> roles = member.getRoles();
+                String group = player.getGroup().toLowerCase();
+                try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT username FROM players WHERE uuid=?", player.getUniqueId().toString())) {
+                    if (rs.next()) {
+                        String name = rs.getString("username");
+                        if (!member.getEffectiveName().equals(name)) {
+                            member.modifyNickname(name).queue();
+                        }
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
 
-            if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
-                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue();
-                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue();
-                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue();
-                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue();
-                for (Role role : mappedRole.get(group)) {
-                    guild.addRoleToMember(member, role).queue();
+                if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
+                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue();
+                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue();
+                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue();
+                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue();
+                    for (Role role : mappedRole.get(group)) {
+                        guild.addRoleToMember(member, role).queue();
+                    }
                 }
             }
         }
