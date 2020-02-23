@@ -6,8 +6,6 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RootCommand(
         literal = "delhome",
@@ -28,8 +26,7 @@ public class DelHomeCommand extends CommandExecutor {
 
     @SubCommand("delHomeHome")
     public void delHomeHome(VLPlayer sender, String home) {
-        Set<String> homes = sender.getPlayerData().getKeys().stream().filter(n -> n.startsWith("home.")).collect(Collectors.toSet());
-        if (homes.contains(home)) {
+        if (!sender.getPlayerData().contains("home." + home)) {
             sender.getPlayerData().remove("home." + home);
             sender.sendMessage(VaultLoader.getMessage("home.deleted").replace("{HOME}", home));
         } else {

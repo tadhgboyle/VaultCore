@@ -38,7 +38,8 @@ public class HomeCommand extends CommandExecutor implements Listener {
             argument = "name"
     )
     public List<WrappedSuggestion> suggestions(VLPlayer sender, String remaining) {
-        return sender.getPlayerData().getKeys().stream().filter(p -> p.startsWith("home.")).map(WrappedSuggestion::new).collect(Collectors.toList());
+        return sender.getPlayerData().getKeys().stream().filter(p -> p.startsWith("home.")).map(s ->
+                new WrappedSuggestion(s.replaceFirst("home.", ""))).collect(Collectors.toList());
     }
 
     @SubCommand("home")
