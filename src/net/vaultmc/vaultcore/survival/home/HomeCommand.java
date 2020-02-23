@@ -72,6 +72,7 @@ public class HomeCommand extends CommandExecutor implements Listener {
         warpTasks.put(sender.getUniqueId(), Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
             sender.teleport(Utilities.deserializeLocation(sender.getPlayerData().getString("home." + home)));
             sender.getPlayer().sendTitle(ChatColor.YELLOW + "Warped to " + ChatColor.GOLD + home, "", 10, 70, 20);
+            warpTasks.remove(sender.getUniqueId());
         }, 100L));
         sender.getPlayer().sendTitle(ChatColor.YELLOW + "Warping to " + ChatColor.GOLD + home + ChatColor.YELLOW + " in 5",
                 ChatColor.YELLOW + "Do not move or turn", 10, 70, 20);
