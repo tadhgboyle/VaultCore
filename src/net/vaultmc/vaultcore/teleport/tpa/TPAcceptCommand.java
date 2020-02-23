@@ -21,13 +21,34 @@ public class TPAcceptCommand extends CommandExecutor {
     @SubCommand("tpaccept")
     public void tpAccept(VLPlayer player) {
         Entry<String, TPASessionData> session = TPACommand.getSessionData(player.getUniqueId());
-        if (session != null && session.getValue().getTo() == player.getUniqueId()) {
+        if (session == null) {
+            session = TPAHereCommand.getSessionData(player.getUniqueId());
+            if (session != null && session.getValue().getFrom() == player.getUniqueId()) {
+                Entry<String, TPASessionData> finalSession = session;
+                TPCommand.teleport(player, VLOfflinePlayer.getOfflinePlayer(session.getValue().getFrom()), status -> {
+                    TPACommand.getSessions().remove(finalSession.getKey());
+                    if (status) {
+                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.auto_accept_target").replace("{SENDER}",
+                                VLOfflinePlayer.getOfflinePlayer(finalSession.getValue().getFrom()).getFormattedName()));
+                        VLPlayer.getPlayer(finalSession.getValue().getFrom()).sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.auto_accept_sender")
+                                .replace("{TARGET}", player.getFormattedName()));
+                    } else {
+                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed"));
+                    }
+                });
+            } else {
+                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
+            }
+            return;
+        }
+        if (session.getValue().getTo() == player.getUniqueId()) {
+            Entry<String, TPASessionData> finalSession = session;
             TPCommand.teleport(VLOfflinePlayer.getOfflinePlayer(session.getValue().getFrom()), player, status -> {
-                TPACommand.getSessions().remove(session.getKey());
+                TPACommand.getSessions().remove(finalSession.getKey());
                 if (status) {
                     player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.auto_accept_target").replace("{SENDER}",
-                            VLOfflinePlayer.getOfflinePlayer(session.getValue().getFrom()).getFormattedName()));
-                    VLPlayer.getPlayer(session.getValue().getFrom()).sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.auto_accept_sender")
+                            VLOfflinePlayer.getOfflinePlayer(finalSession.getValue().getFrom()).getFormattedName()));
+                    VLPlayer.getPlayer(finalSession.getValue().getFrom()).sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.auto_accept_sender")
                             .replace("{TARGET}", player.getFormattedName()));
                 } else {
                     player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed"));

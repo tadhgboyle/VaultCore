@@ -23,10 +23,6 @@ import java.util.UUID;
 @Permission(Permissions.TPACommand)
 @PlayerOnly
 public class TPACommand extends CommandExecutor implements Listener {
-    @Getter
-    private static final Map<UUID, UUID> requests = new HashMap<>();
-    @Getter
-    private static final Map<UUID, UUID> requestsHere = new HashMap<>();
     private static final Multimap<String, Boolean> tpaRequestStatus = HashMultimap.create();
     @Getter
     private static final Map<String, TPASessionData> sessions = new HashMap<>();
