@@ -161,6 +161,13 @@ weather:
   thunder: "thunder"
   set-duration: "&eSet weather duration in &6{WORLD}&e to &6{DURATION}&e."
 
+home:
+  too-many: "&cYou created too many homes!"
+  invalid-world: "&eYou can only create homes in the &6Survival&e or &6Clans&e world! And no, you couldn't do that in the nether or the end."
+  created: "&eCreated home &6{HOME}&e."
+  deleted: "&eDeleted home &6{HOME}&e."
+  no-home: "&cNo home named &e{HOME}&c."
+
 vanish:
   player-state: "&eYou are now &6{STATE}&e."
   visible: "visible"
@@ -349,7 +356,7 @@ vaultcore:
     rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
   survival:
     time_set_day: "&eThe night has passed in &6Survival&e."
-    players_needed: "&eOnly &2{PLAYERS}&e needed to skip the night in Survival."
+    players_needed: "&eOnly &2{PLAYERS}&e players needed to instantly skip the night in Survival."
   commands:
     back:
       success: "&eYou have been teleported to your previous location."

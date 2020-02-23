@@ -85,4 +85,6 @@ public final class Permissions {
     public static final String AdminChatCommand = "vaultcore.staffchat.adminchat";
     public static final String LogsCommand = "vaultcore.logs";
     public static final String SocialSpyExempt = "vaultcore.socialspy.exempt";
+    public static final String Home = "vaultcore.home";
+    public static final String SetHomeBase = "vaultcore.sethome.";
 }

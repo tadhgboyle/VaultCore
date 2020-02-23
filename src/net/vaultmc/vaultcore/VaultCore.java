@@ -77,8 +77,10 @@ import net.vaultmc.vaultloader.components.annotations.Version;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.configuration.Configuration;
 import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -86,6 +88,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 
 import java.text.DecimalFormat;
+import java.util.Map;
 
 @ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
         "Aberdeener", "yangyang200", "2xjtn"})
@@ -344,6 +347,9 @@ public final class VaultCore extends Component implements Listener {
     @Override
     @SneakyThrows
     public void onDisable() {
+        for (Map.Entry<VLPlayer, Location> entry : AFKCommand.getAfk().entrySet()) {
+            entry.getKey().teleport(entry.getValue());
+        }
         Bug.save();
         Report.save();
         database.close();
