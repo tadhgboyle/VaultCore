@@ -107,7 +107,8 @@ public class ClaimCommand extends CommandExecutor implements Listener {
         if (!e.getPlayer().getWorld().getName().contains("Survival")) return;
         VLOfflinePlayer owner = isAlreadyClaimed(e.getClickedBlock() != null ? e.getClickedBlock().getChunk() :
                 e.getPlayer().getChunk());
-        if (owner != null && !owner.getPlayerData().getStringList("claim.allowed-players").contains(e.getPlayer().getUniqueId().toString())) {
+        if (owner != null && e.getPlayer().getUniqueId() != owner.getUniqueId() &&
+                !owner.getPlayerData().getStringList("claim.allowed-players").contains(e.getPlayer().getUniqueId().toString())) {
             e.getPlayer().sendMessage("vaultcore.commands.claim.cannot-interact");
             e.setCancelled(true);
         }
