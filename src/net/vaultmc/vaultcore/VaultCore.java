@@ -270,6 +270,7 @@ public final class VaultCore extends Component implements Listener {
         new SetHomeCommand();
         new DelHomeCommand();
         new EconomyListener();
+        new Portals();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
