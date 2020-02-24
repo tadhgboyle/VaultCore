@@ -23,7 +23,7 @@ public class TPAcceptCommand extends CommandExecutor {
         Entry<String, TPASessionData> session = TPACommand.getSessionData(player.getUniqueId());
         if (session == null) {
             session = TPAHereCommand.getSessionData(player.getUniqueId());
-            if (session != null && session.getValue().getFrom() == player.getUniqueId()) {
+            if (session != null && session.getValue().getTo() == player.getUniqueId()) {
                 Entry<String, TPASessionData> finalSession = session;
                 TPCommand.teleport(player, VLOfflinePlayer.getOfflinePlayer(session.getValue().getFrom()), status -> {
                     TPACommand.getSessions().remove(finalSession.getKey());

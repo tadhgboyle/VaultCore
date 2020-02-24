@@ -1,6 +1,6 @@
 package net.vaultmc.vaultcore.teleport.tpa;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Permission(Permissions.TPACommand)
 @PlayerOnly
 public class TPACommand extends CommandExecutor implements Listener {
-    private static final Multimap<String, Boolean> tpaRequestStatus = HashMultimap.create();
+    private static final Multimap<String, Boolean> tpaRequestStatus = ArrayListMultimap.create();
     @Getter
     private static final Map<String, TPASessionData> sessions = new HashMap<>();
 

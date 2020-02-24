@@ -81,7 +81,7 @@ public class HubCommand extends CommandExecutor implements Listener {
     public void onMessageReceived(MessageReceivedEvent e) {
         if (e.getMessage().startsWith("SendToHub")) {
             VLPlayer player = VLPlayer.getPlayer(UUID.fromString(e.getMessage().split(VaultCore.SEPARATOR)[1]));
-            if (player != null) {
+            if (player != null && "vaultmc".equalsIgnoreCase(VaultCore.getInstance().getConfig().getString("server"))) {
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation()));
             }
         }

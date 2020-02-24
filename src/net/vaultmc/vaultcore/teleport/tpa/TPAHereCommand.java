@@ -1,6 +1,6 @@
 package net.vaultmc.vaultcore.teleport.tpa;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
@@ -19,11 +19,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@RootCommand(literal = "tpahere", description = "Request a player to teleport to you.")
+@RootCommand(
+        literal = "tpahere",
+        description = "Request a player to teleport to you."
+)
 @Permission(Permissions.TPAHereCommand)
 @PlayerOnly
 public class TPAHereCommand extends CommandExecutor implements Listener {
-    private static final Multimap<String, Boolean> tpaRequestStatus = HashMultimap.create();
+    private static final Multimap<String, Boolean> tpaRequestStatus = ArrayListMultimap.create();
     @Getter
     private static final Map<String, TPASessionData> sessions = new HashMap<>();
 
