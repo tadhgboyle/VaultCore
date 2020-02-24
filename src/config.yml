@@ -6,7 +6,6 @@ welcome-message: |-
   &7To learn about our server ranks: &e/ranks
   &7Report bugs with: &e/buggy report
   &7Check out our website: &ehttps://vaultmc.net
-  &7Find your statistics at: &ehttps://database.vaultmc.net
 mysql:
   host: localhost
   port: 3306

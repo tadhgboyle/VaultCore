@@ -56,7 +56,7 @@ public class CheckCommand extends CommandExecutor {
                 Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"), "Rank", rank));
         // TODO @aberdeener -- link shortener api
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.check.format"), "WebUI",
-                "https://database.vaultmc.net/?user=" + target.getUniqueId().toString()));
+                "https://vaultmc.net/?user=" + target.getUniqueId().toString()));
         sender.performCommand("tag list " + target.getName());
     }
 }
