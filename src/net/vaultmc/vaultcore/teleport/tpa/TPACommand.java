@@ -62,21 +62,23 @@ public class TPACommand extends CommandExecutor implements Listener {
         } else if (e.getMessage().startsWith("02TPARequestStatus")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
             String id = parts[1];
-            tpaRequestStatus.put(id, parts[2].equals("Sent"));
-            if (tpaRequestStatus.get(id).size() == VaultCore.TOTAL_SERVERS) {
-                if (tpaRequestStatus.get(id).contains(true)) {
-                    VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
-                    if (player != null) {
-                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
-                                VLOfflinePlayer.getOfflinePlayer(sessions.get(id).getTo()).getFormattedName()));
+            if (sessions.containsKey(id)) {
+                tpaRequestStatus.put(id, parts[2].equals("Sent"));
+                if (tpaRequestStatus.get(id).size() == VaultCore.TOTAL_SERVERS) {
+                    if (tpaRequestStatus.get(id).contains(true)) {
+                        VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
+                        if (player != null) {
+                            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
+                                    VLOfflinePlayer.getOfflinePlayer(sessions.get(id).getTo()).getFormattedName()));
+                        }
+                    } else {
+                        VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
+                        if (player != null) {
+                            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_failed"));
+                        }
                     }
-                } else {
-                    VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
-                    if (player != null) {
-                        player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_failed"));
-                    }
+                    tpaRequestStatus.removeAll(id);
                 }
-                tpaRequestStatus.removeAll(id);
             }
         }
     }
