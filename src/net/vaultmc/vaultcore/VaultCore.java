@@ -196,6 +196,10 @@ public final class VaultCore extends Component implements Listener {
             }, 0L, 2400L);
         }
 
+        if (!getConfig().getString("server").trim().equalsIgnoreCase("backup")) {
+            new EconomyCommand();
+        }
+
         new LogsCommand();
         new SettingsCommand();
         new MsgCommand();
