@@ -2,6 +2,8 @@ package net.vaultmc.vaultcore.teleport;
 
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.messenger.GeneralCallback;
+import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
@@ -32,23 +34,38 @@ public class HubCommand extends CommandExecutor implements Listener {
     @SubCommand("hub")
     @SneakyThrows
     public void hub(VLPlayer sender) {
-
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) {
             sender.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
             return;
         }
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream stream = new DataOutputStream(bos);
-        stream.writeUTF("Connect");
-        stream.writeUTF("vaultmc");
-        sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
-        stream.close();
-        SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
-
-        for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-            player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(" + sender.getName() + " has left to VaultMC)");
-        }
+        GetServerService.getServer(sender, new GeneralCallback<String>()
+                .success(server -> {
+                    if (!server.equalsIgnoreCase("vaultmc")) {
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        DataOutputStream stream = new DataOutputStream(bos);
+                        stream.writeUTF("Connect");
+                        stream.writeUTF("vaultmc");
+                        sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+                        stream.close();
+                        for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+                            player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(" + sender.getName() + " has left to VaultMC)");
+                        }
+                    }
+                    SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
+                })
+                .failure(server -> {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    DataOutputStream stream = new DataOutputStream(bos);
+                    stream.writeUTF("Connect");
+                    stream.writeUTF("vaultmc");
+                    sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+                    stream.close();
+                    for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+                        player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(" + sender.getName() + " has left to VaultMC)");
+                    }
+                    SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
+                }));
     }
 
     @EventHandler
