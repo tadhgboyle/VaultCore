@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -41,7 +42,25 @@ public class HubCommand extends CommandExecutor implements Listener {
 
         GetServerService.getServer(sender, new GeneralCallback<String>()
                 .success(server -> {
-                    if (!server.equalsIgnoreCase("vaultmc")) {
+                    try {
+                        if (!server.equalsIgnoreCase("vaultmc")) {
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            DataOutputStream stream = new DataOutputStream(bos);
+                            stream.writeUTF("Connect");
+                            stream.writeUTF("vaultmc");
+                            sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+                            stream.close();
+                            for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+                                player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(" + sender.getName() + " has left to VaultMC)");
+                            }
+                        }
+                        SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                })
+                .failure(server -> {
+                    try {
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();
                         DataOutputStream stream = new DataOutputStream(bos);
                         stream.writeUTF("Connect");
@@ -51,20 +70,10 @@ public class HubCommand extends CommandExecutor implements Listener {
                         for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
                             player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(" + sender.getName() + " has left to VaultMC)");
                         }
+                        SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
-                    SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
-                })
-                .failure(server -> {
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    DataOutputStream stream = new DataOutputStream(bos);
-                    stream.writeUTF("Connect");
-                    stream.writeUTF("vaultmc");
-                    sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
-                    stream.close();
-                    for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-                        player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(" + sender.getName() + " has left to VaultMC)");
-                    }
-                    SQLMessenger.sendGlobalMessage("SendToHub" + VaultCore.SEPARATOR + sender.getUniqueId().toString());
                 }));
     }
 
