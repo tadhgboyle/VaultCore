@@ -245,7 +245,6 @@ public final class VaultCore extends Component implements Listener {
         new ReportCommand();
         new ReportsCommand();
         new ChatUtils();
-        new EconomyCommand();
         new MoneyCommand();
         new TimeCommand();
         new TransferCommand();
