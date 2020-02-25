@@ -238,6 +238,7 @@ public final class VaultCore extends Component implements Listener {
         new ReloadCommand();
         new HasPermCommand();
         new TagCommand();
+        new CrashCommand();
         new StatsCommand();
         new ListCommand();
         new SocialSpyCommand();

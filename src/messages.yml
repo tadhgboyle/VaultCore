@@ -343,6 +343,8 @@ buggy:
       duplicate: "Duplicate"
       intended: "Intended"
 
+useful: "&eCrashed &6{PLAYER}&e. It might not be successful!"
+
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
   player_never_joined: "&cThat player has never joined before."
