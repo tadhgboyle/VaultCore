@@ -11,11 +11,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.discordbot.commands.PurgeCommand;
 import net.vaultmc.vaultcore.discordbot.runnables.PlayerUpdater;
+import net.vaultmc.vaultloader.VaultLoader;
+import org.bukkit.Bukkit;
 
 import javax.security.auth.login.LoginException;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 
 public class VaultMCBot extends ListenerAdapter {
@@ -56,13 +56,7 @@ public class VaultMCBot extends ListenerAdapter {
 
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot started successfully...");
 
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    PlayerUpdater.updater();
-                }
-            }, 120000, 240000);
+            Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), PlayerUpdater::updater, 120000, 240000);
 
         } catch (LoginException | InterruptedException e) {
             e.printStackTrace();
