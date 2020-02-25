@@ -5,11 +5,14 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RootCommand(literal = "warp", description = "Teleport to a warp.")
 @Permission(Permissions.WarpCommand)
@@ -21,6 +24,14 @@ public class WarpCommand extends CommandExecutor {
                 Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("name", Arguments.word())));
         register("delWarp",
                 Arrays.asList(Arguments.createLiteral("delete"), Arguments.createArgument("name", Arguments.word())));
+    }
+
+    @TabCompleter(
+            subCommand = "warp|delWarp",
+            argument = "warp|name"
+    )
+    public List<WrappedSuggestion> suggestWarp(VLPlayer sender, String remaining) {
+        return VaultCore.getInstance().getLocationFile().getConfigurationSection("warps").getKeys(false).stream().map(WrappedSuggestion::new).collect(Collectors.toList());
     }
 
     @SubCommand("warp")
