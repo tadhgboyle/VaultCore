@@ -38,20 +38,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatUtils extends ConstructorRegisterListener {
-
     public static void formatChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChatShouldFormat(AsyncPlayerChatEvent e) {
-        if (e.getPlayer().getWorld().getName().contains("clans")) {
-            return;  // Let clans handle this itself
-        }
-
-        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-
         if (player.hasPermission(Permissions.ChatColor)) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
@@ -74,7 +62,14 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setCancelled(true);
             return;
         }
+        e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+    }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChatShouldFormat(AsyncPlayerChatEvent e) {
+        if (e.getPlayer().getWorld().getName().contains("clans")) {
+            return;  // Let clans handle this itself
+        }
         formatChat(e);
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
             e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
