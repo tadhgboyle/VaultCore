@@ -23,7 +23,7 @@ public class LogsCommand extends CommandExecutor {
     }
 
     @SubCommand("logs")
-    public static void log(VLCommandSender sender, String search) {
+    public void log(VLCommandSender sender, String search) {
         if (searching) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.already_searching"));
             return;
