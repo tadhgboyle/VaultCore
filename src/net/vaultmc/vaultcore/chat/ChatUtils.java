@@ -105,6 +105,6 @@ public class ChatUtils extends ConstructorRegisterListener {
         for (String s : parts) {
             sb.append(s).append(" ");
         }
-        e.setMessage(sb.toString());
+        e.setMessage(sb.toString().trim());
     }
 }
