@@ -107,6 +107,7 @@ punishments:
       &6Reason: &e{REASON}
       &6Expiry: &e{EXPIRY}
       &6Issuer: {ACTOR}
+      &aAppeal: &ehttps://discord.vaultmc.net
     sent: "&eSuccessfully banned &6{PLAYER}&e!"
 
   mute:
@@ -115,6 +116,7 @@ punishments:
       &cYou are permanently muted!
       &6Reason: &e{REASON}
       &6Issuer: {ACTOR}
+      &aAppeal: &ehttps://discord.vaultmc.net
     sent: "&eSuccessfully muted &6{PLAYER}&e."
     player-message: "&7(Muted) &r{PLAYERFULLNAME}&7: &6{MESSAGE}"
 
@@ -125,6 +127,7 @@ punishments:
       &6Reason: &e{REASON}
       &6Expiry: &e{EXPIRY}
       &6Issuer: {ACTOR}
+      &aAppeal: &ehttps://discord.vaultmc.net
     sent: "&eSuccessfully muted {PLAYER}&e."
 
   unmute:
