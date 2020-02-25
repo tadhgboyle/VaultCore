@@ -37,7 +37,7 @@ staff-ladder:
   - Administrator
 
 # Units of time, represented in seconds.
-time-unit:
+time-units:
   second: 1  # 1 second for /tempban yangyang200 test (-s) 1 second
   seconds: 1
   sec: 1
