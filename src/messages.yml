@@ -366,6 +366,8 @@ vaultcore:
     time_set_day: "&eThe night has passed in &6Survival&e."
     players_needed: "&eOnly &2{PLAYERS}&e players needed to instantly skip the night in Survival."
   commands:
+    spawn:
+      disabled: "&cThis command can't be executed in this world!"
     back:
       success: "&eYou have been teleported to your previous location."
       no_teleport_location: "&cYou have no where to teleport to."

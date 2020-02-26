@@ -24,7 +24,7 @@ import java.util.UUID;
         literal = "hub",
         description = "Go back to the VaultMC server and the hub."
 )
-@Aliases({"spawn", "lobby", "l"})
+@Aliases({"lobby", "l"})
 @PlayerOnly
 public class HubCommand extends CommandExecutor implements Listener {
     public HubCommand() {
