@@ -5,6 +5,7 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
+import org.bukkit.ChatColor;
 
 import java.util.Collections;
 
@@ -12,12 +13,18 @@ import java.util.Collections;
 @Permission(Permissions.VaultMCBotManage)
 public class ManageBotCommand extends CommandExecutor {
     public ManageBotCommand() {
+        register("status", Collections.emptyList());
         register("stop",
                 Collections.singletonList(Arguments.createLiteral("stop")));
         register("start",
                 Collections.singletonList(Arguments.createLiteral("start")));
         register("restart",
                 Collections.singletonList(Arguments.createLiteral("restart")));
+    }
+
+    @SubCommand("status")
+    public static void status(VLCommandSender sender) {
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.managebot.status"), VaultMCBot.isStarted() ? ChatColor.GREEN + "up" : ChatColor.RED + "down"));
     }
 
     @SubCommand("stop")

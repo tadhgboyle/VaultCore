@@ -346,7 +346,7 @@ buggy:
       duplicate: "Duplicate"
       intended: "Intended"
 
-useful: "&eCrashed &6{PLAYER}&e. It might not be successful!"
+useful: "&eCrashed {PLAYER}&e. It might not be successful!"
 
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
@@ -562,3 +562,4 @@ vaultcore:
     managebot:
       invalid: "&cThe bot is currently &e{STATUS}&c."
       complete: "&eThe bot has been &6{STATUS}&e."
+      status: "&eThe bot is currently {STATUS}&e."
