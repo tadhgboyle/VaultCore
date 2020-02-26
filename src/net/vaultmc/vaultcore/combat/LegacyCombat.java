@@ -293,14 +293,6 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getSlot() == 40) {
-            e.getWhoClicked().setItemOnCursor(e.getCursor() != null ? e.getCursor() : e.getCurrentItem());
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler
     public void onCraftItem(CraftItemEvent e) {
         if (e.getRecipe().getResult().getType() == Material.SHIELD) e.setCancelled(true);
     }
