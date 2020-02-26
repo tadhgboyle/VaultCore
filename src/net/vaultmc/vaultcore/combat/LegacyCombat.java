@@ -160,7 +160,7 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
     }
 
     public LegacyCombat() {
-        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 20, 20);
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 40, 40);
     }
 
     private static boolean isTool(Material type) {
