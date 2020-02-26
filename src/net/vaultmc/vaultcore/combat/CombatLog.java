@@ -6,6 +6,7 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -24,8 +25,10 @@ public class CombatLog extends ConstructorRegisterListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamagedEntity(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) return;
+
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
             if (inCombat.containsKey(e.getEntity().getUniqueId())) {
                 if (inCombat.get(e.getEntity().getUniqueId()).getAttacker() == e.getDamager().getUniqueId()) {
