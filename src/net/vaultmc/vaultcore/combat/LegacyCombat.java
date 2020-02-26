@@ -16,7 +16,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
@@ -28,7 +27,6 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.projectiles.ProjectileSource;
@@ -347,37 +345,6 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
                 e.setCancelled(true);
             }
         }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onSwapHandItems(PlayerSwapHandItemsEvent e) {
-        if (shouldCancel(e.getOffHandItem())) {
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onOHClick(InventoryClickEvent e) {
-        if (e.getInventory().getType() != InventoryType.CRAFTING || e.getSlot() != OFFHAND_SLOT) return;
-        if (e.getClick().equals(ClickType.NUMBER_KEY) || shouldCancel(e.getCursor())) {
-            e.setResult(Event.Result.DENY);
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInventoryDrag(InventoryDragEvent e) {
-        if (e.getInventory().getType() != InventoryType.CRAFTING
-                || !e.getInventorySlots().contains(OFFHAND_SLOT)) return;
-
-        if (shouldCancel(e.getOldCursor())) {
-            e.setResult(Event.Result.DENY);
-            e.setCancelled(true);
-        }
-    }
-
-    private boolean shouldCancel(ItemStack item) {
-        return item != null && item.getType() != Material.AIR;
     }
 
     @Override
