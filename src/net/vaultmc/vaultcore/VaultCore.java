@@ -55,6 +55,7 @@ import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.*;
 import net.vaultmc.vaultcore.survival.SleepHandler;
+import net.vaultmc.vaultcore.survival.claim.ClaimCharger;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
 import net.vaultmc.vaultcore.survival.claim.UnclaimCommand;
 import net.vaultmc.vaultcore.survival.home.DelHomeCommand;
@@ -282,6 +283,7 @@ public final class VaultCore extends Component implements Listener {
         new EconomyListener();
         new Portals();
         new SpawnCommand();
+        new ClaimCharger();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());

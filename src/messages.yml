@@ -512,7 +512,8 @@ vaultcore:
       removed: "&eNo longer allowing &6{PLAYER}&e to interact inside your claim."
       not-allowed: "&cThis player couldn't interact in your claim right now!"
       not-claimed: "&cYou hadn't claimed this chunk yet!"
-      not-enough: "&cYou need at least 1 experience level!"
+      note: "&eNote: You will be charged &6$5&e for each chunk you claimed per real day. If you don't have enough money, some of your claimed chunks will be automatically unclaimed."
+      claim-removed: "&6{COUNT}&e claims are removed since you're unable to pay for your claim."
     schem:
       loaded: "&6{SCHEM}&e has been loaded to your clipboard."
       saved: "&6{SCHEM}&e has been saved. Use &6/vcschem load&e to load it."

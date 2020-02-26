@@ -122,10 +122,6 @@ public class ClaimCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.must-be-in-survival"));
             return;
         }
-        if (sender.getPlayer().getLevel() < 1) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-enough"));
-            return;
-        }
         if (sender.getLocation().getChunk().getX() <= -4488 && sender.getLocation().getChunk().getX() >= -4490 &&
                 sender.getLocation().getChunk().getZ() <= -3297 && sender.getLocation().getChunk().getZ() >= -3299) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.reserved"));
@@ -136,7 +132,7 @@ public class ClaimCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.already-claimed"));
             return;
         }
-        sender.getPlayer().setLevel(sender.getPlayer().getLevel() - 1);
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.note"));
         chunks.add(sender.getLocation().getChunk());
         sender.getPlayerData().set("claim.chunks", serializeChunks(chunks));
         sender.saveData();

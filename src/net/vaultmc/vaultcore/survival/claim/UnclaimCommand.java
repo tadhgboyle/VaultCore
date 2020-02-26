@@ -40,6 +40,5 @@ public class UnclaimCommand extends CommandExecutor {
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.unclaimed").replace("{X}",
                 String.valueOf(sender.getLocation().getChunk().getX())).replace("{Z}",
                 String.valueOf(sender.getLocation().getChunk().getZ())));
-        sender.getPlayer().setLevel(sender.getPlayer().getLevel() + 1);
     }
 }
