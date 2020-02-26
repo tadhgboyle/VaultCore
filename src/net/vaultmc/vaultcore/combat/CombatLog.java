@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
@@ -23,6 +24,11 @@ public class CombatLog extends ConstructorRegisterListener {
             e.getPlayer().setHealth(0);
             inCombat.remove(e.getPlayer().getUniqueId());
         }
+    }
+
+    @EventHandler
+    public void onPlayerDead(PlayerDeathEvent e) {
+        inCombat.remove(e.getEntity().getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
