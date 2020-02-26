@@ -16,6 +16,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
@@ -27,6 +28,7 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.projectiles.ProjectileSource;
@@ -34,6 +36,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class LegacyCombat extends ConstructorRegisterListener implements Runnable {
@@ -130,6 +133,7 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
             .unbreakable(true)
             .build();
     private static final ItemStack lapis = new ItemStack(Material.LAPIS_LAZULI, 64);
+    private static final int OFFHAND_SLOT = 40;
 
     static {
         damage.put(Material.DIAMOND_AXE, 6D);
@@ -165,6 +169,10 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
 
     private static boolean isTool(Material type) {
         return type.toString().matches(".*(AXE|SWORD|PICKAXE|SHOVEL|HOE)");
+    }
+
+    private static <T, U> BiPredicate<T, U> not(BiPredicate<T, U> predicate) {
+        return predicate.negate();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -346,6 +354,37 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
                 e.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onSwapHandItems(PlayerSwapHandItemsEvent e) {
+        if (shouldCancel(e.getOffHandItem())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onOHClick(InventoryClickEvent e) {
+        if (e.getInventory().getType() != InventoryType.CRAFTING || e.getSlot() != OFFHAND_SLOT) return;
+        if (e.getClick().equals(ClickType.NUMBER_KEY) || shouldCancel(e.getCursor())) {
+            e.setResult(Event.Result.DENY);
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onInventoryDrag(InventoryDragEvent e) {
+        if (e.getInventory().getType() != InventoryType.CRAFTING
+                || !e.getInventorySlots().contains(OFFHAND_SLOT)) return;
+
+        if (shouldCancel(e.getOldCursor())) {
+            e.setResult(Event.Result.DENY);
+            e.setCancelled(true);
+        }
+    }
+
+    private boolean shouldCancel(ItemStack item) {
+        return item != null && item.getType() != Material.AIR;
     }
 
     @Override
