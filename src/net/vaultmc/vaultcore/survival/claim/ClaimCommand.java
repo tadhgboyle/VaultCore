@@ -12,6 +12,7 @@ import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.io.File;
 import java.util.Arrays;
@@ -104,6 +105,7 @@ public class ClaimCommand extends CommandExecutor implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
+        if (e.getHand() == EquipmentSlot.OFF_HAND) return;
         if (!e.getPlayer().getWorld().getName().contains("Survival")) return;
         VLOfflinePlayer owner = isAlreadyClaimed(e.getClickedBlock() != null ? e.getClickedBlock().getChunk() :
                 e.getPlayer().getChunk());

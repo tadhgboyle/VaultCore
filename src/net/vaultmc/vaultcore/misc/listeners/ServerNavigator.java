@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -161,7 +162,8 @@ public class ServerNavigator extends ConstructorRegisterListener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
                 && e.getPlayer().getInventory().getItemInMainHand().hasItemMeta() &&
-                (ChatColor.GREEN + "Server Navigator").equals(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName())) {
+                (ChatColor.GREEN + "Server Navigator").equals(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName()) &&
+                e.getHand() == EquipmentSlot.HAND) {
             e.getPlayer().openInventory(inv);
         }
     }

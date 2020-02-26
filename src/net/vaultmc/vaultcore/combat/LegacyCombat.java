@@ -305,7 +305,8 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getPlayer().getInventory().getItemInMainHand().getType().toString().endsWith("SWORD") && (
-                e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && !e.getPlayer().isBlocking()) {
+                e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && e.getHand() == EquipmentSlot.HAND &&
+                !e.getPlayer().isBlocking()) {
             if (e.getClickedBlock() != null && interactive.contains(e.getClickedBlock().getType())) {
                 return;
             }
