@@ -73,7 +73,7 @@ public class EconomyCommand extends CommandExecutor {
     @SubCommand("takeMoney")
     public void takeMoney(VLCommandSender sender, VLOfflinePlayer player, World world, double amount) {
         player.withdraw(world, amount);
-        sender.sendMessage(VaultLoader.getMessage("economy.take").replace("{PLAYER}", player.getFormattedName()
-                .replace("{AMOUNT}", VaultCore.numberFormat.format(amount))));
+        sender.sendMessage(VaultLoader.getMessage("economy.take").replace("{PLAYER}", player.getFormattedName())
+                .replace("{AMOUNT}", VaultCore.numberFormat.format(amount)));
     }
 }
