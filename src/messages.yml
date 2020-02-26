@@ -347,6 +347,9 @@ buggy:
       intended: "Intended"
 
 useful: "&eCrashed {PLAYER}&e. It might not be successful!"
+combat-log:
+  tagged: "&c&lYou are now in combat with {PLAYER}&c."
+  out: "&aYou are no longer in combat."
 
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
