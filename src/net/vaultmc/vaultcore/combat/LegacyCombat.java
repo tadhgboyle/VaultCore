@@ -1,21 +1,25 @@
 package net.vaultmc.vaultcore.combat;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedParticle;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,11 +36,11 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class LegacyCombat extends ConstructorRegisterListener implements Runnable {
@@ -163,16 +167,23 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         damage.put(Material.DIAMOND_HOE, 1D);
     }
 
+    private BukkitRunnable task;
+    private List<Location> sweepLocations = new ArrayList<>();
+
     public LegacyCombat() {
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 40, 40);
+        task = new BukkitRunnable() {
+            @Override
+            public void run() {
+                sweepLocations.clear();
+            }
+        };
+        task.runTaskTimer(VaultLoader.getInstance(), 0, 1);
+        ProtocolLibrary.getProtocolManager().addPacketListener(new ParticleListener());
     }
 
     private static boolean isTool(Material type) {
         return type.toString().matches(".*(AXE|SWORD|PICKAXE|SHOVEL|HOE)");
-    }
-
-    private static <T, U> BiPredicate<T, U> not(BiPredicate<T, U> predicate) {
-        return predicate.negate();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -402,6 +413,36 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityDamaged(EntityDamageByEntityEvent e) {
+        Entity damager = e.getDamager();
+        if (!(damager instanceof Player)) return;
+        if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) {
+            e.setCancelled(true);
+            return;
+        }
+
+        Player attacker = (Player) e.getDamager();
+        ItemStack weapon = attacker.getInventory().getItemInMainHand();
+
+        if (weapon.getType().toString().endsWith("_SWORD"))
+            onSwordAttack(e, attacker, weapon);
+    }
+
+    private void onSwordAttack(EntityDamageByEntityEvent e, Player attacker, ItemStack weapon) {
+        Location attackerLocation = attacker.getLocation();
+        int level = weapon.getEnchantmentLevel(Enchantment.SWEEPING_EDGE);
+        double damage = LegacyCombat.damage.get(weapon.getType()) * level / (level + 1) + 1;
+
+        if (e.getDamage() == damage) {
+            if (sweepLocations.contains(attackerLocation)) {
+                e.setCancelled(true);
+            }
+        } else {
+            sweepLocations.add(attackerLocation);
+        }
+    }
+
     private enum EnchantmentType {
         PROTECTION(() -> EnumSet.allOf(EntityDamageEvent.DamageCause.class), 0.75, Enchantment.PROTECTION_ENVIRONMENTAL),
         FIRE_PROTECTION(() -> {
@@ -443,6 +484,20 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
 
         public int getEpf(int level) {
             return (int) Math.floor((6 + level * level) * typeModifier / 3);
+        }
+    }
+
+    private static class ParticleListener extends PacketAdapter {
+        public ParticleListener() {
+            super(VaultLoader.getInstance(), ListenerPriority.NORMAL, PacketType.Play.Server.WORLD_PARTICLES);
+        }
+
+        @Override
+        public void onPacketSending(PacketEvent e) {
+            WrappedParticle<?> particle = e.getPacket().getNewParticles().read(0);
+            if (particle.getParticle() == Particle.SWEEP_ATTACK) {
+                e.setCancelled(true);
+            }
         }
     }
 }

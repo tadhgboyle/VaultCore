@@ -74,6 +74,11 @@
 		</repository>
 
 		<repository>
+			<id>dmulloy2-repo</id>
+			<url>https://repo.dmulloy2.net/nexus/repository/public/</url>
+		</repository>
+
+		<repository>
 			<id>sk89q-snapshots</id>
 			<url>http://maven.sk89q.com/artifactory/repo</url>
 			<releases>
@@ -86,6 +91,13 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.comphenix.protocol</groupId>
+			<artifactId>ProtocolLib</artifactId>
+			<version>4.5.0</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>com.destroystokyo.paper</groupId>
 			<artifactId>paper-api</artifactId>
