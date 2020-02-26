@@ -186,6 +186,7 @@ public final class VaultCore extends Component implements Listener {
             new BuggyCommand();
             new BuggyListener();
             new AFKCommand();
+            new WarpCommand();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
@@ -198,6 +199,8 @@ public final class VaultCore extends Component implements Listener {
 
         if (!getConfig().getString("server").trim().equalsIgnoreCase("backup")) {
             new EconomyCommand();
+            new MoneyCommand();
+            new TransferCommand();
         }
 
         new LogsCommand();
@@ -211,7 +214,6 @@ public final class VaultCore extends Component implements Listener {
         new TPAHereCommand();
         new TPHereCommand();
         new TPDenyCommand();
-        new WarpCommand();
         new BackCommand();
         new DiscordCommand();
         new PingCommand();
@@ -246,9 +248,7 @@ public final class VaultCore extends Component implements Listener {
         new ReportCommand();
         new ReportsCommand();
         new ChatUtils();
-        new MoneyCommand();
         new TimeCommand();
-        new TransferCommand();
         new VanishCommand();
         new VanishListeners();
         new GameModeListeners();
