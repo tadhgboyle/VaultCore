@@ -41,6 +41,8 @@ public class CombatLog extends ConstructorRegisterListener {
             }
             ((Player) e.getEntity()).sendActionBar(VaultLoader.getMessage("combat-log.tagged").replace("{PLAYER}",
                     VLPlayer.getPlayer((Player) e.getDamager()).getFormattedName()));
+            ((Player) e.getDamager()).sendActionBar(VaultLoader.getMessage("combat-log.tagged").replace("{PLAYER}",
+                    VLPlayer.getPlayer((Player) e.getEntity()).getFormattedName()));
             inCombat.put(e.getEntity().getUniqueId(), new TagInfo(e.getDamager().getUniqueId(), Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
                 ((Player) e.getEntity()).sendActionBar(VaultLoader.getMessage("combat-log.out"));
                 inCombat.remove(e.getEntity().getUniqueId());
