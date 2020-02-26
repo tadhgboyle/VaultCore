@@ -22,6 +22,7 @@ import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.combat.CombatLog;
+import net.vaultmc.vaultcore.combat.LegacyCombat;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.creative.CycleListener;
@@ -204,6 +205,7 @@ public final class VaultCore extends Component implements Listener {
             new TransferCommand();
         }
 
+        new LegacyCombat();
         new LogsCommand();
         new CombatLog();
         new SettingsCommand();
