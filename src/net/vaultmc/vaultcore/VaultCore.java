@@ -370,6 +370,7 @@ public final class VaultCore extends Component implements Listener {
         }
         Bug.save();
         Report.save();
+        ModMode.save();
         database.close();
         pDatabase.close();
         inv.save();

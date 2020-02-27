@@ -58,6 +58,12 @@ public class ModMode extends CommandExecutor implements Listener, Runnable {
     private static final Map<VLPlayer, Boolean> status = new HashMap<>();
     private static final Map<VLPlayer, ItemStack[]> inv = new HashMap<>();
 
+    public static void save() {
+        for (VLPlayer player : inv.keySet()) {
+            player.getInventory().setContents(inv.get(player));
+        }
+    }
+
     public ModMode() {
         VaultCore.getInstance().registerEvents(this);
         Bukkit.getScheduler().runTaskTimer(VaultCore.getInstance().getBukkitPlugin(), this,
