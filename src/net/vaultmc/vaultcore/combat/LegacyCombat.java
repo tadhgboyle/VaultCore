@@ -29,10 +29,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.*;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.projectiles.ProjectileSource;
@@ -167,12 +164,11 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         damage.put(Material.DIAMOND_HOE, 1D);
     }
 
-    private BukkitRunnable task;
     private List<Location> sweepLocations = new ArrayList<>();
 
     public LegacyCombat() {
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 40, 40);
-        task = new BukkitRunnable() {
+        BukkitRunnable task = new BukkitRunnable() {
             @Override
             public void run() {
                 sweepLocations.clear();
@@ -180,6 +176,11 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         };
         task.runTaskTimer(VaultLoader.getInstance(), 0, 1);
         ProtocolLibrary.getProtocolManager().addPacketListener(new ParticleListener());
+    }
+
+    @EventHandler
+    public void onItemSwap(PlayerSwapHandItemsEvent e) {
+        if (e.getOffHandItem().getType() == Material.SHIELD) e.setCancelled(true);
     }
 
     private static boolean isTool(Material type) {
@@ -374,6 +375,16 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
             e.setResult(Event.Result.DENY);
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (e.getSlot() == 40) e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onItemDrop(PlayerDropItemEvent e) {
+        if (e.getItemDrop().getItemStack().getType() == Material.SHIELD) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
