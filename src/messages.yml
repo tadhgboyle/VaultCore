@@ -559,7 +559,7 @@ vaultcore:
         format: "&6{ID}&e:&7 {LOL}"
       add:
         added: "&eAdded the lol #&2{ID}&e."
-        already_exists: "&cThat lol already exists (#{ID})"
+        already_exists: "&cThat lol already exists."
         not_added: "&clol #&2{ID}&e could not be saved."
       delete:
         deleted: "&eDeleted the lol #&2{ID}&e."
