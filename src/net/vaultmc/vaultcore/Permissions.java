@@ -91,4 +91,6 @@ public final class Permissions {
     public static final String LogsCommandAdmin = "vaultcore.logs.admin";
     public static final String VaultMCBotManage = "vaultcore.bot.manage";
     public static final String SpawnCommand = "vaultcore.spawn";
+    public static final String ForceFieldCommand = "vaultcore.forcefield";
+    public static final String ForceFieldExempt = "vaultcore.forcefield.exempt";
 }

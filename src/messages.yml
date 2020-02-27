@@ -58,6 +58,14 @@ lobby:
     hidden: "&eSet player visibility to &cinvisible&e!"
     shown: "&eSet player visibility to &avisible&e!"
 
+forcefield:
+  must-be-visible: "&cYou must be visible to use the force field!"
+  cannot-vanish: "&cForce field and vanish are not compatible."
+  already-on: "&eForce field is already on!"
+  already-off: "&eForce field is already off!"
+  enabled: "&eYou enabled force field."
+  disabled: "&eYou disabled force field."
+
 economy:
   get: "&eBalance of &6{PLAYER}&e: &6${AMOUNT}"
   give: "&eSuccessfully given &6${AMOUNT} &eto &6{PLAYER}&e."

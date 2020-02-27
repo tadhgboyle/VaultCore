@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.vanish;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.misc.commands.staff.ForceFieldCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
@@ -32,14 +33,18 @@ public class VanishCommand extends CommandExecutor {
 	public static void setVanishState(VLPlayer player, boolean vanish) {
 		SQLMessenger.sendGlobalMessage("Vanish" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + vanish);
 		if (vanish) {
-			for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
-				if (i == player)
-					continue;
-				if (i.hasPermission(Permissions.VanishCommand))
-					continue;
-				i.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), player.getPlayer());
-			}
-		} else {
+            if (ForceFieldCommand.forcefield.containsKey(player.getUniqueId())) {
+                player.sendMessage(VaultLoader.getMessage("forcefield.cannot-vanish"));
+                return;
+            }
+            for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
+                if (i == player)
+                    continue;
+                if (i.hasPermission(Permissions.VanishCommand))
+                    continue;
+                i.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), player.getPlayer());
+            }
+        } else {
 			for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
 				if (i == player)
 					continue;
