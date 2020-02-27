@@ -112,6 +112,7 @@ public class TPCommand extends CommandExecutor implements Listener {
     @SubCommand("teleportToLocation")
     @PlayerOnly
     public void teleportToLocation(VLPlayer sender, Location location) {
+        if (location.getY() > 1000) return;
         sender.teleport(location);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_location"),
                 location.getX(), location.getY(), location.getZ()));
@@ -119,6 +120,7 @@ public class TPCommand extends CommandExecutor implements Listener {
 
     @SubCommand("teleportPlayerTo")
     public void teleportPlayerTo(VLCommandSender sender, VLOfflinePlayer target, Location location) {
+        if (location.getY() > 1000) return;
         if (target.isOnline()) {
             target.getOnlinePlayer().teleport(location);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.player_to_location_sender"),
