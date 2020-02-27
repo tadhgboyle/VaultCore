@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.misc.listeners;
+package net.vaultmc.vaultcore.lobby;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -130,7 +130,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
-                    e.getPlayer().getInventory().setItem(4, paper));
+                    e.getPlayer().getInventory().setItem(3, paper));
         }
     }
 
@@ -138,9 +138,9 @@ public class ServerNavigator extends ConstructorRegisterListener {
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
-                    e.getPlayer().getInventory().setItem(4, paper));
+                    e.getPlayer().getInventory().setItem(3, paper));
         } else {
-            e.getPlayer().getInventory().clear(4);
+            e.getPlayer().getInventory().clear(3);
         }
     }
 

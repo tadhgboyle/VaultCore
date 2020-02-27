@@ -37,6 +37,8 @@ import net.vaultmc.vaultcore.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.grant.GrantCommand;
 import net.vaultmc.vaultcore.grant.GrantCommandListener;
 import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
+import net.vaultmc.vaultcore.lobby.PlayerHider;
+import net.vaultmc.vaultcore.lobby.ServerNavigator;
 import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultcore.messenger.PingService;
 import net.vaultmc.vaultcore.misc.commands.*;
@@ -284,6 +286,7 @@ public final class VaultCore extends Component implements Listener {
         new Portals();
         new SpawnCommand();
         new ClaimCharger();
+        new PlayerHider();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());

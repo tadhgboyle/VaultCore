@@ -53,6 +53,11 @@ report:
 brand: "&6{PLAYER}&e's client brand is &6{BRAND}&e. Please keep in mind this might be inaccurate."
 brand-not-ready: "&cThis player isn't currently ready for checking brand!"
 
+lobby:
+  player-hider:
+    hidden: "&eSet player visibility to &cinvisible&e!"
+    shown: "&eSet player visibility to &avisible&e!"
+
 economy:
   get: "&eBalance of &6{PLAYER}&e: &6${AMOUNT}"
   give: "&eSuccessfully given &6${AMOUNT} &eto &6{PLAYER}&e."
