@@ -100,11 +100,11 @@ public class ReportsCommand extends CommandExecutor implements Listener {
         int pages;
 
         if (openedOnly) {
-            pages = Report.getReports().size() / 36;
-            if (Report.getReports().size() % 36 != 0) pages++;
-        } else {
             pages = Report.getActiveReports().size() / 36;
             if (Report.getActiveReports().size() % 36 != 0) pages++;
+        } else {
+            pages = Report.getReports().size() / 36;
+            if (Report.getReports().size() % 36 != 0) pages++;
         }
 
         pages--;
@@ -114,7 +114,7 @@ public class ReportsCommand extends CommandExecutor implements Listener {
             return;
         }
 
-        List<Report> reports = openedOnly ? Report.getReports().subList(page * 36, Math.min(Report.getReports().size(), page * 36 + 35)) :
+        List<Report> reports = !openedOnly ? Report.getReports().subList(page * 36, Math.min(Report.getReports().size(), page * 36 + 35)) :
                 Report.getActiveReports().subList(page * 36, Math.min(Report.getActiveReports().size(), page * 36 + 35));
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.RESET + "Reports (" + (page + 1) + "/" + (pages + 1) + ")");
         for (Report report : reports) {

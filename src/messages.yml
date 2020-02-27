@@ -48,7 +48,7 @@ report:
   assigned: "&eAssigned you to &6{ID}&e."
   unassigned: "&eUnassigned you from &6{ID}&e."
   no-reports: "&cThere aren't any reports!"
-  incorrect-page: "&cIncorrect page!"
+  incorrect-page: "&cIncorrect page!\n&cYou can use /reports false to view all reports."
 
 brand: "&6{PLAYER}&e's client brand is &6{BRAND}&e. Please keep in mind this might be inaccurate."
 brand-not-ready: "&cThis player isn't currently ready for checking brand!"
