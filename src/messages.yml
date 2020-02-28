@@ -302,6 +302,19 @@ tour:
     the-rise-of-vaultmc: "Unused. Will add when VaultMC reaches 100+ online players at a time."
     # ^ This is awesome.
 
+cannot-explore: "&eOnly &fPatreon&e or above can explore this area! &a[Why?]"
+cannot-explore-why: |-
+  &eArea within 50,000 blocks radius
+  &efrom 0, 0 is pregenerated which
+  &eallows players to explore it
+  &ewith a small amount of lag.
+  &e
+  &eHowever, the area you are trying
+  &eto explore is not pregenerated.
+  &eTo prevent abuse, you must be
+  &fPatreon&e or above to explore
+  &ethis area.
+
 buggy:
   notice: |-
     &eMake sure you have checked &6/buggy bugs&e to see if an existing bug report already exist!
