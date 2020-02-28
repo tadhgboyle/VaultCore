@@ -12,13 +12,15 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class MoveHandler extends ConstructorRegisterListener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        double x = e.getTo().getX();
-        double z = e.getTo().getZ();
-        if (!e.getPlayer().hasPermission(Permissions.Explore)) {
-            if (x >= 50000 || x <= -50000 || z >= 50000 || z <= -50000) {
-                TextComponent component = new TextComponent(VaultLoader.getMessage("cannot-explore"));
-                component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(VaultLoader.getMessage("cannot-explore-why"))}));
-                e.getPlayer().sendMessage(component);
+        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("clans") || e.getPlayer().getWorld().getName().toLowerCase().startsWith("survival")) {
+            double x = e.getTo().getX();
+            double z = e.getTo().getZ();
+            if (!e.getPlayer().hasPermission(Permissions.Explore)) {
+                if (x >= 32000 || x <= -32000 || z >= 32000 || z <= -32000) {
+                    TextComponent component = new TextComponent(VaultLoader.getMessage("cannot-explore"));
+                    component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(VaultLoader.getMessage("cannot-explore-why"))}));
+                    e.getPlayer().sendMessage(component);
+                }
             }
         }
     }
