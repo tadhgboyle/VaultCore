@@ -110,7 +110,7 @@ public class LolCommand extends CommandExecutor {
 
     public static void lolListPages(VLCommandSender sender, int page) {
         page = page - 1;
-        int MAX_PAGES = (int) Math.floor(lolsList.size() / PAGE_SIZE);
+        int MAX_PAGES = (int) Math.floor(lolsList.size() / (double) PAGE_SIZE);
 
         if (page + 1 > MAX_PAGES + 1) {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.max"), page + 1, MAX_PAGES + 1));

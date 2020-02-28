@@ -27,9 +27,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.*;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.projectiles.ProjectileSource;
@@ -178,13 +182,13 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         ProtocolLibrary.getProtocolManager().addPacketListener(new ParticleListener());
     }
 
+    private static boolean isTool(Material type) {
+        return type.toString().matches(".*(AXE|SWORD|PICKAXE|SHOVEL|HOE)");
+    }
+
     @EventHandler
     public void onItemSwap(PlayerSwapHandItemsEvent e) {
         if (e.getOffHandItem().getType() == Material.SHIELD) e.setCancelled(true);
-    }
-
-    private static boolean isTool(Material type) {
-        return type.toString().matches(".*(AXE|SWORD|PICKAXE|SHOVEL|HOE)");
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -363,15 +367,13 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onSwapHandItems(PlayerSwapHandItemsEvent e) {
-        if (shouldCancel(e.getOffHandItem())) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onOHClick(InventoryClickEvent e) {
         if (e.getInventory().getType() != InventoryType.CRAFTING || e.getSlot() != OFFHAND_SLOT) return;
-        if (e.getClick().equals(ClickType.NUMBER_KEY) || shouldCancel(e.getCursor())) {
+        if (e.getClick().equals(ClickType.NUMBER_KEY)) {
             e.setResult(Event.Result.DENY);
             e.setCancelled(true);
         }
@@ -383,8 +385,8 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
     }
 
     @EventHandler
-    public void onItemDrop(PlayerDropItemEvent e) {
-        if (e.getItemDrop().getItemStack().getType() == Material.SHIELD) e.setCancelled(true);
+    public void onItemDrop(ItemSpawnEvent e) {
+        if (e.getEntity().getItemStack().getType() == Material.SHIELD) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -392,14 +394,8 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         if (e.getInventory().getType() != InventoryType.CRAFTING
                 || !e.getInventorySlots().contains(OFFHAND_SLOT)) return;
 
-        if (shouldCancel(e.getOldCursor())) {
-            e.setResult(Event.Result.DENY);
-            e.setCancelled(true);
-        }
-    }
-
-    private boolean shouldCancel(ItemStack item) {
-        return item != null && item.getType() != Material.AIR;
+        e.setResult(Event.Result.DENY);
+        e.setCancelled(true);
     }
 
     @Override
