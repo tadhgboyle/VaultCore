@@ -22,7 +22,7 @@ public class CombatLog extends ConstructorRegisterListener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         if (inCombat.containsKey(e.getPlayer().getUniqueId())) {
             e.getPlayer().setHealth(0);
-            if (inCombat.get(e.getPlayer().getUniqueId()).getTask() != null)
+            if (inCombat.get(e.getPlayer().getUniqueId()) != null)
                 inCombat.get(e.getPlayer().getUniqueId()).getTask().cancel();
             inCombat.remove(e.getPlayer().getUniqueId());
         }
