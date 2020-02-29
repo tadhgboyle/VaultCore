@@ -29,6 +29,15 @@ public class BuggyCommand extends CommandExecutor {
         register("bugs", Collections.singletonList(
                 Arguments.createLiteral("bugs")
         ));
+        register("search", Arrays.asList(
+                Arguments.createLiteral("search"),
+                Arguments.createArgument("term", Arguments.greedyString())
+        ));
+        register("searchPaged", Arrays.asList(
+                Arguments.createLiteral("searchPaged"),
+                Arguments.createArgument("page", Arguments.integerArgument(1)),
+                Arguments.createArgument("term", Arguments.greedyString())
+        ));
         register("bugsPaged", Arrays.asList(
                 Arguments.createLiteral("bugs"),
                 Arguments.createArgument("page", Arguments.integerArgument(1))
@@ -93,6 +102,62 @@ public class BuggyCommand extends CommandExecutor {
     )
     public List<WrappedSuggestion> suggestStatus(VLPlayer sender, String remaining) {
         return Arrays.stream(Bug.Status.values()).map(s -> new WrappedSuggestion(s.toString().toLowerCase())).collect(Collectors.toList());
+    }
+
+    @SubCommand("search")
+    public void search(VLPlayer sender, String term) {
+        List<Bug> bugs = Bug.getBugs().stream().filter(b -> b.getTitle().contains(term)).collect(Collectors.toList());
+
+    }
+
+    @SubCommand("searchPaged")
+    public void searchPaged(VLPlayer sender, int page, String term) {
+        for (int i = 0; i < 100; i++) {
+            sender.sendMessage("\n");
+        }
+        List<Bug> canDisplay = Bug.getBugs().stream().filter(b -> b.getTitle().contains(term)).collect(Collectors.toList());
+        int pages = canDisplay.size() / 7;
+        if (canDisplay.size() % 7 != 0) pages++;
+
+        if (page > pages) {
+            if (pages != 0) {
+                sender.sendMessage(VaultLoader.getMessage("buggy.only-pages").replace("{PAGE}", String.valueOf(pages)));
+            }
+            return;
+        }
+        page--;
+        List<Bug> toShow = new ArrayList<>();
+        for (int i = page * 7; i < page * 7 + 6; i++) {
+            try {
+                toShow.add(canDisplay.get(i));
+            } catch (IndexOutOfBoundsException ex) {
+                break;
+            }
+        }
+
+        sender.sendMessage(VaultLoader.getMessage("buggy.bugs.header")
+                .replace("{PAGE}", String.valueOf(page + 1))
+                .replace("{MAX_PAGE}", String.valueOf(pages)));
+        for (Bug bug : toShow) {
+            if (bug.isHidden()) continue;
+            TextComponent component = new TextComponent(ChatColor.GREEN + bug.getTitle());
+            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
+                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.reporter").replace("{REPORTER}", bug.getReporter().getFormattedName()) + "\n"),
+                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.assignees").replace("{ASSIGNEES}", listToString(bug.getAssignees())) + "\n"),
+                    new TextComponent(VaultLoader.getMessage("buggy.bugs.hover.status").replace("{STATUS}", VaultLoader.getMessage(bug.getStatus().getKey())) + "\n")
+            }));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy bug " + bug.getUniqueId()));
+            sender.sendMessage(component);
+        }
+
+        sender.sendMessage(" ");
+        TextComponent arrows = page != 0 ? new TextComponent(ChatColor.GOLD + "\u2190") : new TextComponent(" ");
+        arrows.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy searchPaged " + page + " " + term));
+        arrows.addExtra(new TextComponent("                              "));
+        TextComponent next = (page + 1 != pages) ? new TextComponent(ChatColor.GOLD + "\u2192") : new TextComponent(" ");
+        next.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/buggy searchPaged " + (page + 2) + " " + term));
+        arrows.addExtra(next);
+        sender.sendMessage(arrows);
     }
 
     @SubCommand("status")
