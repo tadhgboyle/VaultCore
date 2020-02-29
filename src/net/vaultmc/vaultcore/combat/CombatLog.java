@@ -30,7 +30,7 @@ public class CombatLog extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerDead(PlayerDeathEvent e) {
-        if (inCombat.get(e.getEntity().getUniqueId()).getTask() != null)
+        if (inCombat.get(e.getEntity().getUniqueId()) != null)
             inCombat.get(e.getEntity().getUniqueId()).getTask().cancel();
         inCombat.remove(e.getEntity().getUniqueId());
     }
