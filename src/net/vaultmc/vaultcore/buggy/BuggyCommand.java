@@ -106,8 +106,7 @@ public class BuggyCommand extends CommandExecutor {
 
     @SubCommand("search")
     public void search(VLPlayer sender, String term) {
-        List<Bug> bugs = Bug.getBugs().stream().filter(b -> b.getTitle().contains(term)).collect(Collectors.toList());
-
+        searchPaged(sender, 1, term);
     }
 
     @SubCommand("searchPaged")
@@ -115,13 +114,15 @@ public class BuggyCommand extends CommandExecutor {
         for (int i = 0; i < 100; i++) {
             sender.sendMessage("\n");
         }
-        List<Bug> canDisplay = Bug.getBugs().stream().filter(b -> b.getTitle().contains(term)).collect(Collectors.toList());
+        List<Bug> canDisplay = Bug.getBugs().stream().filter(b -> b.getTitle().toLowerCase().contains(term.toLowerCase())).collect(Collectors.toList());
         int pages = canDisplay.size() / 7;
         if (canDisplay.size() % 7 != 0) pages++;
 
         if (page > pages) {
             if (pages != 0) {
                 sender.sendMessage(VaultLoader.getMessage("buggy.only-pages").replace("{PAGE}", String.valueOf(pages)));
+            } else {
+                sender.sendMessage(VaultLoader.getMessage("buggy.no-results"));
             }
             return;
         }

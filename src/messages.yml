@@ -321,6 +321,7 @@ buggy:
     &eTo cancel anytime, type &6CANCEL&e (in all caps).
     &ePlease send meaningful bug reports and do not mess around with the system.
     &a--------
+  no-results: "&cNo results."
   cancelled: "&eCancelled."
   status-set: "&eSet status of &6{BUG}&e to &6{STATUS}&e."
   total-assigned: "&6{BUGS}&e bugs are assigned to you!"
