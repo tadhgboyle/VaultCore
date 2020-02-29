@@ -122,6 +122,7 @@ public class Nametags implements Listener, Runnable {
             }
 
             PlayerTeam team = scoreboard.createTeam(nametag.getSortPriority() + p.getUniqueId().toString().split("-")[0]);
+            team.setCollisionRule(Team.CollisionRule.NEVER);
             teams.put(p, team);
             scoreboard.addPlayerToTeam(p.getName(), team);
             p.setPlayerListName(nametag.getPrefix() + p.getDisplayName() + nametag.getSuffix());

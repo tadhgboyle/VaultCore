@@ -56,7 +56,6 @@ import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.*;
-import net.vaultmc.vaultcore.survival.MoveHandler;
 import net.vaultmc.vaultcore.survival.SleepHandler;
 import net.vaultmc.vaultcore.survival.claim.ClaimCharger;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
@@ -289,7 +288,6 @@ public final class VaultCore extends Component implements Listener {
         new ClaimCharger();
         new PlayerHider();
         new ForceFieldCommand();
-        new MoveHandler();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
         registerEvents(new PlayerJoinQuitListener());
