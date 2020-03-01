@@ -5,6 +5,7 @@ welcome-message: |-
   &7Welcome to 6eVault&6MC&7!
   &7To learn about our server ranks: &e/ranks
   &7Report bugs with: &e/buggy report
+  &7Follow us on &bTwitter&7: &e@VaultMinecraft
   &7Check out our website: &ehttps://vaultmc.net
 mysql:
   host: localhost
