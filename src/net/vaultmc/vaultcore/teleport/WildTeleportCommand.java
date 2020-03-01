@@ -24,8 +24,8 @@ public class WildTeleportCommand extends CommandExecutor {
                 || player.getWorld().getName().equalsIgnoreCase("clans")) {
 
             Location originalLocation = player.getLocation().clone();
-            int x = ThreadLocalRandom.current().nextInt(-16000, 16000);
-            int z = ThreadLocalRandom.current().nextInt(-16000, 16000);
+            int x = ThreadLocalRandom.current().nextInt(-8000, 8000);
+            int z = ThreadLocalRandom.current().nextInt(-8000, 8000);
             int y = player.getWorld().getHighestBlockYAt(x, z);
 
             Location newLocation = new Location(player.getWorld(), x, y + 1, z);
