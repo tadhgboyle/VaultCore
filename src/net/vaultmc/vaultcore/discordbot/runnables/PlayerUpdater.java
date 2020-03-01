@@ -28,6 +28,7 @@ public class PlayerUpdater {
                     continue;
                 }
                 List<Role> roles = member.getRoles();
+                roles.remove(VaultMCBot.betaTester);
                 String group = player.getGroup().toLowerCase();
                 try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT username FROM players WHERE uuid=?", player.getUniqueId().toString())) {
                     if (rs.next()) {

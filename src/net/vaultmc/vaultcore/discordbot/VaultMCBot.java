@@ -30,6 +30,7 @@ public class VaultMCBot extends ListenerAdapter {
     public static Role moderator;
     public static Role staff;
     public static Role players;
+    public static Role betaTester;
 
     public static void startVaultMCBot() {
         try {
@@ -45,6 +46,7 @@ public class VaultMCBot extends ListenerAdapter {
             admin = guild.getRoleById(615457221337153546L);
             moderator = guild.getRoleById(615457245551001600L);
             staff = guild.getRoleById(615671876928143537L);
+            betaTester = guild.getRoleById(678014449596235779L);
             players = guild.getRoleById(615457277247488010L);
 
             PlayerUpdater.mappedRole.putAll("admin", Arrays.asList(admin, staff, players));
