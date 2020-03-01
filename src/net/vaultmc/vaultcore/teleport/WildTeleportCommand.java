@@ -31,7 +31,7 @@ public class WildTeleportCommand extends CommandExecutor {
             Location newLocation = new Location(player.getWorld(), x, y + 1, z);
             player.teleport(newLocation);
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.wild.teleported"),
-                    String.valueOf(newLocation.distance(originalLocation))));
+                    String.valueOf(Math.round(newLocation.distance(originalLocation)))));
         } else {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.wild.wrong_world"));
         }
