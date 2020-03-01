@@ -27,6 +27,7 @@ import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,6 +47,8 @@ import java.util.Map;
 public class AFKCommand extends CommandExecutor implements Listener {
     @Getter
     private static final Map<VLPlayer, Location> afk = new HashMap<>();  // I have no plans of saving this in data.yml
+    @Getter
+    private static final Map<VLPlayer, Integer> pt = new HashMap<>();
     private static final Location afkHub = new Location(Bukkit.getWorld("Lobby"), 121.5, 103, -5.5, 0F, 0F);
 
     public AFKCommand() {
@@ -61,6 +64,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (afk.containsKey(player)) {
             player.teleport(afk.remove(player));
+            player.getPlayer().setStatistic(Statistic.PLAY_ONE_MINUTE, pt.remove(player));
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
 
             for (VLPlayer p : VLPlayer.getOnlinePlayers()) {
@@ -73,7 +77,10 @@ public class AFKCommand extends CommandExecutor implements Listener {
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (afk.containsKey(player)) {
-            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.teleport(afk.remove(player)));
+            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
+                player.teleport(afk.remove(player));
+                player.getPlayer().setStatistic(Statistic.PLAY_ONE_MINUTE, pt.remove(player));
+            });
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
 
             for (VLPlayer p : VLPlayer.getOnlinePlayers()) {
@@ -92,6 +99,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
 
         if (newValue) {
             player.sendMessage(VaultLoader.getMessage("you-afk"));
+            pt.put(player, player.getStatistic(Statistic.PLAY_ONE_MINUTE));
             player.teleport(afkHub);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -99,6 +107,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
             }
         } else {
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
+            player.getPlayer().setStatistic(Statistic.PLAY_ONE_MINUTE, pt.remove(player));
             if (loc != null) player.teleport(loc);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -118,6 +127,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
 
         if (newValue) {
             player.sendMessage(VaultLoader.getMessage("you-afk"));
+            pt.put(player, player.getStatistic(Statistic.PLAY_ONE_MINUTE));
             player.teleport(afkHub);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -125,6 +135,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
             }
         } else {
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
+            player.getPlayer().setStatistic(Statistic.PLAY_ONE_MINUTE, pt.remove(player));
             if (loc != null) player.teleport(loc);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
