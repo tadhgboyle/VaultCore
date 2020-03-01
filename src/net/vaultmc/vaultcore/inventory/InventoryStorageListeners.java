@@ -36,7 +36,7 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
 
     static {
         worldGroups.put("lobby", new String[]{"Lobby", "newSpawn", "tour", "legacy_lobby"});
-        worldGroups.put("survival", new String[]{"Survival", "Survival_Nether", "Survival_End", "legacy_survival"});
+        worldGroups.put("survival", new String[]{"Survival", "Survival_nether", "Survival_the_end", "legacy_survival"});
         worldGroups.put("skyblock", new String[]{"skyblock", "skyblock_nether", "legacy_sb"});
         worldGroups.put("clans", new String[]{"clans"});
         worldGroups.put("creative", new String[]{"creative", "legacy_creative"});
