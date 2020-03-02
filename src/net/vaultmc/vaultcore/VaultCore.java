@@ -208,6 +208,7 @@ public final class VaultCore extends Component implements Listener {
             new EconomyCommand();
             new MoneyCommand();
             new TransferCommand();
+            new PlayerHider();
         }
 
         new LegacyCombat();
@@ -288,7 +289,6 @@ public final class VaultCore extends Component implements Listener {
         new Portals();
         new SpawnCommand();
         new ClaimCharger();
-        new PlayerHider();
         new ForceFieldCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignColours());
