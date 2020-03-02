@@ -7,6 +7,7 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
+import java.util.Collection;
 import java.util.Collections;
 
 @RootCommand(literal = "heal", description = "Heal a player.")
@@ -15,7 +16,7 @@ public class HealCommand extends CommandExecutor {
     public HealCommand() {
         register("healSelf", Collections.emptyList());
         register("healOthers",
-                Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+                Collections.singletonList(Arguments.createArgument("target", Arguments.playersArgument())));
     }
 
     @SubCommand("healSelf")
@@ -28,11 +29,13 @@ public class HealCommand extends CommandExecutor {
 
     @SubCommand("healOthers")
     @Permission(Permissions.HealCommandOther)
-    public void healOthers(VLCommandSender sender, VLPlayer target) {
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.other"),
-                "healed", target.getFormattedName()));
-        target.heal();
-        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.receiver"),
-                "healed", sender.getFormattedName()));
+    public void healOthers(VLCommandSender sender, Collection<VLPlayer> targets) {
+        for (VLPlayer target : targets) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.other"),
+                    "healed", target.getFormattedName()));
+            target.heal();
+            target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.receiver"),
+                    "healed", sender.getFormattedName()));
+        }
     }
 }
