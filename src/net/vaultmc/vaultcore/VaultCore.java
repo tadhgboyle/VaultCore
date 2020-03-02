@@ -291,7 +291,7 @@ public final class VaultCore extends Component implements Listener {
         new ClaimCharger();
         new ForceFieldCommand();
         registerEvents(new GrantCommandListener());
-        registerEvents(new SignColours());
+        registerEvents(new SignHandler());
         registerEvents(new PlayerJoinQuitListener());
         registerEvents(new PlayerTPListener());
         registerEvents(new BannedListener());
