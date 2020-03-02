@@ -11,6 +11,7 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.vaultmc.vaultloader.utils.player.VLOfflinePlayer.getOfflinePlayerDiscord;
@@ -27,7 +28,7 @@ public class PlayerUpdater {
                 if (player == null) {
                     continue;
                 }
-                List<Role> roles = member.getRoles();
+                List<Role> roles = new ArrayList<>(member.getRoles());
                 roles.remove(VaultMCBot.betaTester);
                 String group = player.getGroup().toLowerCase();
                 try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT username FROM players WHERE uuid=?", player.getUniqueId().toString())) {
