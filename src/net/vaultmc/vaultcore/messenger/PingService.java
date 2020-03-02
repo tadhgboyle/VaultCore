@@ -14,6 +14,10 @@ public class PingService extends ConstructorRegisterListener {
     @Getter
     private static final Map<String, Integer> pong = new HashMap<>();
 
+    public static void ping(String session) {
+        SQLMessenger.sendGlobalMessage("Ping" + VaultCore.SEPARATOR + session);
+    }
+
     @EventHandler
     public void onMessageReceived(MessageReceivedEvent e) {
         if (e.getMessage().startsWith("Ping")) {
@@ -24,9 +28,5 @@ public class PingService extends ConstructorRegisterListener {
             i++;
             pong.put(e.getMessage().split(VaultCore.SEPARATOR)[1], i);
         }
-    }
-
-    public static void ping(String session) {
-        SQLMessenger.sendGlobalMessage("Ping" + VaultCore.SEPARATOR + session);
     }
 }

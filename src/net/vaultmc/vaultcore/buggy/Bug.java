@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
 @Data
 public class Bug {
     private static final SimpleDateFormat ios8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    @Getter
+    private static final List<Bug> bugs = new ArrayList<>();
+    private static int currentId;
 
     static {
         ios8601.setTimeZone(TimeZone.getTimeZone("CET"));
     }
 
-    @Getter
-    private static final List<Bug> bugs = new ArrayList<>();
-    private static int currentId;
     private String title;
     private String description;
     private String actualBehavior;
@@ -159,24 +159,6 @@ public class Bug {
         }
     }
 
-    public enum Status {
-        CREATING(null),
-        OPEN("buggy.bugs.status.open"),
-        CLOSED("buggy.bugs.status.closed"),
-        RESOLVED("buggy.bugs.status.resolved"),
-        REOPENED("buggy.bugs.status.reopened"),
-        POSTPONED("buggy.bugs.status.postponed"),
-        DUPLICATE("buggy.bugs.status.duplicate"),
-        INTENDED("buggy.bugs.status.intended");
-
-        @Getter
-        private String key;
-
-        Status(String key) {
-            this.key = key;
-        }
-    }
-
     @SneakyThrows
     public void sendWebhook() {
         JsonObject request = new JsonObject();
@@ -244,5 +226,23 @@ public class Bug {
 
         Scanner scanner = new Scanner(connection.getInputStream()).useDelimiter("\\A");
         VaultCore.getInstance().getLogger().info("Received " + scanner.next() + " from Discord");
+    }
+
+    public enum Status {
+        CREATING(null),
+        OPEN("buggy.bugs.status.open"),
+        CLOSED("buggy.bugs.status.closed"),
+        RESOLVED("buggy.bugs.status.resolved"),
+        REOPENED("buggy.bugs.status.reopened"),
+        POSTPONED("buggy.bugs.status.postponed"),
+        DUPLICATE("buggy.bugs.status.duplicate"),
+        INTENDED("buggy.bugs.status.intended");
+
+        @Getter
+        private String key;
+
+        Status(String key) {
+            this.key = key;
+        }
     }
 }

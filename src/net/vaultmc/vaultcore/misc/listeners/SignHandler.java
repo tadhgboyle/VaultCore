@@ -19,6 +19,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class SignHandler implements Listener {
+    private static final ItemStack sign = new ItemStack(Material.OAK_SIGN);
+
     @EventHandler
     public void signChange(SignChangeEvent e) {
         if (!e.getPlayer().hasPermission(Permissions.ChatColor)) return;
@@ -26,8 +28,6 @@ public class SignHandler implements Listener {
         for (int n = 0; n <= 3; n++)
             e.setLine(n, ChatColor.translateAlternateColorCodes('&', lines[n]));
     }
-
-    private static final ItemStack sign = new ItemStack(Material.OAK_SIGN);
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void editSign(PlayerInteractEvent e) {

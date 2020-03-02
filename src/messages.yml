@@ -390,6 +390,7 @@ vaultcore:
   runnables:
     rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
   survival:
+    back: "&eUse &6/back&e to teleport to your death location."
     time_set_day: "&eThe night has passed in &6Survival&e."
     players_needed: "&eOnly &2{PLAYERS}&e players needed to instantly skip the night in Survival."
     nether_warning: "&eWarning: The Nether will be reset when the Nether Update is released."
