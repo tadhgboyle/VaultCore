@@ -10,6 +10,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
@@ -31,6 +32,8 @@ public class SignHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void editSign(PlayerInteractEvent e) {
         if (e.isCancelled()) return;
+
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Block block = e.getClickedBlock();
         if (block.getType().toString().endsWith("_SIGN")) {
