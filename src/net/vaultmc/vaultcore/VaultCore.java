@@ -57,7 +57,9 @@ import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.*;
+import net.vaultmc.vaultcore.survival.MessageExperience;
 import net.vaultmc.vaultcore.survival.SleepHandler;
+import net.vaultmc.vaultcore.survival.TheEndReset;
 import net.vaultmc.vaultcore.survival.claim.ClaimCharger;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
 import net.vaultmc.vaultcore.survival.claim.UnclaimCommand;
@@ -193,6 +195,8 @@ public final class VaultCore extends Component implements Listener {
             new BuggyListener();
             new AFKCommand();
             new WarpCommand();
+            new TheEndReset();
+            new MessageExperience();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());

@@ -392,6 +392,11 @@ vaultcore:
   survival:
     time_set_day: "&eThe night has passed in &6Survival&e."
     players_needed: "&eOnly &2{PLAYERS}&e players needed to instantly skip the night in Survival."
+    nether_warning: "&eWarning: The Nether will be reset when the Nether Update is released."
+    end_resetting: "&eSurvival the end is going to be reset after 3 minutes!"
+    end_resetting-2: "&eSurvival the end is going to be reset after 2 minutes!"
+    end_resetting-3: "&eSurvival the end is going to be reset after 1 minute!"
+    end_reset: "&eSurvival end is resetting. You are warped to survival spawn."
   commands:
     spawn:
       disabled: "&cThis command can't be executed in this world!"
