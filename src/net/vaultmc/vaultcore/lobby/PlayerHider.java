@@ -1,5 +1,6 @@
 package net.vaultmc.vaultcore.lobby;
 
+import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
@@ -32,6 +33,11 @@ public class PlayerHider extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
+        if (SecLogCommand.getLoggingPlayers().containsKey(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
+            return;
+        }
+
         if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND &&
                 e.getPlayer().getInventory().getItemInMainHand() != null && e.getPlayer().getInventory().getItemInMainHand().hasItemMeta() &&
                 e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().startsWith(ChatColor.YELLOW + "Player Visibility: ")) {

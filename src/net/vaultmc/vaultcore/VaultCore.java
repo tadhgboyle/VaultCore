@@ -215,6 +215,7 @@ public final class VaultCore extends Component implements Listener {
             new PlayerHider();
         }
 
+        new SecLogCommand();
         new LegacyCombat();
         new LogsCommand();
         new CombatLog();

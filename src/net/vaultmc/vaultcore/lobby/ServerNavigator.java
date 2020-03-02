@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.lobby;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
@@ -160,6 +161,11 @@ public class ServerNavigator extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
+        if (SecLogCommand.getLoggingPlayers().containsKey(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
+            return;
+        }
+
         if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
                 && e.getPlayer().getInventory().getItemInMainHand().hasItemMeta() &&
                 (ChatColor.GREEN + "Server Navigator").equals(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName()) &&

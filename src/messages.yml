@@ -378,6 +378,25 @@ combat-log:
   tagged: "&c&lYou are now in combat with {PLAYER}&c."
   out: "&aYou are no longer in combat."
 
+sec-log:
+  set:
+    already-set: "&cAccount password already set. Use &6/seclog reset&c or &6/seclog unset&c."
+    enter-password: "&eEnter password:"
+    confirm-password: "&eConfirm password:"
+    not-match: "&cPasswords don't match."
+    set: "&ePlease rejoin to continue."
+  unset:
+    mod: "&eUnsetting your account password is a bad thing to do. As a privileged user, you can lose access to your account in the future if not setting a password. Type &6/seclog unset confirm&e to continue."
+    default: "&eUnsetting your account password is a bad thing to do. Type &6/seclog unset confirm&e to continue."
+    not-set: "&cYour account isn't secured yet."
+    incorrect-password: "&cIncorrect password."
+  reset:
+    enter-new-password: "&eEnter new password:"
+    confirm-new-password: "&eConfirm new password:"
+  enter-password: "&ePlease enter your password in chat.\n&eIf you forgot your password, please immediately contact an administrator for help or tag @admin in #support."
+  secure-account: "\n&eHey Moderator/Administrator. Please use &6/seclog set&e to secure your account with a password. Insecure login attempt on privileged accounts will be denied in the future.\n"
+  success: "&aSuccessfully logged in."
+
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
   player_never_joined: "&cThat player has never joined before."
