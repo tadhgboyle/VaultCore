@@ -7,6 +7,7 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Location;
 
 import java.util.Collections;
+import java.util.Stack;
 
 @RootCommand(literal = "back", description = "Teleport to your previous location.")
 @Permission(Permissions.BackCommand)
@@ -19,10 +20,12 @@ public class BackCommand extends CommandExecutor {
     @SubCommand("back")
     public void back(VLPlayer player) {
         if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
-            Location before = PlayerTPListener.teleports.get(player.getUniqueId()).pop();
-            player.teleport(before);
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.success"));
-            PlayerTPListener.teleports.remove(player.getUniqueId());
+            Stack<Location> stack = PlayerTPListener.teleports.get(player.getUniqueId());
+            Location before = stack.pop();
+            player.teleportNoMove(before);
+            if (stack.empty()) {
+                PlayerTPListener.teleports.remove(player.getUniqueId());
+            }
         } else {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.no_teleport_location"));
         }
