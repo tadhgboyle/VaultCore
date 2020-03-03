@@ -86,6 +86,10 @@ public class SecLogCommand extends CommandExecutor implements Listener {
     @SubCommand("forgot")
     @SneakyThrows
     public void forgot(VLPlayer sender) {
+        if (!VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) {
+            sender.kick(VaultLoader.getMessage("sec-log.forgot.unusable"));
+            return;
+        }
         if (!loggingPlayers.containsKey(sender.getUniqueId())) {
             sender.kick(VaultLoader.getMessage("sec-log.forgot.unusable"));
             return;
@@ -95,9 +99,10 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             return;
         }
 
-        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT discord_id FROM players WHERE uuid=?",
-                sender.getUniqueId())) {
-            if (rs.next()) {
+        Location loc = loggingPlayers.remove(sender.getUniqueId());
+
+        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT discord_id FROM players WHERE uuid=?", sender.getUniqueId().toString())) {
+            if (rs.next() && rs.getLong("discord_id") != 0) {
                 Member discordUser = VaultMCBot.getGuild().getMemberById(rs.getLong("discord_id"));
                 try {
                     discordUser.getUser().openPrivateChannel().queue(channel -> {
@@ -112,9 +117,13 @@ public class SecLogCommand extends CommandExecutor implements Listener {
                     });
                 } catch (Exception ex) {
                     sender.sendMessage(VaultLoader.getMessage("sec-log.forgot.dm-on"));
+                    sender.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
+                    loggingPlayers.put(sender.getUniqueId(), loc);
                 }
             } else {
+                loggingPlayers.put(sender.getUniqueId(), loc);
                 sender.sendMessage(VaultLoader.getMessage("sec-log.forgot.link"));
+                sender.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
             }
         }
     }

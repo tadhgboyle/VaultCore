@@ -399,7 +399,7 @@ sec-log:
     link: "&cYou must have linked your Discord account to use this."
     dm-on: "&cYou must have direct messaging on for this."
     dm: "Please enter {CODE} in chat to reset your password on VaultMC."
-    received: "Please enter the code you received in your Discord DM."
+    received: "&ePlease enter the code you received in your Discord DM."
     incorrect-code: "&cIncorrect code."
   forgot-msg: "&eForgot your password? Click &a[here]&e to easily reset your password."
   forgot-hover: "Send you a Discord DM to reset your password."
