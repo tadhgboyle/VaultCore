@@ -33,7 +33,7 @@ public class FeedCommand extends CommandExecutor {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.other"), "fed",
                     target.getFormattedName()));
             target.feed();
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.receiver"),
+            target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.feed_heal.receiver"),
                     "fed", sender.getFormattedName()));
         }
     }
