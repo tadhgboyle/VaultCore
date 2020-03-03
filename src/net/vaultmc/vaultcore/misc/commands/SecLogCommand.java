@@ -206,6 +206,9 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             e.setCancelled(true);
             if (e.getMessage().equals(resetingPlayers.remove(e.getPlayer().getUniqueId()))) {
                 player.sendMessage(VaultLoader.getMessage("sec-log.success"));
+                player.sendMessage(VaultLoader.getMessage("sec-log.forgot.new-password"));
+                setPrompt.add(player.getUniqueId());
+                player.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
                     player.removePotionEffect(PotionEffectType.INVISIBILITY);
                     player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
