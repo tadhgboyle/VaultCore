@@ -2,11 +2,16 @@ package net.vaultmc.vaultcore.misc.commands;
 
 import com.google.common.hash.Hashing;
 import lombok.Getter;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -64,8 +69,15 @@ public class SecLogCommand extends CommandExecutor implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+        if (loggingPlayers.containsKey(e.getPlayer().getUniqueId())) e.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+
+        e.getRecipients().removeIf(loggingPlayers::containsKey);
 
         if (setPrompt.contains(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
@@ -114,7 +126,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             }
         } else if (loggingPlayers.containsKey(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
-            if (Hashing.sha512().hashString(e.getMessage(), StandardCharsets.UTF_8).toString().equals(player.getPlayerData().getString("password"))) {
+            if (Hashing.sha512().hashString(ChatColor.stripColor(e.getMessage()), StandardCharsets.UTF_8).toString().equals(player.getPlayerData().getString("password"))) {
                 player.sendMessage(VaultLoader.getMessage("sec-log.success"));
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.teleport(loggingPlayers.remove(e.getPlayer().getUniqueId())));
             } else {
@@ -150,6 +162,10 @@ public class SecLogCommand extends CommandExecutor implements Listener {
 
     @SubCommand("reset")
     public void reset(VLPlayer sender) {
+        if (!sender.getPlayerData().contains("password")) {
+            sender.sendMessage(VaultLoader.getMessage("sec-log.unset.not-set"));
+            return;
+        }
         resetPrompt.add(sender.getUniqueId());
         sender.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
     }
@@ -164,6 +180,10 @@ public class SecLogCommand extends CommandExecutor implements Listener {
 
             if (player.getPlayerData().contains("password")) {
                 player.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
+                TextComponent mask = new TextComponent(VaultLoader.getMessage("sec-log.mask"));
+                mask.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(VaultLoader.getMessage("sec-log.mask-hover"))}));
+                mask.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, VaultLoader.getMessage("sec-log.mask-click")));
+                player.sendMessage(mask);
                 Location loc = player.getLocation().clone();
                 player.teleport(auth);
                 loggingPlayers.put(player.getUniqueId(), loc);

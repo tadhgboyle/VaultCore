@@ -396,6 +396,9 @@ sec-log:
   enter-password: "&ePlease enter your password in chat.\n&eIf you forgot your password, please immediately contact an administrator for help or tag @admin in #support."
   secure-account: "\n&eHey Moderator/Administrator. Please use &6/seclog set&e to secure your account with a password. Insecure login attempt on privileged accounts will be denied in the future.\n"
   success: "&aSuccessfully logged in."
+  mask: "&e[Password Mask]"
+  mask-hover: "Prefix your password with obfuscation so nobody can see it."
+  mask-click: "&k"
 
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
