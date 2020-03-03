@@ -2,7 +2,14 @@ package net.vaultmc.vaultcore.misc.commands;
 
 import com.google.common.hash.Hashing;
 import lombok.Getter;
+import lombok.SneakyThrows;
+import net.dv8tion.jda.api.entities.Member;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.discordbot.VaultMCBot;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -18,7 +25,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RootCommand(
         literal = "seclog",
@@ -35,6 +44,8 @@ public class SecLogCommand extends CommandExecutor implements Listener {
     private static final Map<UUID, String> resetConfirmPrompt = new HashMap<>();
     @Getter
     private static final Map<UUID, Location> loggingPlayers = new HashMap<>();
+    @Getter
+    private static final Map<UUID, String> resetingPlayers = new HashMap<>();
 
     public SecLogCommand() {
         register("set", Collections.singletonList(Arguments.createLiteral("set")));
@@ -44,6 +55,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
                 Arguments.createLiteral("confirm")
         ));
         register("reset", Collections.singletonList(Arguments.createLiteral("reset")));
+        register("forgot", Collections.singletonList(Arguments.createLiteral("forgot")));
         VaultCore.getInstance().registerEvents(this);
     }
 
@@ -56,6 +68,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         resetNewPrompt.remove(e.getPlayer().getUniqueId());
         resetConfirmPrompt.remove(e.getPlayer().getUniqueId());
         loggingPlayers.remove(e.getPlayer().getUniqueId());
+        resetingPlayers.remove(e.getPlayer().getUniqueId());
         e.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
     }
 
@@ -63,20 +76,59 @@ public class SecLogCommand extends CommandExecutor implements Listener {
     public void set(VLPlayer sender) {
         if (sender.getPlayerData().contains("password")) {
             sender.sendMessage(VaultLoader.getMessage("sec-log.set.already-set"));
+            return;
         }
         setPrompt.add(sender.getUniqueId());
         sender.sendMessage(VaultLoader.getMessage("sec-log.set.create"));
         sender.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
     }
 
+    @SubCommand("forgot")
+    @SneakyThrows
+    public void forgot(VLPlayer sender) {
+        if (!loggingPlayers.containsKey(sender.getUniqueId())) {
+            sender.kick(VaultLoader.getMessage("sec-log.forgot.unusable"));
+            return;
+        }
+        if (!sender.getPlayerData().contains("password")) {
+            sender.sendMessage(VaultLoader.getMessage("sec-log.unset.not-set"));
+            return;
+        }
+
+        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT discord_id FROM players WHERE uuid=?",
+                sender.getUniqueId())) {
+            if (rs.next()) {
+                Member discordUser = VaultMCBot.getGuild().getMemberById(rs.getLong("discord_id"));
+                try {
+                    discordUser.getUser().openPrivateChannel().queue(channel -> {
+                        if (channel == null) {
+                            sender.sendMessage(VaultLoader.getMessage("sec-log.forgot-dm-on"));
+                            return;
+                        }
+                        String code = String.valueOf(ThreadLocalRandom.current().nextInt(100000000, 999999999));
+                        resetingPlayers.put(sender.getUniqueId(), code);
+                        sender.sendMessage(VaultLoader.getMessage("sec-log.forgot.received"));
+                        channel.sendMessage(VaultLoader.getMessage("sec-log.forgot.dm").replace("{CODE}", code)).queue();
+                    });
+                } catch (Exception ex) {
+                    sender.sendMessage(VaultLoader.getMessage("sec-log.forgot.dm-on"));
+                }
+            } else {
+                sender.sendMessage(VaultLoader.getMessage("sec-log.forgot.link"));
+            }
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
-        if (loggingPlayers.containsKey(e.getPlayer().getUniqueId())) e.setCancelled(true);
+        if ((loggingPlayers.containsKey(e.getPlayer().getUniqueId()) || resetingPlayers.containsKey(e.getPlayer().getUniqueId())) && !e.getMessage().equals("/seclog forgot"))
+            e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent e) {
-        if (loggingPlayers.containsKey(e.getWhoClicked().getUniqueId())) e.setCancelled(true);
+        if (loggingPlayers.containsKey(e.getWhoClicked().getUniqueId()) || resetingPlayers.containsKey(e.getWhoClicked().getUniqueId()))
+            e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -141,6 +193,17 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             } else {
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().kickPlayer(VaultLoader.getMessage("sec-log.unset.incorrect-password")));
             }
+        } else if (resetingPlayers.containsKey(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
+            if (e.getMessage().equals(resetingPlayers.remove(e.getPlayer().getUniqueId()))) {
+                player.sendMessage(VaultLoader.getMessage("sec-log.success"));
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
+                    player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                    player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
+                });
+            } else {
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().kickPlayer(VaultLoader.getMessage("sec-log.forgot.incorrect-code")));
+            }
         }
     }
 
@@ -189,7 +252,14 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             }
 
             if (player.getPlayerData().contains("password")) {
-                Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> player.sendMessage("\n" + VaultLoader.getMessage("sec-log.set.enter-password")), 1);
+                Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+                    player.sendMessage("\n" + VaultLoader.getMessage("sec-log.set.enter-password"));
+                    TextComponent comp = new TextComponent(VaultLoader.getMessage("sec-log.forgot-msg"));
+                    comp.setHoverEvent(new HoverEvent(
+                            HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(VaultLoader.getMessage("sec-log.forgot-hover"))}));
+                    comp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/seclog forgot"));
+                    player.sendMessage(comp);
+                }, 1);
                 Location loc = player.getLocation().clone();
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 255, false, false, false));
                 player.teleport(auth);
@@ -200,11 +270,13 @@ public class SecLogCommand extends CommandExecutor implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerMove(PlayerMoveEvent e) {
-        if (loggingPlayers.containsKey(e.getPlayer().getUniqueId())) e.setCancelled(true);
+        if (loggingPlayers.containsKey(e.getPlayer().getUniqueId()) || resetingPlayers.containsKey(e.getPlayer().getUniqueId()))
+            e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (loggingPlayers.containsKey(e.getPlayer().getUniqueId())) e.setCancelled(true);
+        if (loggingPlayers.containsKey(e.getPlayer().getUniqueId()) || resetingPlayers.containsKey(e.getPlayer().getUniqueId()))
+            e.setCancelled(true);
     }
 }

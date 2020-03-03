@@ -145,7 +145,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (SecLogCommand.getLoggingPlayers().containsKey(e.getPlayer().getUniqueId())) {
+        if (SecLogCommand.getLoggingPlayers().containsKey(e.getPlayer().getUniqueId()) || SecLogCommand.getResetingPlayers().containsKey(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
             return;
         }

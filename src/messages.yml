@@ -394,6 +394,15 @@ sec-log:
   reset:
     enter-new-password: "&eEnter new password:"
     confirm-new-password: "&eConfirm new password:"
+  forgot:
+    unusable: "&cThis couldn't be used right now. To prevent abuse, you have been disconnected."
+    link: "&cYou must have linked your Discord account to use this."
+    dm-on: "&cYou must have direct messaging on for this."
+    dm: "Please enter {CODE} in chat to reset your password on VaultMC."
+    received: "Please enter the code you received in your Discord DM."
+    incorrect-code: "&cIncorrect code."
+  forgot-msg: "&eForgot your password? Click &a[here]&e to easily reset your password."
+  forgot-hover: "Send you a Discord DM to reset your password."
   contact-admin: "&ePrivileged account not secured. Contact an administrator for help on creating a password."
   enter-password: "&ePlease enter your password in chat.\n&eIf you forgot your password, please immediately contact an administrator for help or tag @admin in #support."
   success: "&aSuccessfully logged in."
