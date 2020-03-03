@@ -74,7 +74,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
 
-        e.getRecipients().removeIf(loggingPlayers::containsKey);
+        e.getRecipients().removeIf(p -> loggingPlayers.containsKey(p.getUniqueId()));
 
         if (setPrompt.contains(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
