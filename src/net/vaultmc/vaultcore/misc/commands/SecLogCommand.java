@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 
 import java.nio.charset.StandardCharsets;
@@ -68,6 +69,11 @@ public class SecLogCommand extends CommandExecutor implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
         if (loggingPlayers.containsKey(e.getPlayer().getUniqueId())) e.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (loggingPlayers.containsKey(e.getWhoClicked().getUniqueId())) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
