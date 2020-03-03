@@ -134,8 +134,10 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             e.setCancelled(true);
             if (Hashing.sha512().hashString(ChatColor.stripColor(e.getMessage()), StandardCharsets.UTF_8).toString().equals(player.getPlayerData().getString("password"))) {
                 player.sendMessage(VaultLoader.getMessage("sec-log.success"));
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.teleport(loggingPlayers.remove(e.getPlayer().getUniqueId())));
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
+                    player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                    player.teleport(loggingPlayers.remove(e.getPlayer().getUniqueId()));
+                });
             } else {
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().kickPlayer(VaultLoader.getMessage("sec-log.unset.incorrect-password")));
             }
