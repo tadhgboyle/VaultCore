@@ -2,10 +2,6 @@ package net.vaultmc.vaultcore.misc.commands;
 
 import com.google.common.hash.Hashing;
 import lombok.Getter;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -180,10 +176,6 @@ public class SecLogCommand extends CommandExecutor implements Listener {
 
             if (player.getPlayerData().contains("password")) {
                 player.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
-                TextComponent mask = new TextComponent(VaultLoader.getMessage("sec-log.mask"));
-                mask.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(VaultLoader.getMessage("sec-log.mask-hover"))}));
-                mask.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, VaultLoader.getMessage("sec-log.mask-click")));
-                player.sendMessage(mask);
                 Location loc = player.getLocation().clone();
                 player.teleport(auth);
                 loggingPlayers.put(player.getUniqueId(), loc);
