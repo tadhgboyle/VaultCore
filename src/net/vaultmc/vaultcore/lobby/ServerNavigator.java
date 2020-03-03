@@ -67,20 +67,10 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         ChatColor.GRAY + "your own world."
                 ))
                 .build());
-        inv.addItem(new ItemStackBuilder(Material.CLAY_BALL)
-                .name(ChatColor.GOLD + "UHC")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Survive and compete on a limited world.",
-                        ChatColor.GRAY + "The last man standing wins."
-                ))
-                .build());
         inv.addItem(new ItemStackBuilder(Material.DIAMOND_SWORD)
-                .name(ChatColor.GOLD + "Backup (PvP)")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Backup server used when the main server",
-                        ChatColor.GRAY + "is under maintainence.",
-                        "",
-                        ChatColor.GRAY + "Provides a simple PvP gameplay."
+                .name(ChatColor.GOLD + "PvP")
+                .lore(Collections.singletonList(
+                        ChatColor.GRAY + "Simple KitPvP gameplay."
                 ))
                 .build());
     }
@@ -110,12 +100,6 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         player.getPlayer().performCommand("is");
                         break;
                     case 4:
-                        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                        out.writeUTF("Connect");
-                        out.writeUTF("uhc");
-                        player.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
-                        break;
-                    case 5:
                         ByteArrayDataOutput output = ByteStreams.newDataOutput();
                         output.writeUTF("Connect");
                         output.writeUTF("backup");
