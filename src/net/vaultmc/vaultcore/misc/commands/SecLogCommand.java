@@ -61,6 +61,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("sec-log.set.already-set"));
         }
         setPrompt.add(sender.getUniqueId());
+        sender.sendMessage(VaultLoader.getMessage("sec-log.set.create"));
         sender.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
     }
 

@@ -380,6 +380,7 @@ combat-log:
 
 sec-log:
   set:
+    create: "&eCreating a password helps protect your account. Please use a strong password!"
     already-set: "&cAccount password already set. Use &6/seclog reset&c or &6/seclog unset&c."
     enter-password: "&eEnter password:"
     confirm-password: "&eConfirm password:"
