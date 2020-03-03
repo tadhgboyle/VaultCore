@@ -18,12 +18,14 @@ public class SVCommand extends CommandExecutor {
         register("sv", Collections.emptyList());
     }
 
+    private static final Location svLoc = new Location(Bukkit.getWorld("Survival"), -1122.5, 63, -673.5, 0F, 0F);
+
     @SubCommand("sv")
     public void sv(VLPlayer player) {
         Location sv = Utilities.deserializeLocation(player.getPlayerData().getString("locations.sv"));
         if (sv == null) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
-            player.teleport(Bukkit.getWorld("Survival").getSpawnLocation());
+            player.teleport(svLoc);
         } else {
             player.teleport(sv);
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
