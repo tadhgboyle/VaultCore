@@ -14,6 +14,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -54,6 +56,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         resetNewPrompt.remove(e.getPlayer().getUniqueId());
         resetConfirmPrompt.remove(e.getPlayer().getUniqueId());
         loggingPlayers.remove(e.getPlayer().getUniqueId());
+        e.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
     }
 
     @SubCommand("set")
@@ -131,6 +134,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             e.setCancelled(true);
             if (Hashing.sha512().hashString(ChatColor.stripColor(e.getMessage()), StandardCharsets.UTF_8).toString().equals(player.getPlayerData().getString("password"))) {
                 player.sendMessage(VaultLoader.getMessage("sec-log.success"));
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.teleport(loggingPlayers.remove(e.getPlayer().getUniqueId())));
             } else {
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().kickPlayer(VaultLoader.getMessage("sec-log.unset.incorrect-password")));
@@ -178,12 +182,14 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) {
             VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
             if ((player.getGroup().equalsIgnoreCase("moderator") || player.getGroup().equalsIgnoreCase("admin")) && !player.getPlayerData().contains("password")) {
-                player.sendMessage(VaultLoader.getMessage("sec-log.secure-account"));
+                player.kick(VaultLoader.getMessage("sec-log.contact-admin"));
+                return;
             }
 
             if (player.getPlayerData().contains("password")) {
-                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password")));
+                Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> player.sendMessage("\n" + VaultLoader.getMessage("sec-log.set.enter-password")), 1);
                 Location loc = player.getLocation().clone();
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 255, false, false, false));
                 player.teleport(auth);
                 loggingPlayers.put(player.getUniqueId(), loc);
             }
