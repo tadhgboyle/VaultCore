@@ -176,7 +176,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             }
 
             if (player.getPlayerData().contains("password")) {
-                player.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password")));
                 Location loc = player.getLocation().clone();
                 player.teleport(auth);
                 loggingPlayers.put(player.getUniqueId(), loc);
