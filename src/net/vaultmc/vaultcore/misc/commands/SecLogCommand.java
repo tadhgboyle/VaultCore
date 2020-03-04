@@ -103,18 +103,16 @@ public class SecLogCommand extends CommandExecutor implements Listener {
                 try {
                     discordUser.getUser().openPrivateChannel().queue(channel -> {
                         if (channel == null) {
-                            sender.sendMessage(VaultLoader.getMessage("sec-log.forgot-dm-on"));
+                            sender.kick(VaultLoader.getMessage("sec-log.forgot-dm-on"));
                             return;
                         }
                         String code = String.valueOf(ThreadLocalRandom.current().nextInt(100000000, 999999999));
                         resetingPlayers.put(sender.getUniqueId(), code);
                         sender.sendMessage(VaultLoader.getMessage("sec-log.forgot.received"));
                         channel.sendMessage(VaultLoader.getMessage("sec-log.forgot.dm").replace("{CODE}", code)).queue();
-                    });
+                    }, channel -> sender.kick(VaultLoader.getMessage("sec-log.forgot-dm-on")));
                 } catch (Exception ex) {
-                    sender.sendMessage(VaultLoader.getMessage("sec-log.forgot.dm-on"));
-                    sender.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
-                    loggingPlayers.put(sender.getUniqueId(), loc);
+                    sender.kick(VaultLoader.getMessage("sec-log.forgot.dm-on"));
                 }
             } else {
                 loggingPlayers.put(sender.getUniqueId(), loc);
