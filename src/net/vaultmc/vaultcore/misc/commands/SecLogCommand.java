@@ -205,14 +205,9 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         } else if (resetingPlayers.containsKey(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
             if (e.getMessage().equals(resetingPlayers.remove(e.getPlayer().getUniqueId()))) {
-                player.sendMessage(VaultLoader.getMessage("sec-log.success"));
                 player.sendMessage(VaultLoader.getMessage("sec-log.forgot.new-password"));
                 setPrompt.add(player.getUniqueId());
                 player.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
-                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
-                    player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                    player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
-                });
             } else {
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().kickPlayer(VaultLoader.getMessage("sec-log.forgot.incorrect-code")));
             }
@@ -259,7 +254,17 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) {
             VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
             if ((player.getGroup().equalsIgnoreCase("moderator") || player.getGroup().equalsIgnoreCase("admin")) && !player.getPlayerData().contains("password")) {
-                player.kick(VaultLoader.getMessage("sec-log.contact-admin"));
+                Location loc = player.getLocation().clone();
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 255, false, false, false));
+                player.teleport(auth);
+                loggingPlayers.put(player.getUniqueId(), loc);
+                Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+                    TextComponent comp = new TextComponent(VaultLoader.getMessage("sec-log.priv"));
+                    comp.setHoverEvent(new HoverEvent(
+                            HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(VaultLoader.getMessage("sec-log.priv-hover"))}));
+                    comp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/seclog forgot"));
+                    player.sendMessage(comp);
+                }, 1);
                 return;
             }
 

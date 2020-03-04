@@ -407,6 +407,8 @@ sec-log:
   contact-admin: "&ePrivileged account not secured. Contact an administrator for help on creating a password."
   enter-password: "&ePlease enter your password in chat.\n&eIf you forgot your password, please immediately contact an administrator for help or tag @admin in #support."
   success: "&aSuccessfully logged in."
+  priv: "&eYou are using a privileged account to login and your account isn't secured. Click &a[here]&e to set a password."
+  priv-hover: "Send you a Discord DM to set a password"
 
 vaultcore:
   sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
