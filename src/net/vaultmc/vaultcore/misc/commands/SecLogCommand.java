@@ -94,10 +94,6 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             sender.kick(VaultLoader.getMessage("sec-log.forgot.unusable"));
             return;
         }
-        if (!sender.getPlayerData().contains("password")) {
-            sender.sendMessage(VaultLoader.getMessage("sec-log.unset.not-set"));
-            return;
-        }
 
         Location loc = loggingPlayers.remove(sender.getUniqueId());
 
