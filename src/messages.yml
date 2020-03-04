@@ -344,6 +344,7 @@ buggy:
   unassigned: "&eUnassigned &6{PLAYER}&e from &6{BUG}&e."
   you-assigned: "&eYou are assigned to the bug &6{BUG} ({UID})&e."
   you-unassigned: "&eYou are no longer assigned to the bug &6{BUG} ({UID})&e."
+  term: "&cThe term must be more than 3 characters!"
   should-hide: "&eIf this bug is an exploit (e.g. duplicate glitch, corrupt chunks), please type &6Yes&e. Type &6No&e if otherwise."
   stage:
     title: "Title"

@@ -111,6 +111,10 @@ public class BuggyCommand extends CommandExecutor {
 
     @SubCommand("searchPaged")
     public void searchPaged(VLPlayer sender, int page, String term) {
+        if (term.length() < 3) {
+            sender.sendMessage(VaultLoader.getMessage("buggy.term"));
+            return;
+        }
         for (int i = 0; i < 100; i++) {
             sender.sendMessage("\n");
         }
