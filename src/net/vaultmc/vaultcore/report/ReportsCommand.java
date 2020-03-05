@@ -60,7 +60,8 @@ public class ReportsCommand extends CommandExecutor implements Listener {
                         VaultLoader.getMessage("report.inventory.target")
                                 .replace("{TARGET}", report.getTarget().getFormattedName()),
                         VaultLoader.getMessage("report.inventory.reasons")
-                                .replace("{REASONS}", listToString(report.getReasons().stream().map(Report.Reason::toString).collect(Collectors.toList()))),
+                                .replace("{REASONS}", listToString(report.getReasons().stream().map(r -> VaultLoader.getMessage(r.getKey()))
+                                        .collect(Collectors.toList()))),
                         VaultLoader.getMessage("report.inventory.assignees")
                                 .replace("{ASSIGNEES}", listToString(report.getAssignees().stream().map(VLOfflinePlayer::getFormattedName).collect(Collectors.toList()))),
                         VaultLoader.getMessage("report.inventory.status").replace("{STATUS}", VaultLoader.getMessage(report.getStatus().getKey())),
