@@ -64,15 +64,14 @@ public class Report {
         return null;
     }
 
+    @SneakyThrows
     public static void load() {
         if (!VaultCore.getInstance().getData().contains("reports"))
             VaultCore.getInstance().getData().createSection("reports");
-        for (String key : VaultCore.getInstance().getData().getConfigurationSection("reports").getKeys(false)) {
-            Report report = deserialize(key);
-            if (report == null) {
-                report = deserialize(VaultCore.getInstance().getData().getConfigurationSection("reports." + key));
+        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT id FROM reports")) {
+            while (rs.next()) {
+                reports.add(deserialize(rs.getString("id")));
             }
-            reports.add(report);
         }
     }
 
@@ -157,7 +156,6 @@ public class Report {
     public enum Status {
         OPEN("report.status.open"),
         CLOSED("report.status.closed"),
-        FALSE("report.status.false"),
         RESOLVED("report.status.resolved");
 
         @Getter
