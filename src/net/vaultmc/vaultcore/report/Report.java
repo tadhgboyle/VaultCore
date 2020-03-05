@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.ThreadSafeArrayList;
+import net.vaultmc.vaultloader.utils.NoDupeArrayList;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Data
 public class Report {
     @Getter
-    private static final ThreadSafeArrayList<Report> reports = new ThreadSafeArrayList<>();
+    private static final NoDupeArrayList<Report> reports = new NoDupeArrayList<>();
     private VLOfflinePlayer target;
     private List<VLOfflinePlayer> assignees;
 
@@ -112,26 +112,19 @@ public class Report {
                 "target CHAR(36) NOT NULL," +
                 "assignees TEXT NOT NULL," +
                 "reasons TEXT NOT NULL," +
-                "status VARCHAR(10) NOT NULL" +
+                "status VARCHAR(10) NOT NULL," +
+                "PRIMARY KEY (id)" +
                 ")");
     }
 
     @SneakyThrows
     public synchronized void serialize() {
-        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT reporter FROM reports WHERE id=?", id)) {
-            if (rs.next()) {
-                VaultCore.getDatabase().executeUpdateStatement("UPDATE reports SET reporter=?, target=?, assignees=?, reasons=?, status=? WHERE id=?",
-                        reporter.getUniqueId().toString(), target.getUniqueId().toString(),
-                        assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)),
-                        reasons.stream().map(Reason::toString).collect(Collectors.joining(VaultCore.SEPARATOR)), status.toString(), id);
-            } else {
-                VaultCore.getDatabase().executeUpdateStatement("INSERT INTO reports (id, reporter, target, assignees, reasons, status) " +
-                                "VALUES (?, ?, ?, ?, ?, ?)",
-                        id, reporter.getUniqueId().toString(), target.getUniqueId().toString(),
-                        assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)),
-                        reasons.stream().map(Reason::toString).collect(Collectors.joining(VaultCore.SEPARATOR)), status.toString());
-            }
-        }
+        VaultCore.getDatabase().executeUpdateStatement("DELETE FROM reports WHERE id=?", id);
+        VaultCore.getDatabase().executeUpdateStatement("INSERT INTO reports (id, reporter, target, assignees, reasons, status) " +
+                        "VALUES (?, ?, ?, ?, ?, ?)",
+                id, reporter.getUniqueId().toString(), target.getUniqueId().toString(),
+                assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)),
+                reasons.stream().map(Reason::toString).collect(Collectors.joining(VaultCore.SEPARATOR)), status.toString());
     }
 
     @AllArgsConstructor

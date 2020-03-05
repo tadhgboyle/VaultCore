@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.ThreadSafeArrayList;
+import net.vaultmc.vaultloader.utils.NoDupeArrayList;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class Bug {
     private static final SimpleDateFormat ios8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     @Getter
-    private static final ThreadSafeArrayList<Bug> bugs = new ThreadSafeArrayList<>();
+    private static final NoDupeArrayList<Bug> bugs = new NoDupeArrayList<>();
     private static int currentId;
 
     static {
@@ -143,21 +143,13 @@ public class Bug {
 
     @SneakyThrows
     public void serialize() {
-        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT title FROM bugs WHERE id=?", getUniqueId())) {
-            if (!rs.next()) {
-                VaultCore.getDatabase().executeUpdateStatement("INSERT INTO bugs (id, title, description, actualBehavior, expectedBehavior, " +
-                                "stepsToReproduce, additionalInformation, status, hidden, reporter, assignees) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        uniqueId, title, description, actualBehavior, expectedBehavior, String.join(VaultCore.SEPARATOR, stepsToReproduce),
-                        additionalInformation, status.toString(), hidden, reporter.getUniqueId().toString(),
-                        assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)));
-            } else {
-                VaultCore.getDatabase().executeUpdateStatement("UPDATE bugs SET title=?, description=?, actualBehavior=?, expectedBehavior=?," +
-                                "stepsToReproduce=?, additionalInformation=?, status=?, hidden=?, reporter=?, assignees=? WHERE id=?",
-                        title, description, actualBehavior, expectedBehavior, String.join(VaultCore.SEPARATOR, stepsToReproduce),
-                        additionalInformation, status.toString(), hidden, reporter.getUniqueId().toString(),
-                        assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)), uniqueId);
-            }
-        }
+        VaultCore.getDatabase().executeUpdateStatement("DELETE FROM bugs WHERE id=?", getUniqueId());
+
+        VaultCore.getDatabase().executeUpdateStatement("INSERT INTO bugs (id, title, description, actualBehavior, expectedBehavior, " +
+                        "stepsToReproduce, additionalInformation, status, hidden, reporter, assignees) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                uniqueId, title, description, actualBehavior, expectedBehavior, String.join(VaultCore.SEPARATOR, stepsToReproduce),
+                additionalInformation, status.toString(), hidden, reporter.getUniqueId().toString(),
+                assignees.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.joining(VaultCore.SEPARATOR)));
     }
 
     @SneakyThrows
