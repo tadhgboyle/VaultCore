@@ -13,6 +13,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionData;
@@ -457,6 +458,13 @@ public class ReasonSelector extends ConstructorRegisterListener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         callbacks.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getView().getTitle().equals(ChatColor.RESET + "Ban / Mute / Kick")) {
+            callbacks.remove(e.getPlayer().getUniqueId());
+        }
     }
 
     @EventHandler
