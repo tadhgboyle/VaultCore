@@ -112,8 +112,7 @@ public class Report {
                 "target CHAR(36) NOT NULL," +
                 "assignees TEXT NOT NULL," +
                 "reasons TEXT NOT NULL," +
-                "status VARCHAR(10) NOT NULL," +
-                "PRIMARY KEY (id)" +
+                "status VARCHAR(10) NOT NULL" +
                 ")");
     }
 
