@@ -13,7 +13,6 @@ import java.util.Collections;
 
 @RootCommand(literal = "speed", description = "Change the speed of yourself or another player.")
 @Permission(Permissions.SpeedCommand)
-@Aliases("lsd")
 public class SpeedCommand extends CommandExecutor {
 
     public SpeedCommand() {

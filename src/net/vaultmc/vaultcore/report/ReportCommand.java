@@ -92,6 +92,18 @@ public class ReportCommand extends CommandExecutor implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getView().getTitle().equals(VaultLoader.getMessage("report.inventory.title"))) {
             ReportData data = ReportCommand.data.get(e.getWhoClicked().getUniqueId());
+            e.setCancelled(true);
+            if (e.getSlot() == 49) {
+                Report report = new Report(VLOfflinePlayer.getOfflinePlayer((Player) e.getWhoClicked()),
+                        data.getTarget(), new ArrayList<>(), data.getReasons(), Report.Status.OPEN);
+                Report.getReports().add(report);
+                e.getWhoClicked().closeInventory();
+                e.getWhoClicked().sendMessage(VaultLoader.getMessage("report.reported")
+                        .replace("{PLAYER}", data.getTarget().getFormattedName())
+                        .replace("{ID}", report.getId()));
+                return;
+            }
+
             if (e.getSlot() >= 27) {
                 Report.Reason reason;
                 if (e.getSlot() == 40) {
@@ -99,7 +111,6 @@ public class ReportCommand extends CommandExecutor implements Listener {
                 } else if (e.getSlot() <= 35) {
                     reason = Report.Reason.values()[e.getSlot() - 27];
                 } else {
-                    e.setCancelled(true);
                     return;
                 }
                 if (data.getReasons().contains(reason)) {
@@ -114,17 +125,6 @@ public class ReportCommand extends CommandExecutor implements Listener {
                     e.getWhoClicked().openInventory(generateInventory(data));
                 });
             }
-
-            if (e.getSlot() == 49) {
-                Report report = new Report(VLOfflinePlayer.getOfflinePlayer((Player) e.getWhoClicked()),
-                        data.getTarget(), new ArrayList<>(), data.getReasons(), Report.Status.OPEN);
-                Report.getReports().add(report);
-                e.getWhoClicked().closeInventory();
-                e.getWhoClicked().sendMessage(VaultLoader.getMessage("report.reported")
-                        .replace("{PLAYER}", data.getTarget().getFormattedName())
-                        .replace("{ID}", report.getId()));
-            }
-            e.setCancelled(true);
         }
     }
 
