@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.discordbot.runnables;
+package net.vaultmc.vaultcore.discordbot;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.discordbot.VaultMCBot;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 
 import java.sql.ResultSet;

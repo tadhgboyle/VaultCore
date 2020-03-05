@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.discordbot.runnables.PlayerUpdater;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 
 import java.sql.ResultSet;

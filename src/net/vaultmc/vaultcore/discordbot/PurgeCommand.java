@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.discordbot.commands;
+package net.vaultmc.vaultcore.discordbot;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;

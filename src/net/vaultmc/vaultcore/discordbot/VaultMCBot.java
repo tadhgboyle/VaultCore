@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.discordbot.commands.PurgeCommand;
-import net.vaultmc.vaultcore.discordbot.runnables.PlayerUpdater;
 import net.vaultmc.vaultloader.VaultLoader;
 import org.bukkit.Bukkit;
 
@@ -36,7 +34,7 @@ public class VaultMCBot extends ListenerAdapter {
         try {
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot starting up...");
             jda = new JDABuilder(VaultCore.getInstance().getConfig().getString("token"))
-                    .addEventListeners(new TokenValidator(), new PurgeCommand())
+                    .addEventListeners(new TokenValidator(), new PurgeCommand(), new AppealRedir())
                     .setActivity(Activity.playing("on VaultMC.net"))
                     .build();
             jda.awaitReady();
