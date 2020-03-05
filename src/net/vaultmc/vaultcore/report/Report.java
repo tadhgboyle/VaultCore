@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.ThreadSafeArrayList;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @Data
 public class Report {
     @Getter
-    private static final List<Report> reports = new ArrayList<>();
+    private static final ThreadSafeArrayList<Report> reports = new ThreadSafeArrayList<>();
     private VLOfflinePlayer target;
     private List<VLOfflinePlayer> assignees;
 
@@ -65,7 +66,7 @@ public class Report {
     }
 
     @SneakyThrows
-    public static void load() {
+    public static synchronized void load() {
         if (!VaultCore.getInstance().getData().contains("reports"))
             VaultCore.getInstance().getData().createSection("reports");
         try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT id FROM reports")) {
@@ -75,8 +76,8 @@ public class Report {
         }
     }
 
-    public static void save() {
-        for (Report report : reports) {
+    public static synchronized void save() {
+        for (Report report : (ArrayList<Report>) reports.clone()) {
             report.serialize();
         }
     }
@@ -116,7 +117,7 @@ public class Report {
     }
 
     @SneakyThrows
-    public void serialize() {
+    public synchronized void serialize() {
         try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT reporter FROM reports WHERE id=?", id)) {
             if (rs.next()) {
                 VaultCore.getDatabase().executeUpdateStatement("UPDATE reports SET reporter=?, target=?, assignees=?, reasons=?, status=? WHERE id=?",

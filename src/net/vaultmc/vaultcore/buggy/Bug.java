@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.ThreadSafeArrayList;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class Bug {
     private static final SimpleDateFormat ios8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     @Getter
-    private static final List<Bug> bugs = new ArrayList<>();
+    private static final ThreadSafeArrayList<Bug> bugs = new ThreadSafeArrayList<>();
     private static int currentId;
 
     static {
@@ -90,7 +91,7 @@ public class Bug {
 
     public static void save() {
         try {
-            for (Bug bug : bugs) {
+            for (Bug bug : (ArrayList<Bug>) bugs.clone()) {
                 bug.serialize();
             }
         } catch (ConcurrentModificationException ignored) {
