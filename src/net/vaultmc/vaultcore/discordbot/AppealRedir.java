@@ -8,9 +8,9 @@ public class AppealRedir extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e) {
         if (e.getGuild() == VaultMCBot.getGuild() && e.getChannel().getName().endsWith("appeal")) {
             e.getMessage().delete().queue();
-            String content = e.getMessage().getContentStripped();
             e.getGuild().getTextChannelById("685015915779457024").sendMessage("Message in #appeal sent by " +
-                    e.getAuthor().getAsMention() + ": \n\n" + content).queue();
+                    e.getAuthor().getAsMention()).queue();
+            e.getGuild().getTextChannelById("685015915779457024").sendMessage(e.getMessage()).queue();
         }
     }
 }
