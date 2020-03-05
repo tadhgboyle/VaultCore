@@ -19,7 +19,9 @@
 package net.vaultmc.vaultcore.punishments.ban;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.punishments.PunishmentUtils;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
+import net.vaultmc.vaultcore.punishments.ReasonSelector;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
@@ -27,8 +29,9 @@ import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,76 +41,143 @@ import java.util.stream.Collectors;
         description = "Disallows a player from joining the server permanently."
 )
 @Permission(Permissions.BanCommand)
+@PlayerOnly
+@Aliases({"tempban", "tempmute", "kick", "mute"})
 public class BanCommand extends CommandExecutor {
     public BanCommand() {
         unregisterExisting();
-        register("banNoReason", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
-        register("banSilent", Arrays.asList(
-                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
-                Arguments.createArgument("silent", Arguments.boolArgument())
-        ));
-        register("banSilentReason", Arrays.asList(
-                Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
-                Arguments.createArgument("silent", Arguments.boolArgument()),
-                Arguments.createArgument("reason", Arguments.greedyString())
-        ));
+        register("ban", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
     }
 
     @TabCompleter(
-            subCommand = "banNoReason|banSilent|banSilentReason",
+            subCommand = "ban",
             argument = "player"
     )
     public List<WrappedSuggestion> suggestPlayers(VLCommandSender sender, String remaining) {
         return Bukkit.getOnlinePlayers().stream().map(player -> new WrappedSuggestion(player.getName())).collect(Collectors.toList());
     }
 
-    private void banPlayer(VLCommandSender actor, VLOfflinePlayer victim, String reason, boolean silent) {
-        if (Bukkit.getPlayer(victim.getUniqueId()) != null) {
-            Bukkit.getPlayer(victim.getUniqueId()).kickPlayer(VaultLoader.getMessage("punishments.ban.disconnect")
-                    .replace("{ACTOR}", actor.getFormattedName())
-                    .replace("{REASON}", reason));
-        }
+    @SubCommand("ban")
+    public void ban(VLPlayer sender, VLOfflinePlayer victim) {
+        ReasonSelector.start(sender, victim, (reason, expiry, type) -> {
+            if (type == ReasonSelector.Type.BAN) {
+                if (expiry == -1L) {
+                    if (victim.isOnline()) {
+                        victim.getOnlinePlayer().kick(VaultLoader.getMessage("punishments.ban.disconnect")
+                                .replace("{ACTOR}", sender.getFormattedName())
+                                .replace("{REASON}", reason));
+                    }
 
-        PunishmentsDB.registerData("bans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
-                true, reason, -1, (actor instanceof VLPlayer) ? ((VLPlayer) actor).getUniqueId().toString() : "CONSOLE"));
+                    PunishmentsDB.registerData("bans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
+                            true, reason, -1, sender.getFormattedName()));
 
-        actor.sendMessage(VaultLoader.getMessage("punishments.ban.sent").replace("{PLAYER}", victim.getFormattedName()));
+                    sender.sendMessage(VaultLoader.getMessage("punishments.ban.sent").replace("{PLAYER}", victim.getFormattedName()));
 
-        if (silent) {
-            for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-                if (player.hasPermission(Permissions.PunishmentNotify)) {
-                    player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
-                            VaultLoader.getMessage("punishments.ban.announcement")
-                                    .replace("{ACTOR}", actor.getFormattedName())
-                                    .replace("{REASON}", reason)
-                                    .replace("{PLAYER}", victim.getFormattedName()));
+                    for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+                        if (player.hasPermission(Permissions.PunishmentNotify)) {
+                            player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
+                                    VaultLoader.getMessage("punishments.ban.announcement")
+                                            .replace("{ACTOR}", sender.getFormattedName())
+                                            .replace("{REASON}", reason)
+                                            .replace("{PLAYER}", victim.getFormattedName()));
+                        }
+                    }
+                } else {
+                    if (victim.isOnline()) {
+                        victim.getOnlinePlayer().kick(VaultLoader.getMessage("punishments.tempban.disconnect")
+                                .replace("{ACTOR}", sender.getFormattedName())
+                                .replace("{REASON}", reason)
+                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                    }
+
+                    PunishmentsDB.registerData("tempbans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
+                            true, reason, PunishmentUtils.currentTime() + expiry, sender.getFormattedName()));
+
+                    sender.sendMessage(VaultLoader.getMessage("punishments.tempban.sent").replace("{PLAYER}", victim.getFormattedName()));
+
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.hasPermission(Permissions.PunishmentNotify)) {
+                            player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
+                                    VaultLoader.getMessage("punishments.tempban.announcement")
+                                            .replace("{ACTOR}", sender.getFormattedName())
+                                            .replace("{REASON}", reason)
+                                            .replace("{PLAYER}", victim.getFormattedName())
+                                            .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                        }
+                    }
+                }
+            } else if (type == ReasonSelector.Type.KICK) {
+                if (!victim.isOnline()) {
+                    sender.sendMessage(ChatColor.RED + "No player was found");
+                    return;
+                }
+
+                PunishmentsDB.registerData("kicks", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), false, reason, -1,
+                        sender.getFormattedName()));
+
+                victim.getOnlinePlayer().kick(VaultLoader.getMessage("punishments.kick.disconnect")
+                        .replace("{ACTOR}", sender.getFormattedName())
+                        .replace("{REASON}", reason));
+
+                sender.sendMessage(VaultLoader.getMessage("punishments.kick.sent").replace("{PLAYER}", victim.getFormattedName()));
+
+                for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+                    if (player.hasPermission("vaultutils.silentnotify")) {
+                        player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
+                                VaultLoader.getMessage("punishments.kick.announcement")
+                                        .replace("{ACTOR}", sender.getFormattedName())
+                                        .replace("{REASON}", reason)
+                                        .replace("{PLAYER}", victim.getFormattedName()));
+                    }
+                }
+            } else if (type == ReasonSelector.Type.MUTE) {
+                if (expiry == -1L) {
+                    if (victim.isOnline()) {
+                        victim.getOnlinePlayer().sendMessage(VaultLoader.getMessage("punishments.mute.message")
+                                .replace("{ACTOR}", sender.getFormattedName())
+                                .replace("{REASON}", reason));
+                    }
+
+                    PunishmentsDB.registerData("mutes", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), true, reason, -1,
+                            sender.getFormattedName()));
+
+                    sender.sendMessage(VaultLoader.getMessage("punishments.mute.sent").replace("{PLAYER}", victim.getFormattedName()));
+
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.hasPermission(Permissions.PunishmentNotify)) {
+                            player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
+                                    VaultLoader.getMessage("punishments.mute.announcement")
+                                            .replace("{ACTOR}", sender.getFormattedName())
+                                            .replace("{PLAYER}", victim.getFormattedName())
+                                            .replace("{REASON}", reason));
+                        }
+                    }
+                } else {
+                    if (victim.isOnline()) {
+                        victim.getOnlinePlayer().sendMessage(VaultLoader.getMessage("punishments.tempmute.message")
+                                .replace("{ACTOR}", sender.getFormattedName())
+                                .replace("{REASON}", reason)
+                                .replace("{PLAYER}", victim.getFormattedName())
+                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                    }
+
+                    PunishmentsDB.registerData("tempmutes", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), true, reason,
+                            PunishmentUtils.currentTime() + expiry, sender.getFormattedName()));
+
+                    sender.sendMessage(VaultLoader.getMessage("punishments.tempmute.sent").replace("{PLAYER}", victim.getFormattedName()));
+
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.hasPermission("vaultutils.silentnotify")) {
+                            player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
+                                    VaultLoader.getMessage("punishments.tempmute.announcement")
+                                            .replace("{ACTOR}", sender.getFormattedName())
+                                            .replace("{REASON}", reason)
+                                            .replace("{PLAYER}", victim.getFormattedName())
+                                            .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                        }
+                    }
                 }
             }
-        } else {
-            for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-                player.sendMessage(
-                        VaultLoader.getMessage("punishments.ban.announcement")
-                                .replace("{ACTOR}", actor.getFormattedName())
-                                .replace("{REASON}", reason)
-                                .replace("{PLAYER}", victim.getFormattedName()));
-            }
-        }
-    }
-
-    @SubCommand("banNoReason")
-    public void banNoReason(VLCommandSender sender, VLOfflinePlayer victim) {
-        String reason = VaultLoader.getMessage("punishments.default-reason");
-        banPlayer(sender, victim, reason, false);
-    }
-
-    @SubCommand("banSilent")
-    public void banSilent(VLCommandSender sender, VLOfflinePlayer victim, boolean silent) {
-        String reason = VaultLoader.getMessage("punishments.default-reason");
-        banPlayer(sender, victim, reason, silent);
-    }
-
-    @SubCommand("banSilentReason")
-    public void banSilentReason(VLCommandSender sender, VLOfflinePlayer victim, boolean silent, String reason) {
-        banPlayer(sender, victim, reason, silent);
+        });
     }
 }
