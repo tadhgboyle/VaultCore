@@ -11,6 +11,10 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class TokenValidator extends ListenerAdapter {
+    private static void sendMessage(User user, String message) {
+        user.openPrivateChannel().queue(channel -> channel.sendMessage(message).queue());
+    }
+
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         User user = event.getAuthor();
@@ -24,23 +28,23 @@ public class TokenValidator extends ListenerAdapter {
                 return;
             }
             if (channel.getId().equalsIgnoreCase("643313973592195093")) {
-                validateToken(message, member, channel, msg);
+                validateToken(message, member, msg);
             }
         }
     }
 
-    private void validateToken(String message, Member member, MessageChannel channel, Message msg) {
+    private void validateToken(String message, Member member, Message msg) {
         try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT uuid, username FROM players WHERE token=?", message)) {
             if (rs.next()) {
                 if (isDuplicate(message)) {
-                    channel.sendMessage(member.getAsMention() + ": That token is already used.").queue();
+                    sendMessage(member.getUser(), member.getAsMention() + ": That token is already used.");
                     msg.delete().queue();
                     return;
                 }
 
                 VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("uuid")));
                 if (player == null) {
-                    channel.sendMessage(member.getAsMention() + ": Failed to obtain player information from UUID. Please contact an administrator for help.").queue();
+                    sendMessage(member.getUser(), member.getAsMention() + ": Failed to obtain player information from UUID. Please contact an administrator for help.");
                     msg.delete().queue();
                     return;
                 }
@@ -53,11 +57,13 @@ public class TokenValidator extends ListenerAdapter {
                 VaultMCBot.getGuild().getTextChannelById("618221832801353728").sendMessage(member.getAsMention() + " Welcome to the Guild! Your nickname has been set to: `" + rs.getString("username") + "`.").queue();
                 VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET discord_id = ? WHERE token = ?", member.getId(), message);
             } else {
-                channel.sendMessage(member.getAsMention() + ": The token is invalid. If you believe this information is wrong, please contact an administrator for help.").queue();
+                sendMessage(member.getUser(),
+                        member.getAsMention() + ": The token is invalid. If you believe this information is wrong, please contact an administrator for help.");
                 msg.delete().queue();
             }
         } catch (SQLException ex) {
-            channel.sendMessage(member.getAsMention() + ": Failed to validate your token. Please contact an administrator for help. (SQLException: " + ex.getMessage() + ")").queue();
+            sendMessage(member.getUser(),
+                    member.getAsMention() + ": Failed to validate your token. Please contact an administrator for help. (SQLException: " + ex.getMessage() + ")");
         }
     }
 
