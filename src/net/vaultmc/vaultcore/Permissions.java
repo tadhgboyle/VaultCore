@@ -93,5 +93,4 @@ public final class Permissions {
     public static final String SpawnCommand = "vaultcore.spawn";
     public static final String ForceFieldCommand = "vaultcore.forcefield";
     public static final String ForceFieldExempt = "vaultcore.forcefield.exempt";
-    public static final String Explore = "vaultcore.explore";
 }
