@@ -49,19 +49,31 @@ public class ReportCommand extends CommandExecutor implements Listener {
                 .name(ChatColor.GRAY + "Reporting: " + data.getTarget().getFormattedName())
                 .skullOwner(data.getTarget())
                 .build());
-        for (int i = 0; i < Report.Reason.values().length; i++) {
+        for (int i = 0; i < Report.Reason.values().length - 1; i++) {
             Report.Reason reason = Report.Reason.values()[i];
             if (data.getReasons().contains(reason)) {
-                inv.setItem(28 + i, new ItemStackBuilder(reason.getItem())
+                inv.setItem(27 + i, new ItemStackBuilder(reason.getItem())
                         .name(ChatColor.RESET + VaultLoader.getMessage(reason.getKey()))
                         .enchant(Enchantment.DURABILITY, 5)
                         .hideFlags(ItemFlag.HIDE_ENCHANTS)
                         .build());
             } else {
-                inv.setItem(28 + i, new ItemStackBuilder(reason.getItem())
+                inv.setItem(27 + i, new ItemStackBuilder(reason.getItem())
                         .name(ChatColor.RESET + VaultLoader.getMessage(reason.getKey()))
                         .build());
             }
+        }
+        Report.Reason reason = Report.Reason.values()[Report.Reason.values().length - 1];
+        if (data.getReasons().contains(reason)) {
+            inv.setItem(40, new ItemStackBuilder(reason.getItem())
+                    .name(ChatColor.RESET + VaultLoader.getMessage(reason.getKey()))
+                    .enchant(Enchantment.DURABILITY, 5)
+                    .hideFlags(ItemFlag.HIDE_ENCHANTS)
+                    .build());
+        } else {
+            inv.setItem(40, new ItemStackBuilder(reason.getItem())
+                    .name(ChatColor.RESET + VaultLoader.getMessage(reason.getKey()))
+                    .build());
         }
         inv.setItem(49, new ItemStackBuilder(Material.WRITABLE_BOOK)
                 .name(VaultLoader.getMessage("report.inventory.finish"))
@@ -80,8 +92,16 @@ public class ReportCommand extends CommandExecutor implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getView().getTitle().equals(VaultLoader.getMessage("report.inventory.title"))) {
             ReportData data = ReportCommand.data.get(e.getWhoClicked().getUniqueId());
-            if (e.getSlot() >= 28 && e.getSlot() <= 34) {
-                Report.Reason reason = Report.Reason.values()[e.getSlot() - 28];
+            if (e.getSlot() >= 27) {
+                Report.Reason reason;
+                if (e.getSlot() == 40) {
+                    reason = Report.Reason.OTHER;
+                } else if (e.getSlot() <= 35) {
+                    reason = Report.Reason.values()[e.getSlot() - 27];
+                } else {
+                    e.setCancelled(true);
+                    return;
+                }
                 if (data.getReasons().contains(reason)) {
                     data.getReasons().remove(reason);
                 } else {

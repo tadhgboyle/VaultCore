@@ -194,10 +194,6 @@ public final class VaultCore extends Component implements Listener {
             new SchemCommand();
             new ServerNavigator();
             new LolCommand();
-            Bug.dbInit();
-            Bug.load();
-            new BuggyCommand();
-            new BuggyListener();
             new AFKCommand();
             new WarpCommand();
             new TheEndReset();
@@ -267,12 +263,21 @@ public final class VaultCore extends Component implements Listener {
         new ModMode();
         new ReportCommand();
         new ReportsCommand();
+        getServer().getScheduler().runTaskTimer(VaultLoader.getInstance(), () -> {
+            Report.save();
+            Report.getReports().clear();
+            Report.load();
+        }, 2400L, 2400L);
         new ChatUtils();
         new TimeCommand();
         new VanishCommand();
         new VanishListeners();
         new GameModeListeners();
         new WeatherCommand();
+        Bug.dbInit();
+        Bug.load();
+        new BuggyCommand();
+        new BuggyListener();
         new HelpCommand();
         new BrandCommand();
         new BanCommand();

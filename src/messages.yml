@@ -16,13 +16,16 @@ mod-mode:
 report:
   reported: "&eSuccessfully reported {PLAYER}&e (&6{ID}&e). A moderator will investigate on this as soon as possible."
   reasons:
-    kill-aura: "Kill Aura"
-    speed: "Speed"
-    water-walking: "Water Walking (Jesus)"
-    fly: "Fly"
-    cheats-other: "Cheats (Other)"
-    inappropriate-skin: "Inappropriate Skin"
-    chat-violation: "Chat Violation"
+    political: "Political"
+    bug-exploit: "Exploiting bugs"
+    invading-privacy: "Invading Privacy"
+    clientside-modification: "Clientside Unfair Modifications"
+    intentional-disrespect: "Intentional Disrespect"
+    slowing-server-down: "Slowing Server Down"
+    nsfw-shocking: "NSFW/Shocking Content"
+    advertising: "Advertising on/for VaultMC"
+    inappropriate-builds: "Inappropriate Builds"
+    other: "Others"
   status:
     open: "&eOpen"
     closed: "&cClosed"

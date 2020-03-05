@@ -136,13 +136,16 @@ public class Report {
 
     @AllArgsConstructor
     public enum Reason {
-        KILL_AURA("report.reasons.kill-aura", Material.IRON_SWORD),
-        SPEED("report.reasons.speed", Material.RABBIT_FOOT),
-        WATER_WALKING("report.reasons.water-walking", Material.WATER_BUCKET),
-        FLY("report.reasons.fly", Material.ELYTRA),
-        CHEATS_OTHER("report.reasons.cheats-other", Material.ARROW),
-        INAPPROPRIATE_SKIN("report.reasons.inappropriate-skin", Material.PLAYER_HEAD),
-        CHAT_VIOLATION("report.reasons.chat-violation", Material.REDSTONE);
+        POLITICAL_DISCUSSION("report.reasons.political", Material.DIAMOND_AXE),
+        EXPLOITING_BUGS("report.reasons.bug-exploit", Material.RED_STAINED_GLASS),
+        INVADING_PRIVACY("report.reasons.invading-privacy", Material.GLASS_PANE),
+        CLIENTSIDE_MODIFICATION("report.reasons.clientside-modification", Material.ELYTRA),
+        INTENTIONAL_DISRESPECT("report.reasons.intentional-disrespect", Material.EGG),
+        SLOWING_SERVER_DOWN("report.reasons.slowing-server-down", Material.SPLASH_POTION),
+        NSFW_SHOCKING("report.reasons.nsfw-shocking", Material.PLAYER_HEAD),
+        ADVERTISING_ON_FOR("report.reasons.advertising", Material.OAK_SIGN),
+        INAPPROPRIATE_BUILDS("report.reasons.inappropriate-builds", Material.BROWN_CONCRETE),
+        OTHER("report.reasons.other", Material.ITEM_FRAME);
 
         @Getter
         private String key;
