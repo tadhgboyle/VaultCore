@@ -46,7 +46,22 @@ public class TPCommand extends CommandExecutor implements Listener {
                 Arguments.createArgument("target", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("location", Arguments.location3DArgument())
         ));
+        register("teleportToServer", Arrays.asList(
+                Arguments.createLiteral("server"),
+                Arguments.createArgument("server", Arguments.word())
+        ));
         VaultCore.getInstance().registerEvents(this);
+    }
+
+    @SubCommand("teleportToServer")
+    @SneakyThrows
+    public void teleportToServer(VLPlayer sender, String server) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(bos);
+        dos.writeUTF("Connect");
+        dos.writeUTF(server);
+        sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
+        dos.close();
     }
 
     @SneakyThrows
