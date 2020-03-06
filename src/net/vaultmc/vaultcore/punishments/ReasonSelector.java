@@ -43,7 +43,7 @@ public class ReasonSelector extends ConstructorRegisterListener {
                 .name(ChatColor.YELLOW + "Exploiting server/client bugs")
                 .lore(Arrays.asList(
                         ChatColor.GOLD + "Rules (4):",
-                        ChatColor.YELLOW + " If you find a bug on the server,",
+                        ChatColor.YELLOW + " If you found a bug on the server,",
                         ChatColor.YELLOW + " do not exploit the bug.",
                         ChatColor.YELLOW + "Also apply: spreading the method",
                         ChatColor.YELLOW + "to exploit a bug, except when using buggy.",
@@ -56,7 +56,7 @@ public class ReasonSelector extends ConstructorRegisterListener {
                 .name(ChatColor.YELLOW + "Exploiting server/client bugs")
                 .lore(Arrays.asList(
                         ChatColor.GOLD + "Rules (4):",
-                        ChatColor.YELLOW + " If you find a bug on the server,",
+                        ChatColor.YELLOW + " If you found a bug on the server,",
                         ChatColor.YELLOW + " do not exploit the bug.",
                         ChatColor.YELLOW + "Also apply: spreading the method",
                         ChatColor.YELLOW + "to exploit a bug, except when using buggy.",
@@ -69,7 +69,7 @@ public class ReasonSelector extends ConstructorRegisterListener {
                 .name(ChatColor.YELLOW + "Exploiting server/client bugs")
                 .lore(Arrays.asList(
                         ChatColor.GOLD + "Rules (4):",
-                        ChatColor.YELLOW + " If you find a bug on the server,",
+                        ChatColor.YELLOW + " If you found a bug on the server,",
                         ChatColor.YELLOW + " do not exploit the bug.",
                         ChatColor.YELLOW + "Also apply: spreading the method",
                         ChatColor.YELLOW + "to exploit a bug, except when using buggy.",
@@ -291,8 +291,8 @@ public class ReasonSelector extends ConstructorRegisterListener {
                         ChatColor.GOLD + "Rules (13):",
                         ChatColor.YELLOW + " Advertising on VaultMC is disallowed.",
                         ChatColor.YELLOW + " Unless explicitly allowed by an ",
-                        ChatColor.YELLOW + " administrator, advertising for VaultMC ",
-                        ChatColor.YELLOW + " is disallowed.",
+                        ChatColor.YELLOW + " administrator, advertising for VaultMC to",
+                        ChatColor.YELLOW + " a large group of people (35+) is disallowed.",
                         "",
                         ChatColor.YELLOW + "This does not apply when you're asking",
                         ChatColor.YELLOW + "your friends to join.",
@@ -307,8 +307,8 @@ public class ReasonSelector extends ConstructorRegisterListener {
                         ChatColor.GOLD + "Rules (13):",
                         ChatColor.YELLOW + " Advertising on VaultMC is disallowed.",
                         ChatColor.YELLOW + " Unless explicitly allowed by an ",
-                        ChatColor.YELLOW + " administrator, advertising for VaultMC ",
-                        ChatColor.YELLOW + " is disallowed.",
+                        ChatColor.YELLOW + " administrator, advertising for VaultMC to",
+                        ChatColor.YELLOW + " a large group of people (35+) is disallowed.",
                         "",
                         ChatColor.YELLOW + "This does not apply when you're asking",
                         ChatColor.YELLOW + "your friends to join.",

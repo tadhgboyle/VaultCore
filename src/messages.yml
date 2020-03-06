@@ -16,7 +16,7 @@ mod-mode:
 report:
   reported: "&eSuccessfully reported {PLAYER}&e (&6{ID}&e). A moderator will investigate on this as soon as possible."
   reasons:
-    political: "Political"
+    political: "Political Discussion"
     bug-exploit: "Exploiting bugs"
     invading-privacy: "Invading Privacy"
     clientside-modification: "Clientside Unfair Modifications"
