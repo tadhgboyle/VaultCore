@@ -57,7 +57,7 @@ public class TransferCommand extends CommandExecutor {
         player.deposit(sender.getWorld(), amount);
         sender.sendMessage(VaultLoader.getMessage("economy.transfer-me").replace("{PLAYER}", player.getFormattedName())
                 .replace("{WORLD}", sender.getWorld().getName()).replace("{AMOUNT}", VaultCore.numberFormat.format(amount)));
-        sender.sendMessage(VaultLoader.getMessage("economy.transfer-you").replace("{PLAYER}", sender.getFormattedName())
+        player.sendMessage(VaultLoader.getMessage("economy.transfer-you").replace("{PLAYER}", sender.getFormattedName())
                 .replace("{AMOUNT}", VaultCore.numberFormat.format(amount)).replace("{WORLD}", sender.getWorld().getName()));
     }
 }

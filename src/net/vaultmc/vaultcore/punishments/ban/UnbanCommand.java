@@ -56,15 +56,6 @@ public class UnbanCommand extends CommandExecutor {
     }
 
     private void unbanPlayer(VLCommandSender actor, VLOfflinePlayer victim, boolean silent) {
-        /*
-        FileConfiguration data = Main.getInstance().getData();
-
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".ban.status", false);
-        data.set("vaultutils." + victim.getUniqueId().toString() + ".tempban.status", false);
-
-        Main.getInstance().saveConfig();
-         */
-
         PunishmentsDB.unregisterData("bans", victim.getUniqueId().toString());
         PunishmentsDB.unregisterData("tempbans", victim.getUniqueId().toString());
         PunishmentsDB.unregisterData("ipbans", IpBanCommand.getPlayerIp(victim));  // I felt something might go wrong here, but

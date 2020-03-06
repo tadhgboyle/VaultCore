@@ -54,7 +54,6 @@ import net.vaultmc.vaultcore.punishments.ban.BanCommand;
 import net.vaultmc.vaultcore.punishments.ban.BannedListener;
 import net.vaultmc.vaultcore.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultcore.punishments.ban.UnbanCommand;
-import net.vaultmc.vaultcore.punishments.mute.MuteCommand;
 import net.vaultmc.vaultcore.punishments.mute.MutedListener;
 import net.vaultmc.vaultcore.punishments.mute.UnmuteCommand;
 import net.vaultmc.vaultcore.report.Report;
@@ -281,7 +280,6 @@ public final class VaultCore extends Component implements Listener {
         new HelpCommand();
         new BrandCommand();
         new BanCommand();
-        new MuteCommand();
         new UnbanCommand();
         new IpBanCommand();
         new ReasonSelector();
