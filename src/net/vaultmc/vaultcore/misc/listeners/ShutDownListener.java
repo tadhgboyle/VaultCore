@@ -17,18 +17,18 @@ import java.net.Socket;
 public class ShutDownListener implements Listener {
 
     @EventHandler
-    public void onShutDownPlayer(PlayerCommandPreprocessEvent event) {
-        if (event.getMessage().equals("/stop")) {
-            event.setCancelled(true);
+    public void onShutDownPlayer(PlayerCommandPreprocessEvent e) {
+        if (e.getMessage().equals("/stop") && e.getPlayer().hasPermission("bukkit.command.stop")) {
+            e.setCancelled(true);
             kickAll();
         }
     }
 
     // FIXME  Edge case: Ctrl-C
     @EventHandler
-    public void onShutDownConsole(ServerCommandEvent event) {
-        if (event.getCommand().equals("stop")) {
-            event.setCancelled(true);
+    public void onShutDownConsole(ServerCommandEvent e) {
+        if (e.getCommand().equals("stop")) {
+            e.setCancelled(true);
             kickAll();
         }
     }
