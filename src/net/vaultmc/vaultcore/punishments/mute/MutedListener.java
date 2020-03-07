@@ -23,6 +23,7 @@ import net.vaultmc.vaultcore.punishments.PunishmentUtils;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultcore.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -44,7 +45,8 @@ public class MutedListener implements Listener {
         if ((muteData != null && muteData.isStatus()) || (ipMuteData != null && ipMuteData.isStatus())) {
             player.sendMessage(VaultLoader.getMessage("punishments.mute.message")
                     .replace("{REASON}", (muteData != null ? muteData.getReason() : ipMuteData.getReason()))
-                    .replace("{ACTOR}", (muteData != null ? muteData.getActor() : ipMuteData.getActor())));
+                    .replace("{ACTOR}", (muteData != null ? VLOfflinePlayer.getOfflinePlayer(muteData.getActor()).getFormattedName() :
+                            VLOfflinePlayer.getOfflinePlayer(ipMuteData.getActor()).getFormattedName())));
             e.setCancelled(true);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -60,7 +62,7 @@ public class MutedListener implements Listener {
             } else {
                 player.sendMessage(VaultLoader.getMessage("punishments.tempmute.message")
                         .replace("{REASON}", tempmuteData.getReason())
-                        .replace("{ACTOR}", tempmuteData.getActor())
+                        .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(tempmuteData.getActor()).getFormattedName())
                         .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(tempmuteData.getExpiry() - PunishmentUtils.currentTime()
                         )));
                 e.setCancelled(true);
@@ -79,7 +81,7 @@ public class MutedListener implements Listener {
             } else {
                 player.sendMessage(VaultLoader.getMessage("punishments.tempmute.message")
                         .replace("{REASON}", ipTempmuteData.getReason())
-                        .replace("{ACTOR}", ipTempmuteData.getActor())
+                        .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(ipTempmuteData.getActor()).getFormattedName())
                         .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(ipTempmuteData.getExpiry() - PunishmentUtils.currentTime()
                         )));
                 e.setCancelled(true);

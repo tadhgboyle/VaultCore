@@ -29,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class PunishmentsDB {
     public static void createTables() {
@@ -38,7 +39,7 @@ public class PunishmentsDB {
                         "uuid CHAR(36) NOT NULL," +
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -48,7 +49,7 @@ public class PunishmentsDB {
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
                         "expiry BIGINT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -57,7 +58,7 @@ public class PunishmentsDB {
                         "uuid CHAR(36) NOT NULL," +
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -67,7 +68,7 @@ public class PunishmentsDB {
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
                         "expiry BIGINT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -76,7 +77,7 @@ public class PunishmentsDB {
                         "ip VARCHAR(256) NOT NULL," +
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -86,7 +87,7 @@ public class PunishmentsDB {
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
                         "expiry BIGINT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -95,7 +96,7 @@ public class PunishmentsDB {
                         "ip VARCHAR(256) NOT NULL," +
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -105,7 +106,7 @@ public class PunishmentsDB {
                         "status BOOLEAN NOT NULL," +
                         "reason TEXT NOT NULL," +
                         "expiry BIGINT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
 
         VaultCore.getPDatabase().executeUpdateStatement(
@@ -113,7 +114,7 @@ public class PunishmentsDB {
                         "id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT," +
                         "uuid CHAR(36) NOT NULL," +
                         "reason TEXT NOT NULL," +
-                        "actor TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
     }
 
@@ -123,18 +124,18 @@ public class PunishmentsDB {
                 VaultCore.getPDatabase().executeUpdateStatement(
                         "INSERT INTO " + table + " (uuid, reason, actor, executionTime)" +
                                 "VALUES (?, ?, ?, ?);",
-                        data.getVictim(), data.getReason(), data.getActor(), PunishmentUtils.currentTime()
+                        data.getVictim(), data.getReason(), data.getActor().toString(), PunishmentUtils.currentTime()
                 );
             } else if (table.contains("temp")) {
                 VaultCore.getPDatabase().executeUpdateStatement(
                         "INSERT INTO " + table + " (" + (table.contains("ip") ? "ip" : "uuid") + ", status, reason, expiry, actor, executionTime)" +
                                 "VALUES (?, ?, ?, ?, ?, ?);",
-                        data.getVictim(), data.isStatus(), data.getReason(), data.getExpiry(), data.getActor(), PunishmentUtils.currentTime());
+                        data.getVictim(), data.isStatus(), data.getReason(), data.getExpiry(), data.getActor().toString(), PunishmentUtils.currentTime());
             } else {
                 VaultCore.getPDatabase().executeUpdateStatement(
                         "INSERT INTO " + table + " (" + (table.contains("ip") ? "ip" : "uuid") + ", status, reason, actor, executionTime)" +
                                 "VALUES (?, ?, ?, ?, ?);",
-                        data.getVictim(), data.isStatus(), data.getReason(), data.getActor(), PunishmentUtils.currentTime());
+                        data.getVictim(), data.isStatus(), data.getReason(), data.getActor().toString(), PunishmentUtils.currentTime());
             }
         });
     }
@@ -170,10 +171,10 @@ public class PunishmentsDB {
                 long executionTime = result.getLong("executionTime");
                 if (table.contains("temp")) {
                     data = new PunishmentData(victim, result.getBoolean("status"),
-                            result.getString("reason"), result.getLong("expiry"), result.getString("actor"));
+                            result.getString("reason"), result.getLong("expiry"), UUID.fromString(result.getString("actor")));
                 } else {
                     data = new PunishmentData(victim, result.getBoolean("status"),
-                            result.getString("reason"), -1, result.getString("actor"));
+                            result.getString("reason"), -1, UUID.fromString(result.getString("actor")));
                 }
                 map.put(executionTime, data);
             }
@@ -204,6 +205,6 @@ public class PunishmentsDB {
         @Getter
         private long expiry;
         @Getter
-        private String actor;
+        private UUID actor;
     }
 }

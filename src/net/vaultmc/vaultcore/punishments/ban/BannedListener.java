@@ -21,6 +21,7 @@ package net.vaultmc.vaultcore.punishments.ban;
 import net.vaultmc.vaultcore.punishments.PunishmentUtils;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -38,7 +39,8 @@ public class BannedListener implements Listener {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                     VaultLoader.getMessage("punishments.ban.disconnect")
                             .replace("{REASON}", (banData != null ? banData.getReason() : ipBanData.getReason()))
-                            .replace("{ACTOR}", (banData != null ? banData.getActor() : ipBanData.getActor())));
+                            .replace("{ACTOR}", (banData != null ? VLOfflinePlayer.getOfflinePlayer(banData.getActor()).getFormattedName() :
+                                    VLOfflinePlayer.getOfflinePlayer(ipBanData.getActor()).getFormattedName())));
         } else if (tempbanData != null && tempbanData.isStatus()) {
             if (PunishmentUtils.currentTime() >= tempbanData.getExpiry()) {
                 PunishmentsDB.unregisterData("tempbans", tempbanData.getVictim());
@@ -47,7 +49,7 @@ public class BannedListener implements Listener {
                 e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                         VaultLoader.getMessage("punishments.tempban.disconnect")
                                 .replace("{REASON}", tempbanData.getReason())
-                                .replace("{ACTOR}", tempbanData.getActor())
+                                .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(tempbanData.getActor()).getFormattedName())
                                 .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(
                                         tempbanData.getExpiry() - PunishmentUtils.currentTime())));
             }
@@ -58,7 +60,7 @@ public class BannedListener implements Listener {
                 e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                         VaultLoader.getMessage("punishments.tempban.disconnect")
                                 .replace("{REASON}", tempbanData.getReason())
-                                .replace("{ACTOR}", tempbanData.getActor())
+                                .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(ipTempbanData.getActor()).getFormattedName())
                                 .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(
                                         tempbanData.getExpiry() - PunishmentUtils.currentTime())));
             }

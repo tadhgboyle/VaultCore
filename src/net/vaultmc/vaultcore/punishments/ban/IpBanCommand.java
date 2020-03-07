@@ -84,7 +84,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                     }
 
                     PunishmentsDB.registerData("ipbans", new PunishmentsDB.PunishmentData(getPlayerIp(victim),
-                            true, reason, -1, sender.getFormattedName()));
+                            true, reason, -1, sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.ban.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -106,7 +106,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                     }
 
                     PunishmentsDB.registerData("iptempbans", new PunishmentsDB.PunishmentData(getPlayerIp(victim),
-                            true, reason, PunishmentUtils.currentTime() + expiry, sender.getFormattedName()));
+                            true, reason, PunishmentUtils.currentTime() + expiry, sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.tempban.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -128,7 +128,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                 }
 
                 PunishmentsDB.registerData("kicks", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), false, reason, -1,
-                        sender.getFormattedName()));
+                        sender.getUniqueId()));
 
                 victim.getOnlinePlayer().kick(VaultLoader.getMessage("punishments.kick.disconnect")
                         .replace("{ACTOR}", sender.getFormattedName())
@@ -154,7 +154,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                     }
 
                     PunishmentsDB.registerData("ipmutes", new PunishmentsDB.PunishmentData(getPlayerIp(victim), true, reason, -1,
-                            sender.getFormattedName()));
+                            sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.mute.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -177,7 +177,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                     }
 
                     PunishmentsDB.registerData("iptempmutes", new PunishmentsDB.PunishmentData(getPlayerIp(victim), true, reason,
-                            PunishmentUtils.currentTime() + expiry, sender.getFormattedName()));
+                            PunishmentUtils.currentTime() + expiry, sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.tempmute.sent").replace("{PLAYER}", victim.getFormattedName()));
 
