@@ -191,6 +191,8 @@ public final class VaultCore extends Component implements Listener {
             new ClaimCommand();
             new UnclaimCommand();
             new SchemCommand();
+            new ReportCommand();
+            new ReportsCommand();
             new ServerNavigator();
             new LolCommand();
             new AFKCommand();
@@ -264,13 +266,6 @@ public final class VaultCore extends Component implements Listener {
         new ListCommand();
         new SocialSpyCommand();
         new ModMode();
-        new ReportCommand();
-        new ReportsCommand();
-        getServer().getScheduler().runTaskTimer(VaultLoader.getInstance(), () -> {
-            Report.save();
-            Report.getReports().clear();
-            Report.load();
-        }, 2400L, 2400L);
         new ChatUtils();
         new TimeCommand();
         new VanishCommand();
