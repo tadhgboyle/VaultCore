@@ -196,6 +196,10 @@ public final class VaultCore extends Component implements Listener {
             new AFKCommand();
             new WarpCommand();
             new TheEndReset();
+            Bug.dbInit();
+            Bug.load();
+            new BuggyCommand();
+            new BuggyListener();
             new MessageExperience();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
@@ -273,10 +277,6 @@ public final class VaultCore extends Component implements Listener {
         new VanishListeners();
         new GameModeListeners();
         new WeatherCommand();
-        Bug.dbInit();
-        Bug.load();
-        new BuggyCommand();
-        new BuggyListener();
         new HelpCommand();
         new BrandCommand();
         new BanCommand();
