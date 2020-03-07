@@ -94,10 +94,12 @@ public class Report {
     public static Report deserialize(String id) {
         try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT * FROM reports WHERE id=?", id)) {
             if (rs.next()) {
+                List<VLOfflinePlayer> assignees = new NoDupeArrayList<>();
+                if (!rs.getString("assignees").trim().equals("")) {
+                    assignees.addAll(Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(p -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(p))).collect(Collectors.toList()));
+                }
                 return new Report(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("reporter"))),
-                        VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("target"))),
-                        rs.getString("assignees").trim().equals("") ? new ArrayList<>()
-                                : Arrays.stream(rs.getString("assignees").split(VaultCore.SEPARATOR)).map(p -> VLOfflinePlayer.getOfflinePlayer(UUID.fromString(p))).collect(Collectors.toList()),
+                        VLOfflinePlayer.getOfflinePlayer(UUID.fromString(rs.getString("target"))), assignees,
                         Arrays.stream(rs.getString("reasons").split(VaultCore.SEPARATOR)).map(Reason::valueOf).collect(Collectors.toList()),
                         Status.valueOf(rs.getString("status")), rs.getString("id"));
             }

@@ -18,6 +18,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -52,23 +53,26 @@ public class ReportsCommand extends CommandExecutor implements Listener {
     }
 
     private static ItemStack getItemStack(Report report) {
+        List<String> lore = new ArrayList<>(Arrays.asList(
+                VaultLoader.getMessage("report.inventory.reporter")
+                        .replace("{REPORTER}", report.getReporter().getFormattedName()),
+                VaultLoader.getMessage("report.inventory.target")
+                        .replace("{TARGET}", report.getTarget().getFormattedName())
+
+        ));
+        for (Report.Reason reason : report.getReasons()) {
+            lore.add(ChatColor.YELLOW + VaultLoader.getMessage(reason.getKey()));
+        }
+        lore.addAll(Arrays.asList(VaultLoader.getMessage("report.inventory.assignees")
+                        .replace("{ASSIGNEES}", listToString(report.getAssignees().stream().map(VLOfflinePlayer::getFormattedName).collect(Collectors.toList()))),
+                VaultLoader.getMessage("report.inventory.status").replace("{STATUS}", VaultLoader.getMessage(report.getStatus().getKey())),
+                "",
+                VaultLoader.getMessage("report.inventory.left-click"),
+                VaultLoader.getMessage("report.inventory.shift-click"),
+                VaultLoader.getMessage("report.inventory.right-click")));
         return new ItemStackBuilder(report.getStatus() == Report.Status.OPEN ? Material.WRITTEN_BOOK : Material.BOOK)
                 .name(ChatColor.YELLOW + report.getId())
-                .lore(Arrays.asList(
-                        VaultLoader.getMessage("report.inventory.reporter")
-                                .replace("{REPORTER}", report.getReporter().getFormattedName()),
-                        VaultLoader.getMessage("report.inventory.target")
-                                .replace("{TARGET}", report.getTarget().getFormattedName()),
-                        VaultLoader.getMessage("report.inventory.reasons")
-                                .replace("{REASONS}", listToString(report.getReasons().stream().map(r -> VaultLoader.getMessage(r.getKey())).collect(Collectors.toList()))),
-                        VaultLoader.getMessage("report.inventory.assignees")
-                                .replace("{ASSIGNEES}", listToString(report.getAssignees().stream().map(VLOfflinePlayer::getFormattedName).collect(Collectors.toList()))),
-                        VaultLoader.getMessage("report.inventory.status").replace("{STATUS}", VaultLoader.getMessage(report.getStatus().getKey())),
-                        "",
-                        VaultLoader.getMessage("report.inventory.left-click"),
-                        VaultLoader.getMessage("report.inventory.shift-click"),
-                        VaultLoader.getMessage("report.inventory.right-click")
-                ))
+                .lore(lore)
                 .build();
     }
 

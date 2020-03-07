@@ -4,6 +4,7 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
+import net.vaultmc.vaultloader.utils.NoDupeArrayList;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -95,7 +96,7 @@ public class ReportCommand extends CommandExecutor implements Listener {
             e.setCancelled(true);
             if (e.getSlot() == 49) {
                 Report report = new Report(VLOfflinePlayer.getOfflinePlayer((Player) e.getWhoClicked()),
-                        data.getTarget(), new ArrayList<>(), data.getReasons(), Report.Status.OPEN);
+                        data.getTarget(), new NoDupeArrayList<>(), data.getReasons(), Report.Status.OPEN);
                 Report.getReports().add(report);
                 e.getWhoClicked().closeInventory();
                 e.getWhoClicked().sendMessage(VaultLoader.getMessage("report.reported")
