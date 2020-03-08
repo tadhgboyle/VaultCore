@@ -53,7 +53,7 @@ public class BanCommand extends CommandExecutor {
                 Arguments.createArgument("player", Arguments.playerArgument())
         ));
         register("console1", Arrays.asList(
-                Arguments.createLiteral("consolek"),
+                Arguments.createLiteral("console1"),
                 Arguments.createArgument("player", Arguments.playerArgument())
         ));
     }
