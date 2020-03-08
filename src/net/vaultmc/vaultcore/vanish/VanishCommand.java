@@ -55,12 +55,13 @@ public class VanishCommand extends CommandExecutor {
     }
 
     public static void update(VLPlayer player) {
+        if (player.hasPermission(Permissions.VanishCommand)) return;
         for (Map.Entry<UUID, Boolean> x : vanished.entrySet()) {
             if (x.getKey().toString().equals(player.getUniqueId().toString()))
                 continue;
             VLPlayer y = VLPlayer.getPlayer(x.getKey());
-            if (y != null && x.getValue() && !y.hasPermission(Permissions.VanishCommand)) {
-                player.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), Bukkit.getPlayer(x.getKey()));
+            if (y != null && x.getValue() && y.hasPermission(Permissions.VanishCommand)) {
+                player.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), y.getPlayer());
             }
         }
     }
