@@ -32,8 +32,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RootCommand(
@@ -41,12 +43,67 @@ import java.util.stream.Collectors;
         description = "Disallows a player from joining the server permanently."
 )
 @Permission(Permissions.BanCommand)
-@PlayerOnly
 @Aliases({"tempban", "tempmute", "kick", "mute"})
 public class BanCommand extends CommandExecutor {
     public BanCommand() {
         unregisterExisting();
         register("ban", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
+        register("console", Arrays.asList(
+                Arguments.createLiteral("console"),
+                Arguments.createArgument("player", Arguments.playerArgument())
+        ));
+        register("console1", Arrays.asList(
+                Arguments.createLiteral("consolek"),
+                Arguments.createArgument("player", Arguments.playerArgument())
+        ));
+    }
+
+    @SubCommand("console")
+    public void console(VLCommandSender sender, VLPlayer victim) {
+        if (sender instanceof VLPlayer) return;
+        victim.kick(VaultLoader.getMessage("punishments.tempban.disconnect")
+                .replace("{ACTOR}", sender.getFormattedName())
+                .replace("{REASON}", "VAULTMC ANTI CHEAT (Please do not appeal)")
+                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(604800)));
+        PunishmentsDB.registerData("tempbans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
+                true, "VAULTMC ANTI CHEAT (Please do not appeal)",
+                PunishmentUtils.currentTime() + 604800, UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670")));
+
+        sender.sendMessage(VaultLoader.getMessage("punishments.tempban.sent").replace("{PLAYER}", victim.getFormattedName()));
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.hasPermission(Permissions.PunishmentNotify)) {
+                player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
+                        VaultLoader.getMessage("punishments.tempban.announcement")
+                                .replace("{ACTOR}", sender.getFormattedName())
+                                .replace("{REASON}", "VAULTMC ANTI CHEAT (Please do not appeal)")
+                                .replace("{PLAYER}", victim.getFormattedName())
+                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(604800)));
+            }
+        }
+    }
+
+    @SubCommand("console1")
+    public void console1(VLCommandSender sender, VLPlayer victim) {
+        if (sender instanceof VLPlayer) return;
+        PunishmentsDB.registerData("kicks", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), false,
+                "VAULTMC ANTI CHEAT", -1, UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670")));
+
+        victim.getOnlinePlayer().kick(VaultLoader.getMessage("punishments.kick.disconnect")
+                .replace("{ACTOR}", sender.getFormattedName())
+                .replace("{REASON}", "VAULTMC ANTI CHEAT"));
+
+        sender.sendMessage(VaultLoader.getMessage("punishments.kick.sent").replace("{PLAYER}", victim.getFormattedName()));
+
+        for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+            if (player.hasPermission("vaultutils.silentnotify")) {
+                player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
+                        VaultLoader.getMessage("punishments.kick.announcement")
+                                .replace("{ACTOR}", sender.getFormattedName())
+                                .replace("{REASON}", "VAULTMC ANTI CHEAT")
+                                .replace("{PLAYER}", victim.getFormattedName()));
+            }
+        }
     }
 
     @TabCompleter(
@@ -58,6 +115,7 @@ public class BanCommand extends CommandExecutor {
     }
 
     @SubCommand("ban")
+    @PlayerOnly
     public void ban(VLPlayer sender, VLOfflinePlayer victim) {
         ReasonSelector.start(sender, victim, (reason, expiry, type) -> {
             if (type == ReasonSelector.Type.BAN) {

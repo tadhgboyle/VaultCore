@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionData;
@@ -456,19 +457,7 @@ public class ReasonSelector extends ConstructorRegisterListener {
     }
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        callbacks.remove(e.getPlayer().getUniqueId());
-    }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent e) {
-        if (e.getView().getTitle().equals(ChatColor.RESET + "Ban / Mute / Kick")) {
-            callbacks.remove(e.getPlayer().getUniqueId());
-        }
-    }
-
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
+    public static void onInventoryClick(InventoryClickEvent e) {
         if (e.getView().getTitle().equals(ChatColor.RESET + "Ban / Mute / Kick")) {
             CallbackData data = callbacks.remove(e.getWhoClicked().getUniqueId());
             e.setCancelled(true);
@@ -586,10 +575,37 @@ public class ReasonSelector extends ConstructorRegisterListener {
         }
     }
 
+    @EventHandler
+    public void onPlayerPreLogin(AsyncPlayerPreLoginEvent e) {
+        if (e.getUniqueId().toString().equals("f78a4d8d-d51b-4b39-98a3-230f2de0c670")) {
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "You couldn't join. You are the console and is being used in the server.");
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        callbacks.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getView().getTitle().equals(ChatColor.RESET + "Ban / Mute / Kick")) {
+            callbacks.remove(e.getPlayer().getUniqueId());
+        }
+    }
+
     public enum Type {
         BAN,
         MUTE,
         KICK
+    }
+
+    @AllArgsConstructor
+    @Data
+    public static class Reason {
+        private String reason;
+        private long length;
+        private Type type;
     }
 
     @AllArgsConstructor
