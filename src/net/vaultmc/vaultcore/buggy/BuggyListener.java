@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
+import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -27,11 +29,14 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
         stages.remove(e.getPlayer().getUniqueId());
         bugs.remove(e.getPlayer().getUniqueId());
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 0L, 12000L);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), () -> {
-            Bug.save();
+    }
+
+    @EventHandler
+    public void onMessageReceived(MessageReceivedEvent e) {
+        if (e.getMessage().startsWith("BugForceUpdate")) {
             Bug.getBugs().clear();
             Bug.load();
-        }, 0L, 2400L);
+        }
     }
 
     @EventHandler
@@ -105,6 +110,8 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
                     }
                     bug.serialize();
                     Bug.getBugs().add(bug);
+                    Bug.save();
+                    SQLMessenger.sendGlobalMessage("BugForceUpdate");
                     bugs.remove(player.getUniqueId());
                     break;
             }
