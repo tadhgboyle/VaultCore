@@ -33,14 +33,14 @@ public class CreativeNBT extends PacketAdapter {
         PacketContainer packet = e.getPacket();
         if (e.getPacketType() == PacketType.Play.Client.SET_CREATIVE_SLOT) {
             ItemStack stack = CraftItemStack.asNMSCopy(packet.getItemModifier().read(0));
-            if (stack.getBukkitStack().getType() == Material.ENCHANTED_BOOK) {
+            if (stack.getBukkitStack().getType().toString().endsWith("POTION")) {
                 CompoundTag tag = stack.getOrCreateTag();
                 if (tag.size() != 1 || !"Potion".equals(Iterables.getFirst(tag.getAllKeys(), "Default"))) {
                     Bukkit.getScheduler().runTask(VaultLoader.getInstance(),
                             () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ban console1 " + e.getPlayer().getName()));
                     e.setCancelled(true);
                 }
-            } else if (stack.getBukkitStack().getType().toString().endsWith("POTION")) {
+            } else if (stack.getBukkitStack().getType() == Material.ENCHANTED_BOOK) {
                 CompoundTag tag = stack.getOrCreateTag();
                 if (tag.size() != 1 || !"StoredEnchantments".equals(Iterables.getFirst(tag.getAllKeys(), "Default"))) {
                     Bukkit.getScheduler().runTask(VaultLoader.getInstance(),
