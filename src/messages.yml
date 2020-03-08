@@ -194,6 +194,9 @@ vanish:
   staff_message: "&7&o{SENDER} has gone {STATE}."
   others-state: "&6{PLAYER}&e is now &6{STATE}&e."
 
+creative:
+  entity-max: "&cYou can only summon 10 entities in the creative world! (Reset on server restart)"
+
 tour:
   title: "&e&lTour"
   invalid_section: "&cThat section does not exist."
