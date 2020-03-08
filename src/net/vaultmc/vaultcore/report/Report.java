@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.NoDupeArrayList;
+import net.vaultmc.vaultloader.utils.PersistentKeyValue;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -39,10 +40,9 @@ public class Report {
     }
 
     public Report(VLOfflinePlayer reporter, VLOfflinePlayer target, List<VLOfflinePlayer> assignees, List<Reason> reasons, Status status) {
-        int currentId = VaultCore.getInstance().getData().getInt("report-current-id", 0);
+        int currentId = PersistentKeyValue.contains("report-current-id") ? Integer.parseInt(PersistentKeyValue.get("report-current-id")) : 0;
         currentId++;
-        VaultCore.getInstance().getData().set("report-current-id", currentId);
-        VaultCore.getInstance().saveConfig();
+        PersistentKeyValue.set("report-current-id", String.valueOf(currentId));
 
         this.reporter = reporter;
         this.target = target;

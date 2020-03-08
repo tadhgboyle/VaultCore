@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.NoDupeArrayList;
+import net.vaultmc.vaultloader.utils.PersistentKeyValue;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -24,7 +25,15 @@ public class Bug {
     private static final SimpleDateFormat ios8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     @Getter
     private static final NoDupeArrayList<Bug> bugs = new NoDupeArrayList<>();
-    private static int currentId;
+
+    public Bug() {
+        this(null, null, null, null, new ArrayList<>(), null, false, null, new ArrayList<>(),
+                "VAULTMC-" + getAndIncreaseCurrentId(), Status.CREATING);
+    }
+
+    public static int getCurrentId() {
+        return PersistentKeyValue.contains("bug-current-id") ? Integer.parseInt(PersistentKeyValue.get("bug-current-id")) : 0;
+    }
 
     static {
         ios8601.setTimeZone(TimeZone.getTimeZone("CET"));
@@ -42,9 +51,11 @@ public class Bug {
     private List<VLOfflinePlayer> assignees;
     private String uniqueId;
 
-    public Bug() {
-        this(null, null, null, null, new ArrayList<>(), null, false, null, new ArrayList<>(),
-                "VAULTMC-" + currentId++, Status.CREATING);
+    public static int getAndIncreaseCurrentId() {
+        int id = getCurrentId();
+        id++;
+        PersistentKeyValue.set("bug-current-id", String.valueOf(id));
+        return id - 1;
     }
 
     Bug(String title, String description, String actualBehavior, String expectedBehavior, List<String> stepsToReproduce,
@@ -86,7 +97,6 @@ public class Bug {
                 bugs.add(bug);
             }
         }
-        currentId = VaultCore.getInstance().getData().getInt("bugs-current-id", 0);
     }
 
     public static void save() {
@@ -96,8 +106,6 @@ public class Bug {
             }
         } catch (ConcurrentModificationException ignored) {
         }
-        VaultCore.getInstance().getData().set("bugs-current-id", currentId);
-        VaultCore.getInstance().saveConfig();
     }
 
     public static Bug deserialize(ConfigurationSection map) {
