@@ -197,6 +197,7 @@ public final class VaultCore extends Component implements Listener {
             new LolCommand();
             new AFKCommand();
             new WarpCommand();
+            new BookIntroExperience();
             new TheEndReset();
             Bug.dbInit();
             Bug.load();
