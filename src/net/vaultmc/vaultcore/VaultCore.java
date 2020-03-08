@@ -208,7 +208,6 @@ public final class VaultCore extends Component implements Listener {
             new BuggyCommand();
             new BuggyListener();
             new EntityUpperBound();
-            new CreativeNBT();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
@@ -227,6 +226,7 @@ public final class VaultCore extends Component implements Listener {
             new PlayerHider();
         }
 
+        new CreativeNBT();
         new SecLogCommand();
         new LegacyCombat();
         new LogsCommand();

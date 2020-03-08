@@ -18,7 +18,9 @@ public class EntityUpperBound extends ConstructorRegisterListener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getPlayer().getWorld().getName().equalsIgnoreCase("Creative") && e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null &&
                 (e.getItem().getType().toString().endsWith("_SPAWN_EGG") || e.getItem().getType() == Material.ARMOR_STAND ||
-                        e.getItem().getType() == Material.ITEM_FRAME)) {
+                        e.getItem().getType() == Material.ITEM_FRAME || e.getItem().getType().toString().endsWith("MINECART") ||
+                        e.getItem().getType().toString().endsWith("BOAT") || (e.getItem().getType() != Material.LAVA_BUCKET &&
+                        e.getItem().getType() != Material.WATER_BUCKET && e.getItem().getType().toString().endsWith("BUCKET")))) {
             int count = entities.getOrDefault(e.getPlayer().getUniqueId(), 0);
             if (count > 10) {
                 e.getPlayer().sendMessage(VaultLoader.getMessage("creative.entity-max"));
