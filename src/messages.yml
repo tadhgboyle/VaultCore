@@ -246,7 +246,7 @@ tour:
         &eIf you played on the legacy VaultMC server, you can contact an administrator to recover your old island.
 
     survival:
-      title: "&eSurvival and Clans"
+      title: "&eSurvival and Factions"
       text-survival: |-
         &6&lSurvival
         &eSurvival has been a huge part of VaultMC's gameplay since its beginning. It's about generally having fun exploring and creating.
@@ -256,13 +256,10 @@ tour:
         &eWe know sleeping could be a problem while surviving. For your convinence, if half (or above) of players in the Survival world are sleeping, the night will be skipped.
 
       text-clans: |-
-        &6&lClans
-        &eClans is generally Factions that you play on most of the servers, however it is simplified to make it easier to understand.
+        &6&lFactions
+        &eIt is is generally Factions that you play on most of the servers, however it is simplified to make it easier to understand.
         &a-
-        &eTo get started in Clans, you can use &6/c create <clan>&e to create a clan, much like creating a Faction. You can also use &6/c join <clan>&e to join an existing clan.
-        &a-
-        &eFor more information on Clans, you can visit
-        &ehttps://github.com/VaultMC/VaultClans/wiki/Introduction-to-the-clans-gameplay .
+        &eTo get started in Factions, you can use &6/f create <name>&e to create a faction. You can also use &6/f join <faction>&e to join an existing faction.
 
     creative:
       title: "&eCreative"

@@ -55,9 +55,9 @@ public class ServerNavigator extends ConstructorRegisterListener {
                 ))
                 .build());
         inv.addItem(new ItemStackBuilder(Material.RED_BANNER)
-                .name(ChatColor.GOLD + "Clans")
+                .name(ChatColor.GOLD + "Factions")
                 .lore(Collections.singletonList(
-                        ChatColor.GRAY + "It is Factions, but simplified."
+                        ChatColor.GRAY + "Factions, but simplified."
                 ))
                 .build());
         inv.addItem(new ItemStackBuilder(Material.PHANTOM_MEMBRANE)
