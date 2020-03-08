@@ -23,13 +23,20 @@ import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Barrel;
+import org.bukkit.block.Chest;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.Iterator;
 import java.util.UUID;
@@ -44,6 +51,26 @@ public class VanishListeners extends ConstructorRegisterListener {
                 VanishCommand.setVanishState(player, true);
                 e.getPlayer().sendMessage(ChatColor.YELLOW + "You are still invisible!");
                 e.setJoinMessage(null);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+        if (player.isVanished() && e.getHand() == EquipmentSlot.HAND && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (e.getClickedBlock().getType().toString().endsWith("CHEST")) {
+                player.openInventory(((Chest) e.getClickedBlock().getState()).getBlockInventory());
+                e.setCancelled(true);
+            } else if (e.getClickedBlock().getType() == Material.BARREL) {
+                player.openInventory(((Barrel) e.getClickedBlock().getState()).getInventory());
+                e.setCancelled(true);
+            } else if (e.getClickedBlock().getType().toString().endsWith("SHULKER_BOX")) {
+                player.openInventory(((ShulkerBox) e.getClickedBlock().getState()).getInventory());
+                e.setCancelled(true);
+            } else if (e.getClickedBlock().getType() == Material.ENDER_CHEST) {
+                player.openInventory(player.getEnderChest());
+                e.setCancelled(true);
             }
         }
     }
