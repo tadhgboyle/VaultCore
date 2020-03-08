@@ -63,6 +63,7 @@ import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.*;
 import net.vaultmc.vaultcore.survival.MessageExperience;
 import net.vaultmc.vaultcore.survival.SleepHandler;
+import net.vaultmc.vaultcore.survival.StarterGearExperience;
 import net.vaultmc.vaultcore.survival.TheEndReset;
 import net.vaultmc.vaultcore.survival.claim.ClaimCharger;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
@@ -204,6 +205,7 @@ public final class VaultCore extends Component implements Listener {
             new BuggyCommand();
             new BuggyListener();
             new MessageExperience();
+            new StarterGearExperience();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
