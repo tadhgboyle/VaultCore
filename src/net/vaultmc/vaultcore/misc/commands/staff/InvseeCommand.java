@@ -5,18 +5,36 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @RootCommand(literal = "invsee", description = "Look in a players inventory.")
 @Permission(Permissions.InvseeCommand)
 @PlayerOnly
 @Aliases("openinv")
 public class InvseeCommand extends CommandExecutor implements Listener {
+    private static final Set<UUID> viewers = new HashSet<>();
+
     public InvseeCommand() {
         register("invsee", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), () -> {
+            for (UUID uuid : viewers) {
+                Bukkit.getPlayer(uuid).updateInventory();
+            }
+        }, 5, 5);
         VaultCore.getInstance().registerEvents(this);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        viewers.remove(e.getPlayer().getUniqueId());
     }
 
     @SubCommand("invsee")
