@@ -200,6 +200,11 @@ public final class VaultCore extends Component implements Listener {
             new TheEndReset();
             new MessageExperience();
             new StarterGearExperience();
+            new ReportsCommand();
+            Bug.dbInit();
+            Bug.load();
+            new BuggyCommand();
+            new BuggyListener();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
@@ -218,10 +223,6 @@ public final class VaultCore extends Component implements Listener {
             new PlayerHider();
         }
 
-        Bug.dbInit();
-        Bug.load();
-        new BuggyCommand();
-        new BuggyListener();
         new SecLogCommand();
         new LegacyCombat();
         new LogsCommand();
@@ -304,7 +305,6 @@ public final class VaultCore extends Component implements Listener {
         PunishmentsDB.createTables();
         Report.load();
         new ReportCommand();
-        new ReportsCommand();
 
         Bukkit.getServer().getConsoleSender().sendMessage(new String[]{
                 ChatColor.YELLOW + "                   _ _     " + ChatColor.GOLD + "___               ",
