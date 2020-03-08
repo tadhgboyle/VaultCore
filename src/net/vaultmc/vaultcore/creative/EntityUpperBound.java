@@ -16,7 +16,7 @@ public class EntityUpperBound extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("Creative") && e.getAction() == Action.RIGHT_CLICK_BLOCK &&
+        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("Creative") && e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null &&
                 (e.getItem().getType().toString().endsWith("_SPAWN_EGG") || e.getItem().getType() == Material.ARMOR_STAND ||
                         e.getItem().getType() == Material.ITEM_FRAME)) {
             int count = entities.getOrDefault(e.getPlayer().getUniqueId(), 0);

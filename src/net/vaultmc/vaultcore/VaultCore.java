@@ -25,6 +25,7 @@ import net.vaultmc.vaultcore.combat.CombatLog;
 import net.vaultmc.vaultcore.combat.LegacyCombat;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
+import net.vaultmc.vaultcore.creative.CreativeNBT;
 import net.vaultmc.vaultcore.creative.CycleListener;
 import net.vaultmc.vaultcore.creative.EntityUpperBound;
 import net.vaultmc.vaultcore.creative.SchemCommand;
