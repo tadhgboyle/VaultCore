@@ -72,7 +72,7 @@ public class ItemRegistry {
                 leather, null, iron,
                 iron, null, leather
         }));
-        new Item(new ItemStack(Material.CHAINMAIL_HELMET), "survival:chainmail_boots", new ShapedRecipe(new ItemStack[]{
+        new Item(new ItemStack(Material.CHAINMAIL_BOOTS), "survival:chainmail_boots", new ShapedRecipe(new ItemStack[]{
                 iron, null, leather,
                 leather, null, iron,
                 null, null, null
