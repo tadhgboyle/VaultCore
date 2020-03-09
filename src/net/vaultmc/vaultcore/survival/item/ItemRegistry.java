@@ -174,7 +174,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 iron, obsidian, iron,
                 iron, iron, iron
         }));
-        new Item(new ItemStackBuilder(Material.IRON_HELMET)
+        new Item(new ItemStackBuilder(Material.IRON_LEGGINGS)
                 .name(ChatColor.RESET + "Magic Proof Iron Leggings")
                 .lore(Collections.singletonList(ChatColor.GRAY + "Reduce damage from potion by 1/4."))
                 .build(), "survival:magic_proof_iron_leggings", new ShapedRecipe(new ItemStack[]{
@@ -182,7 +182,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 iron, null, iron,
                 iron, null, iron
         }));
-        new Item(new ItemStackBuilder(Material.IRON_HELMET)
+        new Item(new ItemStackBuilder(Material.IRON_BOOTS)
                 .name(ChatColor.RESET + "Magic Proof Iron Boots")
                 .lore(Collections.singletonList(ChatColor.GRAY + "Reduce damage from potion by 1/4."))
                 .build(), "survival:magic_proof_iron_boots", new ShapedRecipe(new ItemStack[]{
@@ -207,7 +207,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 diamond, obsidian, diamond,
                 diamond, diamond, diamond
         }));
-        new Item(new ItemStackBuilder(Material.DIAMOND_HELMET)
+        new Item(new ItemStackBuilder(Material.DIAMOND_LEGGINGS)
                 .name(ChatColor.RESET + "Magic Proof Diamond Leggings")
                 .lore(Collections.singletonList(ChatColor.GRAY + "Reduce damage from potion by 1/4."))
                 .build(), "survival:magic_proof_diamond_leggings", new ShapedRecipe(new ItemStack[]{
@@ -215,7 +215,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 diamond, null, diamond,
                 diamond, null, diamond
         }));
-        new Item(new ItemStackBuilder(Material.DIAMOND_HELMET)
+        new Item(new ItemStackBuilder(Material.DIAMOND_BOOTS)
                 .name(ChatColor.RESET + "Magic Proof Diamond Boots")
                 .lore(Collections.singletonList(ChatColor.GRAY + "Reduce damage from potion by 1/4."))
                 .build(), "survival:magic_proof_diamond_boots", new ShapedRecipe(new ItemStack[]{
