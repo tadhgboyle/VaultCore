@@ -7,6 +7,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -42,9 +43,10 @@ public class ItemListeners extends ConstructorRegisterListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getWhoClicked().getWorld().getName().toLowerCase().contains("survival") && e.getClickedInventory() instanceof CraftingInventory) {
+        if (e.isCancelled()) return;
+        if (e.getWhoClicked().getWorld().getName().toLowerCase().contains("survival") && e.getClickedInventory() instanceof CraftingInventory && !e.getView().getTitle().equals("Recipe")) {
             if (e.getSlot() == 0 && e.getClickedInventory().getItem(0) != null && Item.getId(e.getClickedInventory().getItem(0)) != null) {
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
                     for (int i = 1; i <= 9; i++) {
@@ -73,9 +75,10 @@ public class ItemListeners extends ConstructorRegisterListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryDrag(InventoryDragEvent e) {
-        if (e.getWhoClicked().getWorld().getName().toLowerCase().contains("survival") && e.getInventory() instanceof CraftingInventory) {
+        if (e.isCancelled()) return;
+        if (e.getWhoClicked().getWorld().getName().toLowerCase().contains("survival") && e.getInventory() instanceof CraftingInventory && !e.getView().getTitle().equals("Recipe")) {
             Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
                 for (Item item : Item.getItems().values()) {
                     if (item.getRecipe() != null) {

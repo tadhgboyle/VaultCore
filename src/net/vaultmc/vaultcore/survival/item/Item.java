@@ -8,12 +8,12 @@ import net.vaultmc.vaultcore.survival.item.recipe.Recipe;
 import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Item {
     @Getter
-    private static final Map<String, Item> items = new HashMap<>();
+    private static final Map<String, Item> items = new LinkedHashMap<>();
     @Getter
     private ItemStack item;
     @Getter
@@ -55,12 +55,19 @@ public class Item {
         return getBy(item) != null ? getBy(item).getId() : null;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Item)) return false;
         return ((Item) o).getId().equals(getId());
     }
 
+    @Override
     public int hashCode() {
         return getId().hashCode() * 5;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + " { id = " + id + " }";
     }
 }
