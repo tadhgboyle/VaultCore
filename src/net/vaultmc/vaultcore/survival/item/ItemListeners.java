@@ -3,14 +3,45 @@ package net.vaultmc.vaultcore.survival.item;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 
-public class CraftingListener extends ConstructorRegisterListener {
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class ItemListeners extends ConstructorRegisterListener {
+    @EventHandler
+    public void onEntityDamaged(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player) {
+            double defense = 0;
+            double toughness = 0;
+            Player player = (Player) e.getEntity();
+            for (int i = 36; i < 40; i++) {
+                if (player.getInventory().getItem(i) != null) {
+                    ItemStack item = player.getInventory().getItem(1);
+                    Set<Double> ints = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR).stream().map(AttributeModifier::getAmount).collect(Collectors.toSet());
+                    for (double d : ints) {
+                        defense += d;
+                    }
+                    Set<Double> toughnesses = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR_TOUGHNESS).stream().map(AttributeModifier::getAmount).collect(Collectors.toSet());
+                    for (double d : toughnesses) {
+                        toughness += d;
+                    }
+                }
+            }
+
+            double actualDamage = e.getDamage() * (1 - ((Math.max(defense / 5D, defense - (e.getDamage() / (2 + (toughness / 4))))) / 25));
+            e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, e.getDamage() - actualDamage);
+        }
+    }
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getWhoClicked().getWorld().getName().toLowerCase().contains("survival") && e.getClickedInventory() instanceof CraftingInventory) {

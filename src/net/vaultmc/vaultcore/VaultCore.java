@@ -71,7 +71,7 @@ import net.vaultmc.vaultcore.survival.claim.UnclaimCommand;
 import net.vaultmc.vaultcore.survival.home.DelHomeCommand;
 import net.vaultmc.vaultcore.survival.home.HomeCommand;
 import net.vaultmc.vaultcore.survival.home.SetHomeCommand;
-import net.vaultmc.vaultcore.survival.item.CraftingListener;
+import net.vaultmc.vaultcore.survival.item.ItemListeners;
 import net.vaultmc.vaultcore.survival.item.ItemRegistry;
 import net.vaultmc.vaultcore.teleport.*;
 import net.vaultmc.vaultcore.teleport.tpa.TPACommand;
@@ -209,7 +209,7 @@ public final class VaultCore extends Component implements Listener {
             new BuggyListener();
             new EntityUpperBound();
             ItemRegistry.load();
-            new CraftingListener();
+            new ItemListeners();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
