@@ -1,5 +1,6 @@
 package net.vaultmc.vaultcore.survival.item;
 
+import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
@@ -17,6 +18,8 @@ public class Item {
     private String id;
 
     public Item(ItemStack item, String id) {
+        Preconditions.checkNotNull(id);
+        Preconditions.checkNotNull(item);
         net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
         CompoundTag tag = nmsItem.getOrCreateTag();
         tag.set("Survival.ItemKey", StringTag.valueOf(id));
