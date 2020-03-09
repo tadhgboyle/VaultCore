@@ -39,6 +39,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatUtils extends ConstructorRegisterListener {
     public static void formatChat(AsyncPlayerChatEvent e) {
+        if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (player.hasPermission(Permissions.ChatColor)) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));

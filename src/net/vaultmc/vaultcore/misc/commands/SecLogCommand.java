@@ -122,19 +122,19 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
         if ((loggingPlayers.containsKey(e.getPlayer().getUniqueId()) || resetingPlayers.containsKey(e.getPlayer().getUniqueId())) && !e.getMessage().equals("/seclog forgot"))
             e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryClick(InventoryClickEvent e) {
         if (loggingPlayers.containsKey(e.getWhoClicked().getUniqueId()) || resetingPlayers.containsKey(e.getWhoClicked().getUniqueId()))
             e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
 
@@ -243,7 +243,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         sender.sendMessage(VaultLoader.getMessage("sec-log.set.enter-password"));
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) {
             VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
@@ -279,13 +279,13 @@ public class SecLogCommand extends CommandExecutor implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerMove(PlayerMoveEvent e) {
         if (loggingPlayers.containsKey(e.getPlayer().getUniqueId()) || resetingPlayers.containsKey(e.getPlayer().getUniqueId()))
             e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (loggingPlayers.containsKey(e.getPlayer().getUniqueId()) || resetingPlayers.containsKey(e.getPlayer().getUniqueId()))
             e.setCancelled(true);
