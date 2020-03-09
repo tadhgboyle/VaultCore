@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
+import net.vaultmc.vaultcore.survival.item.recipe.Recipe;
 import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,13 +12,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Item {
+    @Getter
     private static final Map<String, Item> items = new HashMap<>();
     @Getter
     private ItemStack item;
     @Getter
     private String id;
+    @Getter
+    private Recipe recipe;
 
     public Item(ItemStack item, String id) {
+        this(item, id, null);
+    }
+
+    public Item(ItemStack item, String id, Recipe recipe) {
         Preconditions.checkNotNull(id);
         Preconditions.checkNotNull(item);
         net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
@@ -26,6 +34,7 @@ public class Item {
         nmsItem.setTag(tag);
         this.item = CraftItemStack.asBukkitCopy(nmsItem);
         this.id = id;
+        this.recipe = recipe;
         items.put(id, this);
     }
 
@@ -44,5 +53,14 @@ public class Item {
 
     public static String getId(ItemStack item) {
         return getBy(item) != null ? getBy(item).getId() : null;
+    }
+
+    public boolean equals(Object o) {
+        if (!(o instanceof Item)) return false;
+        return ((Item) o).getId().equals(getId());
+    }
+
+    public int hashCode() {
+        return getId().hashCode() * 5;
     }
 }
