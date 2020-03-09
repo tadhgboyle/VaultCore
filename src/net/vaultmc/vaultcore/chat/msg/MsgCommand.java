@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -45,7 +44,8 @@ public class MsgCommand extends CommandExecutor implements Listener {
         sessions.put(player.getUniqueId(), session);
         sessionsReversed.put(session, player.getUniqueId());
         SQLMessenger.sendGlobalMessage("MsgFromTo" + VaultCore.SEPARATOR + session.toString() + VaultCore.SEPARATOR +
-                player.getUniqueId().toString() + VaultCore.SEPARATOR + target.getUniqueId().toString() + VaultCore.SEPARATOR + message);
+                player.getUniqueId().toString() + VaultCore.SEPARATOR + target.getUniqueId().toString() + VaultCore.SEPARATOR +
+                player.getFormattedName() + VaultCore.SEPARATOR + target.getFormattedName() + VaultCore.SEPARATOR + message);
     }
 
     @EventHandler
@@ -56,10 +56,6 @@ public class MsgCommand extends CommandExecutor implements Listener {
 
     @SubCommand("msg")
     public void msg(VLPlayer player, VLOfflinePlayer target, String message) {
-        if (player == target) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.msg.self_error"));
-            return;
-        }
         pm(player, target, message);
     }
 }

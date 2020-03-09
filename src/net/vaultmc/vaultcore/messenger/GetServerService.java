@@ -10,13 +10,10 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class GetServerService extends ConstructorRegisterListener {
     private static final Multimap<UUID, GeneralCallback<String>> callbacks = HashMultimap.create();
-    private static final Map<UUID, Integer> count = new HashMap<>();
 
     public static void getServer(VLOfflinePlayer player, GeneralCallback<String> callback) {
         if (!callbacks.containsKey(player.getUniqueId())) {
@@ -27,34 +24,17 @@ public class GetServerService extends ConstructorRegisterListener {
 
     @EventHandler
     public void onMessageReceived(MessageReceivedEvent e) {
-        if (e.getMessage().startsWith("GetPlayerServer")) {
-            VLPlayer player = VLPlayer.getPlayer(UUID.fromString(e.getMessage().split(VaultCore.SEPARATOR)[1]));
-            if (player != null) {
-                SQLMessenger.sendGlobalMessage("PlayerServerResponse" + VaultCore.SEPARATOR + player.getUniqueId().toString() +
-                        VaultCore.SEPARATOR + VaultCore.getInstance().getConfig().getString("server"));
-            } else {
-                SQLMessenger.sendGlobalMessage("PlayerServerResponse" + VaultCore.SEPARATOR + e.getMessage().split(VaultCore.SEPARATOR)[1] +
-                        VaultCore.SEPARATOR + "failure");
-            }
-        } else if (e.getMessage().startsWith("PlayerServerResponse")) {
+        if (e.getMessage().startsWith("PlayerServerResponse")) {
             UUID uuid = UUID.fromString(e.getMessage().split(VaultCore.SEPARATOR)[1]);
             String response = e.getMessage().split(VaultCore.SEPARATOR)[2];
-            int i = count.getOrDefault(uuid, 0);
-            i++;
-            count.put(uuid, i);
-            if (!response.equalsIgnoreCase("failure")) {
-                for (GeneralCallback<String> callback : callbacks.get(uuid)) {
-                    callback.getSuccess().accept(response);
-                }
-                callbacks.removeAll(uuid);
-                return;
-            }
-
-            if (i == VaultCore.TOTAL_SERVERS && callbacks.containsKey(uuid)) {
+            if (response.equalsIgnoreCase("failure")) {
                 for (GeneralCallback<String> callback : callbacks.get(uuid)) {
                     callback.getFailure().accept("failure");
                 }
-                callbacks.removeAll(uuid);
+            } else {
+                for (GeneralCallback<String> callback : callbacks.get(uuid)) {
+                    callback.getSuccess().accept(response);
+                }
             }
         } else if (e.getMessage().startsWith("312Message")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);

@@ -1,8 +1,5 @@
 package net.vaultmc.vaultcore.teleport.tpa;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -15,69 +12,26 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @RootCommand(literal = "tpa", description = "Request to teleport to a player.")
 @Permission(Permissions.TPACommand)
 @PlayerOnly
 public class TPACommand extends CommandExecutor implements Listener {
-    private static final Multimap<String, Boolean> tpaRequestStatus = ArrayListMultimap.create();
-    @Getter
-    private static final Map<String, TPASessionData> sessions = new HashMap<>();
-
     public TPACommand() {
         register("tpa", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
         VaultCore.getInstance().registerEvents(this);
     }
 
-    public static Map.Entry<String, TPASessionData> getSessionData(UUID player) {
-        for (Map.Entry<String, TPASessionData> session : sessions.entrySet()) {
-            if (session.getValue().getFrom() == player || session.getValue().getTo() == player) {
-                return session;
-            }
-        }
-        return null;
-    }
-
     @EventHandler
     public void onMessageReceived(MessageReceivedEvent e) {
-        if (e.getMessage().startsWith("01TPARequest")) {
+        if (e.getMessage().startsWith("TPAStatus")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            String id = parts[1];
-            VLOfflinePlayer from = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(parts[2]));
-            VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[3]));
-            if (to == null) {
-                SQLMessenger.sendGlobalMessage("02TPARequestStatus" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + "Failure");
-                return;
-            }
-            if (!to.getPlayerData().getBoolean("settings.tpa")) {
-                SQLMessenger.sendGlobalMessage("02TPARequestStatus" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + "Failure");
-                return;
-            }
-            SQLMessenger.sendGlobalMessage("02TPARequestStatus" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + "Sent");
-            sessions.put(id, new TPASessionData(from.getUniqueId(), to.getUniqueId()));
-            to.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_received").replace("{SENDER}", from.getFormattedName()));
-        } else if (e.getMessage().startsWith("02TPARequestStatus")) {
-            String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            String id = parts[1];
-            if (sessions.containsKey(id)) {
-                tpaRequestStatus.put(id, parts[2].equals("Sent"));
-                if (tpaRequestStatus.get(id).size() == VaultCore.TOTAL_SERVERS) {
-                    if (tpaRequestStatus.get(id).contains(true)) {
-                        VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
-                        if (player != null) {
-                            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
-                                    VLOfflinePlayer.getOfflinePlayer(sessions.get(id).getTo()).getFormattedName()));
-                        }
-                    } else {
-                        VLPlayer player = VLPlayer.getPlayer(sessions.get(id).getFrom());
-                        if (player != null) {
-                            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_failed"));
-                        }
-                    }
-                    tpaRequestStatus.removeAll(id);
+            VLPlayer from = VLPlayer.getPlayer(parts[1]);
+            VLOfflinePlayer to = VLOfflinePlayer.getOfflinePlayer(parts[2]);
+            if (from != null) {
+                if (parts[3].equals("Sent")) {
+                    from.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
+                            to.getFormattedName()));
                 }
             }
         }
@@ -89,9 +43,7 @@ public class TPACommand extends CommandExecutor implements Listener {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }
-        String id = UUID.randomUUID().toString();
-        sessions.put(id, new TPASessionData(player.getUniqueId(), target.getUniqueId()));
-        SQLMessenger.sendGlobalMessage("01TPARequest" + VaultCore.SEPARATOR + id + VaultCore.SEPARATOR + player.getUniqueId() +
-                VaultCore.SEPARATOR + target.getUniqueId());
+        SQLMessenger.sendGlobalMessage("TPA2jRequest" + VaultCore.SEPARATOR + player.getUniqueId() + VaultCore.SEPARATOR + target.getUniqueId() +
+                VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + "normal");
     }
 }

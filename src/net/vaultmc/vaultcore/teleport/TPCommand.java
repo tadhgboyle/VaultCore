@@ -4,8 +4,6 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.messenger.GeneralCallback;
-import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
@@ -18,7 +16,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -32,9 +29,7 @@ import java.util.function.Consumer;
 @Permission(Permissions.TeleportCommand)
 @Aliases("tp")
 public class TPCommand extends CommandExecutor implements Listener {
-    private static final Map<UUID, UUID> fromTo = new HashMap<>();
-    private static final Map<String, String> idServer = new HashMap<>();
-    private static final Map<String, UUID> senderMap = new HashMap<>();
+    private static final Map<String, Consumer<Boolean>> callbacks = new HashMap<>();
 
     public TPCommand() {
         unregisterExisting();
@@ -66,61 +61,26 @@ public class TPCommand extends CommandExecutor implements Listener {
 
     @SneakyThrows
     public static void teleport(VLOfflinePlayer sender, VLOfflinePlayer target, Consumer<Boolean> callback) {
-        GetServerService.getServer(sender, new GeneralCallback<String>()
-                .success(server -> GetServerService.getServer(target, new GeneralCallback<String>()
-                        .success(x -> {
-                            if (x.trim().equalsIgnoreCase(server.trim())) {
-                                VaultCore.getInstance().getLogger().info("Target on the same server. Teleporting.");
-                                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> sender.getOnlinePlayer().getPlayer().teleport(target.getOnlinePlayer().getPlayer()));
-                            } else {
-                                String session = UUID.randomUUID().toString();
-                                SQLMessenger.sendGlobalMessage("TeleportPresetup" + VaultCore.SEPARATOR + session +
-                                        VaultCore.SEPARATOR + x +
-                                        VaultCore.SEPARATOR + sender.getUniqueId().toString() +
-                                        VaultCore.SEPARATOR + target.getUniqueId().toString());
-                                idServer.put(session, x);
-                                senderMap.put(session, sender.getUniqueId());
-                            }
-                            callback.accept(true);
-                        })
-                        .failure(x -> callback.accept(false))))
-                .failure(server -> callback.accept(false)));
+        String session = UUID.randomUUID().toString();
+        callbacks.put(session, callback);
+        SQLMessenger.sendGlobalMessage("Teleport" + VaultCore.SEPARATOR + session + VaultCore.SEPARATOR + sender.getUniqueId() +
+                VaultCore.SEPARATOR + target.getUniqueId());
     }
 
     @EventHandler
-    @SneakyThrows
     public void onMessageReceived(MessageReceivedEvent e) {
-        if (e.getMessage().startsWith("TeleportPresetup")) {
+        if (e.getMessage().startsWith("TeleportStatus")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            if (parts[2].equalsIgnoreCase(VaultCore.getInstance().getConfig().getString("server"))) {
-                fromTo.put(UUID.fromString(parts[3]), UUID.fromString(parts[4]));
-                System.out.println("fromTo = " + fromTo);
-                SQLMessenger.sendGlobalMessage("TeleportSetupFinished" + VaultCore.SEPARATOR + parts[1]);
+            if (callbacks.containsKey(parts[1])) {
+                callbacks.remove(parts[1]).accept(parts[2].equalsIgnoreCase("success"));
             }
-        } else if (e.getMessage().startsWith("TeleportSetupFinished")) {
+        } else if (e.getMessage().startsWith("TeleportPleaseHelp")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            if (idServer.containsKey(parts[1])) {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                DataOutputStream stream = new DataOutputStream(bos);
-                stream.writeUTF("Connect");
-                stream.writeUTF(idServer.get(parts[1]));
-                Bukkit.getPlayer(senderMap.get(parts[1])).sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
-                stream.close();
-                idServer.remove(parts[1]);
-                senderMap.remove(parts[1]);
+            VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
+            VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
+            if (from != null && to != null) {
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> from.teleport(to));
             }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        System.out.println("fromTo = " + fromTo);
-        if (fromTo.containsKey(e.getPlayer().getUniqueId())) {
-            System.out.println("Bukkit.getPlayer(fromTo.get(e.getPlayer().getUniqueId())) = " + Bukkit.getPlayer(fromTo.get(e.getPlayer().getUniqueId())));
-            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
-                e.getPlayer().teleport(Bukkit.getPlayer(fromTo.get(e.getPlayer().getUniqueId())));
-                fromTo.remove(e.getPlayer().getUniqueId());
-            });
         }
     }
 

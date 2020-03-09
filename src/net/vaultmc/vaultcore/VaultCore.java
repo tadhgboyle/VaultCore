@@ -41,7 +41,6 @@ import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
 import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
 import net.vaultmc.vaultcore.messenger.GetServerService;
-import net.vaultmc.vaultcore.messenger.PingService;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
 import net.vaultmc.vaultcore.misc.commands.staff.logs.LogsCommand;
@@ -231,7 +230,6 @@ public final class VaultCore extends Component implements Listener {
         new SettingsCommand();
         new MsgCommand();
         new MsgMessageListener();
-        new PingService();
         new ReplyCommand();
         new TPACommand();
         new TPAcceptCommand();
