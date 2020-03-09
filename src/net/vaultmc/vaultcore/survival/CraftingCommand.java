@@ -63,7 +63,7 @@ public class CraftingCommand extends CommandExecutor implements Listener {
             .build();
 
     public void recipe(VLPlayer sender, Item item) {
-        Inventory inv = Bukkit.createInventory(null, 27, "Recipe");
+        Inventory inv = Bukkit.createInventory(null, 27, ChatColor.RESET + "Recipe");
         if (item.getRecipe() instanceof ShapedRecipe) {
             ItemStack[] recipe = ((ShapedRecipe) item.getRecipe()).getRecipe();
             inv.setItem(1, recipe[0]);
@@ -123,7 +123,7 @@ public class CraftingCommand extends CommandExecutor implements Listener {
             }
         } else if (e.getView().getTitle().startsWith(ChatColor.RESET + "Recipe")) {
             e.setCancelled(true);
-            if (e.getSlot() == 53) {
+            if (e.getSlot() == 26) {
                 e.getWhoClicked().closeInventory();
                 crafting(VLPlayer.getPlayer((Player) e.getWhoClicked()));
             }
