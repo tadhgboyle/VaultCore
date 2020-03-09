@@ -21,33 +21,33 @@ public class ItemRegistry {
                 .name(ChatColor.RESET + "Soil Helmet")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 0.5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
                 .build(), "survival:dirt_helmet", new ShapedRecipe(new ItemStack[]{
-                dirt, null, null,
-                dirt, null, null,
-                stick, null, null
+                dirt, dirt, dirt,
+                dirt, null, dirt,
+                null, null, null
         }));
         new Item(new ItemStackBuilder(Material.LEATHER_CHESTPLATE)
                 .name(ChatColor.RESET + "Soil Chestplate")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
                 .build(), "survival:dirt_chestplate", new ShapedRecipe(new ItemStack[]{
-                dirt, null, null,
-                dirt, null, null,
-                stick, null, null
+                dirt, null, dirt,
+                dirt, dirt, dirt,
+                dirt, dirt, dirt
         }));
         new Item(new ItemStackBuilder(Material.LEATHER_LEGGINGS)
                 .name(ChatColor.RESET + "Soil Leggings")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
                 .build(), "survival:dirt_leggings", new ShapedRecipe(new ItemStack[]{
-                dirt, null, null,
-                dirt, null, null,
-                stick, null, null
+                dirt, dirt, dirt,
+                dirt, null, dirt,
+                dirt, null, dirt
         }));
         new Item(new ItemStackBuilder(Material.LEATHER_BOOTS)
                 .name(ChatColor.RESET + "Soil Boots")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 0.5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
                 .build(), "survival:dirt_boots", new ShapedRecipe(new ItemStack[]{
-                dirt, null, null,
-                dirt, null, null,
-                stick, null, null
+                dirt, null, dirt,
+                dirt, null, dirt,
+                null, null, null
         }));
         new Item(new ItemStackBuilder(Material.IRON_SWORD)
                 .name(ChatColor.RESET + "Chainmail Sword")

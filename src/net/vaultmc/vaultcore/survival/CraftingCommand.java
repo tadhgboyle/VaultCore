@@ -90,7 +90,7 @@ public class CraftingCommand extends CommandExecutor implements Listener {
         }
         inv.setItem(14, arrow);
         inv.setItem(16, item.getItem());
-        inv.setItem(53, close);
+        inv.setItem(26, close);
         sender.openInventory(inv);
     }
 

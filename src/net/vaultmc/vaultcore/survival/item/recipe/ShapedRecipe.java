@@ -78,6 +78,14 @@ public class ShapedRecipe implements Recipe {
                 }
             }
         }
+
+        for (Map<Integer, ItemStack> is : possible) {
+            for (int i = 0; i < 9; i++) {
+                if (!is.containsKey(i)) {
+                    is.put(i, null);
+                }
+            }
+        }
     }
 
     private static boolean isSimilar(ItemStack i1, ItemStack i2) {
@@ -99,12 +107,11 @@ public class ShapedRecipe implements Recipe {
         outerLoop:
         for (Map<Integer, ItemStack> map : possible) {
             for (Map.Entry<Integer, ItemStack> entry : map.entrySet()) {
-                if (isSimilar(entry.getValue(), inv.getMatrix()[entry.getKey()])) {
-                    return true;
-                } else {
+                if (!isSimilar(entry.getValue(), inv.getMatrix()[entry.getKey()])) {
                     continue outerLoop;
                 }
             }
+            return true;
         }
         return false;
     }

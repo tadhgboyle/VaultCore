@@ -68,6 +68,7 @@ public class ItemListeners extends ConstructorRegisterListener {
                         if (item.getRecipe().isValid((CraftingInventory) e.getClickedInventory())) {
                             ((CraftingInventory) e.getClickedInventory()).setResult(item.getItem());
                             ((Player) e.getWhoClicked()).updateInventory();
+                            break;
                         }
                     }
                 }
@@ -85,6 +86,7 @@ public class ItemListeners extends ConstructorRegisterListener {
                         if (item.getRecipe().isValid((CraftingInventory) e.getInventory())) {
                             ((CraftingInventory) e.getInventory()).setResult(item.getItem());
                             ((Player) e.getWhoClicked()).updateInventory();
+                            break;
                         }
                     }
                 }
