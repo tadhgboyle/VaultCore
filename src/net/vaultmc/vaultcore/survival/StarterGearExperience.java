@@ -1,8 +1,10 @@
 package net.vaultmc.vaultcore.survival;
 
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -31,7 +33,7 @@ public class StarterGearExperience extends ConstructorRegisterListener {
         if (e.getPlayer().getWorld().getName().toLowerCase().contains("survival")) {
             VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
             if (!player.getPlayerData().contains("svstartergear")) {
-                player.getInventory().addItem(starterGear);
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> player.getInventory().addItem(starterGear));
                 player.getPlayerData().set("svstartergear", true);
             }
         }

@@ -50,6 +50,9 @@ public class CraftingCommand extends CommandExecutor implements Listener {
 
     @SubCommand("crafting")
     public void crafting(VLPlayer sender) {
+        if (!sender.getWorld().getName().toLowerCase().contains("survival")) {
+            return;
+        }
         craftingPaged(sender, 0);
     }
 
