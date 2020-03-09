@@ -39,6 +39,7 @@ public class Item {
     }
 
     public static Item getBy(ItemStack item) {
+        Preconditions.checkNotNull(item);
         net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
         CompoundTag tag = nmsItem.getOrCreateTag();
         if (tag.contains("Survival.ItemKey")) {
@@ -48,10 +49,12 @@ public class Item {
     }
 
     public static Item getBy(String id) {
+        Preconditions.checkNotNull(id);
         return items.get(id);
     }
 
     public static String getId(ItemStack item) {
+        if (item == null) return null;
         return getBy(item) != null ? getBy(item).getId() : null;
     }
 

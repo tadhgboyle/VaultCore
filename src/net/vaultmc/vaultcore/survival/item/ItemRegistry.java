@@ -8,8 +8,10 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -101,6 +103,60 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 leather, null, iron,
                 null, null, null
         }));
+        ItemStack cactus = new ItemStack(Material.CACTUS);
+        new Item(new ItemStackBuilder(Material.LEATHER_HELMET)
+                .leatherColor(Color.fromRGB(0, 185, 0))
+                .name(ChatColor.RESET + "Cactus Helmet")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Damage the attacker by 1/4 of",
+                        ChatColor.GRAY + "the damage you receieved."
+                ))
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
+                .build(), "survival:cactus_helmet", new ShapedRecipe(new ItemStack[]{
+                cactus, cactus, cactus,
+                cactus, null, cactus,
+                null, null, null
+        }));
+        new Item(new ItemStackBuilder(Material.LEATHER_CHESTPLATE)
+                .leatherColor(Color.fromRGB(0, 185, 0))
+                .name(ChatColor.RESET + "Cactus Chestplate")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Damage the attacker by 1/4 of",
+                        ChatColor.GRAY + "the damage you receieved."
+                ))
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
+                .build(), "survival:cactus_chestplate", new ShapedRecipe(new ItemStack[]{
+                cactus, null, cactus,
+                cactus, cactus, cactus,
+                cactus, cactus, cactus
+        }));
+        new Item(new ItemStackBuilder(Material.LEATHER_LEGGINGS)
+                .leatherColor(Color.fromRGB(0, 185, 0))
+                .name(ChatColor.RESET + "Cactus Leggings")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Damage the attacker by 1/4 of",
+                        ChatColor.GRAY + "the damage you receieved."
+                ))
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
+                .build(), "survival:cactus_leggings", new ShapedRecipe(new ItemStack[]{
+                cactus, cactus, cactus,
+                cactus, null, cactus,
+                cactus, null, cactus
+        }));
+        new Item(new ItemStackBuilder(Material.LEATHER_BOOTS)
+                .leatherColor(Color.fromRGB(0, 185, 0))
+                .name(ChatColor.RESET + "Cactus Boots")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Damage the attacker by 1/4 of",
+                        ChatColor.GRAY + "the damage you receieved."
+                ))
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
+                .build(), "survival:cactus_boots", new ShapedRecipe(new ItemStack[]{
+                cactus, null, cactus,
+                cactus, null, cactus,
+                null, null, null
+        }));
+
         ItemStack obsidian = new ItemStack(Material.OBSIDIAN);
         new Item(new ItemStackBuilder(Material.IRON_HELMET)
                 .name(ChatColor.RESET + "Magic Proof Iron Helmet")
@@ -232,6 +288,15 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 emerald, null, emerald,
                 null, null, null
         }));
+        new Item(new ItemStackBuilder(Material.DIAMOND_SWORD)
+                .name(ChatColor.RESET + "Obsidian Sword (Heavy)")
+                .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .attribute(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "Speed", -1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .build(), "survival:obsidian_sword", new ShapedRecipe(new ItemStack[]{
+                obsidian, null, null,
+                obsidian, null, null,
+                stick, null, null
+        }));
         new Item(new ItemStackBuilder(Material.LEATHER_HELMET)
                 .leatherColor(Color.BLACK)
                 .name(ChatColor.RESET + "Obsidian Helmet")
@@ -272,6 +337,31 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 obsidian, null, obsidian,
                 null, null, null
         }));
+        ItemStack netherStar = new ItemStack(Material.NETHER_STAR);
+        new Item(new ItemStackBuilder(Material.IRON_SWORD)
+                .name(ChatColor.RESET + "Sword of the Nether Lord")
+                .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "ThisIsDesignedFor10YearOldKidsBecauseWhyNotTheyWillLoveTheNamingRight",
+                        30, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .build(), "survival:r_slash_minecraft_circlejerk", new ShapedRecipe(new ItemStack[]{
+                netherStar, null, null,
+                netherStar, null, null,
+                stick, null, null
+        }));
+    }
+
+    @EventHandler
+    public void cactusArmorEffect(EntityDamageByEntityEvent e) {
+        if (e.getEntity().getWorld().getName().toLowerCase().contains("survival") && e.getEntity() instanceof Player && e.getDamager() instanceof LivingEntity) {
+            double toReflect = 0;
+            for (ItemStack is : ((Player) e.getEntity()).getInventory().getArmorContents()) {
+                if (Item.getId(is) != null && Item.getId(is).contains("cactus_")) {
+                    toReflect += e.getFinalDamage() / 4D;
+                }
+            }
+            if (toReflect != 0) {
+                ((LivingEntity) e.getDamager()).damage(toReflect);
+            }
+        }
     }
 
     public static void load() {
