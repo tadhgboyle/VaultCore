@@ -101,7 +101,7 @@ public class CraftingCommand extends CommandExecutor implements Listener {
 
     public void craftingPaged(VLPlayer sender, int page) {
         int pages = (int) Math.round(Math.ceil(Item.getItems().size() / 36D));
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.RESET + "Crafting Recipes (" + page + "/" + pages + ")");
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.RESET + "Crafting Recipes (" + (page + 1) + "/" + pages + ")");
         Iterator<Map.Entry<String, Item>> it = Item.getItems().entrySet().stream().filter(item -> item.getValue().getRecipe() != null).collect(Collectors.toList()).iterator();
         for (int i = page * 36; i < page * 36 + 35; i++) {
             if (!it.hasNext()) break;
