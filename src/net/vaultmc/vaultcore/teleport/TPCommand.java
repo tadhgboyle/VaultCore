@@ -79,7 +79,7 @@ public class TPCommand extends CommandExecutor implements Listener {
             VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
             VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
             if (from != null && to != null) {
-                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> from.teleport(to));
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> from.teleport(to.getLocation()));
             }
         }
     }

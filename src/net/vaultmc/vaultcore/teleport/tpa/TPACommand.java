@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.Collections;
+import java.util.UUID;
 
 @RootCommand(literal = "tpa", description = "Request to teleport to a player.")
 @Permission(Permissions.TPACommand)
@@ -26,8 +27,8 @@ public class TPACommand extends CommandExecutor implements Listener {
     public void onMessageReceived(MessageReceivedEvent e) {
         if (e.getMessage().startsWith("TPAStatus")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            VLPlayer from = VLPlayer.getPlayer(parts[1]);
-            VLOfflinePlayer to = VLOfflinePlayer.getOfflinePlayer(parts[2]);
+            VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
+            VLOfflinePlayer to = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(parts[2]));
             if (from != null) {
                 if (parts[3].equals("Sent")) {
                     from.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
