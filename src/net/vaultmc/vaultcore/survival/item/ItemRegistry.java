@@ -291,7 +291,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
         new Item(new ItemStackBuilder(Material.DIAMOND_SWORD)
                 .name(ChatColor.RESET + "Obsidian Sword (Heavy)")
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
-                .attribute(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "Speed", -1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .attribute(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "Speed", -0.2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
                 .build(), "survival:obsidian_sword", new ShapedRecipe(new ItemStack[]{
                 obsidian, null, null,
                 obsidian, null, null,
