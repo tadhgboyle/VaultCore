@@ -19,7 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -56,14 +55,42 @@ public class CraftingCommand extends CommandExecutor implements Listener {
         craftingPaged(sender, 0);
     }
 
+    private static final ItemStack arrow = new ItemStackBuilder(Material.ARROW)
+            .name(ChatColor.YELLOW + "Crafts Into")
+            .build();
+    private static final ItemStack close = new ItemStackBuilder(Material.BARRIER)
+            .name(ChatColor.RED + "Close")
+            .build();
+
     public void recipe(VLPlayer sender, Item item) {
-        CraftingInventory inv = (CraftingInventory) Bukkit.createInventory(null, InventoryType.CRAFTING, "Recipe");
+        Inventory inv = Bukkit.createInventory(null, 27, "Recipe");
         if (item.getRecipe() instanceof ShapedRecipe) {
-            inv.setMatrix(((ShapedRecipe) item.getRecipe()).getRecipe());
+            ItemStack[] recipe = ((ShapedRecipe) item.getRecipe()).getRecipe();
+            inv.setItem(1, recipe[0]);
+            inv.setItem(2, recipe[1]);
+            inv.setItem(3, recipe[2]);
+            inv.setItem(10, recipe[3]);
+            inv.setItem(11, recipe[4]);
+            inv.setItem(12, recipe[5]);
+            inv.setItem(19, recipe[6]);
+            inv.setItem(20, recipe[7]);
+            inv.setItem(21, recipe[8]);
         } else if (item.getRecipe() instanceof ShapelessRecipe) {
-            inv.setMatrix(((ShapelessRecipe) item.getRecipe()).getIngredients());
+            ItemStack[] recipe = ((ShapelessRecipe) item.getRecipe()).getIngredients();
+            for (int i = 0; i < 9; i++) {
+                if (i > recipe.length - 1) break;
+                if (i <= 2) {
+                    inv.setItem(1 + i, recipe[i]);
+                } else if (i <= 5) {
+                    inv.setItem(7 + i, recipe[i]);
+                } else {
+                    inv.setItem(13 + i, recipe[i]);
+                }
+            }
         }
-        inv.setResult(item.getItem());
+        inv.setItem(14, arrow);
+        inv.setItem(16, item.getItem());
+        inv.setItem(53, close);
         sender.openInventory(inv);
     }
 
@@ -96,6 +123,10 @@ public class CraftingCommand extends CommandExecutor implements Listener {
             }
         } else if (e.getView().getTitle().startsWith(ChatColor.RESET + "Recipe")) {
             e.setCancelled(true);
+            if (e.getSlot() == 53) {
+                e.getWhoClicked().closeInventory();
+                crafting(VLPlayer.getPlayer((Player) e.getWhoClicked()));
+            }
         }
     }
 
