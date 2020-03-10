@@ -429,6 +429,17 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 netherStar, null, null,
                 stick, null, null
         }));
+        ItemStack ePearl = new ItemStack(Material.ENDER_PEARL);
+        ItemStack eEye = new ItemStack(Material.ENDER_EYE);
+        new Item(new ItemStackBuilder(Material.IRON_SWORD)
+                .name(ChatColor.RESET + "Ender Sword")
+                .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Damage", 25, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .maxDurability(1750)
+                .build(), "survival:ender_sword", new ShapedRecipe(new ItemStack[]{
+                ePearl, null, null,
+                eEye, null, null,
+                stick, null, null
+        }));
     }
 
     public static void load() {
