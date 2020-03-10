@@ -28,13 +28,17 @@ public class ItemListeners extends ConstructorRegisterListener {
                 if (player.getInventory().getItem(i) != null) {
                     ItemStack item = player.getInventory().getItem(i);
                     if (!item.hasItemMeta()) continue;
-                    Set<Double> ints = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR).stream().map(AttributeModifier::getAmount).collect(Collectors.toSet());
-                    for (double d : ints) {
-                        defense += d;
+                    if (item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR) != null) {
+                        Set<Double> ints = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR).stream().map(AttributeModifier::getAmount).collect(Collectors.toSet());
+                        for (double d : ints) {
+                            defense += d;
+                        }
                     }
-                    Set<Double> toughnesses = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR_TOUGHNESS).stream().map(AttributeModifier::getAmount).collect(Collectors.toSet());
-                    for (double d : toughnesses) {
-                        toughness += d;
+                    if (item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR_TOUGHNESS) != null) {
+                        Set<Double> toughnesses = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR_TOUGHNESS).stream().map(AttributeModifier::getAmount).collect(Collectors.toSet());
+                        for (double d : toughnesses) {
+                            toughness += d;
+                        }
                     }
                 }
             }
