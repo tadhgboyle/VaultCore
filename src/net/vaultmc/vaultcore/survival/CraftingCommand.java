@@ -138,7 +138,7 @@ public class CraftingCommand extends CommandExecutor implements Listener {
             if (!it.hasNext()) break;
             it.next();
         }
-        for (int i = page * 36; i < page * 36 + 35; i++) {
+        for (int i = page * 36; i <= page * 36 + 35; i++) {
             if (!it.hasNext()) break;
             Item item = it.next().getValue();
             inv.addItem(item.getItem());
