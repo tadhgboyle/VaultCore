@@ -1,34 +1,33 @@
 package net.vaultmc.vaultcore.survival.item;
 
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import net.vaultmc.vaultcore.survival.item.recipe.ShapedRecipe;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.util.Vector;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 public class ItemRegistry extends ConstructorRegisterListener {
+    private static final Set<Integer> reinforcedBowArrows = new HashSet<>();
+
     static {
         ItemStack iron = new ItemStack(Material.IRON_INGOT);
         ItemStack stick = new ItemStack(Material.STICK);
@@ -245,7 +244,106 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 lapis, null, lapis,
                 null, null, null
         }));
-
+        ItemStack diamond = new ItemStack(Material.DIAMOND);
+        ItemStack ironBlock = new ItemStack(Material.IRON_BLOCK);
+        ItemStack diaBlock = new ItemStack(Material.DIAMOND_BLOCK);
+        new Item(new ItemStackBuilder(Material.IRON_HELMET)
+                .name(ChatColor.RESET + "Reinforced Iron Helmet")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
+                .build(), "survival:reinforced_iron_helmet", new ShapedRecipe(new ItemStack[]{
+                iron, ironBlock, iron,
+                ironBlock, null, iron,
+                null, null, null
+        }));
+        new Item(new ItemStackBuilder(Material.IRON_CHESTPLATE)
+                .name(ChatColor.RESET + "Reinforced Iron Chestplate")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
+                .build(), "survival:reinforced_iron_chestplate", new ShapedRecipe(new ItemStack[]{
+                iron, null, iron,
+                ironBlock, iron, ironBlock,
+                iron, ironBlock, iron
+        }));
+        new Item(new ItemStackBuilder(Material.IRON_LEGGINGS)
+                .name(ChatColor.RESET + "Reinforced Iron Leggings")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 7, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
+                .build(), "survival:reinforced_iron_leggings", new ShapedRecipe(new ItemStack[]{
+                iron, ironBlock, iron,
+                ironBlock, null, iron,
+                iron, null, ironBlock
+        }));
+        new Item(new ItemStackBuilder(Material.IRON_BOOTS)
+                .name(ChatColor.RESET + "Reinforced Iron Boots")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
+                .build(), "survival:reinforced_iron_boots", new ShapedRecipe(new ItemStack[]{
+                iron, null, ironBlock,
+                ironBlock, null, iron,
+                null, null, null
+        }));
+        new Item(new ItemStackBuilder(Material.DIAMOND_HELMET)
+                .name(ChatColor.RESET + "Reinforced Diamond Helmet")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
+                .build(), "survival:reinforced_diamond_helmet", new ShapedRecipe(new ItemStack[]{
+                diamond, diaBlock, diamond,
+                diaBlock, null, diamond,
+                null, null, null
+        }));
+        new Item(new ItemStackBuilder(Material.DIAMOND_CHESTPLATE)
+                .name(ChatColor.RESET + "Reinforced Diamond Chestplate")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
+                .build(), "survival:reinforced_diamond_chestplate", new ShapedRecipe(new ItemStack[]{
+                diamond, null, diamond,
+                diaBlock, diamond, diaBlock,
+                diamond, diaBlock, diamond
+        }));
+        new Item(new ItemStackBuilder(Material.DIAMOND_LEGGINGS)
+                .name(ChatColor.RESET + "Reinforced Diamond Leggings")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 12, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
+                .build(), "survival:reinforced_diamond_leggings", new ShapedRecipe(new ItemStack[]{
+                diamond, diaBlock, diamond,
+                diaBlock, null, diamond,
+                diamond, null, diaBlock
+        }));
+        new Item(new ItemStackBuilder(Material.DIAMOND_BOOTS)
+                .name(ChatColor.RESET + "Reinforced Diamond Boots")
+                .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
+                .build(), "survival:reinforced_diamond_boots", new ShapedRecipe(new ItemStack[]{
+                diamond, null, diaBlock,
+                diaBlock, null, diamond,
+                null, null, null
+        }));
+        ItemStack stone = new ItemStack(Material.STONE);
+        ItemStack stoneSlab = new ItemStack(Material.STONE_SLAB);
+        new Item(new ItemStackBuilder(Material.STONE_SWORD)
+                .name(ChatColor.RESET + "Reinforced Stone Sword")
+                .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .build(), "survival:reinforced_stone_sword", new ShapedRecipe(new ItemStack[]{
+                stoneSlab, null, null,
+                stone, null, null,
+                stick, null, null
+        }));
+        new Item(new ItemStackBuilder(Material.IRON_SWORD)
+                .name(ChatColor.RESET + "Reinforced Iron Sword")
+                .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .build(), "survival:reinforced_iron_sword", new ShapedRecipe(new ItemStack[]{
+                iron, null, null,
+                ironBlock, null, null,
+                stick, null, null
+        }));
+        new Item(new ItemStackBuilder(Material.DIAMOND_SWORD)
+                .name(ChatColor.RESET + "Reinforced Diamond Sword")
+                .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .build(), "survival:reinforced_diamond_sword", new ShapedRecipe(new ItemStack[]{
+                diamond, null, null,
+                diaBlock, null, null,
+                stick, null, null
+        }));
+        new Item(new ItemStackBuilder(Material.BOW)
+                .name(ChatColor.RESET + "Reinforced Bow")
+                .build(), "survival:reinforced_bow", new ShapedRecipe(new ItemStack[]{
+                null, stick, iron,
+                stick, null, diamond,
+                null, stick, iron
+        }));
         ItemStack obsidian = new ItemStack(Material.OBSIDIAN);
         new Item(new ItemStackBuilder(Material.IRON_HELMET)
                 .name(ChatColor.RESET + "Magic Proof Iron Helmet")
@@ -279,7 +377,6 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 iron, null, iron,
                 null, null, null
         }));
-        ItemStack diamond = new ItemStack(Material.DIAMOND);
         new Item(new ItemStackBuilder(Material.DIAMOND_HELMET)
                 .name(ChatColor.RESET + "Magic Proof Diamond Helmet")
                 .lore(Collections.singletonList(ChatColor.GRAY + "Reduce damage from potion by 1/4."))
@@ -440,6 +537,11 @@ public class ItemRegistry extends ConstructorRegisterListener {
         ItemStack netherStar = new ItemStack(Material.NETHER_STAR);
         new Item(new ItemStackBuilder(Material.IRON_SWORD)
                 .name(ChatColor.RESET + "Sword of the Nether Lord")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Ignites target.",
+                        ChatColor.GRAY + "Right click to shoot fireball.",
+                        ChatColor.GRAY + "Shooting fireball consumes 1 level."
+                ))
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Damage",
                         30, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
                 .maxDurability(2000)
@@ -452,6 +554,10 @@ public class ItemRegistry extends ConstructorRegisterListener {
         ItemStack eEye = new ItemStack(Material.ENDER_EYE);
         new Item(new ItemStackBuilder(Material.IRON_SWORD)
                 .name(ChatColor.RESET + "Ender Sword")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Right click to teleport 8 blocks in front.",
+                        ChatColor.GRAY + "Teleporting consumes 1 level."
+                ))
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Damage", 25, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
                 .maxDurability(1750)
                 .build(), "survival:ender_sword", new ShapedRecipe(new ItemStack[]{
@@ -459,6 +565,71 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 eEye, null, null,
                 stick, null, null
         }));
+    }
+
+    public static void load() {
+        // Call static initializer
+        new ItemRegistry();
+    }
+
+    @EventHandler
+    public void reinforcedBow(EntityShootBowEvent e) {
+        if (e.getEntity() instanceof Player && e.getEntity().getWorld().getName().toLowerCase().contains("survival")) {
+            if ("survival:reinforced_bow".equals(Item.getId(e.getBow()))) {
+                reinforcedBowArrows.add(e.getProjectile().getEntityId());
+            }
+        }
+    }
+
+    @EventHandler
+    public void reinforcedBow2(EntityDamageByEntityEvent e) {
+        if (reinforcedBowArrows.contains(e.getDamager().getEntityId())) {
+            e.setDamage(e.getDamage() + 6);
+            reinforcedBowArrows.remove(e.getDamager().getEntityId());
+        }
+    }
+
+    @EventHandler
+    public void reinforcedBow3(EntityRemoveFromWorldEvent e) {
+        reinforcedBowArrows.remove(e.getEntity().getEntityId());
+    }
+
+    @EventHandler
+    public void starSwordIgnite(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player && e.getDamager().getWorld().getName().toLowerCase().contains("survival")) {
+            if ("survival:star_thin_sword".equals(Item.getId(((Player) e.getDamager()).getInventory().getItemInMainHand()))) {
+                e.getEntity().setFireTicks(200);
+            }
+        }
+    }
+
+    @EventHandler
+    public void starSwordShootFireball(PlayerInteractEvent e) {
+        if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().getWorld().getName().toLowerCase().contains("survival") &&
+                "survival:star_thin_sword".equals(Item.getId(e.getPlayer().getInventory().getItemInMainHand()))) {
+            if (e.getPlayer().getLevel() >= 1) {
+                Vector direction = e.getPlayer().getEyeLocation().getDirection().multiply(2);
+                Projectile projectile = e.getPlayer().getWorld().spawn(e.getPlayer().getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Fireball.class);
+                projectile.setShooter(e.getPlayer());
+                projectile.setVelocity(direction);
+                e.getPlayer().setLevel(e.getPlayer().getLevel() - 1);
+            }
+        }
+    }
+
+    @EventHandler
+    public void enderSword(PlayerInteractEvent e) {
+        if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getPlayer().getWorld().getName().toLowerCase().contains("survival") &&
+                "survival:ender_sword".equals(Item.getId(e.getPlayer().getInventory().getItemInMainHand()))) {
+            if (e.getPlayer().getLevel() >= 1) {
+                Vector direction = e.getPlayer().getLocation().getDirection().normalize().multiply(8);
+                Location loc = e.getPlayer().getLocation().clone();
+                loc.add(direction);
+                loc.setY(loc.getWorld().getHighestBlockYAt(loc.getBlockX(), loc.getBlockZ()));
+                e.getPlayer().teleport(loc);
+                e.getPlayer().setLevel(e.getPlayer().getLevel() - 1);
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -473,11 +644,6 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 }
             }, 100L);
         }
-    }
-
-    public static void load() {
-        // Call static initializer
-        new ItemRegistry();
     }
 
     @EventHandler

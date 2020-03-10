@@ -23,6 +23,7 @@ public class StarterGearExperience extends ConstructorRegisterListener {
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS),
             new ItemStack(Material.DIAMOND, 5),
+            new ItemStack(Material.ARROW, 32),
             new ItemStackBuilder(Material.COMPASS)
                     .name(ChatColor.YELLOW + "Use /crafting to check crafting recipes")
                     .build()
