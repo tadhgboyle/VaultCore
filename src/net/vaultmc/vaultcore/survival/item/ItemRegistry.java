@@ -78,6 +78,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
         new Item(new ItemStackBuilder(Material.IRON_SWORD)
                 .name(ChatColor.RESET + "Chainmail Sword")
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 5.5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .maxDurability(200)
                 .build(), "survival:chainmail_sword", new ShapedRecipe(new ItemStack[]{
                 iron, null, null,
                 leather, null, null,
@@ -111,6 +112,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                         ChatColor.GRAY + "Damage the attacker by 1/4 of",
                         ChatColor.GRAY + "the damage you receieved."
                 ))
+                .maxDurability(150)
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
                 .build(), "survival:cactus_helmet", new ShapedRecipe(new ItemStack[]{
                 cactus, cactus, cactus,
@@ -124,6 +126,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                         ChatColor.GRAY + "Damage the attacker by 1/4 of",
                         ChatColor.GRAY + "the damage you receieved."
                 ))
+                .maxDurability(150)
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
                 .build(), "survival:cactus_chestplate", new ShapedRecipe(new ItemStack[]{
                 cactus, null, cactus,
@@ -137,6 +140,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                         ChatColor.GRAY + "Damage the attacker by 1/4 of",
                         ChatColor.GRAY + "the damage you receieved."
                 ))
+                .maxDurability(150)
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
                 .build(), "survival:cactus_leggings", new ShapedRecipe(new ItemStack[]{
                 cactus, cactus, cactus,
@@ -150,6 +154,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                         ChatColor.GRAY + "Damage the attacker by 1/4 of",
                         ChatColor.GRAY + "the damage you receieved."
                 ))
+                .maxDurability(150)
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
                 .build(), "survival:cactus_boots", new ShapedRecipe(new ItemStack[]{
                 cactus, null, cactus,
@@ -226,6 +231,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
         new Item(new ItemStackBuilder(Material.IRON_SWORD)
                 .name(ChatColor.RESET + "Forged Iron Sword")
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 6.5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .maxDurability(300)
                 .build(), "survival:forged_iron_sword", new ShapedRecipe(new ItemStack[]{
                 iron, iron, null,
                 iron, iron, null,
@@ -235,6 +241,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
         new Item(new ItemStackBuilder(Material.DIAMOND_SWORD)
                 .name(ChatColor.RESET + "Emermond Sword")
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .maxDurability(2000)
                 .build(), "survival:emerald_diamond_mixed_sword", new ShapedRecipe(new ItemStack[]{
                 emerald, null, null,
                 diamond, null, null,
@@ -243,6 +250,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
         new Item(new ItemStackBuilder(Material.DIAMOND_SWORD)
                 .name(ChatColor.RESET + "Emerald Sword")
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .maxDurability(2500)
                 .build(), "survival:emerald_sword", new ShapedRecipe(new ItemStack[]{
                 emerald, null, null,
                 emerald, null, null,
@@ -253,6 +261,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Emerald Helmet")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
+                .maxDurability(550)
                 .build(), "survival:emerald_helmet", new ShapedRecipe(new ItemStack[]{
                 emerald, emerald, emerald,
                 emerald, null, emerald,
@@ -263,6 +272,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Emerald Chestplate")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
+                .maxDurability(750)
                 .build(), "survival:emerald_chestplate", new ShapedRecipe(new ItemStack[]{
                 emerald, null, emerald,
                 emerald, emerald, emerald,
@@ -273,6 +283,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Emerald Leggings")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
+                .maxDurability(530)
                 .build(), "survival:emerald_leggings", new ShapedRecipe(new ItemStack[]{
                 emerald, emerald, emerald,
                 emerald, null, emerald,
@@ -283,15 +294,16 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Emerald Boots")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
+                .maxDurability(500)
                 .build(), "survival:emerald_boots", new ShapedRecipe(new ItemStack[]{
                 emerald, null, emerald,
                 emerald, null, emerald,
                 null, null, null
         }));
         new Item(new ItemStackBuilder(Material.DIAMOND_SWORD)
-                .name(ChatColor.RESET + "Obsidian Sword (Heavy)")
+                .name(ChatColor.RESET + "Obsidian Sword")
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 15, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
-                .attribute(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(), "Speed", -0.2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .maxDurability(3000)
                 .build(), "survival:obsidian_sword", new ShapedRecipe(new ItemStack[]{
                 obsidian, null, null,
                 obsidian, null, null,
@@ -302,6 +314,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Obsidian Helmet")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
+                .maxDurability(900)
                 .build(), "survival:obsidian_helmet", new ShapedRecipe(new ItemStack[]{
                 obsidian, obsidian, obsidian,
                 obsidian, null, obsidian,
@@ -312,6 +325,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Obsidian Chestplate")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 30, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 16, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST))
+                .maxDurability(1500)
                 .build(), "survival:obsidian_chestplate", new ShapedRecipe(new ItemStack[]{
                 obsidian, null, obsidian,
                 obsidian, obsidian, obsidian,
@@ -322,6 +336,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Obsidian Leggings")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 16, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 12, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS))
+                .maxDurability(750)
                 .build(), "survival:obsidian_leggings", new ShapedRecipe(new ItemStack[]{
                 obsidian, obsidian, obsidian,
                 obsidian, null, obsidian,
@@ -332,6 +347,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Obsidian Boots")
                 .attribute(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Armor", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
                 .attribute(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "Toughness", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET))
+                .maxDurability(580)
                 .build(), "survival:obsidian_boots", new ShapedRecipe(new ItemStack[]{
                 obsidian, null, obsidian,
                 obsidian, null, obsidian,
@@ -342,6 +358,7 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 .name(ChatColor.RESET + "Sword of the Nether Lord")
                 .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "ThisIsDesignedFor10YearOldKidsBecauseWhyNotTheyWillLoveTheNamingRight",
                         30, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
+                .maxDurability(2000)
                 .build(), "survival:r_slash_minecraft_circlejerk", new ShapedRecipe(new ItemStack[]{
                 netherStar, null, null,
                 netherStar, null, null,
