@@ -409,15 +409,6 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 diamond, null, diamond,
                 null, null, null
         }));
-        new Item(new ItemStackBuilder(Material.IRON_SWORD)
-                .name(ChatColor.RESET + "Forged Iron Sword")
-                .attribute(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "Attack", 6.5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND))
-                .maxDurability(300)
-                .build(), "survival:forged_iron_sword", new ShapedRecipe(new ItemStack[]{
-                iron, iron, null,
-                iron, iron, null,
-                stick, null, null
-        }));
         ItemStack emerald = new ItemStack(Material.EMERALD);
         new Item(new ItemStackBuilder(Material.DIAMOND_SWORD)
                 .name(ChatColor.RESET + "Emermond Sword")
