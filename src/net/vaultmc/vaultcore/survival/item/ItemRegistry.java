@@ -2,16 +2,21 @@ package net.vaultmc.vaultcore.survival.item;
 
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import net.vaultmc.vaultcore.survival.item.recipe.ShapedRecipe;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -33,6 +38,19 @@ public class ItemRegistry extends ConstructorRegisterListener {
         new Item(new ItemStack(Material.PLAYER_HEAD), "minecraft:player_head", new ShapedRecipe(new ItemStack[]{
                 itemFrame, null, null,
                 nameTag, null, null,
+                null, null, null
+        }));
+        ItemStack flint = new ItemStack(Material.FLINT);
+        ItemStack coal = new ItemStack(Material.COAL);
+        ItemStack tnt = new ItemStack(Material.TNT);
+        new Item(new ItemStackBuilder(Material.PLAYER_HEAD)
+                // https://minecraft-heads.com/custom-heads/decoration/2934-bomb
+                .skullOwner("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWIyMGZmMTczYmQxN2IyYzRmMmViMjFmM2M0YjQzODQxYTE0YjMxZGZiZmQzNTRhM2JlYzgyNjNhZjU2MmIifX19")
+                .name(ChatColor.RESET + "Bomb")
+                .lore(Collections.singletonList(ChatColor.GRAY + "Explodes after being placed for 5 seconds."))
+                .build(), "survival:bomb", new ShapedRecipe(new ItemStack[]{
+                flint, tnt, coal,
+                null, null, null,
                 null, null, null
         }));
         new Item(new ItemStackBuilder(Material.LEATHER_HELMET)
@@ -440,6 +458,19 @@ public class ItemRegistry extends ConstructorRegisterListener {
                 eEye, null, null,
                 stick, null, null
         }));
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onBlockPlace(BlockPlaceEvent e) {
+        if (e.isCancelled()) return;
+        if ("survival:bomb".equals(Item.getId(e.getItemInHand()))) {
+            Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+                if (e.getBlock().getType() == Material.PLAYER_HEAD || e.getBlock().getType() == Material.PLAYER_WALL_HEAD) {
+                    e.getBlock().setType(Material.AIR);
+                    e.getBlock().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.PRIMED_TNT);
+                }
+            }, 100L);
+        }
     }
 
     public static void load() {
