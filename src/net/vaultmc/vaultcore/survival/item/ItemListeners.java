@@ -40,7 +40,7 @@ public class ItemListeners extends ConstructorRegisterListener {
             }
 
             double actualDamage = e.getDamage() * (1 - ((Math.max(defense / 5D, defense - (e.getDamage() / (2 + (toughness / 4))))) / 25));
-            e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, e.getDamage() - actualDamage);
+            e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, -(e.getDamage() - actualDamage));
         }
     }
 
