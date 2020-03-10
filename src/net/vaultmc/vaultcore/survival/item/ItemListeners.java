@@ -26,7 +26,8 @@ public class ItemListeners extends ConstructorRegisterListener {
             Player player = (Player) e.getEntity();
             for (int i = 36; i < 40; i++) {
                 if (player.getInventory().getItem(i) != null) {
-                    ItemStack item = player.getInventory().getItem(1);
+                    ItemStack item = player.getInventory().getItem(i);
+                    if (!item.hasItemMeta()) continue;
                     Set<Double> ints = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ARMOR).stream().map(AttributeModifier::getAmount).collect(Collectors.toSet());
                     for (double d : ints) {
                         defense += d;
