@@ -5,15 +5,11 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.network.protocol.game.ClientboundSetBorderPacket;
-import net.minecraft.world.level.border.WorldBorder;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -51,8 +47,6 @@ public final class Tour extends ConstructorRegisterListener {
     private static final Location plot = new Location(world, -106.5, 50, 99, 42F, 37F);
     private static final Location secondLobbySB = new Location(world, 0, 84, 0, -90F, 33F);
     private static final Location skyblock = new Location(world, -91.5, 75, -22.5, 135F, 43F);
-    private static final WorldBorder uhcBorder = new WorldBorder();
-    private static final Location uhc = new Location(world, 34, 74, 175, 0F, 90F);
 
     static {
         BlockData oakPlanks = Material.OAK_PLANKS.createBlockData();
@@ -180,12 +174,6 @@ public final class Tour extends ConstructorRegisterListener {
         for (int z : new int[]{164, 168}) {
             houseBlocks.put(new Location(world, 213, 59, z), wood);
         }
-    }
-
-    static {
-        uhcBorder.setCenter(34, 175);
-        uhcBorder.world = ((CraftWorld) world).getHandle();
-        uhcBorder.setSize(10);
     }
 
     private static void clear(VLPlayer player) {
@@ -424,20 +412,6 @@ public final class Tour extends ConstructorRegisterListener {
         player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.skyblock.title"), "", 10, 70, 20);
         Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
             player.sendMessage(VaultLoader.getMessage("tour.games.skyblock.text"));
-            TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
-            component.setHoverEvent(nextHover);
-            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage uhc"));
-            player.sendMessage(component);
-        }, 80L);
-    }
-
-    public static void uhc(VLPlayer player) {
-        clear(player);
-        player.teleport(uhc);
-        ((CraftPlayer) player.getPlayer()).getHandle().connection.send(new ClientboundSetBorderPacket(uhcBorder, ClientboundSetBorderPacket.Type.INITIALIZE));
-        player.getPlayer().sendTitle(VaultLoader.getMessage("tour.games.uhc.title"), "", 10, 70, 20);
-        Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
-            player.sendMessage(VaultLoader.getMessage("tour.games.uhc.text"));
             TextComponent component = new TextComponent(VaultLoader.getMessage("tour.next"));
             component.setHoverEvent(nextHover);
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tourstage ending"));

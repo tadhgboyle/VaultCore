@@ -216,16 +216,6 @@ tour:
   games:
     title: "&eGames"
 
-    uhc:
-      title: "&eUHC"
-      text: |-
-        &6&lUHC
-        &eUHC means Ultra Hardcore Champion. It is survival with a world border that's constantly shrinking and PvP.
-        &a-
-        &eOn VaultMC, we have two modes of UHC: Normal and Cursed. Before the game begins, you can vote for a mode. If you voted for cursed mode, a random cursed mode between Entities Speed Boost, Inventory Swap, Location Swap, Random Drops, Random Potion Effect and PvP Starts Immediately is used.
-        &a-
-        &eEach round of UHC on VaultMC lasts for 45 minutes (except for PvP Starts Immediately which lasts for 35 minutes). There is a grace period of 10 minutes where you can't combat with others in the beginning.
-
     lobby:
       title: "&eLobby"
       text: |-
@@ -255,6 +245,7 @@ tour:
         &eSurvival has been a huge part of VaultMC's gameplay since its beginning. It's about generally having fun exploring and creating.
         &a-
         &eWhile in survival, you can use &6/claim&e to claim a chunk of land as yours. You can also use &6/claim add <player>&e and &6/claim remove <player>&e to allow/disallow players from interacting within your claim.
+        &eWe have a unique system for survival that contains modded items. However, you can also play for a vanilla experience. Use &6/crafting&e to find out all the craftable modded items.
         &a-
         &eWe know sleeping could be a problem while surviving. For your convinence, if half (or above) of players in the Survival world are sleeping, the night will be skipped.
 
