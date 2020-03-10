@@ -14,6 +14,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -461,13 +462,14 @@ public class ItemRegistry extends ConstructorRegisterListener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onBlockPlace(BlockPlaceEvent e) {
+    public void bomb(BlockPlaceEvent e) {
         if (e.isCancelled()) return;
         if ("survival:bomb".equals(Item.getId(e.getItemInHand()))) {
             Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
                 if (e.getBlock().getType() == Material.PLAYER_HEAD || e.getBlock().getType() == Material.PLAYER_WALL_HEAD) {
                     e.getBlock().setType(Material.AIR);
-                    e.getBlock().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.PRIMED_TNT);
+                    TNTPrimed tnt = (TNTPrimed) e.getBlock().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.PRIMED_TNT);
+                    tnt.setFuseTicks(1);
                 }
             }, 100L);
         }
