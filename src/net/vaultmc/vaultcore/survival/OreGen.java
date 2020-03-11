@@ -23,7 +23,7 @@ public class OreGen extends ConstructorRegisterListener {
                             for (int y = -5; y <= 5; y++) {
                                 for (int z = -5; z <= 5; z++) {
                                     if (e.getPlayer().getLocation().getBlock().getRelative(x, y, z).getType() == Material.STONE) {
-                                        if (ThreadLocalRandom.current().nextInt(0, 100) <= 5) {
+                                        if (ThreadLocalRandom.current().nextInt(0, 100) <= 1) {
                                             e.getPlayer().getLocation().getBlock().getRelative(x, y, z).setType(Material.DIAMOND_ORE);
                                         }
                                     }
