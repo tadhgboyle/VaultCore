@@ -208,6 +208,7 @@ public final class VaultCore extends Component implements Listener {
             ItemRegistry.load();
             new ItemListeners();
             new CraftingCommand();
+            new OreGen();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
