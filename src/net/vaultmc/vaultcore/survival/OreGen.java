@@ -1,14 +1,9 @@
 package net.vaultmc.vaultcore.survival;
 
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.extension.input.ParserContext;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.regions.CuboidRegion;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -23,15 +18,17 @@ public class OreGen extends ConstructorRegisterListener {
                 VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
                 if (player.isNew() || player.isQuality() || player.getName().equals("yangyang200") /* Testing */) {
                     int rand = ThreadLocalRandom.current().nextInt(0, 100);
-                    if (rand <= 15) {
-                        try (EditSession session = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(e.getPlayer().getWorld()), -1,
-                                BukkitAdapter.adapt(e.getPlayer()))) {
-                            ParserContext context = new ParserContext();
-                            session.replaceBlocks(new CuboidRegion(BlockVector3.at(e.getPlayer().getLocation().getX() - 5,
-                                    e.getPlayer().getLocation().getY() - 5, e.getPlayer().getLocation().getZ() - 5),
-                                    BlockVector3.at(e.getPlayer().getLocation().getX() + 5, e.getPlayer().getLocation().getY() + 5,
-                                            e.getPlayer().getLocation().getZ() + 5)), WorldEdit.getInstance().getMaskFactory().parseFromInput("stone",
-                                    context), WorldEdit.getInstance().getPatternFactory().parseFromInput("1%diamond_ore,99%stone", context));
+                    if (rand <= 5) {
+                        for (int x = -5; x <= 5; x++) {
+                            for (int y = -5; y <= 5; y++) {
+                                for (int z = -5; z <= 5; z++) {
+                                    if (e.getPlayer().getLocation().getBlock().getRelative(x, y, z).getType() == Material.STONE) {
+                                        if (ThreadLocalRandom.current().nextInt(0, 100) <= 5) {
+                                            e.getPlayer().getLocation().getBlock().getRelative(x, y, z).setType(Material.DIAMOND_ORE);
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
