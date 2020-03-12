@@ -19,9 +19,14 @@ public class OreGen extends ConstructorRegisterListener {
                 if (player.isNew() || player.isQuality() || player.getName().equals("yangyang200") /* Testing */) {
                     int rand = ThreadLocalRandom.current().nextInt(0, 100);
                     if (rand <= 5) {
+                        outerLoop:
                         for (int x = -5; x <= 5; x++) {
                             for (int y = -5; y <= 5; y++) {
                                 for (int z = -5; z <= 5; z++) {
+                                    if (e.getPlayer().getLocation().getBlock().getRelative(x, y, z).getType() == Material.DIAMOND_ORE) {
+                                        // This area is already generated.
+                                        break outerLoop;
+                                    }
                                     if (e.getPlayer().getLocation().getBlock().getRelative(x, y, z).getType() == Material.STONE) {
                                         if (ThreadLocalRandom.current().nextInt(0, 100) <= 1) {
                                             e.getPlayer().getLocation().getBlock().getRelative(x, y, z).setType(Material.DIAMOND_ORE);
