@@ -316,8 +316,10 @@ public final class Tour extends ConstructorRegisterListener {
                 Map.Entry<Location, BlockData> entry = iterator.next();
                 player.getPlayer().sendBlockChange(entry.getKey(), entry.getValue());
             } else {
-                houseBuildingTasks.get(player.getUniqueId()).cancel();
-                houseBuildingTasks.remove(player.getUniqueId());
+                if (houseBuildingTasks.containsKey(player.getUniqueId())) {
+                    houseBuildingTasks.get(player.getUniqueId()).cancel();
+                    houseBuildingTasks.remove(player.getUniqueId());
+                }
             }
         }, 0, 1));
     }
