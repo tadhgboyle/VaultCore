@@ -132,7 +132,11 @@ public class ClaimCommand extends CommandExecutor implements Listener {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.already-claimed"));
             return;
         }
-        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.note"));
+        if (sender.getPlayer().getLevel() < 3) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.exp-level"));
+            return;
+        }
+        sender.getPlayer().setLevel(sender.getPlayer().getLevel() - 3);
         chunks.add(sender.getLocation().getChunk());
         sender.getPlayerData().set("claim.chunks", serializeChunks(chunks));
         sender.saveData();
