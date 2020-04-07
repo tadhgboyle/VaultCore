@@ -65,6 +65,7 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("settings.cycle", false);
             player.getPlayerData().set("settings.minimal_messages", false);
             player.getPlayerData().set("settings.minimal_caps", false);
+            player.getPlayerData().set("settings.item_drops", true);
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {

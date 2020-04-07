@@ -200,6 +200,7 @@ public final class VaultCore extends Component implements Listener {
             new MessageExperience();
             new StarterGearExperience();
             new ReportsCommand();
+            new NearCommand();
             Bug.dbInit();
             Bug.load();
             new BuggyCommand();

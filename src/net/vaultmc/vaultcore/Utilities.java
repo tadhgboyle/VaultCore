@@ -149,7 +149,7 @@ public final class Utilities {
                 first = false;
                 continue;
             }
-            sb.append(", " + word);
+            sb.append(ChatColor.YELLOW + ", " + ChatColor.RESET + word);
         }
         return sb.toString();
     }

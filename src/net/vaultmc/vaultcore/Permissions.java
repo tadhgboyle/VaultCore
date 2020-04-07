@@ -52,6 +52,7 @@ public final class Permissions {
     public static final String StatsCommandOther = "vaultcore.stats.other";
     public static final String ListCommand = "vaultcore.list";
     public static final String SocialSpyCommand = "vaultcore.socialspy";
+    public static final String SocialSpyExempt = "vaultcore.socialspy.exempt";
     public static final String ModMode = "vaultcore.modmode";
     public static final String ReportCommand = "vaultcore.report";
     public static final String ReportsCommand = "vaultcore.report.view";
@@ -84,13 +85,12 @@ public final class Permissions {
     public static final String ClearCommandOther = "vaultcore.clear.other";
     public static final String AdminChatCommand = "vaultcore.staffchat.adminchat";
     public static final String LogsCommand = "vaultcore.logs";
-    public static final String SocialSpyExempt = "vaultcore.socialspy.exempt";
     public static final String Home = "vaultcore.home";
     public static final String SetHomeBase = "vaultcore.sethome.";
     public static final String Crash = "vaultcore.crash";
-    public static final String LogsCommandAdmin = "vaultcore.logs.admin";
     public static final String VaultMCBotManage = "vaultcore.bot.manage";
     public static final String SpawnCommand = "vaultcore.spawn";
     public static final String ForceFieldCommand = "vaultcore.forcefield";
     public static final String ForceFieldExempt = "vaultcore.forcefield.exempt";
+    public static final String NearCommand = "vaultcore.near";
 }

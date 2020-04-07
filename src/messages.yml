@@ -628,3 +628,4 @@ vaultcore:
       invalid: "&cThe bot is currently &e{STATUS}&c."
       complete: "&eThe bot has been &6{STATUS}&e."
       status: "&eThe bot is currently {STATUS}&e."
+    near: "&eThere are &2{COUNT}&e within &2{RADIUS}&em you. \n{PLAYERS}"
