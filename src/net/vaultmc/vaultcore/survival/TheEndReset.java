@@ -34,6 +34,7 @@ public class TheEndReset extends BukkitRunnable {
             Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
                 for (Player player : Bukkit.getWorld("Survival_the_end").getPlayers()) {
                     player.sendMessage(VaultLoader.getMessage("vaultcore.survival.end_reset"));
+                    player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
                 }
 
                 Bukkit.unloadWorld("Survival_the_end", false);

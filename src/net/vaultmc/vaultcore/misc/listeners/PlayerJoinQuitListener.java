@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.misc.listeners;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -43,6 +44,7 @@ public class PlayerJoinQuitListener implements Listener {
     @SneakyThrows
     public void onJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+        e.setJoinMessage(null);
         if (player.getWorld().getName().equalsIgnoreCase("Lobby")) {
             player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
         }
@@ -61,19 +63,24 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("settings.tpa", true);
             player.getPlayerData().set("settings.autotpa", false);
             player.getPlayerData().set("settings.cycle", false);
+            player.getPlayerData().set("settings.minimal_messages", false);
+            player.getPlayerData().set("settings.minimal_caps", false);
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {
+                if (PlayerSettings.getSetting(VLPlayer.getPlayer(players), "settings.minimal_messages")) continue;
                 players.sendMessage(
                         Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.new_player"),
                                 player.getFormattedName(), count()));
             }
         }
-        e.setJoinMessage(
-                Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
-                        player.getFormattedName(), ChatColor.GREEN + "joined"));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 VaultCore.getInstance().getConfig().getString("welcome-message")));
+        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
+            Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
+                    player.getFormattedName(), ChatColor.GREEN + "joined");
+        }
 
         File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getUniqueId().toString() + "/");
         if (!directory.exists()) {
@@ -109,5 +116,4 @@ public class PlayerJoinQuitListener implements Listener {
                         + "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, username=?, lastseen=?, playtime=?, rank=?, ip=?",
                 uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, username, lastseen, playtime, rank, ip);
     }
-
 }

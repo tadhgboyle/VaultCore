@@ -5,7 +5,6 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
 
@@ -28,12 +27,9 @@ public class LogsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.already_searching"));
             return;
         }
-        if ((search.length() < 3) && ((sender instanceof VLPlayer) && !((VLPlayer) sender).hasPermission(Permissions.LogsCommandAdmin))) {
+        if (search.length() < 3) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.minimum_length"));
             return;
-        }
-        if (search.length() < 3) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.warn_lag"));
         }
         LogsHandler logsHandler = new LogsHandler(sender, search);
         Thread thread = new Thread(logsHandler);

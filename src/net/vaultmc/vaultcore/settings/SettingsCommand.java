@@ -53,12 +53,48 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                 ))
                 .build());
         inv.setItem(15, new ItemStackBuilder(Material.COMPASS)
-                .name(ChatColor.YELLOW + "TPA")
+                .name(ChatColor.YELLOW + "Allow TPA's")
                 .lore(Arrays.asList(
                         ChatColor.GRAY + "Allow other players to request to ",
                         ChatColor.GRAY + "teleport to you (or teleport to them).",
                         "",
                         sender.getPlayerData().getBoolean("settings.tpa") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
+                ))
+                .build());
+        inv.setItem(20, new ItemStackBuilder(Material.FEATHER)
+                .name(ChatColor.YELLOW + "Minimal Messages")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Only see chat messages from ",
+                        ChatColor.GRAY + "other players.",
+                        ChatColor.GRAY + "Disables join messages etc.",
+                        "",
+                        sender.getPlayerData().getBoolean("settings.minimal_messages") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
+                ))
+                .build());
+        inv.setItem(22, new ItemStackBuilder(Material.IRON_BARS)
+                .name(ChatColor.YELLOW + "Minimal Caps")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Reduce the amount of caps ",
+                        ChatColor.GRAY + "in player messages.",
+                        "",
+                        sender.getPlayerData().getBoolean("settings.minimal_caps") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
+                ))
+                .build());
+        inv.setItem(23, new ItemStackBuilder(Material.DIRT)
+                .name(ChatColor.YELLOW + "Item Drops")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Toggle item drops on or off. ",
+                        ChatColor.GRAY + "Only applies in Creative world.",
+                        "",
+                        sender.getPlayerData().getBoolean("settings.item_drops") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
+                ))
+                .build());
+        inv.setItem(24, new ItemStackBuilder(Material.ENDER_EYE)
+                .name(ChatColor.YELLOW + "Auto Accept TPA's")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Auto accept TPA requests. ",
+                        "",
+                        sender.getPlayerData().getBoolean("settings.autotpa") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
                 ))
                 .build());
         sender.openInventory(inv);
@@ -75,6 +111,14 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                 data.set("settings.cycle", !data.getBoolean("settings.cycle"));
             } else if (e.getSlot() == 15) {
                 data.set("settings.tpa", !data.getBoolean("settings.tpa"));
+            } else if (e.getSlot() == 20) {
+                data.set("settings.minimal_messages", !data.getBoolean("settings.minimal_messages"));
+            } else if (e.getSlot() == 22) {
+                data.set("settings.minimal_caps", !data.getBoolean("settings.minimal_caps"));
+            } else if (e.getSlot() == 23) {
+                data.set("settings.item_drops", !data.getBoolean("settings.item_drops"));
+            } else if (e.getSlot() == 24) {
+                data.set("settings.autotpa", !data.getBoolean("settings.autotpa"));
             }
             e.setCancelled(true);
             player.closeInventory();

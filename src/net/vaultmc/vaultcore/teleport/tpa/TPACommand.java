@@ -1,12 +1,13 @@
 package net.vaultmc.vaultcore.teleport.tpa;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,9 +29,14 @@ public class TPACommand extends CommandExecutor implements Listener {
         if (e.getMessage().startsWith("TPAStatus")) {
             String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
             VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
-            VLOfflinePlayer to = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(parts[2]));
+            VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
             if (from != null) {
                 if (parts[3].equals("Sent")) {
+                    if (PlayerSettings.getSetting(to.getOnlinePlayer(), "settings.autotpa") && to.isOnline()) {
+                        from.teleport(to.getOnlinePlayer());
+                        to.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.response.response_target"), "accepted", from.getFormattedName()));
+                        from.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.response.response_sender"), to.getFormattedName(), "accepted"));
+                    }
                     from.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
                             to.getFormattedName()));
                 }
@@ -39,7 +45,7 @@ public class TPACommand extends CommandExecutor implements Listener {
     }
 
     @SubCommand("tpa")
-    public void tpa(VLPlayer player, VLOfflinePlayer target) {
+    public void tpa(VLPlayer player, VLPlayer target) {
         if (target.getUniqueId() == player.getUniqueId()) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;

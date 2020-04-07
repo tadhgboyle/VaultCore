@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class Portals extends ConstructorRegisterListener {
+public class LobbyPortals extends ConstructorRegisterListener {
     private static final Location out = new Location(Bukkit.getWorld("Lobby"), 176.5, 110, -5.5, -90, 0);
 
     @EventHandler

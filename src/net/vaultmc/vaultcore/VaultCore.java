@@ -27,6 +27,7 @@ import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.creative.CycleListener;
 import net.vaultmc.vaultcore.creative.EntityUpperBound;
+import net.vaultmc.vaultcore.creative.ItemDrops;
 import net.vaultmc.vaultcore.creative.SchemCommand;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
@@ -210,6 +211,7 @@ public final class VaultCore extends Component implements Listener {
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
+            registerEvents(new ItemDrops());
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
                 RankPromotions.memberPromotion();
                 RankPromotions.patreonPromotion();
@@ -291,7 +293,7 @@ public final class VaultCore extends Component implements Listener {
         new SetHomeCommand();
         new DelHomeCommand();
         new EconomyListener();
-        new Portals();
+        new LobbyPortals();
         new SpawnCommand();
         new ForceFieldCommand();
         registerEvents(new GrantCommandListener());

@@ -52,8 +52,8 @@ public class ChatUtils extends ConstructorRegisterListener {
             return;
         }
 
-        if (AdminChatCommand.getToggled().contains(player.getUniqueId()) && player.hasPermission(Permissions.AdminChatCommand)) {
-            SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage());
+        if (e.getMessage().startsWith(",") || AdminChatCommand.getToggled().contains(player.getUniqueId()) && player.hasPermission(Permissions.AdminChatCommand)) {
+            SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage().replaceFirst(",", ""));
             e.setCancelled(true);
             return;
         }
