@@ -11,10 +11,7 @@ import net.vaultmc.vaultcore.brand.BrandListener;
 import net.vaultmc.vaultcore.buggy.Bug;
 import net.vaultmc.vaultcore.buggy.BuggyCommand;
 import net.vaultmc.vaultcore.buggy.BuggyListener;
-import net.vaultmc.vaultcore.chat.ChatUtils;
-import net.vaultmc.vaultcore.chat.ClearChatCommand;
-import net.vaultmc.vaultcore.chat.ConsoleSay;
-import net.vaultmc.vaultcore.chat.MuteChatCommand;
+import net.vaultmc.vaultcore.chat.*;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgMessageListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
@@ -227,6 +224,8 @@ public final class VaultCore extends Component implements Listener {
             new TransferCommand();
             new PlayerHider();
         }
+        new IgnoreCommand();
+        new UnignoreCommand();
         new SecLogCommand();
         new LegacyCombat();
         new LogsCommand();
@@ -271,7 +270,7 @@ public final class VaultCore extends Component implements Listener {
         new ListCommand();
         new SocialSpyCommand();
         new ModMode();
-        new ChatUtils();
+        new ChatManager();
         new TimeCommand();
         new VanishCommand();
         new VanishListeners();

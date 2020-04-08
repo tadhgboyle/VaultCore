@@ -27,6 +27,7 @@ import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,7 +38,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatUtils extends ConstructorRegisterListener {
+public class ChatManager extends ConstructorRegisterListener {
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
@@ -72,6 +73,9 @@ public class ChatUtils extends ConstructorRegisterListener {
             return;  // Let clans handle this itself
         }
         formatChat(e);
+        for (Player player : e.getRecipients()) {
+            if (IgnoreCommand.isIgnoring(VLOfflinePlayer.getOfflinePlayer(player), VLPlayer.getPlayer(e.getPlayer()))) e.getRecipients().remove(player);
+        }
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
             e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
     }

@@ -631,3 +631,11 @@ vaultcore:
       complete: "&eThe bot has been &6{STATUS}&e."
       status: "&eThe bot is currently {STATUS}&e."
     near: "&eThere are &2{COUNT}&e within &2{RADIUS}&em you. \n{PLAYERS}"
+    ignore:
+      already_ignored: "&eYou are already ignoring {PLAYER}&e."
+      not_ignored: "&cYou are not ignoring {PLAYER}&e."
+      toggle_ignore: "&eYou have {TOGGLE}&e ignoring {PLAYER}&e."
+      not_ignoring_anyone: "&eYou are not ignoring anyone! What a nice guy."
+      header: "&2--== [Ignoring] ==--"
+      list: "&e[&2{COUNT}&e]&e {PLAYER}"
+      you_are_ignored: "&cThat person has ignored you :("

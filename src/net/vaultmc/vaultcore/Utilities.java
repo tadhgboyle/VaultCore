@@ -139,7 +139,7 @@ public final class Utilities {
      * @return Comma seperated List<String>
      * @author Aberdeener
      */
-    public static String listToString(Collection<String> list) {
+    public static String listToString(Collection<String> list, boolean chatColour) {
 
         StringBuilder sb = new StringBuilder();
         boolean first = true;
@@ -149,7 +149,8 @@ public final class Utilities {
                 first = false;
                 continue;
             }
-            sb.append(ChatColor.YELLOW + ", " + ChatColor.RESET + word);
+            if (chatColour) sb.append(ChatColor.YELLOW + ", " + ChatColor.RESET + word);
+            else sb.append(", " + word);
         }
         return sb.toString();
     }

@@ -93,4 +93,5 @@ public final class Permissions {
     public static final String ForceFieldCommand = "vaultcore.forcefield";
     public static final String ForceFieldExempt = "vaultcore.forcefield.exempt";
     public static final String NearCommand = "vaultcore.near";
+    public static final String IgnoreCommand = "vaultcore.ignore";
 }

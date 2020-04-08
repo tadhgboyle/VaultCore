@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.teleport.tpa;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.chat.IgnoreCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
@@ -20,6 +21,10 @@ public class TPAHereCommand extends CommandExecutor implements Listener {
     public void tpahere(VLPlayer player, VLOfflinePlayer target) {
         if (target.getUniqueId() == player.getUniqueId()) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
+            return;
+        }
+        if (IgnoreCommand.isIgnoring(target, player)) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.you_are_ignored"));
             return;
         }
         SQLMessenger.sendGlobalMessage("TPA2jRequest" + VaultCore.SEPARATOR + player.getUniqueId() + VaultCore.SEPARATOR + target.getUniqueId() +

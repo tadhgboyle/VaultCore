@@ -35,6 +35,6 @@ public class NearCommand extends CommandExecutor {
         for (Player players : sender.getLocation().getNearbyPlayers(radius)) {
             nearPlayers.add(VLPlayer.getPlayer(players).getFormattedName());
         }
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.near"), nearPlayers.size(), radius, Utilities.listToString(nearPlayers)));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.near"), nearPlayers.size(), radius, Utilities.listToString(nearPlayers, true)));
     }
 }
