@@ -40,6 +40,7 @@ import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
 import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultcore.misc.commands.*;
+import net.vaultmc.vaultcore.misc.commands.donation.DonationCommand;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
 import net.vaultmc.vaultcore.misc.commands.staff.logs.LogsCommand;
 import net.vaultmc.vaultcore.misc.listeners.*;
@@ -270,6 +271,7 @@ public final class VaultCore extends Component implements Listener {
         new ListCommand();
         new SocialSpyCommand();
         new ModMode();
+        new DonationCommand();
         new ChatManager();
         new TimeCommand();
         new VanishCommand();

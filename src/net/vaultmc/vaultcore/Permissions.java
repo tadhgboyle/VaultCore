@@ -96,4 +96,6 @@ public final class Permissions {
     public static final String IgnoreCommand = "vaultcore.ignore";
     public static final String SudoCommand = "vaultcore.sudo";
     public static final String SudoCommandExempt = "vaultcore.sudo.exempt";
+    public static final String DonationCommand = "vaultcore.donation";
+    public static final String DonationCommandAdmin = "vaultcore.donation.admin";
 }
