@@ -52,7 +52,6 @@ public final class Permissions {
     public static final String StatsCommandOther = "vaultcore.stats.other";
     public static final String ListCommand = "vaultcore.list";
     public static final String SocialSpyCommand = "vaultcore.socialspy";
-    public static final String SocialSpyExempt = "vaultcore.socialspy.exempt";
     public static final String ModMode = "vaultcore.modmode";
     public static final String ReportCommand = "vaultcore.report";
     public static final String ReportsCommand = "vaultcore.report.view";
@@ -98,4 +97,5 @@ public final class Permissions {
     public static final String SudoCommandExempt = "vaultcore.sudo.exempt";
     public static final String DonationCommand = "vaultcore.donation";
     public static final String DonationCommandAdmin = "vaultcore.donation.admin";
+    public static final String SuicideCommand = "vaultcore.suicide";
 }

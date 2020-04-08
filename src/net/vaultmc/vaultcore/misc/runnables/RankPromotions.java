@@ -1,7 +1,11 @@
 package net.vaultmc.vaultcore.misc.runnables;
 
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.chat.IgnoreCommand;
+import net.vaultmc.vaultcore.settings.PlayerSettings;
+import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
@@ -24,6 +28,7 @@ public class RankPromotions {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set member");
 
                 for (Player players : Bukkit.getOnlinePlayers()) {
+                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(players), "minimal_chat")) continue;
                     players.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.runnables.rank_promotions"),
                                     player.getFormattedName(), "Member"));
@@ -43,7 +48,9 @@ public class RankPromotions {
             if (playtime > PATREON_TIME) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                         "lp user " + player.getName() + " parent set patreon");
+
                 for (Player players : Bukkit.getOnlinePlayers()) {
+                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(players), "minimal_chat")) continue;
                     players.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.runnables.rank_promotions"),
                                     player.getFormattedName(), "Patreon"));

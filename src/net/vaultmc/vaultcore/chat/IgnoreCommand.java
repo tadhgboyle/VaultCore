@@ -62,11 +62,11 @@ public class IgnoreCommand extends CommandExecutor {
         ignored.clear();
     }
 
-    public static boolean isIgnoring(VLOfflinePlayer player, VLOfflinePlayer target) {
-        SQLPlayerData data = player.getPlayerData();
+    public static boolean isIgnoring(VLOfflinePlayer ignorer, VLOfflinePlayer ignoredPlayer) {
+        SQLPlayerData data = ignorer.getPlayerData();
         String csvIgnored = data.getString("ignored");
         ignored = Arrays.asList(csvIgnored.split("\\s*,\\s*"));
-        if (ignored.contains(target.getUniqueId().toString())) return true;
+        if (ignored.contains(ignoredPlayer.getUniqueId().toString())) return true;
         return false;
     }
 }
