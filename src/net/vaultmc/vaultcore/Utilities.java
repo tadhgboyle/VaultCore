@@ -106,11 +106,11 @@ public final class Utilities {
                 // if the second last entry is == 1, we can assume we dont need a break
                 if (position == 4 && newline) {
                     ending = (duration == 1 ? " and " : "s \nand ");
-                } else if (position == 4 && !newline) {
+                } else if (position == 4) {
                     ending = (duration == 1 ? " and " : "s and ");
                 }
                 // if it is the last entry then add a period
-                if (position == 5) {
+                else if (position == 5) {
                     if (period) {
                         ending = (duration == 1 ? ". " : "s.");
                     } else {

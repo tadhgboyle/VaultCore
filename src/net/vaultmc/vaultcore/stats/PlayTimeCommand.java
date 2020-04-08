@@ -24,6 +24,7 @@ public class PlayTimeCommand extends CommandExecutor {
         register("playTimeSelf", Collections.emptyList());
         register("playTimeOthers",
                 Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+        register("playTimeTop", Collections.singletonList(Arguments.createLiteral("top")));
     }
 
     @SubCommand("playTimeSelf")
@@ -42,10 +43,23 @@ public class PlayTimeCommand extends CommandExecutor {
         printPlayTimeOffline(sender, target);
     }
 
+    @SubCommand("playTimeTop")
+    @SneakyThrows
+    public void playTimeTop(VLCommandSender sender) {
+        int position = 1;
+        DBConnection database = VaultCore.getDatabase();
+        ResultSet rs = database.executeQueryStatement("SELECT username, playtime FROM players ORDER BY playtime DESC LIMIT 10");
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.playtime.top_header"));
+        while (rs.next() && position < 11) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.top"), position, VLOfflinePlayer.getOfflinePlayer(rs.getString("username")).getFormattedName(), Utilities.millisToTime(rs.getLong("playtime"), false, true)));
+            position++;
+        }
+    }
+
     private void printPlayTimeOnline(VLPlayer player, VLCommandSender sender) {
         long playtime = (long) (player.getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.online_player"),
-                player.getFormattedName(), Utilities.millisToTime(playtime, true, true)));
+                player.getFormattedName(), Utilities.millisToTime(playtime, false, true)));
         if (player == sender) {
             if (player.getGroup().equalsIgnoreCase("default")) {
                 player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(playtime - RankPromotions.MEMBER_TIME, true, false), "Member"));
@@ -71,7 +85,7 @@ public class PlayTimeCommand extends CommandExecutor {
             long playtime = rs.getLong("playtime");
             long t = (long) (playtime * 0.05 * 1000);
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.offline_player"),
-                    target.getFormattedName(), Utilities.millisToTime(t, true, true)));
+                    target.getFormattedName(), Utilities.millisToTime(t, false, true)));
         } else {
             player.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
         }
