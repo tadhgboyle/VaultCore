@@ -296,6 +296,7 @@ public final class VaultCore extends Component implements Listener {
         new LobbyPortals();
         new SpawnCommand();
         new ForceFieldCommand();
+        new SudoCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerJoinQuitListener());

@@ -639,3 +639,6 @@ vaultcore:
       header: "&2--== [Ignoring] ==--"
       list: "&e[&2{COUNT}&e]&e {PLAYER}"
       you_are_ignored: "&cThat person has ignored you :("
+    sudo:
+      excempt_error: "&cYou cannot sudo that player."
+      success: "&eForced {PLAYER}&e to run &6{COMMAND}&e."
