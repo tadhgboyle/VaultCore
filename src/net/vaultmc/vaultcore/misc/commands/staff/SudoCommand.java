@@ -19,9 +19,9 @@ public class SudoCommand extends CommandExecutor {
 
     @SubCommand("sudo")
     public void sudo(VLCommandSender sender, VLPlayer target, String command) {
-        if (target.hasPermission(Permissions.SudoCommandExempt)) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.sudo.exempt_error"));
-        } else {
+        if (sender == target) sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.sudo.self_error"));
+        if (target.hasPermission(Permissions.SudoCommandExempt)) sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.sudo.excempt_error"));
+        else {
             target.performCommand(command);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.sudo.success"), target.getFormattedName(), command));
         }

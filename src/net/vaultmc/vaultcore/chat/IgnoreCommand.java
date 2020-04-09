@@ -63,6 +63,8 @@ public class IgnoreCommand extends CommandExecutor {
     }
 
     public static boolean isIgnoring(VLPlayer ignorer, VLPlayer ignoredPlayer) {
+        /* ignorer is the player recieving the message/event
+           ignoredPlayer is the executor of the event */
         SQLPlayerData data = ignorer.getPlayerData();
         String csvIgnored = data.getString("ignored");
         ignored = Arrays.asList(csvIgnored.split("\\s*,\\s*"));

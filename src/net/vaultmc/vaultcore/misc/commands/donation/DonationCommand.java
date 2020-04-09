@@ -116,7 +116,7 @@ public class DonationCommand extends CommandExecutor {
             name = DonationRanks.DONOR_PLUS_PLUS.getName();
             luckPermsGroup = DonationRanks.DONOR_PLUS_PLUS.getLuckPermsRole();
         } else {
-            removeRanks(target, true, "");
+            removeRanks(target, true, null);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.no_avail_rank"), target.getFormattedName()));
             return;
         }

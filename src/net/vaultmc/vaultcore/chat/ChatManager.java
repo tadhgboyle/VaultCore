@@ -87,7 +87,7 @@ public class ChatManager extends ConstructorRegisterListener {
             return;  // Let clans handle this itself
         }
         formatChat(e);
-        e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
+        e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(e.getPlayer()), VLPlayer.getPlayer(player)));
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
             e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
     }

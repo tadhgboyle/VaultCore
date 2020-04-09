@@ -31,26 +31,25 @@ public final class Utilities {
     /**
      * @param message - Message from
      *                {@link net.vaultmc.vaultloader.VaultLoader#getMessage(String)}
-     * @param objects - The variables you wish to insert to the message.
+     * @param replacements - The variables you wish to insert to the message.
      * @return Compiled message
      * @author Aberdeener
      */
-    // FIXME Do not force order
-    public static String formatMessage(String message, Object... objects) {
+    public static String formatMessage(String message, Object... replacements) {
         int num = 0;
         StringBuilder sb = new StringBuilder();
         for (String s : message.split(" ")) {
             if (s.matches(".*?\\{.*?}.*")) {
                 String before = StringUtils.substringBefore(s, "{");
                 String after = s.substring(s.lastIndexOf("}") + 1);
-                s = objects[num].toString();
+                s = replacements[num].toString();
                 sb.append(before).append(s).append(after).append(" ");
                 num++;
             } else {
-                sb.append(s).append(" ");
+                sb.append(s + " ");
             }
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     /**
