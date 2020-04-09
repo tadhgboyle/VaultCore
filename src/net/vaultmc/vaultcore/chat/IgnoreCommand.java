@@ -62,7 +62,7 @@ public class IgnoreCommand extends CommandExecutor {
         ignored.clear();
     }
 
-    public static boolean isIgnoring(VLOfflinePlayer ignorer, VLOfflinePlayer ignoredPlayer) {
+    public static boolean isIgnoring(VLPlayer ignorer, VLPlayer ignoredPlayer) {
         SQLPlayerData data = ignorer.getPlayerData();
         String csvIgnored = data.getString("ignored");
         ignored = Arrays.asList(csvIgnored.split("\\s*,\\s*"));

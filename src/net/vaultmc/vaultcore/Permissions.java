@@ -98,4 +98,5 @@ public final class Permissions {
     public static final String DonationCommand = "vaultcore.donation";
     public static final String DonationCommandAdmin = "vaultcore.donation.admin";
     public static final String SuicideCommand = "vaultcore.suicide";
+    public static final String ChatGroupsCommand = "vaultcore.chatgroups";
 }

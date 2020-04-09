@@ -1,0 +1,15 @@
+players:
+  9490b898-856a-4aae-8de3-2986d007269b: "survival"
+
+chatgroups:
+  survival:
+    admins:
+      - 9490b898-856a-4aae-8de3-2986d007269b
+      - 90d8e4a2-1c98-4d71-8587-ab5891ebae37
+      - 6cc9ba8e-8803-4534-a3d2-ade79263cb1e
+    members:
+      - 9490b898-856a-4aae-8de3-2986d007269b
+      - 90d8e4a2-1c98-4d71-8587-ab5891ebae37
+      - 6cc9ba8e-8803-4534-a3d2-ade79263cb1e
+      - 9c3cb860-b6d7-4d9a-96de-4210eb1424fb
+      - 5c6fe65d-2137-47d2-aa9d-0d4f333656ac

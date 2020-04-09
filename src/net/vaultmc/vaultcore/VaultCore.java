@@ -122,6 +122,7 @@ public final class VaultCore extends Component implements Listener {
     private Configuration locations;
     private Configuration data;
     private Configuration inv;
+    private Configuration chatgroups;
 
     private static String getServerName() {
         String name = "CraftBukkit";
@@ -159,6 +160,7 @@ public final class VaultCore extends Component implements Listener {
         data = ConfigurationManager.loadConfiguration("data.yml", this);
         inv = ConfigurationManager.loadConfiguration("inventory.yml", this);
         locations = ConfigurationManager.loadConfiguration("locations.yml", this);
+        chatgroups = ConfigurationManager.loadConfiguration("chatgroups.yml", this);
 
         database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
                 getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
@@ -338,6 +340,10 @@ public final class VaultCore extends Component implements Listener {
         return data.getConfig();
     }
 
+    public FileConfiguration getChatGroupFile() {
+        return chatgroups.getConfig();
+    }
+
     @Override
     public void onServerFinishedLoading() {
         locations = ConfigurationManager.loadConfiguration("locations.yml", this);
@@ -352,6 +358,7 @@ public final class VaultCore extends Component implements Listener {
         data.save();
         inv.save();
         locations.save();
+        chatgroups.save();
     }
 
     public void reloadConfig() {
@@ -393,5 +400,6 @@ public final class VaultCore extends Component implements Listener {
         inv.save();
         locations.save();
         data.save();
+        chatgroups.save();
     }
 }

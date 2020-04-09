@@ -20,6 +20,8 @@ package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.chat.groups.ChatGroup;
+import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
@@ -37,6 +39,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.UUID;
 
 public class ChatManager extends ConstructorRegisterListener {
     public static void formatChat(AsyncPlayerChatEvent e) {
@@ -59,6 +63,16 @@ public class ChatManager extends ConstructorRegisterListener {
             return;
         }
 
+        if (e.getMessage().startsWith("!") || ChatGroupsCommand.getToggled().contains(player) && player.hasPermission(Permissions.ChatGroupsCommand)) {
+            ChatGroup chatGroup = ChatGroup.getChatGroup(player);
+            if (chatGroup != null) {
+                for (UUID uuid : chatGroup.members) {
+                    VLPlayer.getPlayer(uuid).sendMessage(e.getMessage().substring(0, e.getMessage().length() - 1));
+                }
+                return;
+            }
+        }
+
         if (MuteChatCommand.chatMuted && !player.hasPermission(Permissions.MuteChatCommandOverride)) {
             player.sendMessage(VaultLoader.getMessage("chat.muted"));
             e.setCancelled(true);
@@ -73,9 +87,7 @@ public class ChatManager extends ConstructorRegisterListener {
             return;  // Let clans handle this itself
         }
         formatChat(e);
-        for (Player player : e.getRecipients()) {
-            if (IgnoreCommand.isIgnoring(VLOfflinePlayer.getOfflinePlayer(player), VLPlayer.getPlayer(e.getPlayer()))) e.getRecipients().remove(player);
-        }
+        e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
             e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
     }
