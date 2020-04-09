@@ -36,7 +36,7 @@ public class DonationCommand extends CommandExecutor {
     @PlayerOnly
     public void checkDonationSelf(VLPlayer sender) {
         SQLPlayerData data = sender.getPlayerData();
-        Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_self"), df.format(data.getDouble("donation")));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_self"), df.format(data.getDouble("donation"))));
     }
 
     @SubCommand("checkDonationOther")
@@ -49,7 +49,7 @@ public class DonationCommand extends CommandExecutor {
         if (!(sender instanceof ConsoleCommandSender) && (sender == target)) checkDonationSelf((VLPlayer) sender);
         else {
             SQLPlayerData data = target.getPlayerData();
-            Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_other"), target.getFormattedName(), df.format(data.getDouble("donation")));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_other"), target.getFormattedName(), df.format(data.getDouble("donation"))));
         }
     }
 
@@ -64,7 +64,7 @@ public class DonationCommand extends CommandExecutor {
         double currentDonation = data.getDouble("donation");
         currentDonation += donation;
         data.set("donation", currentDonation);
-        Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.add_donation"), target.getFormattedName(), df.format(currentDonation));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.add_donation"), target.getFormattedName(), df.format(currentDonation)));
         updateDonationRank(sender, target, currentDonation);
     }
 
@@ -83,7 +83,7 @@ public class DonationCommand extends CommandExecutor {
         }
         currentDonation -= donation;
         data.set("donation", currentDonation);
-        Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_donation"), target.getFormattedName(), df.format(currentDonation));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_donation"), target.getFormattedName(), df.format(currentDonation)));
         updateDonationRank(sender, target, currentDonation);
     }
 
@@ -96,7 +96,7 @@ public class DonationCommand extends CommandExecutor {
         }
         SQLPlayerData data = target.getPlayerData();
         data.set("donation", donation);
-        Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.set_donation"), target.getFormattedName(), df.format(donation));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.set_donation"), target.getFormattedName(), df.format(donation)));
         updateDonationRank(sender, target, donation);
     }
 
