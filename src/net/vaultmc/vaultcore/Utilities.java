@@ -38,18 +38,22 @@ public final class Utilities {
     public static String formatMessage(String message, Object... replacements) {
         int num = 0;
         StringBuilder sb = new StringBuilder();
-        for (String s : message.split(" ")) {
-            if (s.matches(".*?\\{.*?}.*")) {
-                String before = StringUtils.substringBefore(s, "{");
-                String after = s.substring(s.lastIndexOf("}") + 1);
-                s = replacements[num].toString();
-                sb.append(before).append(s).append(after).append(" ");
-                num++;
-            } else {
-                sb.append(s + " ");
+        try {
+            for (String s : message.split(" ")) {
+                if (s.matches(".*?\\{.*?}.*")) {
+                    String before = StringUtils.substringBefore(s, "{");
+                    String after = s.substring(s.lastIndexOf("}") + 1);
+                    s = replacements[num].toString();
+                    sb.append(before).append(s).append(after).append(" ");
+                    num++;
+                } else {
+                    sb.append(s + " ");
+                }
             }
+            return sb.toString().trim();
+        } catch (NullPointerException e) {
+            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber fricked up messages.yml. Please report this.";
         }
-        return sb.toString().trim();
     }
 
     /**

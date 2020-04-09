@@ -11,7 +11,7 @@ public class ItemDrops implements Listener {
     @EventHandler
     public void onItemDrop(BlockBreakEvent event) {
         VLPlayer player = VLPlayer.getPlayer(event.getPlayer());
-        if (player.getWorld().equals("Creative")) {
+        if (player.getWorld().getName().equalsIgnoreCase("creative")) {
             if (!PlayerSettings.getSetting(player, "settings.item_drops")) {
                 event.setDropItems(false);
             }

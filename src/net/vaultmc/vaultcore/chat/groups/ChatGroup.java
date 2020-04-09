@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public class ChatGroup {
 
+    // Note: I havent done anything about chat groups yet other than make this. I am focussing on making simpler things like ignore and suicide commands work first
+
     public String name;
     public List<UUID> admins;
     public List<UUID> members;

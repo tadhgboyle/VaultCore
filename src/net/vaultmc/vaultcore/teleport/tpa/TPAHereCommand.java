@@ -6,9 +6,10 @@ import net.vaultmc.vaultcore.chat.IgnoreCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.Listener;
+
+import java.util.Collections;
 
 @RootCommand(
         literal = "tpahere",
@@ -17,8 +18,14 @@ import org.bukkit.event.Listener;
 @Permission(Permissions.TPAHereCommand)
 @PlayerOnly
 public class TPAHereCommand extends CommandExecutor implements Listener {
+
+    public TPAHereCommand() {
+        unregisterExisting();
+        register("tpahere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
+    }
+
     @SubCommand("tpahere")
-    public void tpahere(VLPlayer player, VLOfflinePlayer target) {
+    public void tpahere(VLPlayer player, VLPlayer target) {
         if (target.getUniqueId() == player.getUniqueId()) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;

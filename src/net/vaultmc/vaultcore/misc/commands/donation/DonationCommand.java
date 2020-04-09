@@ -24,9 +24,9 @@ public class DonationCommand extends CommandExecutor {
         register("checkDonationSelf", Collections.emptyList());
         register("checkDonationOther", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 
-        register("addDonation", Arrays.asList(Arguments.createLiteral("add"), Arguments.createArgument("amount", Arguments.floatArgument())));
-        register("setDonation", Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("amount", Arguments.floatArgument(0))));
-        register("removeDonation", Arrays.asList(Arguments.createLiteral("remove"), Arguments.createArgument("amount", Arguments.floatArgument())));
+        register("addDonation", Arrays.asList(Arguments.createLiteral("add"), Arguments.createArgument("amount", Arguments.floatArgument()), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+        register("setDonation", Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("amount", Arguments.floatArgument(0)), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+        register("removeDonation", Arrays.asList(Arguments.createLiteral("remove"), Arguments.createArgument("amount", Arguments.floatArgument()), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 
     }
 
@@ -35,6 +35,7 @@ public class DonationCommand extends CommandExecutor {
     @SubCommand("checkDonationSelf")
     @PlayerOnly
     public void checkDonationSelf(VLPlayer sender) {
+        // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = sender.getPlayerData();
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_self"), df.format(data.getDouble("donation"))));
     }
@@ -48,6 +49,7 @@ public class DonationCommand extends CommandExecutor {
         }
         if (!(sender instanceof ConsoleCommandSender) && (sender == target)) checkDonationSelf((VLPlayer) sender);
         else {
+            // Next line we are getting an EOFException suddenly, dont think i changed anything
             SQLPlayerData data = target.getPlayerData();
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_other"), target.getFormattedName(), df.format(data.getDouble("donation"))));
         }
@@ -55,14 +57,15 @@ public class DonationCommand extends CommandExecutor {
 
     @SubCommand("addDonation")
     @Permission(Permissions.DonationCommandAdmin)
-    public void addDonation(VLCommandSender sender, VLOfflinePlayer target, float donation) {
+    public void addDonation(VLCommandSender sender, float donation, VLOfflinePlayer target) {
         if (target.getFirstPlayed() == 0L) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
+        // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = target.getPlayerData();
         double currentDonation = data.getDouble("donation");
-        currentDonation += donation;
+        currentDonation = (currentDonation + donation);
         data.set("donation", currentDonation);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.add_donation"), target.getFormattedName(), df.format(currentDonation)));
         updateDonationRank(sender, target, currentDonation);
@@ -70,18 +73,19 @@ public class DonationCommand extends CommandExecutor {
 
     @SubCommand("removeDonation")
     @Permission(Permissions.DonationCommandAdmin)
-    public void removeDonation(VLCommandSender sender, VLOfflinePlayer target, float donation) {
+    public void removeDonation(VLCommandSender sender, float donation, VLOfflinePlayer target) {
         if (target.getFirstPlayed() == 0L) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
+        // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = target.getPlayerData();
         double currentDonation = data.getDouble("donation");
         if (donation > currentDonation) {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_less_total"), df.format(currentDonation)));
             return;
         }
-        currentDonation -= donation;
+        currentDonation = (currentDonation - donation);
         data.set("donation", currentDonation);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_donation"), target.getFormattedName(), df.format(currentDonation)));
         updateDonationRank(sender, target, currentDonation);
@@ -89,11 +93,12 @@ public class DonationCommand extends CommandExecutor {
 
     @SubCommand("setDonation")
     @Permission(Permissions.DonationCommandAdmin)
-    public void setDonation(VLCommandSender sender, VLOfflinePlayer target, float donation) {
+    public void setDonation(VLCommandSender sender, float donation, VLOfflinePlayer target) {
         if (target.getFirstPlayed() == 0L) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
+        // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = target.getPlayerData();
         data.set("donation", donation);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.set_donation"), target.getFormattedName(), df.format(donation)));
@@ -120,7 +125,6 @@ public class DonationCommand extends CommandExecutor {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.no_avail_rank"), target.getFormattedName()));
             return;
         }
-        // Remove all donor ranks which are not equal to their new one
         removeRanks(target, false, luckPermsGroup);
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + target.getName() + " parent add " + luckPermsGroup);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.updated_rank_sender"), target.getFormattedName(), name));

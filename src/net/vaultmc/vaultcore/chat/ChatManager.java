@@ -20,8 +20,6 @@ package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.chat.groups.ChatGroup;
-import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
@@ -29,7 +27,6 @@ import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,8 +36,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.util.UUID;
 
 public class ChatManager extends ConstructorRegisterListener {
     public static void formatChat(AsyncPlayerChatEvent e) {
@@ -61,16 +56,6 @@ public class ChatManager extends ConstructorRegisterListener {
             SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage().replaceFirst(",", ""));
             e.setCancelled(true);
             return;
-        }
-
-        if (e.getMessage().startsWith("!") || ChatGroupsCommand.getToggled().contains(player) && player.hasPermission(Permissions.ChatGroupsCommand)) {
-            ChatGroup chatGroup = ChatGroup.getChatGroup(player);
-            if (chatGroup != null) {
-                for (UUID uuid : chatGroup.members) {
-                    VLPlayer.getPlayer(uuid).sendMessage(e.getMessage().substring(0, e.getMessage().length() - 1));
-                }
-                return;
-            }
         }
 
         if (MuteChatCommand.chatMuted && !player.hasPermission(Permissions.MuteChatCommandOverride)) {

@@ -12,6 +12,7 @@ import net.vaultmc.vaultcore.buggy.Bug;
 import net.vaultmc.vaultcore.buggy.BuggyCommand;
 import net.vaultmc.vaultcore.buggy.BuggyListener;
 import net.vaultmc.vaultcore.chat.*;
+import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgMessageListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
@@ -227,6 +228,7 @@ public final class VaultCore extends Component implements Listener {
             new TransferCommand();
             new PlayerHider();
         }
+        new ChatGroupsCommand();
         new SuicideCommand();
         new IgnoreCommand();
         new UnignoreCommand();
