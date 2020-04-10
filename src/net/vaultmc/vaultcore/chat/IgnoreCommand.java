@@ -7,6 +7,7 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.Arrays;
@@ -25,6 +26,8 @@ public class IgnoreCommand extends CommandExecutor {
     }
 
     static Set<UUID> ignored;
+
+    // TODO: Use seperate ignores table in db... then cache every 5 mins
 
     public static boolean isIgnoring(VLPlayer ignorer, VLPlayer ignoredPlayer) {
         /* ignorer is the player recieving the message/event
@@ -48,6 +51,7 @@ public class IgnoreCommand extends CommandExecutor {
         SQLPlayerData data = sender.getPlayerData();
         String csvIgnored = data.getString("ignored");
         if (csvIgnored != null) {
+            Bukkit.getLogger().info(csvIgnored);
             ignored = Arrays.asList(csvIgnored.split(", ")).stream().map(UUID::fromString).collect(java.util.stream.Collectors.toSet());
             if (ignored.contains(target.getUniqueId())) {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.already_ignored"), target.getFormattedName()));
@@ -67,6 +71,7 @@ public class IgnoreCommand extends CommandExecutor {
         String csvIgnored = data.getString("ignored");
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.header"));
         if (csvIgnored != null) {
+            Bukkit.getLogger().info(csvIgnored);
             if (csvIgnored.isEmpty()) {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
                 return;

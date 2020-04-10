@@ -66,6 +66,7 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("settings.minimal_messages", false);
             player.getPlayerData().set("settings.minimal_caps", false);
             player.getPlayerData().set("settings.item_drops", true);
+            player.getPlayerData().set("donation", 0.00);
             player.getPlayerData().set("ignored", "");
             player.saveData();
 
