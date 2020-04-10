@@ -11,7 +11,7 @@ import org.bukkit.ChatColor;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RootCommand(literal = "ignore", description = "Stop seeing messages from a player.")
@@ -24,7 +24,7 @@ public class IgnoreCommand extends CommandExecutor {
         register("ignore", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
 
-    static List<String> ignored;
+    static Set<UUID> ignored;
 
     public static boolean isIgnoring(VLPlayer ignorer, VLPlayer ignoredPlayer) {
         /* ignorer is the player recieving the message/event
@@ -33,8 +33,8 @@ public class IgnoreCommand extends CommandExecutor {
         String csvIgnored = data.getString("ignored");
         if (csvIgnored != null) {
             if (csvIgnored.isEmpty()) return false;
-            ignored = Arrays.asList(csvIgnored.split("\\s*,\\s*"));
-            if (ignored.contains(ignoredPlayer.getUniqueId().toString())) return true;
+            ignored = Arrays.asList(csvIgnored.split(", ")).stream().map(UUID::fromString).collect(java.util.stream.Collectors.toSet());
+            if (ignored.contains(ignoredPlayer.getUniqueId())) return true;
         }
         return false;
     }
@@ -48,15 +48,15 @@ public class IgnoreCommand extends CommandExecutor {
         SQLPlayerData data = sender.getPlayerData();
         String csvIgnored = data.getString("ignored");
         if (csvIgnored != null) {
-            ignored = Arrays.asList(csvIgnored.split("\\s*,\\s*"));
-            if (ignored.contains(target.getUniqueId().toString())) {
+            ignored = Arrays.asList(csvIgnored.split(", ")).stream().map(UUID::fromString).collect(java.util.stream.Collectors.toSet());
+            if (ignored.contains(target.getUniqueId())) {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.already_ignored"), target.getFormattedName()));
             } else {
-                data.set("ignored", csvIgnored + (ignored.size() < 1 ? "" : ", ") + target.getUniqueId().toString());
+                data.set("ignored", csvIgnored + (ignored.size() < 1 ? "" : ", ") + target.getUniqueId());
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.toggle_ignored"), ChatColor.GREEN + "started", target.getFormattedName()));
             }
         } else {
-            data.set("ignored", target.getUniqueId().toString());
+            data.set("ignored", target.getUniqueId());
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.toggle_ignored"), ChatColor.GREEN + "started", target.getFormattedName()));
         }
     }
@@ -71,16 +71,15 @@ public class IgnoreCommand extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
                 return;
             }
-            ignored = Arrays.asList(csvIgnored.split("\\s*,\\s*"));
+            ignored = Arrays.asList(csvIgnored.split(", ")).stream().map(UUID::fromString).collect(java.util.stream.Collectors.toSet());
             if (ignored.size() > 0) {
                 int count = 1;
-                for (String uuid : ignored) {
+                for (UUID uuid : ignored) {
                     // This sends exactly what it should
-                    sender.sendMessage(uuid); // Debugging purposes
+                    sender.sendMessage(uuid + ""); // Debugging purposes
                     // uuid SHOULD be a player uuid.
                     // However, on next line we get an Invalid UUID String error. I'm sure its a stupid mistake somewhere...
-                    UUID uuid1 = UUID.fromString(uuid);
-                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.list"), count, VLOfflinePlayer.getOfflinePlayer(uuid1).getFormattedName()));
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.list"), count, VLOfflinePlayer.getOfflinePlayer(uuid).getFormattedName()));
                     count++;
                 }
             } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));

@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.misc.commands.donation;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
@@ -11,7 +12,6 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,14 +30,12 @@ public class DonationCommand extends CommandExecutor {
 
     }
 
-    DecimalFormat df = new DecimalFormat("#.##");
-
     @SubCommand("checkDonationSelf")
     @PlayerOnly
     public void checkDonationSelf(VLPlayer sender) {
         // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = sender.getPlayerData();
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_self"), df.format(data.getDouble("donation"))));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_self"), VaultCore.numberFormat.format(data.getDouble("donation"))));
     }
 
     @SubCommand("checkDonationOther")
@@ -51,7 +49,7 @@ public class DonationCommand extends CommandExecutor {
         else {
             // Next line we are getting an EOFException suddenly, dont think i changed anything
             SQLPlayerData data = target.getPlayerData();
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_other"), target.getFormattedName(), df.format(data.getDouble("donation"))));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.get_other"), target.getFormattedName(), VaultCore.numberFormat.format(data.getDouble("donation"))));
         }
     }
 
@@ -67,7 +65,7 @@ public class DonationCommand extends CommandExecutor {
         double currentDonation = data.getDouble("donation");
         currentDonation = (currentDonation + donation);
         data.set("donation", currentDonation);
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.add_donation"), target.getFormattedName(), df.format(currentDonation)));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.add_donation"), target.getFormattedName(), VaultCore.numberFormat.format(currentDonation)));
         updateDonationRank(sender, target, currentDonation);
     }
 
@@ -82,12 +80,12 @@ public class DonationCommand extends CommandExecutor {
         SQLPlayerData data = target.getPlayerData();
         double currentDonation = data.getDouble("donation");
         if (donation > currentDonation) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_less_total"), df.format(currentDonation)));
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_less_total"), VaultCore.numberFormat.format(currentDonation)));
             return;
         }
         currentDonation = (currentDonation - donation);
         data.set("donation", currentDonation);
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_donation"), target.getFormattedName(), df.format(currentDonation)));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.remove_donation"), target.getFormattedName(), VaultCore.numberFormat.format(currentDonation)));
         updateDonationRank(sender, target, currentDonation);
     }
 
@@ -101,7 +99,7 @@ public class DonationCommand extends CommandExecutor {
         // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = target.getPlayerData();
         data.set("donation", donation);
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.set_donation"), target.getFormattedName(), df.format(donation)));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.set_donation"), target.getFormattedName(), VaultCore.numberFormat.format(donation)));
         updateDonationRank(sender, target, donation);
     }
 
