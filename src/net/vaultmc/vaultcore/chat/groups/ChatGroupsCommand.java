@@ -17,12 +17,12 @@ import java.util.List;
 
 @RootCommand(literal = "chatgroup", description = "Secret chats for you and your friends!")
 @Permission(Permissions.ChatGroupsCommand)
-@Aliases({"chatGroup"})
+@Aliases({"cg"})
 @PlayerOnly
 public class ChatGroupsCommand extends CommandExecutor {
-    
+
     public ChatGroupsCommand() {
-        register("chatGroupHelp", Collections.emptyList());
+        register("chatGroupInfo", Collections.emptyList());
         // register("chatGroupList", Collections.emptyList()); TODO: Add listing + allow chatgroups to be private
         register("chatGroupToggle", Collections.singletonList(Arguments.createLiteral("toggle")));
         register("chatGroupCreate", Arrays.asList(Arguments.createLiteral("create"), Arguments.createArgument("name", Arguments.string()), Arguments.createArgument("open", Arguments.boolArgument())));
@@ -39,9 +39,18 @@ public class ChatGroupsCommand extends CommandExecutor {
     @Getter
     public static List<VLPlayer> toggled;
 
-    @SubCommand("chatGroupHelp")
-    public void chatGroupHelp(VLPlayer sender) {
+    @SubCommand("chatGroupInfo")
+    public void chatGroupInfo(VLPlayer sender) {
         // TODO : This
+        ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
+        if (chatGroup != null) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.in_group"), chatGroup.name));
+        } else {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.not_in_group"));
+        }
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "list", "View all public ChatGroups"));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "join <name>", "Join a public ChatGroup"));
     }
 
     @SubCommand("chatGroupToggle")

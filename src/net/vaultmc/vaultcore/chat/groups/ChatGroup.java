@@ -85,7 +85,7 @@ public class ChatGroup {
     }
 
     private static void saveChatGroup(ChatGroup chatGroup) {
-        chatGroupsFile.set("chatgroups.", chatGroup);
+        chatGroupsFile.set("chatgroups." + chatGroup.name, chatGroup);
         VaultCore.getInstance().saveConfig();
     }
 }
