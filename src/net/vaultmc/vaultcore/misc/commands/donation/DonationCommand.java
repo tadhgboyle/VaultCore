@@ -60,7 +60,6 @@ public class DonationCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
-        // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = target.getPlayerData();
         double currentDonation = data.getDouble("donation");
         currentDonation = (currentDonation + donation);
@@ -76,7 +75,6 @@ public class DonationCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
-        // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = target.getPlayerData();
         double currentDonation = data.getDouble("donation");
         if (donation > currentDonation) {
@@ -96,7 +94,6 @@ public class DonationCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
         }
-        // Next line we are getting an EOFException suddenly, dont think i changed anything
         SQLPlayerData data = target.getPlayerData();
         data.set("donation", donation);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.set_donation"), target.getFormattedName(), VaultCore.numberFormat.format(donation)));
@@ -120,6 +117,7 @@ public class DonationCommand extends CommandExecutor {
             luckPermsGroup = DonationRanks.DONOR_PLUS_PLUS.getLuckPermsRole();
         } else {
             removeRanks(target, true, null);
+            target.sendOrScheduleMessage(VaultLoader.getMessage("vaultcore.commands.donation.no_avail_rank_target"));
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.no_avail_rank"), target.getFormattedName()));
             return;
         }

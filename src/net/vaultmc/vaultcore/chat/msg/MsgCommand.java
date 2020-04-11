@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.chat.IgnoreCommand;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -40,6 +42,10 @@ public class MsgCommand extends CommandExecutor implements Listener {
 
     @SneakyThrows
     static void pm(VLPlayer player, VLOfflinePlayer target, String message) {
+        if (IgnoreCommand.isIgnoring(target, player)) {
+            player.sendMessage(VaultLoader.getMessage(""));
+            return;
+        }
         UUID session = UUID.randomUUID();
         sessions.put(player.getUniqueId(), session);
         sessionsReversed.put(session, player.getUniqueId());

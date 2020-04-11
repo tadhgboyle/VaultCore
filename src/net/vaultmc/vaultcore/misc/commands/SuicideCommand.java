@@ -1,26 +1,31 @@
 package net.vaultmc.vaultcore.misc.commands;
 
-import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 @RootCommand(literal = "suicide", description = "Sometimes, you just dont want to be alive :(")
 @Permission(Permissions.SuicideCommand)
 @PlayerOnly
-public class SuicideCommand extends CommandExecutor {
+public class SuicideCommand extends CommandExecutor implements Listener {
 
     public SuicideCommand() {
         unregisterExisting();
         register("suicide", Collections.emptyList());
     }
-
-    @Getter
-    public static HashMap<VLPlayer, VLPlayer> suicidalPlayers = new HashMap<>();
 
     List<String> messages = Arrays.asList(
             "{SENDER}&e fell of a cliff while fighting a pigman was exploded by a ghast and burned to a crisp.",
@@ -35,13 +40,23 @@ public class SuicideCommand extends CommandExecutor {
 
     @SubCommand("suicide")
     public void suicide(VLPlayer sender) {
-        sender.setHealth(0.0D);
-        String player = ((VLPlayer) VLPlayer.getOnlinePlayers().toArray()[new Random().nextInt(VLPlayer.getOnlinePlayers().size())]).getName();
+        Player player = Bukkit.getPlayer(sender.getUniqueId());
+        // Kill the player and replace the death message with the custom one
+        EntityDamageEvent event = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.CUSTOM, sender.getHealth());
+        player.setLastDamageCause(event);
+        sender.setHealth(0);
         String message = ChatColor.translateAlternateColorCodes('&', messages.toArray()[new Random().nextInt(messages.size())].toString().replace("{SENDER}", sender.getFormattedName()));
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "minimal_chat")) continue;
             players.sendMessage(message);
         }
-        suicidalPlayers.put(sender, sender);
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        if (event.getEntity().getPlayer().getLastDamageCause() != null && event.getEntity().getPlayer().getLastDamageCause().getCause().equals(EntityDamageEvent.DamageCause.CUSTOM)) {
+            event.setDeathMessage("");
+            return;
+        }
     }
 }

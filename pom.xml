@@ -121,7 +121,7 @@
 		<dependency>
             <groupId>net.vaultmc.vaultloader</groupId>
             <artifactId>VaultLoader</artifactId>
-            <version>0.1-vanilla-20200311.111123-93</version>
+            <version>0.1-vanilla-20200411.004542-94</version>
         </dependency>
 
 		<dependency>

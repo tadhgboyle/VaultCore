@@ -632,6 +632,7 @@ vaultcore:
       status: "&eThe bot is currently {STATUS}&e."
     near: "&eThere are &2{COUNT}&e players within &6{RADIUS}&em you.\n {PLAYERS}&e."
     ignore:
+      self_error: "&cYou cannot ignore yourself :thonk:"
       already_ignored: "&cYou are already ignoring {PLAYER}&c."
       not_ignored: "&cYou are not ignoring {PLAYER}&c."
       toggle_ignored: "&eYou have {TOGGLE}&e ignoring {PLAYER}&e."
@@ -646,12 +647,13 @@ vaultcore:
     donation:
       get_self: "&eYou have donated $&2{NUMBER}&e."
       get_other: "{PLAYER}&e has donated $&2{NUMBER}&e."
-      add_donation: "&eYou have added $&2{ADDED}&e to {TARGET}&e. Their total is now $&2{TOTAL}&e."
+      add_donation: "&eYou have added $&2{ADDED}&e to {TARGET}&e."
       remove_donation: "&eYou have removed $&2{REMOVED}&e from {TARGET}&e. Their total is now $&2{TOTAL}&e."
       set_donation: "&eYou have set {TARGET}&e's donation to $&2{SET}&e."
       updated_rank_sender: "{PLAYER}&e's donation rank was updated to &6{RANK}&e."
       updated_rank_target: "{SENDER}&e has updated your donation rank to &6{RANK}&e. Thank you!"
       no_avail_rank: "{PLAYER}&e's donation rank was removed."
+      no_avail_rank_target: "&eYour donation rank has been removed."
       remove_less_total: "&cThe most you can remove is ${MAX}."
     chatgroups:
       misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."

@@ -52,7 +52,9 @@ public final class Utilities {
             }
             return sb.toString().trim();
         } catch (NullPointerException e) {
-            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber fricked up messages.yml. Please report this.";
+            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber specified an invalid message path. Please report this.";
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber added one too many variables in the message string. Please report this.";
         }
     }
 

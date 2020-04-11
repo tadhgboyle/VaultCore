@@ -192,6 +192,7 @@ public final class VaultCore extends Component implements Listener {
             new ClaimCommand();
             new UnclaimCommand();
             new SchemCommand();
+            new BackCommand();
             new ServerNavigator();
             new LolCommand();
             new AFKCommand();
@@ -245,7 +246,6 @@ public final class VaultCore extends Component implements Listener {
         new TPAHereCommand();
         new TPHereCommand();
         new TPDenyCommand();
-        new BackCommand();
         new DiscordCommand();
         new PingCommand();
         new PlayTimeCommand();
@@ -306,10 +306,10 @@ public final class VaultCore extends Component implements Listener {
         new SudoCommand();
         registerEvents(new GrantCommandListener());
         registerEvents(new SignHandler());
-        registerEvents(new PlayerJoinQuitListener());
         registerEvents(new PlayerTPListener());
         registerEvents(new BannedListener());
         registerEvents(new MutedListener());
+        registerEvents(new SuicideCommand());
 
         PunishmentsDB.createTables();
         Report.load();

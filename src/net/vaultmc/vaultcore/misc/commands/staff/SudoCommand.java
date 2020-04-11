@@ -14,13 +14,15 @@ import java.util.Arrays;
 public class SudoCommand extends CommandExecutor {
 
     public SudoCommand() {
-        register("sudo", Arrays.asList(Arguments.createArgument("target", Arguments.playerArgument()), Arguments.createArgument("command", Arguments.string())));
+        register("sudo", Arrays.asList(Arguments.createArgument("target", Arguments.playerArgument()), Arguments.createArgument("command", Arguments.greedyString())));
     }
 
     @SubCommand("sudo")
     public void sudo(VLCommandSender sender, VLPlayer target, String command) {
-        if (sender == target) sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.sudo.self_error"));
-        if (target.hasPermission(Permissions.SudoCommandExempt)) sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.sudo.excempt_error"));
+        if ((sender instanceof VLPlayer) && sender == target)
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.sudo.self_error"));
+        if (target.hasPermission(Permissions.SudoCommandExempt))
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.sudo.excempt_error"));
         else {
             target.performCommand(command);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.sudo.success"), target.getFormattedName(), command));

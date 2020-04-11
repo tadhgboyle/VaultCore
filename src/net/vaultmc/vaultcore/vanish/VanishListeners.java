@@ -22,7 +22,6 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Chest;
@@ -33,7 +32,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -42,18 +40,19 @@ import java.util.Iterator;
 import java.util.UUID;
 
 public class VanishListeners extends ConstructorRegisterListener {
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (!e.getJoinMessage().startsWith("[VANISH_FAKE_JOIN]")) {
-            VanishCommand.update(player);
-            if (VanishCommand.vanished.getOrDefault(e.getPlayer().getUniqueId(), false)) {
-                VanishCommand.setVanishState(player, true);
-                e.getPlayer().sendMessage(ChatColor.YELLOW + "You are still invisible!");
-                e.setJoinMessage(null);
-            }
-        }
-    }
+    // TODO: @yangyang200 this thows NPE on line 47
+//    @EventHandler(priority = EventPriority.HIGHEST)
+//    public void onPlayerJoin(PlayerJoinEvent e) {
+//        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+//        if (!e.getJoinMessage().startsWith("[VANISH_FAKE_JOIN]")) {
+//            VanishCommand.update(player);
+//            if (VanishCommand.vanished.getOrDefault(e.getPlayer().getUniqueId(), false)) {
+//                VanishCommand.setVanishState(player, true);
+//                e.getPlayer().sendMessage(ChatColor.YELLOW + "You are still invisible!");
+//                e.setJoinMessage(null);
+//            }
+//        }
+//    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
