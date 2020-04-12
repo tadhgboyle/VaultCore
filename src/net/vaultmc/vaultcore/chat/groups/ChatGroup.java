@@ -6,10 +6,7 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ChatGroup implements ConfigurationSerializable {
 
@@ -26,6 +23,15 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     static FileConfiguration chatGroupsFile = VaultCore.getInstance().getChatGroupFile();
+
+    public static Set<VLPlayer> getChatGroupMembers(ChatGroup chatGroup) {
+        Set<VLPlayer> members = null;
+        for (String member : chatGroup.members) {
+            VLPlayer player = VLPlayer.getPlayer(UUID.fromString(member));
+            if (player.isOnline()) members.add(VLPlayer.getPlayer(UUID.fromString(member)));
+        }
+        return members;
+    }
 
     public static ChatGroup getChatGroup(VLPlayer player) {
         String cgName = chatGroupsFile.getString("players." + player.getUniqueId().toString());

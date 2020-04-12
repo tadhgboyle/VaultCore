@@ -659,6 +659,7 @@ vaultcore:
       misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
       toggle: "&eYou have toggled ChatGroups {TOGGLE}&e."
       not_in_chatgroup: "&cThat player is not in your ChatGroup."
+      format: "&d[CG]&r {SENDER}&8:&r "
       info:
         header: "&2--== [ChatGroups] ==--"
         in_group: "&eYou &aare&e in a ChatGroup &6[&2{NAME}&6]&e."

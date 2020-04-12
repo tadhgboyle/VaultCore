@@ -1,8 +1,0 @@
-name: VaultCore
-main: net.vaultmc.vaultcore.VaultCore
-authors: [Aberdeener, yangyang200, 2xjtn]
-version: 3.0.4
-description: The suite of tools created for the VaultMC server.
-website: https://www.vaultmc.net
-api-version: 1.15
-softdepend: [Multiverse-Core]

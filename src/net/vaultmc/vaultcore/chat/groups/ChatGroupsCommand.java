@@ -42,7 +42,6 @@ public class ChatGroupsCommand extends CommandExecutor {
 
     @SubCommand("chatGroupInfo")
     public void chatGroupInfo(VLPlayer sender) {
-        // TODO : This
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
         if (chatGroup != null) {
@@ -52,6 +51,7 @@ public class ChatGroupsCommand extends CommandExecutor {
         }
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "list", "View all public ChatGroups"));
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "join <name>", "Join a public ChatGroup"));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "create <name> <public>", "Create a new ChatGroup."));
     }
 
     @SubCommand("chatGroupToggle")
@@ -74,6 +74,18 @@ public class ChatGroupsCommand extends CommandExecutor {
         } else {
             // Chatgroup name is taken, or they are already in a chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.creation.error"));
+        }
+    }
+
+    @SubCommand("chatGroupSettings")
+    public void chatGroupSettings(VLPlayer sender) {
+        ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
+        if (chatGroup != null && chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            CGSettingsInv cgSettingsInv = new CGSettingsInv();
+            cgSettingsInv.openMainMenu(sender);
+        } else {
+            // Dont have admin perms or not in chatGroup
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
         }
     }
 

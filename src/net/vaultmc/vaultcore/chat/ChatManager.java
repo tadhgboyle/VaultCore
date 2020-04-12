@@ -19,7 +19,10 @@
 package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.chat.groups.ChatGroup;
+import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
@@ -45,19 +48,28 @@ public class ChatManager extends ConstructorRegisterListener {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
 
-        // Staff chat
+        // Staff + Admin chat
         if ((e.getMessage().startsWith("#") || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
             StaffChatCommand.chat(player, e.getMessage().replaceFirst("#", ""));
             e.setCancelled(true);
             return;
         }
-
         if (e.getMessage().startsWith(",") || AdminChatCommand.getToggled().contains(player.getUniqueId()) && player.hasPermission(Permissions.AdminChatCommand)) {
             SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage().replaceFirst(",", ""));
             e.setCancelled(true);
             return;
         }
 
+        // ChatGroups
+        if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith("!") || ChatGroupsCommand.getToggled().contains(player)))) {
+            for (VLPlayer players : ChatGroup.getChatGroupMembers(ChatGroup.getChatGroup(player))) {
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.chatgroups.format"), player.getFormattedName(), e.getMessage()));
+            }
+            e.setCancelled(true);
+            return;
+        }
+
+        // MuteChat
         if (MuteChatCommand.chatMuted && !player.hasPermission(Permissions.MuteChatCommandOverride)) {
             player.sendMessage(VaultLoader.getMessage("chat.muted"));
             e.setCancelled(true);
