@@ -12,6 +12,7 @@ import net.vaultmc.vaultcore.buggy.Bug;
 import net.vaultmc.vaultcore.buggy.BuggyCommand;
 import net.vaultmc.vaultcore.buggy.BuggyListener;
 import net.vaultmc.vaultcore.chat.*;
+import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgMessageListener;
@@ -94,6 +95,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -150,6 +152,53 @@ public final class VaultCore extends Component implements Listener {
     @Override
     public void onStartingReloaded() {
         isReloaded = true;
+    }
+
+    static {
+        ConfigurationSerialization.registerClass(ChatGroup.class);
+    }
+
+    public FileConfiguration getConfig() {
+        return this.config.getConfig();
+    }
+
+    public FileConfiguration getLocationFile() {
+        return this.locations.getConfig();
+    }
+
+    public FileConfiguration getInventoryData() {
+        return inv.getConfig();
+    }
+
+    public FileConfiguration getData() {
+        return data.getConfig();
+    }
+
+    public FileConfiguration getChatGroupFile() {
+        return chatgroups.getConfig();
+    }
+
+    @Override
+    public void onServerFinishedLoading() {
+        locations = ConfigurationManager.loadConfiguration("locations.yml", this);
+    }
+
+    public void saveLocations() {
+        locations.save();
+    }
+
+    public void saveConfig() {
+        config.save();
+        data.save();
+        inv.save();
+        locations.save();
+        chatgroups.save();
+    }
+
+    public void reloadConfig() {
+        config.reload();
+        data.reload();
+        inv.reload();
     }
 
     @Override
@@ -215,6 +264,7 @@ public final class VaultCore extends Component implements Listener {
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
             registerEvents(new ItemDrops());
+            registerEvents(new PlayerJoinQuitListener());
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
                 RankPromotions.memberPromotion();
                 RankPromotions.patreonPromotion();
@@ -324,49 +374,6 @@ public final class VaultCore extends Component implements Listener {
                 ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
                         + ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
                         + ChatColor.GREEN + "."});
-    }
-
-    public FileConfiguration getConfig() {
-        return this.config.getConfig();
-    }
-
-    public FileConfiguration getLocationFile() {
-        return this.locations.getConfig();
-    }
-
-    public FileConfiguration getInventoryData() {
-        return inv.getConfig();
-    }
-
-    public FileConfiguration getData() {
-        return data.getConfig();
-    }
-
-    public FileConfiguration getChatGroupFile() {
-        return chatgroups.getConfig();
-    }
-
-    @Override
-    public void onServerFinishedLoading() {
-        locations = ConfigurationManager.loadConfiguration("locations.yml", this);
-    }
-
-    public void saveLocations() {
-        locations.save();
-    }
-
-    public void saveConfig() {
-        config.save();
-        data.save();
-        inv.save();
-        locations.save();
-        chatgroups.save();
-    }
-
-    public void reloadConfig() {
-        config.reload();
-        data.reload();
-        inv.reload();
     }
 
     @Override

@@ -1,25 +1,24 @@
 package net.vaultmc.vaultcore.chat.groups;
 
-import net.milkbowl.vault.chat.Chat;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
-public class ChatGroup {
-
-    // Note: I havent done anything about chat groups yet other than make this. I am focussing on making simpler things like ignore and suicide commands work first
+public class ChatGroup implements ConfigurationSerializable {
 
     public String name;
-    public List<UUID> admins;
-    public List<UUID> members;
+    public List<String> admins;
+    public List<String> members;
     public boolean open;
 
-    public ChatGroup(String name, List<UUID> admins, List<UUID> members, boolean open) {
+    public ChatGroup(String name, List<String> admins, List<String> members, boolean open) {
         this.name = name;
         this.admins = admins;
         this.members = members;
@@ -32,49 +31,52 @@ public class ChatGroup {
         String cgName = chatGroupsFile.getString("players." + player.getUniqueId().toString());
         if (cgName == null) return null;
         String path = "chatgroups." + cgName;
-        return new ChatGroup(cgName, chatGroupsFile.getStringList(path + ".admins").stream().map(UUID::fromString).collect(java.util.stream.Collectors.toList()), chatGroupsFile.getStringList(path + ".members").stream().map(UUID::fromString).collect(java.util.stream.Collectors.toList()), chatGroupsFile.getBoolean(path + ".open"));
+        return new ChatGroup(cgName, chatGroupsFile.getStringList(path + ".admins"), chatGroupsFile.getStringList(path + ".members"), chatGroupsFile.getBoolean(path + ".open"));
     }
 
     public static boolean createChatGroup(String name, VLPlayer sender, boolean open) {
         Object cg = chatGroupsFile.get("chatgroups." + name);
         if (cg != null) return false;
-        ChatGroup chatGroup = new ChatGroup(name, Arrays.asList(sender.getUniqueId()), Arrays.asList(sender.getUniqueId()), open);
-        saveChatGroup(chatGroup);
+        ChatGroup chatGroup = new ChatGroup(name.toLowerCase(), Collections.singletonList(sender.getUniqueId().toString()), Collections.singletonList(sender.getUniqueId().toString()), open);
+        chatGroupsFile.set("players." + sender.getUniqueId().toString(), chatGroup.name);
         return true;
     }
 
     public static boolean addToGroup(ChatGroup chatGroup, VLPlayer target) {
-        if (getChatGroup(target) != null ||chatGroup.members.contains(target.getUniqueId())) return false;
+        if (getChatGroup(target) != null || chatGroup.members.contains(target.getUniqueId().toString())) return false;
         else {
-            chatGroup.members.add(target.getUniqueId());
-            saveChatGroup(chatGroup);
+            chatGroup.members.add(target.getUniqueId().toString());
+            chatGroupsFile.set("players." + target.getUniqueId().toString(), chatGroup.name);
             return true;
         }
     }
 
     public static boolean removeFromGroup(ChatGroup chatGroup, VLOfflinePlayer target) {
-        if (chatGroup.members.contains(target.getUniqueId())) {
-            // TODO: catch exception if target is not an admin
-            chatGroup.admins.remove(target.getUniqueId());
-            chatGroup.members.remove(target.getUniqueId());
-            saveChatGroup(chatGroup);
+        if (chatGroup.members.contains(target.getUniqueId().toString())) {
+            chatGroup.admins.remove(target.getUniqueId().toString());
+            chatGroup.members.remove(target.getUniqueId().toString());
+            if (chatGroup.members.size() <= 1) deleteGroup(chatGroup);
             return true;
         } else return false;
     }
 
+    public static void deleteGroup(ChatGroup chatGroup) {
+        chatGroupsFile.set("chatgroups." + chatGroup.name, null);
+    }
+
     public static boolean makeAdmin(ChatGroup chatGroup, VLOfflinePlayer target) {
-        if (!chatGroup.members.contains(target.getUniqueId())) return false;
+        if (!chatGroup.members.contains(target.getUniqueId().toString())) return false;
         else {
-            chatGroup.admins.add(target.getUniqueId());
+            chatGroup.admins.add(target.getUniqueId().toString());
             saveChatGroup(chatGroup);
             return true;
         }
     }
 
     public static boolean makeMember(ChatGroup chatGroup, VLOfflinePlayer target) {
-        if (!chatGroup.admins.contains(target.getUniqueId())) return false;
+        if (!chatGroup.admins.contains(target.getUniqueId().toString())) return false;
         else {
-            chatGroup.admins.remove(target.getUniqueId());
+            chatGroup.admins.remove(target.getUniqueId().toString());
             saveChatGroup(chatGroup);
             return true;
         }
@@ -87,5 +89,16 @@ public class ChatGroup {
     private static void saveChatGroup(ChatGroup chatGroup) {
         chatGroupsFile.set("chatgroups." + chatGroup.name, chatGroup);
         VaultCore.getInstance().saveConfig();
+        VaultCore.getInstance().reloadConfig();
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("admins", this.admins);
+        map.put("members", this.members);
+        map.put("name", this.name);
+        map.put("open", this.open);
+        return map;
     }
 }
