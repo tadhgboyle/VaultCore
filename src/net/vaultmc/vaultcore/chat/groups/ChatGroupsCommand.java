@@ -7,12 +7,10 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 @RootCommand(literal = "chatgroup", description = "Secret chats for you and your friends!")
 @Permission(Permissions.ChatGroupsCommand)
@@ -21,16 +19,18 @@ import java.util.Set;
 public class ChatGroupsCommand extends CommandExecutor {
 
     @Getter
-    public static Set<VLPlayer> toggled;
+    public static List<VLPlayer> toggled = new ArrayList<>();
 
     static HashMap<VLPlayer, ChatGroup> invites = new HashMap<>();
 
     public ChatGroupsCommand() {
         register("chatGroupInfo", Collections.emptyList());
-        // register("chatGroupList", Collections.emptyList()); TODO: Add listing + allow chatgroups to be private
+        register("chatGroupChat", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())));
+        // register("chatGroupList", Collections.singletonList(Arguments.createLiteral("list"))); TODO: Add listing + allow chatgroups to be private
         register("chatGroupToggle", Collections.singletonList(Arguments.createLiteral("toggle")));
         register("chatGroupCreate", Arrays.asList(Arguments.createLiteral("create"), Arguments.createArgument("name", Arguments.string()), Arguments.createArgument("open", Arguments.boolArgument())));
-        register("chatGroupJoin", Arrays.asList(Arguments.createLiteral("join"), Arguments.createArgument("name", Arguments.string())));
+        register("chatGroupSettings", Collections.singletonList(Arguments.createLiteral("settings")));
+        // register("chatGroupJoin", Arrays.asList(Arguments.createLiteral("join"), Arguments.createArgument("name", Arguments.string())));
         register("chatGroupInvite", Arrays.asList(Arguments.createLiteral("invite"), Arguments.createArgument("target", Arguments.playerArgument())));
         register("chatGroupAccept", Collections.singletonList(Arguments.createLiteral("accept")));
         register("chatGroupDecline", Collections.singletonList(Arguments.createLiteral("decline")));
@@ -54,10 +54,22 @@ public class ChatGroupsCommand extends CommandExecutor {
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "create <name> <public>", "Create a new ChatGroup."));
     }
 
+    @SubCommand("chatGroupChat")
+    public void chatGroupChat(VLPlayer sender, String message) {
+        ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
+        if (chatGroup == null) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.leave.error"));
+            return;
+        }
+        for (VLPlayer players : ChatGroup.getChatGroupMembers(chatGroup)) {
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.chatgroups.format"), sender.getFormattedName(), message));
+        }
+    }
+
     @SubCommand("chatGroupToggle")
     public void chatGroupToggle(VLPlayer sender) {
         // Simple
-        if (toggled != null && toggled.contains(sender)) {
+        if (toggled.contains(sender)) {
             toggled.remove(sender);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.toggle"), ChatColor.RED + "off"));
         } else {
@@ -80,13 +92,28 @@ public class ChatGroupsCommand extends CommandExecutor {
     @SubCommand("chatGroupSettings")
     public void chatGroupSettings(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        if (chatGroup != null && chatGroup.admins.contains(sender.getUniqueId().toString())) {
-            CGSettingsInv cgSettingsInv = new CGSettingsInv();
-            cgSettingsInv.openMainMenu(sender);
-        } else {
-            // Dont have admin perms or not in chatGroup
+        /* Commented out for debugging
+        if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
+            return;
         }
+         */
+        if (chatGroup == null) {
+            Bukkit.getLogger().severe("chat group is null");
+            return;
+        }
+        if (!chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            Bukkit.getLogger().severe("not an admin");
+
+            for (String admin : chatGroup.admins) {
+                Bukkit.getLogger().severe(admin);
+            }
+            Bukkit.getLogger().severe(chatGroup.admins.size() + "");
+            return;
+        }
+        CGSettingsInv cgSettingsInv = new CGSettingsInv();
+        cgSettingsInv.openMainMenu(sender);
     }
 
     @SubCommand("chatGroupInvite")
@@ -96,20 +123,11 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.pending_error"));
         } else {
             ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-            if (chatGroup == null) {
-                sender.sendMessage("not in cg");
-                return;
-            } else if (chatGroup.admins.contains(sender.getUniqueId().toString())) {
-                sender.sendMessage("not admin");
-                return;
-            }
-            /*
             if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
                 // Command sender is not in a chatgroup or is not admin in chatgroup
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
                 return;
             }
-             */
             // Success
             invites.put(target, chatGroup);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.sender"), target.getFormattedName()));
@@ -153,7 +171,7 @@ public class ChatGroupsCommand extends CommandExecutor {
             // Success
             String name = chatGroup.name;
             ChatGroup.chatGroupsFile.set("players." + sender.getUniqueId().toString(), null);
-            ChatGroup.removeFromGroup(chatGroup, sender);
+            ChatGroup.removeFromGroup(chatGroup, VLOfflinePlayer.getOfflinePlayer(sender.getUniqueId()));
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.leave.success"), name));
         } else {
             // Not in chatGroup
@@ -164,54 +182,54 @@ public class ChatGroupsCommand extends CommandExecutor {
     @SubCommand("chatGroupPromote")
     public void chatGroupPromote(VLPlayer sender, VLOfflinePlayer target) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        if (chatGroup != null && chatGroup.admins.contains(sender.getUniqueId().toString())) {
-            if (ChatGroup.makeAdmin(chatGroup, target)) {
-                // Success
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promote"), target.getFormattedName()));
-                target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promoted_target"), sender.getFormattedName()));
-            } else {
-                // Target is not in chatgroup
-                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.not_in_chatgroup"));
-            }
-        } else {
-            // Dont have admin perms or not in chatGroup
+        if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
+            return;
+        }
+        if (ChatGroup.makeAdmin(chatGroup, target)) {
+            // Success
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promote"), target.getFormattedName()));
+            target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promoted_target"), sender.getFormattedName()));
+        } else {
+            // Target is not in chatgroup
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.not_in_chatgroup"));
         }
     }
 
     @SubCommand("chatGroupDemote")
     public void chatGroupDemote(VLPlayer sender, VLOfflinePlayer target) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        if (chatGroup != null && chatGroup.admins.contains(sender.getUniqueId().toString())) {
-            if (ChatGroup.makeMember(chatGroup, target)) {
-                // Success
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demote"), target.getFormattedName()));
-                target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demoted_target"), sender.getFormattedName()));
-            } else {
-                // Target is not in chatgroup
-                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.not_in_chatgroup"));
-            }
-        } else {
-            // Dont have admin perms or not in chatGroup
+        if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
+            return;
+        }
+        if (ChatGroup.makeMember(chatGroup, target)) {
+            // Success
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demote"), target.getFormattedName()));
+            target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demoted_target"), sender.getFormattedName()));
+        } else {
+            // Target is not in chatgroup
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.not_in_chatgroup"));
         }
     }
 
     @SubCommand("chatGroupKick")
     public void chatGroupKick(VLPlayer sender, VLOfflinePlayer target) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        if (chatGroup != null && chatGroup.admins.contains(sender.getUniqueId().toString())) {
-            if (ChatGroup.removeFromGroup(chatGroup, target)) {
-                // Success
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.success"), target.getFormattedName()));
-                target.sendOrScheduleMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.kicked_target"));
-            } else {
-                // Target is not in chatgroup
-                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.not_in_chatgroup"));
-            }
-        } else {
-            // Dont have admin perms or not in chatGroup
+        if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
+            return;
+        }
+        if (ChatGroup.removeFromGroup(chatGroup, target)) {
+            // Success
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.success"), target.getFormattedName()));
+            target.sendOrScheduleMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.kicked_target"));
+        } else {
+            // Target is not in chatgroup
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.not_in_chatgroup"));
         }
     }
 }

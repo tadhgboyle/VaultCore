@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.chat.groups;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
@@ -37,6 +38,10 @@ public class ChatGroup implements ConfigurationSerializable {
         String cgName = chatGroupsFile.getString("players." + player.getUniqueId().toString());
         if (cgName == null) return null;
         String path = "chatgroups." + cgName;
+        /*
+         This is returning a chatgroup, but the admins and members lists are empty... bukkit javadocs say it will return empty if the list does not exist, but they do exist?
+         To recreate: /cg create <name> <public>, then /cg settings, then check console (see lines 102-112 ChatGroupsCommand)
+         */
         return new ChatGroup(cgName, chatGroupsFile.getStringList(path + ".admins"), chatGroupsFile.getStringList(path + ".members"), chatGroupsFile.getBoolean(path + ".open"));
     }
 
@@ -45,6 +50,7 @@ public class ChatGroup implements ConfigurationSerializable {
         if (cg != null) return false;
         ChatGroup chatGroup = new ChatGroup(name.toLowerCase(), Collections.singletonList(sender.getUniqueId().toString()), Collections.singletonList(sender.getUniqueId().toString()), open);
         chatGroupsFile.set("players." + sender.getUniqueId().toString(), chatGroup.name);
+        saveChatGroup(chatGroup);
         return true;
     }
 
@@ -53,6 +59,7 @@ public class ChatGroup implements ConfigurationSerializable {
         else {
             chatGroup.members.add(target.getUniqueId().toString());
             chatGroupsFile.set("players." + target.getUniqueId().toString(), chatGroup.name);
+            saveChatGroup(chatGroup);
             return true;
         }
     }
@@ -61,13 +68,10 @@ public class ChatGroup implements ConfigurationSerializable {
         if (chatGroup.members.contains(target.getUniqueId().toString())) {
             chatGroup.admins.remove(target.getUniqueId().toString());
             chatGroup.members.remove(target.getUniqueId().toString());
-            if (chatGroup.members.size() <= 1) deleteGroup(chatGroup);
+            if (chatGroup.members.size() == 0) chatGroupsFile.set("chatgroups." + chatGroup.name, null);
+            saveChatGroup(chatGroup);
             return true;
         } else return false;
-    }
-
-    public static void deleteGroup(ChatGroup chatGroup) {
-        chatGroupsFile.set("chatgroups." + chatGroup.name, null);
     }
 
     public static boolean makeAdmin(ChatGroup chatGroup, VLOfflinePlayer target) {
@@ -100,11 +104,11 @@ public class ChatGroup implements ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("admins", this.admins);
-        map.put("members", this.members);
-        map.put("name", this.name);
-        map.put("open", this.open);
-        return map;
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.put("admins", this.admins);
+        result.put("members", this.members);
+        result.put("name", this.name);
+        result.put("open", this.open);
+        return result;
     }
 }
