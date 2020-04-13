@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.chat.groups;
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -110,6 +111,8 @@ public class ChatGroupsCommand extends CommandExecutor {
                 Bukkit.getLogger().severe(admin);
             }
             Bukkit.getLogger().severe(chatGroup.admins.size() + "");
+            Bukkit.getLogger().severe(chatGroup.open + "");
+            Bukkit.getLogger().severe(chatGroup.name);
             return;
         }
         CGSettingsInv cgSettingsInv = new CGSettingsInv();
@@ -170,7 +173,7 @@ public class ChatGroupsCommand extends CommandExecutor {
         if (chatGroup != null) {
             // Success
             String name = chatGroup.name;
-            ChatGroup.chatGroupsFile.set("players." + sender.getUniqueId().toString(), null);
+            VaultCore.getInstance().getChatGroupFile().set("players." + sender.getUniqueId().toString(), null);
             ChatGroup.removeFromGroup(chatGroup, VLOfflinePlayer.getOfflinePlayer(sender.getUniqueId()));
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.leave.success"), name));
         } else {

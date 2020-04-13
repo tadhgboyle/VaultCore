@@ -16,9 +16,11 @@ import java.util.UUID;
 public class CGSettingsInv {
 
     public Set<VLPlayer> settingPlayers;
+    ChatGroup clazz = new ChatGroup(null, null, null, false);
+
 
     public void openMainMenu(VLPlayer sender) {
-        ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
+        ChatGroup chatGroup = clazz.getChatGroup(sender);
 
         Inventory mainMenu = Bukkit.createInventory(null, 27, ChatColor.RESET + "ChatGroup Settings: " + chatGroup.name);
         mainMenu.setItem(11, new ItemStackBuilder(Material.PAPER)
@@ -39,8 +41,8 @@ public class CGSettingsInv {
         sender.openInventory(mainMenu);
     }
 
-    public static void openMembersMenu(VLPlayer sender) {
-        ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
+    public void openMembersMenu(VLPlayer sender) {
+        ChatGroup chatGroup = clazz.getChatGroup(sender);
 
         List<String> members = chatGroup.members;
 

@@ -27,13 +27,13 @@ public class CGSettingInvListener extends ConstructorRegisterListener {
                 if (e.getSlot() == 11) {
                     e.setCancelled(true);
                     chatGroup.open = !chatGroup.open;
-                    ChatGroup.chatGroupsFile.set("chatgroups." + chatGroup.name, chatGroup);
+                    VaultCore.getInstance().getChatGroupFile().set("chatgroups." + chatGroup.name, chatGroup);
                     VaultCore.getInstance().saveConfig();
                     VaultCore.getInstance().reloadConfig();
                     sender.closeInventory();
                 } else if (e.getSlot() == 15) {
                     e.setCancelled(true);
-                    CGSettingsInv.openMembersMenu(sender);
+                    cgSettingsInv.openMembersMenu(sender);
                     sender.closeInventory();
                 }
             } else if (title.startsWith("ChatGroup Members:")) {

@@ -6,7 +6,6 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.*;
@@ -25,8 +24,6 @@ public class ChatGroup implements ConfigurationSerializable {
         this.open = open;
     }
 
-    static FileConfiguration chatGroupsFile = VaultCore.getInstance().getChatGroupFile();
-
     public static Set<VLPlayer> getChatGroupMembers(ChatGroup chatGroup) {
         Set<VLPlayer> members = null;
         for (String member : chatGroup.members) {
@@ -37,21 +34,28 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static ChatGroup getChatGroup(VLPlayer player) {
-        String cgName = chatGroupsFile.getString("players." + player.getUniqueId().toString());
+        String cgName = VaultCore.getInstance().getChatGroupFile().getString("players." + player.getUniqueId().toString());
         if (cgName == null) return null;
-        String path = "chatgroups." + cgName;
         /*
          This is returning a chatgroup, but the admins and members lists are empty... bukkit javadocs say it will return empty if the list does not exist, but they do exist?
-         To recreate: /cg create <name> <public>, then /cg settings, then check console (see lines 102-112 ChatGroupsCommand)
+         To recreate: /cg create <name> <public>, then /cg settings, then check console
          */
-        return new ChatGroup(cgName, chatGroupsFile.getStringList(path + ".admins"), chatGroupsFile.getStringList(path + ".members"), chatGroupsFile.getBoolean(path + ".open"));
+        cgName = cgName.toLowerCase();
+        Bukkit.getLogger().severe(cgName);
+        if (VaultCore.getInstance().getChatGroupFile().getStringList("chatgroups." + cgName + ".admins").isEmpty())
+            Bukkit.getLogger().severe("EMPTY");
+        List<String> admins = VaultCore.getInstance().getChatGroupFile().getStringList("chatgroups." + cgName + ".admins");
+        for (String s : admins) Bukkit.getLogger().severe(s);
+        List<String> members = VaultCore.getInstance().getChatGroupFile().getStringList("chatgroups." + cgName + ".admins");
+        for (String s : members) Bukkit.getLogger().severe(s);
+        return new ChatGroup(cgName, admins, members, VaultCore.getInstance().getChatGroupFile().getBoolean("chatgroups." + cgName + ".open"));
     }
 
     public static boolean createChatGroup(String name, VLPlayer sender, boolean open) {
-        Object cg = chatGroupsFile.get("chatgroups." + name);
+        Object cg = VaultCore.getInstance().getChatGroupFile().get("chatgroups." + name);
         if (cg != null) return false;
         ChatGroup chatGroup = new ChatGroup(name.toLowerCase(), Collections.singletonList(sender.getUniqueId().toString()), Collections.singletonList(sender.getUniqueId().toString()), open);
-        chatGroupsFile.set("players." + sender.getUniqueId().toString(), chatGroup.name);
+        VaultCore.getInstance().getChatGroupFile().set("players." + sender.getUniqueId().toString(), chatGroup.name);
         saveChatGroup(chatGroup);
         return true;
     }
@@ -60,7 +64,7 @@ public class ChatGroup implements ConfigurationSerializable {
         if (getChatGroup(target) != null || chatGroup.members.contains(target.getUniqueId().toString())) return false;
         else {
             chatGroup.members.add(target.getUniqueId().toString());
-            chatGroupsFile.set("players." + target.getUniqueId().toString(), chatGroup.name);
+            VaultCore.getInstance().getChatGroupFile().set("players." + target.getUniqueId().toString(), chatGroup.name);
             saveChatGroup(chatGroup);
             return true;
         }
@@ -70,7 +74,8 @@ public class ChatGroup implements ConfigurationSerializable {
         if (chatGroup.members.contains(target.getUniqueId().toString())) {
             chatGroup.admins.remove(target.getUniqueId().toString());
             chatGroup.members.remove(target.getUniqueId().toString());
-            if (chatGroup.members.size() == 0) chatGroupsFile.set("chatgroups." + chatGroup.name, null);
+            if (chatGroup.members.size() == 0)
+                VaultCore.getInstance().getChatGroupFile().set("chatgroups." + chatGroup.name, null);
             saveChatGroup(chatGroup);
             return true;
         } else return false;
@@ -105,7 +110,7 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     private static void saveChatGroup(ChatGroup chatGroup) {
-        chatGroupsFile.set("chatgroups." + chatGroup.name, chatGroup);
+        VaultCore.getInstance().getChatGroupFile().set("chatgroups." + chatGroup.name, chatGroup);
         VaultCore.getInstance().saveConfig();
         VaultCore.getInstance().reloadConfig();
     }
@@ -118,5 +123,19 @@ public class ChatGroup implements ConfigurationSerializable {
         result.put("name", this.name);
         result.put("open", this.open);
         return result;
+    }
+
+    public static ChatGroup deserialize(Map<String, Object> args) {
+        String name = null;
+        List<String> admins = null;
+        List<String> members = null;
+        boolean open = false;
+
+        name = args.get("name").toString();
+        admins = (List<String>) args.get("admins");
+        members = (List<String>) args.get("members");
+        open = (boolean) args.get("open");
+
+        return new ChatGroup(name, admins, members, open);
     }
 }

@@ -196,6 +196,7 @@ public final class VaultCore extends Component implements Listener {
     }
 
     public void reloadConfig() {
+        chatgroups.reload();
         config.reload();
         data.reload();
         inv.reload();

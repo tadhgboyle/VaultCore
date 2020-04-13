@@ -49,22 +49,22 @@ public class ListCommand extends CommandExecutor {
                 String rank = player.getGroup();
                 switch (rank) {
                     case "admin":
-                        admin.add(player.getName() + vanished + ChatColor.YELLOW);
+                        admin.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "moderator":
-                        moderator.add(player.getName() + vanished + ChatColor.YELLOW);
+                        moderator.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "trusted":
-                        trusted.add(player.getName() + vanished + ChatColor.YELLOW);
+                        trusted.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "patreon":
-                        patreon.add(player.getName() + vanished + ChatColor.YELLOW);
+                        patreon.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     case "member":
-                        member.add(player.getName() + vanished + ChatColor.YELLOW);
+                        member.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
                         break;
                     default:
-                        defaults.add(player.getName() + vanished + ChatColor.YELLOW);
+                        defaults.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
                         break;
                 }
             }
