@@ -39,7 +39,7 @@ public class CGSettingsInv {
         sender.openInventory(mainMenu);
     }
 
-    private void openMembersMenu(VLPlayer sender) {
+    public static void openMembersMenu(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
 
         List<String> members = chatGroup.members;
@@ -64,7 +64,9 @@ public class CGSettingsInv {
                     .lore(Arrays.asList(
                             ChatColor.GRAY + "Click to kick, promote or demote " + player.getName() + ".",
                             "",
-                            ChatColor.GRAY + "UUID: " + player.getUniqueId().toString()
+                            ChatColor.GRAY + "UUID: " + player.getUniqueId().toString(),
+                            "",
+                            ChatColor.GRAY + "Role: " + ChatColor.GOLD + (chatGroup.admins.contains(player) ? "Admin" : "Member")
                     ))
                     .build());
             currentSlot++;
