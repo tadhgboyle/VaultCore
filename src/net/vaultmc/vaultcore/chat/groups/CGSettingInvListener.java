@@ -25,11 +25,15 @@ public class CGSettingInvListener extends ConstructorRegisterListener {
             String title = e.getView().getTitle();
             if (title.startsWith("ChatGroup Settings:")) {
                 if (e.getSlot() == 11) {
+                    e.setCancelled(true);
                     chatGroup.open = !chatGroup.open;
                     ChatGroup.chatGroupsFile.set("chatgroups." + chatGroup.name, chatGroup);
                     VaultCore.getInstance().saveConfig();
                     VaultCore.getInstance().reloadConfig();
+                    sender.closeInventory();
+                } else if (e.getSlot() == 15) {
                     e.setCancelled(true);
+                    CGSettingsInv.openMembersMenu(sender);
                     sender.closeInventory();
                 }
             } else if (title.startsWith("ChatGroup Members:")) {
