@@ -7,6 +7,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.Arrays;
@@ -26,8 +27,9 @@ public class ChatGroupsCommand extends CommandExecutor {
     static HashMap<VLPlayer, ChatGroup> invites = new HashMap<>();
 
     public ChatGroupsCommand() {
-        register("chatGroupInfo", Collections.emptyList());
-        // register("chatGroupList", Collections.emptyList()); TODO: Add listing + allow chatgroups to be private
+        register("chatGroupSendMessage", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())));
+        register("chatGroupHelp", Collections.emptyList());
+        register("chatGroupList", Collections.singletonList(Arguments.createLiteral("list")));
         register("chatGroupToggle", Collections.singletonList(Arguments.createLiteral("toggle")));
         register("chatGroupCreate", Arrays.asList(Arguments.createLiteral("create"), Arguments.createArgument("name", Arguments.string()), Arguments.createArgument("open", Arguments.boolArgument())));
         register("chatGroupJoin", Arrays.asList(Arguments.createLiteral("join"), Arguments.createArgument("name", Arguments.string())));
@@ -40,8 +42,18 @@ public class ChatGroupsCommand extends CommandExecutor {
         register("chatGroupKick", Arrays.asList(Arguments.createLiteral("kick"), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
 
-    @SubCommand("chatGroupInfo")
-    public void chatGroupInfo(VLPlayer sender) {
+    @SubCommand("chatGroupSendMessage")
+    public void chatGroupSendMessage(VLPlayer sender, String message) {
+        ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
+        if (chatGroup != null) {
+            chatGroupSendMessage(sender, message);
+        } else {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.chat_not_in_group"));
+        }
+    }
+
+    @SubCommand("chatGroupHelp")
+    public void chatGroupHelp(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
         if (chatGroup != null) {
@@ -52,6 +64,14 @@ public class ChatGroupsCommand extends CommandExecutor {
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "list", "View all public ChatGroups"));
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "join <name>", "Join a public ChatGroup"));
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.layout"), "create <name> <public>", "Create a new ChatGroup."));
+    }
+
+    @SubCommand("chatGroupList")
+    public void chatGroupList(VLPlayer sender) {
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
+        for (Object chatGroup : ChatGroup.chatGroupsFile.getList("chatgroups")) {
+            Bukkit.getLogger().info(((ChatGroup) chatGroup).name);
+        }
     }
 
     @SubCommand("chatGroupToggle")
