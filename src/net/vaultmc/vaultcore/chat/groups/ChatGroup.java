@@ -1,6 +1,8 @@
 package net.vaultmc.vaultcore.chat.groups;
 
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -94,6 +96,12 @@ public class ChatGroup implements ConfigurationSerializable {
 
     public static boolean isOpen(ChatGroup chatGroup) {
         return chatGroup.open;
+    }
+
+    public static void sendMessage(ChatGroup chatGroup, VLPlayer sender, String message) {
+        for (VLPlayer players : getChatGroupMembers(chatGroup)) {
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.format"), sender.getFormattedName(), message));
+        }
     }
 
     private static void saveChatGroup(ChatGroup chatGroup) {

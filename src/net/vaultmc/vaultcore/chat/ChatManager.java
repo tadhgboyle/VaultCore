@@ -19,7 +19,6 @@
 package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
@@ -62,9 +61,7 @@ public class ChatManager extends ConstructorRegisterListener {
 
         // ChatGroups
         if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith("!") || ChatGroupsCommand.getToggled().contains(player)))) {
-            for (VLPlayer players : ChatGroup.getChatGroupMembers(ChatGroup.getChatGroup(player))) {
-                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.chatgroups.format"), player.getFormattedName(), e.getMessage()));
-            }
+            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage());
             e.setCancelled(true);
             return;
         }
