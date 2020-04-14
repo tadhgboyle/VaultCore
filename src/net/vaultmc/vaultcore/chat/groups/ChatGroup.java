@@ -36,19 +36,9 @@ public class ChatGroup implements ConfigurationSerializable {
     public static ChatGroup getChatGroup(VLPlayer player) {
         String cgName = VaultCore.getInstance().getChatGroupFile().getString("players." + player.getUniqueId().toString());
         if (cgName == null) return null;
-        /*
-         This is returning a chatgroup, but the admins and members lists are empty... bukkit javadocs say it will return empty if the list does not exist, but they do exist?
-         To recreate: /cg create <name> <public>, then /cg settings, then check console
-         */
-        cgName = cgName.toLowerCase();
+        ChatGroup chatGroup = (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
         Bukkit.getLogger().severe(cgName);
-        if (VaultCore.getInstance().getChatGroupFile().getStringList("chatgroups." + cgName + ".admins").isEmpty())
-            Bukkit.getLogger().severe("EMPTY");
-        List<String> admins = VaultCore.getInstance().getChatGroupFile().getStringList("chatgroups." + cgName + ".admins");
-        for (String s : admins) Bukkit.getLogger().severe(s);
-        List<String> members = VaultCore.getInstance().getChatGroupFile().getStringList("chatgroups." + cgName + ".admins");
-        for (String s : members) Bukkit.getLogger().severe(s);
-        return new ChatGroup(cgName, admins, members, VaultCore.getInstance().getChatGroupFile().getBoolean("chatgroups." + cgName + ".open"));
+        return chatGroup;
     }
 
     public static boolean createChatGroup(String name, VLPlayer sender, boolean open) {
