@@ -1,19 +1,19 @@
 package net.vaultmc.vaultcore.chat.groups;
 
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
-public class CGSettingInvListener extends ConstructorRegisterListener {
+public class CGSettingInvListener implements Listener {
 
     @EventHandler
     public void onItemClick(InventoryClickEvent e) {
@@ -30,7 +30,6 @@ public class CGSettingInvListener extends ConstructorRegisterListener {
                     VaultCore.getInstance().getChatGroupFile().set("chatgroups." + chatGroup.name, chatGroup);
                     VaultCore.getInstance().saveConfig();
                     VaultCore.getInstance().reloadConfig();
-                    sender.closeInventory();
                 } else if (e.getSlot() == 15) {
                     e.setCancelled(true);
                     cgSettingsInv.openMembersMenu(sender);

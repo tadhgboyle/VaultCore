@@ -12,6 +12,8 @@ import net.vaultmc.vaultcore.buggy.Bug;
 import net.vaultmc.vaultcore.buggy.BuggyCommand;
 import net.vaultmc.vaultcore.buggy.BuggyListener;
 import net.vaultmc.vaultcore.chat.*;
+import net.vaultmc.vaultcore.chat.groups.CGSettingInvListener;
+import net.vaultmc.vaultcore.chat.groups.CGSettingsInv;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
@@ -232,6 +234,7 @@ public final class VaultCore extends Component implements Listener {
         if (getConfig().getString("server").trim().equalsIgnoreCase("vaultmc")) {
             VaultMCBot.startVaultMCBot();
             new ManageBotCommand();
+            new ChatGroupsCommand();
             new CRCommand();
             new SVCommand();
             new WildTeleportCommand();
@@ -266,6 +269,7 @@ public final class VaultCore extends Component implements Listener {
             registerEvents(new SleepHandler());
             registerEvents(new ItemDrops());
             registerEvents(new PlayerJoinQuitListener());
+            registerEvents(new CGSettingInvListener());
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
                 RankPromotions.memberPromotion();
                 RankPromotions.patreonPromotion();
@@ -280,7 +284,6 @@ public final class VaultCore extends Component implements Listener {
             new TransferCommand();
             new PlayerHider();
         }
-        new ChatGroupsCommand();
         new SuicideCommand();
         new IgnoreCommand();
         new UnignoreCommand();

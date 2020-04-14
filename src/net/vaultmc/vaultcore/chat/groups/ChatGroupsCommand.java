@@ -10,6 +10,7 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 
@@ -27,7 +28,7 @@ public class ChatGroupsCommand extends CommandExecutor {
     public ChatGroupsCommand() {
         register("chatGroupInfo", Collections.emptyList());
         register("chatGroupChat", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())));
-        // register("chatGroupList", Collections.singletonList(Arguments.createLiteral("list"))); TODO: Add listing + allow chatgroups to be private
+        register("chatGroupList", Collections.singletonList(Arguments.createLiteral("list")));
         register("chatGroupToggle", Collections.singletonList(Arguments.createLiteral("toggle")));
         register("chatGroupCreate", Arrays.asList(Arguments.createLiteral("create"), Arguments.createArgument("name", Arguments.string()), Arguments.createArgument("open", Arguments.boolArgument())));
         register("chatGroupSettings", Collections.singletonList(Arguments.createLiteral("settings")));
@@ -64,6 +65,18 @@ public class ChatGroupsCommand extends CommandExecutor {
         }
         for (VLPlayer players : ChatGroup.getChatGroupMembers(chatGroup)) {
             players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.chatgroups.format"), sender.getFormattedName(), message));
+        }
+    }
+
+    @SubCommand("chatGroupList")
+    public void chatGroupList(VLPlayer sender) {
+        ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
+        if (configurationSection.getValues(true).keySet().size() == 0)
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.no_chatgroups"));
+        for (String name : configurationSection.getValues(true).keySet()) {
+            if (ChatGroup.isOpen(ChatGroup.getChatGroup(name)))
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.layout"), name));
         }
     }
 

@@ -6,6 +6,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.*;
@@ -25,10 +26,9 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static Set<VLPlayer> getChatGroupMembers(ChatGroup chatGroup) {
-        Set<VLPlayer> members = null;
+        Set<VLPlayer> members = new HashSet<>();
         for (String member : chatGroup.members) {
-            VLPlayer player = VLPlayer.getPlayer(UUID.fromString(member));
-            if (player.isOnline()) members.add(VLPlayer.getPlayer(UUID.fromString(member)));
+            members.add(VLPlayer.getPlayer(UUID.fromString(member)));
         }
         return members;
     }
@@ -37,8 +37,15 @@ public class ChatGroup implements ConfigurationSerializable {
         String cgName = VaultCore.getInstance().getChatGroupFile().getString("players." + player.getUniqueId().toString());
         if (cgName == null) return null;
         ChatGroup chatGroup = (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
-        Bukkit.getLogger().severe(cgName);
         return chatGroup;
+    }
+
+    public static ChatGroup getChatGroup(String cgName) {
+        ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
+        if (configurationSection.getValues(true).keySet().contains(cgName)) {
+            ChatGroup chatGroup = (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
+            return chatGroup;
+        } else return null;
     }
 
     public static boolean createChatGroup(String name, VLPlayer sender, boolean open) {

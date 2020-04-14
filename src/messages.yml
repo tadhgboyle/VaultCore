@@ -666,6 +666,9 @@ vaultcore:
         in_group: "&eYou &aare&e in a ChatGroup &6[&2{NAME}&6]&e."
         not_in_group: "&eYou are &cnot&e in a ChatGroup."
         layout: "&6/cg {COMMAND}&e - {INFO}."
+      list:
+        layout: "&eName:&6 {NAME}"
+        no_chatgroups: "&cThere are no ChatGroups :("
       creation:
         success: "&eSuccessfully created ChatGroup: &6{NAME}&e."
         error: "&cError: A ChatGroup exists with that name, or you are in a ChatGroup already."
