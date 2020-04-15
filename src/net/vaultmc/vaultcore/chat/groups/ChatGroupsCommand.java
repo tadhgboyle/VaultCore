@@ -33,6 +33,7 @@ public class ChatGroupsCommand extends CommandExecutor {
         register("chatGroupCreate", Arrays.asList(Arguments.createLiteral("create"), Arguments.createArgument("name", Arguments.string()), Arguments.createArgument("open", Arguments.boolArgument())));
         register("chatGroupSettings", Collections.singletonList(Arguments.createLiteral("settings")));
         // register("chatGroupJoin", Arrays.asList(Arguments.createLiteral("join"), Arguments.createArgument("name", Arguments.string())));
+        register("chatGroupDelete", Collections.singletonList(Arguments.createLiteral("delete")));
         register("chatGroupInvite", Arrays.asList(Arguments.createLiteral("invite"), Arguments.createArgument("target", Arguments.playerArgument())));
         register("chatGroupAccept", Collections.singletonList(Arguments.createLiteral("accept")));
         register("chatGroupDecline", Collections.singletonList(Arguments.createLiteral("decline")));
@@ -63,13 +64,12 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.leave.error"));
             return;
         }
-        for (VLPlayer players : ChatGroup.getChatGroupMembers(chatGroup)) {
-            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.chatgroups.format"), sender.getFormattedName(), message));
-        }
+        ChatGroup.sendMessage(chatGroup, sender, message);
     }
 
     @SubCommand("chatGroupList")
     public void chatGroupList(VLPlayer sender) {
+        // TODO: Fix this D:
         ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
         if (configurationSection.getValues(true).keySet().size() == 0)
@@ -106,34 +106,26 @@ public class ChatGroupsCommand extends CommandExecutor {
     @SubCommand("chatGroupSettings")
     public void chatGroupSettings(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        /* Commented out for debugging
         if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
             // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
-            return;
-        }
-         */
-        if (chatGroup == null) {
-            Bukkit.getLogger().severe("chat group is null");
-            return;
-        }
-        if (!chatGroup.admins.contains(sender.getUniqueId().toString())) {
-            Bukkit.getLogger().severe("not an admin");
-
-            for (String admin : chatGroup.admins) {
-                Bukkit.getLogger().severe(admin);
-            }
-            Bukkit.getLogger().severe(chatGroup.admins.size() + "");
-            Bukkit.getLogger().severe(chatGroup.open + "");
-            Bukkit.getLogger().severe(chatGroup.name);
             return;
         }
         CGSettingsInv cgSettingsInv = new CGSettingsInv();
         cgSettingsInv.openMainMenu(sender);
     }
 
+    @SubCommand("chatGroupDelete")
+    public void chatGroupDelete(VLPlayer sender) {
+        // TODO: This
+    }
+
     @SubCommand("chatGroupInvite")
     public void chatGroupInvite(VLPlayer sender, VLPlayer target) {
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
+            return;
+        }
         if (invites.containsKey(target)) {
             // Target has pending invite already
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.pending_error"));
@@ -186,7 +178,6 @@ public class ChatGroupsCommand extends CommandExecutor {
         if (chatGroup != null) {
             // Success
             String name = chatGroup.name;
-            VaultCore.getInstance().getChatGroupFile().set("players." + sender.getUniqueId().toString(), null);
             ChatGroup.removeFromGroup(chatGroup, VLOfflinePlayer.getOfflinePlayer(sender.getUniqueId()));
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.leave.success"), name));
         } else {
@@ -201,6 +192,10 @@ public class ChatGroupsCommand extends CommandExecutor {
         if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
             // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
+            return;
+        }
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
             return;
         }
         if (ChatGroup.makeAdmin(chatGroup, target)) {
@@ -221,6 +216,10 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
             return;
         }
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
+            return;
+        }
         if (ChatGroup.makeMember(chatGroup, target)) {
             // Success
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demote"), target.getFormattedName()));
@@ -237,6 +236,10 @@ public class ChatGroupsCommand extends CommandExecutor {
         if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
             // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
+            return;
+        }
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
             return;
         }
         if (ChatGroup.removeFromGroup(chatGroup, target)) {

@@ -61,7 +61,8 @@ public class ChatManager extends ConstructorRegisterListener {
 
         // ChatGroups
         if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith("!") || ChatGroupsCommand.getToggled().contains(player)))) {
-            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage());
+            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage().replaceFirst("!", ""));
+            Bukkit.getLogger().info(player.getFormattedName() + ": CG: " + e.getMessage().replaceFirst("!", ""));
             e.setCancelled(true);
             return;
         }

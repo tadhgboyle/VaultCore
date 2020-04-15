@@ -661,6 +661,7 @@ vaultcore:
       not_in_chatgroup: "&cThat player is not in your ChatGroup."
       format: "&8[&dCG&8]&r {SENDER}&8:&r {MESSAGE}"
       chat_not_in_group: "&cYou are not in a ChatGroup."
+      self_error: "&cYou cannot do that to yourself!"
       info:
         header: "&2--== [ChatGroups] ==--"
         in_group: "&eYou &aare&e in a ChatGroup &6[&2{NAME}&6]&e."
@@ -684,6 +685,7 @@ vaultcore:
         error: "&cYou are not in a ChatGroup."
         success: "&eYou have &cleft&e the ChatGroup &6{NAME}&e."
       roles:
+        already_rank: "{TARGET}&c is already a(n) {ROLE}."
         promote: "&eYou have promoted {TARGET}&e to &6Admin&e."
         demote: "&eYou have demoted {TARGET}&e to &6Member&e."
         promoted_target: "{SENDER}&e has promoted you to &6Admin&e in your ChatGroup."

@@ -6,6 +6,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
@@ -33,7 +34,7 @@ public class ChatGroup implements ConfigurationSerializable {
         return members;
     }
 
-    public static ChatGroup getChatGroup(VLPlayer player) {
+    public static ChatGroup getChatGroup(VLOfflinePlayer player) {
         String cgName = VaultCore.getInstance().getChatGroupFile().getString("players." + player.getUniqueId().toString());
         if (cgName == null) return null;
         ChatGroup chatGroup = (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
@@ -69,9 +70,10 @@ public class ChatGroup implements ConfigurationSerializable {
 
     public static boolean removeFromGroup(ChatGroup chatGroup, VLOfflinePlayer target) {
         if (chatGroup.members.contains(target.getUniqueId().toString())) {
+            VaultCore.getInstance().getChatGroupFile().set("players." + target.getUniqueId().toString(), null);
             chatGroup.admins.remove(target.getUniqueId().toString());
             chatGroup.members.remove(target.getUniqueId().toString());
-            if (chatGroup.members.size() == 0)
+            if (chatGroup.members.size() <= 1)
                 VaultCore.getInstance().getChatGroupFile().set("chatgroups." + chatGroup.name, null);
             saveChatGroup(chatGroup);
             return true;
@@ -79,7 +81,8 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static boolean makeAdmin(ChatGroup chatGroup, VLOfflinePlayer target) {
-        if (!chatGroup.members.contains(target.getUniqueId().toString())) return false;
+        if (!chatGroup.members.contains(target.getUniqueId().toString()) || chatGroup.admins.contains(target.getUniqueId().toString()))
+            return false;
         else {
             chatGroup.admins.add(target.getUniqueId().toString());
             saveChatGroup(chatGroup);
@@ -88,7 +91,8 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static boolean makeMember(ChatGroup chatGroup, VLOfflinePlayer target) {
-        if (!chatGroup.admins.contains(target.getUniqueId().toString())) return false;
+        if (!chatGroup.members.contains(target.getUniqueId().toString()) || !chatGroup.admins.contains(target.getUniqueId().toString()))
+            return false;
         else {
             chatGroup.admins.remove(target.getUniqueId().toString());
             saveChatGroup(chatGroup);

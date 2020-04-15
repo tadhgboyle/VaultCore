@@ -9,13 +9,10 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 public class CGSettingsInv {
-
-    public Set<VLPlayer> settingPlayers;
 
     public void openMainMenu(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
@@ -31,7 +28,7 @@ public class CGSettingsInv {
                 .build());
         mainMenu.setItem(15, new ItemStackBuilder(Material.PLAYER_HEAD)
                 .name(ChatColor.YELLOW + "Manage Group Members")
-                .skullOwner(VLOfflinePlayer.getOfflinePlayer("606e2ff0-ed77-4842-9d6c-e1d3321c7838"))
+                .skullOwner(VLOfflinePlayer.getOfflinePlayer(UUID.fromString("606e2ff0-ed77-4842-9d6c-e1d3321c7838")))
                 .lore(Arrays.asList(
                         ChatColor.GRAY + "Edit the members of your ChatGroup."
                 ))
@@ -42,31 +39,29 @@ public class CGSettingsInv {
     public void openMembersMenu(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
 
-        List<String> members = chatGroup.members;
+        Set<VLPlayer> members = ChatGroup.getChatGroupMembers(chatGroup);
 
         int memberCount = members.size();
         int slotCount;
 
         if (memberCount < 27) slotCount = 27;
         else if (memberCount > 27 && memberCount < 54) slotCount = 54;
-        else return; // ERROR
+        else return; // TODO: Handle chatgroups with > 54 players
 
         int currentSlot = 0;
 
         Inventory membersMenu = Bukkit.createInventory(null, slotCount, ChatColor.RESET + "ChatGroup Members: " + chatGroup.name);
 
-        for (String member : members) {
-            UUID uuid = UUID.fromString(member);
-            VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(uuid);
+        for (VLOfflinePlayer player : members) {
             membersMenu.setItem(currentSlot, new ItemStackBuilder(Material.PLAYER_HEAD)
-                    .name(ChatColor.YELLOW + "Edit " + player.getFormattedName())
+                    .name(ChatColor.YELLOW + "Edit: " + player.getFormattedName())
                     .skullOwner(player)
                     .lore(Arrays.asList(
                             ChatColor.GRAY + "Click to kick, promote or demote " + player.getName() + ".",
                             "",
-                            ChatColor.GRAY + "UUID: " + player.getUniqueId().toString(),
+                            ChatColor.DARK_GRAY + "UUID: " + player.getUniqueId().toString(),
                             "",
-                            ChatColor.GRAY + "Role: " + ChatColor.GOLD + (chatGroup.admins.contains(player) ? "Admin" : "Member")
+                            ChatColor.GRAY + "Role: " + ChatColor.GOLD + (chatGroup.admins.contains(player.getUniqueId().toString()) ? "Admin" : "Member")
                     ))
                     .build());
             currentSlot++;
@@ -74,8 +69,30 @@ public class CGSettingsInv {
         sender.openInventory(membersMenu);
     }
 
-    private void openMemberSettingsMenu(VLPlayer sender, VLOfflinePlayer target) {
+    public void openMemberSettingsMenu(VLPlayer sender, VLOfflinePlayer target) {
+        Inventory memberSettingMenu = Bukkit.createInventory(null, 27, ChatColor.RESET + "Edit: " + target.getName());
 
+        memberSettingMenu.setItem(1, new ItemStackBuilder(Material.TNT)
+                .name(ChatColor.YELLOW + "Kick: " + target.getFormattedName())
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Click to kick " + target.getName() + "."
+                ))
+                .build());
+        memberSettingMenu.setItem(4, new ItemStackBuilder(Material.DIAMOND_SWORD)
+                .name(ChatColor.YELLOW + "Promote: " + target.getFormattedName())
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Click to promote: " + target.getName() + "."
+                ))
+                .build());
+        memberSettingMenu.setItem(7, new ItemStackBuilder(Material.COAL)
+                .name(ChatColor.YELLOW + "Demote: " + target.getFormattedName())
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Click demote " + target.getName() + "."
+                ))
+                .build());
+        memberSettingMenu.setItem(22, new ItemStackBuilder(Material.BOOK)
+                .name(ChatColor.YELLOW + "Go Back... ")
+                .build());
+        sender.openInventory(memberSettingMenu);
     }
-
 }
