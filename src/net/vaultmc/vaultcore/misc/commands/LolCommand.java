@@ -38,7 +38,6 @@ public class LolCommand extends CommandExecutor {
 
     JsonParser parser = new JsonParser();
     Object obj;
-
     {
         try {
             obj = parser.parse(new FileReader(lolFile));

@@ -81,7 +81,6 @@ public class ListCommand extends CommandExecutor {
                 sender.sendMessage(ChatColor.GRAY + "Members: " + ChatColor.YELLOW + Utilities.listToString(member, true));
             if (!defaults.isEmpty())
                 sender.sendMessage(ChatColor.DARK_GRAY + "Defaults: " + ChatColor.YELLOW + Utilities.listToString(defaults, true));
-
             admin.clear();
             moderator.clear();
             trusted.clear();

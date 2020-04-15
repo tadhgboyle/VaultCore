@@ -20,7 +20,7 @@ public class ClearChatCommand extends CommandExecutor {
 
     @SubCommand("clear")
     public void clearChat(VLCommandSender sender) {
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 100; i++) {
             for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
                 players.sendMessage(" ");
             }

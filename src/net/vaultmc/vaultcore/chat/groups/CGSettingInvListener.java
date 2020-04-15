@@ -27,7 +27,6 @@ public class CGSettingInvListener implements Listener {
 
         CGSettingsInv cgSettingsInv = new CGSettingsInv();
         String title = e.getView().getTitle();
-        Bukkit.getLogger().info(e.getSlot() + "");
         if (title.contains("ChatGroup Settings:")) {
             if (e.getSlot() == 11) {
                 e.setCancelled(true);
@@ -44,7 +43,11 @@ public class CGSettingInvListener implements Listener {
         } else if (title.contains("ChatGroup Members:")) {
             ItemStack item = e.getCurrentItem();
             e.setCancelled(true);
-            VLOfflinePlayer member = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(item.getItemMeta().getLore().get(2).replace(ChatColor.DARK_GRAY + "UUID: ", "")));
+            VLOfflinePlayer member = null;
+            try {
+                member = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(item.getItemMeta().getLore().get(2).replace(ChatColor.DARK_GRAY + "UUID: ", "")));
+            } catch (NullPointerException ignored) {
+            }
             cgSettingsInv.openMemberSettingsMenu(sender, member);
             editors.put(sender, member);
         } else if (title.contains("Edit:")) {

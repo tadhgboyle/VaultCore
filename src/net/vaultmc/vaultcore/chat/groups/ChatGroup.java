@@ -106,9 +106,11 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static void sendMessage(ChatGroup chatGroup, VLPlayer sender, String message) {
+        Bukkit.getLogger().severe(chatGroup.name);
         for (VLPlayer players : getChatGroupMembers(chatGroup)) {
             players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.format"), chatGroup.name, sender.getFormattedName(), message));
         }
+        Bukkit.getLogger().info(sender.getFormattedName() + ": CG: " + message);
     }
 
     private static void saveChatGroup(ChatGroup chatGroup) {

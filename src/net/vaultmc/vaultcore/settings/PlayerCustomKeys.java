@@ -24,6 +24,8 @@ public class PlayerCustomKeys extends CommandExecutor {
         register("pckSet", Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("context", Arguments.string()), Arguments.createArgument("key", Arguments.greedyString())));
     }
 
+    Map<VLPlayer, Map.Entry<String, String>> cachedKeys = new HashMap<>();
+
     List<String> contexts = Arrays.asList("chatgroups", "staffchat", "adminchat");
     Map<String, String> contextDefaultKeys = new HashMap<String, String>() {{
         put("chatgroups", "!");

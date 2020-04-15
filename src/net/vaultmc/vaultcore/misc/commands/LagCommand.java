@@ -23,7 +23,6 @@ import java.util.Collections;
 @Aliases("tps")
 public class LagCommand extends CommandExecutor {
     private static final OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-    private static DecimalFormat numberFormat = new DecimalFormat("###.##");
 
     public LagCommand() {
         unregisterExisting();
@@ -33,7 +32,7 @@ public class LagCommand extends CommandExecutor {
     @SubCommand("lag")
     public static void lag(VLCommandSender sender) {
         String osInfo = ChatColor.GOLD + operatingSystemMXBean.getArch() + ChatColor.YELLOW + " (" + operatingSystemMXBean.getName() + ", " + ChatColor.YELLOW + " Kernel: " + ChatColor.GOLD + operatingSystemMXBean.getVersion() + ChatColor.YELLOW + ")";
-        String load = operatingSystemMXBean.getProcessCpuLoad() < 0 ? "Unavailable" : numberFormat.format(operatingSystemMXBean.getSystemCpuLoad() * 100) + "%";
+        String load = operatingSystemMXBean.getProcessCpuLoad() < 0 ? "Unavailable" : VaultCore.numberFormat.format(operatingSystemMXBean.getSystemCpuLoad() * 100) + "%";
         String cpuInfo = ChatColor.DARK_GREEN + load + ChatColor.YELLOW + " Cores: " + ChatColor.DARK_GREEN + Runtime.getRuntime().availableProcessors();
         String tps = "" + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[0]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[1]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[2]).substring(0, 5);
 
@@ -41,13 +40,13 @@ public class LagCommand extends CommandExecutor {
         long maxRam = operatingSystemMXBean.getTotalPhysicalMemorySize();
         long usedRam = maxRam - freeRam;
         double ramPercent = ((double) usedRam / maxRam) * 100;
-        String ramInfo = "" + ChatColor.GOLD + numberFormat.format(ramPercent) + "%" + ChatColor.YELLOW + " - " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedRam) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxRam);
+        String ramInfo = "" + ChatColor.GOLD + VaultCore.numberFormat.format(ramPercent) + "%" + ChatColor.YELLOW + " - " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedRam) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxRam);
 
         long freeSpace = new File("/").getFreeSpace();
         long maxSpace = new File("/").getTotalSpace();
         long usedSpace = maxSpace - freeSpace;
         double diskPercent = ((double) usedSpace / maxSpace) * 100;
-        String diskInfo = "" + ChatColor.GOLD + numberFormat.format(diskPercent) + "%" + ChatColor.YELLOW + " - " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedSpace) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxSpace);
+        String diskInfo = "" + ChatColor.GOLD + VaultCore.numberFormat.format(diskPercent) + "%" + ChatColor.YELLOW + " - " + ChatColor.DARK_GREEN + Utilities.bytesToReadable(usedSpace) + ChatColor.YELLOW + "/" + ChatColor.DARK_GREEN + Utilities.bytesToReadable(maxSpace);
 
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lag.header"));
         sender.sendMessage(ChatColor.YELLOW + "Platform: " + osInfo);
@@ -57,6 +56,5 @@ public class LagCommand extends CommandExecutor {
         sender.sendMessage(ChatColor.YELLOW + "TPS: " + tps);
         sender.sendMessage(ChatColor.YELLOW + "RAM Usage: " + ramInfo);
         sender.sendMessage(ChatColor.YELLOW + "Disk Usage: " + diskInfo);
-        // TODO internet upload/download speed test
     }
 }

@@ -64,7 +64,6 @@ public class AFKCommand extends CommandExecutor implements Listener {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (afk.containsKey(player)) {
             player.teleport(afk.remove(player));
-            player.getPlayer().setStatistic(Statistic.PLAY_ONE_MINUTE, pt.remove(player));
             player.sendMessage(VaultLoader.getMessage("you-no-longer-afk"));
 
             for (VLPlayer p : VLPlayer.getOnlinePlayers()) {

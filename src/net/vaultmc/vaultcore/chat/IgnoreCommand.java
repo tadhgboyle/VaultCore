@@ -9,10 +9,8 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import javax.sql.rowset.CachedRowSet;
+import java.util.*;
 
 @RootCommand(literal = "ignore", description = "Stop seeing messages from a player.")
 @Permission(Permissions.IgnoreCommand)
@@ -25,7 +23,6 @@ public class IgnoreCommand extends CommandExecutor {
     }
 
     static List<String> ignored;
-
     // TODO: Use seperate ignores table in db... then cache every 5 mins
 
     public static boolean isIgnoring(VLOfflinePlayer ignorer, VLPlayer ignoredPlayer) {
@@ -35,7 +32,10 @@ public class IgnoreCommand extends CommandExecutor {
         if (csvIgnored != null) {
             if (csvIgnored.isEmpty()) return false;
             ignored = Arrays.asList(csvIgnored.split(", "));
-            if (ignored.contains(ignoredPlayer.getUniqueId().toString())) return true;
+            if (ignored.contains(ignoredPlayer.getUniqueId().toString())) {
+                ignored.clear();
+                return true;
+            }
         }
         return false;
     }
@@ -62,6 +62,7 @@ public class IgnoreCommand extends CommandExecutor {
                 data.set("ignored", csvIgnored + (ignored.size() < 1 ? "" : ", ") + target.getUniqueId());
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.toggle_ignored"), ChatColor.GREEN + "started", target.getFormattedName()));
             }
+            ignored.clear();
         } else {
             data.set("ignored", target.getUniqueId());
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.toggle_ignored"), ChatColor.GREEN + "started", target.getFormattedName()));
@@ -87,6 +88,7 @@ public class IgnoreCommand extends CommandExecutor {
                     sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.list"), count, VLOfflinePlayer.getOfflinePlayer(UUID.fromString(uuid)).getFormattedName()));
                     count++;
                 }
+                ignored.clear();
             } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
         } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
     }

@@ -68,7 +68,6 @@ public class ChatUtils extends ConstructorRegisterListener {
         // ChatGroups
         if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(chatGroupsKey) || ChatGroupsCommand.getToggled().contains(player)))) {
             ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage().replaceFirst(chatGroupsKey, ""));
-            Bukkit.getLogger().info(player.getFormattedName() + ": CG: " + e.getMessage().replaceFirst(chatGroupsKey, ""));
             e.setCancelled(true);
             return;
         }

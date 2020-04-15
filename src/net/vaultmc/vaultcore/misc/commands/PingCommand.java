@@ -11,6 +11,7 @@ import java.util.Collections;
 
 @RootCommand(literal = "ping", description = "Check the ping of yourself or other players.")
 @Permission(Permissions.PingCommand)
+@Aliases("latency")
 public class PingCommand extends CommandExecutor {
     public PingCommand() {
         register("pingSelf", Collections.emptyList());
