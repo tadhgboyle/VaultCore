@@ -53,24 +53,36 @@ public class CGSettingInvListener implements Listener {
             if (e.getSlot() == 22) {
                 cgSettingsInv.openMembersMenu(sender);
             } else if (e.getSlot() == 1) {
+                if (sender == target) {
+                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
+                    return;
+                }
                 ChatGroup.removeFromGroup(ChatGroup.getChatGroup(target), target);
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.kick.success"), target.getFormattedName()));
-                target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.kick.kicked_target")));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.success"), target.getFormattedName()));
+                target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.kicked_target")));
             } else if (e.getSlot() == 4) {
+                if (sender == target) {
+                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
+                    return;
+                }
                 if (ChatGroup.makeAdmin(ChatGroup.getChatGroup(target), target)) {
-                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.role.promote"), target.getFormattedName()));
-                    target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.role.promoted_target"), sender.getFormattedName()));
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promote"), target.getFormattedName()));
+                    target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promoted_target"), sender.getFormattedName()));
                 } else {
                     sender.closeInventory();
-                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.role.already_role"), target.getFormattedName(), "admin"));
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.already_role"), target.getFormattedName(), "admin"));
                 }
             } else if (e.getSlot() == 7) {
+                if (sender == target) {
+                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
+                    return;
+                }
                 if (ChatGroup.makeMember(ChatGroup.getChatGroup(target), target)) {
-                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.role.demote"), target.getFormattedName()));
-                    target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.role.demoted_target"), sender.getFormattedName()));
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demote"), target.getFormattedName()));
+                    target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demoted_target"), sender.getFormattedName()));
                 } else {
                     sender.closeInventory();
-                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.role.already_role"), target.getFormattedName(), "member"));
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.already_role"), target.getFormattedName(), "member"));
                 }
             }
         }

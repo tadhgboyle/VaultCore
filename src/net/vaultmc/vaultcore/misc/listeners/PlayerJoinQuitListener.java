@@ -81,8 +81,8 @@ public class PlayerJoinQuitListener implements Listener {
                 VaultCore.getInstance().getConfig().getString("welcome-message")));
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
-            Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
-                    player.getFormattedName(), ChatColor.GREEN + "joined");
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
+                    player.getFormattedName(), ChatColor.GREEN + "joined"));
         }
 
         File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getUniqueId().toString() + "/");

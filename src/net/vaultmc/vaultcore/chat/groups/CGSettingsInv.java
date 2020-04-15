@@ -28,7 +28,10 @@ public class CGSettingsInv {
                 .build());
         mainMenu.setItem(15, new ItemStackBuilder(Material.PLAYER_HEAD)
                 .name(ChatColor.YELLOW + "Manage Group Members")
-                .skullOwner(VLOfflinePlayer.getOfflinePlayer(UUID.fromString("606e2ff0-ed77-4842-9d6c-e1d3321c7838")))
+                .skullOwner("eyJ0aW1lc3RhbXAiOjE1ODY5MjQ5OTg3OTAsInByb2ZpbGVJZCI6IjYwNmUyZmYwZWQ3NzQ4NDI5ZDZjZTFkMz" +
+                        "MyMWM3ODM4IiwicHJvZmlsZU5hbWUiOiJNSEZfUXVlc3Rpb24iLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6I" +
+                        "mh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM0ZTA2M2NhZmI0NjdhNWM4ZGU0M2VjNz" +
+                        "g2MTkzOTlmMzY5ZjRhNTI0MzRkYTgwMTdhOTgzY2RkOTI1MTZhMCJ9fX0")
                 .lore(Arrays.asList(
                         ChatColor.GRAY + "Edit the members of your ChatGroup."
                 ))

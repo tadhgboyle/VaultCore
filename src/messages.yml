@@ -659,7 +659,7 @@ vaultcore:
       misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
       toggle: "&eYou have toggled ChatGroups {TOGGLE}&e."
       not_in_chatgroup: "&cThat player is not in your ChatGroup."
-      format: "&8[&dCG&8]&r {SENDER}&8:&r {MESSAGE}"
+      format: "&8[&dCG&8]&6 (&e{NAME}&6)&r {SENDER}&8:&r {MESSAGE}"
       chat_not_in_group: "&cYou are not in a ChatGroup."
       self_error: "&cYou cannot do that to yourself!"
       info:
@@ -693,3 +693,7 @@ vaultcore:
       kick:
         success: "&eYou have kicked {TARGET}&e from your ChatGroup."
         kicked_target: "&eYou have been kicked from your ChatGroup."
+      join:
+        error: "&cError: You are already in a ChatGroup, or that ChatGroup doesn't exist."
+        success: "&eYou have joined the ChatGroup &6{NAME}&e!"
+        members_message: "{SENDER}&e has joined &6{NAME}&e!"

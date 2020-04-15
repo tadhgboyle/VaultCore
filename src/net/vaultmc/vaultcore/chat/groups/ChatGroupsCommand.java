@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.chat.groups;
 
 import lombok.Getter;
+import net.milkbowl.vault.chat.Chat;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
@@ -22,8 +23,8 @@ public class ChatGroupsCommand extends CommandExecutor {
 
     @Getter
     public static List<VLPlayer> toggled = new ArrayList<>();
-
-    static HashMap<VLPlayer, ChatGroup> invites = new HashMap<>();
+    @Getter
+    public static HashMap<VLPlayer, ChatGroup> invites = new HashMap<>();
 
     public ChatGroupsCommand() {
         register("chatGroupInfo", Collections.emptyList());
@@ -32,7 +33,7 @@ public class ChatGroupsCommand extends CommandExecutor {
         register("chatGroupToggle", Collections.singletonList(Arguments.createLiteral("toggle")));
         register("chatGroupCreate", Arrays.asList(Arguments.createLiteral("create"), Arguments.createArgument("name", Arguments.string()), Arguments.createArgument("open", Arguments.boolArgument())));
         register("chatGroupSettings", Collections.singletonList(Arguments.createLiteral("settings")));
-        // register("chatGroupJoin", Arrays.asList(Arguments.createLiteral("join"), Arguments.createArgument("name", Arguments.string())));
+        register("chatGroupJoin", Arrays.asList(Arguments.createLiteral("join"), Arguments.createArgument("name", Arguments.string())));
         register("chatGroupDelete", Collections.singletonList(Arguments.createLiteral("delete")));
         register("chatGroupInvite", Arrays.asList(Arguments.createLiteral("invite"), Arguments.createArgument("target", Arguments.playerArgument())));
         register("chatGroupAccept", Collections.singletonList(Arguments.createLiteral("accept")));
@@ -69,7 +70,7 @@ public class ChatGroupsCommand extends CommandExecutor {
 
     @SubCommand("chatGroupList")
     public void chatGroupList(VLPlayer sender) {
-        // TODO: Fix this D:
+        // TODO: Add pagination and message for how many chatgroups there are
         ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
         if (configurationSection.getValues(true).keySet().size() == 0)
@@ -113,6 +114,22 @@ public class ChatGroupsCommand extends CommandExecutor {
         }
         CGSettingsInv cgSettingsInv = new CGSettingsInv();
         cgSettingsInv.openMainMenu(sender);
+    }
+
+    @SubCommand("chatGroupJoin")
+    public void chatGroupJoin(VLPlayer sender, String cgName) {
+        ChatGroup chatGroup = ChatGroup.getChatGroup(cgName);
+        // If they are in a chatgroup or the chatgroup given by the name doesnt exist
+        if (ChatGroup.getChatGroup(sender) != null || chatGroup == null) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.error"));
+            return;
+        }
+        // Success
+        ChatGroup.addToGroup(chatGroup, sender);
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.success"), chatGroup.name));
+        for (VLPlayer member : ChatGroup.getChatGroupMembers(chatGroup)) {
+            member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getFormattedName(), chatGroup.name));
+        }
     }
 
     @SubCommand("chatGroupDelete")

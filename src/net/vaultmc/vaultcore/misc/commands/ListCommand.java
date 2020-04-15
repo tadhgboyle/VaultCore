@@ -16,7 +16,7 @@ import java.util.TreeSet;
 
 @RootCommand(literal = "list", description = "See who is online.")
 @Permission(Permissions.ListCommand)
-@Aliases("online")
+@Aliases({"online", "ls"})
 public class ListCommand extends CommandExecutor {
     private static final Collection<String> admin = new TreeSet<String>(Collator.getInstance());
     private static final Collection<String> moderator = new TreeSet<String>(Collator.getInstance());

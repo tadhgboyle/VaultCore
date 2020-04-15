@@ -59,6 +59,7 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static boolean addToGroup(ChatGroup chatGroup, VLPlayer target) {
+        // TODO: Check if chatgroup is private. If so, check if the invites hashmap contains the correct chatgroup for the target
         if (getChatGroup(target) != null || chatGroup.members.contains(target.getUniqueId().toString())) return false;
         else {
             chatGroup.members.add(target.getUniqueId().toString());
@@ -106,7 +107,7 @@ public class ChatGroup implements ConfigurationSerializable {
 
     public static void sendMessage(ChatGroup chatGroup, VLPlayer sender, String message) {
         for (VLPlayer players : getChatGroupMembers(chatGroup)) {
-            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.format"), sender.getFormattedName(), message));
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.format"), chatGroup.name, sender.getFormattedName(), message));
         }
     }
 
