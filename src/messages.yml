@@ -704,3 +704,4 @@ vaultcore:
         invalid_context: "&cInvalid context. Valid contexts: &4chatgroups&c, &4staffchat&c, &4adminchat&c."
         invalid_key_length: "&cInvalid key length. Keys must be 1 character long."
         set_key: "&eSuccessfully set your &6{CONTEXT}&e key to &6{KEY}&e."
+        duplicate_key: "&cYou have set &4{CONTEXT}&c to use &4{KEY}&c already."

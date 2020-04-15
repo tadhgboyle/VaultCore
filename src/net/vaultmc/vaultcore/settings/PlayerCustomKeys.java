@@ -52,6 +52,12 @@ public class PlayerCustomKeys extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.settings.custom_keys.invalid_key_length"));
                 return;
             }
+            for (String contextList : contexts) {
+                if (getCustomKey(sender, contextList).equalsIgnoreCase(key)) {
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.custom_keys.duplicate_key"), contextList, key));
+                    return;
+                }
+            }
             setCustomKey(sender, context, key);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.custom_keys.set_key"), context, key));
         } else {
