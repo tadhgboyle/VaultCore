@@ -34,12 +34,7 @@ public class PlayerCustomKeys extends CommandExecutor {
     public void pckList(VLPlayer sender) {
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.settings.custom_keys.header"));
         for (String context : contexts) {
-            try {
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.custom_keys.list_format"), context, getCustomKey(sender, context)));
-            } catch (NullPointerException e) {
-                setCustomKey(sender, context, contextDefaultKeys.get(context));
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.custom_keys.list_format"), context, getCustomKey(sender, context)));
-            }
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.custom_keys.list_format"), context, getCustomKey(sender, context)));
         }
     }
 
@@ -67,7 +62,10 @@ public class PlayerCustomKeys extends CommandExecutor {
 
     public String getCustomKey(VLPlayer target, String context) {
         SQLPlayerData data = target.getPlayerData();
-        return data.getString("custom_keys-" + context);
+        String key = data.getString("custom_keys-" + context);
+        if (key == null) key = contextDefaultKeys.get(context);
+        setCustomKey(target, context, contextDefaultKeys.get(context));
+        return key;
     }
 
     public void setCustomKey(VLPlayer target, String context, String key) {

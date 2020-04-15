@@ -25,9 +25,11 @@ import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
+import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -46,23 +48,27 @@ public class ChatManager extends ConstructorRegisterListener {
         if (player.hasPermission(Permissions.ChatColor)) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
+        PlayerCustomKeys playerCustomKeys = new PlayerCustomKeys();
+        String chatGroupsKey = playerCustomKeys.getCustomKey(player, "chatgroups");
+        String staffChatKey = playerCustomKeys.getCustomKey(player, "staffchat");
+        String adminChatKey = playerCustomKeys.getCustomKey(player, "adminchat");
 
         // Staff + Admin chat
-        if ((e.getMessage().startsWith("#") || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
-            StaffChatCommand.chat(player, e.getMessage().replaceFirst("#", ""));
+        if ((e.getMessage().startsWith(staffChatKey) || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
+            StaffChatCommand.chat(player, e.getMessage().replaceFirst(staffChatKey, ""));
             e.setCancelled(true);
             return;
         }
-        if (e.getMessage().startsWith(",") || AdminChatCommand.getToggled().contains(player.getUniqueId()) && player.hasPermission(Permissions.AdminChatCommand)) {
-            SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage().replaceFirst(",", ""));
+        if (e.getMessage().startsWith(adminChatKey) || AdminChatCommand.getToggled().contains(player.getUniqueId()) && player.hasPermission(Permissions.AdminChatCommand)) {
+            SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage().replaceFirst(adminChatKey, ""));
             e.setCancelled(true);
             return;
         }
 
         // ChatGroups
-        if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith("!") || ChatGroupsCommand.getToggled().contains(player)))) {
-            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage().replaceFirst("!", ""));
-            Bukkit.getLogger().info(player.getFormattedName() + ": CG: " + e.getMessage().replaceFirst("!", ""));
+        if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(chatGroupsKey) || ChatGroupsCommand.getToggled().contains(player)))) {
+            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage().replaceFirst(chatGroupsKey, ""));
+            Bukkit.getLogger().info(player.getFormattedName() + ": CG: " + e.getMessage().replaceFirst(chatGroupsKey, ""));
             e.setCancelled(true);
             return;
         }
