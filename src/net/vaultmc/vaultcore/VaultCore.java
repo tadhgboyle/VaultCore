@@ -13,7 +13,6 @@ import net.vaultmc.vaultcore.buggy.BuggyCommand;
 import net.vaultmc.vaultcore.buggy.BuggyListener;
 import net.vaultmc.vaultcore.chat.*;
 import net.vaultmc.vaultcore.chat.groups.CGSettingInvListener;
-import net.vaultmc.vaultcore.chat.groups.CGSettingsInv;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
@@ -333,7 +332,7 @@ public final class VaultCore extends Component implements Listener {
         new SocialSpyCommand();
         new ModMode();
         new DonationCommand();
-        new ChatManager();
+        new ChatUtils();
         new TimeCommand();
         new VanishCommand();
         new VanishListeners();
