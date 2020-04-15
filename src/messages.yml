@@ -697,3 +697,10 @@ vaultcore:
         error: "&cError: You are already in a ChatGroup, or that ChatGroup doesn't exist."
         success: "&eYou have joined the ChatGroup &6{NAME}&e!"
         members_message: "{SENDER}&e has joined &6{NAME}&e!"
+    settings:
+      custom_keys:
+        header: "&2--== [Custom Keys] ==--"
+        list_format: "&6{CONTEXT}&e - &6{KEY}"
+        invalid_context: "&cInvalid context. Valid contexts: &4chatgroups&c, &4staffchat&c, &4adminchat&c."
+        invalid_key_length: "&cInvalid key length. Keys must be 1 character long."
+        set_key: "&eSuccessfully set your &6{CONTEXT}&e key to &6{KEY}&e."

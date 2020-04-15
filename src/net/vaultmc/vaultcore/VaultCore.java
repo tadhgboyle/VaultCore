@@ -62,6 +62,7 @@ import net.vaultmc.vaultcore.punishments.mute.UnmuteCommand;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
+import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.*;
 import net.vaultmc.vaultcore.survival.*;
@@ -284,6 +285,7 @@ public final class VaultCore extends Component implements Listener {
             new TransferCommand();
             new PlayerHider();
         }
+        new PlayerCustomKeys();
         new SuicideCommand();
         new IgnoreCommand();
         new UnignoreCommand();
