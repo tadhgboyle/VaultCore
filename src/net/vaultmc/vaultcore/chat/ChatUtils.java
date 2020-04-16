@@ -59,7 +59,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setCancelled(true);
             return;
         }
-        if (e.getMessage().startsWith(adminChatKey) || AdminChatCommand.getToggled().contains(player.getUniqueId()) && player.hasPermission(Permissions.AdminChatCommand)) {
+        if ((e.getMessage().startsWith(adminChatKey) || AdminChatCommand.getToggled().contains(player.getUniqueId())) && player.hasPermission(Permissions.AdminChatCommand)) {
             SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage().replaceFirst(adminChatKey, ""));
             e.setCancelled(true);
             return;

@@ -669,6 +669,7 @@ vaultcore:
         layout: "&6/cg {COMMAND}&e - {INFO}."
       list:
         layout: "&eName:&6 {NAME}"
+        count: "&eThere are &2{COUNT}&e ChatGroups."
         no_chatgroups: "&cThere are no ChatGroups :("
       creation:
         success: "&eSuccessfully created ChatGroup: &6{NAME}&e."

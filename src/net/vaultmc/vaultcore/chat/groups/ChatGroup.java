@@ -19,6 +19,8 @@ public class ChatGroup implements ConfigurationSerializable {
     public List<String> members;
     public boolean open;
 
+    // TODO: Owners of chatgroups
+
     public ChatGroup(String name, List<String> admins, List<String> members, boolean open) {
         this.name = name;
         this.admins = admins;

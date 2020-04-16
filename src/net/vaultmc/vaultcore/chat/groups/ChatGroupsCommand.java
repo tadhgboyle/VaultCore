@@ -25,6 +25,7 @@ public class ChatGroupsCommand extends CommandExecutor {
     public static List<VLPlayer> toggled = new ArrayList<>();
     @Getter
     public static HashMap<VLPlayer, ChatGroup> invites = new HashMap<>();
+    Set<ChatGroup> chatGroupsList = new HashSet<>();
 
     public ChatGroupsCommand() {
         register("chatGroupInfo", Collections.emptyList());
@@ -72,13 +73,20 @@ public class ChatGroupsCommand extends CommandExecutor {
     public void chatGroupList(VLPlayer sender) {
         // TODO: Add pagination and message for how many chatgroups there are
         ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
-        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
-        if (configurationSection.getValues(true).keySet().size() == 0)
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.no_chatgroups"));
         for (String name : configurationSection.getValues(true).keySet()) {
-            if (ChatGroup.isOpen(ChatGroup.getChatGroup(name)))
-                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.layout"), name));
+            ChatGroup chatGroup = ChatGroup.getChatGroup(name);
+            if (chatGroup.open) chatGroupsList.add(chatGroup);
         }
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
+        if (chatGroupsList.size() == 0) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.no_chatgroups"));
+            return;
+        }
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.count"), chatGroupsList.size()));
+        for (ChatGroup chatGroup : chatGroupsList) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.layout"), chatGroup.name));
+        }
+        chatGroupsList.clear();
     }
 
     @SubCommand("chatGroupToggle")
