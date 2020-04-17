@@ -699,6 +699,9 @@ vaultcore:
         success: "&eYou have joined the ChatGroup &6{NAME}&e!"
         members_message: "{SENDER}&e has joined &6{NAME}&e!"
     settings:
+      specific:
+        success: "&eSuccessfully updated &6{NAME}&e to &6{VALUE}&e."
+        invalid_setting: "&cThat setting is invalid."
       custom_keys:
         header: "&2--== [Custom Keys] ==--"
         list_format: "&6{CONTEXT}&e - &6{KEY}"

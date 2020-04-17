@@ -106,12 +106,12 @@ public final class Utilities {
             long duration = timeparts.get(section);
 
             if (duration > 0) {
-                int position = new ArrayList<String>(timeparts.keySet()).indexOf(section);
+                int position = new ArrayList<>(timeparts.keySet()).indexOf(section);
                 String ending = (duration == 1 ? ", " : "s, ");
                 // if the second last entry is == 1, we can assume we dont need a break
                 if (position == 4 && newline) {
                     ending = (duration == 1 ? " and " : "s \nand ");
-                } else if (position == 4) {
+                } else if (position == 4 && !newline) {
                     ending = (duration == 1 ? " and " : "s and ");
                 }
                 // if it is the last entry then add a period

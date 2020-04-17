@@ -1,9 +1,12 @@
 package net.vaultmc.vaultcore.settings;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -15,8 +18,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RootCommand(
         literal = "settings",
@@ -26,12 +30,13 @@ import java.util.Collections;
 @PlayerOnly
 public class SettingsCommand extends CommandExecutor implements Listener {
     public SettingsCommand() {
-        register("settings", Collections.emptyList());
+        register("settingsMenu", Collections.emptyList());
+        register("settingsSpecific", Collections.singletonList(Arguments.createArgument("setting", Arguments.word())));
         VaultCore.getInstance().registerEvents(this);
     }
 
-    @SubCommand("settings")
-    public void settings(VLPlayer sender) {
+    @SubCommand("settingsMenu")
+    public void settingsMenu(VLPlayer sender) {
         Inventory inv = Bukkit.createInventory(null, 27, ChatColor.RESET + "Settings");
         inv.setItem(11, new ItemStackBuilder(Material.PAPER)
                 .name(ChatColor.YELLOW + "Messaging")
@@ -100,6 +105,37 @@ public class SettingsCommand extends CommandExecutor implements Listener {
         sender.openInventory(inv);
     }
 
+    List<String> settingNames = new ArrayList<String>() {{
+        for (Settings setting : Settings.values()) {
+            if (setting.isToggleable()) settingNames.add(setting.getVc_name());
+        }
+    }};
+    HashMap<String, String> settingMap = new HashMap<String, String>() {{
+        for (Settings setting : Settings.values()) {
+            if (setting.isToggleable()) settingMap.put(setting.getVc_name(), setting.getName());
+        }
+    }};
+
+    @SubCommand("settingsSpecific")
+    public void settingsSpecific(VLPlayer sender, String setting) {
+        if (settingNames.contains(setting.toLowerCase())) {
+            SQLPlayerData data = sender.getPlayerData();
+            boolean oldValue = data.getBoolean(setting);
+            data.set(setting, !oldValue);
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.specific.success"), settingMap.get(setting), oldValue));
+        } else {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.settings.specific.invalid_setting"));
+        }
+    }
+
+    @TabCompleter(
+            subCommand = "settingsSpecific",
+            argument = "setting"
+    )
+    public List<WrappedSuggestion> suggestSetting(VLPlayer sender, String remaining) {
+        return settingNames.stream().map(WrappedSuggestion::new).collect(Collectors.toList());
+    }
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getView().getTitle().equals(ChatColor.RESET + "Settings")) {
@@ -122,7 +158,7 @@ public class SettingsCommand extends CommandExecutor implements Listener {
             }
             e.setCancelled(true);
             player.closeInventory();
-            settings(player);
+            settingsMenu(player);
         }
     }
 }

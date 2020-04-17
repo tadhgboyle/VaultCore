@@ -35,7 +35,7 @@ public class ChatGroupsCommand extends CommandExecutor {
         register("chatGroupCreate", Arrays.asList(Arguments.createLiteral("create"), Arguments.createArgument("name", Arguments.string()), Arguments.createArgument("open", Arguments.boolArgument())));
         register("chatGroupSettings", Collections.singletonList(Arguments.createLiteral("settings")));
         register("chatGroupJoin", Arrays.asList(Arguments.createLiteral("join"), Arguments.createArgument("name", Arguments.string())));
-        register("chatGroupDelete", Collections.singletonList(Arguments.createLiteral("delete")));
+        // register("chatGroupDelete", Collections.singletonList(Arguments.createLiteral("delete")));
         register("chatGroupInvite", Arrays.asList(Arguments.createLiteral("invite"), Arguments.createArgument("target", Arguments.playerArgument())));
         register("chatGroupAccept", Collections.singletonList(Arguments.createLiteral("accept")));
         register("chatGroupDecline", Collections.singletonList(Arguments.createLiteral("decline")));
@@ -142,7 +142,7 @@ public class ChatGroupsCommand extends CommandExecutor {
 
     @SubCommand("chatGroupDelete")
     public void chatGroupDelete(VLPlayer sender) {
-        // TODO: This
+        // TODO: This + ChatGroup Owners
     }
 
     @SubCommand("chatGroupInvite")

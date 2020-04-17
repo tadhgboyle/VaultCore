@@ -7,8 +7,6 @@ public class PlayerSettings {
 
     public static boolean getSetting(VLPlayer player, String setting) {
         SQLPlayerData data = player.getPlayerData();
-        boolean value = data.getBoolean(setting);
-        if (value == true) return true;
-        else return false;
+        return data.getBoolean(setting);
     }
 }
