@@ -47,10 +47,9 @@ public class SeenCommand extends CommandExecutor {
             status = ChatColor.RED + "offline ";
         }
 
-        long currenttime = System.currentTimeMillis();
-        long duration = currenttime - lastseen;
+        long duration = System.currentTimeMillis() - lastseen;
 
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.seen"),
-                player.getFormattedName(), status, Utilities.millisToTime(duration, true, true)));
+                player.getFormattedName(), status, Utilities.millisToTime(duration, false, true)));
     }
 }

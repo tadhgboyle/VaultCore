@@ -13,11 +13,11 @@ public enum Settings {
     CR_ITEM_DROPS("Item Drops", "item_drops", true);
 
     @Getter
-    private final String name;
+    public String name;
     @Getter
-    private final String vc_name;
+    public String vc_name;
     @Getter
-    private final boolean toggleable;
+    public boolean toggleable;
 
     Settings(String name, String vc_name, boolean toggleable) {
         this.name = name;

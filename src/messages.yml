@@ -456,6 +456,7 @@ vaultcore:
       header: "&2--== [Stats] ==--"
       player_joined: "{TARGET}&e has joined &2{TIMES}&e times."
       player_session_length: "{TARGETS}&e's average session length is {TIME}"
+      join_streak: "{TARGET}&e has joined &2{DAYS}&e day{S} in a row."
     token:
       generating: "&eGenerating your token..."
       your_token: "&eYour token is: &2{TOKEN}&e."
@@ -709,3 +710,7 @@ vaultcore:
         invalid_key_length: "&cInvalid key length. Keys must be 1 character long."
         set_key: "&eSuccessfully set your &6{CONTEXT}&e key to &6{KEY}&e."
         duplicate_key: "&cYou have set &4{CONTEXT}&c to use &4{KEY}&c already."
+    rewards:
+      streak:
+        join: "&eYou have joined &2{DAYS}&e day{S} in a row!"
+        rewards_pending: "&eYou have rewards pending. Check them with &6/rewards&e."

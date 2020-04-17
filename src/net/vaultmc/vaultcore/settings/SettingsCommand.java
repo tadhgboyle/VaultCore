@@ -35,6 +35,21 @@ public class SettingsCommand extends CommandExecutor implements Listener {
         VaultCore.getInstance().registerEvents(this);
     }
 
+    static List<String> settingNames = new ArrayList<>();
+    static HashMap<String, String> settingMap = new HashMap<>();
+
+    public static void init() {
+        for (Settings setting : Settings.values()) {
+            if (setting.toggleable) {
+                settingNames.add(
+                        setting.vc_name);
+                settingMap.put(
+                        setting.vc_name,
+                        setting.name);
+            }
+        }
+    }
+
     @SubCommand("settingsMenu")
     public void settingsMenu(VLPlayer sender) {
         Inventory inv = Bukkit.createInventory(null, 27, ChatColor.RESET + "Settings");
@@ -104,17 +119,6 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                 .build());
         sender.openInventory(inv);
     }
-
-    List<String> settingNames = new ArrayList<String>() {{
-        for (Settings setting : Settings.values()) {
-            if (setting.isToggleable()) settingNames.add(setting.getVc_name());
-        }
-    }};
-    HashMap<String, String> settingMap = new HashMap<String, String>() {{
-        for (Settings setting : Settings.values()) {
-            if (setting.isToggleable()) settingMap.put(setting.getVc_name(), setting.getName());
-        }
-    }};
 
     @SubCommand("settingsSpecific")
     public void settingsSpecific(VLPlayer sender, String setting) {

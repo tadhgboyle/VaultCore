@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.misc.listeners;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.rewards.RewardsCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
@@ -68,6 +69,7 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("settings.item_drops", true);
             player.getPlayerData().set("donation", "0.00");
             player.getPlayerData().set("ignored", "0, 0");
+            player.getPlayerData().set("streak", 0);
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {
@@ -77,13 +79,6 @@ public class PlayerJoinQuitListener implements Listener {
                                 player.getFormattedName(), count()));
             }
         }
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                VaultCore.getInstance().getConfig().getString("welcome-message")));
-        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
-            if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
-            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
-                    player.getFormattedName(), ChatColor.GREEN + "joined"));
-        }
 
         File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getUniqueId().toString() + "/");
         if (!directory.exists()) {
@@ -91,6 +86,25 @@ public class PlayerJoinQuitListener implements Listener {
             directory.setExecutable(true);
             directory.setReadable(true);
             directory.setWritable(true);
+        }
+        if (!PlayerSettings.getSetting(player, "minimal_messages")) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    VaultCore.getInstance().getConfig().getString("welcome-message")));
+            int currentStreak = player.getPlayerData().getInt("streak");
+            if (currentStreak == Integer.MIN_VALUE) {
+                currentStreak = 0;
+                player.getPlayerData().set("streak", 1);
+            }
+            if (RewardsCommand.checkLastSeen(player, 1)) {
+                player.getPlayerData().set("streak", currentStreak++);
+            } else player.getPlayerData().set("streak", 0);
+            player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.rewards.streak.join"), currentStreak++, currentStreak == 0 ? "" : "s"));
+        }
+
+        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
+                    player.getFormattedName(), ChatColor.GREEN + "joined"));
         }
     }
 

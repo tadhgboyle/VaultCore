@@ -107,6 +107,7 @@ public class ShapedRecipe implements Recipe {
         outerLoop:
         for (Map<Integer, ItemStack> map : possible) {
             for (Map.Entry<Integer, ItemStack> entry : map.entrySet()) {
+                // TODO: @yangyang200: ArrayIndexOutOfBound Exception here
                 if (!isSimilar(entry.getValue(), inv.getMatrix()[entry.getKey()])) {
                     continue outerLoop;
                 }
