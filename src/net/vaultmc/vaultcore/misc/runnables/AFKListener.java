@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class AFKListener {
 
-    private static Map<VLPlayer, Location> locations = new HashMap<>();
+    private static final Map<VLPlayer, Location> locations = new HashMap<>();
 
     public static void afkUpdater() {
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {

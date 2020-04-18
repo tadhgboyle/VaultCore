@@ -12,10 +12,10 @@ import java.util.Set;
 
 public class ShapedRecipe implements Recipe {
     @Getter
-    private ItemStack[] recipe;
+    private final ItemStack[] recipe;
 
     @Getter
-    private Set<Map<Integer, ItemStack>> possible = new HashSet<>();
+    private final Set<Map<Integer, ItemStack>> possible = new HashSet<>();
 
     public ShapedRecipe(ItemStack[] recipe) {
         // Find all the possibilities of how the player will lay the crafting recipe out.

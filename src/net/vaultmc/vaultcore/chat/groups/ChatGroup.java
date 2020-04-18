@@ -6,7 +6,6 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
@@ -45,7 +44,7 @@ public class ChatGroup implements ConfigurationSerializable {
 
     public static ChatGroup getChatGroup(String cgName) {
         ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
-        if (configurationSection.getValues(true).keySet().contains(cgName)) {
+        if (configurationSection.getValues(true).containsKey(cgName)) {
             ChatGroup chatGroup = (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
             return chatGroup;
         } else return null;

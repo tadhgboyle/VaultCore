@@ -15,7 +15,7 @@ import java.util.*;
 
 public final class Utilities {
     public static String string = VaultLoader.getMessage("colours.string");
-    private static Map<String, Long> timeparts = new LinkedHashMap<>();
+    private static final Map<String, Long> timeparts = new LinkedHashMap<>();
 
     public static Location deserializeLocation(String s) {
         if (s == null) return null;
@@ -52,9 +52,9 @@ public final class Utilities {
             }
             return sb.toString().trim();
         } catch (NullPointerException e) {
-            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber specified an invalid message path. Please report this.";
+            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber specified an invalid message path, or a variable is null. Please report this.";
         } catch (ArrayIndexOutOfBoundsException e) {
-            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber added one too many variables in the message string. Please report this.";
+            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber added too many variables in the message string. Please report this.";
         }
     }
 

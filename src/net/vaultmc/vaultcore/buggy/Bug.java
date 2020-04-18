@@ -240,7 +240,7 @@ public class Bug {
         INTENDED("buggy.bugs.status.intended");
 
         @Getter
-        private String key;
+        private final String key;
 
         Status(String key) {
             this.key = key;

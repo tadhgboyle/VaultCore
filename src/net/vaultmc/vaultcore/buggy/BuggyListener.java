@@ -152,6 +152,6 @@ public class BuggyListener extends ConstructorRegisterListener implements Runnab
         SHOULD_HIDE("buggy.stage.should-hide");
 
         @Getter
-        private String key;
+        private final String key;
     }
 }

@@ -181,10 +181,6 @@ public class ModMode extends CommandExecutor implements Listener, Runnable {
 
     @SubCommand("toggle")
     public void execute(VLPlayer player) {
-        if (status.getOrDefault(player, false)) {
-            setModMode(player, false);
-        } else {
-            setModMode(player, true);
-        }
+        setModMode(player, !status.getOrDefault(player, false));
     }
 }

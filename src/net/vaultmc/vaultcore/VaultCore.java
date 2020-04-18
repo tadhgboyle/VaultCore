@@ -61,10 +61,14 @@ import net.vaultmc.vaultcore.punishments.mute.UnmuteCommand;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
+import net.vaultmc.vaultcore.rewards.ReferralCommand;
 import net.vaultmc.vaultcore.rewards.RewardsCommand;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
-import net.vaultmc.vaultcore.stats.*;
+import net.vaultmc.vaultcore.stats.CheckCommand;
+import net.vaultmc.vaultcore.stats.PlayTimeCommand;
+import net.vaultmc.vaultcore.stats.SeenCommand;
+import net.vaultmc.vaultcore.stats.Statistics;
 import net.vaultmc.vaultcore.survival.*;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
 import net.vaultmc.vaultcore.survival.claim.UnclaimCommand;
@@ -129,7 +133,6 @@ public final class VaultCore extends Component implements Listener {
     private Configuration data;
     private Configuration inv;
     private Configuration chatgroups;
-    private Configuration rewards;
 
     private static String getServerName() {
         String name = "CraftBukkit";
@@ -181,9 +184,6 @@ public final class VaultCore extends Component implements Listener {
     public FileConfiguration getChatGroupFile() {
         return chatgroups.getConfig();
     }
-    public FileConfiguration getRewardsFile() {
-        return rewards.getConfig();
-    }
 
     @Override
     public void onServerFinishedLoading() {
@@ -200,7 +200,6 @@ public final class VaultCore extends Component implements Listener {
         inv.save();
         locations.save();
         chatgroups.save();
-        rewards.save();
     }
 
     public void reloadConfig() {
@@ -208,7 +207,6 @@ public final class VaultCore extends Component implements Listener {
         config.reload();
         data.reload();
         inv.reload();
-        rewards.reload();
     }
 
     @Override
@@ -221,7 +219,6 @@ public final class VaultCore extends Component implements Listener {
         inv = ConfigurationManager.loadConfiguration("inventory.yml", this);
         locations = ConfigurationManager.loadConfiguration("locations.yml", this);
         chatgroups = ConfigurationManager.loadConfiguration("chatgroups.yml", this);
-        rewards = ConfigurationManager.loadConfiguration("rewards.yml", this);
 
         database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
                 getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
@@ -242,6 +239,7 @@ public final class VaultCore extends Component implements Listener {
         if (getConfig().getString("server").trim().equalsIgnoreCase("vaultmc")) {
             VaultMCBot.startVaultMCBot();
             new ManageBotCommand();
+            new ReferralCommand();
             new ChatGroupsCommand();
             new CRCommand();
             new SVCommand();
@@ -424,6 +422,5 @@ public final class VaultCore extends Component implements Listener {
         locations.save();
         data.save();
         chatgroups.save();
-        rewards.save();
     }
 }

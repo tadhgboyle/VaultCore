@@ -1,11 +1,8 @@
 package net.vaultmc.vaultcore.misc.runnables;
 
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.chat.IgnoreCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
-import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;

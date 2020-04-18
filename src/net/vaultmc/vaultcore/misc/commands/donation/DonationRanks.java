@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.misc.commands.donation;
 
-import lombok.Data;
 import lombok.Getter;
 
 public enum DonationRanks {

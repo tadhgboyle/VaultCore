@@ -10,7 +10,6 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
 import java.util.Set;
-import java.util.UUID;
 
 public class CGSettingsInv {
 
@@ -41,7 +40,6 @@ public class CGSettingsInv {
 
     public void openMembersMenu(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-
         Set<VLPlayer> members = ChatGroup.getChatGroupMembers(chatGroup);
 
         int memberCount = members.size();

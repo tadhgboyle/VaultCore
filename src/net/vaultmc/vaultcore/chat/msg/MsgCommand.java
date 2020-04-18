@@ -26,11 +26,11 @@ import java.util.UUID;
 @Aliases({"tell", "whisper", "w", "pm", "privatemessage"})
 public class MsgCommand extends CommandExecutor implements Listener {
     @Getter
-    private static Map<UUID, UUID> replies = new HashMap<>();
+    private static final Map<UUID, UUID> replies = new HashMap<>();
     @Getter(AccessLevel.PACKAGE)
-    private static Map<UUID, UUID> sessions = new HashMap<>();
+    private static final Map<UUID, UUID> sessions = new HashMap<>();
     @Getter(AccessLevel.PACKAGE)
-    private static Map<UUID, UUID> sessionsReversed = new HashMap<>();
+    private static final Map<UUID, UUID> sessionsReversed = new HashMap<>();
 
     public MsgCommand() {
         unregisterExisting();

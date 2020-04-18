@@ -12,7 +12,6 @@ import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
-import java.text.DecimalFormat;
 import java.util.Collections;
 
 @RootCommand(

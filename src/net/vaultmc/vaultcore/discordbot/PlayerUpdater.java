@@ -17,7 +17,7 @@ import static net.vaultmc.vaultloader.utils.player.VLOfflinePlayer.getOfflinePla
 
 public class PlayerUpdater {
     public static Multimap<String, Role> mappedRole = HashMultimap.create();
-    private static Guild guild = VaultMCBot.getGuild();
+    private static final Guild guild = VaultMCBot.getGuild();
 
     public static void updater() {
         if (VaultMCBot.isStarted()) {

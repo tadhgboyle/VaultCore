@@ -50,7 +50,8 @@ public class PlayTimeCommand extends CommandExecutor {
         while (rs.next() && position < 11) {
             VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(rs.getString("username"));
             long playtime;
-            if (player.isOnline()) playtime = (long) (VLPlayer.getPlayer(rs.getString("username")).getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
+            if (player.isOnline())
+                playtime = (long) (VLPlayer.getPlayer(rs.getString("username")).getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
             else playtime = rs.getLong("playtime");
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.top"), position, player.getFormattedName(), Utilities.millisToTime(playtime, false, true)));
             position++;

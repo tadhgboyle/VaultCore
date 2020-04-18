@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ShapelessRecipe implements Recipe {
     @Getter
-    private ItemStack[] ingredients;
+    private final ItemStack[] ingredients;
 
     @Override
     public boolean isValid(CraftingInventory inv) {

@@ -15,11 +15,11 @@ public class Item {
     @Getter
     private static final Map<String, Item> items = new LinkedHashMap<>();
     @Getter
-    private ItemStack item;
+    private final ItemStack item;
     @Getter
-    private String id;
+    private final String id;
     @Getter
-    private Recipe recipe;
+    private final Recipe recipe;
 
     public Item(ItemStack item, String id) {
         this(item, id, null);

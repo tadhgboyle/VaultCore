@@ -197,14 +197,14 @@ public class PunishmentsDB {
     @EqualsAndHashCode
     public static class PunishmentData {
         @Getter
-        private String victim;
+        private final String victim;
         @Getter
-        private boolean status;
+        private final boolean status;
         @Getter
-        private String reason;
+        private final String reason;
         @Getter
-        private long expiry;
+        private final long expiry;
         @Getter
-        private UUID actor;
+        private final UUID actor;
     }
 }

@@ -33,10 +33,10 @@ public interface INametagProvider {
     @EqualsAndHashCode
     class Nametag {
         @Getter
-        private String prefix;
+        private final String prefix;
         @Getter
-        private String suffix;
+        private final String suffix;
         @Getter
-        private String sortPriority;
+        private final String sortPriority;
     }
 }

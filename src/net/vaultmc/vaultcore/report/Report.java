@@ -142,9 +142,9 @@ public class Report {
         OTHER("report.reasons.other", Material.ITEM_FRAME);
 
         @Getter
-        private String key;
+        private final String key;
         @Getter
-        private Material item;
+        private final Material item;
     }
 
     @AllArgsConstructor
@@ -154,6 +154,6 @@ public class Report {
         RESOLVED("report.status.resolved");
 
         @Getter
-        private String key;
+        private final String key;
     }
 }

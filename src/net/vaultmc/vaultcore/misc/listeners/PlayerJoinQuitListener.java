@@ -3,7 +3,6 @@ package net.vaultmc.vaultcore.misc.listeners;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.rewards.RewardsCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
@@ -69,7 +68,8 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("settings.item_drops", true);
             player.getPlayerData().set("donation", "0.00");
             player.getPlayerData().set("ignored", "0, 0");
-            player.getPlayerData().set("streak", 0);
+            player.getPlayerData().set("refferals", 0);
+            player.getPlayerData().set("refferal_used", false);
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {
@@ -87,19 +87,9 @@ public class PlayerJoinQuitListener implements Listener {
             directory.setReadable(true);
             directory.setWritable(true);
         }
-        if (!PlayerSettings.getSetting(player, "minimal_messages")) {
+        if (!PlayerSettings.getSetting(player, "minimal_messages"))
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     VaultCore.getInstance().getConfig().getString("welcome-message")));
-            int currentStreak = player.getPlayerData().getInt("streak");
-            if (currentStreak == Integer.MIN_VALUE) {
-                currentStreak = 0;
-                player.getPlayerData().set("streak", 1);
-            }
-            if (RewardsCommand.checkLastSeen(player, 1)) {
-                player.getPlayerData().set("streak", currentStreak++);
-            } else player.getPlayerData().set("streak", 0);
-            player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.rewards.streak.join"), currentStreak++, currentStreak == 0 ? "" : "s"));
-        }
 
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
@@ -112,6 +102,7 @@ public class PlayerJoinQuitListener implements Listener {
     @SneakyThrows
     public void onQuit(PlayerQuitEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+        e.setQuitMessage(null);
         String uuid = player.getUniqueId().toString();
         String username = player.getName();
         long lastSeen = System.currentTimeMillis();
@@ -119,10 +110,13 @@ public class PlayerJoinQuitListener implements Listener {
         String rank = player.getGroup();
         String ip = player.getAddress().getAddress().getHostAddress();
 
-        e.setQuitMessage(
-                Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
-                        player.getFormattedName(), ChatColor.RED + "left"));
         playerDataQuery(uuid, username, 0, lastSeen, playtime, rank, ip);
+
+        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
+                    player.getFormattedName(), ChatColor.RED + "left"));
+        }
     }
 
     @SneakyThrows

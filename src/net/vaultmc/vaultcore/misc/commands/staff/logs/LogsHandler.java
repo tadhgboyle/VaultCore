@@ -18,10 +18,10 @@ import java.util.zip.GZIPInputStream;
 
 public class LogsHandler implements Runnable {
 
-    private static HashMap<Integer, String> lineMatches = new HashMap<>();
-    private static HashMap<Integer, String> lineFiles = new HashMap<>();
-    private VLCommandSender sender;
-    private String search;
+    private static final HashMap<Integer, String> lineMatches = new HashMap<>();
+    private static final HashMap<Integer, String> lineFiles = new HashMap<>();
+    private final VLCommandSender sender;
+    private final String search;
 
     public LogsHandler(VLCommandSender sender, String search) {
         this.sender = sender;

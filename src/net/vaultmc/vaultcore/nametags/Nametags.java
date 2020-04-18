@@ -46,7 +46,7 @@ public class Nametags implements Listener, Runnable {
     private static final Map<INametagProvider, World> providers = new HashMap<>();
     @Getter
     private static final Map<VLPlayer, Team> teams = new HashMap<>();
-    private Scoreboard scoreboard;
+    private final Scoreboard scoreboard;
 
     public Nametags() {
         scoreboard = new Scoreboard();

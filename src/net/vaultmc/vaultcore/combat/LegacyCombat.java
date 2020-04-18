@@ -168,7 +168,7 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         damage.put(Material.DIAMOND_HOE, 1D);
     }
 
-    private List<Location> sweepLocations = new ArrayList<>();
+    private final List<Location> sweepLocations = new ArrayList<>();
 
     public LegacyCombat() {
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 40, 40);
@@ -471,9 +471,9 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
                 EntityDamageEvent.DamageCause.FALL
         ), 2.5, Enchantment.PROTECTION_FALL);
 
-        private Set<EntityDamageEvent.DamageCause> protection;
-        private double typeModifier;
-        private Enchantment enchantment;
+        private final Set<EntityDamageEvent.DamageCause> protection;
+        private final double typeModifier;
+        private final Enchantment enchantment;
 
         EnchantmentType(Supplier<Set<EntityDamageEvent.DamageCause>> protection, double typeModifier, Enchantment enchantment) {
             this.protection = protection.get();

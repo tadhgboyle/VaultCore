@@ -19,7 +19,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RootCommand(
@@ -124,9 +123,9 @@ public class SettingsCommand extends CommandExecutor implements Listener {
     public void settingsSpecific(VLPlayer sender, String setting) {
         if (settingNames.contains(setting.toLowerCase())) {
             SQLPlayerData data = sender.getPlayerData();
-            boolean oldValue = data.getBoolean(setting);
-            data.set(setting, !oldValue);
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.specific.success"), settingMap.get(setting), oldValue));
+            boolean oldValue = data.getBoolean("settings." + setting);
+            data.set("settings." + setting, !oldValue);
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.settings.specific.success"), settingMap.get(setting), !oldValue));
         } else {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.settings.specific.invalid_setting"));
         }

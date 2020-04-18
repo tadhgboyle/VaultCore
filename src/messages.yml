@@ -652,7 +652,7 @@ vaultcore:
       remove_donation: "&eYou have removed $&2{REMOVED}&e from {TARGET}&e. Their total is now $&2{TOTAL}&e."
       set_donation: "&eYou have set {TARGET}&e's donation to $&2{SET}&e."
       updated_rank_sender: "{PLAYER}&e's donation rank was updated to &6{RANK}&e."
-      updated_rank_target: "{SENDER}&e has updated your donation rank to &6{RANK}&e. Thank you!"
+      updated_rank_target: "{SENDER}&e has updated your donation rank to &6{RANK}&e."
       no_avail_rank: "{PLAYER}&e's donation rank was removed."
       no_avail_rank_target: "&eYour donation rank has been removed."
       remove_less_total: "&cThe most you can remove is ${MAX}."
@@ -701,7 +701,7 @@ vaultcore:
         members_message: "{SENDER}&e has joined &6{NAME}&e!"
     settings:
       specific:
-        success: "&eSuccessfully updated &6{NAME}&e to &6{VALUE}&e."
+        success: "&eSuccessfully updated &6{NAME}&e to &2{VALUE}&e."
         invalid_setting: "&cThat setting is invalid."
       custom_keys:
         header: "&2--== [Custom Keys] ==--"
@@ -711,6 +711,4 @@ vaultcore:
         set_key: "&eSuccessfully set your &6{CONTEXT}&e key to &6{KEY}&e."
         duplicate_key: "&cYou have set &4{CONTEXT}&c to use &4{KEY}&c already."
     rewards:
-      streak:
-        join: "&eYou have joined &2{DAYS}&e day{S} in a row!"
-        rewards_pending: "&eYou have rewards pending. Check them with &6/rewards&e."
+      refferals:

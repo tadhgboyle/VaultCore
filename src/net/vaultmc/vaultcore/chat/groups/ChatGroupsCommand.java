@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.chat.groups;
 
 import lombok.Getter;
-import net.milkbowl.vault.chat.Chat;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
@@ -9,7 +8,6 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -71,11 +69,16 @@ public class ChatGroupsCommand extends CommandExecutor {
 
     @SubCommand("chatGroupList")
     public void chatGroupList(VLPlayer sender) {
-        // TODO: Add pagination and message for how many chatgroups there are
+        // TODO: Add pagination
         ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
-        for (String name : configurationSection.getValues(true).keySet()) {
-            ChatGroup chatGroup = ChatGroup.getChatGroup(name);
-            if (chatGroup.open) chatGroupsList.add(chatGroup);
+        try {
+            for (String name : configurationSection.getValues(true).keySet()) {
+                ChatGroup chatGroup = ChatGroup.getChatGroup(name);
+                if (chatGroup.open) chatGroupsList.add(chatGroup);
+            }
+        } catch (NullPointerException e) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.list.no_chatgroups"));
+            return;
         }
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
         if (chatGroupsList.size() == 0) {

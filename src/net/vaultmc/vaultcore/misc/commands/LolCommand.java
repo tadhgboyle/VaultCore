@@ -33,11 +33,12 @@ public class LolCommand extends CommandExecutor {
     private static JsonArray lolsList;
     private static FileWriter updatedLols;
     private static long LAST_LOL = 0;
-    private static long COOLDOWN = 15000;
-    private static int PAGE_SIZE = 7;
+    private static final long COOLDOWN = 15000;
+    private static final int PAGE_SIZE = 7;
 
     JsonParser parser = new JsonParser();
     Object obj;
+
     {
         try {
             obj = parser.parse(new FileReader(lolFile));

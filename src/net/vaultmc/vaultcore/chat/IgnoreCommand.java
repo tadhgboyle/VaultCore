@@ -9,8 +9,10 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 
-import javax.sql.rowset.CachedRowSet;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 @RootCommand(literal = "ignore", description = "Stop seeing messages from a player.")
 @Permission(Permissions.IgnoreCommand)
