@@ -4,6 +4,7 @@ public final class Permissions {
     public static final String BuggyCommand = "vaultcore.buggy";
     public static final String BuggyAdmin = "vaultcore.buggy.admin";
     public static final String BackCommand = "vaultcore.back";
+    public static final String CooldownBypass = "vaultcore.cooldown";
     public static final String DiscordCommand = "vaultcore.discord";
     public static final String MsgCommand = "vaultcore.msg";
     public static final String PingCommand = "vaultcore.ping";
@@ -48,8 +49,6 @@ public final class Permissions {
     public static final String ReloadCommand = "vaultcore.reload";
     public static final String TagCommand = "vaultcore.tag";
     public static final String TagCommandDelete = "vaultcore.tag.delete";
-    public static final String StatsCommand = "vaultcore.stats";
-    public static final String StatsCommandOther = "vaultcore.stats.other";
     public static final String ListCommand = "vaultcore.list";
     public static final String SocialSpyCommand = "vaultcore.socialspy";
     public static final String ModMode = "vaultcore.modmode";

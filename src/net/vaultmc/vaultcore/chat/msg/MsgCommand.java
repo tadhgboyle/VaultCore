@@ -46,6 +46,7 @@ public class MsgCommand extends CommandExecutor implements Listener {
             player.sendMessage(VaultLoader.getMessage(""));
             return;
         }
+        replies.put(target.getUniqueId(), player.getUniqueId());
         UUID session = UUID.randomUUID();
         sessions.put(player.getUniqueId(), session);
         sessionsReversed.put(session, player.getUniqueId());
@@ -58,6 +59,7 @@ public class MsgCommand extends CommandExecutor implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         sessionsReversed.remove(sessions.get(e.getPlayer().getUniqueId()));
         sessions.remove(e.getPlayer().getUniqueId());
+        replies.remove(e.getPlayer().getUniqueId());
     }
 
     @SubCommand("msg")

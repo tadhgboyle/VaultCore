@@ -24,9 +24,11 @@ public class TPAHereCommand extends CommandExecutor implements Listener {
         register("tpahere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
+
+    // TODO: Fix. This functions as a normal tpa, not reverse
     @SubCommand("tpahere")
     public void tpahere(VLPlayer player, VLPlayer target) {
-        if (target.getUniqueId() == player.getUniqueId()) {
+        if (player == target) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }

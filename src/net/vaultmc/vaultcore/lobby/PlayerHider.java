@@ -91,7 +91,6 @@ public class PlayerHider extends ConstructorRegisterListener {
                     player.getPlayer().hidePlayer(VaultLoader.getInstance(), e.getPlayer());
                 }
             }
-
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
                     e.getPlayer().getInventory().setItem(5, item));
         }
@@ -107,7 +106,6 @@ public class PlayerHider extends ConstructorRegisterListener {
                     e.getPlayer().getInventory().setItem(5, inverted);
                 }
             });
-
         } else {
             e.getPlayer().getInventory().clear(5);
         }

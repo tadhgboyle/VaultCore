@@ -43,20 +43,20 @@ import java.util.Iterator;
 import java.util.UUID;
 
 public class VanishListeners extends ConstructorRegisterListener {
-    // TODO: @yangyang200 this thows NPE on line 47
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (!e.getJoinMessage().startsWith("[VANISH_FAKE_JOIN]")) {
-            VanishCommand.update(player);
-            if (VanishCommand.vanished.getOrDefault(e.getPlayer().getUniqueId(), false)) {
-                VanishCommand.setVanishState(player, true);
-                e.getPlayer().sendMessage(ChatColor.YELLOW + "You are still invisible!");
-                e.setJoinMessage(null);
-            }
-        }
-        Bukkit.getLogger().warning(e.getJoinMessage());
-    }
+    // TODO: @yangyang200 this thows NPE on line 50
+//    @EventHandler(priority = EventPriority.MONITOR)
+//    public void onPlayerJoin(PlayerJoinEvent e) {
+//        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+//        if (!e.getJoinMessage().startsWith("[VANISH_FAKE_JOIN]")) {
+//            VanishCommand.update(player);
+//            if (VanishCommand.vanished.getOrDefault(e.getPlayer().getUniqueId(), false)) {
+//                VanishCommand.setVanishState(player, true);
+//                e.getPlayer().sendMessage(ChatColor.YELLOW + "You are still invisible!");
+//                e.setJoinMessage(null);
+//            }
+//        }
+//        Bukkit.getLogger().warning(e.getJoinMessage());
+//    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {

@@ -22,7 +22,8 @@ public class BackCommand extends CommandExecutor {
         if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
             Stack<Location> stack = PlayerTPListener.teleports.get(player.getUniqueId());
             Location before = stack.pop();
-            player.teleportNoMove(before);
+            if (!player.hasPermission(Permissions.CooldownBypass)) player.teleportNoMove(before);
+            else player.teleport(before);
             if (stack.empty()) {
                 PlayerTPListener.teleports.remove(player.getUniqueId());
             }
