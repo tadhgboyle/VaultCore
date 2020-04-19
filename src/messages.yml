@@ -506,7 +506,7 @@ vaultcore:
       sender: "&eYou have &6{STATUS}&e the chat."
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
     staffchat:
-      admin-chat-enabled: "&eYou have to enable admin chat before toggling staff chat!"
+      admin-chat-enabled: "&cYou have to enable admin chat before toggling staff chat!"
       prefix: "&8[&cSC&8]&r "
       format: "{SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled staff chat &6{TOGGLE}&e."
@@ -518,7 +518,7 @@ vaultcore:
       self_error: "&cYou can't tag yourself."
       add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
       list_header: "&2--== [Tags] ==--"
-      list: "&e[#&2{ID}&e] &6{CONTENT} &e-- &2{DATE}"
+      list: "&e[#&2{ID}&e] &6{CONTENT} &e- &2{DATE}"
       no_tags_for_player: "&cThere are no tags for that player."
       tag_already_deleted: "&cThat tag has already been deleted."
       delete: "&eDeleted tag [#&2{ID}&e]."

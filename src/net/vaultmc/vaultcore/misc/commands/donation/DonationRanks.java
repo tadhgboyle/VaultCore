@@ -20,5 +20,4 @@ public enum DonationRanks {
         this.luckPermsRole = luckPermsRole;
         this.donationRequirement = donationRequirement;
     }
-
 }

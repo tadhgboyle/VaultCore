@@ -26,6 +26,7 @@ public class VanishCommand extends CommandExecutor {
 
     public VanishCommand() {
         register("vanishSelf", Collections.emptyList());
+        register("vanishSelfFake", Collections.singletonList(Arguments.createArgument("fakeLeave", Arguments.boolArgument())));
         register("vanishOthers",
                 Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())));
     }
@@ -69,6 +70,16 @@ public class VanishCommand extends CommandExecutor {
     @SubCommand("vanishSelf")
     @PlayerOnly
     public void vanishSelf(VLPlayer sender) {
+        toggleSelf(sender, false);
+    }
+
+    @SubCommand("vanishSelfFake")
+    @PlayerOnly
+    public void vanishSelfFake(VLPlayer sender, boolean fakeLeave) {
+        toggleSelf(sender, fakeLeave);
+    }
+
+    private void toggleSelf(VLPlayer sender, boolean fakeLeave) {
         boolean newValue = !vanished.getOrDefault(sender.getUniqueId(), false);
         String state = newValue ? VaultLoader.getMessage("vanish.invisible") : VaultLoader.getMessage("vanish.visible");
         String message = newValue ? ChatColor.RED + "left" : ChatColor.GREEN + "joined";
@@ -80,9 +91,11 @@ public class VanishCommand extends CommandExecutor {
                 players.sendMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.prefix") + Utilities
                         .formatMessage(VaultLoader.getMessage("vanish.staff_message"), sender.getName(), state));
             }
-            players.sendMessage(
-                    Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
-                            sender.getFormattedName(), message));
+            if (fakeLeave) {
+                players.sendMessage(
+                        Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
+                                sender.getFormattedName(), message));
+            }
         }
         setVanishState(sender, newValue);
     }

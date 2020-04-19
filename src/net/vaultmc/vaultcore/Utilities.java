@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class Utilities {
-    public static String string = VaultLoader.getMessage("colours.string");
     private static final Map<String, Long> timeparts = new LinkedHashMap<>();
 
     public static Location deserializeLocation(String s) {
@@ -29,8 +28,7 @@ public final class Utilities {
     }
 
     /**
-     * @param message      - Message from
-     *                     {@link net.vaultmc.vaultloader.VaultLoader#getMessage(String)}
+     * @param message - Message to format.
      * @param replacements - The variables you wish to insert to the message.
      * @return Compiled message
      * @author Aberdeener
@@ -166,43 +164,12 @@ public final class Utilities {
      */
     public static String bytesToReadable(long bytes) {
         long b = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
-        return b < 1024L ? bytes + " B"
-                : b <= 0xfffccccccccccccL >> 40 ? String.format("%.1f KiB", bytes / 0x1p10)
-                : b <= 0xfffccccccccccccL >> 30 ? String.format("%.1f MiB", bytes / 0x1p20)
-                : b <= 0xfffccccccccccccL >> 20 ? String.format("%.1f GiB", bytes / 0x1p30)
-                : b <= 0xfffccccccccccccL >> 10 ? String.format("%.1f TiB", bytes / 0x1p40)
-                : b <= 0xfffccccccccccccL ? String.format("%.1f PiB", (bytes >> 10) / 0x1p40)
-                : String.format("%.1f EiB", (bytes >> 20) / 0x1p40);
-    }
-
-    /**
-     * @param command - Shell command to run
-     * @return Output of command
-     * @author Aberdeener
-     */
-    public static String execCommand(String command) {
-        Runtime rt = Runtime.getRuntime();
-        Process proc;
-        try {
-            proc = rt.exec(command);
-        } catch (IOException e) {
-            return "An error occurred executing the command.";
-        }
-        BufferedReader stdInput = new BufferedReader(new
-                InputStreamReader(proc.getInputStream()));
-        BufferedReader stdError = new BufferedReader(new
-                InputStreamReader(proc.getErrorStream()));
-        try {
-            String s = null;
-            while ((s = stdInput.readLine()) != null) {
-                return s;
-            }
-            while ((s = stdError.readLine()) != null) {
-                return s;
-            }
-        } catch (IOException e) {
-            return "An error occured during the command.";
-        }
-        return null;
+        return b < 1024L ? bytes + " b"
+                : b <= 0xfffccccccccccccL >> 40 ? String.format("%.1f Kb", bytes / 0x1p10)
+                : b <= 0xfffccccccccccccL >> 30 ? String.format("%.1f Mb", bytes / 0x1p20)
+                : b <= 0xfffccccccccccccL >> 20 ? String.format("%.1f Gb", bytes / 0x1p30)
+                : b <= 0xfffccccccccccccL >> 10 ? String.format("%.1f Tb", bytes / 0x1p40)
+                : b <= 0xfffccccccccccccL ? String.format("%.1f Pb", (bytes >> 10) / 0x1p40)
+                : String.format("%.1f Eb", (bytes >> 20) / 0x1p40);
     }
 }

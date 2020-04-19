@@ -47,12 +47,12 @@ public class PlayTimeCommand extends CommandExecutor {
         DBConnection database = VaultCore.getDatabase();
         ResultSet rs = database.executeQueryStatement("SELECT username, playtime FROM players ORDER BY playtime DESC LIMIT 10");
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.playtime.top_header"));
-        while (rs.next() && position < 11) {
+        while (rs.next() && position <= 10) {
             VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(rs.getString("username"));
             long playtime;
             if (player.isOnline())
                 playtime = (long) (VLPlayer.getPlayer(rs.getString("username")).getStatistic(Statistic.PLAY_ONE_MINUTE) * 0.05 * 1000);
-            else playtime = rs.getLong("playtime");
+            else playtime = (long) (rs.getLong("playtime") * 0.05 * 1000);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.top"), position, player.getFormattedName(), Utilities.millisToTime(playtime, false, true)));
             position++;
         }

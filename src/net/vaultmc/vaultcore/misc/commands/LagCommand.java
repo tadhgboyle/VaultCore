@@ -16,7 +16,7 @@ import java.util.Collections;
 
 @RootCommand(
         literal = "lag",
-        description = "See if VaultMC is lagging."
+        description = "See if VaultMC is lagging (It probably isnt :shades:)."
 )
 @Permission(Permissions.LagCommand)
 @Aliases("tps")

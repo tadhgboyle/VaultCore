@@ -24,9 +24,9 @@ public class DonationCommand extends CommandExecutor {
         register("checkDonationSelf", Collections.emptyList());
         register("checkDonationOther", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
 
-        register("addDonation", Arrays.asList(Arguments.createLiteral("add"), Arguments.createArgument("amount", Arguments.floatArgument()), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
-        register("removeDonation", Arrays.asList(Arguments.createLiteral("remove"), Arguments.createArgument("amount", Arguments.floatArgument()), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
-        register("setDonation", Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("amount", Arguments.floatArgument()), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+        register("addDonation", Arrays.asList(Arguments.createLiteral("add"), Arguments.createArgument("amount", Arguments.doubleArgument()), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+        register("removeDonation", Arrays.asList(Arguments.createLiteral("remove"), Arguments.createArgument("amount", Arguments.doubleArgument()), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+        register("setDonation", Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("amount", Arguments.doubleArgument(0)), Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
 
     @SubCommand("checkDonationSelf")
@@ -52,7 +52,7 @@ public class DonationCommand extends CommandExecutor {
 
     @SubCommand("addDonation")
     @Permission(Permissions.DonationCommandAdmin)
-    public void addDonation(VLCommandSender sender, float donation, VLOfflinePlayer target) {
+    public void addDonation(VLCommandSender sender, double donation, VLOfflinePlayer target) {
         if (target.getFirstPlayed() == 0L) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
@@ -67,7 +67,7 @@ public class DonationCommand extends CommandExecutor {
 
     @SubCommand("removeDonation")
     @Permission(Permissions.DonationCommandAdmin)
-    public void removeDonation(VLCommandSender sender, float donation, VLOfflinePlayer target) {
+    public void removeDonation(VLCommandSender sender, double donation, VLOfflinePlayer target) {
         if (target.getFirstPlayed() == 0L) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
@@ -86,7 +86,7 @@ public class DonationCommand extends CommandExecutor {
 
     @SubCommand("setDonation")
     @Permission(Permissions.DonationCommandAdmin)
-    public void setDonation(VLCommandSender sender, float donation, VLOfflinePlayer target) {
+    public void setDonation(VLCommandSender sender, double donation, VLOfflinePlayer target) {
         if (target.getFirstPlayed() == 0L) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.player_never_joined"));
             return;
@@ -111,7 +111,7 @@ public class DonationCommand extends CommandExecutor {
         } else if (donation >= DonationRanks.DONOR_PLUS.getDonationRequirement() && donation <= DonationRanks.DONOR_PLUS_PLUS.getDonationRequirement()) {
             name = DonationRanks.DONOR_PLUS.getName();
             luckPermsGroup = DonationRanks.DONOR_PLUS.getLuckPermsRole();
-        } else if (donation > DonationRanks.DONOR_PLUS_PLUS.getDonationRequirement()) {
+        } else if (donation >= DonationRanks.DONOR_PLUS_PLUS.getDonationRequirement()) {
             name = DonationRanks.DONOR_PLUS_PLUS.getName();
             luckPermsGroup = DonationRanks.DONOR_PLUS_PLUS.getLuckPermsRole();
         } else {
