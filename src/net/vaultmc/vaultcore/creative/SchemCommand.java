@@ -68,6 +68,7 @@ public class SchemCommand extends CommandExecutor {
         ClipboardFormat format = ClipboardFormats.findByFile(file);
         if (format == null) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.schem.invalid-format"));
+            return;
         }
         try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
             WorldEdit.getInstance().getSessionManager().get(sessionOwner)

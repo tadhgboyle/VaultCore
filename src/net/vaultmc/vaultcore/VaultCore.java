@@ -269,6 +269,7 @@ public final class VaultCore extends Component implements Listener {
             new BuggyListener();
             new EntityUpperBound();
             ItemRegistry.load();
+            new NicknameCommand();
             new ItemListeners();
             new CraftingCommand();
             registerEvents(new ShutDownListener());

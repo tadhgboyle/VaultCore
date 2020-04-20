@@ -99,4 +99,6 @@ public final class Permissions {
     public static final String SuicideCommand = "vaultcore.suicide";
     public static final String ChatGroupsCommand = "vaultcore.chatgroups";
     public static final String RewardsCommand = "vaultcore.rewards";
+    public static final String NicknameCommand = "vaultcore.nickname";
+    public static final String NicknameCommandOther = "vaultcore.nickname.other";
 }

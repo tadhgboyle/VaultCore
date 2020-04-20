@@ -712,3 +712,10 @@ vaultcore:
         duplicate_key: "&cYou have set &4{CONTEXT}&c to use &4{KEY}&c already."
     rewards:
       refferals:
+    nickname:
+      disabled_self: "&eSuccessfully disabled your nickname."
+      success_self: "&eYou have set your nickname to {NICKNAME}&e."
+      success_other: "&eYou have updated {TARGET}&e's nickname."
+      notice_other: "{SENDER}&e has updated your nickname to {NICKNAME}&e."
+      invalid_starting: "&cNicknames need to start with the first 3 characters of the targets name."
+      too_short: "&cNicknames need to be at least 3 characters long."

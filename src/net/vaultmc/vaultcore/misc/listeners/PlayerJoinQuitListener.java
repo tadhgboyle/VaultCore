@@ -70,6 +70,7 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("ignored", "0, 0");
             player.getPlayerData().set("refferals", 0);
             player.getPlayerData().set("refferal_used", false);
+            player.getPlayerData().set("nickname", "0, 0");
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {
@@ -78,6 +79,10 @@ public class PlayerJoinQuitListener implements Listener {
                         Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.new_player"),
                                 player.getFormattedName(), count()));
             }
+        }
+
+        if (!player.getPlayerData().getString("nickname").isEmpty()) {
+            Bukkit.getPlayer(player.getUniqueId()).setDisplayName(ChatColor.ITALIC + player.getPlayerData().getString("nickname"));
         }
 
         File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getUniqueId().toString() + "/");

@@ -39,16 +39,13 @@ public class VanishCommand extends CommandExecutor {
                 return;
             }
             for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
-                if (i == player)
-                    continue;
-                if (i.hasPermission(Permissions.VanishCommand))
-                    continue;
+                if (i == player) continue;
+                if (i.hasPermission(Permissions.VanishCommand)) continue;
                 i.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), player.getPlayer());
             }
         } else {
             for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
-                if (i == player)
-                    continue;
+                if (i == player) continue;
                 i.getPlayer().showPlayer(VaultCore.getInstance().getBukkitPlugin(), player.getPlayer());
             }
         }
@@ -58,8 +55,7 @@ public class VanishCommand extends CommandExecutor {
     public static void update(VLPlayer player) {
         if (player.hasPermission(Permissions.VanishCommand)) return;
         for (Map.Entry<UUID, Boolean> x : vanished.entrySet()) {
-            if (x.getKey().toString().equals(player.getUniqueId().toString()))
-                continue;
+            if (x.getKey().toString().equals(player.getUniqueId().toString())) continue;
             VLPlayer y = VLPlayer.getPlayer(x.getKey());
             if (y != null && x.getValue() && y.hasPermission(Permissions.VanishCommand)) {
                 player.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), y.getPlayer());
