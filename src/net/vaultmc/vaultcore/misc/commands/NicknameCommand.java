@@ -28,6 +28,7 @@ public class NicknameCommand extends CommandExecutor {
         if (nickname.equals("off")) {
             Bukkit.getPlayer(sender.getUniqueId()).setDisplayName(sender.getName());
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.disabled_self"));
+            sender.getPlayerData().set("nickname", "0, 0");
             return;
         }
         if (nickname.length() < 3) {
