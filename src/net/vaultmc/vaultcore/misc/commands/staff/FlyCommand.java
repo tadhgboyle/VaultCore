@@ -46,9 +46,6 @@ public class FlyCommand extends CommandExecutor implements Listener {
             player.setFlying(false);
             player.setAllowFlight(false);
         }
-        for (VLPlayer pl : flying) {
-            Bukkit.getLogger().warning(pl.getName());
-        }
     }
 
     @SubCommand("flyOthers")
