@@ -53,7 +53,10 @@ public class NicknameCommand extends CommandExecutor {
 
     public static String getNickname(VLOfflinePlayer player) {
         String nickname = player.getPlayerData().getString("nickname");
-        if (nickname == null) player.getPlayerData().set("nickname", "0, 0");
+        if (nickname == null) {
+            player.getPlayerData().set("nickname", "0, 0");
+            return null;
+        }
         if (nickname.isEmpty()) return null;
         return nickname;
     }
