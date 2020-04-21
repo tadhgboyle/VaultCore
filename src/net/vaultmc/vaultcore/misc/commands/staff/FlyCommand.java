@@ -7,17 +7,25 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.GameMode;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @RootCommand(literal = "fly", description = "Enable fly for a player.")
 @Permission(Permissions.FlyCommand)
-public class FlyCommand extends CommandExecutor {
+public class FlyCommand extends CommandExecutor implements Listener {
     public FlyCommand() {
         register("flySelf", Collections.emptyList());
         register("flyOthers",
                 Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
+
+    Set<VLPlayer> flying = new HashSet<>();
 
     @SubCommand("flySelf")
     @PlayerOnly
@@ -29,11 +37,13 @@ public class FlyCommand extends CommandExecutor {
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.self"), "enabled"));
             player.setAllowFlight(true);
+            flying.add(player);
         } else {
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.self"), "disabled"));
             player.setFlying(false);
             player.setAllowFlight(false);
+            flying.remove(player);
         }
     }
 
@@ -50,14 +60,29 @@ public class FlyCommand extends CommandExecutor {
             target.setAllowFlight(false);
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
                     "disabled", sender.getFormattedName()));
-
+            flying.remove(target);
         } else {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.other"),
                     "enabled", target.getFormattedName()));
             target.setAllowFlight(true);
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
                     "enabled", sender.getFormattedName()));
-
+            flying.add(target);
         }
+    }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent e) {
+        // For donors. Donors will not have the FlyCommandOther permission
+        if (flying.contains(VLPlayer.getPlayer(e.getPlayer())) && !e.getPlayer().hasPermission(Permissions.FlyCommandOther)) {
+            flying.remove(VLPlayer.getPlayer(e.getPlayer()));
+            e.getPlayer().setFlying(false);
+            e.getPlayer().setAllowFlight(false);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        flying.remove(VLPlayer.getPlayer(e.getPlayer()));
     }
 }

@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.misc.listeners;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.misc.commands.NicknameCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
@@ -81,7 +82,7 @@ public class PlayerJoinQuitListener implements Listener {
             }
         }
 
-        if (!player.getPlayerData().getString("nickname").isEmpty()) {
+        if (NicknameCommand.getNickname(player) != null) {
             Bukkit.getPlayer(player.getUniqueId()).setDisplayName(ChatColor.ITALIC + player.getPlayerData().getString("nickname"));
         }
 

@@ -4,6 +4,7 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,5 +49,12 @@ public class NicknameCommand extends CommandExecutor {
     @SubCommand("other")
     @Permission(Permissions.NicknameCommandOther)
     public void other(VLPlayer sender, VLPlayer target, String nickname) {
+    }
+
+    public static String getNickname(VLOfflinePlayer player) {
+        String nickname = player.getPlayerData().getString("nickname");
+        if (nickname == null) player.getPlayerData().set("nickname", "0, 0");
+        if (nickname.isEmpty()) return null;
+        return nickname;
     }
 }
