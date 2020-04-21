@@ -6,6 +6,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +26,7 @@ public class FlyCommand extends CommandExecutor implements Listener {
                 Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
-    Set<VLPlayer> flying = new HashSet<>();
+    public static Set<VLPlayer> flying = new HashSet<>();
 
     @SubCommand("flySelf")
     @PlayerOnly
@@ -34,16 +35,19 @@ public class FlyCommand extends CommandExecutor implements Listener {
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.gamemode_error"),
                     "You're", Utilities.capitalizeMessage(player.getGameMode().toString().toLowerCase())));
         } else if (!player.getAllowFlight()) {
+            flying.add(player);
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.self"), "enabled"));
             player.setAllowFlight(true);
-            flying.add(player);
         } else {
+            flying.remove(player);
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.self"), "disabled"));
             player.setFlying(false);
             player.setAllowFlight(false);
-            flying.remove(player);
+        }
+        for (VLPlayer pl : flying) {
+            Bukkit.getLogger().warning(pl.getName());
         }
     }
 
@@ -74,10 +78,11 @@ public class FlyCommand extends CommandExecutor implements Listener {
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent e) {
         // For donors. Donors will not have the FlyCommandOther permission
-        if (flying.contains(VLPlayer.getPlayer(e.getPlayer())) && !e.getPlayer().hasPermission(Permissions.FlyCommandOther)) {
+        VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+        if (flying.contains(player) && !player.hasPermission(Permissions.FlyCommandOther)) {
+            player.setFlying(false);
+            player.setAllowFlight(false);
             flying.remove(VLPlayer.getPlayer(e.getPlayer()));
-            e.getPlayer().setFlying(false);
-            e.getPlayer().setAllowFlight(false);
         }
     }
 

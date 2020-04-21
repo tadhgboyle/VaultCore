@@ -25,30 +25,47 @@ public class NicknameCommand extends CommandExecutor {
 
     @SubCommand("self")
     public void self(VLPlayer sender, String nickname) {
-        String senderName = sender.getName();
+        setNickname(sender, sender, nickname);
+    }
+
+    @SubCommand("other")
+    @Permission(Permissions.NicknameCommandOther)
+    public void other(VLPlayer sender, VLPlayer target, String nickname) {
+        setNickname(sender, target, nickname);
+    }
+
+    private void setNickname(VLPlayer sender, VLPlayer target, String nickname) {
+        boolean self = false;
+        if (sender == target) self = true;
+        String originalName = target.getName();
         if (nickname.equals("off")) {
-            Bukkit.getPlayer(sender.getUniqueId()).setDisplayName(sender.getName());
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.disabled_self"));
-            sender.getPlayerData().set("nickname", "0, 0");
+            Bukkit.getPlayer(target.getUniqueId()).setDisplayName(target.getName());
+            if (self) {
+                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.disabled_self"));
+            } else {
+                target.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.disabled_target"));
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.disabled_sender"), target.getFormattedName()));
+            }
+            target.getPlayerData().set("nickname", "0, 0");
             return;
         }
         if (nickname.length() < 3) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.too_short"));
             return;
         }
-        if (senderName.startsWith(nickname.substring(0, 3))) {
+        if (originalName.startsWith(nickname.substring(0, 3))) {
             String newName = ChatColor.ITALIC + nickname;
-            Bukkit.getPlayer(sender.getUniqueId()).setDisplayName(newName);
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success_self"), sender.getFormattedName()));
-            sender.getPlayerData().set("nickname", nickname);
+            Bukkit.getPlayer(target.getUniqueId()).setDisplayName(newName);
+            if (self) {
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success"), sender.getFormattedName()));
+            } else {
+                sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success_other"), target.getFormattedName()));
+                target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success"), target.getFormattedName()));
+            }
+            target.getPlayerData().set("nickname", nickname);
         } else {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.invalid_starting"));
         }
-    }
-
-    @SubCommand("other")
-    @Permission(Permissions.NicknameCommandOther)
-    public void other(VLPlayer sender, VLPlayer target, String nickname) {
     }
 
     public static String getNickname(VLOfflinePlayer player) {

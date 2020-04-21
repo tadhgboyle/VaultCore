@@ -660,7 +660,7 @@ vaultcore:
       misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
       toggle: "&eYou have toggled ChatGroups {TOGGLE}&e."
       not_in_chatgroup: "&cThat player is not in your ChatGroup."
-      format: "&8[&dCG&8]&6 (&e{NAME}&6)&r {SENDER}&8:&r {MESSAGE}"
+      format: "&8[&dCG&8] [&e{NAME}&8]&r {SENDER}&8:&r {MESSAGE}"
       chat_not_in_group: "&cYou are not in a ChatGroup."
       self_error: "&cYou cannot do that to yourself!"
       info:
@@ -714,7 +714,9 @@ vaultcore:
       refferals:
     nickname:
       disabled_self: "&eSuccessfully disabled your nickname."
-      success_self: "&eYou have set your nickname to {NICKNAME}&e."
+      disabled_sender: "&eSuccessfully disabled {TARGET}&e's nickname."
+      disabled_target: "&eYour nickname was disabled."
+      success: "&eYou have set your nickname to {NICKNAME}&e."
       success_other: "&eYou have updated {TARGET}&e's nickname."
       notice_other: "{SENDER}&e has updated your nickname to {NICKNAME}&e."
       invalid_starting: "&cNicknames need to start with the first 3 characters of the targets name."

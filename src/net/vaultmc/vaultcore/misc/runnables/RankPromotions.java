@@ -22,6 +22,8 @@ public class RankPromotions {
             int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
             // 10 hours in ticks
             if (playtime >= MEMBER_TIME) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                        "lp user " + player.getName() + " parent remove default");
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set member");
 
                 for (Player players : Bukkit.getOnlinePlayers()) {
@@ -43,6 +45,8 @@ public class RankPromotions {
             int playtime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
             // 35 hours in ticks
             if (playtime >= PATREON_TIME) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                        "lp user " + player.getName() + " parent remove member");
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                         "lp user " + player.getName() + " parent set patreon");
 
