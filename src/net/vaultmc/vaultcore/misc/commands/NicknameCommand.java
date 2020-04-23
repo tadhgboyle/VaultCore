@@ -74,7 +74,7 @@ public class NicknameCommand extends CommandExecutor {
             player.getPlayerData().set("nickname", "0, 0");
             return null;
         }
-        if (nickname.isEmpty()) return null;
+        if (nickname.isEmpty() || nickname.equals("0, 0")) return null;
         return nickname;
     }
 }

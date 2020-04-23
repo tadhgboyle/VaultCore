@@ -35,7 +35,6 @@ public class IgnoreCommand extends CommandExecutor {
             if (csvIgnored.isEmpty()) return false;
             ignored = Arrays.asList(csvIgnored.split(", "));
             if (ignored.contains(ignoredPlayer.getUniqueId().toString())) {
-                ignored.clear();
                 return true;
             }
         }
@@ -64,7 +63,6 @@ public class IgnoreCommand extends CommandExecutor {
                 data.set("ignored", csvIgnored + (ignored.size() < 1 ? "" : ", ") + target.getUniqueId());
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.toggle_ignored"), ChatColor.GREEN + "started", target.getFormattedName()));
             }
-            ignored.clear();
         } else {
             data.set("ignored", target.getUniqueId());
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.toggle_ignored"), ChatColor.GREEN + "started", target.getFormattedName()));
@@ -90,7 +88,6 @@ public class IgnoreCommand extends CommandExecutor {
                     sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.list"), count, VLOfflinePlayer.getOfflinePlayer(UUID.fromString(uuid)).getFormattedName()));
                     count++;
                 }
-                ignored.clear();
             } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
         } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
     }

@@ -397,7 +397,7 @@ sec-log:
     received: "&ePlease enter the code you received in your Discord DM."
     incorrect-code: "&cIncorrect code."
     new-password: "\n&ePlease create a new password that will be easier to remember."
-  forgot-msg: "&eForgot your password? Click &a[here]&e to easily reset your password."
+  forgot-msg: "&eForgot your password? Click &a[here]&e to easily reset your &epassword."
   forgot-hover: "Send you a Discord DM to reset your password."
   contact-admin: "&ePrivileged account not secured. Contact an administrator for help on creating a password."
   enter-password: "&ePlease enter your password in chat.\n&eIf you forgot your password, please immediately contact an administrator for help or tag @admin in #support."
@@ -509,11 +509,11 @@ vaultcore:
       admin-chat-enabled: "&cYou have to enable admin chat before toggling staff chat!"
       prefix: "&8[&cSC&8]&r "
       format: "{SENDER}&8: &b{MESSAGE}"
-      toggle: "&eYou have toggled staff chat &6{TOGGLE}&e."
+      toggle: "&eYou have toggled &6staff chat &2{TOGGLE}&e."
     adminchat:
       staff-chat-enabled: "&eYou have to disable staff chat before toggling admin chat!"
       format: "&8[&4AC&8] &r{SENDER}&8: &b{MESSAGE}"
-      toggle: "&eYou have toggled admin chat &6{TOGGLE}&e."
+      toggle: "&eYou have toggled &6admin chat &2{TOGGLE}&e."
     tag:
       self_error: "&cYou can't tag yourself."
       add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
@@ -550,6 +550,7 @@ vaultcore:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{SENDER}&e has teleported you to them."
     teleport:
+      to_server: "&7&o{PLAYER} has left to {SERVER}..."
       failed: "&cTeleportation failed."
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."
@@ -658,7 +659,7 @@ vaultcore:
       remove_less_total: "&cThe most you can remove is ${MAX}."
     chatgroups:
       misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
-      toggle: "&eYou have toggled ChatGroups {TOGGLE}&e."
+      toggle: "&eYou have toggled &6ChatGroups &2{TOGGLE}&e."
       not_in_chatgroup: "&cThat player is not in your ChatGroup."
       format: "&8[&dCG&8] [&e{NAME}&8]&r {SENDER}&8:&r {MESSAGE}"
       chat_not_in_group: "&cYou are not in a ChatGroup."
@@ -721,3 +722,7 @@ vaultcore:
       notice_other: "{SENDER}&e has updated your nickname to {NICKNAME}&e."
       invalid_starting: "&cNicknames need to start with the first 3 characters of the targets name."
       too_short: "&cNicknames need to be at least 3 characters long."
+    cosmetics:
+      particles:
+        toggled: "&eToggled &6{PARTICLE}&e effect &2{TOGGLE}&e."
+    nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."

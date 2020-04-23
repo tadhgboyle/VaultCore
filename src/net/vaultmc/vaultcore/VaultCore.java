@@ -12,7 +12,7 @@ import net.vaultmc.vaultcore.buggy.Bug;
 import net.vaultmc.vaultcore.buggy.BuggyCommand;
 import net.vaultmc.vaultcore.buggy.BuggyListener;
 import net.vaultmc.vaultcore.chat.*;
-import net.vaultmc.vaultcore.chat.groups.CGSettingInvListener;
+import net.vaultmc.vaultcore.chat.groups.CGSettingsInvListener;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
@@ -25,6 +25,9 @@ import net.vaultmc.vaultcore.combat.CombatLog;
 import net.vaultmc.vaultcore.combat.LegacyCombat;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
+import net.vaultmc.vaultcore.cosmetics.CosmeticsCommand;
+import net.vaultmc.vaultcore.cosmetics.CosmeticsInvListener;
+import net.vaultmc.vaultcore.cosmetics.ParticleRunnable;
 import net.vaultmc.vaultcore.creative.CycleListener;
 import net.vaultmc.vaultcore.creative.EntityUpperBound;
 import net.vaultmc.vaultcore.creative.ItemDrops;
@@ -272,18 +275,23 @@ public final class VaultCore extends Component implements Listener {
             new NicknameCommand();
             new ItemListeners();
             new CraftingCommand();
+            new CosmeticsCommand();
+            new NightvisionCommand();
             registerEvents(new ShutDownListener());
             registerEvents(new CycleListener());
             registerEvents(new SleepHandler());
             registerEvents(new ItemDrops());
             registerEvents(new PlayerJoinQuitListener());
-            registerEvents(new CGSettingInvListener());
+            registerEvents(new CGSettingsInvListener());
+            registerEvents(new CosmeticsInvListener());
+            registerEvents(new NightvisionCommand());
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
                 RankPromotions.memberPromotion();
                 RankPromotions.patreonPromotion();
                 Statistics.statistics();
                 AFKListener.afkUpdater();
             }, 0L, 2400L);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), ParticleRunnable::particleHandler, 0L, 10L);
         }
 
         if (!getConfig().getString("server").trim().equalsIgnoreCase("backup")) {

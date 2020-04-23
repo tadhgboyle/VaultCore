@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class CGSettingInvListener implements Listener {
+public class CGSettingsInvListener implements Listener {
 
     HashMap<VLPlayer, VLOfflinePlayer> editors = new HashMap<>();
 

@@ -24,6 +24,8 @@ import java.sql.ResultSet;
 public class PlayerJoinQuitListener implements Listener {
     static DBConnection database = VaultCore.getDatabase();
 
+    // TODO: New player listener
+
     @SneakyThrows
     public static String count() {
         String total_players = null;

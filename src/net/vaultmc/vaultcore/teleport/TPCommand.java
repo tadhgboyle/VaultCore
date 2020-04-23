@@ -16,6 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import sun.nio.ch.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -55,6 +56,9 @@ public class TPCommand extends CommandExecutor implements Listener {
         DataOutputStream dos = new DataOutputStream(bos);
         dos.writeUTF("Connect");
         dos.writeUTF(server);
+        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.teleport.to_server"), sender.getName(), server));
+        }
         sender.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", bos.toByteArray());
         dos.close();
     }
