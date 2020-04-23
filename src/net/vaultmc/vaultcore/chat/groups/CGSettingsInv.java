@@ -40,7 +40,7 @@ public class CGSettingsInv {
 
     public void openMembersMenu(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        Set<VLPlayer> members = ChatGroup.getChatGroupMembers(chatGroup);
+        Set<VLOfflinePlayer> members = ChatGroup.getChatGroupMembers(chatGroup);
 
         int memberCount = members.size();
         int slotCount;

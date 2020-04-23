@@ -114,7 +114,7 @@ public class CosmeticsInvListener implements Listener {
                 .build());
         particleMenu.setItem(4, new ItemStackBuilder(Material.REDSTONE)
                 // Make these letters rainbow
-                .name(ChatColor.BLUE + "Ridiculous  " + ChatColor.DARK_BLUE + "Rainbow")
+                .name(ChatColor.RED + "R" + ChatColor.GOLD + "i" + ChatColor.YELLOW + "d" + ChatColor.GREEN + "i" + ChatColor.BLUE + "c" + ChatColor.LIGHT_PURPLE + "u" + ChatColor.DARK_PURPLE + "l" + ChatColor.RED + "o" + ChatColor.GOLD + "u" + ChatColor.YELLOW + "s  " + ChatColor.GREEN + "R" + ChatColor.GREEN + "a" + ChatColor.BLUE + "i" + ChatColor.LIGHT_PURPLE + "n" + ChatColor.DARK_PURPLE + "b" + ChatColor.RED + "o" + ChatColor.GOLD + "w")
                 .build());
         particleMenu.setItem(7, new ItemStackBuilder(Material.COBWEB)
                 .name(ChatColor.GRAY + "Smoggy " + ChatColor.DARK_GRAY + "Smoke")

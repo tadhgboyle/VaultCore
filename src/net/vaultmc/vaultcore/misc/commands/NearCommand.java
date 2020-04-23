@@ -33,6 +33,7 @@ public class NearCommand extends CommandExecutor {
     private void findNear(VLPlayer sender, int radius) {
         Collection<String> nearPlayers = new TreeSet<>();
         for (Player players : sender.getLocation().getNearbyPlayers(radius)) {
+            if (VLPlayer.getPlayer(players) == sender) continue;
             nearPlayers.add(VLPlayer.getPlayer(players).getFormattedName());
         }
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.near"), nearPlayers.size(), radius, Utilities.listToString(nearPlayers, true)));

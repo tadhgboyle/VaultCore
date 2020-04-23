@@ -27,10 +27,12 @@ public class ChatGroup implements ConfigurationSerializable {
         this.open = open;
     }
 
-    public static Set<VLPlayer> getChatGroupMembers(ChatGroup chatGroup) {
-        Set<VLPlayer> members = new HashSet<>();
+    public static Set<VLOfflinePlayer> getChatGroupMembers(ChatGroup chatGroup) {
+        Set<VLOfflinePlayer> members = new HashSet<>();
         for (String member : chatGroup.members) {
-            members.add(VLPlayer.getPlayer(UUID.fromString(member)));
+            Bukkit.getLogger().warning(member);
+            members.add(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(member.trim())));
+            Bukkit.getLogger().warning(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(member)).getFormattedName());
         }
         return members;
     }
@@ -107,11 +109,10 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static void sendMessage(ChatGroup chatGroup, VLPlayer sender, String message) {
-        Bukkit.getLogger().severe(chatGroup.name);
-        for (VLPlayer players : getChatGroupMembers(chatGroup)) {
+        for (VLOfflinePlayer players : getChatGroupMembers(chatGroup)) {
+            if (!players.isOnline()) continue;
             players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.format"), chatGroup.name, sender.getFormattedName(), message));
         }
-        Bukkit.getLogger().info(sender.getFormattedName() + ": CG: " + message);
     }
 
     private static void saveChatGroup(ChatGroup chatGroup) {

@@ -132,7 +132,7 @@ public final class Utilities {
      * @author Aberdeener
      */
     public static String millisToDate(long millis) {
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         Date epoch = new Date(millis);
         return format.format(epoch);
     }

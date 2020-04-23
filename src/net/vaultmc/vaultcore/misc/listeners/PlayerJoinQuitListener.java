@@ -24,8 +24,6 @@ import java.sql.ResultSet;
 public class PlayerJoinQuitListener implements Listener {
     static DBConnection database = VaultCore.getDatabase();
 
-    // TODO: New player listener
-
     @SneakyThrows
     public static String count() {
         String total_players = null;
@@ -61,6 +59,7 @@ public class PlayerJoinQuitListener implements Listener {
 
         playerDataQuery(uuid, username, firstSeen, lastSeen, playtime, rank, ip);
 
+        // TODO: New player event
         if (!player.getPlayerData().contains("settings.msg")) {
             player.getPlayerData().set("settings.msg", true);
             player.getPlayerData().set("settings.tpa", true);
@@ -74,6 +73,7 @@ public class PlayerJoinQuitListener implements Listener {
             player.getPlayerData().set("refferals", 0);
             player.getPlayerData().set("refferal_used", false);
             player.getPlayerData().set("nickname", "0, 0");
+            player.getPlayerData().set("settings.grammarly", true);
             player.saveData();
 
             for (Player players : Bukkit.getOnlinePlayers()) {

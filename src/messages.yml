@@ -435,6 +435,7 @@ vaultcore:
       guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
     list:
       header: "&2--== [List] ==--"
+      count: "&eThere are currently &6{COUNT}&e players online."
       no_players_online: "&cThere are no players online."
       player_vanished: "&7&o [VANISHED]"
     ping:

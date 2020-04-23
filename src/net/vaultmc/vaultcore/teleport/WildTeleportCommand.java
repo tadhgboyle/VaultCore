@@ -29,7 +29,7 @@ public class WildTeleportCommand extends CommandExecutor {
             int y = player.getWorld().getHighestBlockYAt(x, z);
 
             Location newLocation = new Location(player.getWorld(), x, y + 1, z);
-            player.teleport(newLocation);
+            player.teleportNoMove(newLocation);
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.wild.teleported"),
                     String.valueOf(Math.round(newLocation.distance(originalLocation)))));
         } else {

@@ -69,6 +69,8 @@ public class ListCommand extends CommandExecutor {
                 }
             }
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.header"));
+            int count = admin.size() + moderator.size() + trusted.size() + patreon.size() + member.size() + defaults.size();
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.list.count"), count));
             if (!admin.isEmpty())
                 sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.YELLOW + Utilities.listToString(admin, true));
             if (!moderator.isEmpty())

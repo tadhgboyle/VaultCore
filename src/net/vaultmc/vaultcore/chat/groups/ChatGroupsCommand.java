@@ -138,7 +138,8 @@ public class ChatGroupsCommand extends CommandExecutor {
         // Success
         ChatGroup.addToGroup(chatGroup, sender);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.success"), chatGroup.name));
-        for (VLPlayer member : ChatGroup.getChatGroupMembers(chatGroup)) {
+        for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(chatGroup)) {
+            if (!member.isOnline()) continue;
             member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getFormattedName(), chatGroup.name));
         }
     }
