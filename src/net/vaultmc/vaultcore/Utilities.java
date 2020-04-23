@@ -57,6 +57,34 @@ public final class Utilities {
     }
 
     /**
+     * @param message - Message to edit
+     * @author Aberdeener
+     */
+    static List<String> apostrophe = Arrays.asList("dont", "wont", "cant", "wouldnt");
+    static List<String> punctuation = Arrays.asList(".", "!", "?");
+    public static String grammarly(String message) {
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (String word : message.split(" ")) {
+            // Add apostrophe
+            if (apostrophe.contains(word)) {
+                word = word.substring(0, word.length() - 1) + "'" + word.substring(word.length() - 1);
+            }
+            // Uppercase if first word
+            if (first)
+                word = Utilities.capitalizeMessage(word);
+            first = false;
+            sb.append(word).append(" ");
+        }
+        message = sb.toString().trim();
+        // Punctuation for last word
+        if (!punctuation.contains(Character.toString(message.charAt(message.length() - 1)))) {
+            message = message + ".";
+        }
+        return message;
+    }
+
+    /**
      * @param message - Message to capitalize.
      * @return Capitalized message.
      * @author Aberdeener

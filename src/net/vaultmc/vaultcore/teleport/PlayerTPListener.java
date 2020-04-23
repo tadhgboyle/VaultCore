@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.teleport;
 
 import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Location;
@@ -37,9 +38,11 @@ public class PlayerTPListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
-        Stack<Location> stack = teleports.getOrDefault(e.getEntity().getUniqueId(), new Stack<>());
-        stack.push(e.getEntity().getLocation());
-        teleports.put(e.getEntity().getUniqueId(), stack);
-        e.getEntity().sendMessage(VaultLoader.getMessage("vaultcore.survival.back"));
+        if (VaultCore.getInstance().getConfig().getString("server").equals("vaultmc")) {
+            Stack<Location> stack = teleports.getOrDefault(e.getEntity().getUniqueId(), new Stack<>());
+            stack.push(e.getEntity().getLocation());
+            teleports.put(e.getEntity().getUniqueId(), stack);
+            e.getEntity().sendMessage(VaultLoader.getMessage("vaultcore.survival.back"));
+        }
     }
 }

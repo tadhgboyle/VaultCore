@@ -41,6 +41,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import sun.nio.ch.Util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,36 +55,15 @@ public class ChatUtils extends ConstructorRegisterListener {
         }
 
         // Grammarly
-        List<String> apostrophe = Arrays.asList("dont", "wont", "cant");
-        List<String> punctuation = Arrays.asList(".", "!", "?");
         if (PlayerSettings.getSetting(VLPlayer.getPlayer(e.getPlayer()), "settings.grammarly")) {
-            String message = e.getMessage();
-            StringBuilder sb = new StringBuilder();
-            boolean first = true;
-            for (String word : message.split(" ")) {
-                // Add apostrophe
-                if (apostrophe.contains(word)) {
-                    // TODO
-                }
-                // Uppercase if first word
-                if (first)
-                    word = Utilities.capitalizeMessage(word);
-                first = false;
-                sb.append(word).append(" ");
-            }
-            message = sb.toString().trim();
-            // Punctuation for last word
-            if (!punctuation.contains(Character.toString(message.charAt(message.length() - 1)))) {
-                message = message + ".";
-            }
-            e.setMessage(message);
+            e.setMessage(Utilities.grammarly(e.getMessage()));
         }
 
         PlayerCustomKeys playerCustomKeys = new PlayerCustomKeys();
         String chatGroupsKey = playerCustomKeys.getCustomKey(player, "chatgroups");
         String staffChatKey = playerCustomKeys.getCustomKey(player, "staffchat");
         String adminChatKey = playerCustomKeys.getCustomKey(player, "adminchat");
-
+        // TODO: Fix capitalization for custom key messages. 
         // Staff + Admin chat
         if ((e.getMessage().startsWith(staffChatKey) || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
             StaffChatCommand.chat(player, e.getMessage().replaceFirst(staffChatKey, ""));

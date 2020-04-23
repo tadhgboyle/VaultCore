@@ -30,9 +30,7 @@ public class ChatGroup implements ConfigurationSerializable {
     public static Set<VLOfflinePlayer> getChatGroupMembers(ChatGroup chatGroup) {
         Set<VLOfflinePlayer> members = new HashSet<>();
         for (String member : chatGroup.members) {
-            Bukkit.getLogger().warning(member);
             members.add(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(member.trim())));
-            Bukkit.getLogger().warning(VLOfflinePlayer.getOfflinePlayer(UUID.fromString(member)).getFormattedName());
         }
         return members;
     }
