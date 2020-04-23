@@ -19,6 +19,7 @@
 package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
@@ -26,6 +27,7 @@ import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
+import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
@@ -40,6 +42,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ChatUtils extends ConstructorRegisterListener {
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
@@ -47,6 +52,33 @@ public class ChatUtils extends ConstructorRegisterListener {
         if (player.hasPermission(Permissions.ChatColor)) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
+
+        // Grammarly
+        List<String> apostrophe = Arrays.asList("dont", "wont", "cant");
+        List<String> punctuation = Arrays.asList(".", "!", "?");
+        if (PlayerSettings.getSetting(VLPlayer.getPlayer(e.getPlayer()), "settings.grammarly")) {
+            String message = e.getMessage();
+            StringBuilder sb = new StringBuilder();
+            boolean first = true;
+            for (String word : message.split(" ")) {
+                // Add apostrophe
+                if (apostrophe.contains(word)) {
+                    // TODO
+                }
+                // Uppercase if first word
+                if (first)
+                    word = Utilities.capitalizeMessage(word);
+                first = false;
+                sb.append(word).append(" ");
+            }
+            message = sb.toString().trim();
+            // Punctuation for last word
+            if (!punctuation.contains(Character.toString(message.charAt(message.length() - 1)))) {
+                message = message + ".";
+            }
+            e.setMessage(message);
+        }
+
         PlayerCustomKeys playerCustomKeys = new PlayerCustomKeys();
         String chatGroupsKey = playerCustomKeys.getCustomKey(player, "chatgroups");
         String staffChatKey = playerCustomKeys.getCustomKey(player, "staffchat");
