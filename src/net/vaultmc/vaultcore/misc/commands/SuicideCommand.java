@@ -31,6 +31,7 @@ public class SuicideCommand extends CommandExecutor implements Listener {
             "{SENDER}&e fell of a cliff while fighting a pigman was exploded by a ghast and burned to a crisp.",
             "{SENDER}&e committed alive'nt.",
             "{SENDER}&e found a tall ladder and short rope.",
+            "{SENDER}&e didn't listen to Logic.",
             // Thanks to @psrcek
             "{SENDER}&e stepped on Lego.",
             "{SENDER}&e stubbed their toe.",

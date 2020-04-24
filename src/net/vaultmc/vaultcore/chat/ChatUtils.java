@@ -47,6 +47,47 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ChatUtils extends ConstructorRegisterListener {
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChatShouldFormat(AsyncPlayerChatEvent e) {
+        // Let clans handle itself
+        if (e.getPlayer().getWorld().getName().contains("clans")) {
+            return;
+        }
+        formatChat(e);
+        e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
+        if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
+            e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
+    }
+
+    // Handle @mentions in chat
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerChat(AsyncPlayerChatEvent e) {
+        if (e.isCancelled()) return;
+        String[] parts = e.getMessage().split(" ");
+
+        for (int i = 0; i < parts.length; i++) {
+            if (parts[i].startsWith("@") && !parts[i].equals("@")) {
+                Player referred = Bukkit.getPlayer(parts[i].replace("@", ""));
+                if (referred == null) {
+                    parts[i] = ChatColor.WHITE + "@" + parts[i].replace("@", "") + ChatColor.RESET;
+                    e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-offline"));
+                } else {
+                    parts[i] = ChatColor.YELLOW + "@" + referred.getName() + ChatColor.RESET;
+                    if (AFKCommand.getAfk().containsKey(referred)) {
+                        e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-afk"));
+                    }
+                    referred.playSound(referred.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String s : parts) {
+            sb.append(s).append(" ");
+        }
+        e.setMessage(sb.toString().trim());
+    }
+
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
@@ -63,7 +104,7 @@ public class ChatUtils extends ConstructorRegisterListener {
         String chatGroupsKey = playerCustomKeys.getCustomKey(player, "chatgroups");
         String staffChatKey = playerCustomKeys.getCustomKey(player, "staffchat");
         String adminChatKey = playerCustomKeys.getCustomKey(player, "adminchat");
-        // TODO: Fix capitalization for custom key messages. 
+        // TODO: Fix capitalization for custom key messages.
         // Staff + Admin chat
         if ((e.getMessage().startsWith(staffChatKey) || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
             StaffChatCommand.chat(player, e.getMessage().replaceFirst(staffChatKey, ""));
@@ -89,45 +130,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setCancelled(true);
             return;
         }
+
         e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChatShouldFormat(AsyncPlayerChatEvent e) {
-        if (e.getPlayer().getWorld().getName().contains("clans")) {
-            return;  // Let clans handle this itself
-        }
-        formatChat(e);
-        e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
-        if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
-            e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    public void onPlayerChat(AsyncPlayerChatEvent e) {
-        if (e.isCancelled()) return;
-        String[] parts = e.getMessage().split(" ");
-
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i].startsWith("@") && !parts[i].equals("@")) {
-                Player referred = Bukkit.getPlayer(parts[i].replace("@", ""));
-                if (referred == null) {
-                    parts[i] = ChatColor.WHITE + "@" + parts[i].replace("@", "") + ChatColor.RESET;
-                    e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-offline"));
-                } else {
-                    parts[i] = ChatColor.YELLOW + "@" + referred.getName() + ChatColor.RESET;
-                    if (AFKCommand.getAfk().containsKey(referred)) {
-                        e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-afk"));
-                    }
-                    referred.playSound(referred.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
-                }
-            }
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (String s : parts) {
-            sb.append(s).append(" ");
-        }
-        e.setMessage(sb.toString().trim());
     }
 }

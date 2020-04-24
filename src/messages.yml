@@ -551,7 +551,6 @@ vaultcore:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{SENDER}&e has teleported you to them."
     teleport:
-      to_server: "&7&o{PLAYER} has left to {SERVER}..."
       failed: "&cTeleportation failed."
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."
@@ -633,7 +632,9 @@ vaultcore:
       invalid: "&cThe bot is currently &e{STATUS}&c."
       complete: "&eThe bot has been &6{STATUS}&e."
       status: "&eThe bot is currently {STATUS}&e."
-    near: "&eThere are &2{COUNT}&e players within &6{RADIUS}&em you.\n {PLAYERS}&e."
+    near:
+      main: "&eThere are &2{COUNT}&e players within &6{RADIUS}&em of you."
+      list: "{PLAYERS}&e."
     ignore:
       self_error: "&cYou cannot ignore yourself :thonk:"
       already_ignored: "&cYou are already ignoring {PLAYER}&c."
@@ -646,7 +647,7 @@ vaultcore:
     sudo:
       excempt_error: "&cYou cannot sudo that player."
       self_error: "&cWhy do you want to sudo yourself? Silly..."
-      success: "&eForced {PLAYER}&e to run &6{COMMAND}&e."
+      success: "&eForced {PLAYER}&e to run &6/{COMMAND}&e."
     donation:
       get_self: "&eYou have donated $&2{NUMBER}&e."
       get_other: "{PLAYER}&e has donated $&2{NUMBER}&e."

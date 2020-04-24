@@ -9,6 +9,7 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -107,6 +108,7 @@ public class ClaimCommand extends CommandExecutor implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getHand() == EquipmentSlot.OFF_HAND) return;
         if (!e.getPlayer().getWorld().getName().contains("Survival")) return;
+        if (!(e.getPlayer().getGameMode() == GameMode.SURVIVAL)) return;
         VLOfflinePlayer owner = isAlreadyClaimed(e.getClickedBlock() != null ? e.getClickedBlock().getChunk() :
                 e.getPlayer().getChunk());
         if (owner != null && e.getPlayer().getUniqueId() != owner.getUniqueId() &&

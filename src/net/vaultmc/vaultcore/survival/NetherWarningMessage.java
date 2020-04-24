@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class MessageExperience extends ConstructorRegisterListener {
+public class NetherWarningMessage extends ConstructorRegisterListener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (e.getPlayer().getWorld().getName().equalsIgnoreCase("survival_nether")) {

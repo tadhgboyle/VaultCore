@@ -6,6 +6,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.entity.Player;
+import sun.nio.ch.Util;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -36,6 +37,7 @@ public class NearCommand extends CommandExecutor {
             if (VLPlayer.getPlayer(players) == sender) continue;
             nearPlayers.add(VLPlayer.getPlayer(players).getFormattedName());
         }
-        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.near"), nearPlayers.size(), radius, Utilities.listToString(nearPlayers, true)));
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.near.main"), nearPlayers.size(), radius));
+        if (nearPlayers.size() > 0) sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.near.list"), Utilities.listToString(nearPlayers, true)));
     }
 }

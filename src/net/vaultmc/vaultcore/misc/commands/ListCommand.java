@@ -35,14 +35,20 @@ public class ListCommand extends CommandExecutor {
         if (Bukkit.getOnlinePlayers().size() == 0) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.no_players_online"));
         } else {
+            int count = 0;
             for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+                count++;
                 String vanished = "";
                 if (sender instanceof VLPlayer) {
+                    // If sender is player with no vanish perms
                     if (!((VLPlayer) sender).hasPermission(Permissions.VanishCommand) && player.isVanished()) {
+                        count--;
                         continue;
+                        // If sender is player and has vanish perms
                     } else if (player.isVanished() && ((VLPlayer) sender).hasPermission(Permissions.VanishCommand)) {
                         vanished = VaultLoader.getMessage("vaultcore.commands.list.player_vanished");
                     }
+                    // Sender is console with perms
                 } else if (player.isVanished()) {
                     vanished = VaultLoader.getMessage("vaultcore.commands.list.player_vanished");
                 }
@@ -69,7 +75,6 @@ public class ListCommand extends CommandExecutor {
                 }
             }
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.header"));
-            int count = admin.size() + moderator.size() + trusted.size() + patreon.size() + member.size() + defaults.size();
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.list.count"), count));
             if (!admin.isEmpty())
                 sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.YELLOW + Utilities.listToString(admin, true));

@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.grant;
+package net.vaultmc.vaultcore.misc.commands.staff.grant;
 
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -41,7 +41,7 @@ public class GrantCommandListener implements Listener {
                         player.sendMessage(VaultLoader.getMessage("vaultcore.commands.grant.no_permission"));
                         return;
                     }
-                    Player target = Bukkit.getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
+                    VLPlayer target = VLPlayer.getPlayer(Bukkit.getPlayer(e.getView().getTitle().substring(INVTITLE.length())));
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                             "lp user " + target.getName() + " parent set " + rank);
 
@@ -49,7 +49,7 @@ public class GrantCommandListener implements Listener {
 
                     player.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.grant.updated_sender"),
-                                    target.getDisplayName(), rank));
+                                    target.getFormattedName(), rank));
                     target.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.grant.updated_player"),
                                     rank, player.getFormattedName()));

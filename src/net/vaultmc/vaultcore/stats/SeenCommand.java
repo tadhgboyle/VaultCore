@@ -35,7 +35,6 @@ public class SeenCommand extends CommandExecutor {
                 lastseen = rs.getLong("start_time");
                 status = ChatColor.GREEN + "online ";
             }
-
         } else {
             ResultSet rs = database.executeQueryStatement("SELECT lastseen FROM players WHERE username=?",
                     player.getName());

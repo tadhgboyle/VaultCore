@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.grant;
+package net.vaultmc.vaultcore.misc.commands.staff.grant;
 
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;

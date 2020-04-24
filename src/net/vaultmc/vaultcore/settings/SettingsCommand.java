@@ -153,22 +153,31 @@ public class SettingsCommand extends CommandExecutor implements Listener {
         if (e.getView().getTitle().equals(ChatColor.RESET + "Settings")) {
             VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
             SQLPlayerData data = player.getPlayerData();
-            if (e.getSlot() == 1) {
-                data.set("settings.msg", !data.getBoolean("settings.msg"));
-            } else if (e.getSlot() == 4) {
-                data.set("settings.cycle", !data.getBoolean("settings.cycle"));
-            } else if (e.getSlot() == 7) {
-                data.set("settings.tpa", !data.getBoolean("settings.tpa"));
-            } else if (e.getSlot() == 12) {
-                data.set("settings.minimal_messages", !data.getBoolean("settings.minimal_messages"));
-            } else if (e.getSlot() == 14) {
-                data.set("settings.minimal_caps", !data.getBoolean("settings.minimal_caps"));
-            } else if (e.getSlot() == 20) {
-                data.set("settings.autotpa", !data.getBoolean("settings.autotpa"));
-            } else if (e.getSlot() == 22) {
-                data.set("settings.grammarly", !data.getBoolean("settings.grammarly"));
-            } else if (e.getSlot() == 24) {
-                data.set("settings.item_drops", !data.getBoolean("settings.item_drops"));
+            switch (e.getSlot()) {
+                case 1:
+                    data.set("settings.msg", !data.getBoolean("settings.msg"));
+                    break;
+                case 4:
+                    data.set("settings.cycle", !data.getBoolean("settings.cycle"));
+                    break;
+                case 7:
+                    data.set("settings.tpa", !data.getBoolean("settings.tpa"));
+                    break;
+                case 12:
+                    data.set("settings.minimal_messages", !data.getBoolean("settings.minimal_messages"));
+                    break;
+                case 14:
+                    data.set("settings.minimal_caps", !data.getBoolean("settings.minimal_caps"));
+                    break;
+                case 20:
+                    data.set("settings.autotpa", !data.getBoolean("settings.autotpa"));
+                    break;
+                case 22:
+                    data.set("settings.grammarly", !data.getBoolean("settings.grammarly"));
+                    break;
+                case 24:
+                    data.set("settings.item_drops", !data.getBoolean("settings.item_drops"));
+                    break;
             }
             e.setCancelled(true);
             player.closeInventory();

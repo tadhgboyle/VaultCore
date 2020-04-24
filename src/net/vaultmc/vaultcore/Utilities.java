@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class Utilities {
-    private static final Map<String, Long> timeparts = new LinkedHashMap<>();
 
     public static Location deserializeLocation(String s) {
         if (s == null) return null;
@@ -28,8 +27,8 @@ public final class Utilities {
     }
 
     /**
-     * @param message - Message to format.
-     * @param replacements - The variables you wish to insert to the message.
+     * @param message Message to format.
+     * @param replacements The variables you wish to insert to the message.
      * @return Compiled message
      * @author Aberdeener
      */
@@ -57,10 +56,12 @@ public final class Utilities {
     }
 
     /**
-     * @param message - Message to edit
+     * @param message Message to edit
+     * @return Edited message
      * @author Aberdeener
      */
-    static List<String> apostrophe = Arrays.asList("dont", "wont", "cant", "wouldnt");
+    // I am sure there is a better way to determine whether an apostrophe is needed, but this works for now.
+    static List<String> apostrophe = Arrays.asList("dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows");
     static List<String> punctuation = Arrays.asList(".", "!", "?");
     public static String grammarly(String message) {
         StringBuilder sb = new StringBuilder();
@@ -72,7 +73,7 @@ public final class Utilities {
             }
             // Uppercase if first word
             if (first)
-                word = Utilities.capitalizeMessage(word);
+                word = capitalizeMessage(word);
             first = false;
             sb.append(word).append(" ");
         }
@@ -85,7 +86,7 @@ public final class Utilities {
     }
 
     /**
-     * @param message - Message to capitalize.
+     * @param message Message to capitalize.
      * @return Capitalized message.
      * @author Aberdeener
      */
@@ -94,10 +95,11 @@ public final class Utilities {
     }
 
     /**
-     * @param millis - Time in milliseconds you wish to turn into a duration.
+     * @param millis Time in milliseconds you wish to turn into a duration.
      * @return Duration from milliseconds
      * @author Aberdeener
      */
+    private static final Map<String, Long> timeparts = new LinkedHashMap<>();
     public static String millisToTime(long millis, boolean newline, boolean period) {
 
         long millisInSecond = 1000L;
@@ -134,13 +136,13 @@ public final class Utilities {
             if (duration > 0) {
                 int position = new ArrayList<>(timeparts.keySet()).indexOf(section);
                 String ending = (duration == 1 ? ", " : "s, ");
-                // if the second last entry is == 1, we can assume we dont need a break
+                // If the second last entry is == 1, we can assume we dont need a break.
                 if (position == 4 && newline) {
                     ending = (duration == 1 ? " and " : "s \nand ");
                 } else if (position == 4 && !newline) {
                     ending = (duration == 1 ? " and " : "s and ");
                 }
-                // if it is the last entry then add a period
+                // If it is the last entry then add a period.
                 else if (position == 5) {
                     if (period) {
                         ending = (duration == 1 ? ". " : "s.");
@@ -155,7 +157,7 @@ public final class Utilities {
     }
 
     /**
-     * @param millis - Time in milliseconds you wish to turn into a date.
+     * @param millis Time in milliseconds to turn into a date.
      * @return Date from milliseconds
      * @author Aberdeener
      */
@@ -166,8 +168,9 @@ public final class Utilities {
     }
 
     /**
-     * @param list - String List to turn into comma seperated String.
-     * @return Comma seperated List<String>
+     * @param list String List to turn into comma seperated String.
+     * @param chatColour Whether to use ChatColors on commas.
+     * @return Comma separated List<String>
      * @author Aberdeener
      */
     public static String listToString(Collection<String> list, boolean chatColour) {
@@ -187,7 +190,7 @@ public final class Utilities {
     }
 
     /**
-     * @param bytes - Storage in bytes to convert to human readable kb/mb/gb etc
+     * @param bytes Storage in bytes to convert to human readable kb/mb/gb etc
      * @return Human readable storage
      */
     public static String bytesToReadable(long bytes) {
