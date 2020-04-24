@@ -65,7 +65,9 @@ public class LolCommand extends CommandExecutor {
     public static void lol(VLCommandSender sender) {
         if (System.currentTimeMillis() - LAST_LOL > COOLDOWN || LAST_LOL == 0) {
             int id = ThreadLocalRandom.current().nextInt(0, lolsList.size());
-            String victim = ((VLPlayer) VLPlayer.getOnlinePlayers().toArray()[new Random().nextInt(VLPlayer.getOnlinePlayers().size())]).getName();
+            String victim = "CONSOLE";
+            if (VLPlayer.getOnlinePlayers().size() > 0)
+                victim = ((VLPlayer) VLPlayer.getOnlinePlayers().toArray()[new Random().nextInt(VLPlayer.getOnlinePlayers().size())]).getName();
             for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
                 if (players.getPlayerData().getBoolean("settings.minimal_chat")) continue;
                 players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.format"), sender.getFormattedName(), ChatColor.translateAlternateColorCodes('&', String.valueOf(lolsList.get(id)))).replace("{PLAYER}", victim));
