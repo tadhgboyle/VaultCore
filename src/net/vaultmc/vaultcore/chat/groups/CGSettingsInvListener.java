@@ -46,6 +46,7 @@ public class CGSettingsInvListener implements Listener {
             try {
                 member = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(item.getItemMeta().getLore().get(2).replace(ChatColor.DARK_GRAY + "UUID: ", "")));
             } catch (NullPointerException ignored) {
+                // When they click on an empty slot
             }
             cgSettingsInv.openMemberSettingsMenu(sender, member);
             editors.put(sender, member);
@@ -55,18 +56,14 @@ public class CGSettingsInvListener implements Listener {
             if (e.getSlot() == 22) {
                 cgSettingsInv.openMembersMenu(sender);
             } else if (e.getSlot() == 1) {
-                if (sender == target) {
-                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
-                    return;
-                }
+                // Kick
+                if (permissionCheck(sender, chatGroup, target)) return;
                 ChatGroup.removeFromGroup(ChatGroup.getChatGroup(target), target);
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.success"), target.getFormattedName()));
                 target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.kicked_target")));
             } else if (e.getSlot() == 4) {
-                if (sender == target) {
-                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
-                    return;
-                }
+                // Promote
+                if (permissionCheck(sender, chatGroup, target)) return;
                 if (ChatGroup.makeAdmin(ChatGroup.getChatGroup(target), target)) {
                     sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promote"), target.getFormattedName()));
                     target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promoted_target"), sender.getFormattedName()));
@@ -75,10 +72,8 @@ public class CGSettingsInvListener implements Listener {
                     sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.already_role"), target.getFormattedName(), "admin"));
                 }
             } else if (e.getSlot() == 7) {
-                if (sender == target) {
-                    sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
-                    return;
-                }
+                // Demote
+                if (permissionCheck(sender, chatGroup, target)) return;
                 if (ChatGroup.makeMember(ChatGroup.getChatGroup(target), target)) {
                     sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demote"), target.getFormattedName()));
                     target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demoted_target"), sender.getFormattedName()));
@@ -88,5 +83,22 @@ public class CGSettingsInvListener implements Listener {
                 }
             }
         }
+    }
+
+    /**
+     * Checks if the sender has permission to edit the target.
+     */
+    private boolean permissionCheck(VLPlayer sender, ChatGroup chatGroup, VLOfflinePlayer target) {
+        // Declines to proceed when they try to edit themselves
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
+            return true;
+        }
+        // Declines to proceed when they are trying to edit the owner
+        if (ChatGroup.isOwner(target, chatGroup) && !ChatGroup.isOwner(sender, chatGroup)) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.owner_error"), target.getFormattedName()));
+            return true;
+        }
+        return false;
     }
 }

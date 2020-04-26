@@ -695,6 +695,7 @@ vaultcore:
         demote: "&eYou have demoted {TARGET}&e to &6Member&e."
         promoted_target: "{SENDER}&e has promoted you to &6Admin&e in your ChatGroup."
         demoted_target: "{SENDER}&e has demoted you to &6Member&e in your ChatGroup."
+        owner_error: "{SENDER}&c is the owner of the ChatGroup."
       kick:
         success: "&eYou have kicked {TARGET}&e from your ChatGroup."
         kicked_target: "&eYou have been kicked from your ChatGroup."

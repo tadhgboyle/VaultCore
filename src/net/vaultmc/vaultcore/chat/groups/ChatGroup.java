@@ -14,14 +14,16 @@ import java.util.*;
 public class ChatGroup implements ConfigurationSerializable {
 
     public String name;
+    public String owner;
     public List<String> admins;
     public List<String> members;
     public boolean open;
 
     // TODO: Owners of chatgroups
 
-    public ChatGroup(String name, List<String> admins, List<String> members, boolean open) {
+    public ChatGroup(String name, String owner, List<String> admins, List<String> members, boolean open) {
         this.name = name;
+        this.owner = owner;
         this.admins = admins;
         this.members = members;
         this.open = open;
@@ -53,7 +55,7 @@ public class ChatGroup implements ConfigurationSerializable {
     public static boolean createChatGroup(String name, VLPlayer sender, boolean open) {
         Object cg = VaultCore.getInstance().getChatGroupFile().get("chatgroups." + name);
         if (cg != null) return false;
-        ChatGroup chatGroup = new ChatGroup(name.toLowerCase(), Collections.singletonList(sender.getUniqueId().toString()), Collections.singletonList(sender.getUniqueId().toString()), open);
+        ChatGroup chatGroup = new ChatGroup(name.toLowerCase(), sender.getUniqueId().toString(), Collections.singletonList(sender.getUniqueId().toString()), Collections.singletonList(sender.getUniqueId().toString()), open);
         VaultCore.getInstance().getChatGroupFile().set("players." + sender.getUniqueId().toString(), chatGroup.name);
         saveChatGroup(chatGroup);
         return true;
@@ -102,6 +104,10 @@ public class ChatGroup implements ConfigurationSerializable {
         }
     }
 
+    public static boolean isOwner(VLOfflinePlayer target, ChatGroup chatGroup) {
+        return (chatGroup.owner.equals(target.getUniqueId().toString()));
+    }
+
     public static boolean isOpen(ChatGroup chatGroup) {
         return chatGroup.open;
     }
@@ -124,6 +130,7 @@ public class ChatGroup implements ConfigurationSerializable {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         result.put("admins", this.admins);
         result.put("members", this.members);
+        result.put("owner", this.owner);
         result.put("name", this.name);
         result.put("open", this.open);
         return result;
@@ -131,15 +138,17 @@ public class ChatGroup implements ConfigurationSerializable {
 
     public static ChatGroup deserialize(Map<String, Object> args) {
         String name = null;
+        String owner = null;
         List<String> admins = null;
         List<String> members = null;
         boolean open = false;
 
         name = args.get("name").toString();
+        owner = args.get("owner").toString();
         admins = (List<String>) args.get("admins");
         members = (List<String>) args.get("members");
         open = (boolean) args.get("open");
 
-        return new ChatGroup(name, admins, members, open);
+        return new ChatGroup(owner, name, admins, members, open);
     }
 }

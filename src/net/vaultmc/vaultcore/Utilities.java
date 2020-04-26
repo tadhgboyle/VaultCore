@@ -150,7 +150,7 @@ public final class Utilities {
                         ending = (duration == 1 ? " " : "s");
                     }
                 }
-                sb.append(ChatColor.DARK_GREEN + "" + duration + ChatColor.YELLOW + " " + section + ending);
+                sb.append(ChatColor.DARK_GREEN).append(duration).append(ChatColor.YELLOW).append(" ").append(section).append(ending);
             }
         }
         return sb.toString();
@@ -183,8 +183,8 @@ public final class Utilities {
                 first = false;
                 continue;
             }
-            if (chatColour) sb.append(ChatColor.YELLOW + ", " + ChatColor.RESET + word);
-            else sb.append(", " + word);
+            if (chatColour) sb.append(ChatColor.YELLOW).append(", ").append(ChatColor.RESET).append(word);
+            else sb.append(", ").append(word);
         }
         return sb.toString();
     }
