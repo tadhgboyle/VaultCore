@@ -122,6 +122,23 @@ public class ChatGroup implements ConfigurationSerializable {
         }
     }
 
+    public static boolean permissionCheck(VLPlayer sender, VLOfflinePlayer target) {
+        ChatGroup chatGroup = getChatGroup(sender);
+        ChatGroupRole senderRole = ChatGroup.getRole(sender, chatGroup);
+        ChatGroupRole targetRole = ChatGroup.getRole(target, chatGroup);
+        if (chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            // Owner editing admin, or admin editing member - ALLOWED
+            if (senderRole.getLevel() > targetRole.getLevel()) return true;
+                // Admin editing Admin, or Admin editing Owner - NOT ALLOWED
+            else if (senderRole.getLevel() == targetRole.getLevel() || targetRole.getLevel() > senderRole.getLevel()) {
+                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.permission_error"));
+                return false;
+            }
+        }
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.permission_error"));
+        return false;
+    }
+
     private static void saveChatGroup(ChatGroup chatGroup) {
         VaultCore.getInstance().getChatGroupFile().set("chatgroups." + chatGroup.name, chatGroup);
         VaultCore.getInstance().saveConfig();

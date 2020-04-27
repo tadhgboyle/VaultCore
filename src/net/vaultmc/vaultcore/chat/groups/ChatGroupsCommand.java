@@ -67,7 +67,7 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.leave.error"));
             return;
         }
-        ChatGroup.sendMessage(chatGroup, sender, message);
+        ChatGroup.sendMessage(chatGroup, sender, Utilities.grammarly(message));
     }
 
     @SubCommand("chatGroupList")
@@ -163,11 +163,12 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.pending_error"));
         } else {
             ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-            if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+            if (chatGroup == null) {
                 // Command sender is not in a chatgroup or is not admin in chatgroup
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
                 return;
             }
+            if (!ChatGroup.permissionCheck(sender, target)) return;
             // Success
             invites.put(target, chatGroup);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.sender"), target.getFormattedName()));
@@ -225,7 +226,7 @@ public class ChatGroupsCommand extends CommandExecutor {
     @SubCommand("chatGroupPromote")
     public void chatGroupPromote(VLPlayer sender, VLOfflinePlayer target) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+        if (chatGroup == null) {
             // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
             return;
@@ -234,6 +235,7 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
             return;
         }
+        if (!ChatGroup.permissionCheck(sender, target)) return;
         if (ChatGroup.makeAdmin(chatGroup, target)) {
             // Success
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promote"), target.getFormattedName()));
@@ -247,7 +249,7 @@ public class ChatGroupsCommand extends CommandExecutor {
     @SubCommand("chatGroupDemote")
     public void chatGroupDemote(VLPlayer sender, VLOfflinePlayer target) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+        if (chatGroup == null) {
             // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
             return;
@@ -256,6 +258,7 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
             return;
         }
+        if (!ChatGroup.permissionCheck(sender, target)) return;
         if (ChatGroup.makeMember(chatGroup, target)) {
             // Success
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demote"), target.getFormattedName()));
@@ -269,7 +272,7 @@ public class ChatGroupsCommand extends CommandExecutor {
     @SubCommand("chatGroupKick")
     public void chatGroupKick(VLPlayer sender, VLOfflinePlayer target) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
-        if (chatGroup == null || !chatGroup.admins.contains(sender.getUniqueId().toString())) {
+        if (chatGroup == null) {
             // Command sender is not in a chatgroup or is not admin in chatgroup
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
             return;
@@ -278,6 +281,7 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
             return;
         }
+        if (!ChatGroup.permissionCheck(sender, target)) return;
         if (ChatGroup.removeFromGroup(chatGroup, target)) {
             // Success
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.kick.success"), target.getFormattedName()));

@@ -51,19 +51,7 @@ public class CGSettingsInvListener implements Listener {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.self_error"));
                 return;
             }
-            // Check if the sender has permission to edit this player.
-            ChatGroupRole senderRole = ChatGroup.getRole(sender, chatGroup);
-            ChatGroupRole targetRole = ChatGroup.getRole(member, chatGroup);
-            // Owner editing admin, or admin editing member - ALLOWED
-            if (senderRole.getLevel() > targetRole.getLevel()) {
-                cgSettingsInv.openMemberSettingsMenu(sender, member);
-                editors.put(sender, member);
-            }
-            // Admin editing Admin, or Admin editing Owner - NOT ALLOWED
-            else if (senderRole.getLevel() == targetRole.getLevel() || targetRole.getLevel() > senderRole.getLevel()) {
-                sender.closeInventory();
-                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.permission_error"));
-            }
+            if (!ChatGroup.permissionCheck(sender, member)) return;
         } else if (title.contains("Edit:")) {
             VLOfflinePlayer target = editors.get(sender);
             e.setCancelled(true);
