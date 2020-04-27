@@ -61,7 +61,7 @@ public final class Utilities {
      * @author Aberdeener
      */
     // I am sure there is a better way to determine whether an apostrophe is needed, but this works for now.
-    static List<String> apostrophe = Arrays.asList("dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows");
+    static List<String> apostrophe = Arrays.asList("dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt");
     static List<String> punctuation = Arrays.asList(".", "!", "?");
     public static String grammarly(String message) {
         StringBuilder sb = new StringBuilder();
@@ -73,7 +73,12 @@ public final class Utilities {
             }
             // Uppercase if first word
             if (first)
-                word = capitalizeMessage(word);
+                // Check if first char is a custom key. Not a fantastic solution, but sorta works.
+                if (!Character.isLetterOrDigit(word.charAt(0))) {
+                    word = word.charAt(0) + capitalizeMessage(word.substring(1));
+                } else {
+                    word = capitalizeMessage(word);
+                }
             first = false;
             sb.append(word).append(" ");
         }

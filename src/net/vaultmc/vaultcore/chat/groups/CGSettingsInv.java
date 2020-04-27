@@ -62,7 +62,7 @@ public class CGSettingsInv {
                             "",
                             ChatColor.DARK_GRAY + "UUID: " + player.getUniqueId().toString(),
                             "",
-                            ChatColor.GRAY + "Role: " + ChatColor.GOLD + (chatGroup.admins.contains(player.getUniqueId().toString()) ? "Admin" : "Member")
+                            ChatColor.GRAY + "Role: " + ChatColor.GOLD + ChatGroup.getRole(player, chatGroup).getName()
                     ))
                     .build());
             currentSlot++;

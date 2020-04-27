@@ -104,8 +104,11 @@ public class ChatGroup implements ConfigurationSerializable {
         }
     }
 
-    public static boolean isOwner(VLOfflinePlayer target, ChatGroup chatGroup) {
-        return (chatGroup.owner.equals(target.getUniqueId().toString()));
+    public static ChatGroupRole getRole(VLOfflinePlayer target, ChatGroup chatGroup) {
+        if (chatGroup.owner.equals(target.getUniqueId().toString())) return ChatGroupRole.OWNER;
+        else if (chatGroup.admins.contains(target.getUniqueId().toString())) return ChatGroupRole.ADMIN;
+        else if (chatGroup.members.contains(target.getUniqueId().toString())) return ChatGroupRole.MEMBER;
+        else return null;
     }
 
     public static boolean isOpen(ChatGroup chatGroup) {
@@ -128,10 +131,10 @@ public class ChatGroup implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.put("name", this.name);
+        result.put("owner", this.owner);
         result.put("admins", this.admins);
         result.put("members", this.members);
-        result.put("owner", this.owner);
-        result.put("name", this.name);
         result.put("open", this.open);
         return result;
     }
@@ -149,6 +152,6 @@ public class ChatGroup implements ConfigurationSerializable {
         members = (List<String>) args.get("members");
         open = (boolean) args.get("open");
 
-        return new ChatGroup(owner, name, admins, members, open);
+        return new ChatGroup(name, owner, admins, members, open);
     }
 }

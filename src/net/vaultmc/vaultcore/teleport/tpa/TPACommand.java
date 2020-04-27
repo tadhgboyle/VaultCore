@@ -9,6 +9,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
 import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,8 +47,8 @@ public class TPACommand extends CommandExecutor implements Listener {
     }
 
     @SubCommand("tpa")
-    public void tpa(VLPlayer player, VLPlayer target) {
-        if (target.getUniqueId() == player.getUniqueId()) {
+    public void tpa(VLPlayer player, VLOfflinePlayer target) {
+        if (target == player) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }

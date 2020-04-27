@@ -8,6 +8,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -48,6 +49,8 @@ public class ChatGroupsCommand extends CommandExecutor {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.header"));
         if (chatGroup != null) {
+            Bukkit.getLogger().info(chatGroup.name);
+            Bukkit.getLogger().info(chatGroup.owner);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.in_group"), chatGroup.name));
         } else {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.info.not_in_group"));
@@ -139,14 +142,14 @@ public class ChatGroupsCommand extends CommandExecutor {
         ChatGroup.addToGroup(chatGroup, sender);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.success"), chatGroup.name));
         for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(chatGroup)) {
-            if (!member.isOnline()) continue;
-            member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getFormattedName(), chatGroup.name));
+            if (member.isOnline())
+                member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getFormattedName(), chatGroup.name));
         }
     }
 
     @SubCommand("chatGroupDelete")
     public void chatGroupDelete(VLPlayer sender) {
-        // TODO: This + ChatGroup Owners
+        // TODO: This
     }
 
     @SubCommand("chatGroupInvite")
@@ -178,6 +181,10 @@ public class ChatGroupsCommand extends CommandExecutor {
             if (ChatGroup.addToGroup(invites.get(sender), sender)) {
                 // Success
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.accepted"), invites.get(sender).name));
+                for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(invites.get(sender))) {
+                    if (member.isOnline())
+                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getDisplayName()));
+                }
                 invites.remove(sender);
             } else {
                 // Invitee is already in a chatgroup
