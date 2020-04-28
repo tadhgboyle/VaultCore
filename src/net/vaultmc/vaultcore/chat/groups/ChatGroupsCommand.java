@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -67,7 +68,7 @@ public class ChatGroupsCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.leave.error"));
             return;
         }
-        ChatGroup.sendMessage(chatGroup, sender, Utilities.grammarly(message));
+        ChatGroup.sendMessage(chatGroup, sender, PlayerSettings.getSetting(sender, "settings.grammarly") ? Utilities.grammarly(message) : message);
     }
 
     @SubCommand("chatGroupList")
@@ -168,6 +169,10 @@ public class ChatGroupsCommand extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.misc_error_sender"));
                 return;
             }
+            if (ChatGroup.getChatGroup(target) != null && ChatGroup.getChatGroup(target) == chatGroup) {
+                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.already_in_group"));
+                return;
+            }
             if (!ChatGroup.permissionCheck(sender, target)) return;
             // Success
             invites.put(target, chatGroup);
@@ -184,7 +189,7 @@ public class ChatGroupsCommand extends CommandExecutor {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.accepted"), invites.get(sender).name));
                 for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(invites.get(sender))) {
                     if (member.isOnline())
-                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getDisplayName()));
+                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getDisplayName(), invites.get(sender).name));
                 }
                 invites.remove(sender);
             } else {

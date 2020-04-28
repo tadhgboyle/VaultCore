@@ -104,24 +104,28 @@ public class ChatUtils extends ConstructorRegisterListener {
         String chatGroupsKey = playerCustomKeys.getCustomKey(player, "chatgroups");
         String staffChatKey = playerCustomKeys.getCustomKey(player, "staffchat");
         String adminChatKey = playerCustomKeys.getCustomKey(player, "adminchat");
-        // TODO: Fix capitalization for custom key messages.
         // Staff + Admin chat
         if ((e.getMessage().startsWith(staffChatKey) || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
-            StaffChatCommand.chat(player, e.getMessage().replaceFirst(staffChatKey, ""));
-            e.setCancelled(true);
-            return;
+            String message = e.getMessage().replaceFirst(staffChatKey, "");
+            if (message.length() > 0)
+                StaffChatCommand.chat(player, message);
+                e.setCancelled(true);
+                return;
         }
         if ((e.getMessage().startsWith(adminChatKey) || AdminChatCommand.getToggled().contains(player.getUniqueId())) && player.hasPermission(Permissions.AdminChatCommand)) {
-            SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + e.getMessage().replaceFirst(adminChatKey, ""));
-            e.setCancelled(true);
-            return;
+            String message = e.getMessage().replaceFirst(adminChatKey, "");
+            if (message.length() > 0)
+                SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + message);
+                e.setCancelled(true);
+                return;
         }
-
         // ChatGroups
         if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(chatGroupsKey) || ChatGroupsCommand.getToggled().contains(player)))) {
-            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage().replaceFirst(chatGroupsKey, ""));
-            e.setCancelled(true);
-            return;
+            String message = e.getMessage().replaceFirst(chatGroupsKey, "");
+            if (message.length() > 0)
+                ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, message);
+                e.setCancelled(true);
+                return;
         }
 
         // MuteChat

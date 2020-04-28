@@ -30,7 +30,7 @@ public class MsgMessageListener extends ConstructorRegisterListener {
             for (UUID uuid : SocialSpyCommand.toggled) {
                 VLPlayer socialspy = VLPlayer.getPlayer(uuid);
                 if (socialspy == null) continue;
-                socialspy.sendMessage(ChatColor.DARK_PURPLE + "[SS] " + ChatColor.RESET + message);
+                socialspy.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_PURPLE + "SS" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET + message);
             }
         }
     }

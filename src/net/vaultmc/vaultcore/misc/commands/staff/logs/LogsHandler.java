@@ -48,6 +48,7 @@ public class LogsHandler implements Runnable {
                         matcher = regex.matcher(line);
                         if (matcher.find()) {
                             if (line.endsWith(sender.getName() + " issued server command: /logs " + search)) continue;
+                            if (line.startsWith("[VaultLoader]")) continue;
                             lineMatches.put(lineID, line);
                             lineFiles.put(lineID, file.getName());
                         }

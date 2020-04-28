@@ -39,8 +39,6 @@ import net.vaultmc.vaultcore.gamemode.GMCreativeCommand;
 import net.vaultmc.vaultcore.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.gamemode.GameModeCommand;
-import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommand;
-import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommandListener;
 import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
 import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
@@ -48,6 +46,8 @@ import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.donation.DonationCommand;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
+import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommand;
+import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommandListener;
 import net.vaultmc.vaultcore.misc.commands.staff.logs.LogsCommand;
 import net.vaultmc.vaultcore.misc.listeners.*;
 import net.vaultmc.vaultcore.misc.runnables.AFKListener;
@@ -299,6 +299,7 @@ public final class VaultCore extends Component implements Listener {
             new TransferCommand();
             new PlayerHider();
         }
+        new SkullCommand();
         registerEvents(new FlyCommand());
         new PlayerCustomKeys();
         new SuicideCommand();

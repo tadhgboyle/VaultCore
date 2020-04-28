@@ -681,6 +681,7 @@ vaultcore:
         error: "&cError: A ChatGroup exists with that name, or you are in a ChatGroup already."
       invites:
         pending_error: "&cThat player already has an invite pending."
+        already_in_group: "&cThat player is already in your ChatGroup ya silly goose."
         sender: "&eSuccessfully invited {TARGET}&e to your ChatGroup."
         target: "{SENDER}&e has invited you to join &6{NAME}&e. \nType &6/cg accept&e to join."
         pending_error_target: "&cYou have no invites pending. Try to be more popular?"
@@ -730,3 +731,4 @@ vaultcore:
       particles:
         toggled: "&eToggled &6{PARTICLE}&e effect &2{TOGGLE}&e."
     nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."
+    skull: "&cGave you {TARGET}&e's head."

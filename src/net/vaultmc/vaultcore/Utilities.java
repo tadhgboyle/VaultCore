@@ -27,7 +27,7 @@ public final class Utilities {
     }
 
     /**
-     * @param message Message to format.
+     * @param message      Message to format.
      * @param replacements The variables you wish to insert to the message.
      * @return Compiled message
      * @author Aberdeener
@@ -61,12 +61,15 @@ public final class Utilities {
      * @author Aberdeener
      */
     // I am sure there is a better way to determine whether an apostrophe is needed, but this works for now.
-    static List<String> apostrophe = Arrays.asList("dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt");
+    static List<String> apostrophe = Arrays.asList("hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
     static List<String> punctuation = Arrays.asList(".", "!", "?");
+
     public static String grammarly(String message) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (String word : message.split(" ")) {
+            // Capitalize "i"
+            if (word.equals("i")) word = word.toUpperCase();
             // Add apostrophe
             if (apostrophe.contains(word)) {
                 word = word.substring(0, word.length() - 1) + "'" + word.substring(word.length() - 1);
@@ -74,11 +77,13 @@ public final class Utilities {
             // Uppercase if first word
             if (first)
                 // Check if first char is a custom key. Not a fantastic solution, but sorta works.
-                if (!Character.isLetterOrDigit(word.charAt(0))) {
+                if (!Character.isLetterOrDigit(word.charAt(0)) && String.valueOf(word.charAt(0)).equals(word)) {
+                    sb.append(word).append(" ");
+                    first = false;
+                    continue;
+                } else if (!Character.isLetterOrDigit(word.charAt(0)))
                     word = word.charAt(0) + capitalizeMessage(word.substring(1));
-                } else {
-                    word = capitalizeMessage(word);
-                }
+                else word = capitalizeMessage(word);
             first = false;
             sb.append(word).append(" ");
         }
@@ -105,6 +110,7 @@ public final class Utilities {
      * @author Aberdeener
      */
     private static final Map<String, Long> timeparts = new LinkedHashMap<>();
+
     public static String millisToTime(long millis, boolean newline, boolean period) {
 
         long millisInSecond = 1000L;
@@ -173,7 +179,7 @@ public final class Utilities {
     }
 
     /**
-     * @param list String List to turn into comma seperated String.
+     * @param list       String List to turn into comma seperated String.
      * @param chatColour Whether to use ChatColors on commas.
      * @return Comma separated List<String>
      * @author Aberdeener

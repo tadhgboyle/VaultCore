@@ -104,4 +104,5 @@ public final class Permissions {
     public static final String CosmeticsCommand = "vaultcore.cosmetics";
     public static final String NightvisionCommand = "vaultcore.nightvision";
     public static final String NightvisionCommandAdmin = "vaultcore.nightvision.admin";
+    public static final String SkullCommand = "vaultcore.skull";
 }
