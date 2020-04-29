@@ -2,15 +2,14 @@ package net.vaultmc.vaultcore.chat.staff;
 
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
+import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
 import java.util.Collections;
@@ -34,37 +33,28 @@ public class AdminChatCommand extends CommandExecutor implements Listener {
         VaultCore.getInstance().registerEvents(this);
     }
 
+    @SubCommand("chat")
+    public static void chat(VLCommandSender sender, String message) {
+        if (sender instanceof VLPlayer && PlayerSettings.getSetting((VLPlayer) sender, "settings.grammarly")) {
+            message = Utilities.grammarly(message);
+        }
+        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            if (players.hasPermission(Permissions.AdminChatCommand)) {
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.format"),
+                        sender.getFormattedName(), ChatColor.translateAlternateColorCodes('&', message)));
+            }
+        }
+    }
+
     @SubCommand("toggle")
     @PlayerOnly
     public void toggle(VLPlayer sender) {
         if (toggled.contains(sender.getUniqueId())) {
+            toggled.remove(sender.getUniqueId());
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.toggle").replace("{TOGGLE}", "off"));
-            SQLMessenger.sendGlobalMessage("521ACSetAlwaysOn" + VaultCore.SEPARATOR + sender.getUniqueId() + VaultCore.SEPARATOR + "false");
         } else {
-            if (StaffChatCommand.toggled.contains(sender.getUniqueId())) {
-                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.staff-chat-enabled"));
-                return;
-            }
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.toggle").replace("{TOGGLE}", "on"));
-            SQLMessenger.sendGlobalMessage("521ACSetAlwaysOn" + VaultCore.SEPARATOR + sender.getUniqueId() + VaultCore.SEPARATOR + "true");
-        }
-    }
-
-    @SubCommand("chat")
-    public void chat(VLCommandSender sender, String message) {
-        SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + sender.getFormattedName() + VaultCore.SEPARATOR + message);
-    }
-
-    @EventHandler
-    public void onMessageReceived(MessageReceivedEvent e) {
-        String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-        if (e.getMessage().startsWith("521ACSetAlwaysOn")) {
-            if (parts[2].equals("false")) toggled.remove(UUID.fromString(parts[1]));
-            else toggled.add(UUID.fromString(parts[1]));
-        } else if (e.getMessage().startsWith("513ACChat")) {
-            Bukkit.broadcast(VaultLoader.getMessage("vaultcore.commands.adminchat.format")
-                    .replace("{SENDER}", parts[1])
-                    .replace("{MESSAGE}", parts[2]), Permissions.AdminChatCommand);
+            if (StaffChatCommand.checkToggled(sender, toggled)) return;
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.adminchat.toggle"), "on"));
         }
     }
 }

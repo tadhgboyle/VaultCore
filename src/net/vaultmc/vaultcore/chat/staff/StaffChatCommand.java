@@ -3,14 +3,13 @@ package net.vaultmc.vaultcore.chat.staff;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
+import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.Collections;
@@ -18,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@RootCommand(literal = "staffchat", description = "Use staff chat.")
+@RootCommand(literal = "staffchat", description = "Use StaffChat.")
 @Permission(Permissions.StaffChatCommand)
 @Aliases("sc")
 public class StaffChatCommand extends CommandExecutor implements Listener {
@@ -32,47 +31,45 @@ public class StaffChatCommand extends CommandExecutor implements Listener {
 
     @SubCommand("chat")
     public static void chat(VLCommandSender sender, String message) {
-        SQLMessenger.sendGlobalMessage("SCChat" + VaultCore.SEPARATOR + sender.getFormattedName() + VaultCore.SEPARATOR + message);
+        if (sender instanceof VLPlayer && PlayerSettings.getSetting((VLPlayer) sender, "settings.grammarly")) {
+            message = Utilities.grammarly(message);
+        }
+        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            if (players.hasPermission(Permissions.StaffChatCommand)) {
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.format"),
+                        sender.getFormattedName(), ChatColor.translateAlternateColorCodes('&', message)));
+            }
+        }
+    }
+
+    public static boolean checkToggled(VLPlayer sender, Set<UUID> toggled) {
+        if (StaffChatCommand.toggled.contains(sender.getUniqueId())) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chat_toggled"), ChatColor.DARK_RED + "StaffChat"));
+            return true;
+        }
+        if (AdminChatCommand.getToggled().contains(sender.getUniqueId())) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chat_toggled"), ChatColor.DARK_RED + "AdminChat"));
+            return true;
+        }
+        if (ChatGroupsCommand.toggled.contains(sender)) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chat_toggled"), ChatColor.DARK_RED + "ChatGroups"));
+            return true;
+        }
+        toggled.add(sender.getUniqueId());
+        return false;
     }
 
     @SubCommand("toggle")
     @PlayerOnly
-    public void toggle(VLPlayer player) {
-        if (toggled.contains(player.getUniqueId())) {
-            SQLMessenger.sendGlobalMessage("SCSetAlwaysOn" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + "false");
-            player.sendMessage(
+    public void toggle(VLPlayer sender) {
+        if (toggled.contains(sender.getUniqueId())) {
+            toggled.remove(sender.getUniqueId());
+            sender.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "off"));
         } else {
-            if (AdminChatCommand.getToggled().contains(player.getUniqueId())) {
-                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.admin-chat-enabled"));
-                return;
-            }
-            SQLMessenger.sendGlobalMessage("SCSetAlwaysOn" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + "true");
-            player.sendMessage(
+            if (checkToggled(sender, toggled)) return;
+            sender.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.toggle"), "on"));
-        }
-    }
-
-    @EventHandler
-    public void onMessageReceived(MessageReceivedEvent e) {
-        if (e.getMessage().startsWith("SCChat")) {
-            String[] parts = e.getMessage().trim().split(VaultCore.SEPARATOR);
-            for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-                if (player.hasPermission(Permissions.StaffChatCommand)) {
-                    player.sendMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.prefix")
-                            + Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.format"),
-                            parts[1], ChatColor.translateAlternateColorCodes('&', parts[2])));
-                }
-            }
-        } else if (e.getMessage().startsWith("SCSetAlwaysOn")) {
-            String[] parts = e.getMessage().trim().split(VaultCore.SEPARATOR);
-            UUID uuid = UUID.fromString(parts[1]);
-            boolean alwaysOn = Boolean.parseBoolean(parts[2]);
-            if (alwaysOn) {
-                toggled.add(uuid);
-            } else {
-                toggled.remove(uuid);
-            }
         }
     }
 }

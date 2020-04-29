@@ -31,7 +31,6 @@ import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,10 +40,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import sun.nio.ch.Util;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ChatUtils extends ConstructorRegisterListener {
 
@@ -95,37 +90,26 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
 
-        // Grammarly
-        if (PlayerSettings.getSetting(VLPlayer.getPlayer(e.getPlayer()), "settings.grammarly")) {
-            e.setMessage(Utilities.grammarly(e.getMessage()));
-        }
-
         PlayerCustomKeys playerCustomKeys = new PlayerCustomKeys();
         String chatGroupsKey = playerCustomKeys.getCustomKey(player, "chatgroups");
         String staffChatKey = playerCustomKeys.getCustomKey(player, "staffchat");
         String adminChatKey = playerCustomKeys.getCustomKey(player, "adminchat");
         // Staff + Admin chat
         if ((e.getMessage().startsWith(staffChatKey) || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
-            String message = e.getMessage().replaceFirst(staffChatKey, "");
-            if (message.length() > 0)
-                StaffChatCommand.chat(player, message);
-                e.setCancelled(true);
-                return;
+            StaffChatCommand.chat(player, e.getMessage());
+            e.setCancelled(true);
+            return;
         }
         if ((e.getMessage().startsWith(adminChatKey) || AdminChatCommand.getToggled().contains(player.getUniqueId())) && player.hasPermission(Permissions.AdminChatCommand)) {
-            String message = e.getMessage().replaceFirst(adminChatKey, "");
-            if (message.length() > 0)
-                SQLMessenger.sendGlobalMessage("513ACChat" + VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + message);
-                e.setCancelled(true);
-                return;
+            AdminChatCommand.chat(player, e.getMessage());
+            e.setCancelled(true);
+            return;
         }
         // ChatGroups
         if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(chatGroupsKey) || ChatGroupsCommand.getToggled().contains(player)))) {
-            String message = e.getMessage().replaceFirst(chatGroupsKey, "");
-            if (message.length() > 0)
-                ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, message);
-                e.setCancelled(true);
-                return;
+            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage());
+            e.setCancelled(true);
+            return;
         }
 
         // MuteChat
@@ -133,6 +117,11 @@ public class ChatUtils extends ConstructorRegisterListener {
             player.sendMessage(VaultLoader.getMessage("chat.muted"));
             e.setCancelled(true);
             return;
+        }
+
+        // Grammarly
+        if (PlayerSettings.getSetting(VLPlayer.getPlayer(e.getPlayer()), "settings.grammarly")) {
+            e.setMessage(Utilities.grammarly(e.getMessage()));
         }
 
         e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
