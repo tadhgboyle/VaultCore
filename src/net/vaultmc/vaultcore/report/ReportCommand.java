@@ -6,8 +6,6 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.NoDupeArrayList;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -37,14 +35,6 @@ public class ReportCommand extends CommandExecutor implements Listener {
     public ReportCommand() {
         register("report", Collections.singletonList(Arguments.createArgument("player", Arguments.offlinePlayerArgument())));
         VaultCore.getInstance().registerEvents(this);
-    }
-
-    @EventHandler
-    public void onMessageReceived(MessageReceivedEvent e) {
-        if (e.getMessage().startsWith("ReportForceUpdate")) {
-            Report.getReports().clear();
-            Report.load();
-        }
     }
 
     private static Inventory generateInventory(ReportData data) {
@@ -102,7 +92,6 @@ public class ReportCommand extends CommandExecutor implements Listener {
                         data.getTarget(), new NoDupeArrayList<>(), data.getReasons(), Report.Status.OPEN);
                 Report.getReports().add(report);
                 Report.save();
-                SQLMessenger.sendGlobalMessage("ReportForceUpdate");
                 e.getWhoClicked().closeInventory();
                 e.getWhoClicked().sendMessage(VaultLoader.getMessage("report.reported")
                         .replace("{PLAYER}", data.getTarget().getFormattedName())

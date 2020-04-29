@@ -27,6 +27,20 @@ public class TPACommand extends CommandExecutor implements Listener {
         register("tpa", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
+    public static boolean checkMap(VLPlayer sender, VLPlayer target, HashMap<VLPlayer, VLPlayer> tpaRequests) {
+        if (tpaRequests.containsKey(target)) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.pending_error"));
+            return true;
+        }
+        if (tpaRequests.containsValue(sender)) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_sender"), tpaRequests.get(sender).getFormattedName()));
+            tpaRequests.get(sender).sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_target"), sender.getFormattedName()));
+            // No need to remove, as it will be overwritten automatically
+        }
+        tpaRequests.put(target, sender);
+        return false;
+    }
+
     @SubCommand("tpa")
     public void tpa(VLPlayer sender, VLPlayer target) {
         if (verifyRequest(sender, target)) return;
@@ -36,16 +50,7 @@ public class TPACommand extends CommandExecutor implements Listener {
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.auto_accept_target"), sender.getFormattedName()));
             return;
         }
-        if (tpaRequests.containsKey(target)) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.pending_error"));
-            return;
-        }
-        if (tpaRequests.containsValue(sender)) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_sender"), tpaRequests.get(sender).getFormattedName()));
-            tpaRequests.get(sender).sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_target"), sender.getFormattedName()));
-            // No need to remove, as it will be overwritten automatically
-        }
-        tpaRequests.put(target, sender);
+        if (checkMap(sender, target, tpaRequests)) return;
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_sent"), target.getFormattedName()));
         target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_received"), sender.getFormattedName()));
     }

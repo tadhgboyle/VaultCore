@@ -33,16 +33,7 @@ public class TPAHereCommand extends CommandExecutor implements Listener {
         // Check ignore, disabled tpa etc
         if (TPACommand.verifyRequest(sender, target)) return;
         // Check if either has a pending request
-        if (tpaRequestsHere.containsKey(target)) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.pending_error"));
-            return;
-        }
-        if (tpaRequestsHere.containsValue(sender)) {
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_sender"), tpaRequestsHere.get(sender).getFormattedName()));
-            tpaRequestsHere.get(sender).sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_target"), sender.getFormattedName()));
-            // No need to remove, as it will be overwritten automatically
-        }
-        tpaRequestsHere.put(target, sender);
+        if (TPACommand.checkMap(sender, target, tpaRequestsHere)) return;
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpahere.request_sent"), target.getFormattedName()));
         target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpahere.request_received"), sender.getFormattedName()));
     }

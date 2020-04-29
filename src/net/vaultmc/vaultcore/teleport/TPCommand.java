@@ -1,27 +1,15 @@
 package net.vaultmc.vaultcore.teleport;
 
-import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import sun.nio.ch.Util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Arrays;
+import java.util.Collections;
 
 @RootCommand(
         literal = "teleport",
@@ -30,7 +18,6 @@ import java.util.function.Consumer;
 @Permission(Permissions.TeleportCommand)
 @Aliases("tp")
 public class TPCommand extends CommandExecutor {
-    private static final Map<String, Consumer<Boolean>> callbacks = new HashMap<>();
 
     public TPCommand() {
         unregisterExisting();

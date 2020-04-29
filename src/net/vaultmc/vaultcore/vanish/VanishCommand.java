@@ -6,7 +6,6 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.misc.commands.staff.ForceFieldCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -32,7 +31,6 @@ public class VanishCommand extends CommandExecutor {
     }
 
     public static void setVanishState(VLPlayer player, boolean vanish) {
-        SQLMessenger.sendGlobalMessage("Vanish" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + vanish);
         if (vanish) {
             if (ForceFieldCommand.forcefield.containsKey(player.getUniqueId())) {
                 player.sendMessage(VaultLoader.getMessage("forcefield.cannot-vanish"));
