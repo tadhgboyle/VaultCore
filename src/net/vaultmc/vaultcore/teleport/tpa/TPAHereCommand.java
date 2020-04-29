@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class TPAHereCommand extends CommandExecutor implements Listener {
 
     @Getter
-    public HashMap<VLPlayer, VLPlayer> tpaRequestsHere = new HashMap<>();
+    public static HashMap<VLPlayer, VLPlayer> tpaRequestsHere = new HashMap<>();
 
     public TPAHereCommand() {
         register("tpahere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));

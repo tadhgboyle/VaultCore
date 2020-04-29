@@ -19,13 +19,12 @@ public class TPDenyCommand extends CommandExecutor {
     @SubCommand("tpdeny")
     @SneakyThrows
     public void tpDeny(VLPlayer sender) {
-        TPACommand tpaCommand = new TPACommand();
-        TPAHereCommand tpaHereCommand = new TPAHereCommand();
 
-        if (!(tpaCommand.tpaRequests.containsKey(sender) && tpaHereCommand.tpaRequestsHere.containsKey(sender))) {
+        if (!(TPACommand.getTpaRequests().containsKey(sender) && TPAHereCommand.getTpaRequestsHere().containsKey(sender))) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
         } else {
-            tpaCommand.tpaRequests.remove(sender);
+            TPACommand.getTpaRequests().remove(sender);
+            TPAHereCommand.getTpaRequestsHere().remove(sender);
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.declined"));
         }
     }

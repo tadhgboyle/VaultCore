@@ -18,23 +18,21 @@ public class TPAcceptCommand extends CommandExecutor {
 
     @SubCommand("tpaccept")
     public void tpaccept(VLPlayer target) {
-        TPACommand tpaCommand = new TPACommand();
-        TPAHereCommand tpaHereCommand = new TPAHereCommand();
         // Debugging
-        for (VLPlayer p : tpaCommand.getTpaRequests().keySet()) {
+        for (VLPlayer p : TPACommand.getTpaRequests().keySet()) {
             Bukkit.getLogger().info("tpa:" + p.getDisplayName());
         }
-        for (VLPlayer p : tpaHereCommand.getTpaRequestsHere().keySet()) {
+        for (VLPlayer p : TPAHereCommand.getTpaRequestsHere().keySet()) {
             Bukkit.getLogger().info("tpahere:" + p.getDisplayName());
         }
-        if (tpaCommand.getTpaRequests().containsKey(target)) {
-            VLPlayer requester = tpaCommand.getTpaRequests().get(target);
+        if (TPACommand.getTpaRequests().containsKey(target)) {
+            VLPlayer requester = TPACommand.getTpaRequests().get(target);
             target.teleport(requester.getLocation());
-            tpaCommand.getTpaRequests().remove(target);
-        } else if (tpaHereCommand.getTpaRequestsHere().containsKey(target)) {
-            VLPlayer requester = tpaHereCommand.getTpaRequestsHere().get(target);
+            TPACommand.getTpaRequests().remove(target);
+        } else if (TPAHereCommand.getTpaRequestsHere().containsKey(target)) {
+            VLPlayer requester = TPAHereCommand.getTpaRequestsHere().get(target);
             target.teleport(requester.getLocation());
-            tpaHereCommand.getTpaRequestsHere().remove(target);
+            TPAHereCommand.getTpaRequestsHere().remove(target);
         } else target.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
     }
 }

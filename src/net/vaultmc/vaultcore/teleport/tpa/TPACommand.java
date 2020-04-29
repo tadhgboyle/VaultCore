@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class TPACommand extends CommandExecutor implements Listener {
 
     @Getter
-    public HashMap<VLPlayer, VLPlayer> tpaRequests = new HashMap<>();
+    public static HashMap<VLPlayer, VLPlayer> tpaRequests = new HashMap<>();
 
     public TPACommand() {
         register("tpa", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
