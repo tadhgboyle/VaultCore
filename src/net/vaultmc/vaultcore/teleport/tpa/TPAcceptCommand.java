@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.teleport.tpa;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
@@ -15,7 +16,15 @@ public class TPAcceptCommand extends CommandExecutor {
     }
 
     @SubCommand("tpaccept")
-    public void tpAccept(VLPlayer player) {
-        // This is handled by bungee. This is just used as a registration.
+    public void tpaccept(VLPlayer sender) {
+        if (TPACommand.tpaRequests.containsKey(sender)) {
+            VLPlayer requester = TPACommand.tpaRequests.get(sender);
+            sender.teleport(requester);
+            TPACommand.tpaRequests.remove(sender);
+        } else if (TPAHereCommand.tpaRequestsHere.containsKey(sender)) {
+            VLPlayer target = TPAHereCommand.tpaRequestsHere.get(sender);
+            sender.teleport(target);
+            TPAHereCommand.tpaRequestsHere.remove(sender);
+        } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
     }
 }

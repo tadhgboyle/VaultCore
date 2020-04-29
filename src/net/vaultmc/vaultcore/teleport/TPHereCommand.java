@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.teleport;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -14,22 +15,17 @@ import java.util.Collections;
 @PlayerOnly
 public class TPHereCommand extends CommandExecutor {
     public TPHereCommand() {
-        register("tphere", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
+        register("tphere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
     @SubCommand("tphere")
-    public void tpaHere(VLPlayer player, VLOfflinePlayer target) {
-        if (target == player) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
+    public void tpaHere(VLPlayer sender, VLPlayer target) {
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }
-        TPCommand.teleport(target, player, status -> {
-            if (status) {
-                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.tphere.sender").replace("{TARGET}", target.getFormattedName()));
-                target.getOnlinePlayer().sendMessage(VaultLoader.getMessage("vaultcore.commands.tphere.target").replace("{SENDER}", player.getFormattedName()));
-            } else {
-                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.failed"));
-            }
-        });
+        target.teleport(sender);
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.sender"), target.getFormattedName()));
+        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.target"), sender.getFormattedName()));
     }
 }

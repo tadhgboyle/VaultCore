@@ -13,50 +13,69 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.UUID;
 
 @RootCommand(literal = "tpa", description = "Request to teleport to a player.")
 @Permission(Permissions.TPACommand)
 @PlayerOnly
 public class TPACommand extends CommandExecutor implements Listener {
-    public TPACommand() {
-        register("tpa", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
-        VaultCore.getInstance().registerEvents(this);
-    }
 
-    @EventHandler
-    public void onMessageReceived(MessageReceivedEvent e) {
-        if (e.getMessage().startsWith("TPAStatus")) {
-            String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            VLPlayer from = VLPlayer.getPlayer(UUID.fromString(parts[1]));
-            VLPlayer to = VLPlayer.getPlayer(UUID.fromString(parts[2]));
-            if (from != null) {
-                if (parts[3].equals("Sent")) {
-                    if (PlayerSettings.getSetting(to.getOnlinePlayer(), "settings.autotpa") && to.isOnline()) {
-                        from.teleport(to.getOnlinePlayer());
-                        to.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.response.response_target"), "accepted", from.getFormattedName()));
-                        from.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.response.response_sender"), to.getFormattedName(), "accepted"));
-                    }
-                    from.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.tpa.request_sent").replace("{TARGET}",
-                            to.getFormattedName()));
-                }
-            }
-        }
+    public static HashMap<VLPlayer, VLPlayer> tpaRequests = new HashMap<>();
+
+    public TPACommand() {
+        register("tpa", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
 
     @SubCommand("tpa")
-    public void tpa(VLPlayer player, VLOfflinePlayer target) {
-        if (target == player) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
+    public void tpa(VLPlayer sender, VLPlayer target) {
+        if (verifyRequest(sender, target)) return;
+        if (PlayerSettings.getSetting(target, "settings.autotpa")) {
+            sender.teleport(target);
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.auto_accept_sender"), target.getFormattedName()));
+            target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.auto_accept_target"), sender.getFormattedName()));
             return;
         }
-        if (IgnoreCommand.isIgnoring(target, player)) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.you_are_ignored"));
-            return;
+        if (checkPendingReq(sender, target, tpaRequests)) return;
+        sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_sent"), target.getFormattedName()));
+        target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_received"), sender.getFormattedName()));
+    }
+
+    public static boolean checkPendingReq(VLPlayer sender, VLPlayer target, HashMap<VLPlayer, VLPlayer> tpaRequests) {
+        if (tpaRequests.containsKey(target)) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.pending_error"));
+            return true;
         }
-        SQLMessenger.sendGlobalMessage("TPA2jRequest" + VaultCore.SEPARATOR + player.getUniqueId() + VaultCore.SEPARATOR + target.getUniqueId() +
-                VaultCore.SEPARATOR + player.getFormattedName() + VaultCore.SEPARATOR + "normal");
+        if (tpaRequests.containsValue(sender)) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_sender"), tpaRequests.get(sender).getFormattedName()));
+            tpaRequests.get(sender).sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_target"), sender.getFormattedName()));
+            // No need to remove, as it will be overwritten automatically
+        }
+        tpaRequests.put(target, sender);
+        return false;
+    }
+
+    public static boolean verifyRequest(VLPlayer sender, VLPlayer target) {
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
+            return true;
+        }
+        if (IgnoreCommand.isIgnoring(target, sender)) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.you_are_ignored"));
+            return true;
+        }
+        if (!PlayerSettings.getSetting(target, "settings.tpa")) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.disabled_tpa"));
+            return true;
+        }
+        return false;
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent e) {
+        tpaRequests.remove(VLPlayer.getPlayer(e.getPlayer()));
     }
 }

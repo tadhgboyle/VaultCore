@@ -301,6 +301,8 @@ public final class VaultCore extends Component implements Listener {
         }
         new SkullCommand();
         registerEvents(new FlyCommand());
+        registerEvents(new TPACommand());
+        registerEvents(new TPAHereCommand());
         new PlayerCustomKeys();
         new SuicideCommand();
         new IgnoreCommand();

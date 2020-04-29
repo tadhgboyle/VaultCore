@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.teleport.tpa;
 
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
@@ -17,7 +18,13 @@ public class TPDenyCommand extends CommandExecutor {
 
     @SubCommand("tpdeny")
     @SneakyThrows
-    public void tpDeny(VLPlayer player) {
-        // This is handled by Bungee. This is just used as a registration.
+    public void tpDeny(VLPlayer sender) {
+        if (!(TPACommand.tpaRequests.containsKey(sender) && TPAHereCommand.tpaRequestsHere.containsKey(sender))) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
+        } else {
+            TPACommand.tpaRequests.remove(sender);
+            TPAHereCommand.tpaRequestsHere.containsKey(sender);
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.declined"));
+        }
     }
 }

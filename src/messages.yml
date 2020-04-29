@@ -534,12 +534,15 @@ vaultcore:
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
       other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
     tpa:
-      request-failed: "&cRequest failed."
+      declined: "&eYou have declined the TPA request."
       requests:
-        no_request_error: "&cYou don't have a pending request."
+        disabled_tpa: "&cThey have disabled TPA requests."
+        no_request_error: "&cYou don't have a pending request. Try being more popular?"
         response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
         response_target: "&eYou have &6{STATUS} {SENDER}&e's teleport request."
-      tpa:
+        pending_error: "&cThey already have a request pending."
+        overrode_request_sender: "&cI overrode your old request to {OLDTARGET}&c."
+        overrode_request_target: "{SENDER}&c cancelled their TPA request to you."
         request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
         request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
         auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
@@ -551,7 +554,6 @@ vaultcore:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{SENDER}&e has teleported you to them."
     teleport:
-      failed: "&cTeleportation failed."
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."
       target_error: "&cUse /tphere or /tp to do that."
