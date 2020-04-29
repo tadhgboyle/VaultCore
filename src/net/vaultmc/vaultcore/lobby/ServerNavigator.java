@@ -1,7 +1,5 @@
 package net.vaultmc.vaultcore.lobby;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultcore.tour.Tour;
@@ -68,12 +66,6 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         ChatColor.GRAY + "your own world."
                 ))
                 .build());
-        inv.addItem(new ItemStackBuilder(Material.DIAMOND_SWORD)
-                .name(ChatColor.GOLD + "PvP")
-                .lore(Collections.singletonList(
-                        ChatColor.GRAY + "Simple KitPvP gameplay."
-                ))
-                .build());
     }
 
     @EventHandler
@@ -99,12 +91,6 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         break;
                     case 3:
                         player.getPlayer().performCommand("is");
-                        break;
-                    case 4:
-                        ByteArrayDataOutput output = ByteStreams.newDataOutput();
-                        output.writeUTF("Connect");
-                        output.writeUTF("backup");
-                        player.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", output.toByteArray());
                         break;
                 }
             }

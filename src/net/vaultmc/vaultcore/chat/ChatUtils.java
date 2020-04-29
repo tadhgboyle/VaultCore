@@ -107,7 +107,9 @@ public class ChatUtils extends ConstructorRegisterListener {
         }
         // ChatGroups
         if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(chatGroupsKey) || ChatGroupsCommand.getToggled().contains(player.getUniqueId())))) {
-            ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, e.getMessage());
+            String message = e.getMessage().replaceFirst(chatGroupsKey, "");
+            if (message.length() >= 1)
+                ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, message);
             e.setCancelled(true);
             return;
         }

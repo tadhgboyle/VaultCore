@@ -145,7 +145,7 @@ public class ChatGroupsCommand extends CommandExecutor {
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.success"), chatGroup.name));
         for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(chatGroup)) {
             if (member.isOnline())
-                member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getFormattedName(), chatGroup.name));
+                member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), chatGroup.name, sender.getFormattedName(), chatGroup.name));
         }
     }
 
@@ -190,7 +190,7 @@ public class ChatGroupsCommand extends CommandExecutor {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.accepted"), invites.get(sender).name));
                 for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(invites.get(sender))) {
                     if (member.isOnline())
-                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getDisplayName(), invites.get(sender).name));
+                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), invites.get(sender).name, sender.getDisplayName(), invites.get(sender).name));
                 }
                 invites.remove(sender);
             } else {
