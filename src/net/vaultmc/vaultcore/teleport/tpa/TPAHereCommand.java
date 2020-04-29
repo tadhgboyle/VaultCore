@@ -1,13 +1,10 @@
 package net.vaultmc.vaultcore.teleport.tpa;
 
+import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.chat.IgnoreCommand;
-import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +21,8 @@ import java.util.HashMap;
 @PlayerOnly
 public class TPAHereCommand extends CommandExecutor implements Listener {
 
-    public static HashMap<VLPlayer, VLPlayer> tpaRequestsHere = new HashMap<>();
+    @Getter
+    public HashMap<VLPlayer, VLPlayer> tpaRequestsHere = new HashMap<>();
 
     public TPAHereCommand() {
         register("tpahere", Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
@@ -35,7 +33,16 @@ public class TPAHereCommand extends CommandExecutor implements Listener {
         // Check ignore, disabled tpa etc
         if (TPACommand.verifyRequest(sender, target)) return;
         // Check if either has a pending request
-        if (TPACommand.checkPendingReq(sender, target, tpaRequestsHere)) return;
+        if (tpaRequestsHere.containsKey(target)) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.pending_error"));
+            return;
+        }
+        if (tpaRequestsHere.containsValue(sender)) {
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_sender"), tpaRequestsHere.get(sender).getFormattedName()));
+            tpaRequestsHere.get(sender).sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.overrode_request_target"), sender.getFormattedName()));
+            // No need to remove, as it will be overwritten automatically
+        }
+        tpaRequestsHere.put(target, sender);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpahere.request_sent"), target.getFormattedName()));
         target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpahere.request_received"), sender.getFormattedName()));
     }

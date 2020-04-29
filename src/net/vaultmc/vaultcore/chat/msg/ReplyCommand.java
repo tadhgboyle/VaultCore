@@ -23,7 +23,6 @@ public class ReplyCommand extends CommandExecutor {
             return;
         }
         VLPlayer target = VLPlayer.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
-        MsgCommand.getReplies().remove(player.getUniqueId());
         MsgCommand.msg(player, target, message);
     }
 }

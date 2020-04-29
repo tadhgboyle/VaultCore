@@ -28,8 +28,9 @@ public class SocialSpyCommand extends CommandExecutor implements Listener {
 
     public static void sendSS(String type, VLPlayer sender, VLPlayer target, String message) {
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            if (sender == players || target == players) continue;
             if (players.hasPermission(Permissions.SocialSpyCommand)) {
-                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage(""), type, sender.getFormattedName(), target.getFormattedName(), message));
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.format"), type, sender.getFormattedName(), target.getFormattedName(), message));
             }
         }
     }

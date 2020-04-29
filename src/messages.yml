@@ -479,7 +479,7 @@ vaultcore:
       noone_error: "&cYou have no one to reply to."
     socialspy:
       toggle: "&eYou have toggled &6SocialSpy &2{TOGGLE}&e."
-      prefix: "&8[&dSS&8] [&6{TYPE}&8] {SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+      format: "&8[&bSS&8] [&6{TYPE}&8] {SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
     check:
       header: "&2--== [Check] ==--"
       format: "&e{KEY}: &6{VALUE}"
@@ -508,10 +508,10 @@ vaultcore:
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
     staffchat:
       format: "&8[&cSC&8]&r {SENDER}&8: &b{MESSAGE}"
-      toggle: "&eYou have toggled &6staff chat &2{TOGGLE}&e."
+      toggle: "&eYou have toggled &6StaffChat &2{TOGGLE}&e."
     adminchat:
       format: "&8[&4AC&8] &r{SENDER}&8: &b{MESSAGE}"
-      toggle: "&eYou have toggled &6admin chat &2{TOGGLE}&e."
+      toggle: "&eYou have toggled &6AdminChat &2{TOGGLE}&e."
     chat_toggled: "&cYou already have {CHAT}&c toggled on. Toggle it off first."
     tag:
       self_error: "&cYou can't tag yourself."
@@ -533,6 +533,8 @@ vaultcore:
       other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
     tpa:
       declined: "&eYou have declined the TPA request."
+      auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
+      auto_accept_target: "{SENDER}&e has teleported to you."
       requests:
         disabled_tpa: "&cThey have disabled TPA requests."
         no_request_error: "&cYou don't have a pending request. Try being more popular?"
@@ -543,14 +545,12 @@ vaultcore:
         overrode_request_target: "{SENDER}&c cancelled their TPA request to you."
         request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
         request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
-        auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
-        auto_accept_target: "{SENDER}&e has teleported to you."
-      tpahere:
-        request_sent: "&eYou have requested {TARGET}&e to teleport to you."
-        request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
     tphere:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{SENDER}&e has teleported you to them."
+    tpahere:
+      request_sent: "&eYou have requested {TARGET}&e to teleport to you."
+      request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
     teleport:
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."

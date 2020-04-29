@@ -4,7 +4,6 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
@@ -19,12 +18,12 @@ public class TPHereCommand extends CommandExecutor {
     }
 
     @SubCommand("tphere")
-    public void tpaHere(VLPlayer sender, VLPlayer target) {
+    public void tpHere(VLPlayer sender, VLPlayer target) {
         if (sender == target) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
             return;
         }
-        target.teleport(sender);
+        target.teleport(sender.getLocation());
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.sender"), target.getFormattedName()));
         target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tphere.target"), sender.getFormattedName()));
     }

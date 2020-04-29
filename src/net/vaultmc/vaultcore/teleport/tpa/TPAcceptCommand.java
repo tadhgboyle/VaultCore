@@ -4,6 +4,7 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
 
 import java.util.Collections;
 
@@ -16,15 +17,24 @@ public class TPAcceptCommand extends CommandExecutor {
     }
 
     @SubCommand("tpaccept")
-    public void tpaccept(VLPlayer sender) {
-        if (TPACommand.tpaRequests.containsKey(sender)) {
-            VLPlayer requester = TPACommand.tpaRequests.get(sender);
-            sender.teleport(requester);
-            TPACommand.tpaRequests.remove(sender);
-        } else if (TPAHereCommand.tpaRequestsHere.containsKey(sender)) {
-            VLPlayer target = TPAHereCommand.tpaRequestsHere.get(sender);
-            sender.teleport(target);
-            TPAHereCommand.tpaRequestsHere.remove(sender);
-        } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
+    public void tpaccept(VLPlayer target) {
+        TPACommand tpaCommand = new TPACommand();
+        TPAHereCommand tpaHereCommand = new TPAHereCommand();
+        // Debugging
+        for (VLPlayer p : tpaCommand.getTpaRequests().keySet()) {
+            Bukkit.getLogger().info("tpa:" + p.getDisplayName());
+        }
+        for (VLPlayer p : tpaHereCommand.getTpaRequestsHere().keySet()) {
+            Bukkit.getLogger().info("tpahere:" + p.getDisplayName());
+        }
+        if (tpaCommand.getTpaRequests().containsKey(target)) {
+            VLPlayer requester = tpaCommand.getTpaRequests().get(target);
+            target.teleport(requester.getLocation());
+            tpaCommand.getTpaRequests().remove(target);
+        } else if (tpaHereCommand.getTpaRequestsHere().containsKey(target)) {
+            VLPlayer requester = tpaHereCommand.getTpaRequestsHere().get(target);
+            target.teleport(requester.getLocation());
+            tpaHereCommand.getTpaRequestsHere().remove(target);
+        } else target.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
     }
 }
