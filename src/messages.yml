@@ -532,10 +532,10 @@ vaultcore:
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
       other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
     tpa:
-      declined: "&eYou have declined the TPA request."
       auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
       auto_accept_target: "{SENDER}&e has teleported to you."
       requests:
+        declined: "&cYou have declined the teleport request."
         disabled_tpa: "&cThey have disabled TPA requests."
         no_request_error: "&cYou don't have a pending request. Try being more popular?"
         response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
