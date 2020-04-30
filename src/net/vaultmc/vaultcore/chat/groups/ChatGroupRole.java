@@ -9,9 +9,9 @@ public enum ChatGroupRole {
     MEMBER(1, "Member");
 
     @Getter
-    private int level;
+    private final int level;
     @Getter
-    private String name;
+    private final String name;
 
     ChatGroupRole(int level, String name) {
         this.level = level;

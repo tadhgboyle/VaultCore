@@ -42,7 +42,6 @@ public class CosmeticsInvListener implements Listener {
                     // ???
                     break;
                 default:
-                    return;
             }
         } else if (e.getView().getTitle().equals("Cosmetics: Particles")) {
             switch (e.getSlot()) {
@@ -102,7 +101,6 @@ public class CosmeticsInvListener implements Listener {
                     Bukkit.dispatchCommand(Bukkit.getPlayer(player.getUniqueId()), "cosmetics");
                     break;
                 default:
-                    return;
             }
         }
     }

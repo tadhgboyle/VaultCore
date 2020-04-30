@@ -36,8 +36,8 @@ public class LogsHandler implements Runnable {
                 Scanner scanner = new Scanner(file);
                 int lineID = 0;
                 Pattern regex = Pattern.compile(search);
-                Matcher matcher = null;
-                String line = "";
+                Matcher matcher;
+                String line;
 
                 if (file.getName().endsWith(".gz")) {
                     BufferedReader inputReader = new BufferedReader(
@@ -81,10 +81,7 @@ public class LogsHandler implements Runnable {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.logs.total_count"), lineMatches.size()));
             lineFiles.clear();
             lineMatches.clear();
-            LogsCommand.setSearching(false);
-        } else {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.no_matches"));
-            LogsCommand.setSearching(false);
-        }
+        } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.no_matches"));
+        LogsCommand.setSearching(false);
     }
 }

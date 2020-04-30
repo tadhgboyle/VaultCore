@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
 public class CGSettingsInv {
@@ -31,7 +32,7 @@ public class CGSettingsInv {
                         "MyMWM3ODM4IiwicHJvZmlsZU5hbWUiOiJNSEZfUXVlc3Rpb24iLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6I" +
                         "mh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM0ZTA2M2NhZmI0NjdhNWM4ZGU0M2VjNz" +
                         "g2MTkzOTlmMzY5ZjRhNTI0MzRkYTgwMTdhOTgzY2RkOTI1MTZhMCJ9fX0")
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "Edit the members of your ChatGroup."
                 ))
                 .build());
@@ -75,19 +76,19 @@ public class CGSettingsInv {
 
         memberSettingMenu.setItem(1, new ItemStackBuilder(Material.TNT)
                 .name(ChatColor.YELLOW + "Kick: " + target.getFormattedName())
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "Click to kick " + target.getName() + "."
                 ))
                 .build());
         memberSettingMenu.setItem(4, new ItemStackBuilder(Material.DIAMOND_SWORD)
                 .name(ChatColor.YELLOW + "Promote: " + target.getFormattedName())
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "Click to promote: " + target.getName() + "."
                 ))
                 .build());
         memberSettingMenu.setItem(7, new ItemStackBuilder(Material.COAL)
                 .name(ChatColor.YELLOW + "Demote: " + target.getFormattedName())
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "Click demote " + target.getName() + "."
                 ))
                 .build());

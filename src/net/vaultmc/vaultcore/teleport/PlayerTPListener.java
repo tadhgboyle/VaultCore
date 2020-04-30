@@ -1,7 +1,6 @@
 package net.vaultmc.vaultcore.teleport;
 
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Location;

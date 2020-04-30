@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @RootCommand(literal = "cosmetics", description = "Open the donor cosmetics GUI.")
@@ -31,19 +30,19 @@ public class CosmeticsCommand extends CommandExecutor {
         Inventory mainMenu = Bukkit.createInventory(null, 9, "Cosmetics");
         mainMenu.setItem(1, new ItemStackBuilder(Material.NETHER_STAR)
                 .name(ChatColor.YELLOW + "Particles")
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "Click to enable or disable particles."
                 ))
                 .build());
         mainMenu.setItem(4, new ItemStackBuilder(Material.EGG)
                 .name(ChatColor.YELLOW + "Disguises")
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "Click to enable or disable disguises."
                 ))
                 .build());
         mainMenu.setItem(7, new ItemStackBuilder(Material.OBSIDIAN)
                 .name(ChatColor.YELLOW + "?????")
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "?????"
                 ))
                 .build());

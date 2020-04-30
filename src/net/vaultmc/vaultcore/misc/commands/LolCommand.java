@@ -31,7 +31,6 @@ public class LolCommand extends CommandExecutor {
 
     public static File lolFile = new File(VaultCore.getInstance().getDataFolder() + "/lols.json");
     private static JsonArray lolsList;
-    private static FileWriter updatedLols;
     private static long LAST_LOL = 0;
     private static final long COOLDOWN = 15000;
     private static final int PAGE_SIZE = 7;
@@ -171,7 +170,7 @@ public class LolCommand extends CommandExecutor {
         try {
             JsonObject lolsEdited = new JsonObject();
             lolsEdited.add("lols", lolsList);
-            updatedLols = new FileWriter(lolFile);
+            FileWriter updatedLols = new FileWriter(lolFile);
             updatedLols.write(lolsEdited.toString());
             updatedLols.flush();
             updatedLols.close();

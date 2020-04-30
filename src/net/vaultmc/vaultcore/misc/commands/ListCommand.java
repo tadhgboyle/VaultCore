@@ -18,12 +18,12 @@ import java.util.TreeSet;
 @Permission(Permissions.ListCommand)
 @Aliases({"online", "ls"})
 public class ListCommand extends CommandExecutor {
-    private static final Collection<String> admin = new TreeSet<String>(Collator.getInstance());
-    private static final Collection<String> moderator = new TreeSet<String>(Collator.getInstance());
-    private static final Collection<String> trusted = new TreeSet<String>(Collator.getInstance());
-    private static final Collection<String> patreon = new TreeSet<String>(Collator.getInstance());
-    private static final Collection<String> member = new TreeSet<String>(Collator.getInstance());
-    private static final Collection<String> defaults = new TreeSet<String>(Collator.getInstance());
+    private static final Collection<String> admin = new TreeSet<>(Collator.getInstance());
+    private static final Collection<String> moderator = new TreeSet<>(Collator.getInstance());
+    private static final Collection<String> trusted = new TreeSet<>(Collator.getInstance());
+    private static final Collection<String> patreon = new TreeSet<>(Collator.getInstance());
+    private static final Collection<String> member = new TreeSet<>(Collator.getInstance());
+    private static final Collection<String> defaults = new TreeSet<>(Collator.getInstance());
 
     public ListCommand() {
         unregisterExisting();

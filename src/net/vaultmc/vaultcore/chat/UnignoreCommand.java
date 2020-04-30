@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+@SuppressWarnings("unchecked")
 @RootCommand(literal = "unignore", description = "Stop ignoring a player.")
 @Permission(Permissions.IgnoreCommand)
 @PlayerOnly

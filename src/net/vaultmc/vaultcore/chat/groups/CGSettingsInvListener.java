@@ -38,7 +38,7 @@ public class CGSettingsInvListener implements Listener {
         } else if (title.contains("ChatGroup Members:")) {
             ItemStack item = e.getCurrentItem();
             e.setCancelled(true);
-            VLOfflinePlayer member = null;
+            VLOfflinePlayer member;
             try {
                 member = VLOfflinePlayer.getOfflinePlayer(UUID.fromString(item.getItemMeta().getLore().get(2).replace(ChatColor.DARK_GRAY + "UUID: ", "")));
             } catch (NullPointerException ignored) {

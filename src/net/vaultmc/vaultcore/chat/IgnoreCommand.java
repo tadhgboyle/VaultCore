@@ -34,9 +34,7 @@ public class IgnoreCommand extends CommandExecutor {
         if (csvIgnored != null) {
             if (csvIgnored.isEmpty()) return false;
             ignored = Arrays.asList(csvIgnored.split(", "));
-            if (ignored.contains(ignoredPlayer.getUniqueId().toString())) {
-                return true;
-            }
+            return ignored.contains(ignoredPlayer.getUniqueId().toString());
         }
         return false;
     }

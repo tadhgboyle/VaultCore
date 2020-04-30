@@ -60,7 +60,6 @@ public class ParticleRunnable implements Listener {
                         playerLoc.getWorld().spawnParticle(Particle.SMOKE_LARGE, playerLoc, 30, 0.5, 0.5, 0.5, 0.001);
                     }
                     default:
-                        continue;
                 }
             }
         }

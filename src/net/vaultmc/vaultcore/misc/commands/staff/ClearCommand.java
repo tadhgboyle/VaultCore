@@ -5,11 +5,9 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
-import java.util.UUID;
 
 @RootCommand(literal = "clear", description = "Clear a players inventory.")
 @Permission(Permissions.ClearCommand)

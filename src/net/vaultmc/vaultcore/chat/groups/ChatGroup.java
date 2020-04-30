@@ -5,12 +5,12 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.*;
 
+@SuppressWarnings("unchecked")
 public class ChatGroup implements ConfigurationSerializable {
 
     public String name;
@@ -130,7 +130,7 @@ public class ChatGroup implements ConfigurationSerializable {
             // Owner editing admin, or admin editing member - ALLOWED
             if (senderRole.getLevel() > targetRole.getLevel()) return true;
                 // Admin editing Admin, or Admin editing Owner - NOT ALLOWED
-            else if (senderRole.getLevel() == targetRole.getLevel() || targetRole.getLevel() > senderRole.getLevel()) {
+            else {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.permission_error"));
                 return false;
             }
@@ -157,11 +157,11 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static ChatGroup deserialize(Map<String, Object> args) {
-        String name = null;
-        String owner = null;
-        List<String> admins = null;
-        List<String> members = null;
-        boolean open = false;
+        String name;
+        String owner;
+        List<String> admins;
+        List<String> members;
+        boolean open;
 
         name = args.get("name").toString();
         owner = args.get("owner").toString();

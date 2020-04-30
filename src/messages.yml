@@ -626,7 +626,6 @@ vaultcore:
       header: "&2--== [Log] ==--"
       no_matches: "&cNo matches for that phrase."
       total_count: "&eFound &2{MATCHES}&e matches for that phrase."
-      warn_lag: "&cThis will cause lag. Enjoy."
       error_reading: "&cThere was an error reading the logs. Please contact an Administrator."
     managebot:
       invalid: "&cThe bot is currently &e{STATUS}&c."

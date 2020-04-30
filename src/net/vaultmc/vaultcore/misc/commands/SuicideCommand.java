@@ -57,7 +57,6 @@ public class SuicideCommand extends CommandExecutor implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         if (event.getEntity().getPlayer().getLastDamageCause() != null && event.getEntity().getPlayer().getLastDamageCause().getCause().equals(EntityDamageEvent.DamageCause.CUSTOM)) {
             event.setDeathMessage("");
-            return;
         }
     }
 }

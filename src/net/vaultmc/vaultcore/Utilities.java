@@ -1,14 +1,10 @@
 package net.vaultmc.vaultcore;
 
-import net.vaultmc.vaultloader.VaultLoader;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -44,7 +40,7 @@ public final class Utilities {
                     sb.append(before).append(s).append(after).append(" ");
                     num++;
                 } else {
-                    sb.append(s + " ");
+                    sb.append(s).append(" ");
                 }
             }
             return sb.toString().trim();

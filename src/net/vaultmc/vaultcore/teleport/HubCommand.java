@@ -21,6 +21,5 @@ public class HubCommand extends CommandExecutor {
     @SubCommand("hub")
     public void hub(VLPlayer sender) {
         sender.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());
-        return;
     }
 }
