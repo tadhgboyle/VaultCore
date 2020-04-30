@@ -3,7 +3,6 @@ package net.vaultmc.vaultcore.chat.msg;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
 import java.util.Collections;
@@ -23,6 +22,7 @@ public class ReplyCommand extends CommandExecutor {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
             return;
         }
-        MsgCommand.pm(player, VLOfflinePlayer.getOfflinePlayer(MsgCommand.getReplies().get(player.getUniqueId())), message);
+        VLPlayer target = VLPlayer.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
+        MsgCommand.msg(player, target, message);
     }
 }

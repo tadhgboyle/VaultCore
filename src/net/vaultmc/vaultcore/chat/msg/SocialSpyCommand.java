@@ -5,18 +5,17 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.messenger.MessageReceivedEvent;
-import net.vaultmc.vaultloader.utils.messenger.SQLMessenger;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@RootCommand(literal = "socialspy", description = "View messages players are sending server-wide.")
+@RootCommand(literal = "socialspy", description = "View messages players are sending.")
 @Permission(Permissions.SocialSpyCommand)
 @PlayerOnly
 public class SocialSpyCommand extends CommandExecutor implements Listener {
@@ -27,15 +26,11 @@ public class SocialSpyCommand extends CommandExecutor implements Listener {
         VaultCore.getInstance().registerEvents(this);
     }
 
-    @EventHandler
-    public void onMessageReceived(MessageReceivedEvent e) {
-        if (e.getMessage().startsWith("514SocialSpy")) {
-            String[] parts = e.getMessage().split(VaultCore.SEPARATOR);
-            boolean b = Boolean.parseBoolean(parts[2]);
-            if (b) {
-                toggled.add(UUID.fromString(parts[1]));
-            } else {
-                toggled.remove(UUID.fromString(parts[1]));
+    public static void sendSS(String type, VLPlayer sender, VLPlayer target, String message) {
+        for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+            if (sender == players || target == players) continue;
+            if (players.hasPermission(Permissions.SocialSpyCommand)) {
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.format"), type, sender.getFormattedName(), target.getFormattedName(), message));
             }
         }
     }
@@ -43,13 +38,18 @@ public class SocialSpyCommand extends CommandExecutor implements Listener {
     @SubCommand("toggle")
     public void toggle(VLPlayer player) {
         if (toggled.contains(player.getUniqueId())) {
-            SQLMessenger.sendGlobalMessage("514SocialSpy" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + false);
+            toggled.remove(player.getUniqueId());
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.toggle"), "off"));
         } else {
-            SQLMessenger.sendGlobalMessage("514SocialSpy" + VaultCore.SEPARATOR + player.getUniqueId().toString() + VaultCore.SEPARATOR + true);
+            toggled.add(player.getUniqueId());
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.socialspy.toggle"), "on"));
         }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        toggled.remove(e.getPlayer().getUniqueId());
     }
 }

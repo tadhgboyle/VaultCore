@@ -473,13 +473,13 @@ vaultcore:
       wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
     msg:
       self_error: "&cYou can't message yourself."
+      disabled_messages: "&cThey have disabled messages."
       format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
-      failed: "&cMessaging failed."
     reply:
       noone_error: "&cYou have no one to reply to."
     socialspy:
-      toggle: "&eYou have toggled socialspy &6{TOGGLE}&e."
-      prefix: "&8[&dSS&8] &r"
+      toggle: "&eYou have toggled &6SocialSpy &2{TOGGLE}&e."
+      format: "&8[&7SS&8] [&7{TYPE}&8] {SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
     check:
       header: "&2--== [Check] ==--"
       format: "&e{KEY}: &6{VALUE}"
@@ -507,14 +507,12 @@ vaultcore:
       sender: "&eYou have &6{STATUS}&e the chat."
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
     staffchat:
-      admin-chat-enabled: "&cYou have to enable admin chat before toggling staff chat!"
-      prefix: "&8[&cSC&8]&r "
-      format: "{SENDER}&8: &b{MESSAGE}"
-      toggle: "&eYou have toggled &6staff chat &2{TOGGLE}&e."
+      format: "&8[&7SC&8]&r {SENDER}&8: &b{MESSAGE}"
+      toggle: "&eYou have toggled &6StaffChat &2{TOGGLE}&e."
     adminchat:
-      staff-chat-enabled: "&eYou have to disable staff chat before toggling admin chat!"
-      format: "&8[&4AC&8] &r{SENDER}&8: &b{MESSAGE}"
-      toggle: "&eYou have toggled &6admin chat &2{TOGGLE}&e."
+      format: "&8[&7AC&8] &r{SENDER}&8: &b{MESSAGE}"
+      toggle: "&eYou have toggled &6AdminChat &2{TOGGLE}&e."
+    chat_toggled: "&cYou already have {CHAT}&c toggled on. Toggle it off first."
     tag:
       self_error: "&cYou can't tag yourself."
       add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
@@ -534,24 +532,26 @@ vaultcore:
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
       other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
     tpa:
-      request-failed: "&cRequest failed."
+      auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
+      auto_accept_target: "{SENDER}&e has teleported to you."
       requests:
-        no_request_error: "&cYou don't have a pending request."
+        declined: "&cYou have declined the teleport request."
+        disabled_tpa: "&cThey have disabled TPA requests."
+        no_request_error: "&cYou don't have a pending request. Try being more popular?"
         response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
         response_target: "&eYou have &6{STATUS} {SENDER}&e's teleport request."
-      tpa:
+        pending_error: "&cThey already have a request pending."
+        overrode_request_sender: "&cI overrode your old request to {OLDTARGET}&c."
+        overrode_request_target: "{SENDER}&c cancelled their TPA request to you."
         request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
         request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
-        auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
-        auto_accept_target: "{SENDER}&e has teleported to you."
-      tpahere:
-        request_sent: "&eYou have requested {TARGET}&e to teleport to you."
-        request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
     tphere:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{SENDER}&e has teleported you to them."
+    tpahere:
+      request_sent: "&eYou have requested {TARGET}&e to teleport to you."
+      request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
     teleport:
-      failed: "&cTeleportation failed."
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."
       target_error: "&cUse /tphere or /tp to do that."
@@ -663,7 +663,7 @@ vaultcore:
       misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
       toggle: "&eYou have toggled &6ChatGroups &2{TOGGLE}&e."
       not_in_chatgroup: "&cThat player is not in your ChatGroup."
-      format: "&8[&dCG&8] [&e{NAME}&8]&r {SENDER}&8:&r {MESSAGE}"
+      format: "&8[&7CG&8] [&e{NAME}&8]&r {SENDER}&8:&r {MESSAGE}"
       chat_not_in_group: "&cYou are not in a ChatGroup."
       self_error: "&cYou cannot do that to yourself!"
       permission_error: "&cYou do not have permission to edit that member."
@@ -704,7 +704,7 @@ vaultcore:
       join:
         error: "&cError: You are already in a ChatGroup, or that ChatGroup doesn't exist."
         success: "&eYou have joined the ChatGroup &6{NAME}&e!"
-        members_message: "{SENDER}&e has joined &6{NAME}&e!"
+        members_message: "&8[&7CG&8] [&e{NAME}&8] {SENDER}&e has joined &6{NAME}&e!"
     settings:
       specific:
         success: "&eSuccessfully updated &6{NAME}&e to &2{VALUE}&e."
@@ -731,4 +731,4 @@ vaultcore:
       particles:
         toggled: "&eToggled &6{PARTICLE}&e effect &2{TOGGLE}&e."
     nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."
-    skull: "&cGave you {TARGET}&e's head."
+    skull: "&eGave you {TARGET}&e's head."

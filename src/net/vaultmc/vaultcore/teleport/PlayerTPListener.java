@@ -38,11 +38,9 @@ public class PlayerTPListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
-        if (VaultCore.getInstance().getConfig().getString("server").equals("vaultmc")) {
-            Stack<Location> stack = teleports.getOrDefault(e.getEntity().getUniqueId(), new Stack<>());
-            stack.push(e.getEntity().getLocation());
-            teleports.put(e.getEntity().getUniqueId(), stack);
-            e.getEntity().sendMessage(VaultLoader.getMessage("vaultcore.survival.back"));
-        }
+        Stack<Location> stack = teleports.getOrDefault(e.getEntity().getUniqueId(), new Stack<>());
+        stack.push(e.getEntity().getLocation());
+        teleports.put(e.getEntity().getUniqueId(), stack);
+        e.getEntity().sendMessage(VaultLoader.getMessage("vaultcore.survival.back"));
     }
 }

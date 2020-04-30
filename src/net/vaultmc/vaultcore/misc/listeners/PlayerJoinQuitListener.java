@@ -11,21 +11,18 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-import java.sql.ResultSet;
 
 public class PlayerJoinQuitListener implements Listener {
 
     static DBConnection database = VaultCore.getDatabase();
-    private static final ItemStack book = VaultCore.getInstance().getData().getItemStack("book");
+    SessionHandler sessionHandler = new SessionHandler();
 
     @EventHandler
     public void preLogin(AsyncPlayerPreLoginEvent e) {
@@ -51,31 +48,7 @@ public class PlayerJoinQuitListener implements Listener {
         String ip = player.getAddress().getAddress().getHostAddress();
 
         playerDataQuery(uuid, username, firstSeen, lastSeen, playtime, rank, ip);
-
-        if (!e.getPlayer().hasPlayedBefore()) {
-            player.getPlayerData().set("settings.msg", true);
-            player.getPlayerData().set("settings.tpa", true);
-            player.getPlayerData().set("settings.autotpa", false);
-            player.getPlayerData().set("settings.cycle", false);
-            player.getPlayerData().set("settings.minimal_messages", false);
-            player.getPlayerData().set("settings.minimal_caps", false);
-            player.getPlayerData().set("settings.item_drops", true);
-            player.getPlayerData().set("settings.grammarly", false);
-            player.getPlayerData().set("donation", "0.00");
-            player.getPlayerData().set("ignored", "0, 0");
-            player.getPlayerData().set("refferals", 0);
-            player.getPlayerData().set("refferal_used", false);
-            player.getPlayerData().set("nickname", "0, 0");
-            player.saveData();
-
-            for (Player players : Bukkit.getOnlinePlayers()) {
-                if (PlayerSettings.getSetting(VLPlayer.getPlayer(players), "settings.minimal_messages")) continue;
-                players.sendMessage(
-                        Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.new_player"),
-                                player.getFormattedName(), count()));
-            }
-            e.getPlayer().openBook(book);
-        }
+        sessionHandler.newSession(player);
 
         if (NicknameCommand.getNickname(player) != null) {
             Bukkit.getPlayer(player.getUniqueId()).setDisplayName(ChatColor.ITALIC + player.getPlayerData().getString("nickname"));
@@ -112,6 +85,7 @@ public class PlayerJoinQuitListener implements Listener {
         String ip = player.getAddress().getAddress().getHostAddress();
 
         playerDataQuery(uuid, username, 0, lastSeen, playtime, rank, ip);
+        sessionHandler.endSession(player);
 
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
@@ -127,15 +101,5 @@ public class PlayerJoinQuitListener implements Listener {
                 "INSERT INTO players (uuid, username, firstseen, lastseen, playtime, rank, ip) VALUES ("
                         + "?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=?, username=?, lastseen=?, playtime=?, rank=?, ip=?",
                 uuid, username, firstseen, lastseen, playtime, rank, ip, uuid, username, lastseen, playtime, rank, ip);
-    }
-
-    @SneakyThrows
-    public static String count() {
-        String total_players = null;
-        ResultSet rs = database.executeQueryStatement("SELECT COUNT(uuid) FROM players");
-        while (rs.next()) {
-            total_players = rs.getString(1);
-        }
-        return total_players;
     }
 }

@@ -2,6 +2,8 @@ package net.vaultmc.vaultcore.teleport.tpa;
 
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
@@ -17,7 +19,15 @@ public class TPDenyCommand extends CommandExecutor {
 
     @SubCommand("tpdeny")
     @SneakyThrows
-    public void tpDeny(VLPlayer player) {
-        // This is handled by Bungee. This is just used as a registration.
+    public void tpDeny(VLPlayer sender) {
+        if (!(TPACommand.getTpaRequests().containsKey(sender) && TPAHereCommand.getTpaRequestsHere().containsKey(sender))) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.no_request_error"));
+        } else {
+            TPACommand.getTpaRequests().get(sender).sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.response_sender"), sender.getFormattedName(), "declined"));
+            TPAHereCommand.getTpaRequestsHere().get(sender).sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.response_sender"), sender.getFormattedName(), "declined"));
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.declined"));
+            TPACommand.getTpaRequests().remove(sender);
+            TPAHereCommand.getTpaRequestsHere().remove(sender);
+        }
     }
 }

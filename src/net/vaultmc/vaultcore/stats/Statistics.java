@@ -2,7 +2,7 @@ package net.vaultmc.vaultcore.stats;
 
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.misc.listeners.PlayerJoinQuitListener;
+import net.vaultmc.vaultcore.misc.listeners.NewPlayerHandler;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -41,7 +41,7 @@ public class Statistics {
             total_sessions = session.getString("total_sessions");
         }
 
-        String total_players = PlayerJoinQuitListener.count();
+        String total_players = NewPlayerHandler.count();
 
         database.executeUpdateStatement(
                 "INSERT INTO statistics (timestamp, tps, players_online, average_ping, total_playtime, average_session, total_sessions, total_players) "

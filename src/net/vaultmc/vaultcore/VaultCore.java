@@ -1,7 +1,5 @@
 package net.vaultmc.vaultcore;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.milkbowl.vault.chat.Chat;
@@ -16,7 +14,6 @@ import net.vaultmc.vaultcore.chat.groups.CGSettingsInvListener;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.msg.MsgCommand;
-import net.vaultmc.vaultcore.chat.msg.MsgMessageListener;
 import net.vaultmc.vaultcore.chat.msg.ReplyCommand;
 import net.vaultmc.vaultcore.chat.msg.SocialSpyCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
@@ -42,14 +39,16 @@ import net.vaultmc.vaultcore.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
 import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
-import net.vaultmc.vaultcore.messenger.GetServerService;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.donation.DonationCommand;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
 import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommandListener;
 import net.vaultmc.vaultcore.misc.commands.staff.logs.LogsCommand;
-import net.vaultmc.vaultcore.misc.listeners.*;
+import net.vaultmc.vaultcore.misc.listeners.GameModeListeners;
+import net.vaultmc.vaultcore.misc.listeners.LobbyPortals;
+import net.vaultmc.vaultcore.misc.listeners.PlayerJoinQuitListener;
+import net.vaultmc.vaultcore.misc.listeners.SignHandler;
 import net.vaultmc.vaultcore.misc.runnables.AFKListener;
 import net.vaultmc.vaultcore.misc.runnables.RankPromotions;
 import net.vaultmc.vaultcore.nametags.Nametags;
@@ -106,7 +105,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -239,68 +237,64 @@ public final class VaultCore extends Component implements Listener {
 
         startTime = System.currentTimeMillis();
 
-        if (getConfig().getString("server").trim().equalsIgnoreCase("vaultmc")) {
-            VaultMCBot.startVaultMCBot();
-            new ManageBotCommand();
-            new ReferralCommand();
-            new ChatGroupsCommand();
-            new CRCommand();
-            new SVCommand();
-            new WildTeleportCommand();
-            new TourCommand();
-            new TourStageCommand();
-            new TourMusic();
-            new Tour();
-            new ClaimCommand();
-            new UnclaimCommand();
-            new SchemCommand();
-            new BackCommand();
-            new ServerNavigator();
-            new LolCommand();
-            new AFKCommand();
-            new WarpCommand();
-            new TheEndReset();
-            new NetherWarningMessage();
-            new StarterGearExperience();
-            new ReportsCommand();
-            new NearCommand();
-            new RewardsCommand();
-            Bug.dbInit();
-            Bug.load();
-            new BuggyCommand();
-            new BuggyListener();
-            new EntityUpperBound();
-            ItemRegistry.load();
-            new NicknameCommand();
-            new ItemListeners();
-            new CraftingCommand();
-            new CosmeticsCommand();
-            new NightvisionCommand();
-            registerEvents(new ShutDownListener());
-            registerEvents(new CycleListener());
-            registerEvents(new SleepHandler());
-            registerEvents(new ItemDrops());
-            registerEvents(new PlayerJoinQuitListener());
-            registerEvents(new CGSettingsInvListener());
-            registerEvents(new CosmeticsInvListener());
-            registerEvents(new NightvisionCommand());
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
-                RankPromotions.memberPromotion();
-                RankPromotions.patreonPromotion();
-                Statistics.statistics();
-                AFKListener.afkUpdater();
-            }, 0L, 2400L);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), ParticleRunnable::particleHandler, 0L, 10L);
-        }
-
-        if (!getConfig().getString("server").trim().equalsIgnoreCase("backup")) {
-            new EconomyCommand();
-            new MoneyCommand();
-            new TransferCommand();
-            new PlayerHider();
-        }
+        VaultMCBot.startVaultMCBot();
+        new ManageBotCommand();
+        new ReferralCommand();
+        new ChatGroupsCommand();
+        new CRCommand();
+        new SVCommand();
+        new WildTeleportCommand();
+        new TourCommand();
+        new TourStageCommand();
+        new TourMusic();
+        new Tour();
+        new ClaimCommand();
+        new UnclaimCommand();
+        new SchemCommand();
+        new BackCommand();
+        new ServerNavigator();
+        new LolCommand();
+        new AFKCommand();
+        new WarpCommand();
+        new TheEndReset();
+        new NetherWarningMessage();
+        new StarterGearExperience();
+        new ReportsCommand();
+        new NearCommand();
+        new RewardsCommand();
+        Bug.dbInit();
+        Bug.load();
+        new BuggyCommand();
+        new BuggyListener();
+        new EntityUpperBound();
+        ItemRegistry.load();
+        new NicknameCommand();
+        new ItemListeners();
+        new CraftingCommand();
+        new CosmeticsCommand();
+        new NightvisionCommand();
+        registerEvents(new CycleListener());
+        registerEvents(new SleepHandler());
+        registerEvents(new ItemDrops());
+        registerEvents(new PlayerJoinQuitListener());
+        registerEvents(new CGSettingsInvListener());
+        registerEvents(new CosmeticsInvListener());
+        registerEvents(new NightvisionCommand());
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
+            RankPromotions.memberPromotion();
+            RankPromotions.patreonPromotion();
+            Statistics.statistics();
+            AFKListener.afkUpdater();
+        }, 0L, 2400L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), ParticleRunnable::particleHandler, 0L, 10L);
+        new EconomyCommand();
+        new MoneyCommand();
+        new TransferCommand();
+        new PlayerHider();
         new SkullCommand();
         registerEvents(new FlyCommand());
+        registerEvents(new TPACommand());
+        registerEvents(new TPAHereCommand());
         new PlayerCustomKeys();
         new SuicideCommand();
         new IgnoreCommand();
@@ -312,7 +306,6 @@ public final class VaultCore extends Component implements Listener {
         new SettingsCommand();
         SettingsCommand.init();
         new MsgCommand();
-        new MsgMessageListener();
         new ReplyCommand();
         new TPACommand();
         new TPAcceptCommand();
@@ -365,7 +358,6 @@ public final class VaultCore extends Component implements Listener {
         new InventoryStorageListeners();
         new LagCommand();
         new HubCommand();
-        new GetServerService();
         new AdminChatCommand();
         new ClearCommand();
         new HomeCommand();
@@ -405,16 +397,6 @@ public final class VaultCore extends Component implements Listener {
     private void setupChat() {
         RegisteredServiceProvider<Chat> rsp = Bukkit.getServicesManager().getRegistration(Chat.class);
         chat = rsp.getProvider();
-    }
-
-    public void sendToBackup() {
-        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-            players.sendMessage(VaultLoader.getMessage("vaultcore.sendingtobackup"));
-            ByteArrayDataOutput out = ByteStreams.newDataOutput();
-            out.writeUTF("Connect");
-            out.writeUTF("backup");
-            players.sendPluginMessage(VaultLoader.getInstance(), "BungeeCord", out.toByteArray());
-        }
     }
 
     @Override

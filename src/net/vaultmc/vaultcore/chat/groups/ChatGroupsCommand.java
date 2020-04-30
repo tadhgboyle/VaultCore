@@ -4,13 +4,13 @@ import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
@@ -22,7 +22,7 @@ import java.util.*;
 public class ChatGroupsCommand extends CommandExecutor {
 
     @Getter
-    public static List<VLPlayer> toggled = new ArrayList<>();
+    public static Set<UUID> toggled = new HashSet<>();
     @Getter
     public static HashMap<VLPlayer, ChatGroup> invites = new HashMap<>();
     Set<ChatGroup> chatGroupsList = new HashSet<>();
@@ -99,12 +99,13 @@ public class ChatGroupsCommand extends CommandExecutor {
     @SubCommand("chatGroupToggle")
     public void chatGroupToggle(VLPlayer sender) {
         // Simple
-        if (toggled.contains(sender)) {
-            toggled.remove(sender);
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.toggle"), ChatColor.RED + "off"));
+        if (toggled.contains(sender.getUniqueId())) {
+            toggled.remove(sender.getUniqueId());
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.toggle"), "off"));
         } else {
-            toggled.add(sender);
-            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.toggle"), ChatColor.GREEN + "on"));
+            if (StaffChatCommand.checkToggled(sender, toggled)) return;
+            toggled.add(sender.getUniqueId());
+            sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.toggle"), "on"));
         }
     }
 
@@ -144,7 +145,7 @@ public class ChatGroupsCommand extends CommandExecutor {
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.success"), chatGroup.name));
         for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(chatGroup)) {
             if (member.isOnline())
-                member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getFormattedName(), chatGroup.name));
+                member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), chatGroup.name, sender.getFormattedName(), chatGroup.name));
         }
     }
 
@@ -189,7 +190,7 @@ public class ChatGroupsCommand extends CommandExecutor {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.accepted"), invites.get(sender).name));
                 for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(invites.get(sender))) {
                     if (member.isOnline())
-                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), sender.getDisplayName(), invites.get(sender).name));
+                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), invites.get(sender).name, sender.getDisplayName(), invites.get(sender).name));
                 }
                 invites.remove(sender);
             } else {

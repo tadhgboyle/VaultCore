@@ -1,8 +1,6 @@
 package net.vaultmc.vaultcore.chat.groups;
 
-import net.milkbowl.vault.chat.Chat;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -52,6 +50,8 @@ public class CGSettingsInvListener implements Listener {
                 return;
             }
             if (!ChatGroup.permissionCheck(sender, member)) return;
+            cgSettingsInv.openMemberSettingsMenu(sender, member);
+            editors.put(sender, member);
         } else if (title.contains("Edit:")) {
             VLOfflinePlayer target = editors.get(sender);
             e.setCancelled(true);
