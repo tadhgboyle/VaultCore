@@ -96,22 +96,29 @@ public class ChatUtils extends ConstructorRegisterListener {
         String adminChatKey = playerCustomKeys.getCustomKey(player, "adminchat");
         // Staff + Admin chat
         if ((e.getMessage().startsWith(staffChatKey) || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
-            StaffChatCommand.chat(player, e.getMessage());
-            e.setCancelled(true);
-            return;
+            String message = e.getMessage().replaceFirst(staffChatKey, "");
+            if (message.length() > 0) {
+                StaffChatCommand.chat(player, message);
+                e.setCancelled(true);
+                return;
+            }
         }
         if ((e.getMessage().startsWith(adminChatKey) || AdminChatCommand.getToggled().contains(player.getUniqueId())) && player.hasPermission(Permissions.AdminChatCommand)) {
-            AdminChatCommand.chat(player, e.getMessage());
-            e.setCancelled(true);
-            return;
+            String message = e.getMessage().replaceFirst(adminChatKey, "");
+            if (message.length() > 0) {
+                AdminChatCommand.chat(player, message);
+                e.setCancelled(true);
+                return;
+            }
         }
         // ChatGroups
         if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(chatGroupsKey) || ChatGroupsCommand.getToggled().contains(player.getUniqueId())))) {
             String message = e.getMessage().replaceFirst(chatGroupsKey, "");
-            if (message.length() >= 1)
-                ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, message);
-            e.setCancelled(true);
-            return;
+            if (message.length() > 0) {
+                ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, PlayerSettings.getSetting(player, "settings.grammarly") ? Utilities.grammarly(message) : message);
+                e.setCancelled(true);
+                return;
+            }
         }
 
         // MuteChat
