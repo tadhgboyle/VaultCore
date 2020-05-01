@@ -40,13 +40,12 @@ public class SettingsCommand extends CommandExecutor implements Listener {
 
     public static void init() {
         for (Settings setting : Settings.values()) {
-            if (setting.toggleable) {
-                settingNames.add(
-                        setting.vc_name);
-                settingMap.put(
-                        setting.vc_name,
-                        setting.name);
-            }
+            settingNames.add(
+                    setting.vc_name);
+            settingMap.put(
+                    setting.vc_name,
+                    setting.name);
+
         }
     }
 

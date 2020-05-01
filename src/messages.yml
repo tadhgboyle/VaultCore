@@ -594,7 +594,7 @@ vaultcore:
       not_deleted: "&c{SCHEM} could not be deleted. Please contact an Administrator for help."
       deleted_target: "{SENDER}&e has deleted your schematic &6{SCHEM}&e."
     speed:
-      invalid_movement: "&cInvalid movement. Try fly or walk."
+      invalid_movement: "&cInvalid movement. Try &4fly&c or&4 walk&c."
       sender_set_to: "&eYour &6{MOVEMENT}&e speed has been set to &2{SPEED}&e."
       sender_target: "&eYou have set {TARGET}&e's &6{MOVEMENT}&e speed to &2{SPEED}&e."
       target_set_to: "&eYour &6{MOVEMENT}&e speed has been set to&2{SPEED}&e by {SENDER}&e."
@@ -623,7 +623,8 @@ vaultcore:
     logs:
       already_searching: "&cThe logs are currently being searched. Please try again later."
       minimum_length: "&cPlease enter a minimum of 3 characters."
-      header: "&2--== [Log] ==--"
+      searching: "&eSearching the logs, please wait..."
+      header: "&2--== [Logs] ==--"
       no_matches: "&cNo matches for that phrase."
       total_count: "&eFound &2{MATCHES}&e matches for that phrase."
       error_reading: "&cThere was an error reading the logs. Please contact an Administrator."

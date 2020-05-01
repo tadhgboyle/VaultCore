@@ -8,10 +8,7 @@ import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 
 import java.util.Collections;
 
-@RootCommand(
-        literal = "logs",
-        description = "Search the logs for a phrase."
-)
+@RootCommand(literal = "logs", description = "Search the logs for a phrase.")
 @Permission(Permissions.LogsCommand)
 public class LogsCommand extends CommandExecutor {
     @Setter

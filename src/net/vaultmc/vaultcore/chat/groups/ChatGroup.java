@@ -62,7 +62,6 @@ public class ChatGroup implements ConfigurationSerializable {
     }
 
     public static boolean addToGroup(ChatGroup chatGroup, VLPlayer target) {
-        // TODO: Check if chatgroup is private. If so, check if the invites hashmap contains the correct chatgroup for the target
         if (getChatGroup(target) != null || chatGroup.members.contains(target.getUniqueId().toString())) return false;
         else {
             chatGroup.members.add(target.getUniqueId().toString());

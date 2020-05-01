@@ -4,19 +4,25 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.commands.wrappers.WrappedSuggestion;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RootCommand(literal = "speed", description = "Change the speed of yourself or another player.")
 @Permission(Permissions.SpeedCommand)
 public class SpeedCommand extends CommandExecutor {
 
+    List<String> movements = Arrays.asList("fly", "walk");
+
     public SpeedCommand() {
         register("speedFind", Collections.emptyList());
+        register("speedCurrent", Collections.singletonList(Arguments.createArgument("speed", Arguments.integerArgument(1, 10))));
         register("speedSelf", Arrays.asList(Arguments.createArgument("speed", Arguments.integerArgument(1, 10)),
                 Arguments.createArgument("movement", Arguments.word())));
         register("speedOther",
@@ -35,19 +41,25 @@ public class SpeedCommand extends CommandExecutor {
         }
     }
 
+    @SubCommand("speedCurrent")
+    @PlayerOnly
+    public void speedCurrent(VLPlayer sender, int speed) {
+        setSpeed(sender, sender, speed, sender.isFlying() ? "fly" : "walk");
+    }
+
     @SubCommand("speedSelf")
     @PlayerOnly
-    public static void speedSelf(VLPlayer sender, int speed, String movement) {
+    public void speedSelf(VLPlayer sender, int speed, String movement) {
         setSpeed(sender, sender, speed, movement);
     }
 
     @SubCommand("speedOther")
     @Permission(Permissions.SpeedCommandOther)
-    public static void speedOther(VLCommandSender sender, VLPlayer target, int speed, String movement) {
+    public void speedOther(VLCommandSender sender, VLPlayer target, int speed, String movement) {
         setSpeed(sender, target, speed, movement);
     }
 
-    private static void setSpeed(VLCommandSender sender, VLPlayer target, int speed, String movement) {
+    private void setSpeed(VLCommandSender sender, VLPlayer target, int speed, String movement) {
         float newSpeed;
         if (speed / 10D > 1.0 || speed / 10D < -1.0) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.speed.invalid_speed"));
@@ -90,5 +102,13 @@ public class SpeedCommand extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.speed.invalid_movement"));
                 break;
         }
+    }
+
+    @TabCompleter(
+            subCommand = "speedCurrent|speedSelf|speedOther",
+            argument = "movement"
+    )
+    public List<WrappedSuggestion> suggestWarp(VLPlayer sender, String remaining) {
+        return movements.stream().map(WrappedSuggestion::new).collect(Collectors.toList());
     }
 }

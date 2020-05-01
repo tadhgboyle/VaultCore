@@ -118,8 +118,6 @@ public class LolCommand extends CommandExecutor {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.max"), page + 1, MAX_PAGES + 1));
             return;
         }
-        /* check if page will be empty */
-        // TODO fix this.
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.header"));
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.lol.list.page_number"), page + 1, MAX_PAGES + 1));
         int displayed = 0;

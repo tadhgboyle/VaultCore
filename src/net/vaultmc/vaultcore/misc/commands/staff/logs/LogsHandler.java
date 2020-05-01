@@ -30,6 +30,7 @@ public class LogsHandler implements Runnable {
 
     public void run() {
         LogsCommand.setSearching(true);
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.searching"));
         File logsDir = new File("/srv/" + VaultCore.getInstance().getConfig().getString("server") + "/logs/");
         for (File file : logsDir.listFiles()) {
             try {
@@ -61,6 +62,7 @@ public class LogsHandler implements Runnable {
                         matcher = regex.matcher(line);
                         if (matcher.find()) {
                             if (line.endsWith(sender.getName() + " issued server command: /logs " + search)) continue;
+                            if (line.startsWith("[VaultLoader]")) continue;
                             lineMatches.put(lineID, line);
                             lineFiles.put(lineID, file.getName());
                         }
@@ -73,7 +75,7 @@ public class LogsHandler implements Runnable {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.header"));
             // TODO pagination/date selection
             for (int lineNumber : lineMatches.keySet()) {
-                String fileName = lineFiles.get(lineNumber);
+                String fileName = lineFiles.get(lineNumber).substring(0, lineFiles.get(lineNumber).lastIndexOf("-"));
                 String line = lineMatches.get(lineNumber);
                 String substring = line.substring(line.lastIndexOf("/INFO]:") + 7);
                 sender.sendMessage(ChatColor.YELLOW + fileName + ChatColor.RESET + substring);

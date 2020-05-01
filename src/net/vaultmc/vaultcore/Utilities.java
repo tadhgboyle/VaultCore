@@ -45,9 +45,9 @@ public final class Utilities {
             }
             return sb.toString().trim();
         } catch (NullPointerException e) {
-            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber specified an invalid message path, or a variable is null. Please report this.";
+            return ChatColor.DARK_RED + "There was an error formatting a message. Usually this means invalid message path, or a variable is null. Please report this.";
         } catch (ArrayIndexOutOfBoundsException e) {
-            return ChatColor.DARK_RED + "There was an error formatting a message. This usually means Aber added too many variables in the message string. Please report this.";
+            return ChatColor.DARK_RED + "There was an error formatting a message. This usually there are too many variables in the message string. Please report this.";
         }
     }
 
