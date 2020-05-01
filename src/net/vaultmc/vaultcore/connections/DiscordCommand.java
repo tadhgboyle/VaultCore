@@ -26,13 +26,7 @@ public class DiscordCommand extends CommandExecutor {
         player.sendMessage(VaultLoader.getMessage("vaultcore.commands.discord.guild"));
         player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.token.your_token"),
                 token));
-        long id = VLOfflinePlayer.getDiscordUser(player);
 
-        if(id == 0) {
-            player.sendMessage(ChatColor.YELLOW + "Status: " + ChatColor.RED + "Inactive");
-            return;
-        } else {
-            player.sendMessage(ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Active");
-        }
+        player.sendMessage((VLOfflinePlayer.getDiscordUser(player) == 0)? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled");
     }
 }
