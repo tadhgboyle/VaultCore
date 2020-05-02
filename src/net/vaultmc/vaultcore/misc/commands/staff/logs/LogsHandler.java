@@ -75,7 +75,12 @@ public class LogsHandler implements Runnable {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.logs.header"));
             // TODO pagination/date selection
             for (int lineNumber : lineMatches.keySet()) {
-                String fileName = lineFiles.get(lineNumber).substring(0, lineFiles.get(lineNumber).lastIndexOf("-"));
+                String fileName;
+                try {
+                    fileName = lineFiles.get(lineNumber).substring(0, lineFiles.get(lineNumber).lastIndexOf("-"));
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    fileName = lineFiles.get(lineNumber);
+                }
                 String line = lineMatches.get(lineNumber);
                 String substring = line.substring(line.lastIndexOf("/INFO]:") + 7);
                 sender.sendMessage(ChatColor.YELLOW + fileName + ChatColor.RESET + substring);

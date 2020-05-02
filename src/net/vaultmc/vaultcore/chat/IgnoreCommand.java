@@ -23,12 +23,17 @@ public class IgnoreCommand extends CommandExecutor {
         register("ignoreList", Collections.singletonList(Arguments.createLiteral("list")));
         register("ignore", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
+    // TODO: Caching of some sort...
 
     static List<String> ignored;
-    // TODO: Use seperate ignores table in db... then cache every 5 mins
 
+    /**
+     * Check if ignorer is ignoring ignoredPlayer
+     *
+     * @param ignorer       The player receiving the message/event
+     * @param ignoredPlayer The player executing the event
+     */
     public static boolean isIgnoring(VLOfflinePlayer ignorer, VLPlayer ignoredPlayer) {
-        /* ignorer is the player recieving the message/event + ignoredPlayer is the executor of the event */
         SQLPlayerData data = ignorer.getPlayerData();
         String csvIgnored = data.getString("ignored");
         if (csvIgnored != null) {
