@@ -24,6 +24,10 @@ public class SpawnCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.spawn.disabled"));
             return;
         }
-        sender.teleportNoMove(sender.getWorld().getSpawnLocation());
+        String world = sender.getWorld().getName();
+        if (world.equalsIgnoreCase("creative") || world.equalsIgnoreCase("Lobby"))
+            sender.teleport(sender.getWorld().getSpawnLocation());
+        else
+            sender.teleportNoMove(sender.getWorld().getSpawnLocation());
     }
 }

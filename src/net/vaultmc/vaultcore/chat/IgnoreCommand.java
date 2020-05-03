@@ -27,23 +27,6 @@ public class IgnoreCommand extends CommandExecutor {
 
     static List<String> ignored;
 
-    /**
-     * Check if ignorer is ignoring ignoredPlayer
-     *
-     * @param ignorer       The player receiving the message/event
-     * @param ignoredPlayer The player executing the event
-     */
-    public static boolean isIgnoring(VLOfflinePlayer ignorer, VLPlayer ignoredPlayer) {
-        SQLPlayerData data = ignorer.getPlayerData();
-        String csvIgnored = data.getString("ignored");
-        if (csvIgnored != null) {
-            if (csvIgnored.isEmpty()) return false;
-            ignored = Arrays.asList(csvIgnored.split(", "));
-            return ignored.contains(ignoredPlayer.getUniqueId().toString());
-        }
-        return false;
-    }
-
     @SubCommand("ignore")
     public void ignore(VLPlayer sender, VLOfflinePlayer target) {
         if (sender == target) {
@@ -93,5 +76,22 @@ public class IgnoreCommand extends CommandExecutor {
                 }
             } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
         } else sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
+    }
+
+    /**
+     * Check if ignorer is ignoring ignoredPlayer
+     *
+     * @param ignorer       The player receiving the message/event
+     * @param ignoredPlayer The player executing the event
+     */
+    public static boolean isIgnoring(VLOfflinePlayer ignorer, VLPlayer ignoredPlayer) {
+        SQLPlayerData data = ignorer.getPlayerData();
+        String csvIgnored = data.getString("ignored");
+        if (csvIgnored != null) {
+            if (csvIgnored.isEmpty()) return false;
+            ignored = Arrays.asList(csvIgnored.split(", "));
+            return ignored.contains(ignoredPlayer.getUniqueId().toString());
+        }
+        return false;
     }
 }

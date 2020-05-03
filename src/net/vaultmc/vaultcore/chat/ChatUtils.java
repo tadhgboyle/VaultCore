@@ -20,7 +20,6 @@ package net.vaultmc.vaultcore.chat;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
 import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
@@ -46,13 +45,10 @@ public class ChatUtils extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChatShouldFormat(AsyncPlayerChatEvent e) {
         // Let clans handle itself
-        if (e.getPlayer().getWorld().getName().contains("clans")) {
-            return;
-        }
+        if (e.getPlayer().getWorld().getName().contains("clans")) return;
         formatChat(e);
         e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
-        if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc"))
-            e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
+        e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
     }
 
     // Handle @mentions in chat
@@ -72,7 +68,8 @@ public class ChatUtils extends ConstructorRegisterListener {
                     if (AFKCommand.getAfk().containsKey(referred)) {
                         e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-afk"));
                     }
-                    referred.playSound(referred.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
+                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(referred), "settings.notifications"))
+                        referred.playSound(referred.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
                 }
             }
         }

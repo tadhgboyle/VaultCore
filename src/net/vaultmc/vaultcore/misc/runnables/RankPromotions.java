@@ -6,7 +6,6 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
-import org.bukkit.entity.Player;
 
 public class RankPromotions {
 
@@ -26,8 +25,8 @@ public class RankPromotions {
                         "lp user " + player.getName() + " parent remove default");
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set member");
 
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(players), "minimal_chat")) continue;
+                for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+                    if (PlayerSettings.getSetting(players, "minimal_chat")) continue;
                     players.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.runnables.rank_promotions"),
                                     player.getFormattedName(), "Member"));
@@ -50,8 +49,8 @@ public class RankPromotions {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                         "lp user " + player.getName() + " parent set patreon");
 
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(players), "minimal_chat")) continue;
+                for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
+                    if (PlayerSettings.getSetting(players, "minimal_chat")) continue;
                     players.sendMessage(
                             Utilities.formatMessage(VaultLoader.getMessage("vaultcore.runnables.rank_promotions"),
                                     player.getFormattedName(), "Patreon"));
