@@ -99,6 +99,16 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                         sender.getPlayerData().getBoolean("settings.minimal_caps") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
                 ))
                 .build());
+        inv.setItem(18, new ItemStackBuilder(Material.BELL)
+                .name(ChatColor.YELLOW + "Notifications")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Receive sound notifications ",
+                        ChatColor.GRAY + "when you receive a message or ",
+                        ChatColor.GRAY + "TPA request.",
+                        "",
+                        sender.getPlayerData().getBoolean("settings.notifications") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
+                ))
+                .build());
         inv.setItem(20, new ItemStackBuilder(Material.ENDER_EYE)
                 .name(ChatColor.YELLOW + "Auto Accept TPA's")
                 .lore(Arrays.asList(
@@ -168,6 +178,9 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                 case 14:
                     data.set("settings.minimal_caps", !data.getBoolean("settings.minimal_caps"));
                     break;
+                case 18:
+                    data.set("settings.notifications", !data.getBoolean("settings.notifications"));
+                    break;
                 case 20:
                     data.set("settings.autotpa", !data.getBoolean("settings.autotpa"));
                     break;
@@ -177,6 +190,8 @@ public class SettingsCommand extends CommandExecutor implements Listener {
                 case 24:
                     data.set("settings.item_drops", !data.getBoolean("settings.item_drops"));
                     break;
+                default:
+                    return;
             }
             e.setCancelled(true);
             player.closeInventory();

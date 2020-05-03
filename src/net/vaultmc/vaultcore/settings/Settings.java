@@ -11,7 +11,8 @@ public enum Settings {
     MINIMAL_MESSAGES("Minimal Messages", "minimal_messages"),
     MINIMAL_CAPS("Minimal Caps", "minimal_caps"),
     CR_ITEM_DROPS("Item Drops", "item_drops"),
-    GRAMMARLY("Grammarly", "grammarly");
+    GRAMMARLY("Grammarly", "grammarly"),
+    NOTIFICATIONS("Notifications", "notifications");
 
     @Getter
     public String name;

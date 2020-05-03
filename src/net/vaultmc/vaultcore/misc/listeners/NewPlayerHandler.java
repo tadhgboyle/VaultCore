@@ -40,6 +40,7 @@ public class NewPlayerHandler {
         player.getPlayerData().set("refferals", 0);
         player.getPlayerData().set("refferal_used", false);
         player.getPlayerData().set("nickname", "0, 0");
+        player.getPlayerData().set("settings.notifications", true);
         player.saveData();
 
         for (Player players : Bukkit.getOnlinePlayers()) {
