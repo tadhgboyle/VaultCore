@@ -1,5 +1,7 @@
 package net.vaultmc.vaultcore;
 
+import net.vaultmc.vaultcore.settings.PlayerCustomColours;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,18 +27,27 @@ public final class Utilities {
     /**
      * @param message      Message to format.
      * @param replacements The variables you wish to insert to the message.
+     * @param player       The player receiving the message, needed for custom colours.
      * @return Compiled message
      * @author Aberdeener
      */
-    public static String formatMessage(String message, Object... replacements) {
+    public static String formatMessage(String message, VLPlayer player, String... replacements) {
         int num = 0;
         StringBuilder sb = new StringBuilder();
         try {
             for (String s : message.split(" ")) {
                 if (s.matches(".*?\\{.*?}.*")) {
                     String before = StringUtils.substringBefore(s, "{");
+                    if (before.matches(".*?<.*?>.*")) {
+                        String context = before.substring(0, before.length() - 1);
+                        before = PlayerCustomColours.getColour(player, context);
+                    }
                     String after = s.substring(s.lastIndexOf("}") + 1);
-                    s = replacements[num].toString();
+                    if (after.matches(".*?<.*?>.*")) {
+                        String context = after.substring(0, after.length() - 1);
+                        after = PlayerCustomColours.getColour(player, context);
+                    }
+                    s = replacements[num];
                     sb.append(before).append(s).append(after).append(" ");
                     num++;
                 } else {
@@ -56,7 +67,6 @@ public final class Utilities {
      * @return Edited message
      * @author Aberdeener
      */
-    // I am sure there is a better way to determine whether an apostrophe is needed, but this works for now.
     static List<String> apostrophe = Arrays.asList("hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
     static List<String> punctuation = Arrays.asList(".", "!", "?");
 

@@ -55,16 +55,16 @@ public class ChatUtils extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
-        String[] parts = e.getMessage().split(" ");
+        String[] words = e.getMessage().split(" ");
 
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i].startsWith("@") && !parts[i].equals("@")) {
-                Player referred = Bukkit.getPlayer(parts[i].replace("@", ""));
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].startsWith("@") && !words[i].equals("@")) {
+                Player referred = Bukkit.getPlayer(words[i].replace("@", ""));
                 if (referred == null) {
-                    parts[i] = ChatColor.WHITE + "@" + parts[i].replace("@", "") + ChatColor.RESET;
+                    words[i] = ChatColor.WHITE + "@" + words[i].replace("@", "") + ChatColor.RESET;
                     e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-offline"));
                 } else {
-                    parts[i] = ChatColor.YELLOW + "@" + referred.getName() + ChatColor.RESET;
+                    words[i] = ChatColor.YELLOW + "@" + referred.getName() + ChatColor.RESET;
                     if (AFKCommand.getAfk().containsKey(referred)) {
                         e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-afk"));
                     }
@@ -74,7 +74,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             }
         }
         StringBuilder sb = new StringBuilder();
-        for (String s : parts) {
+        for (String s : words) {
             sb.append(s).append(" ");
         }
         e.setMessage(sb.toString().trim());
