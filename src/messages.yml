@@ -545,6 +545,7 @@ vaultcore:
         overrode_request_target: "{SENDER}&c cancelled their TPA request to you."
         request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
         request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
+    tpall: "&eEveryone was teleported to {SENDER}&e."
     tphere:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{SENDER}&e has teleported you to them."

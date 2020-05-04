@@ -273,6 +273,7 @@ public final class VaultCore extends Component implements Listener {
         new CraftingCommand();
         new CosmeticsCommand();
         new NightvisionCommand();
+        new TPAllCommand();
         registerEvents(new CycleListener());
         registerEvents(new SleepHandler());
         registerEvents(new ItemDrops());
