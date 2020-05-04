@@ -22,7 +22,8 @@ public class TPAllCommand extends CommandExecutor {
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (players == sender) continue;
             players.teleport(sender.getLocation());
-            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpall"), sender.getFormattedName()));
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpall.players"), sender.getFormattedName()));
         }
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpall.sender"));
     }
 }
