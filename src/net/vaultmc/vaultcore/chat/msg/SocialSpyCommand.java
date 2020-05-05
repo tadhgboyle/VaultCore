@@ -5,6 +5,7 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +27,7 @@ public class SocialSpyCommand extends CommandExecutor implements Listener {
         VaultCore.getInstance().registerEvents(this);
     }
 
-    public static void sendSS(String type, VLPlayer sender, VLPlayer target, String message) {
+    public static void sendSS(String type, VLPlayer sender, VLOfflinePlayer target, String message) {
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (sender == players || target == players) continue;
             if (players.hasPermission(Permissions.SocialSpyCommand)) {

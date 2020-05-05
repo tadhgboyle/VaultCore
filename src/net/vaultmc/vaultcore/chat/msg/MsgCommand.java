@@ -9,7 +9,6 @@ import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.event.EventHandler;
@@ -56,7 +55,7 @@ public class MsgCommand extends CommandExecutor implements Listener {
         }
         replies.put(target.getUniqueId(), sender.getUniqueId());
         if (PlayerSettings.getSetting(target, "settings.notifications"))
-            Bukkit.getPlayer(target.getUniqueId()).playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
+            target.getPlayer().playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"), sender.getFormattedName(), target.getFormattedName(), message));
         target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.msg.format"), sender.getFormattedName(), target.getFormattedName(), message));
         SocialSpyCommand.sendSS("MSG", sender, target, message);

@@ -23,6 +23,10 @@ public class ReplyCommand extends CommandExecutor {
             return;
         }
         VLPlayer target = VLPlayer.getPlayer(MsgCommand.getReplies().get(player.getUniqueId()));
-        MsgCommand.msg(player, target, message);
+        try {
+            MsgCommand.msg(player, target, message);
+        } catch (NullPointerException e) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.reply.noone_error"));
+        }
     }
 }

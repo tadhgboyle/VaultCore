@@ -523,6 +523,7 @@ vaultcore:
     msg:
       self_error: "&cYou can't message yourself."
       disabled_messages: "&cThey have disabled messages."
+      offline: "&cThat player is offline :("
       format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
 
     reply:
@@ -782,10 +783,19 @@ vaultcore:
 
     mail:
       header: "&2--== [Mail] ==--"
-      no_mail: "&cYou have no mail. Try being more popular?"
+      no_mail: "&cYou have no mail."
       error_checking: "&4There was an error checking for mail. Please report this"
       count: "&eYou have &2{COUNT}&e unread mail."
       list: "&e[#&2{ID}&e] &6{SENDER} &e- &6{DATE}"
+      self_error: "&cYou cannot mail yourself. Weirdo."
+      not_their_mail: "&cThat mail does not belong to you. This will be reported."
+      no_mail_id: "&cThere is no mail with that ID."
+      layout: "&e{KEY}: &6{VALUE}"
+      marked_read: "&eSuccessfully deleted mail #&6{ID}&e."
+      sent: "&eYou sent a mail to {TARGET}&e."
       max_length: "&cMail can only be 255 characters long. Your message is {COUNT} characters long."
       new_mail: "&eYou have a new mail from {SENDER}&e. \n&eRun &6/mail read {ID}&e to read it."
       error_alerting: "&4Error while completing a new mail. Please report this."
+      clear:
+        confirm: "&ePlease type &6/mail clear confirm&e to confirm."
+        cleared: "&eCleared your mailbox!"
