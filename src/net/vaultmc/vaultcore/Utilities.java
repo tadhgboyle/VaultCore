@@ -1,8 +1,5 @@
 package net.vaultmc.vaultcore;
 
-import net.vaultmc.vaultcore.settings.PlayerCustomColours;
-import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,32 +25,37 @@ public final class Utilities {
     /**
      * @param message      Message to format.
      * @param replacements The variables you wish to insert to the message.
-     * @param sender       The player receiving the message, needed for custom colours.
      * @return Compiled message
      * @author Aberdeener
      */
-    public static String formatMessage(String message, VLCommandSender sender, Object... replacements) {
+    public static String formatMessage(String message, Object... replacements) {
+        /*
         HashMap<String, String> colours = PlayerCustomColours.defaultColours;
         if (sender instanceof VLPlayer) {
             if (((VLPlayer) sender).isOnline())
                 colours = PlayerCustomColours.getColours((VLPlayer) sender);
             else colours = PlayerCustomColours.getColoursFromFile((VLPlayer) sender);
         }
+        */
         int num = 0;
         StringBuilder sb = new StringBuilder();
         try {
             for (String s : message.split(" ")) {
                 if (s.matches(".*?\\{.*?}.*")) {
                     String before = StringUtils.substringBefore(s, "{");
+                    /*
                     if (before.matches(".*?<.*?>.*")) {
                         String context = before.substring(0, before.length() - 1);
                         before = "&" + colours.get(context);
                     }
+                     */
                     String after = s.substring(s.lastIndexOf("}") + 1);
+                    /*
                     if (after.matches(".*?<.*?>.*")) {
                         String context = after.substring(0, after.length() - 1);
                         after = "&" + colours.get(context);
                     }
+                     */
                     s = replacements[num].toString();
                     sb.append(before).append(s).append(after).append(" ");
                     num++;

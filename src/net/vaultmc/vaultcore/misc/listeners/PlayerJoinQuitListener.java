@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.misc.commands.NicknameCommand;
-import net.vaultmc.vaultcore.settings.PlayerCustomColours;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
@@ -66,7 +65,7 @@ public class PlayerJoinQuitListener implements Listener {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     VaultCore.getInstance().getConfig().getString("welcome-message")));
 
-        PlayerCustomColours.setColours(player, PlayerCustomColours.getColoursFromFile(player));
+        // PlayerCustomColours.setColours(player, PlayerCustomColours.getColoursFromFile(player));
 
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
@@ -87,7 +86,7 @@ public class PlayerJoinQuitListener implements Listener {
         String rank = player.getGroup();
         String ip = player.getAddress().getAddress().getHostAddress();
 
-        PlayerCustomColours.saveColoursToFile(player);
+        // PlayerCustomColours.saveColoursToFile(player);
 
         playerDataQuery(uuid, username, 0, lastSeen, playtime, rank, ip);
         sessionHandler.endSession(player);
