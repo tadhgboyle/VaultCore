@@ -185,10 +185,19 @@ public final class Utilities {
     /**
      * @param millis Time in milliseconds to turn into a date.
      * @return Date from milliseconds
-     * @author Aberdeener
      */
     public static String millisToDate(long millis) {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        Date epoch = new Date(millis);
+        return format.format(epoch);
+    }
+
+    /**
+     * @param millis Time in milliseconds to turn into a date.
+     * @return Date from milliseconds with hours/min/seconds
+     */
+    public static String millisToLongDate(long millis) {
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         Date epoch = new Date(millis);
         return format.format(epoch);
     }

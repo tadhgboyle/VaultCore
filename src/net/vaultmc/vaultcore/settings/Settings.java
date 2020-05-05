@@ -12,7 +12,9 @@ public enum Settings {
     MINIMAL_CAPS("Minimal Caps", "minimal_caps"),
     CR_ITEM_DROPS("Item Drops", "item_drops"),
     GRAMMARLY("Grammarly", "grammarly"),
-    NOTIFICATIONS("Notifications", "notifications");
+    NOTIFICATIONS("Notifications", "notifications"),
+    MENTION_NOTIFICATIONS("Mention Notifications", "mention_notifications"),
+    CHECK_MAIL_JOIN("Check Mail on Join", "check_mail_join");
 
     @Getter
     public String name;

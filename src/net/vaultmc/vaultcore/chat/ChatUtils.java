@@ -68,7 +68,7 @@ public class ChatUtils extends ConstructorRegisterListener {
                     if (AFKCommand.getAfk().containsKey(referred)) {
                         e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-afk"));
                     }
-                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(referred), "settings.notifications"))
+                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(referred), "settings.mention_notifications"))
                         referred.playSound(referred.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
                 }
             }

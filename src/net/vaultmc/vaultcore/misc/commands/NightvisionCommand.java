@@ -11,7 +11,9 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @RootCommand(literal = "nightvision", description = "Enable or disable nightvision.")
 @Permission(Permissions.NightvisionCommand)

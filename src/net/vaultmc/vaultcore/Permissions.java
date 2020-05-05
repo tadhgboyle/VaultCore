@@ -105,4 +105,5 @@ public final class Permissions {
     public static final String NightvisionCommand = "vaultcore.nightvision";
     public static final String NightvisionCommandAdmin = "vaultcore.nightvision.admin";
     public static final String SkullCommand = "vaultcore.skull";
+    public static final String MailCommand = "vaultcore.mail";
 }

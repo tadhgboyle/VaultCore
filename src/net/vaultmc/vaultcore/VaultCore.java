@@ -41,6 +41,7 @@ import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.donation.DonationCommand;
+import net.vaultmc.vaultcore.misc.commands.mail.MailCommand;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
 import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommand;
 import net.vaultmc.vaultcore.misc.commands.staff.grant.GrantCommandListener;
@@ -274,6 +275,7 @@ public final class VaultCore extends Component implements Listener {
         new CosmeticsCommand();
         new NightvisionCommand();
         new TPAllCommand();
+        new MailCommand();
         registerEvents(new CycleListener());
         registerEvents(new SleepHandler());
         registerEvents(new ItemDrops());

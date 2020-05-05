@@ -427,355 +427,365 @@ vaultcore:
     end_resetting-3: "&eThe end is going to be reset in &21&e minute!"
     end_reset: "&eThe End is resetting. You were warped to Survival spawn."
 
-commands:
-  back:
-    success: "&eYou have been teleported to your previous location."
-    no_teleport_location: "&cYou have nowhere to teleport to."
+  commands:
+    back:
+      success: "&eYou have been teleported to your previous location."
+      no_teleport_location: "&cYou have nowhere to teleport to."
 
-  discord:
-    guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
+    discord:
+      guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
 
-  list:
-    header: "&2--== [List] ==--"
-    count: "&eThere are currently &6{COUNT}&e players online."
-    no_players_online: "&cThere are no players online."
-    player_vanished: "&7&o [VANISHED]"
-
-  ping:
-    self: "&eYour ping is &2{PING}&ems."
-    other: "{TARGET}&e's ping is &2{PING}&ems."
-
-  playtime:
-    online_player: "{TARGET} &ehas played for {TIME}"
-    offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for {TIME}"
-    rank_wait: "&eYou are only {TIME}&e away from &6{RANK}&e!"
-    top_header: "&2--== [Top Playtime] ==--"
-    top: "&e[&6{POSITION}&e]&r {PLAYER}&e -&r {PLAYTIME}"
-
-  ranks:
-    player_header: "&2--== [Player Ranks] ==--"
-    staff_header: "&2--== [Staff Ranks] ==--"
-
-  reload: "&aVaultCore config reloaded!"
-
-  seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
-
-  token:
-    generating: "&eGenerating your token..."
-    your_token: "&eYour token is: &2{TOKEN}&e."
-    please_rerun: "&cPlease rerun the command."
-
-  warp:
-    not_exist: "&eThe warp &6{WARP}&e does not exist."
-    set: "&eSet the warp &6{WARP}&e to your location."
-    already_exist: "&eThe warp &6{WARP}&e has already been set. Try to delete it first."
-    teleported: "&eYou have been teleported to &6{WARP}&e."
-    deleted: "&eYou have deleted the warp &6{WARP}&e."
-
-  wild:
-    teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
-    wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
-
-  check:
-    header: "&2--== [Check] ==--"
-    format: "&e{KEY}: &6{VALUE}"
-
-  clear_chat:
-    sender: "&eYou have cleared chat."
-    players: "{SENDER}&e has cleared chat."
-
-  console_say:
-    format: "&9&lCONSOLE&8: &f{MESSAGE}"
-
-  feed_heal:
-    self: "&eYou have been &6{ACTION}&e."
-    other: "&eYou have &6{ACTION} {TARGET}&e."
-    receiver: "&eYou have been &6{ACTION} by {SENDER}&e."
-
-  fly:
-    gamemode_error: "&c{TARGET} in {GAMEMODE} silly."
-    self: "&eYou have &2{TOGGLE} &6fly&e."
-    other: "&eYou have &2{TOGGLE} &6fly&e for {TARGET}&e."
-    receiver: "&eYour &6fly&e has been &2{TOGGLE}&e by {SENDER}&e."
-
-  hasperm:
-    self: "&eYou {STATUS} &ethe permission &6{PERMISSION}&e."
-    other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
-
-  invsee:
-    self_error: "&cPress e to open your own inventory."
-    excempt_error: "&cYou don't have permission to open this person's inventory."
-
-  mute_chat:
-    sender: "&eYou have &6{STATUS}&e the chat."
-    players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
-
-  staffchat:
-    format: "&8[&7SC&8]&r {SENDER}&8: &b{MESSAGE}"
-    toggle: "&eYou have toggled &6StaffChat &2{TOGGLE}&e."
-
-  adminchat:
-    format: "&8[&7AC&8] &r{SENDER}&8: &b{MESSAGE}"
-    toggle: "&eYou have toggled &6AdminChat &2{TOGGLE}&e."
-
-  chat_toggled: "&cYou already have {CHAT}&c toggled on. Toggle it off first."
-
-  msg:
-    self_error: "&cYou can't message yourself."
-    disabled_messages: "&cThey have disabled messages."
-    format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
-
-  reply:
-    noone_error: "&cYou have no one to reply to."
-
-  socialspy:
-    toggle: "&eYou have toggled &6SocialSpy &2{TOGGLE}&e."
-    format: "&8[&7SS&8] [&7{TYPE}&8] {SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
-
-  tag:
-    self_error: "&cYou can't tag yourself."
-    add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
-    list_header: "&2--== [Tags] ==--"
-    list: "&e[#&2{ID}&e] &6{CONTENT} &e- &2{DATE}"
-    no_tags_for_player: "&cThere are no tags for that player."
-    tag_already_deleted: "&cThat tag has already been deleted."
-    delete: "&eDeleted tag [#&2{ID}&e]."
-    tag_not_exist: "&cThat tag does not exist."
-
-  grant:
-    no_permission: "&cYou don't have permission to use this rank."
-    updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
-    updated_player: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
-    mod-no-perm: "&cYou cannot change a staff members rank!"
-
-  gamemode:
-    self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
-    other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
-    other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
-
-  tpa:
-    auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
-    auto_accept_target: "{SENDER}&e has teleported to you."
-    requests:
-      declined: "&cYou have declined the teleport request."
-      disabled_tpa: "&cThey have disabled TPA requests."
-      no_request_error: "&cYou don't have a pending request. Try being more popular?"
-      response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
-      response_target: "&eYou have &6{STATUS} {SENDER}&e's teleport request."
-      pending_error: "&cThey already have a request pending."
-      overrode_request_sender: "&cI overrode your old request to {OLDTARGET}&c."
-      overrode_request_target: "{SENDER}&c cancelled their TPA request to you."
-      request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
-      request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
-
-  tpall:
-    players: "&eEveryone was teleported to {SENDER}&e."
-    sender: "&eYou have teleported everyone to you."
-
-  tphere:
-    sender: "&eYou have teleported {TARGET}&e to you."
-    target: "{SENDER}&e has teleported you to them."
-
-  tpahere:
-    request_sent: "&eYou have requested {TARGET}&e to teleport to you."
-    request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
-
-  teleport:
-    self_error: "&cYou can't teleport to yourself."
-    sender_to_player: "&eYou have teleported to {TARGET}&e."
-    target_error: "&cUse /tphere or /tp to do that."
-    player_to_location: "&eTeleported yourself to &6{X}, {Y}, {Z}&e."
-    player_to_player_sender: "&eYou have teleported {TARGET1}&e to {TARGET2}&e."
-    player_to_player_target: "{SENDER}&e has teleported you to {TARGET}&e."
-    player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."
-    player_to_location_sender: "&eTeleported &6{PLAYER}&e to &6{X}, {Y}, {Z}&e."
-    player_to_location_target: "&6{PLAYER}&e teleported you to &6{X}, {Y}, {Z}&e."
-
-  worldtp:
-    never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
-    teleported: "&eTeleported you to the &6{WORLD}&e world."
-
-  claim:
-    reserved: "&cThis chunk is reserved!"
-    must-be-in-survival: "&eYou must be in the &6Survival&e world to do this."
-    already-claimed: "&cThis chunk is already claimed!"
-    claimed: "&eYou claimed &6{X}, {Z}&e!"
-    unclaimed: "&eYou unclaimed &6{X}, {Z}&e!"
-    cannot-interact: "&cYou can't interact here!"
-    already-allowed: "&cThis player is already allowed!"
-    allowed: "&eAllowed &6{PLAYER}&e to interact inside your claim!"
-    removed: "&eNo longer allowing &6{PLAYER}&e to interact inside your claim."
-    not-allowed: "&cThis player couldn't interact in your claim right now!"
-    not-claimed: "&cYou hadn't claimed this chunk yet!"
-    exp-level: "&cYou need at least 5 experience levels!"
-
-  schem:
-    loaded: "&6{SCHEM}&e has been loaded to your clipboard."
-    saved: "&6{SCHEM}&e has been saved. Use &6/vcschem load&e to load it."
-    not_found: "&cCouldn't find {SCHEM}."
-    bad-path: "&cBad path."
-    invalid-format: "&cInvalid schematic format."
-    failed-to-load: "&cFailed to load your schematic. Consult an administrator for help."
-    failed-to-save: "&cFailed to save your schematic. Consult an administrator for help."
-    empty-clipboard: "&cCannot save that schematic, your clipboard is empty."
     list:
-      header: "&2--== [Schematics] ==--"
-      no_schems: "{TARGET}&c has no schematics."
-      total: "{TARGET}&e has a total of &2{AMOUNT}&e {SCHEMS}."
-    deleted: "&6{SCHEM}&e has been deleted."
-    not_deleted: "&c{SCHEM} could not be deleted. Please contact an Administrator for help."
-    deleted_target: "{SENDER}&e has deleted your schematic &6{SCHEM}&e."
+      header: "&2--== [List] ==--"
+      count: "&eThere are currently &6{COUNT}&e players online."
+      no_players_online: "&cThere are no players online."
+      player_vanished: "&7&o [VANISHED]"
 
-  speed:
-    invalid_movement: "&cInvalid movement. Try &4fly&c or&4 walk&c."
-    sender_set_to: "&eYour &6{MOVEMENT}&e speed has been set to &2{SPEED}&e."
-    sender_target: "&eYou have set {TARGET}&e's &6{MOVEMENT}&e speed to &2{SPEED}&e."
-    target_set_to: "&eYour &6{MOVEMENT}&e speed has been set to&2{SPEED}&e by {SENDER}&e."
-    find_self: "&eYour &6{MOVEMENT}&e speed is &2{SPEED}&e."
+    ping:
+      self: "&eYour ping is &2{PING}&ems."
+      other: "{TARGET}&e's ping is &2{PING}&ems."
 
-  lol:
-    format: "&c[Lol] {SENDER}&8:&7 {LOL}"
-    cooldown: "&cYou must wait &e{TIME}&c seconds to use /lol again."
-    max: "&c{PAGE} is too high. Max: {MAX}."
-    list:
-      header: "&2--== [Lol] ==--"
-      page_number: "&ePage &2{PAGE}&e of &2{MAX}&e"
-      format: "&6{ID}&e:&7 {LOL}"
-    add:
-      added: "&eAdded the lol #&2{ID}&e."
-      already_exists: "&cThat lol already exists."
-      not_added: "&clol #&2{ID}&e could not be saved."
-    delete:
-      deleted: "&eDeleted the lol #&2{ID}&e."
-      not_deleted: "&clol #{ID} could not be deleted."
+    playtime:
+      online_player: "{TARGET} &ehas played for {TIME}"
+      offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for {TIME}"
+      rank_wait: "&eYou are only {TIME}&e away from &6{RANK}&e!"
+      top_header: "&2--== [Top Playtime] ==--"
+      top: "&e[&6{POSITION}&e]&r {PLAYER}&e -&r {PLAYTIME}"
 
-  lag:
-    header: "&2--== [Lag] ==--"
+    ranks:
+      player_header: "&2--== [Player Ranks] ==--"
+      staff_header: "&2--== [Staff Ranks] ==--"
 
-  clear:
-    self: "&eYou successfully cleared your inventory."
-    other_sender: "&eYou cleared {TARGET}&e's inventory."
-    other_target: "{SENDER}&e has cleared your inventory."
+    reload: "&aVaultCore config reloaded!"
 
-  logs:
-    already_searching: "&cThe logs are currently being searched. Please try again later."
-    minimum_length: "&cPlease enter a minimum of 3 characters."
-    searching: "&eSearching the logs, please wait..."
-    header: "&2--== [Logs] ==--"
-    no_matches: "&cNo matches for that phrase."
-    total_count: "&eFound &2{MATCHES}&e matches for that phrase."
-    error_reading: "&cThere was an error reading the logs. Please contact an Administrator."
+    seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
 
-  managebot:
-    invalid: "&cThe bot is currently &e{STATUS}&c."
-    complete: "&eThe bot has been &6{STATUS}&e."
-    status: "&eThe bot is currently {STATUS}&e."
+    token:
+      generating: "&eGenerating your token..."
+      your_token: "&eYour token is: &2{TOKEN}&e."
+      please_rerun: "&cPlease rerun the command."
 
-  near:
-    main: "&eThere are &2{COUNT}&e players within &6{RADIUS}&em of you."
-    list: "{PLAYERS}&e."
+    warp:
+      not_exist: "&eThe warp &6{WARP}&e does not exist."
+      set: "&eSet the warp &6{WARP}&e to your location."
+      already_exist: "&eThe warp &6{WARP}&e has already been set. Try to delete it first."
+      teleported: "&eYou have been teleported to &6{WARP}&e."
+      deleted: "&eYou have deleted the warp &6{WARP}&e."
 
-  ignore:
-    self_error: "&cYou cannot ignore yourself :thonk:"
-    already_ignored: "&cYou are already ignoring {PLAYER}&c."
-    not_ignored: "&cYou are not ignoring {PLAYER}&c."
-    toggle_ignored: "&eYou have {TOGGLE}&e ignoring {PLAYER}&e."
-    not_ignoring_anyone: "&eYou are not ignoring anyone! What a nice guy."
-    header: "&2--== [Ignoring] ==--"
-    list: "&e[&2{COUNT}&e]&e {PLAYER}"
-    you_are_ignored: "&cThat person has ignored you :("
+    wild:
+      teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
+      wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
 
-  sudo:
-    excempt_error: "&cYou cannot sudo that player."
-    self_error: "&cWhy do you want to sudo yourself? Silly..."
-    success: "&eForced {PLAYER}&e to run &6/{COMMAND}&e."
+    check:
+      header: "&2--== [Check] ==--"
+      format: "&e{KEY}: &6{VALUE}"
 
-  donation:
-    get_self: "&eYou have donated $&2{NUMBER}&e."
-    get_other: "{PLAYER}&e has donated $&2{NUMBER}&e."
-    add_donation: "&eYou have added $&2{ADDED}&e to {TARGET}&e."
-    remove_donation: "&eYou have removed $&2{REMOVED}&e from {TARGET}&e. Their total is now $&2{TOTAL}&e."
-    set_donation: "&eYou have set {TARGET}&e's donation to $&2{SET}&e."
-    updated_rank_sender: "{PLAYER}&e's donation rank was updated to &6{RANK}&e."
-    updated_rank_target: "{SENDER}&e has updated your donation rank to &6{RANK}&e."
-    no_avail_rank: "{PLAYER}&e's donation rank was removed."
-    no_avail_rank_target: "&eYour donation rank has been removed."
-    remove_less_total: "&cThe most you can remove is ${MAX}."
+    clear_chat:
+      sender: "&eYou have cleared chat."
+      players: "{SENDER}&e has cleared chat."
 
-  chatgroups:
-    misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
-    toggle: "&eYou have toggled &6ChatGroups &2{TOGGLE}&e."
-    not_in_chatgroup: "&cThat player is not in your ChatGroup."
-    format: "&8[&7CG&8] [&e{NAME}&8]&r {SENDER}&8:&r {MESSAGE}"
-    chat_not_in_group: "&cYou are not in a ChatGroup."
-    self_error: "&cYou cannot do that to yourself!"
-    permission_error: "&cYou do not have permission to edit that member."
-    info:
-      header: "&2--== [ChatGroups] ==--"
-      in_group: "&eYou &aare&e in a ChatGroup &6[&2{NAME}&6]&e."
-      not_in_group: "&eYou are &cnot&e in a ChatGroup."
-      layout: "&6/cg {COMMAND}&e - {INFO}."
-    list:
-      layout: "&eName:&6 {NAME}"
-      count: "&eThere are &2{COUNT}&e ChatGroups."
-      no_chatgroups: "&cThere are no ChatGroups :("
-    creation:
-      success: "&eSuccessfully created ChatGroup: &6{NAME}&e."
-      error: "&cError: A ChatGroup exists with that name, or you are in a ChatGroup already."
-    invites:
-      pending_error: "&cThat player already has an invite pending."
-      already_in_group: "&cThat player is already in your ChatGroup ya silly goose."
-      sender: "&eSuccessfully invited {TARGET}&e to your ChatGroup."
-      target: "{SENDER}&e has invited you to join &6{NAME}&e. \nType &6/cg accept&e to join."
-      pending_error_target: "&cYou have no invites pending. Try to be more popular?"
-      accepted: "&eYou have &ajoined&e the ChatGroup &6{NAME}&e."
-      declined_target: "&eYou have declined the invite to &6{NAME}&e."
-      accept_error_target: "&cYou are already in a ChatGroup.\nUse &6/cg leave&e to leave it."
-    leave:
-      error: "&cYou are not in a ChatGroup."
-      success: "&eYou have &cleft&e the ChatGroup &6{NAME}&e."
-    roles:
-      already_rank: "{TARGET}&c is already a(n) {ROLE}."
-      promote: "&eYou have promoted {TARGET}&e to &6Admin&e."
-      demote: "&eYou have demoted {TARGET}&e to &6Member&e."
-      promoted_target: "{SENDER}&e has promoted you to &6Admin&e in your ChatGroup."
-      demoted_target: "{SENDER}&e has demoted you to &6Member&e in your ChatGroup."
-      owner_error: "{SENDER}&c is the owner of the ChatGroup."
-    kick:
-      success: "&eYou have kicked {TARGET}&e from your ChatGroup."
-      kicked_target: "&eYou have been kicked from your ChatGroup."
-    join:
-      error: "&cError: You are already in a ChatGroup, or that ChatGroup doesn't exist."
-      success: "&eYou have joined the ChatGroup &6{NAME}&e!"
-      members_message: "&8[&7CG&8] [&e{NAME}&8] {SENDER}&e has joined &6{NAME}&e!"
+    console_say:
+      format: "&9&lCONSOLE&8: &f{MESSAGE}"
 
-  settings:
-    specific:
-      success: "&eSuccessfully updated &6{NAME}&e to &2{VALUE}&e."
-      invalid_setting: "&cThat setting is invalid."
+    feed_heal:
+      self: "&eYou have been &6{ACTION}&e."
+      other: "&eYou have &6{ACTION} {TARGET}&e."
+      receiver: "&eYou have been &6{ACTION} by {SENDER}&e."
 
-    custom_keys:
-      header: "&2--== [Custom Keys] ==--"
-      list_format: "&6{CONTEXT}&e - &6{KEY}"
-      invalid_context: "&cInvalid context. Valid contexts: &4chatgroups&c, &4staffchat&c, &4adminchat&c."
-      invalid_key_length: "&cInvalid key length. Keys must be 1 character long."
-      set_key: "&eSuccessfully set your &6{CONTEXT}&e key to &6{KEY}&e."
-      duplicate_key: "&cYou have set &4{CONTEXT}&c to use &4{KEY}&c already."
+    fly:
+      gamemode_error: "&c{TARGET} in {GAMEMODE} silly."
+      self: "&eYou have &2{TOGGLE} &6fly&e."
+      other: "&eYou have &2{TOGGLE} &6fly&e for {TARGET}&e."
+      receiver: "&eYour &6fly&e has been &2{TOGGLE}&e by {SENDER}&e."
 
-  nickname:
-    disabled_self: "&eSuccessfully disabled your nickname."
-    disabled_sender: "&eSuccessfully disabled {TARGET}&e's nickname."
-    disabled_target: "&eYour nickname was disabled."
-    success: "&eYou have set your nickname to {NICKNAME}&e."
-    success_other: "&eYou have updated {TARGET}&e's nickname."
-    notice_other: "{SENDER}&e has updated your nickname to {NICKNAME}&e."
-    invalid_starting: "&cNicknames need to start with the first 3 characters of the targets name."
-    too_short: "&cNicknames need to be at least 3 characters long."
+    hasperm:
+      self: "&eYou {STATUS} &ethe permission &6{PERMISSION}&e."
+      other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
 
-  cosmetics:
-    particles:
-      toggled: "&eToggled &6{PARTICLE}&e effect &2{TOGGLE}&e."
+    invsee:
+      self_error: "&cPress e to open your own inventory."
+      excempt_error: "&cYou don't have permission to open this person's inventory."
 
-  nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."
+    mute_chat:
+      sender: "&eYou have &6{STATUS}&e the chat."
+      players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
 
-  skull: "&eGave you {TARGET}&e's head."
+    staffchat:
+      format: "&8[&7SC&8]&r {SENDER}&8: &b{MESSAGE}"
+      toggle: "&eYou have toggled &6StaffChat &2{TOGGLE}&e."
+
+    adminchat:
+      format: "&8[&7AC&8] &r{SENDER}&8: &b{MESSAGE}"
+      toggle: "&eYou have toggled &6AdminChat &2{TOGGLE}&e."
+
+    chat_toggled: "&cYou already have {CHAT}&c toggled on. Toggle it off first."
+
+    msg:
+      self_error: "&cYou can't message yourself."
+      disabled_messages: "&cThey have disabled messages."
+      format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+
+    reply:
+      noone_error: "&cYou have no one to reply to."
+
+    socialspy:
+      toggle: "&eYou have toggled &6SocialSpy &2{TOGGLE}&e."
+      format: "&8[&7SS&8] [&7{TYPE}&8] {SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+
+    tag:
+      self_error: "&cYou can't tag yourself."
+      add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
+      list_header: "&2--== [Tags] ==--"
+      list: "&e[#&2{ID}&e] &6{CONTENT} &e- &2{DATE}"
+      no_tags_for_player: "&cThere are no tags for that player."
+      tag_already_deleted: "&cThat tag has already been deleted."
+      delete: "&eDeleted tag [#&2{ID}&e]."
+      tag_not_exist: "&cThat tag does not exist."
+
+    grant:
+      no_permission: "&cYou don't have permission to use this rank."
+      updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
+      updated_player: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
+      mod-no-perm: "&cYou cannot change a staff members rank!"
+
+    gamemode:
+      self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
+      other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
+      other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
+
+    tpa:
+      auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
+      auto_accept_target: "{SENDER}&e has teleported to you."
+      requests:
+        declined: "&cYou have declined the teleport request."
+        disabled_tpa: "&cThey have disabled TPA requests."
+        no_request_error: "&cYou don't have a pending request. Try being more popular?"
+        response_sender: "{TARGET}&e has &6{STATUS}&e your teleport request."
+        response_target: "&eYou have &6{STATUS} {SENDER}&e's teleport request."
+        pending_error: "&cThey already have a request pending."
+        overrode_request_sender: "&cI overrode your old request to {OLDTARGET}&c."
+        overrode_request_target: "{SENDER}&c cancelled their TPA request to you."
+        request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
+        request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
+
+    tpall:
+      players: "&eEveryone was teleported to {SENDER}&e."
+      sender: "&eYou have teleported everyone to you."
+
+    tphere:
+      sender: "&eYou have teleported {TARGET}&e to you."
+      target: "{SENDER}&e has teleported you to them."
+
+    tpahere:
+      request_sent: "&eYou have requested {TARGET}&e to teleport to you."
+      request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
+
+    teleport:
+      self_error: "&cYou can't teleport to yourself."
+      sender_to_player: "&eYou have teleported to {TARGET}&e."
+      target_error: "&cUse /tphere or /tp to do that."
+      player_to_location: "&eTeleported yourself to &6{X}, {Y}, {Z}&e."
+      player_to_player_sender: "&eYou have teleported {TARGET1}&e to {TARGET2}&e."
+      player_to_player_target: "{SENDER}&e has teleported you to {TARGET}&e."
+      player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."
+      player_to_location_sender: "&eTeleported &6{PLAYER}&e to &6{X}, {Y}, {Z}&e."
+      player_to_location_target: "&6{PLAYER}&e teleported you to &6{X}, {Y}, {Z}&e."
+
+    worldtp:
+      never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
+      teleported: "&eTeleported you to the &6{WORLD}&e world."
+
+    claim:
+      reserved: "&cThis chunk is reserved!"
+      must-be-in-survival: "&eYou must be in the &6Survival&e world to do this."
+      already-claimed: "&cThis chunk is already claimed!"
+      claimed: "&eYou claimed &6{X}, {Z}&e!"
+      unclaimed: "&eYou unclaimed &6{X}, {Z}&e!"
+      cannot-interact: "&cYou can't interact here!"
+      already-allowed: "&cThis player is already allowed!"
+      allowed: "&eAllowed &6{PLAYER}&e to interact inside your claim!"
+      removed: "&eNo longer allowing &6{PLAYER}&e to interact inside your claim."
+      not-allowed: "&cThis player couldn't interact in your claim right now!"
+      not-claimed: "&cYou hadn't claimed this chunk yet!"
+      exp-level: "&cYou need at least 5 experience levels!"
+
+    schem:
+      loaded: "&6{SCHEM}&e has been loaded to your clipboard."
+      saved: "&6{SCHEM}&e has been saved. Use &6/vcschem load&e to load it."
+      not_found: "&cCouldn't find {SCHEM}."
+      bad-path: "&cBad path."
+      invalid-format: "&cInvalid schematic format."
+      failed-to-load: "&cFailed to load your schematic. Consult an administrator for help."
+      failed-to-save: "&cFailed to save your schematic. Consult an administrator for help."
+      empty-clipboard: "&cCannot save that schematic, your clipboard is empty."
+      list:
+        header: "&2--== [Schematics] ==--"
+        no_schems: "{TARGET}&c has no schematics."
+        total: "{TARGET}&e has a total of &2{AMOUNT}&e {SCHEMS}."
+      deleted: "&6{SCHEM}&e has been deleted."
+      not_deleted: "&c{SCHEM} could not be deleted. Please contact an Administrator for help."
+      deleted_target: "{SENDER}&e has deleted your schematic &6{SCHEM}&e."
+
+    speed:
+      invalid_movement: "&cInvalid movement. Try &4fly&c or&4 walk&c."
+      sender_set_to: "&eYour &6{MOVEMENT}&e speed has been set to &2{SPEED}&e."
+      sender_target: "&eYou have set {TARGET}&e's &6{MOVEMENT}&e speed to &2{SPEED}&e."
+      target_set_to: "&eYour &6{MOVEMENT}&e speed has been set to&2{SPEED}&e by {SENDER}&e."
+      find_self: "&eYour &6{MOVEMENT}&e speed is &2{SPEED}&e."
+
+    lol:
+      format: "&c[Lol] {SENDER}&8:&7 {LOL}"
+      cooldown: "&cYou must wait &e{TIME}&c seconds to use /lol again."
+      max: "&c{PAGE} is too high. Max: {MAX}."
+      list:
+        header: "&2--== [Lol] ==--"
+        page_number: "&ePage &2{PAGE}&e of &2{MAX}&e"
+        format: "&6{ID}&e:&7 {LOL}"
+      add:
+        added: "&eAdded the lol #&2{ID}&e."
+        already_exists: "&cThat lol already exists."
+        not_added: "&clol #&2{ID}&e could not be saved."
+      delete:
+        deleted: "&eDeleted the lol #&2{ID}&e."
+        not_deleted: "&clol #{ID} could not be deleted."
+
+    lag:
+      header: "&2--== [Lag] ==--"
+
+    clear:
+      self: "&eYou successfully cleared your inventory."
+      other_sender: "&eYou cleared {TARGET}&e's inventory."
+      other_target: "{SENDER}&e has cleared your inventory."
+
+    logs:
+      already_searching: "&cThe logs are currently being searched. Please try again later."
+      minimum_length: "&cPlease enter a minimum of 3 characters."
+      searching: "&eSearching the logs, please wait..."
+      header: "&2--== [Logs] ==--"
+      no_matches: "&cNo matches for that phrase."
+      total_count: "&eFound &2{MATCHES}&e matches for that phrase."
+      error_reading: "&cThere was an error reading the logs. Please contact an Administrator."
+
+    managebot:
+      invalid: "&cThe bot is currently &e{STATUS}&c."
+      complete: "&eThe bot has been &6{STATUS}&e."
+      status: "&eThe bot is currently {STATUS}&e."
+
+    near:
+      main: "&eThere are &2{COUNT}&e players within &6{RADIUS}&em of you."
+      list: "{PLAYERS}&e."
+
+    ignore:
+      self_error: "&cYou cannot ignore yourself :thonk:"
+      already_ignored: "&cYou are already ignoring {PLAYER}&c."
+      not_ignored: "&cYou are not ignoring {PLAYER}&c."
+      toggle_ignored: "&eYou have {TOGGLE}&e ignoring {PLAYER}&e."
+      not_ignoring_anyone: "&eYou are not ignoring anyone! What a nice guy."
+      header: "&2--== [Ignoring] ==--"
+      list: "&e[&2{COUNT}&e]&e {PLAYER}"
+      you_are_ignored: "&cThat person has ignored you :("
+
+    sudo:
+      excempt_error: "&cYou cannot sudo that player."
+      self_error: "&cWhy do you want to sudo yourself? Silly..."
+      success: "&eForced {PLAYER}&e to run &6/{COMMAND}&e."
+
+    donation:
+      get_self: "&eYou have donated $&2{NUMBER}&e."
+      get_other: "{PLAYER}&e has donated $&2{NUMBER}&e."
+      add_donation: "&eYou have added $&2{ADDED}&e to {TARGET}&e."
+      remove_donation: "&eYou have removed $&2{REMOVED}&e from {TARGET}&e. Their total is now $&2{TOTAL}&e."
+      set_donation: "&eYou have set {TARGET}&e's donation to $&2{SET}&e."
+      updated_rank_sender: "{PLAYER}&e's donation rank was updated to &6{RANK}&e."
+      updated_rank_target: "{SENDER}&e has updated your donation rank to &6{RANK}&e."
+      no_avail_rank: "{PLAYER}&e's donation rank was removed."
+      no_avail_rank_target: "&eYour donation rank has been removed."
+      remove_less_total: "&cThe most you can remove is ${MAX}."
+
+    chatgroups:
+      misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
+      toggle: "&eYou have toggled &6ChatGroups &2{TOGGLE}&e."
+      not_in_chatgroup: "&cThat player is not in your ChatGroup."
+      format: "&8[&7CG&8] [&e{NAME}&8]&r {SENDER}&8:&r {MESSAGE}"
+      chat_not_in_group: "&cYou are not in a ChatGroup."
+      self_error: "&cYou cannot do that to yourself!"
+      permission_error: "&cYou do not have permission to edit that member."
+      info:
+        header: "&2--== [ChatGroups] ==--"
+        in_group: "&eYou &aare&e in a ChatGroup &6[&2{NAME}&6]&e."
+        not_in_group: "&eYou are &cnot&e in a ChatGroup."
+        layout: "&6/cg {COMMAND}&e - {INFO}."
+      list:
+        layout: "&eName:&6 {NAME}"
+        count: "&eThere are &2{COUNT}&e ChatGroups."
+        no_chatgroups: "&cThere are no ChatGroups :("
+      creation:
+        success: "&eSuccessfully created ChatGroup: &6{NAME}&e."
+        error: "&cError: A ChatGroup exists with that name, or you are in a ChatGroup already."
+      invites:
+        pending_error: "&cThat player already has an invite pending."
+        already_in_group: "&cThat player is already in your ChatGroup ya silly goose."
+        sender: "&eSuccessfully invited {TARGET}&e to your ChatGroup."
+        target: "{SENDER}&e has invited you to join &6{NAME}&e. \nType &6/cg accept&e to join."
+        pending_error_target: "&cYou have no invites pending. Try to be more popular?"
+        accepted: "&eYou have &ajoined&e the ChatGroup &6{NAME}&e."
+        declined_target: "&eYou have declined the invite to &6{NAME}&e."
+        accept_error_target: "&cYou are already in a ChatGroup.\nUse &6/cg leave&e to leave it."
+      leave:
+        error: "&cYou are not in a ChatGroup."
+        success: "&eYou have &cleft&e the ChatGroup &6{NAME}&e."
+      roles:
+        already_rank: "{TARGET}&c is already a(n) {ROLE}."
+        promote: "&eYou have promoted {TARGET}&e to &6Admin&e."
+        demote: "&eYou have demoted {TARGET}&e to &6Member&e."
+        promoted_target: "{SENDER}&e has promoted you to &6Admin&e in your ChatGroup."
+        demoted_target: "{SENDER}&e has demoted you to &6Member&e in your ChatGroup."
+        owner_error: "{SENDER}&c is the owner of the ChatGroup."
+      kick:
+        success: "&eYou have kicked {TARGET}&e from your ChatGroup."
+        kicked_target: "&eYou have been kicked from your ChatGroup."
+      join:
+        error: "&cError: You are already in a ChatGroup, or that ChatGroup doesn't exist."
+        success: "&eYou have joined the ChatGroup &6{NAME}&e!"
+        members_message: "&8[&7CG&8] [&e{NAME}&8] {SENDER}&e has joined &6{NAME}&e!"
+
+    settings:
+      specific:
+        success: "&eSuccessfully updated &6{NAME}&e to &2{VALUE}&e."
+        invalid_setting: "&cThat setting is invalid."
+
+      custom_keys:
+        header: "&2--== [Custom Keys] ==--"
+        list_format: "&6{CONTEXT}&e - &6{KEY}"
+        invalid_context: "&cInvalid context. Valid contexts: &4chatgroups&c, &4staffchat&c, &4adminchat&c."
+        invalid_key_length: "&cInvalid key length. Keys must be 1 character long."
+        set_key: "&eSuccessfully set your &6{CONTEXT}&e key to &6{KEY}&e."
+        duplicate_key: "&cYou have set &4{CONTEXT}&c to use &4{KEY}&c already."
+
+    nickname:
+      disabled_self: "&eSuccessfully disabled your nickname."
+      disabled_sender: "&eSuccessfully disabled {TARGET}&e's nickname."
+      disabled_target: "&eYour nickname was disabled."
+      success: "&eYou have set your nickname to {NICKNAME}&e."
+      success_other: "&eYou have updated {TARGET}&e's nickname."
+      notice_other: "{SENDER}&e has updated your nickname to {NICKNAME}&e."
+      invalid_starting: "&cNicknames need to start with the first 3 characters of the targets name."
+      too_short: "&cNicknames need to be at least 3 characters long."
+
+    cosmetics:
+      particles:
+        toggled: "&eToggled &6{PARTICLE}&e effect &2{TOGGLE}&e."
+
+    nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."
+
+    skull: "&eGave you {TARGET}&e's head."
+
+    mail:
+      header: "&2--== [Mail] ==--"
+      no_mail: "&cYou have no mail. Try being more popular?"
+      error_checking: "&4There was an error checking for mail. Please report this"
+      count: "&eYou have &2{COUNT}&e unread mail."
+      list: "&e[#&2{ID}&e] &6{SENDER} &e- &6{DATE}"
+      max_length: "&cMail can only be 255 characters long. Your message is {COUNT} characters long."
+      new_mail: "&eYou have a new mail from {SENDER}&e. \n&eRun &6/mail read {ID}&e to read it."
+      error_alerting: "&4Error while completing a new mail. Please report this."

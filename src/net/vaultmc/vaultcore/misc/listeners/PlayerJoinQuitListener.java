@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.misc.commands.NicknameCommand;
+import net.vaultmc.vaultcore.misc.commands.mail.MailCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
@@ -69,9 +70,10 @@ public class PlayerJoinQuitListener implements Listener {
 
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
-            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"), players,
-                    player.getFormattedName(), ChatColor.GREEN + "joined"));
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"), player.getFormattedName(), ChatColor.GREEN + "joined"));
         }
+
+        if (PlayerSettings.getSetting(player, "settings.check_mail_join")) MailCommand.check(player);
     }
 
     @EventHandler
