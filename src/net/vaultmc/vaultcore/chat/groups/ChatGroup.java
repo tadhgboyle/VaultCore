@@ -123,6 +123,10 @@ public class ChatGroup implements ConfigurationSerializable {
 
     public static boolean permissionCheck(VLPlayer sender, VLOfflinePlayer target) {
         ChatGroup chatGroup = getChatGroup(sender);
+        if (chatGroup != getChatGroup(target)) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.different_chatgroup"));
+            return false;
+        }
         ChatGroupRole senderRole = ChatGroup.getRole(sender, chatGroup);
         ChatGroupRole targetRole = ChatGroup.getRole(target, chatGroup);
         if (chatGroup.admins.contains(sender.getUniqueId().toString())) {

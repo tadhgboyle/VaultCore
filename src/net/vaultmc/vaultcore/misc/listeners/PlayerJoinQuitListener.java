@@ -95,7 +95,7 @@ public class PlayerJoinQuitListener implements Listener {
 
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
-            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"), players,
+            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"),
                     player.getFormattedName(), ChatColor.RED + "left"));
         }
     }

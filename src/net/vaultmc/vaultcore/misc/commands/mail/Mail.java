@@ -1,13 +1,8 @@
 package net.vaultmc.vaultcore.misc.commands.mail;
 
-import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.DBConnection;
-
 import java.util.UUID;
 
 public class Mail {
-
-    DBConnection database = VaultCore.getDatabase();
 
     public int id;
     public UUID recipient;
@@ -21,9 +16,5 @@ public class Mail {
         this.sender = sender;
         this.sent = sent;
         this.message = message;
-    }
-
-    public void markRead(int id) {
-
     }
 }

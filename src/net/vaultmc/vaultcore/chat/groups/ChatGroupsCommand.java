@@ -174,7 +174,11 @@ public class ChatGroupsCommand extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.already_in_group"));
                 return;
             }
-            if (!ChatGroup.permissionCheck(sender, target)) return;
+            if (ChatGroup.getRole(sender, chatGroup).getLevel() > 1) {
+                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.permission_error"));
+                Bukkit.getLogger().warning(ChatGroup.getRole(sender, chatGroup).getName() + " " + ChatGroup.getRole(sender, chatGroup).getLevel());
+                return;
+            }
             // Success
             invites.put(target, chatGroup);
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.sender"), target.getFormattedName()));

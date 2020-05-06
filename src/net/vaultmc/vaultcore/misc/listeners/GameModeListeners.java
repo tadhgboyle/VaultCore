@@ -18,13 +18,13 @@
 
 package net.vaultmc.vaultcore.misc.listeners;
 
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
-public class GameModeListeners extends ConstructorRegisterListener {
+public class GameModeListeners implements Listener {
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
         String world = e.getPlayer().getWorld().getName();

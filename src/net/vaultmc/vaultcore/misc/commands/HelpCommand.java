@@ -1,38 +1,39 @@
-/*
- * VaultUtils: VaultMC functionalities provider.
- * Copyright (C) 2020 yangyang200
- *
- * VaultUtils is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * VaultUtils is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 package net.vaultmc.vaultcore.misc.commands;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
-import net.vaultmc.vaultloader.utils.commands.Permission;
-import net.vaultmc.vaultloader.utils.commands.PlayerOnly;
-import net.vaultmc.vaultloader.utils.commands.RootCommand;
+import net.vaultmc.vaultcore.Registry;
+import net.vaultmc.vaultloader.utils.commands.*;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 
-@RootCommand(
-        literal = "help",
-        description = "Help me!"
-)
+import java.lang.reflect.Method;
+import java.util.Collections;
+
+@RootCommand(literal = "vchelp", description = "Help me!")
 @Permission(Permissions.HelpCommand)
 @PlayerOnly
-
-// TODO
-//  This is a dummy.
-//  Revamp clans and skyblock command system. Make them use CommandExecutor.
 public class HelpCommand extends CommandExecutor {
+
+    public HelpCommand() {
+        register("helpMain", Collections.emptyList());
+        register("helpCommand", Collections.singletonList(Arguments.createArgument("command", Arguments.string())));
+    }
+
+    @SubCommand("helpMain")
+    public void helpMain(VLPlayer sender) {
+
+    }
+
+    @SubCommand("helpCommand")
+    public void helpCommand(VLPlayer sender, String command) {
+        Class<?> clazz = Registry.getCommandClasses().get(command);
+        if (clazz == null) {
+            sender.sendMessage("not vaultcore command");
+            return;
+        }
+        sender.sendMessage("class: " + clazz.getSimpleName());
+        sender.sendMessage("description: " + clazz.getAnnotation(RootCommand.class).description());
+        for (Method method : clazz.getDeclaredMethods()) {
+            sender.sendMessage("method: " + method.getName());
+        }
+    }
 }

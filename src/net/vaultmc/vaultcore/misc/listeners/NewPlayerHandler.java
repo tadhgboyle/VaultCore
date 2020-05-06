@@ -38,7 +38,7 @@ public class NewPlayerHandler {
         player.getPlayerData().set("settings.grammarly", false);
         player.getPlayerData().set("settings.notifications", true);
         player.getPlayerData().set("settings.mention_notifications", true);
-        player.getPlayerData().set("settings.check_mail_join", true);
+        player.getPlayerData().set("settings.mail", true);
         // Misc ("0, 0" = empty string)
         player.getPlayerData().set("donation", "0.00");
         player.getPlayerData().set("ignored", "0, 0");

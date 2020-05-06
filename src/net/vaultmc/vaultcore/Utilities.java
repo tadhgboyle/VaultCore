@@ -76,7 +76,7 @@ public final class Utilities {
      * @return Edited message
      * @author Aberdeener
      */
-    static List<String> apostrophe = Arrays.asList("doesnt", "hasnt", "hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
+    static List<String> apostrophe = Arrays.asList("lets", "doesnt", "hasnt", "hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
     static List<String> punctuation = Arrays.asList(".", "!", "?");
 
     public static String grammarly(String message) {
@@ -85,8 +85,12 @@ public final class Utilities {
         for (String word : message.split(" ")) {
             // Capitalize "i"
             if (word.equals("i")) word = word.toUpperCase();
-            // Convert "u"
-            if (word.equalsIgnoreCase("u")) word = "you";
+                // Convert "u"
+            else if (word.equalsIgnoreCase("u")) word = "you";
+                // Convert "ur"
+            else if (word.equalsIgnoreCase("ur")) word = "you're";
+                // Convert "ok"
+            else if (word.equalsIgnoreCase("ok")) word = "okay";
             // Add apostrophe
             if (apostrophe.contains(word)) {
                 word = word.substring(0, word.length() - 1) + "'" + word.substring(word.length() - 1);

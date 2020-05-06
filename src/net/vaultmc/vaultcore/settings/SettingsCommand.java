@@ -120,7 +120,8 @@ public class SettingsCommand extends CommandExecutor implements Listener {
         inv.setItem(22, new ItemStackBuilder(Material.WRITABLE_BOOK)
                 .name(ChatColor.YELLOW + "Grammarly")
                 .lore(Arrays.asList(
-                        ChatColor.GRAY + "Transform your messages to have grammer gud. ",
+                        ChatColor.GRAY + "Transform your messages ",
+                        ChatColor.GRAY + "to have grammer gud. ",
                         "",
                         sender.getPlayerData().getBoolean("settings.grammarly") ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"
                 ))

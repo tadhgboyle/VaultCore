@@ -711,6 +711,7 @@ vaultcore:
       chat_not_in_group: "&cYou are not in a ChatGroup."
       self_error: "&cYou cannot do that to yourself!"
       permission_error: "&cYou do not have permission to edit that member."
+      different_chatgroup: "&cYou are not in the same ChatGroup as them."
       info:
         header: "&2--== [ChatGroups] ==--"
         in_group: "&eYou &aare&e in a ChatGroup &6[&2{NAME}&6]&e."

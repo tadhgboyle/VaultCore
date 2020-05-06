@@ -19,10 +19,10 @@
 package net.vaultmc.vaultcore.inventory;
 
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class InventoryStorageListeners extends ConstructorRegisterListener {
+public class InventoryStorageListeners implements Listener {
     public static final Map<String, String[]> worldGroups = new HashMap<>();
 
     static {

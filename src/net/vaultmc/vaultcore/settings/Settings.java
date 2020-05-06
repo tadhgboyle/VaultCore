@@ -14,7 +14,7 @@ public enum Settings {
     GRAMMARLY("Grammarly", "grammarly"),
     NOTIFICATIONS("Notifications", "notifications"),
     MENTION_NOTIFICATIONS("Mention Notifications", "mention_notifications"),
-    CHECK_MAIL_JOIN("Check Mail on Join", "check_mail_join");
+    ALLOW_MAIL("Allow Mail", "mail");
 
     @Getter
     public String name;
