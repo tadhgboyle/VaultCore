@@ -1,14 +1,15 @@
 package net.vaultmc.vaultcore.economy;
 
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EconomyListener extends ConstructorRegisterListener {
+public class EconomyListener implements Listener {
+
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e) {
         if (e.getEntity().getKiller() != null && (e.getEntity().getWorld().getName().startsWith("skyblock") || e.getEntity().getWorld().getName().startsWith("survival"))) {

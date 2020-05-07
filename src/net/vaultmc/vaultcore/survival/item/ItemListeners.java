@@ -1,13 +1,13 @@
 package net.vaultmc.vaultcore.survival.item;
 
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ItemListeners extends ConstructorRegisterListener {
+public class ItemListeners implements Listener {
     @EventHandler
     public void onEntityDamaged(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {

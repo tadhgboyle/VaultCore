@@ -69,7 +69,7 @@ public class CGSettingsInvListener implements Listener {
                     target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.promoted_target"), sender.getFormattedName()));
                 } else {
                     sender.closeInventory();
-                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.already_role"), target.getFormattedName(), "admin"));
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.already_rank"), target.getFormattedName(), "admin"));
                 }
             } else if (e.getSlot() == 7) {
                 // Demote
@@ -78,7 +78,7 @@ public class CGSettingsInvListener implements Listener {
                     target.sendOrScheduleMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.demoted_target"), sender.getFormattedName()));
                 } else {
                     sender.closeInventory();
-                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.already_role"), target.getFormattedName(), "member"));
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.roles.already_rank"), target.getFormattedName(), "member"));
                 }
             }
         }

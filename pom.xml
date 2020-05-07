@@ -35,6 +35,9 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -119,10 +122,10 @@
 		</dependency>
 
 		<dependency>
-            <groupId>net.vaultmc.vaultloader</groupId>
-            <artifactId>VaultLoader</artifactId>
-            <version>0.1-vanilla-20200411.004542-94</version>
-        </dependency>
+			<groupId>net.vaultmc.vaultloader</groupId>
+			<artifactId>VaultLoader</artifactId>
+			<version>0.1-vanilla-20200507.045609-96</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.bukkit</groupId>

@@ -1,9 +1,9 @@
 package net.vaultmc.vaultcore.creative;
 
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class EntityUpperBound extends ConstructorRegisterListener {
+public class EntityUpperBound implements Listener {
     private static final Map<UUID, Integer> entities = new HashMap<>();
 
     @EventHandler

@@ -27,6 +27,7 @@ public class NewPlayerHandler {
     }
 
     public void newPlayer(VLPlayer player) {
+        // Settings
         player.getPlayerData().set("settings.msg", true);
         player.getPlayerData().set("settings.tpa", true);
         player.getPlayerData().set("settings.autotpa", false);
@@ -35,6 +36,10 @@ public class NewPlayerHandler {
         player.getPlayerData().set("settings.minimal_caps", false);
         player.getPlayerData().set("settings.item_drops", true);
         player.getPlayerData().set("settings.grammarly", false);
+        player.getPlayerData().set("settings.notifications", true);
+        player.getPlayerData().set("settings.mention_notifications", true);
+        player.getPlayerData().set("settings.mail", true);
+        // Misc ("0, 0" = empty string)
         player.getPlayerData().set("donation", "0.00");
         player.getPlayerData().set("ignored", "0, 0");
         player.getPlayerData().set("refferals", 0);

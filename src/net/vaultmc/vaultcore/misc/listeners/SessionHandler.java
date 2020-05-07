@@ -3,9 +3,9 @@ package net.vaultmc.vaultcore.misc.listeners;
 import lombok.Getter;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.apache.commons.lang.RandomStringUtils;
 
 import java.util.HashMap;
-import java.util.Random;
 import java.util.UUID;
 
 public class SessionHandler {
@@ -21,14 +21,7 @@ public class SessionHandler {
         String username = player.getName();
 
         String ip = player.getAddress().getAddress().getHostAddress();
-        String SALTCHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random random = new Random();
-        while (salt.length() < 8) { // length of the random string.
-            int index = (int) (random.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        String session_id = salt.toString();
+        String session_id = RandomStringUtils.random(8, true, true);
         long start_time = System.currentTimeMillis();
 
         session_ids.put(uuid, session_id);

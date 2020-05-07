@@ -4,7 +4,6 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
-import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -13,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -27,7 +27,7 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class ServerNavigator extends ConstructorRegisterListener {
+public class ServerNavigator implements Listener {
     private static final ItemStack paper = new ItemStackBuilder(Material.PAPER)
             .name(ChatColor.GREEN + "Server Navigator")
             .lore(Arrays.asList(

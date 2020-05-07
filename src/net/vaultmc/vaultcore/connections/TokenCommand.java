@@ -46,7 +46,6 @@ public class TokenCommand extends CommandExecutor {
                     + "', '" + new_token + "')");
         } else {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.token.please_rerun"));
-            // line 61 checks for this null
             return null;
         }
         return new_token;
@@ -56,7 +55,7 @@ public class TokenCommand extends CommandExecutor {
     @SubCommand("getToken")
     public void getToken(VLPlayer sender) {
         String token = getToken(sender.getUniqueId(), sender);
-        // if they are 1/308915776 make them run cmd again
+        // if the token was already used, run again
         if (token == null) {
             return;
         }

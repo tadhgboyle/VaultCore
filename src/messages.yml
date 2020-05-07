@@ -8,8 +8,8 @@ you-shouldnt-do-this: "&cYou shouldn't do this right now!"
 
 # Message that will be sent to the player related to mod modes.
 mod-mode:
-  enabled: "&eYou have &6enabled&e mod mode!"
-  disabled: "&eYou have &6disabled&e mod mode!"
+  enabled: "&eYou have &2enabled&6 ModMode!"
+  disabled: "&eYou have &2disabled&6 ModMode!"
 
   teleportation: "&eTeleporting you to &6{PLAYER}&e!"  # Random teleportation
 
@@ -284,8 +284,6 @@ tour:
       &a-
       &e(You can turn now)
 
-    # Exactly redstoner history about lack of management, staff and general disagreements.
-
     displaying-new-lobby: |-
       &6&lA new start
       &eIt remained that way until August 2019. After a lengthy break, we were ready to give it another shot.
@@ -369,6 +367,7 @@ buggy:
       intended: "Intended"
 
 useful: "&eCrashed {PLAYER}&e. It might not be successful!"
+
 combat-log:
   tagged: "&c&lYou are now in combat with {PLAYER}&c."
   out: "&aYou are no longer in combat."
@@ -406,113 +405,134 @@ sec-log:
   priv-hover: "Send you a Discord DM to set a password"
 
 vaultcore:
-  sendingtobackup: "&cVaultMC is shutting down. Sending you to the backup server..."
   player_never_joined: "&cThat player has never joined before."
   player_offline: "&cThat player is offline."
   console_only: "&cThat command can only be run by Console."
+
   listeners:
     joinquit:
       new_player: "&eWelcome {PLAYER}&e to VaultMC! (&2#{COUNT}&e)"
       event_message: "{PLAYER}&e has {EVENT}&e."
+
   runnables:
     rank_promotions: "{TARGET}&e has been promoted to &6{RANK}&e!"
+
   survival:
     back: "&eUse &6/back&e to teleport to your death location."
     time_set_day: "&eThe night has passed in &6Survival&e."
     players_needed: "&eOnly &2{PLAYERS}&e players needed to instantly skip the night in Survival."
     nether_warning: "&eWarning: The Nether will be reset when the Nether Update is released."
-    end_resetting: "&eSurvival the end is going to be reset after 3 minutes!"
-    end_resetting-2: "&eSurvival the end is going to be reset after 2 minutes!"
-    end_resetting-3: "&eSurvival the end is going to be reset after 1 minute!"
-    end_reset: "&eSurvival end is resetting. You are warped to survival spawn."
+    end_resetting: "&eThe end is going to be reset in &23&e minutes!"
+    end_resetting-2: "&eThe end is going to be reset in &22&e minutes!"
+    end_resetting-3: "&eThe end is going to be reset in &21&e minute!"
+    end_reset: "&eThe End is resetting. You were warped to Survival spawn."
+
   commands:
-    spawn:
-      disabled: "&cThis command can't be executed in this world!"
     back:
       success: "&eYou have been teleported to your previous location."
-      no_teleport_location: "&cYou have no where to teleport to."
+      no_teleport_location: "&cYou have nowhere to teleport to."
+
     discord:
       guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
+
     list:
       header: "&2--== [List] ==--"
       count: "&eThere are currently &6{COUNT}&e players online."
       no_players_online: "&cThere are no players online."
       player_vanished: "&7&o [VANISHED]"
+
     ping:
       self: "&eYour ping is &2{PING}&ems."
       other: "{TARGET}&e's ping is &2{PING}&ems."
+
     playtime:
       online_player: "{TARGET} &ehas played for {TIME}"
       offline_player: "{TARGET} &7&o[OFFLINE] &ehas played for {TIME}"
       rank_wait: "&eYou are only {TIME}&e away from &6{RANK}&e!"
       top_header: "&2--== [Top Playtime] ==--"
       top: "&e[&6{POSITION}&e]&r {PLAYER}&e -&r {PLAYTIME}"
+
     ranks:
       player_header: "&2--== [Player Ranks] ==--"
       staff_header: "&2--== [Staff Ranks] ==--"
+
     reload: "&aVaultCore config reloaded!"
+
     seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
-    stats:
-      error: "&cAn error has occurred, please consult an administrator for help."
-      header: "&2--== [Stats] ==--"
-      player_joined: "{TARGET}&e has joined &2{TIMES}&e times."
-      player_session_length: "{TARGETS}&e's average session length is {TIME}"
-      join_streak: "{TARGET}&e has joined &2{DAYS}&e day{S} in a row."
+
     token:
       generating: "&eGenerating your token..."
       your_token: "&eYour token is: &2{TOKEN}&e."
       please_rerun: "&cPlease rerun the command."
+
     warp:
       not_exist: "&eThe warp &6{WARP}&e does not exist."
       set: "&eSet the warp &6{WARP}&e to your location."
       already_exist: "&eThe warp &6{WARP}&e has already been set. Try to delete it first."
       teleported: "&eYou have been teleported to &6{WARP}&e."
       deleted: "&eYou have deleted the warp &6{WARP}&e."
+
     wild:
       teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
       wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
-    msg:
-      self_error: "&cYou can't message yourself."
-      disabled_messages: "&cThey have disabled messages."
-      format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
-    reply:
-      noone_error: "&cYou have no one to reply to."
-    socialspy:
-      toggle: "&eYou have toggled &6SocialSpy &2{TOGGLE}&e."
-      format: "&8[&7SS&8] [&7{TYPE}&8] {SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+
     check:
       header: "&2--== [Check] ==--"
       format: "&e{KEY}: &6{VALUE}"
+
     clear_chat:
       sender: "&eYou have cleared chat."
       players: "{SENDER}&e has cleared chat."
+
     console_say:
       format: "&9&lCONSOLE&8: &f{MESSAGE}"
+
     feed_heal:
       self: "&eYou have been &6{ACTION}&e."
       other: "&eYou have &6{ACTION} {TARGET}&e."
       receiver: "&eYou have been &6{ACTION} by {SENDER}&e."
+
     fly:
       gamemode_error: "&c{TARGET} in {GAMEMODE} silly."
-      self: "&eYou have &6{TOGGLE} &efly."
-      other: "&eYou have &6{TOGGLE} &efly for {TARGET}&e."
-      receiver: "&eYour fly has been &6{TOGGLE}&e by {SENDER}"
+      self: "&eYou have &2{TOGGLE} &6fly&e."
+      other: "&eYou have &2{TOGGLE} &6fly&e for {TARGET}&e."
+      receiver: "&eYour &6fly&e has been &2{TOGGLE}&e by {SENDER}&e."
+
     hasperm:
       self: "&eYou {STATUS} &ethe permission &6{PERMISSION}&e."
       other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
+
     invsee:
       self_error: "&cPress e to open your own inventory."
       excempt_error: "&cYou don't have permission to open this person's inventory."
+
     mute_chat:
       sender: "&eYou have &6{STATUS}&e the chat."
       players: "&eThe chat has been &6{STATUS}&e by {SENDER}&e."
+
     staffchat:
       format: "&8[&7SC&8]&r {SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled &6StaffChat &2{TOGGLE}&e."
+
     adminchat:
       format: "&8[&7AC&8] &r{SENDER}&8: &b{MESSAGE}"
       toggle: "&eYou have toggled &6AdminChat &2{TOGGLE}&e."
+
     chat_toggled: "&cYou already have {CHAT}&c toggled on. Toggle it off first."
+
+    msg:
+      self_error: "&cYou can't message yourself."
+      disabled_messages: "&cThey have disabled messages."
+      offline: "&cThat player is offline :("
+      format: "{SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+
+    reply:
+      noone_error: "&cYou have no one to reply to."
+
+    socialspy:
+      toggle: "&eYou have toggled &6SocialSpy &2{TOGGLE}&e."
+      format: "&8[&7SS&8] [&7{TYPE}&8] {SENDER}&e -> {TARGET}&e: &f{MESSAGE}"
+
     tag:
       self_error: "&cYou can't tag yourself."
       add: "&eAdded tag [#&2{ID}&e] to {TARGET}&e."
@@ -522,15 +542,18 @@ vaultcore:
       tag_already_deleted: "&cThat tag has already been deleted."
       delete: "&eDeleted tag [#&2{ID}&e]."
       tag_not_exist: "&cThat tag does not exist."
+
     grant:
       no_permission: "&cYou don't have permission to use this rank."
       updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
       updated_player: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
       mod-no-perm: "&cYou cannot change a staff members rank!"
+
     gamemode:
       self: "&eYou have set your gamemode to &6{GAMEMODE}&e."
       other_sender: "&eYou have set {TARGET}&e's gamemode to &6{GAMEMODE}&e."
       other_receiver: "{SENDER}&e has set your gamemode to &6{GAMEMODE}&e."
+
     tpa:
       auto_accept_sender: "&eYou have been teleported to {TARGET}&e."
       auto_accept_target: "{SENDER}&e has teleported to you."
@@ -545,12 +568,19 @@ vaultcore:
         overrode_request_target: "{SENDER}&c cancelled their TPA request to you."
         request_sent: "&eYou have sent a teleport request to &6{TARGET}&e."
         request_received: "{SENDER}&e has sent you a teleport request. \n&eType &6/tpaccept&e to accept it."
+
+    tpall:
+      players: "&eEveryone was teleported to {SENDER}&e."
+      sender: "&eYou have teleported everyone to you."
+
     tphere:
       sender: "&eYou have teleported {TARGET}&e to you."
       target: "{SENDER}&e has teleported you to them."
+
     tpahere:
       request_sent: "&eYou have requested {TARGET}&e to teleport to you."
       request_received: "{SENDER}&e has requested for you to teleport to them. \n&eType &6/tpaccept&e to accept it."
+
     teleport:
       self_error: "&cYou can't teleport to yourself."
       sender_to_player: "&eYou have teleported to {TARGET}&e."
@@ -561,9 +591,11 @@ vaultcore:
       player_to_player_receiver: "{SENDER}&e has teleported {TARGET}&e to you."
       player_to_location_sender: "&eTeleported &6{PLAYER}&e to &6{X}, {Y}, {Z}&e."
       player_to_location_target: "&6{PLAYER}&e teleported you to &6{X}, {Y}, {Z}&e."
+
     worldtp:
       never_joined_before: "&eYou have never joined this world before... Bringing you to spawn."
       teleported: "&eTeleported you to the &6{WORLD}&e world."
+
     claim:
       reserved: "&cThis chunk is reserved!"
       must-be-in-survival: "&eYou must be in the &6Survival&e world to do this."
@@ -577,6 +609,7 @@ vaultcore:
       not-allowed: "&cThis player couldn't interact in your claim right now!"
       not-claimed: "&cYou hadn't claimed this chunk yet!"
       exp-level: "&cYou need at least 5 experience levels!"
+
     schem:
       loaded: "&6{SCHEM}&e has been loaded to your clipboard."
       saved: "&6{SCHEM}&e has been saved. Use &6/vcschem load&e to load it."
@@ -593,12 +626,14 @@ vaultcore:
       deleted: "&6{SCHEM}&e has been deleted."
       not_deleted: "&c{SCHEM} could not be deleted. Please contact an Administrator for help."
       deleted_target: "{SENDER}&e has deleted your schematic &6{SCHEM}&e."
+
     speed:
       invalid_movement: "&cInvalid movement. Try &4fly&c or&4 walk&c."
       sender_set_to: "&eYour &6{MOVEMENT}&e speed has been set to &2{SPEED}&e."
       sender_target: "&eYou have set {TARGET}&e's &6{MOVEMENT}&e speed to &2{SPEED}&e."
       target_set_to: "&eYour &6{MOVEMENT}&e speed has been set to&2{SPEED}&e by {SENDER}&e."
       find_self: "&eYour &6{MOVEMENT}&e speed is &2{SPEED}&e."
+
     lol:
       format: "&c[Lol] {SENDER}&8:&7 {LOL}"
       cooldown: "&cYou must wait &e{TIME}&c seconds to use /lol again."
@@ -614,12 +649,15 @@ vaultcore:
       delete:
         deleted: "&eDeleted the lol #&2{ID}&e."
         not_deleted: "&clol #{ID} could not be deleted."
+
     lag:
       header: "&2--== [Lag] ==--"
+
     clear:
       self: "&eYou successfully cleared your inventory."
       other_sender: "&eYou cleared {TARGET}&e's inventory."
       other_target: "{SENDER}&e has cleared your inventory."
+
     logs:
       already_searching: "&cThe logs are currently being searched. Please try again later."
       minimum_length: "&cPlease enter a minimum of 3 characters."
@@ -628,13 +666,16 @@ vaultcore:
       no_matches: "&cNo matches for that phrase."
       total_count: "&eFound &2{MATCHES}&e matches for that phrase."
       error_reading: "&cThere was an error reading the logs. Please contact an Administrator."
+
     managebot:
       invalid: "&cThe bot is currently &e{STATUS}&c."
       complete: "&eThe bot has been &6{STATUS}&e."
       status: "&eThe bot is currently {STATUS}&e."
+
     near:
       main: "&eThere are &2{COUNT}&e players within &6{RADIUS}&em of you."
       list: "{PLAYERS}&e."
+
     ignore:
       self_error: "&cYou cannot ignore yourself :thonk:"
       already_ignored: "&cYou are already ignoring {PLAYER}&c."
@@ -644,10 +685,12 @@ vaultcore:
       header: "&2--== [Ignoring] ==--"
       list: "&e[&2{COUNT}&e]&e {PLAYER}"
       you_are_ignored: "&cThat person has ignored you :("
+
     sudo:
       excempt_error: "&cYou cannot sudo that player."
       self_error: "&cWhy do you want to sudo yourself? Silly..."
       success: "&eForced {PLAYER}&e to run &6/{COMMAND}&e."
+
     donation:
       get_self: "&eYou have donated $&2{NUMBER}&e."
       get_other: "{PLAYER}&e has donated $&2{NUMBER}&e."
@@ -659,6 +702,7 @@ vaultcore:
       no_avail_rank: "{PLAYER}&e's donation rank was removed."
       no_avail_rank_target: "&eYour donation rank has been removed."
       remove_less_total: "&cThe most you can remove is ${MAX}."
+
     chatgroups:
       misc_error_sender: "&cError: You are not in a ChatGroup, or you do not have permission to edit members."
       toggle: "&eYou have toggled &6ChatGroups &2{TOGGLE}&e."
@@ -667,6 +711,7 @@ vaultcore:
       chat_not_in_group: "&cYou are not in a ChatGroup."
       self_error: "&cYou cannot do that to yourself!"
       permission_error: "&cYou do not have permission to edit that member."
+      different_chatgroup: "&cYou are not in the same ChatGroup as them."
       info:
         header: "&2--== [ChatGroups] ==--"
         in_group: "&eYou &aare&e in a ChatGroup &6[&2{NAME}&6]&e."
@@ -705,10 +750,12 @@ vaultcore:
         error: "&cError: You are already in a ChatGroup, or that ChatGroup doesn't exist."
         success: "&eYou have joined the ChatGroup &6{NAME}&e!"
         members_message: "&8[&7CG&8] [&e{NAME}&8] {SENDER}&e has joined &6{NAME}&e!"
+
     settings:
       specific:
         success: "&eSuccessfully updated &6{NAME}&e to &2{VALUE}&e."
         invalid_setting: "&cThat setting is invalid."
+
       custom_keys:
         header: "&2--== [Custom Keys] ==--"
         list_format: "&6{CONTEXT}&e - &6{KEY}"
@@ -716,8 +763,7 @@ vaultcore:
         invalid_key_length: "&cInvalid key length. Keys must be 1 character long."
         set_key: "&eSuccessfully set your &6{CONTEXT}&e key to &6{KEY}&e."
         duplicate_key: "&cYou have set &4{CONTEXT}&c to use &4{KEY}&c already."
-    rewards:
-      refferals:
+
     nickname:
       disabled_self: "&eSuccessfully disabled your nickname."
       disabled_sender: "&eSuccessfully disabled {TARGET}&e's nickname."
@@ -727,8 +773,30 @@ vaultcore:
       notice_other: "{SENDER}&e has updated your nickname to {NICKNAME}&e."
       invalid_starting: "&cNicknames need to start with the first 3 characters of the targets name."
       too_short: "&cNicknames need to be at least 3 characters long."
+
     cosmetics:
       particles:
         toggled: "&eToggled &6{PARTICLE}&e effect &2{TOGGLE}&e."
+
     nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."
+
     skull: "&eGave you {TARGET}&e's head."
+
+    mail:
+      header: "&2--== [Mail] ==--"
+      no_mail: "&cYou have no mail."
+      error_checking: "&4There was an error checking for mail. Please report this"
+      count: "&eYou have &2{COUNT}&e unread mail."
+      list: "&e[#&2{ID}&e] &6{SENDER} &e- &6{DATE}"
+      self_error: "&cYou cannot mail yourself. Weirdo."
+      not_their_mail: "&cThat mail does not belong to you. This will be reported."
+      no_mail_id: "&cThere is no mail with that ID."
+      layout: "&e{KEY}: &6{VALUE}"
+      marked_read: "&eSuccessfully deleted mail #&6{ID}&e."
+      sent: "&eYou sent a mail to {TARGET}&e."
+      max_length: "&cMail can only be 255 characters long. Your message is {COUNT} characters long."
+      new_mail: "&eYou have a new mail from {SENDER}&e. \n&eRun &6/mail read {ID}&e to read it."
+      error_alerting: "&4Error while completing a new mail. Please report this."
+      clear:
+        confirm: "&ePlease type &6/mail clear confirm&e to confirm."
+        cleared: "&eCleared your mailbox!"

@@ -29,13 +29,33 @@ public final class Utilities {
      * @author Aberdeener
      */
     public static String formatMessage(String message, Object... replacements) {
+        /*
+        HashMap<String, String> colours = PlayerCustomColours.defaultColours;
+        if (sender instanceof VLPlayer) {
+            if (((VLPlayer) sender).isOnline())
+                colours = PlayerCustomColours.getColours((VLPlayer) sender);
+            else colours = PlayerCustomColours.getColoursFromFile((VLPlayer) sender);
+        }
+        */
         int num = 0;
         StringBuilder sb = new StringBuilder();
         try {
             for (String s : message.split(" ")) {
                 if (s.matches(".*?\\{.*?}.*")) {
                     String before = StringUtils.substringBefore(s, "{");
+                    /*
+                    if (before.matches(".*?<.*?>.*")) {
+                        String context = before.substring(0, before.length() - 1);
+                        before = "&" + colours.get(context);
+                    }
+                     */
                     String after = s.substring(s.lastIndexOf("}") + 1);
+                    /*
+                    if (after.matches(".*?<.*?>.*")) {
+                        String context = after.substring(0, after.length() - 1);
+                        after = "&" + colours.get(context);
+                    }
+                     */
                     s = replacements[num].toString();
                     sb.append(before).append(s).append(after).append(" ");
                     num++;
@@ -56,8 +76,7 @@ public final class Utilities {
      * @return Edited message
      * @author Aberdeener
      */
-    // I am sure there is a better way to determine whether an apostrophe is needed, but this works for now.
-    static List<String> apostrophe = Arrays.asList("hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
+    static List<String> apostrophe = Arrays.asList("lets", "doesnt", "hasnt", "hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
     static List<String> punctuation = Arrays.asList(".", "!", "?");
 
     public static String grammarly(String message) {
@@ -66,6 +85,12 @@ public final class Utilities {
         for (String word : message.split(" ")) {
             // Capitalize "i"
             if (word.equals("i")) word = word.toUpperCase();
+                // Convert "u"
+            else if (word.equalsIgnoreCase("u")) word = "you";
+                // Convert "ur"
+            else if (word.equalsIgnoreCase("ur")) word = "you're";
+                // Convert "ok"
+            else if (word.equalsIgnoreCase("ok")) word = "okay";
             // Add apostrophe
             if (apostrophe.contains(word)) {
                 word = word.substring(0, word.length() - 1) + "'" + word.substring(word.length() - 1);
@@ -166,10 +191,19 @@ public final class Utilities {
     /**
      * @param millis Time in milliseconds to turn into a date.
      * @return Date from milliseconds
-     * @author Aberdeener
      */
     public static String millisToDate(long millis) {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        Date epoch = new Date(millis);
+        return format.format(epoch);
+    }
+
+    /**
+     * @param millis Time in milliseconds to turn into a date.
+     * @return Date from milliseconds with hours/min/seconds
+     */
+    public static String millisToLongDate(long millis) {
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         Date epoch = new Date(millis);
         return format.format(epoch);
     }

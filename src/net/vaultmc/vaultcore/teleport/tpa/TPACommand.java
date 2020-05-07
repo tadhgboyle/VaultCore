@@ -8,6 +8,8 @@ import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -45,12 +47,16 @@ public class TPACommand extends CommandExecutor implements Listener {
     public void tpa(VLPlayer sender, VLPlayer target) {
         if (verifyRequest(sender, target)) return;
         if (PlayerSettings.getSetting(target, "settings.autotpa")) {
+            if (PlayerSettings.getSetting(target, "settings.notifications"))
+                target.getPlayer().playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
             sender.teleport(target.getLocation());
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.auto_accept_sender"), target.getFormattedName()));
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.auto_accept_target"), sender.getFormattedName()));
             return;
         }
         if (checkMap(sender, target, tpaRequests)) return;
+        if (PlayerSettings.getSetting(target, "settings.notifications"))
+            target.getPlayer().playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_sent"), target.getFormattedName()));
         target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_received"), sender.getFormattedName()));
     }

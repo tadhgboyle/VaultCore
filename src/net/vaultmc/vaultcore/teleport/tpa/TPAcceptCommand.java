@@ -22,7 +22,7 @@ public class TPAcceptCommand extends CommandExecutor {
     public void tpaccept(VLPlayer target) {
         if (TPACommand.getTpaRequests().containsKey(target)) {
             VLPlayer requester = TPACommand.getTpaRequests().get(target);
-            target.teleport(requester.getLocation());
+            requester.teleport(target.getLocation());
             TPACommand.getTpaRequests().remove(target);
             requester.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.response_sender"), target.getFormattedName(), "accepted"));
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.response_target"), "accepted", requester.getFormattedName()));
