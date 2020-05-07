@@ -1,16 +1,16 @@
 package net.vaultmc.vaultcore.misc.commands;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Registry;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Collections;
 
 @RootCommand(literal = "vchelp", description = "Help me!")
 @Permission(Permissions.HelpCommand)
-@PlayerOnly
 public class HelpCommand extends CommandExecutor {
 
     public HelpCommand() {
@@ -19,21 +19,29 @@ public class HelpCommand extends CommandExecutor {
     }
 
     @SubCommand("helpMain")
-    public void helpMain(VLPlayer sender) {
-
+    public void helpMain(VLCommandSender sender) {
+        sender.sendMessage("todo");
     }
 
     @SubCommand("helpCommand")
-    public void helpCommand(VLPlayer sender, String command) {
-        Class<?> clazz = Registry.getCommandClasses().get(command);
+    public void helpCommand(VLCommandSender sender, String command) {
+        Class<?> clazz = VaultLoader.getCommandClasses().get(command);
         if (clazz == null) {
-            sender.sendMessage("not vaultcore command");
+            sender.sendMessage("not vaultloader command");
             return;
         }
-        sender.sendMessage("class: " + clazz.getSimpleName());
+        sender.sendMessage("root command: " + clazz.getAnnotation(RootCommand.class).literal());
         sender.sendMessage("description: " + clazz.getAnnotation(RootCommand.class).description());
+        sender.sendMessage("-------------------------");
         for (Method method : clazz.getDeclaredMethods()) {
-            sender.sendMessage("method: " + method.getName());
+            if (!method.isAnnotationPresent(SubCommand.class)) continue;
+            sender.sendMessage("subcommand: " + method.getAnnotation(SubCommand.class).value());
+            StringBuilder sb = new StringBuilder();
+            for (Parameter parameter : method.getParameters()) {
+                sb.append(parameter.getType().getClass().getSimpleName()).append(" ");
+            }
+            sender.sendMessage("usage: /" + clazz.getAnnotation(RootCommand.class).literal() + " " + sb.toString());
+            sender.sendMessage("-------------------------");
         }
     }
 }
