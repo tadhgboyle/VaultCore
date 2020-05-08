@@ -20,18 +20,18 @@ public class GrantCommand extends CommandExecutor {
     }
 
     @SubCommand("grant")
-    public void grant(VLPlayer player, VLPlayer target) {
-        if (target == player) {
-            player.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
+    public void grant(VLPlayer sender, VLPlayer target) {
+        if (target == sender) {
+            sender.sendMessage(ChatColor.RED + "You can't give yourself a rank!");
             return;
         }
-        if (player.hasPermission(Permissions.GrantCommandAdmin)) {
-            player.openInventory(GrantCommandInv.getGrantInventoryAdmin(target));
-        } else if (player.hasPermission(Permissions.GrantCommandMod)) {
+        if (sender.hasPermission(Permissions.GrantCommandAdmin)) {
+            sender.openInventory(GrantCommandInv.getGrantInventoryAdmin(target));
+        } else if (sender.hasPermission(Permissions.GrantCommandMod)) {
             if (target.getGroup().equalsIgnoreCase("admin") || target.getGroup().equalsIgnoreCase("moderator")) {
-                player.sendMessage(VaultLoader.getMessage("vaultcore.commands.grant.mod-no-perm"));
+                sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.grant.mod-no-perm"));
             }
-            player.openInventory(GrantCommandInv.getGrantInventoryMod(target));
+            sender.openInventory(GrantCommandInv.getGrantInventoryMod(target));
         }
     }
 }

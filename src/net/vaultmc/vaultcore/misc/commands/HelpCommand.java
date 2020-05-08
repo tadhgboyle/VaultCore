@@ -38,14 +38,17 @@ public class HelpCommand extends CommandExecutor {
             sender.sendMessage(Bukkit.getPermissionMessage());
             return;
         }
-        sender.sendMessage(ChatColor.YELLOW + "Help: " + ChatColor.GOLD + "/" + clazz.getAnnotation(RootCommand.class).literal());
+        sender.sendMessage(ChatColor.DARK_GREEN + "--== [Help] ==--");
+        sender.sendMessage(ChatColor.YELLOW + "Command: " + ChatColor.GOLD + "/" + clazz.getAnnotation(RootCommand.class).literal());
         sender.sendMessage(ChatColor.YELLOW + "Description: " + ChatColor.GOLD + clazz.getAnnotation(RootCommand.class).description());
         sender.sendMessage(ChatColor.DARK_GREEN + "-------------------------");
         for (Method method : clazz.getDeclaredMethods()) {
             if (!method.isAnnotationPresent(SubCommand.class)) continue;
             if (method.isAnnotationPresent(Permission.class) && sender instanceof VLPlayer && !((VLPlayer) sender).hasPermission(method.getAnnotation(Permission.class).value()))
                 continue;
-            sender.sendMessage(ChatColor.YELLOW + "Sub-Command: " + ChatColor.GOLD + Utilities.capitalizeMessage(method.getAnnotation(SubCommand.class).value()));
+            // TODO: Hover and click to run command
+            // TODO: Add support for literal-only commands example: ManageBotCommand
+            sender.sendMessage(ChatColor.YELLOW + "Sub-Command: " + ChatColor.GOLD + Utilities.capitalizeMessage(method.getAnnotation(SubCommand.class).value()).replaceAll("(.)([A-Z])", "$1 $2"));
             StringBuilder sb = new StringBuilder();
             if (method.getParameters().length > 1) {
                 for (Parameter parameter : method.getParameters()) {
