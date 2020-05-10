@@ -105,4 +105,16 @@ public final class Permissions {
     public static final String NightvisionCommand = "vaultcore.nightvision";
     public static final String NightvisionCommandAdmin = "vaultcore.nightvision.admin";
     public static final String SkullCommand = "vaultcore.skull";
+
+    //VaultPvp permissions
+    public static final String StatsCommand = "vp.commands.stats";
+    public static final String StatsCommandOther = "vp.commands.stats.other";
+    public static final String PvpKitCommand = "vp.commands.pvp";
+    public static final String BalCommand = "vp.commands.balance";
+    public static final String BalCommandOther = "vp.commands.balance";
+    public static final String BalCommandGive = "vp.commands.balance.give";
+    public static final String KitGuiCommand = "vp.commands.kits";
+    public static final String BalCommandGet = "vp.commands.balance.get";
+    public static final String TeleportCommandOther = "vp.commands.teleport.other";
+
 }

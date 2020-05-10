@@ -49,6 +49,11 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
     @EventHandler
     @SneakyThrows
     public void onPlayerDeath(PlayerDeathEvent e) {
+
+        if(!e.getEntity().getPlayer().getWorld().getName().equalsIgnoreCase("PvP")) {
+            return;
+        }
+
         if (cooldown.contains(e.getEntity().getUniqueId())) return;
         VLPlayer damaged = VLPlayer.getPlayer(e.getEntity());
         if (e.getEntity().getKiller() != null) {
