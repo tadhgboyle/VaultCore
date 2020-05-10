@@ -13,15 +13,14 @@ import java.util.Collections;
 import java.util.Set;
 
 public class CGSettingsInv {
-
     public void openMainMenu(VLPlayer sender) {
         ChatGroup chatGroup = ChatGroup.getChatGroup(sender);
 
-        Inventory mainMenu = Bukkit.createInventory(null, 27, ChatColor.RESET + "ChatGroup Settings: " + chatGroup.name);
+        Inventory mainMenu = Bukkit.createInventory(null, 27, ChatColor.RESET + "Chat Group Settings: " + chatGroup.name);
         mainMenu.setItem(11, new ItemStackBuilder(Material.PAPER)
                 .name(ChatColor.YELLOW + "Public/Private")
                 .lore(Arrays.asList(
-                        ChatColor.GRAY + "Toggle the visibility of your ChatGroup.",
+                        ChatColor.GRAY + "Toggle the visibility of your chat group.",
                         "",
                         chatGroup.open ? ChatColor.GREEN + "Public" : ChatColor.RED + "Private"
                 ))
@@ -52,7 +51,7 @@ public class CGSettingsInv {
 
         int currentSlot = 0;
 
-        Inventory membersMenu = Bukkit.createInventory(null, slotCount, ChatColor.RESET + "ChatGroup Members: " + chatGroup.name);
+        Inventory membersMenu = Bukkit.createInventory(null, slotCount, ChatColor.RESET + "Chat Group Members: " + chatGroup.name);
 
         for (VLOfflinePlayer player : members) {
             membersMenu.setItem(currentSlot, new ItemStackBuilder(Material.PLAYER_HEAD)
