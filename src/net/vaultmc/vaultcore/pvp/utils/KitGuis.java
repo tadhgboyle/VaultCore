@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.vaultpvp.utils;
+package net.vaultmc.vaultcore.pvp.utils;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;

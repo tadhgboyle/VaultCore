@@ -1,7 +1,7 @@
-package net.vaultmc.vaultcore.vaultpvp.commands.stats;
+package net.vaultmc.vaultcore.pvp;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.vaultpvp.utils.KitGuis;
+import net.vaultmc.vaultcore.pvp.utils.KitGuis;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 

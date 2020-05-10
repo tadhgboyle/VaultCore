@@ -11,6 +11,20 @@ import java.util.*;
 
 public final class Utilities {
 
+    /**
+     * @param millis Time in milliseconds you wish to turn into a duration.
+     * @return Duration from milliseconds
+     * @author Aberdeener
+     */
+    private static final Map<String, Long> timeparts = new LinkedHashMap<>();
+    /**
+     * @param message Message to edit
+     * @return Edited message
+     * @author Aberdeener
+     */
+    static List<String> apostrophe = Arrays.asList("lets", "doesnt", "hasnt", "hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
+    static List<String> punctuation = Arrays.asList(".", "!", "?");
+
     public static Location deserializeLocation(String s) {
         if (s == null) return null;
         String[] parts = s.split(VaultCore.SEPARATOR);
@@ -71,14 +85,6 @@ public final class Utilities {
         }
     }
 
-    /**
-     * @param message Message to edit
-     * @return Edited message
-     * @author Aberdeener
-     */
-    static List<String> apostrophe = Arrays.asList("lets", "doesnt", "hasnt", "hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
-    static List<String> punctuation = Arrays.asList(".", "!", "?");
-
     public static String grammarly(String message) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
@@ -124,13 +130,6 @@ public final class Utilities {
     public static String capitalizeMessage(String message) {
         return message.substring(0, 1).toUpperCase() + message.substring(1);
     }
-
-    /**
-     * @param millis Time in milliseconds you wish to turn into a duration.
-     * @return Duration from milliseconds
-     * @author Aberdeener
-     */
-    private static final Map<String, Long> timeparts = new LinkedHashMap<>();
 
     public static String millisToTime(long millis, boolean newline, boolean period) {
 

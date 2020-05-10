@@ -60,6 +60,13 @@ import net.vaultmc.vaultcore.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultcore.punishments.ban.UnbanCommand;
 import net.vaultmc.vaultcore.punishments.mute.MutedListener;
 import net.vaultmc.vaultcore.punishments.mute.UnmuteCommand;
+import net.vaultmc.vaultcore.pvp.KitCommand;
+import net.vaultmc.vaultcore.pvp.StatsCommand;
+import net.vaultmc.vaultcore.pvp.listeners.KitsGuiListener;
+import net.vaultmc.vaultcore.pvp.listeners.PlayerDeathListener;
+import net.vaultmc.vaultcore.pvp.runnables.Scoreboards;
+import net.vaultmc.vaultcore.pvp.utils.GoldenAppleDelay;
+import net.vaultmc.vaultcore.pvp.utils.KitGuis;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
@@ -92,14 +99,6 @@ import net.vaultmc.vaultcore.tour.TourMusic;
 import net.vaultmc.vaultcore.tour.TourStageCommand;
 import net.vaultmc.vaultcore.vanish.VanishCommand;
 import net.vaultmc.vaultcore.vanish.VanishListeners;
-import net.vaultmc.vaultcore.vaultpvp.commands.economy.EcoCommand;
-import net.vaultmc.vaultcore.vaultpvp.commands.stats.KitCommand;
-import net.vaultmc.vaultcore.vaultpvp.commands.stats.StatsCommand;
-import net.vaultmc.vaultcore.vaultpvp.listeners.KitsGuiListener;
-import net.vaultmc.vaultcore.vaultpvp.listeners.PlayerDeathListener;
-import net.vaultmc.vaultcore.vaultpvp.runnables.Scoreboards;
-import net.vaultmc.vaultcore.vaultpvp.utils.GoldenAppleDelay;
-import net.vaultmc.vaultcore.vaultpvp.utils.KitGuis;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.components.Component;
 import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
@@ -137,6 +136,11 @@ public final class VaultCore extends Component implements Listener {
     private static DBConnection pDatabase;
     @Getter
     private static long startTime;
+
+    static {
+        ConfigurationSerialization.registerClass(ChatGroup.class);
+    }
+
     private Configuration config;
     private Configuration locations;
     private Configuration data;
@@ -168,10 +172,6 @@ public final class VaultCore extends Component implements Listener {
     @Override
     public void onStartingReloaded() {
         isReloaded = true;
-    }
-
-    static {
-        ConfigurationSerialization.registerClass(ChatGroup.class);
     }
 
     public FileConfiguration getConfig() {
@@ -376,6 +376,13 @@ public final class VaultCore extends Component implements Listener {
         new SpawnCommand();
         new ForceFieldCommand();
         new SudoCommand();
+        new StatsCommand();
+        new KitCommand();
+        new Scoreboards();
+        new KitGuis();
+        new GoldenAppleDelay();
+        registerEvents(new PlayerDeathListener());
+        registerEvents(new KitsGuiListener());
         registerEvents(new GrantCommandListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());
@@ -396,18 +403,6 @@ public final class VaultCore extends Component implements Listener {
                 ChatColor.GREEN + "Successfully enabled. Maintained by " + ChatColor.YELLOW + "Aberdeener"
                         + ChatColor.GREEN + ", " + "running on " + ChatColor.YELLOW + "Bukkit - " + getServerName()
                         + ChatColor.GREEN + "."});
-
-        //VaultPvp Registry
-
-        new StatsCommand();
-        new EcoCommand();
-        new KitCommand();
-        new Scoreboards();
-        new KitGuis();
-        new GoldenAppleDelay();
-        registerEvents(new PlayerDeathListener());
-        registerEvents(new KitsGuiListener());
-        registerEvents(new PlayerJoinQuitListener());
     }
 
     @Override

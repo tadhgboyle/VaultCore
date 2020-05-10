@@ -23,6 +23,16 @@ public class NicknameCommand extends CommandExecutor {
         register("other", Arrays.asList(Arguments.createArgument("target", Arguments.playerArgument()), Arguments.createArgument("nickname", Arguments.word())));
     }
 
+    public static String getNickname(VLOfflinePlayer player) {
+        String nickname = player.getPlayerData().getString("nickname");
+        if (nickname == null) {
+            player.getPlayerData().set("nickname", "0, 0");
+            return null;
+        }
+        if (nickname.isEmpty() || nickname.equals("0, 0")) return null;
+        return nickname;
+    }
+
     @SubCommand("self")
     public void self(VLPlayer sender, String nickname) {
         setNickname(sender, sender, nickname);
@@ -66,15 +76,5 @@ public class NicknameCommand extends CommandExecutor {
         } else {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.invalid_starting"));
         }
-    }
-
-    public static String getNickname(VLOfflinePlayer player) {
-        String nickname = player.getPlayerData().getString("nickname");
-        if (nickname == null) {
-            player.getPlayerData().set("nickname", "0, 0");
-            return null;
-        }
-        if (nickname.isEmpty() || nickname.equals("0, 0")) return null;
-        return nickname;
     }
 }

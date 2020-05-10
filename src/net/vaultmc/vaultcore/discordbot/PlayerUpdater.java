@@ -16,8 +16,8 @@ import java.util.List;
 import static net.vaultmc.vaultloader.utils.player.VLOfflinePlayer.getOfflinePlayerDiscord;
 
 public class PlayerUpdater {
-    public static Multimap<String, Role> mappedRole = HashMultimap.create();
     private static final Guild guild = VaultMCBot.getGuild();
+    public static Multimap<String, Role> mappedRole = HashMultimap.create();
 
     public static void updater() {
         if (VaultMCBot.isStarted()) {

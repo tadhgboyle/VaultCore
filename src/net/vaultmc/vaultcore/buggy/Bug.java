@@ -26,15 +26,6 @@ public class Bug {
     @Getter
     private static final NoDupeArrayList<Bug> bugs = new NoDupeArrayList<>();
 
-    public Bug() {
-        this(null, null, null, null, new ArrayList<>(), null, false, null, new ArrayList<>(),
-                "VAULTMC-" + getAndIncreaseCurrentId(), Status.CREATING);
-    }
-
-    public static int getCurrentId() {
-        return PersistentKeyValue.contains("bug-current-id") ? Integer.parseInt(PersistentKeyValue.get("bug-current-id")) : 0;
-    }
-
     static {
         ios8601.setTimeZone(TimeZone.getTimeZone("CET"));
     }
@@ -51,11 +42,9 @@ public class Bug {
     private List<VLOfflinePlayer> assignees;
     private String uniqueId;
 
-    public static int getAndIncreaseCurrentId() {
-        int id = getCurrentId();
-        id++;
-        PersistentKeyValue.set("bug-current-id", String.valueOf(id));
-        return id - 1;
+    public Bug() {
+        this(null, null, null, null, new ArrayList<>(), null, false, null, new ArrayList<>(),
+                "VAULTMC-" + getAndIncreaseCurrentId(), Status.CREATING);
     }
 
     Bug(String title, String description, String actualBehavior, String expectedBehavior, List<String> stepsToReproduce,
@@ -77,6 +66,17 @@ public class Bug {
         this.reporter = reporter;
         this.assignees = assignees;
         uniqueId = uuid;
+    }
+
+    public static int getCurrentId() {
+        return PersistentKeyValue.contains("bug-current-id") ? Integer.parseInt(PersistentKeyValue.get("bug-current-id")) : 0;
+    }
+
+    public static int getAndIncreaseCurrentId() {
+        int id = getCurrentId();
+        id++;
+        PersistentKeyValue.set("bug-current-id", String.valueOf(id));
+        return id - 1;
     }
 
     public static Bug getBug(String uuid) {

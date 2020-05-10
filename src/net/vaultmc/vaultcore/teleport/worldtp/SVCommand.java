@@ -14,11 +14,11 @@ import java.util.Collections;
 @Permission(Permissions.WorldTPCommandSurvival)
 @PlayerOnly
 public class SVCommand extends CommandExecutor {
+    private static final Location svLoc = new Location(Bukkit.getWorld("Survival"), -1122.5, 63, -673.5, 0F, 0F);
+
     public SVCommand() {
         register("sv", Collections.emptyList());
     }
-
-    private static final Location svLoc = new Location(Bukkit.getWorld("Survival"), -1122.5, 63, -673.5, 0F, 0F);
 
     @SubCommand("sv")
     public void sv(VLPlayer player) {

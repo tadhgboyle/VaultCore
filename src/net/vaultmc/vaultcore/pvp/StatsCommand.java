@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.vaultpvp.commands.stats;
+package net.vaultmc.vaultcore.pvp;
 
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.Collections;
 
 @RootCommand(
-        literal = "stats",
+        literal = "pvpstats",
         description = "Gets your statistics!"
 )
 @Permission(Permissions.StatsCommand)
@@ -28,7 +28,7 @@ public class StatsCommand extends CommandExecutor {
     @SneakyThrows
     @SubCommand("statsSelf")
     public void statsSelf(VLPlayer p) {
-        ResultSet rs = VaultCore.getInstance().getDatabase().executeQueryStatement("SELECT kills, deaths FROM pvp_stats WHERE uuid=?", p.getUniqueId().toString());
+        ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT kills, deaths FROM pvp_stats WHERE uuid=?", p.getUniqueId().toString());
         int kills = 0;
         int deaths = 0;
         if (rs.next()) {
@@ -57,7 +57,7 @@ public class StatsCommand extends CommandExecutor {
     @SubCommand("statsOther")
     @Permission(Permissions.StatsCommandOther)
     public void statsOther(VLPlayer p, VLOfflinePlayer target) {
-        ResultSet rs = VaultCore.getInstance().getDatabase().executeQueryStatement("SELECT kills, deaths FROM pvp_stats WHERE uuid=?", target.getUniqueId().toString());
+        ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT kills, deaths FROM pvp_stats WHERE uuid=?", target.getUniqueId().toString());
         int kills = 0;
         int deaths = 0;
         if (rs.next()) {

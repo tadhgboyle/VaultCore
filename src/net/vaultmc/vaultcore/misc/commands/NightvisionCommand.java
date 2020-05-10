@@ -21,11 +21,11 @@ import java.util.Set;
 @Aliases("nv")
 public class NightvisionCommand extends CommandExecutor implements Listener {
 
+    static Set<VLPlayer> nightvisionPlayers = new HashSet<>();
+
     public NightvisionCommand() {
         register("nightvision", Collections.emptyList());
     }
-
-    static Set<VLPlayer> nightvisionPlayers = new HashSet<>();
 
     @SubCommand("nightvision")
     public void nightvision(VLPlayer sender) {

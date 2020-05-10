@@ -29,14 +29,14 @@ import java.util.stream.Collectors;
 @PlayerOnly
 @Aliases("setting")
 public class SettingsCommand extends CommandExecutor implements Listener {
+    static List<String> settingNames = new ArrayList<>();
+    static HashMap<String, String> settingMap = new HashMap<>();
+
     public SettingsCommand() {
         register("settingsMenu", Collections.emptyList());
         register("settingsSpecific", Collections.singletonList(Arguments.createArgument("setting", Arguments.word())));
         VaultCore.getInstance().registerEvents(this);
     }
-
-    static List<String> settingNames = new ArrayList<>();
-    static HashMap<String, String> settingMap = new HashMap<>();
 
     public static void init() {
         for (Settings setting : Settings.values()) {

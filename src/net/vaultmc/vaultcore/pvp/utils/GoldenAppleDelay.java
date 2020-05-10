@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.vaultpvp.utils;
+package net.vaultmc.vaultcore.pvp.utils;
 
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
@@ -19,11 +19,9 @@ public class GoldenAppleDelay extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-
-        if(!e.getPlayer().getWorld().getName().equals("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equals("Pvp")) {
             return;
         }
-
         gapplePlayers.remove(e.getPlayer().getUniqueId());
         napplePlayers.remove(e.getPlayer().getUniqueId());
     }
@@ -31,7 +29,7 @@ public class GoldenAppleDelay extends ConstructorRegisterListener {
     @EventHandler
     public void onItemConsume(PlayerItemConsumeEvent e) {
 
-        if(!e.getPlayer().getWorld().getName().equals("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equals("Pvp")) {
             return;
         }
 

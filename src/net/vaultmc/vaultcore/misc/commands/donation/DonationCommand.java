@@ -20,6 +20,8 @@ import java.util.List;
 @Permission(Permissions.DonationCommand)
 public class DonationCommand extends CommandExecutor {
 
+    List<String> donorRanks = Arrays.asList(DonationRanks.DONOR.getLuckPermsRole(), DonationRanks.DONOR_PLUS.getLuckPermsRole(), DonationRanks.DONOR_PLUS_PLUS.getLuckPermsRole());
+
     public DonationCommand() {
         register("checkDonationSelf", Collections.emptyList());
         register("checkDonationOther", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
@@ -98,8 +100,6 @@ public class DonationCommand extends CommandExecutor {
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.donation.set_donation"), target.getFormattedName(), VaultCore.numberFormat.format(donation)));
         updateDonationRank(sender, target, donation);
     }
-
-    List<String> donorRanks = Arrays.asList(DonationRanks.DONOR.getLuckPermsRole(), DonationRanks.DONOR_PLUS.getLuckPermsRole(), DonationRanks.DONOR_PLUS_PLUS.getLuckPermsRole());
 
     // TODO: This is really shitty, make it better soon :D
     private void updateDonationRank(VLCommandSender sender, VLOfflinePlayer target, double donation) {

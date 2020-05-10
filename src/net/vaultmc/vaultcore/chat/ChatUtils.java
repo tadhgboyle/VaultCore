@@ -42,44 +42,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatUtils implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChatShouldFormat(AsyncPlayerChatEvent e) {
-        // Let clans handle itself
-        if (e.getPlayer().getWorld().getName().contains("clans")) return;
-        formatChat(e);
-        e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
-        e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
-    }
-
-    // Handle @mentions in chat
-    @EventHandler(priority = EventPriority.LOW)
-    public void onPlayerChat(AsyncPlayerChatEvent e) {
-        if (e.isCancelled()) return;
-        String[] words = e.getMessage().split(" ");
-
-        for (int i = 0; i < words.length; i++) {
-            if (words[i].startsWith("@") && !words[i].equals("@")) {
-                Player referred = Bukkit.getPlayer(words[i].replace("@", ""));
-                if (referred == null) {
-                    words[i] = ChatColor.WHITE + "@" + words[i].replace("@", "") + ChatColor.RESET;
-                    e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-offline"));
-                } else {
-                    words[i] = ChatColor.YELLOW + "@" + referred.getName() + ChatColor.RESET;
-                    if (AFKCommand.getAfk().containsKey(referred)) {
-                        e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-afk"));
-                    }
-                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(referred), "settings.mention_notifications"))
-                        referred.playSound(referred.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
-                }
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String s : words) {
-            sb.append(s).append(" ");
-        }
-        e.setMessage(sb.toString().trim());
-    }
-
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
@@ -131,5 +93,43 @@ public class ChatUtils implements Listener {
         }
 
         e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChatShouldFormat(AsyncPlayerChatEvent e) {
+        // Let clans handle itself
+        if (e.getPlayer().getWorld().getName().contains("clans")) return;
+        formatChat(e);
+        e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
+        e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
+    }
+
+    // Handle @mentions in chat
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerChat(AsyncPlayerChatEvent e) {
+        if (e.isCancelled()) return;
+        String[] words = e.getMessage().split(" ");
+
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].startsWith("@") && !words[i].equals("@")) {
+                Player referred = Bukkit.getPlayer(words[i].replace("@", ""));
+                if (referred == null) {
+                    words[i] = ChatColor.WHITE + "@" + words[i].replace("@", "") + ChatColor.RESET;
+                    e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-offline"));
+                } else {
+                    words[i] = ChatColor.YELLOW + "@" + referred.getName() + ChatColor.RESET;
+                    if (AFKCommand.getAfk().containsKey(referred)) {
+                        e.getPlayer().sendMessage(VaultLoader.getMessage("chat.mention-afk"));
+                    }
+                    if (PlayerSettings.getSetting(VLPlayer.getPlayer(referred), "settings.mention_notifications"))
+                        referred.playSound(referred.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String s : words) {
+            sb.append(s).append(" ");
+        }
+        e.setMessage(sb.toString().trim());
     }
 }

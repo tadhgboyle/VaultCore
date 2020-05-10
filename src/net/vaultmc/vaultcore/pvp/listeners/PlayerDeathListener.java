@@ -1,8 +1,7 @@
-package net.vaultmc.vaultcore.vaultpvp.listeners;
+package net.vaultmc.vaultcore.pvp.listeners;
 
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.vaultpvp.utils.API;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -20,7 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class PlayerDeathListener extends ConstructorRegisterListener implements Runnable {
-    private static Set<UUID> cooldown = new HashSet<>();
+    private static final Set<UUID> cooldown = new HashSet<>();
 
     public PlayerDeathListener() {
         Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 40L, 40L);
@@ -28,8 +27,7 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-
-        if(!e.getPlayer().getWorld().getName().equalsIgnoreCase("PvP")) {
+        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("PvP")) {
             return;
         }
 
@@ -38,8 +36,7 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
 
     @EventHandler
     public void onPlayerItemDrop(PlayerDropItemEvent e) {
-
-        if(!e.getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
             return;
         }
 
@@ -49,8 +46,7 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
     @EventHandler
     @SneakyThrows
     public void onPlayerDeath(PlayerDeathEvent e) {
-
-        if(!e.getEntity().getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
+        if (!e.getEntity().getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
             return;
         }
 
@@ -72,7 +68,7 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
             int result = r.nextInt(high - low) + low;
             int kills = damager.getPlayerData().getInt("stats.kills", 0);
             int deaths = damaged.getPlayerData().getInt("stats.deaths", 0);
-            API.setCoins(damager, API.getCoins(damager) + result);
+            damager.deposit(Bukkit.getWorld("pvp"), result);
             damager.sendMessage(ChatColor.YELLOW + "You killed " + damaged.getFormattedName() + ChatColor.YELLOW + " and received " + ChatColor.DARK_GREEN + "$" + (double) result + ChatColor.YELLOW + ".");
 
             Bukkit.broadcastMessage(damaged.getFormattedName() + ChatColor.YELLOW + " was killed by " + damager.getFormattedName() + ChatColor.YELLOW + ".");
@@ -86,21 +82,21 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
             deaths++;
 
             // Handle damager
-            ResultSet rsDamager = VaultCore.getInstance().getDatabase().executeQueryStatement("SELECT * FROM pvp_stats WHERE uuid=?", damager.getUniqueId().toString());
+            ResultSet rsDamager = VaultCore.getDatabase().executeQueryStatement("SELECT * FROM pvp_stats WHERE uuid=?", damager.getUniqueId().toString());
             if (rsDamager.next()) {
-                VaultCore.getInstance().getDatabase().executeUpdateStatement("UPDATE pvp_stats SET kills=? WHERE uuid=?", kills, damager.getUniqueId().toString());
+                VaultCore.getDatabase().executeUpdateStatement("UPDATE pvp_stats SET kills=? WHERE uuid=?", kills, damager.getUniqueId().toString());
             } else {
-                VaultCore.getInstance().getDatabase().executeUpdateStatement("INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?, ?, ?, ?)",
+                VaultCore.getDatabase().executeUpdateStatement("INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?, ?, ?, ?)",
                         damager.getUniqueId().toString(), damager.getName(), kills, 0);
             }
             rsDamager.close();
 
             // Handler damaged
-            ResultSet rsDamaged = VaultCore.getInstance().getDatabase().executeQueryStatement("SELECT * FROM pvp_stats WHERE uuid=?", damaged.getUniqueId().toString());
+            ResultSet rsDamaged = VaultCore.getDatabase().executeQueryStatement("SELECT * FROM pvp_stats WHERE uuid=?", damaged.getUniqueId().toString());
             if (rsDamaged.next()) {
-                VaultCore.getInstance().getDatabase().executeUpdateStatement("UPDATE pvp_stats SET deaths=? WHERE uuid=?", deaths, damaged.getUniqueId().toString());
+                VaultCore.getDatabase().executeUpdateStatement("UPDATE pvp_stats SET deaths=? WHERE uuid=?", deaths, damaged.getUniqueId().toString());
             } else {
-                VaultCore.getInstance().getDatabase().executeUpdateStatement("INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?, ?, ?, ?)",
+                VaultCore.getDatabase().executeUpdateStatement("INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?, ?, ?, ?)",
                         damaged.getUniqueId().toString(), damaged.getName(), 0, deaths);
             }
             rsDamaged.close();

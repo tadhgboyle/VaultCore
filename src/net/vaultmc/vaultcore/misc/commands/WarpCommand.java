@@ -39,7 +39,8 @@ public class WarpCommand extends CommandExecutor {
         if (VaultCore.getInstance().getLocationFile().get("warps." + warp) == null) {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.warp.not_exist"), warp));
         } else {
-            if (!sender.hasPermission(Permissions.CooldownBypass)) sender.teleportNoMove(VaultCore.getInstance().getLocationFile().getLocation("warps." + warp));
+            if (!sender.hasPermission(Permissions.CooldownBypass))
+                sender.teleportNoMove(VaultCore.getInstance().getLocationFile().getLocation("warps." + warp));
             else sender.teleport(VaultCore.getInstance().getLocationFile().getLocation("warps." + warp));
         }
     }

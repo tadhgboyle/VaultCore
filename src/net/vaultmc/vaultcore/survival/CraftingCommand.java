@@ -41,6 +41,12 @@ public class CraftingCommand extends CommandExecutor implements Listener {
     private static final ItemStack next = new ItemStackBuilder(Material.ARROW)
             .name(ChatColor.YELLOW + "Next")
             .build();
+    private static final ItemStack arrow = new ItemStackBuilder(Material.ARROW)
+            .name(ChatColor.YELLOW + "Crafts Into")
+            .build();
+    private static final ItemStack close = new ItemStackBuilder(Material.BARRIER)
+            .name(ChatColor.RED + "Close")
+            .build();
 
     public CraftingCommand() {
         register("crafting", Collections.emptyList());
@@ -54,13 +60,6 @@ public class CraftingCommand extends CommandExecutor implements Listener {
         }
         craftingPaged(sender, 0);
     }
-
-    private static final ItemStack arrow = new ItemStackBuilder(Material.ARROW)
-            .name(ChatColor.YELLOW + "Crafts Into")
-            .build();
-    private static final ItemStack close = new ItemStackBuilder(Material.BARRIER)
-            .name(ChatColor.RED + "Close")
-            .build();
 
     public void recipe(VLPlayer sender, Item item) {
         Inventory inv = Bukkit.createInventory(null, 27, ChatColor.RESET + "Recipe");

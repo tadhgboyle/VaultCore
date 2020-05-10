@@ -19,13 +19,13 @@ import java.util.Set;
 @RootCommand(literal = "fly", description = "Enable fly for a player.")
 @Permission(Permissions.FlyCommand)
 public class FlyCommand extends CommandExecutor implements Listener {
+    public static Set<VLPlayer> flying = new HashSet<>();
+
     public FlyCommand() {
         register("flySelf", Collections.emptyList());
         register("flyOthers",
                 Collections.singletonList(Arguments.createArgument("target", Arguments.playerArgument())));
     }
-
-    public static Set<VLPlayer> flying = new HashSet<>();
 
     @SubCommand("flySelf")
     @PlayerOnly

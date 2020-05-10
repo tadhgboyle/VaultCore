@@ -43,6 +43,22 @@ public class TPACommand extends CommandExecutor implements Listener {
         return false;
     }
 
+    public static boolean verifyRequest(VLPlayer sender, VLPlayer target) {
+        if (sender == target) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
+            return true;
+        }
+        if (IgnoreCommand.isIgnoring(target, sender)) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.you_are_ignored"));
+            return true;
+        }
+        if (!PlayerSettings.getSetting(target, "settings.tpa")) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.disabled_tpa"));
+            return true;
+        }
+        return false;
+    }
+
     @SubCommand("tpa")
     public void tpa(VLPlayer sender, VLPlayer target) {
         if (verifyRequest(sender, target)) return;
@@ -59,22 +75,6 @@ public class TPACommand extends CommandExecutor implements Listener {
             target.getPlayer().playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS, 100, (float) Math.pow(2F, (-6F / 12F)) /* High C */);
         sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_sent"), target.getFormattedName()));
         target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.tpa.request_received"), sender.getFormattedName()));
-    }
-
-    public static boolean verifyRequest(VLPlayer sender, VLPlayer target) {
-        if (sender == target) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.teleport.self_error"));
-            return true;
-        }
-        if (IgnoreCommand.isIgnoring(target, sender)) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.you_are_ignored"));
-            return true;
-        }
-        if (!PlayerSettings.getSetting(target, "settings.tpa")) {
-            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.tpa.requests.disabled_tpa"));
-            return true;
-        }
-        return false;
     }
 
     @EventHandler

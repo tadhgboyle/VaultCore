@@ -29,12 +29,11 @@ import java.util.concurrent.ThreadLocalRandom;
 @Aliases({"lmao", "lul"})
 public class LolCommand extends CommandExecutor {
 
+    private static final long COOLDOWN = 15000;
+    private static final int PAGE_SIZE = 7;
     public static File lolFile = new File(VaultCore.getInstance().getDataFolder() + "/lols.json");
     private static JsonArray lolsList;
     private static long LAST_LOL = 0;
-    private static final long COOLDOWN = 15000;
-    private static final int PAGE_SIZE = 7;
-
     JsonParser parser = new JsonParser();
     Object obj;
 

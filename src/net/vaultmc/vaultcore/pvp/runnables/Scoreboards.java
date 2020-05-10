@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.vaultpvp.runnables;
+package net.vaultmc.vaultcore.pvp.runnables;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -12,8 +12,6 @@ import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.vaultpvp.utils.API;
-import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -23,6 +21,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -33,31 +32,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class Scoreboards extends ConstructorRegisterListener implements Runnable {
+public class Scoreboards extends ConstructorRegisterListener {
     @Getter
-    private static Scoreboard scoreboard = new Scoreboard();
+    private static final Scoreboard scoreboard = new Scoreboard();
 
     public Scoreboards() {
         super();
-        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 0, 20);
     }
 
-    @Override
-    public void run() {
-        for (Player players : Bukkit.getOnlinePlayers()) {
-
-            if(!players.getWorld().getName().equalsIgnoreCase("Pvp")) {
-                removeScoreboard(players);
-                return;
-            }
-
-            updateScoreboardFor(players);
+    @EventHandler
+    public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
+        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
+            updateScoreboardFor(e.getPlayer());
+        } else {
+            removeScoreboard(e.getPlayer());
         }
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        if(!e.getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
             return;
         }
         updateScoreboardFor(e.getPlayer());
@@ -103,7 +97,7 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
         int kills = 0;
         int deaths = 0;
 
-        ResultSet rs = VaultCore.getInstance().getDatabase().executeQueryStatement(
+        ResultSet rs = VaultCore.getDatabase().executeQueryStatement(
                 "SELECT kills, deaths FROM pvp_stats WHERE uuid = ?", player.getUniqueId().toString());
         if (rs.next()) {
             kills = rs.getInt("kills");
@@ -117,7 +111,7 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
         }
         DecimalFormat value = new DecimalFormat("#.#");
 
-        DBConnection database = VaultCore.getInstance().getDatabase();
+        DBConnection database = VaultCore.getDatabase();
 
         ResultSet topKills = database.executeQueryStatement("SELECT DISTINCT(uuid), kills FROM pvp_stats ORDER BY kills DESC LIMIT 3");
         List<String> content = new ArrayList<>(Arrays.asList(
@@ -127,7 +121,7 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
                 ChatColor.YELLOW + "Kills: " + ChatColor.DARK_GREEN + kills,
                 ChatColor.YELLOW + "Deaths: " + ChatColor.DARK_GREEN + deaths,
                 ChatColor.YELLOW + "K/D: " + ChatColor.DARK_GREEN + value.format(kd),
-                ChatColor.YELLOW + "Coins: " + ChatColor.GOLD + API.getCoins(VLPlayer.getPlayer(player)),
+                ChatColor.YELLOW + "Coins: " + ChatColor.GOLD + VLPlayer.getPlayer(player).getBalance(Bukkit.getWorld("pvp")),
                 "    ",
                 ChatColor.YELLOW + "-----------",
                 ChatColor.YELLOW + "Top Kills",

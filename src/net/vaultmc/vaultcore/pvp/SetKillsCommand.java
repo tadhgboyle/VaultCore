@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.vaultpvp.commands.stats;
+package net.vaultmc.vaultcore.pvp;
 
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;

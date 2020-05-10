@@ -59,17 +59,17 @@ public class IpBanCommand extends CommandExecutor implements Listener {
         return VaultCore.getInstance().getData().getString("ip." + uuid.toString());
     }
 
+    public static String getPlayerIp(VLOfflinePlayer player) {
+        if (player.isOnline()) return player.getOnlinePlayer().getAddress().getAddress().getHostAddress();
+        return VaultCore.getInstance().getData().getString("ip." + player.getUniqueId().toString());
+    }
+
     @TabCompleter(
             subCommand = "ban",
             argument = "player"
     )
     public List<WrappedSuggestion> suggestPlayers(VLCommandSender sender, String remaining) {
         return Bukkit.getOnlinePlayers().stream().map(player -> new WrappedSuggestion(player.getName())).collect(Collectors.toList());
-    }
-
-    public static String getPlayerIp(VLOfflinePlayer player) {
-        if (player.isOnline()) return player.getOnlinePlayer().getAddress().getAddress().getHostAddress();
-        return VaultCore.getInstance().getData().getString("ip." + player.getUniqueId().toString());
     }
 
     @SubCommand("ban")

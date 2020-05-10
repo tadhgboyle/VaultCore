@@ -148,17 +148,6 @@ public class ChatGroup implements ConfigurationSerializable {
         VaultCore.getInstance().reloadConfig();
     }
 
-    @Override
-    public Map<String, Object> serialize() {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        result.put("name", this.name);
-        result.put("owner", this.owner);
-        result.put("admins", this.admins);
-        result.put("members", this.members);
-        result.put("open", this.open);
-        return result;
-    }
-
     public static ChatGroup deserialize(Map<String, Object> args) {
         String name;
         String owner;
@@ -173,5 +162,16 @@ public class ChatGroup implements ConfigurationSerializable {
         open = (boolean) args.get("open");
 
         return new ChatGroup(name, owner, admins, members, open);
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.put("name", this.name);
+        result.put("owner", this.owner);
+        result.put("admins", this.admins);
+        result.put("members", this.members);
+        result.put("open", this.open);
+        return result;
     }
 }

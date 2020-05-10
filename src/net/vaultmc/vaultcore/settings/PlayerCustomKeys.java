@@ -17,19 +17,18 @@ import java.util.stream.Collectors;
 @Aliases({"ck"})
 public class PlayerCustomKeys extends CommandExecutor {
 
-    public PlayerCustomKeys() {
-        register("pckList", Collections.emptyList());
-        register("pckSet", Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("context", Arguments.string()), Arguments.createArgument("key", Arguments.greedyString())));
-    }
-
     Map<VLPlayer, Map.Entry<String, String>> cachedKeys = new HashMap<>();
-
     List<String> contexts = Arrays.asList("chatgroups", "staffchat", "adminchat");
     Map<String, String> contextDefaultKeys = new HashMap<String, String>() {{
         put("chatgroups", "!");
         put("staffchat", "#");
         put("adminchat", ",");
     }};
+
+    public PlayerCustomKeys() {
+        register("pckList", Collections.emptyList());
+        register("pckSet", Arrays.asList(Arguments.createLiteral("set"), Arguments.createArgument("context", Arguments.string()), Arguments.createArgument("key", Arguments.greedyString())));
+    }
 
     @SubCommand("pckList")
     public void pckList(VLPlayer sender) {

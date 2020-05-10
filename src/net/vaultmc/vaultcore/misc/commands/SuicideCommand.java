@@ -22,11 +22,6 @@ import java.util.Random;
 @PlayerOnly
 public class SuicideCommand extends CommandExecutor implements Listener {
 
-    public SuicideCommand() {
-        unregisterExisting();
-        register("suicide", Collections.emptyList());
-    }
-
     List<String> messages = Arrays.asList(
             "{SENDER}&e fell of a cliff while fighting a pigman was exploded by a ghast and burned to a crisp.",
             "{SENDER}&e committed alive'nt.",
@@ -38,6 +33,11 @@ public class SuicideCommand extends CommandExecutor implements Listener {
             // Thanks to @Clikz_
             "{SENDER}&e fell and couldn't get up."
     );
+
+    public SuicideCommand() {
+        unregisterExisting();
+        register("suicide", Collections.emptyList());
+    }
 
     @SubCommand("suicide")
     public void suicide(VLPlayer sender) {

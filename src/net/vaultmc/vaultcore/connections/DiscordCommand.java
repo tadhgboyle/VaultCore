@@ -27,6 +27,6 @@ public class DiscordCommand extends CommandExecutor {
         player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.token.your_token"),
                 token));
 
-        player.sendMessage((VLOfflinePlayer.getDiscordUser(player) == 0)? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled");
+        player.sendMessage((VLOfflinePlayer.getDiscordUser(player) == 0) ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled");
     }
 }

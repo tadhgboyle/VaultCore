@@ -20,11 +20,11 @@ import java.util.Collections;
 @PlayerOnly
 public class UnignoreCommand extends CommandExecutor {
 
+    Collection ignored;
+
     public UnignoreCommand() {
         register("unignore", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
-
-    Collection ignored;
 
     @SubCommand("unignore")
     public void unignore(VLPlayer sender, VLOfflinePlayer target) {

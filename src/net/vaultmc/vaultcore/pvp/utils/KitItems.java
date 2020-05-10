@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.vaultpvp.utils;
+package net.vaultmc.vaultcore.pvp.utils;
 
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
