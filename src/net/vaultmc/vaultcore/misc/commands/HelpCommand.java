@@ -1,7 +1,9 @@
 package net.vaultmc.vaultcore.misc.commands;
 
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.tree.CommandNode;
+import net.minecraft.commands.CommandSourceStack;
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
@@ -9,14 +11,14 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RootCommand(literal = "help", description = "Help me!")
 @Permission(Permissions.HelpCommand)
 public class HelpCommand extends CommandExecutor {
-
     public HelpCommand() {
         register("helpMain", Collections.emptyList());
         register("helpCommand", Collections.singletonList(Arguments.createArgument("command", Arguments.string())));
@@ -27,8 +29,13 @@ public class HelpCommand extends CommandExecutor {
         sender.sendMessage("todo");
     }
 
-    @SubCommand("helpCommand")
-    public void helpCommand(VLCommandSender sender, String command) {
+    @SubCommand(
+            value = "helpCommand",
+            advanced = true
+    )
+    public void helpCommand(CommandContext<CommandSourceStack> context, String command) {
+        VLCommandSender sender = VLCommandSender.getCommandSender(context.getSource().getBukkitSender());
+
         Class<?> clazz = VaultLoader.getCommandClasses().get(command);
         if (clazz == null) {
             helpMain(sender);
@@ -42,22 +49,28 @@ public class HelpCommand extends CommandExecutor {
         sender.sendMessage(ChatColor.YELLOW + "Command: " + ChatColor.GOLD + "/" + clazz.getAnnotation(RootCommand.class).literal());
         sender.sendMessage(ChatColor.YELLOW + "Description: " + ChatColor.GOLD + clazz.getAnnotation(RootCommand.class).description());
         sender.sendMessage(ChatColor.DARK_GREEN + "-------------------------");
-        for (Method method : clazz.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(SubCommand.class)) continue;
-            if (method.isAnnotationPresent(Permission.class) && sender instanceof VLPlayer && !((VLPlayer) sender).hasPermission(method.getAnnotation(Permission.class).value()))
+
+        sender.sendMessage(ChatColor.YELLOW + "Usage:");
+
+        Set<String> results = new HashSet<>();
+
+        for (CommandNode<CommandSourceStack> node : CommandExecutor.getCommands().stream().filter(c -> c.getClass() == clazz).collect(Collectors.toList()).get(0).getRegisteredNodes()) {
+            String usage = node.getUsageText();
+            if (usage.contains(":")) {
                 continue;
-            // TODO: Hover and click to run command
-            // TODO: Add support for literal-only commands example: ManageBotCommand
-            sender.sendMessage(ChatColor.YELLOW + "Sub-Command: " + ChatColor.GOLD + Utilities.capitalizeMessage(method.getAnnotation(SubCommand.class).value()).replaceAll("(.)([A-Z])", "$1 $2"));
-            StringBuilder sb = new StringBuilder();
-            if (method.getParameters().length > 1) {
-                for (Parameter parameter : method.getParameters()) {
-                    if (!parameter.getName().equals("sender"))
-                        sb.append("<").append(parameter.getName()).append("> ");
-                }
             }
-            sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.GOLD + "/" + clazz.getAnnotation(RootCommand.class).literal() + " " + sb.toString().trim());
-            sender.sendMessage(ChatColor.DARK_GREEN + "-------------------------");
+            if (!usage.equalsIgnoreCase(command)) {
+                continue;
+            }
+            for (String u : CommandExecutor.getCommands_().getDispatcher().getAllUsage(node, context.getSource(), true)) {
+                results.add((ChatColor.GOLD + "/" + usage + " " + u).trim());
+            }
         }
+
+        for (String r : results) {
+            sender.sendMessage(r);
+        }
+
+        sender.sendMessage(ChatColor.DARK_GREEN + "-------------------------");
     }
 }
