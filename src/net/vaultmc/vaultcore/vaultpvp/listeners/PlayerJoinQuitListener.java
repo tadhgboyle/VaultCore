@@ -26,15 +26,6 @@ public class PlayerJoinQuitListener implements Listener {
             player.saveData();
         }
 
-        //do other stuff
-
-        event.getPlayer().setPlayerListName(player.getFormattedName());
-        event.getPlayer()
-                .setDisplayName(ChatColor.translateAlternateColorCodes('&', player.getPrefix()) + player.getName());
-
-        event.setJoinMessage(player.getFormattedName() + string + " has " + ChatColor.GREEN + "joined" + string + ".");
-
-
         VaultCore.getInstance().getDatabase().executeUpdateStatement(
                 "INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE username=?",
                 player.getUniqueId().toString(), player.getName(), 0, 0, player.getName());

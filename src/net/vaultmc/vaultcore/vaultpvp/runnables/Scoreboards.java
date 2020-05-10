@@ -56,6 +56,9 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
+        if(!e.getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
+            return;
+        }
         updateScoreboardFor(e.getPlayer());
 
     }
