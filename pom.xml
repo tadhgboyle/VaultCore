@@ -98,6 +98,7 @@
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
 			<version>4.5.0</version>
+			<scope>provided</scope>
 		</dependency>
 		
 		<dependency>
@@ -124,7 +125,8 @@
 		<dependency>
 			<groupId>net.vaultmc.vaultloader</groupId>
 			<artifactId>VaultLoader</artifactId>
-			<version>0.1-vanilla-20200507.045609-96</version>
+			<version>0.1-vanilla-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -138,6 +140,7 @@
 			<groupId>com.sk89q.worldedit</groupId>
 			<artifactId>worldedit-bukkit</artifactId>
 			<version>7.1.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
