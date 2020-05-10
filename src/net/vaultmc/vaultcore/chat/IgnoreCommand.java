@@ -18,8 +18,6 @@ import java.util.UUID;
 @Permission(Permissions.IgnoreCommand)
 @PlayerOnly
 public class IgnoreCommand extends CommandExecutor {
-
-    static List<String> ignored;
     // TODO: Caching of some sort...
 
     public IgnoreCommand() {
@@ -38,7 +36,7 @@ public class IgnoreCommand extends CommandExecutor {
         String csvIgnored = data.getString("ignored");
         if (csvIgnored != null) {
             if (csvIgnored.isEmpty()) return false;
-            ignored = Arrays.asList(csvIgnored.split(", "));
+            List<String> ignored = Arrays.asList(csvIgnored.split(", "));
             return ignored.contains(ignoredPlayer.getUniqueId().toString());
         }
         return false;
@@ -58,7 +56,7 @@ public class IgnoreCommand extends CommandExecutor {
         String csvIgnored = data.getString("ignored");
         if (csvIgnored != null) {
             csvIgnored = csvIgnored.replaceAll("\\s", "");
-            ignored = Arrays.asList(csvIgnored.split(","));
+            List<String> ignored = Arrays.asList(csvIgnored.split(","));
             if (csvIgnored.startsWith(",")) csvIgnored = csvIgnored.substring(1);
             if (ignored.contains(target.getUniqueId().toString())) {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.ignore.already_ignored"), target.getFormattedName()));
@@ -84,7 +82,7 @@ public class IgnoreCommand extends CommandExecutor {
                 return;
             }
             if (csvIgnored.startsWith(",")) csvIgnored = csvIgnored.substring(1);
-            ignored = Arrays.asList(csvIgnored.split(","));
+            List<String> ignored = Arrays.asList(csvIgnored.split(","));
             if (ignored.size() > 0) {
                 int count = 1;
                 for (String uuid : ignored) {

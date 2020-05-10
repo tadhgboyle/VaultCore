@@ -13,10 +13,8 @@ import java.util.List;
 import java.util.Random;
 
 public class ParticleRunnable implements Listener {
-
     private static final List<ChatColor> COLORS =
             Collections.unmodifiableList(Arrays.asList(ChatColor.values()));
-    private static final int SIZE = COLORS.size();
     private static final Random RANDOM = new Random();
 
     public static void particleHandler() {

@@ -20,7 +20,6 @@ import java.util.*;
 @Aliases({"cg"})
 @PlayerOnly
 public class ChatGroupsCommand extends CommandExecutor {
-
     @Getter
     public static Set<UUID> toggled = new HashSet<>();
     @Getter

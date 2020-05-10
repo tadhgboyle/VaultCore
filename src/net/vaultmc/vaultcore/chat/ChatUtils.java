@@ -41,7 +41,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatUtils implements Listener {
-
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());

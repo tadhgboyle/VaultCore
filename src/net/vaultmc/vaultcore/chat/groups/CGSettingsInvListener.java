@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class CGSettingsInvListener implements Listener {
-
-    HashMap<VLPlayer, VLOfflinePlayer> editors = new HashMap<>();
+    private static final HashMap<VLPlayer, VLOfflinePlayer> editors = new HashMap<>();
 
     @EventHandler
     public void onItemClick(InventoryClickEvent e) {
@@ -25,7 +24,7 @@ public class CGSettingsInvListener implements Listener {
 
         CGSettingsInv cgSettingsInv = new CGSettingsInv();
         String title = e.getView().getTitle();
-        if (title.contains("ChatGroup Settings:")) {
+        if (title.contains("Chat Group Settings:")) {
             if (e.getSlot() == 11) {
                 e.setCancelled(true);
                 chatGroup.open = !chatGroup.open;
@@ -35,7 +34,7 @@ public class CGSettingsInvListener implements Listener {
                 e.setCancelled(true);
                 cgSettingsInv.openMembersMenu(sender);
             }
-        } else if (title.contains("ChatGroup Members:")) {
+        } else if (title.contains("Chat Group Members:")) {
             ItemStack item = e.getCurrentItem();
             e.setCancelled(true);
             VLOfflinePlayer member;

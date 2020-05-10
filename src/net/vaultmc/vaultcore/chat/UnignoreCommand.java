@@ -11,17 +11,13 @@ import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
-@SuppressWarnings("unchecked")
 @RootCommand(literal = "unignore", description = "Stop ignoring a player.")
 @Permission(Permissions.IgnoreCommand)
 @PlayerOnly
 public class UnignoreCommand extends CommandExecutor {
-
-    Collection ignored;
-
     public UnignoreCommand() {
         register("unignore", Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
@@ -35,7 +31,7 @@ public class UnignoreCommand extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ignore.not_ignoring_anyone"));
                 return;
             }
-            ignored = new ArrayList(Arrays.asList(csvIgnored.split("\\s*,\\s*")));
+            List<String> ignored = new ArrayList<>(Arrays.asList(csvIgnored.split("\\s*,\\s*")));
             if (ignored.contains(target.getUniqueId().toString())) {
                 ignored.remove(target.getUniqueId().toString());
                 if (ignored.size() == 1) data.set("ignored", Utilities.listToString(ignored, false).replace(", ", ""));

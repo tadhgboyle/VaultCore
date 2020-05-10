@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class ItemDrops implements Listener {
-
     @EventHandler
     public void onItemDrop(BlockBreakEvent event) {
         VLPlayer player = VLPlayer.getPlayer(event.getPlayer());
