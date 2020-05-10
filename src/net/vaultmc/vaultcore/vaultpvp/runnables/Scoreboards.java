@@ -45,6 +45,11 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
     @Override
     public void run() {
         for (Player players : Bukkit.getOnlinePlayers()) {
+
+            if(!players.getWorld().getName().equalsIgnoreCase("Pvp")) {
+                return;
+            }
+
             updateScoreboardFor(players);
         }
     }
