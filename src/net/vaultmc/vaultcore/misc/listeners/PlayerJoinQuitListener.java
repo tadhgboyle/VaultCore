@@ -36,6 +36,17 @@ public class PlayerJoinQuitListener implements Listener {
     @SneakyThrows
     public void onJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+
+        if (!player.getDataConfig().contains("player-coins")) {
+            player.getDataConfig().set("player-coins", (double) 0);
+            player.saveData();
+        }
+
+        VaultCore.getInstance().getDatabase().executeUpdateStatement(
+                "INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE username=?",
+                player.getUniqueId().toString(), player.getName(), 0, 0, player.getName());
+
+
         e.setJoinMessage(null);
         if (player.getWorld().getName().equalsIgnoreCase("Lobby")) {
             player.teleport(Bukkit.getWorld("Lobby").getSpawnLocation());

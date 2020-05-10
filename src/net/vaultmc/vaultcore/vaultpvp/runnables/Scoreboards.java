@@ -39,7 +39,7 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
 
     public Scoreboards() {
         super();
-        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 0, 100);
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 0, 20);
     }
 
     @Override
@@ -47,6 +47,7 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
         for (Player players : Bukkit.getOnlinePlayers()) {
 
             if(!players.getWorld().getName().equalsIgnoreCase("Pvp")) {
+                removeScoreboard(players);
                 return;
             }
 
