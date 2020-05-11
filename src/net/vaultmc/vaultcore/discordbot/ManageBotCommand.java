@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 
 import java.util.Collections;
 
-@RootCommand(literal = "vaultmcbot", description = "Stop, start and reboot the VaultMCBot.")
+@RootCommand(literal = "bot", description = "Stop, start and reboot the VaultMCBot.")
 @Permission(Permissions.VaultMCBotManage)
 public class ManageBotCommand extends CommandExecutor {
     public ManageBotCommand() {

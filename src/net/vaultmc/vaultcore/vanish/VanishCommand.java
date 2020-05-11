@@ -41,11 +41,13 @@ public class VanishCommand extends CommandExecutor {
                 if (i.hasPermission(Permissions.VanishCommand)) continue;
                 i.getPlayer().hidePlayer(VaultCore.getInstance().getBukkitPlugin(), player.getPlayer());
             }
+            vanished.put(player.getUniqueId(), true);
         } else {
             for (VLPlayer i : VLPlayer.getOnlinePlayers()) {
                 if (i == player) continue;
                 i.getPlayer().showPlayer(VaultCore.getInstance().getBukkitPlugin(), player.getPlayer());
             }
+            vanished.put(player.getUniqueId(), false);
         }
         player.setTemporaryData("vanished", vanish);
     }

@@ -14,10 +14,7 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.util.Collections;
 
-@RootCommand(
-        literal = "lag",
-        description = "See if VaultMC is lagging (It probably isnt :shades:)."
-)
+@RootCommand(literal = "lag", description = "See if VaultMC is lagging.")
 @Permission(Permissions.LagCommand)
 @Aliases("tps")
 public class LagCommand extends CommandExecutor {
@@ -25,7 +22,7 @@ public class LagCommand extends CommandExecutor {
 
     public LagCommand() {
         unregisterExisting();
-        this.register("lag", Collections.emptyList());
+        register("lag", Collections.emptyList());
     }
 
     @SubCommand("lag")
@@ -33,7 +30,7 @@ public class LagCommand extends CommandExecutor {
         String osInfo = ChatColor.GOLD + operatingSystemMXBean.getArch() + ChatColor.YELLOW + " (" + operatingSystemMXBean.getName() + ", " + ChatColor.YELLOW + " Kernel: " + ChatColor.GOLD + operatingSystemMXBean.getVersion() + ChatColor.YELLOW + ")";
         String load = operatingSystemMXBean.getProcessCpuLoad() < 0 ? "Unavailable" : VaultCore.numberFormat.format(operatingSystemMXBean.getSystemCpuLoad() * 100) + "%";
         String cpuInfo = ChatColor.DARK_GREEN + load + ChatColor.YELLOW + " Cores: " + ChatColor.DARK_GREEN + Runtime.getRuntime().availableProcessors();
-        String tps = "" + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[0]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[1]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[2]).substring(0, 5);
+        String tps = ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[0]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[1]).substring(0, 5) + ChatColor.YELLOW + ", " + ChatColor.DARK_GREEN + String.valueOf(Bukkit.getTPS()[2]).substring(0, 5);
 
         long freeRam = operatingSystemMXBean.getFreePhysicalMemorySize();
         long maxRam = operatingSystemMXBean.getTotalPhysicalMemorySize();

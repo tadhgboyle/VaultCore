@@ -17,7 +17,7 @@ public class NearCommand extends CommandExecutor {
     public NearCommand() {
         this.unregisterExisting();
         register("near", Collections.emptyList());
-        register("nearRadius", Collections.singletonList(Arguments.createArgument("near", Arguments.integerArgument(10))));
+        register("nearRadius", Collections.singletonList(Arguments.createArgument("near", Arguments.integerArgument())));
     }
 
     @SubCommand("near")

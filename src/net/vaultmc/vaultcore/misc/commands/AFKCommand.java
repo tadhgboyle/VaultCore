@@ -54,8 +54,7 @@ public class AFKCommand extends CommandExecutor implements Listener {
     public AFKCommand() {
         VaultCore.getInstance().registerEvents(this);
         register("afkSelf", Collections.emptyList());  // Multiple registration for different possible usages.
-        register("afkOthers", Collections.singletonList(
-                Arguments.createArgument("player", Arguments.playerArgument())
+        register("afkOthers", Collections.singletonList(Arguments.createArgument("player", Arguments.playerArgument())
         ));
     }
 
