@@ -1,14 +1,14 @@
 package net.vaultmc.vaultcore.creative;
 
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class CycleListener implements Listener {
+public class CycleListener extends ConstructorRegisterListener {
     @EventHandler
     public void onInventoryCycle(PlayerItemHeldEvent event) {
         VLPlayer player = VLPlayer.getPlayer(event.getPlayer());

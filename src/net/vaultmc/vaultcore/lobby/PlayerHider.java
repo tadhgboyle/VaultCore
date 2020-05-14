@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.lobby;
 
 import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -9,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class PlayerHider implements Listener {
+public class PlayerHider extends ConstructorRegisterListener {
     private static final ItemStack item = new ItemStackBuilder(Material.LIME_DYE)
             .name(ChatColor.YELLOW + "Player Visibility: " + ChatColor.GREEN + "Visible")
             .build();

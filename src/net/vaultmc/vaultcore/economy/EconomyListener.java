@@ -1,14 +1,14 @@
 package net.vaultmc.vaultcore.economy;
 
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EconomyListener implements Listener {
+public class EconomyListener extends ConstructorRegisterListener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e) {

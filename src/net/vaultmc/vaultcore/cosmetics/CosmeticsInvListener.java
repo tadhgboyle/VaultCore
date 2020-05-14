@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.cosmetics;
 
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -9,14 +10,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 
-public class CosmeticsInvListener implements Listener {
+public class CosmeticsInvListener extends ConstructorRegisterListener {
 
     public static HashMap<VLPlayer, Particle> particles = new HashMap<>();
 

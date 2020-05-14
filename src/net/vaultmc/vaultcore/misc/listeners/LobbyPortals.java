@@ -1,12 +1,12 @@
 package net.vaultmc.vaultcore.misc.listeners;
 
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class LobbyPortals implements Listener {
+public class LobbyPortals extends ConstructorRegisterListener {
     private static final Location out = new Location(Bukkit.getWorld("Lobby"), 176.5, 110, -5.5, -90, 0);
 
     @EventHandler

@@ -1,6 +1,7 @@
 package net.vaultmc.vaultcore.misc.listeners;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,7 +10,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-public class SignHandler implements Listener {
+public class SignHandler extends ConstructorRegisterListener {
     private static final ItemStack sign = new ItemStack(Material.OAK_SIGN);
 
     @EventHandler

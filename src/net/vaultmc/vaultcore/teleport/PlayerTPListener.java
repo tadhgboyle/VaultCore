@@ -2,10 +2,10 @@ package net.vaultmc.vaultcore.teleport;
 
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Stack;
 import java.util.UUID;
 
-public class PlayerTPListener implements Listener {
+public class PlayerTPListener extends ConstructorRegisterListener {
     public static HashMap<UUID, Stack<Location>> teleports = new HashMap<>();
 
     @EventHandler

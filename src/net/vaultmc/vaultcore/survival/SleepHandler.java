@@ -1,15 +1,15 @@
 package net.vaultmc.vaultcore.survival;
 
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 
-public class SleepHandler implements Listener {
+public class SleepHandler extends ConstructorRegisterListener {
     private static final World world = Bukkit.getWorld("Survival");
     private static int sleepingPlayers = 0;
 

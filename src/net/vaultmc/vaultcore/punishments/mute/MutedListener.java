@@ -23,6 +23,7 @@ import net.vaultmc.vaultcore.punishments.PunishmentUtils;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultcore.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -30,12 +31,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class MutedListener implements Listener {
+public class MutedListener extends ConstructorRegisterListener {
     private void playerAttemptToChat(VLPlayer player, String message, Cancellable e, boolean async) {
         PunishmentsDB.PunishmentData muteData = PunishmentsDB.retrieveData("mutes", player.getUniqueId().toString(), !async);
         PunishmentsDB.PunishmentData tempmuteData = PunishmentsDB.retrieveData("tempmutes", player.getUniqueId().toString(), !async);

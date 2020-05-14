@@ -2,16 +2,16 @@ package net.vaultmc.vaultcore.misc.commands.staff.grant;
 
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class GrantCommandListener implements Listener {
+public class GrantCommandListener extends ConstructorRegisterListener {
     private static final String INVTITLE = ChatColor.DARK_GRAY + "Grant Rank to ";
 
     @EventHandler

@@ -2,15 +2,15 @@ package net.vaultmc.vaultcore.pvp.listeners;
 
 import net.vaultmc.vaultcore.pvp.utils.KitGuis;
 import net.vaultmc.vaultcore.pvp.utils.KitItems;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class KitsGuiListener implements Listener {
+public class KitsGuiListener extends ConstructorRegisterListener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (!e.getWhoClicked().getWorld().getName().equalsIgnoreCase("PvP")) {

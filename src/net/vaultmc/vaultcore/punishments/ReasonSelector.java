@@ -2,6 +2,7 @@ package net.vaultmc.vaultcore.punishments;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -11,7 +12,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ReasonSelector implements Listener {
+public class ReasonSelector extends ConstructorRegisterListener {
     private static final Inventory punish = Bukkit.createInventory(null, 54, ChatColor.RESET + "Ban / Mute / Kick");
     private static final Map<UUID, CallbackData> callbacks = new HashMap<>();
 

@@ -18,6 +18,7 @@
 
 package net.vaultmc.vaultcore.vanish;
 
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Material;
 import org.bukkit.block.Barrel;
@@ -26,7 +27,6 @@ import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -36,8 +36,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.Iterator;
 
-public class VanishListeners implements Listener {
-
+public class VanishListeners extends ConstructorRegisterListener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());

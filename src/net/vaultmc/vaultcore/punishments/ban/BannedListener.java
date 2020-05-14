@@ -21,13 +21,13 @@ package net.vaultmc.vaultcore.punishments.ban;
 import net.vaultmc.vaultcore.punishments.PunishmentUtils;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
-public class BannedListener implements Listener {
+public class BannedListener extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent e) {
         PunishmentsDB.PunishmentData banData = PunishmentsDB.retrieveData("bans", e.getUniqueId().toString());

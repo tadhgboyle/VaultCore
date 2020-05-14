@@ -1,18 +1,18 @@
 package net.vaultmc.vaultcore.cosmetics;
 
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class ParticleRunnable implements Listener {
+public class ParticleRunnable extends ConstructorRegisterListener {
     private static final List<ChatColor> COLORS =
             Collections.unmodifiableList(Arrays.asList(ChatColor.values()));
     private static final Random RANDOM = new Random();

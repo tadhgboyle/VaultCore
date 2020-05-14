@@ -1,12 +1,12 @@
 package net.vaultmc.vaultcore.creative;
 
 import net.vaultmc.vaultcore.settings.PlayerSettings;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-public class ItemDrops implements Listener {
+public class ItemDrops extends ConstructorRegisterListener {
     @EventHandler
     public void onItemDrop(BlockBreakEvent event) {
         VLPlayer player = VLPlayer.getPlayer(event.getPlayer());

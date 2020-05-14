@@ -29,6 +29,7 @@ import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,10 +38,9 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatUtils implements Listener {
+public class ChatUtils extends ConstructorRegisterListener {
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());

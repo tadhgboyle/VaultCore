@@ -7,20 +7,20 @@ import net.vaultmc.vaultcore.misc.commands.NicknameCommand;
 import net.vaultmc.vaultcore.misc.commands.mail.MailCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
 
-public class PlayerJoinQuitListener implements Listener {
+public class PlayerJoinQuitListener extends ConstructorRegisterListener {
 
     static DBConnection database = VaultCore.getDatabase();
     SessionHandler sessionHandler = new SessionHandler();
@@ -42,7 +42,7 @@ public class PlayerJoinQuitListener implements Listener {
             player.saveData();
         }
 
-        VaultCore.getInstance().getDatabase().executeUpdateStatement(
+        VaultCore.getDatabase().executeUpdateStatement(
                 "INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE username=?",
                 player.getUniqueId().toString(), player.getName(), 0, 0, player.getName());
 
