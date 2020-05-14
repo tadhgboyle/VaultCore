@@ -434,6 +434,7 @@ vaultcore:
 
     discord:
       guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
+      error_checking_linked: "&cThere was an error checking if you linked your account. Please report this."
 
     list:
       header: "&2--== [List] ==--"
