@@ -86,6 +86,9 @@ public class TourMusic extends BukkitRunnable {
             if (pitch == -1D) return;
             for (UUID uuid : Tour.getTouringPlayers()) {
                 Player player = Bukkit.getPlayer(uuid);
+                if (player == null) {
+                    continue;
+                }
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 100F, (float) pitch);
             }
         } else {
