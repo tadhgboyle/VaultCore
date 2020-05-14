@@ -55,7 +55,6 @@ public class Scoreboards extends ConstructorRegisterListener {
             return;
         }
         updateScoreboardFor(e.getPlayer());
-
     }
 
     @EventHandler

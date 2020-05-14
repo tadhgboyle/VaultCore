@@ -62,11 +62,7 @@ import net.vaultmc.vaultcore.punishments.mute.MutedListener;
 import net.vaultmc.vaultcore.punishments.mute.UnmuteCommand;
 import net.vaultmc.vaultcore.pvp.KitCommand;
 import net.vaultmc.vaultcore.pvp.StatsCommand;
-import net.vaultmc.vaultcore.pvp.listeners.KitsGuiListener;
-import net.vaultmc.vaultcore.pvp.listeners.PlayerDeathListener;
 import net.vaultmc.vaultcore.pvp.runnables.Scoreboards;
-import net.vaultmc.vaultcore.pvp.utils.GoldenAppleDelay;
-import net.vaultmc.vaultcore.pvp.utils.KitGuis;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
@@ -379,10 +375,11 @@ public final class VaultCore extends Component implements Listener {
         new StatsCommand();
         new KitCommand();
         new Scoreboards();
-        new KitGuis();
-        new GoldenAppleDelay();
-        registerEvents(new PlayerDeathListener());
-        registerEvents(new KitsGuiListener());
+
+        //new KitGuis();
+        //new GoldenAppleDelay();
+        //registerEvents(new PlayerDeathListener());
+        //registerEvents(new KitsGuiListener());
         registerEvents(new GrantCommandListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());

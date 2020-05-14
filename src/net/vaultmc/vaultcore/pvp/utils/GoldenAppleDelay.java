@@ -28,7 +28,6 @@ public class GoldenAppleDelay extends ConstructorRegisterListener {
 
     @EventHandler
     public void onItemConsume(PlayerItemConsumeEvent e) {
-
         if (!e.getPlayer().getWorld().getName().equals("Pvp")) {
             return;
         }
