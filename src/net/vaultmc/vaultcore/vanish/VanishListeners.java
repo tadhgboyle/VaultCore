@@ -37,6 +37,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import java.util.Iterator;
 
 public class VanishListeners extends ConstructorRegisterListener {
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
@@ -62,7 +63,7 @@ public class VanishListeners extends ConstructorRegisterListener {
         Iterator<Player> it = e.iterator();
         while (it.hasNext()) {
             if (VanishCommand.vanished.containsKey(it.next().getUniqueId())) {
-                it.remove();
+                if (VanishCommand.vanished.get(it.next().getUniqueId())) it.remove();
             }
         }
     }

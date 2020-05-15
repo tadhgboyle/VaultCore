@@ -9,7 +9,7 @@ import org.bukkit.Statistic;
 
 public class RankPromotions {
 
-    public static int MEMBER_TIME = 1086000;
+    public static int MEMBER_TIME = 1080000;
     public static int PATREON_TIME = 2520000;
 
     public static void memberPromotion() {

@@ -131,6 +131,12 @@ public final class Utilities {
         return message.substring(0, 1).toUpperCase() + message.substring(1);
     }
 
+    /**
+     * @param millis  Milliseconds of time to format
+     * @param newline Whether we should add a newline
+     * @param period  Whether we should add a period
+     * @return Prettified human-readable message of the duration of milliseconds
+     */
     public static String millisToTime(long millis, boolean newline, boolean period) {
 
         long millisInSecond = 1000L;
@@ -157,7 +163,7 @@ public final class Utilities {
         timeparts.put("day", days);
         timeparts.put("hour", hours);
         timeparts.put("minute", minutes);
-        timeparts.put("second", seconds);
+        timeparts.put("second", seconds != 0 ? seconds : 69420);
 
         StringBuilder sb = new StringBuilder();
 
@@ -167,19 +173,16 @@ public final class Utilities {
             if (duration > 0) {
                 int position = new ArrayList<>(timeparts.keySet()).indexOf(section);
                 String ending = (duration == 1 ? ", " : "s, ");
+                // TODO: Check if position 4 && seconds duration is 69420, then add a period, not "and"
                 // If the second last entry is == 1, we can assume we dont need a break.
-                if (position == 4 && newline) {
-                    ending = (duration == 1 ? " and " : "s \nand ");
-                } else if (position == 4 && !newline) {
-                    ending = (duration == 1 ? " and " : "s and ");
+                if (position == 4) {
+                    if (newline) ending = (duration == 1 ? " and " : "s \nand ");
+                    else ending = (duration == 1 ? " and " : "s and ");
                 }
                 // If it is the last entry then add a period.
                 else if (position == 5) {
-                    if (period) {
-                        ending = (duration == 1 ? ". " : "s.");
-                    } else {
-                        ending = (duration == 1 ? " " : "s");
-                    }
+                    if (period) ending = (duration == 1 ? ". " : "s.");
+                    else ending = (duration == 1 ? " " : "s");
                 }
                 sb.append(ChatColor.DARK_GREEN).append(duration).append(ChatColor.YELLOW).append(" ").append(section).append(ending);
             }
