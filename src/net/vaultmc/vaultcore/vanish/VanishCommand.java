@@ -21,6 +21,7 @@ import java.util.UUID;
 @Permission(Permissions.VanishCommand)
 @Aliases("v")
 public class VanishCommand extends CommandExecutor {
+
     public static final Map<UUID, Boolean> vanished = new HashMap<>();
 
     public VanishCommand() {

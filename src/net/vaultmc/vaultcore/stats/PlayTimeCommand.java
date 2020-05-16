@@ -64,10 +64,12 @@ public class PlayTimeCommand extends CommandExecutor {
                 player.getFormattedName(), Utilities.millisToTime(playtime, false, true)));
         if (player == sender) {
             if (player.getGroup().equalsIgnoreCase("default")) {
-                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime((player.getStatistic(Statistic.PLAY_ONE_MINUTE) - RankPromotions.MEMBER_TIME), false, false), "Member"));
+                long requiredTimeMillis = (long) ((RankPromotions.MEMBER_TIME - player.getStatistic(Statistic.PLAY_ONE_MINUTE)) * 0.05 * 1000);
+                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(requiredTimeMillis, false, false), "Member"));
             }
             if (player.getGroup().equalsIgnoreCase("member")) {
-                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime((player.getStatistic(Statistic.PLAY_ONE_MINUTE) - RankPromotions.PATREON_TIME), false, false), "Patreon"));
+                long requiredTimeMillis = (long) ((RankPromotions.PATREON_TIME - player.getStatistic(Statistic.PLAY_ONE_MINUTE)) * 0.05 * 1000);
+                player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.playtime.rank_wait"), Utilities.millisToTime(requiredTimeMillis, false, false), "Patreon"));
             }
         }
     }

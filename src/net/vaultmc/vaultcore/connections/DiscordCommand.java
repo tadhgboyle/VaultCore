@@ -1,6 +1,5 @@
 package net.vaultmc.vaultcore.connections;
 
-import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -15,11 +14,11 @@ import java.util.Collections;
 @Permission(Permissions.DiscordCommand)
 @PlayerOnly
 public class DiscordCommand extends CommandExecutor {
+
     public DiscordCommand() {
         this.register("discord", Collections.emptyList());
     }
 
-    @SneakyThrows
     @SubCommand("discord")
     public void execute(VLPlayer player) {
         String token = TokenCommand.getToken(player.getUniqueId(), player);
@@ -27,6 +26,10 @@ public class DiscordCommand extends CommandExecutor {
         player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.token.your_token"),
                 token));
 
-        player.sendMessage((VLOfflinePlayer.getDiscordUser(player) == 0) ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled");
+        try {
+            player.sendMessage(ChatColor.YELLOW + "Status:" + ((VLOfflinePlayer.getDiscordUser(player) == 0) ? ChatColor.RED + "Unlinked" : ChatColor.GREEN + "Linked"));
+        } catch (Exception e) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.discord.error_checking_linked"));
+        }
     }
 }
