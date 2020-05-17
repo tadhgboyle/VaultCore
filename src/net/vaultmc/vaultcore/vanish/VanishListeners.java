@@ -70,7 +70,7 @@ public class VanishListeners extends ConstructorRegisterListener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent e) {
-        if (VLPlayer.getPlayer(e.getPlayer()).isVanished()) {
+        if (VanishCommand.vanished.get(e.getPlayer().getUniqueId())) {
             e.setQuitMessage(null);
         }
     }

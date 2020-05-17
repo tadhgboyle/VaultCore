@@ -163,7 +163,7 @@ public final class Utilities {
         timeparts.put("day", days);
         timeparts.put("hour", hours);
         timeparts.put("minute", minutes);
-        timeparts.put("second", seconds != 0 ? seconds : 69420);
+        timeparts.put("second", seconds != 0 ? seconds : Integer.MIN_VALUE);
 
         StringBuilder sb = new StringBuilder();
 
@@ -173,9 +173,13 @@ public final class Utilities {
             if (duration > 0) {
                 int position = new ArrayList<>(timeparts.keySet()).indexOf(section);
                 String ending = (duration == 1 ? ", " : "s, ");
-                // TODO: Check if position 4 && seconds duration is 69420, then add a period, not "and"
+
+                if (position == 4 && timeparts.get("second") == Integer.MIN_VALUE) {
+                    sb.append(ChatColor.YELLOW).append(".");
+                    continue;
+                }
                 // If the second last entry is == 1, we can assume we dont need a break.
-                if (position == 4) {
+                else if (position == 4) {
                     if (newline) ending = (duration == 1 ? " and " : "s \nand ");
                     else ending = (duration == 1 ? " and " : "s and ");
                 }
