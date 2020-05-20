@@ -91,7 +91,26 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setMessage(Utilities.grammarly(e.getMessage()));
         }
 
-        e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        Bukkit.broadcastMessage("A");
+        if(player.getGroup().equalsIgnoreCase("admin")) {
+            Bukkit.broadcastMessage("B");
+            e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Admin" + ChatColor.DARK_GRAY + "] " + player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        }
+        if(player.getGroup().equalsIgnoreCase("moderator")) {
+            e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Mod" + ChatColor.DARK_GRAY + "] " + player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        }
+        if(player.getGroup().equalsIgnoreCase("trusted")) {
+            e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Trusted" + ChatColor.DARK_GRAY + "] " + player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        }
+        if(player.getGroup().equalsIgnoreCase("patreon")) {
+            e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Patreon" + ChatColor.DARK_GRAY + "] " + player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        }
+        if(player.getGroup().equalsIgnoreCase("member")) {
+            e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Member" + ChatColor.DARK_GRAY + "] " + player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        }
+        if(player.getGroup().equalsIgnoreCase("default")) {
+            e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
