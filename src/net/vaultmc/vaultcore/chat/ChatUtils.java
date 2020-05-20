@@ -91,9 +91,8 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setMessage(Utilities.grammarly(e.getMessage()));
         }
 
-        Bukkit.broadcastMessage("A");
         if(player.getGroup().equalsIgnoreCase("admin")) {
-            Bukkit.broadcastMessage("B");
+
             e.setFormat(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Admin" + ChatColor.DARK_GRAY + "] " + player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
         }
         if(player.getGroup().equalsIgnoreCase("moderator")) {
