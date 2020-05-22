@@ -385,7 +385,7 @@ public final class VaultCore extends Component implements Listener {
         new ReportCommand();
 
         Bukkit.getServer().getConsoleSender().sendMessage(
-                ChatColor.YELLOW + "VaultCore" + ChatColor.GREEN + "successfully enabled. Running on " + ChatColor.YELLOW + "Bukkit - " + getServerName() + ChatColor.GREEN + ".");
+                ChatColor.YELLOW + "VaultCore" + ChatColor.GREEN + " successfully enabled. Running on " + ChatColor.YELLOW + "Bukkit - " + getServerName() + ChatColor.GREEN + ".");
     }
 
     @Override
