@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.pvp.utils;
+package net.vaultmc.vaultcore.pvp;
 
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;

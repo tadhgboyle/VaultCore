@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.pvp.runnables;
+package net.vaultmc.vaultcore.pvp;
 
 import lombok.Getter;
 import lombok.SneakyThrows;

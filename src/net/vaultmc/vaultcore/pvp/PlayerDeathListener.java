@@ -1,4 +1,4 @@
-package net.vaultmc.vaultcore.pvp.listeners;
+package net.vaultmc.vaultcore.pvp;
 
 import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.VaultCore;

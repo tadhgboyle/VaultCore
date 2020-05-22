@@ -1,7 +1,5 @@
-package net.vaultmc.vaultcore.pvp.listeners;
+package net.vaultmc.vaultcore.pvp;
 
-import net.vaultmc.vaultcore.pvp.utils.KitGuis;
-import net.vaultmc.vaultcore.pvp.utils.KitItems;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
