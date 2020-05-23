@@ -70,6 +70,7 @@ import net.vaultmc.vaultcore.stats.PlayTimeCommand;
 import net.vaultmc.vaultcore.stats.SeenCommand;
 import net.vaultmc.vaultcore.stats.Statistics;
 import net.vaultmc.vaultcore.survival.*;
+import net.vaultmc.vaultcore.survival.claim.Claim;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
 import net.vaultmc.vaultcore.survival.claim.ClaimListeners;
 import net.vaultmc.vaultcore.survival.claim.UnclaimCommand;
@@ -377,6 +378,7 @@ public final class VaultCore extends Component implements Listener {
         new KitGuis();
         new GoldenAppleDelay();
         new ExploitsListener();
+        Claim.getClaims();  // Load the class
         new ClaimCommand();
         new UnclaimCommand();
         new ClaimListeners();
