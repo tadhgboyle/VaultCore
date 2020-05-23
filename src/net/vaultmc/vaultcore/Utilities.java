@@ -58,14 +58,11 @@ public final class Utilities {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (String word : message.split(" ")) {
-            // Capitalize "i"
             if (word.equals("i")) word = word.toUpperCase();
-                // Convert "u"
             else if (word.equalsIgnoreCase("u")) word = "you";
-                // Convert "ur"
             else if (word.equalsIgnoreCase("ur")) word = "you're";
-                // Convert "ok"
             else if (word.equalsIgnoreCase("ok")) word = "okay";
+            else if (word.equalsIgnoreCase("dont")) word = "don't";
             // Add apostrophe
             if (apostrophe.contains(word)) {
                 word = word.substring(0, word.length() - 1) + "'" + word.substring(word.length() - 1);
@@ -107,7 +104,6 @@ public final class Utilities {
      * @return Prettified human-readable message of the duration of milliseconds
      */
     public static String millisToTime(long millis, boolean newline, boolean period) {
-
         long millisInSecond = 1000L;
         long millisInMinute = 60000L;
         long millisInHour = 3600000L;
