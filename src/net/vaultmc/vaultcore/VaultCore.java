@@ -71,6 +71,7 @@ import net.vaultmc.vaultcore.stats.SeenCommand;
 import net.vaultmc.vaultcore.stats.Statistics;
 import net.vaultmc.vaultcore.survival.*;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
+import net.vaultmc.vaultcore.survival.claim.ClaimListeners;
 import net.vaultmc.vaultcore.survival.claim.UnclaimCommand;
 import net.vaultmc.vaultcore.survival.home.DelHomeCommand;
 import net.vaultmc.vaultcore.survival.home.HomeCommand;
@@ -252,8 +253,6 @@ public final class VaultCore extends Component implements Listener {
         new TourStageCommand();
         new TourMusic();
         new Tour();
-        new ClaimCommand();
-        new UnclaimCommand();
         new SchemCommand();
         new BackCommand();
         new ServerNavigator();
@@ -378,6 +377,9 @@ public final class VaultCore extends Component implements Listener {
         new KitGuis();
         new GoldenAppleDelay();
         new ExploitsListener();
+        new ClaimCommand();
+        new UnclaimCommand();
+        new ClaimListeners();
         Kit.getKits();  // Load the class
         KitInit.init();
         registerEvents(new PlayerDeathListener());

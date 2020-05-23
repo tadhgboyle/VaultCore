@@ -1,16 +1,14 @@
 package net.vaultmc.vaultcore.survival.claim;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Chunk;
+import org.bukkit.GameMode;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
-import static net.vaultmc.vaultcore.survival.claim.ClaimCommand.deserializeChunks;
-import static net.vaultmc.vaultcore.survival.claim.ClaimCommand.serializeChunks;
 
 @RootCommand(
         literal = "unclaim",
@@ -29,14 +27,21 @@ public class UnclaimCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.must-be-in-survival"));
             return;
         }
-        List<Chunk> chunks = deserializeChunks(sender.getPlayerData().getStringList("claim.chunks"));
-        if (!chunks.contains(sender.getLocation().getChunk())) {
+        if (sender.getGameMode() != GameMode.SURVIVAL) {
+            return;  // I don't know what this means and what I was thinking about when I wrote this
+            //          but it seems important so I just copied it here. (Magic code time)
+        }
+        Claim claim = Claim.getClaims().get(sender.getLocation().getChunk().getChunkKey());
+        if (claim == null) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-claimed"));
             return;
         }
-        chunks.remove(sender.getLocation().getChunk());
-        sender.getPlayerData().set("claim.chunks", serializeChunks(chunks));
-        sender.saveData();
+        if (claim.owner.getUniqueId() != sender.getUniqueId()) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-claimed"));
+            return;
+        }
+        Claim.getClaims().remove(sender.getLocation().getChunk().getChunkKey());
+        VaultCore.getInstance().getVLData().serializeList("claims", new ArrayList<>(Claim.getClaims().values()));
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.unclaimed").replace("{X}",
                 String.valueOf(sender.getLocation().getChunk().getX())).replace("{Z}",
                 String.valueOf(sender.getLocation().getChunk().getZ())));

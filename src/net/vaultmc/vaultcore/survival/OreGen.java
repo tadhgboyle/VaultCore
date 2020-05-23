@@ -16,7 +16,7 @@ public class OreGen extends ConstructorRegisterListener {
         if (e.getPlayer().getWorld().getName().toLowerCase().contains("survival") || e.getPlayer().getWorld().getName().contains("clans")) {
             if (e.getFrom().getChunk() != e.getTo().getChunk()) {
                 VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-                if (player.isNew() || player.isQuality() || player.getName().equals("yangyang200") /* Testing */) {
+                if (player.isNew()) {
                     int rand = ThreadLocalRandom.current().nextInt(0, 100);
                     if (rand <= 5) {
                         outerLoop:
