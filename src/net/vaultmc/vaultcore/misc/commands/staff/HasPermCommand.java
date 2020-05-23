@@ -16,9 +16,9 @@ import java.util.Collections;
 @Permission(Permissions.HasPermCommand)
 public class HasPermCommand extends CommandExecutor {
     public HasPermCommand() {
-        this.register("hasPermSelf",
+        register("hasPermSelf",
                 Collections.singletonList(Arguments.createArgument("permission", Arguments.string())));
-        this.register("hasPermOther", Arrays.asList(Arguments.createArgument("permission", Arguments.string()),
+        register("hasPermOther", Arrays.asList(Arguments.createArgument("permission", Arguments.string()),
                 Arguments.createArgument("target", Arguments.offlinePlayerArgument())));
     }
 

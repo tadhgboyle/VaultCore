@@ -30,7 +30,7 @@ public class MsgCommand extends CommandExecutor implements Listener {
 
     public MsgCommand() {
         unregisterExisting();
-        this.register("msg", Arrays.asList(
+        register("msg", Arrays.asList(
                 Arguments.createArgument("target", Arguments.playerArgument()),
                 Arguments.createArgument("message", Arguments.greedyString())));
         VaultCore.getInstance().registerEvents(this);

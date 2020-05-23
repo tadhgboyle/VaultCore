@@ -18,7 +18,7 @@
 
 package net.vaultmc.vaultcore.punishments.ban;
 
-import net.vaultmc.vaultcore.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
@@ -42,7 +42,7 @@ public class BannedListener extends ConstructorRegisterListener {
                             .replace("{ACTOR}", (banData != null ? VLOfflinePlayer.getOfflinePlayer(banData.getActor()).getFormattedName() :
                                     VLOfflinePlayer.getOfflinePlayer(ipBanData.getActor()).getFormattedName())));
         } else if (tempbanData != null && tempbanData.isStatus()) {
-            if (PunishmentUtils.currentTime() >= tempbanData.getExpiry()) {
+            if (Utilities.currentTime() >= tempbanData.getExpiry()) {
                 PunishmentsDB.unregisterData("tempbans", tempbanData.getVictim());
                 //VaultCore.getInstance().saveConfig();  (Magic?)
             } else {
@@ -50,19 +50,19 @@ public class BannedListener extends ConstructorRegisterListener {
                         VaultLoader.getMessage("punishments.tempban.disconnect")
                                 .replace("{REASON}", tempbanData.getReason())
                                 .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(tempbanData.getActor()).getFormattedName())
-                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(
-                                        tempbanData.getExpiry() - PunishmentUtils.currentTime())));
+                                .replace("{EXPIRY}", Utilities.humanReadableTime(
+                                        tempbanData.getExpiry() - Utilities.currentTime())));
             }
         } else if (ipTempbanData != null && ipTempbanData.isStatus()) {
-            if (PunishmentUtils.currentTime() >= ipTempbanData.getExpiry()) {
+            if (Utilities.currentTime() >= ipTempbanData.getExpiry()) {
                 PunishmentsDB.unregisterData("iptempbans", ipTempbanData.getVictim());
             } else {
                 e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                         VaultLoader.getMessage("punishments.tempban.disconnect")
                                 .replace("{REASON}", tempbanData.getReason())
                                 .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(ipTempbanData.getActor()).getFormattedName())
-                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(
-                                        tempbanData.getExpiry() - PunishmentUtils.currentTime())));
+                                .replace("{EXPIRY}", Utilities.humanReadableTime(
+                                        tempbanData.getExpiry() - Utilities.currentTime())));
             }
         }
     }

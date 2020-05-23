@@ -35,7 +35,7 @@ import java.util.Arrays;
 @PlayerOnly
 public class TransferCommand extends CommandExecutor {
     public TransferCommand() {
-        this.register("transfer", Arrays.asList(
+        register("transfer", Arrays.asList(
                 Arguments.createArgument("player", Arguments.playerArgument()),
                 Arguments.createArgument("amount", Arguments.doubleArgument(0))
         ));

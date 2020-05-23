@@ -11,11 +11,11 @@ import java.util.Collections;
         literal = "kits",
         description = "Grab a kit!"
 )
-@PlayerOnly
 @Permission(Permissions.KitGuiCommand)
+@PlayerOnly
 public class KitCommand extends CommandExecutor {
     public KitCommand() {
-        this.register("kits", Collections.emptyList(), "vaultpvp");
+        register("kits", Collections.emptyList(), "vaultcore");
     }
 
     @SubCommand("kits")

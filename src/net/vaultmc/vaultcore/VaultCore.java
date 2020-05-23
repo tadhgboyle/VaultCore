@@ -115,7 +115,6 @@ import java.util.Map;
 public final class VaultCore extends Component implements Listener {
     public static final DecimalFormat numberFormat = new DecimalFormat("###,###.###");
     public static final String SEPARATOR = "\u00a7â";  // I hope nobody will type this using another client
-    public static final int TOTAL_SERVERS = 3;
     public static boolean isReloaded = false;
     @Getter
     private static VaultCore instance;
@@ -166,6 +165,14 @@ public final class VaultCore extends Component implements Listener {
 
     public FileConfiguration getConfig() {
         return this.config.getConfig();
+    }
+
+    public Configuration getVLConfig() {
+        return this.config;
+    }
+
+    public Configuration getVLData() {
+        return data;
     }
 
     public FileConfiguration getLocationFile() {
@@ -371,8 +378,9 @@ public final class VaultCore extends Component implements Listener {
         new KitGuis();
         new GoldenAppleDelay();
         new ExploitsListener();
+        Kit.getKits();  // Load the class
+        KitInit.init();
         registerEvents(new PlayerDeathListener());
-        registerEvents(new KitsGuiListener());
         registerEvents(new GrantCommandListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());

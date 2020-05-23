@@ -35,7 +35,7 @@ import java.util.Collections;
 @Aliases({"b", "balance", "bal"})
 public class MoneyCommand extends CommandExecutor {
     public MoneyCommand() {
-        this.register("checkBalance", Collections.emptyList());
+        register("checkBalance", Collections.emptyList());
     }
 
     @SubCommand("checkBalance")

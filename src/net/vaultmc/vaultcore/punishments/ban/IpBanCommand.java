@@ -19,8 +19,8 @@
 package net.vaultmc.vaultcore.punishments.ban;
 
 import net.vaultmc.vaultcore.Permissions;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.punishments.PunishmentUtils;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultcore.punishments.ReasonSelector;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -102,11 +102,11 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                         victim.getOnlinePlayer().kick(VaultLoader.getMessage("punishments.tempban.disconnect")
                                 .replace("{ACTOR}", sender.getFormattedName())
                                 .replace("{REASON}", reason)
-                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                     }
 
                     PunishmentsDB.registerData("iptempbans", new PunishmentsDB.PunishmentData(getPlayerIp(victim),
-                            true, reason, PunishmentUtils.currentTime() + expiry, sender.getUniqueId()));
+                            true, reason, Utilities.currentTime() + expiry, sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.tempban.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -117,7 +117,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                                             .replace("{ACTOR}", sender.getFormattedName())
                                             .replace("{REASON}", reason)
                                             .replace("{PLAYER}", victim.getFormattedName())
-                                            .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                            .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                         }
                     }
                 }
@@ -173,11 +173,11 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                                 .replace("{ACTOR}", sender.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName())
-                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                     }
 
                     PunishmentsDB.registerData("iptempmutes", new PunishmentsDB.PunishmentData(getPlayerIp(victim), true, reason,
-                            PunishmentUtils.currentTime() + expiry, sender.getUniqueId()));
+                            Utilities.currentTime() + expiry, sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.tempmute.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -188,7 +188,7 @@ public class IpBanCommand extends CommandExecutor implements Listener {
                                             .replace("{ACTOR}", sender.getFormattedName())
                                             .replace("{REASON}", reason)
                                             .replace("{PLAYER}", victim.getFormattedName())
-                                            .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                            .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                         }
                     }
                 }

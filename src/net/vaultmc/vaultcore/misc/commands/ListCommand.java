@@ -27,7 +27,7 @@ public class ListCommand extends CommandExecutor {
 
     public ListCommand() {
         unregisterExisting();
-        this.register("list", Collections.emptyList());
+        register("list", Collections.emptyList());
     }
 
     @SubCommand("list")

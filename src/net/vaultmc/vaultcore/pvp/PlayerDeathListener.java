@@ -36,7 +36,7 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
 
     @EventHandler
     public void onPlayerItemDrop(PlayerDropItemEvent e) {
-        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
             return;
         }
 
@@ -46,7 +46,7 @@ public class PlayerDeathListener extends ConstructorRegisterListener implements 
     @EventHandler
     @SneakyThrows
     public void onPlayerDeath(PlayerDeathEvent e) {
-        if (!e.getEntity().getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
+        if (!e.getEntity().getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
             return;
         }
 

@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import org.bukkit.Bukkit;
 
@@ -124,18 +125,18 @@ public class PunishmentsDB {
                 VaultCore.getPDatabase().executeUpdateStatement(
                         "INSERT INTO " + table + " (uuid, reason, actor, executionTime)" +
                                 "VALUES (?, ?, ?, ?);",
-                        data.getVictim(), data.getReason(), data.getActor().toString(), PunishmentUtils.currentTime()
+                        data.getVictim(), data.getReason(), data.getActor().toString(), Utilities.currentTime()
                 );
             } else if (table.contains("temp")) {
                 VaultCore.getPDatabase().executeUpdateStatement(
                         "INSERT INTO " + table + " (" + (table.contains("ip") ? "ip" : "uuid") + ", status, reason, expiry, actor, executionTime)" +
                                 "VALUES (?, ?, ?, ?, ?, ?);",
-                        data.getVictim(), data.isStatus(), data.getReason(), data.getExpiry(), data.getActor().toString(), PunishmentUtils.currentTime());
+                        data.getVictim(), data.isStatus(), data.getReason(), data.getExpiry(), data.getActor().toString(), Utilities.currentTime());
             } else {
                 VaultCore.getPDatabase().executeUpdateStatement(
                         "INSERT INTO " + table + " (" + (table.contains("ip") ? "ip" : "uuid") + ", status, reason, actor, executionTime)" +
                                 "VALUES (?, ?, ?, ?, ?);",
-                        data.getVictim(), data.isStatus(), data.getReason(), data.getActor().toString(), PunishmentUtils.currentTime());
+                        data.getVictim(), data.isStatus(), data.getReason(), data.getActor().toString(), Utilities.currentTime());
             }
         });
     }

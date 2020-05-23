@@ -2,24 +2,30 @@ package net.vaultmc.vaultcore.pvp;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class KitGuis extends ConstructorRegisterListener {
     public static Multimap<VLPlayer, String> hasKit = HashMultimap.create();
-    public static Map<VLPlayer, Map<String, Long>> delays = new HashMap<>();
+    public static Map<VLPlayer, Map<Kit, Long>> delays = new HashMap<>();
 
     public static void save() {
         for (VLPlayer player : hasKit.keySet()) {
@@ -28,209 +34,44 @@ public class KitGuis extends ConstructorRegisterListener {
         }
         for (VLPlayer player : delays.keySet()) {
             player.getDataConfig().createSection("delays");
-            for (String kit : delays.get(player).keySet()) {
-                player.getDataConfig().set("delays." + kit, delays.get(player).get(kit));
+            for (Kit kit : delays.get(player).keySet()) {
+                player.getDataConfig().set("delays." + kit.name, delays.get(player).get(kit));
             }
             player.saveData();
         }
     }
 
-    public static boolean canUse(VLPlayer p, String kit) {
+    public static boolean canUse(VLPlayer p, Kit kit) {
         if (!delays.containsKey(p)) return true;
         if (!delays.get(p).containsKey(kit)) return true;
-        return System.currentTimeMillis() >= delays.get(p).get(kit);
+        return (System.currentTimeMillis() / 1000) >= delays.get(p).get(kit);
     }
 
     public static void openKitGui(VLPlayer p) {
         Inventory inv = Bukkit.createInventory(null, 9, ChatColor.YELLOW + "Kit Selector");
 
-        if (hasKit.get(p).contains("swordsman")) {
-            inv.setItem(0, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Swordsman")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "Free",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "None",
-                            ChatColor.GREEN + "Click to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(0, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Swordsman")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "Free",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "None",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
-        }
-
-
-        if (hasKit.get(p).contains("axeman")) {
-            inv.setItem(1, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Axeman")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "50C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            canUse(p, "axeman") ? ChatColor.GREEN + "Click to use this kit" :
-                                    ChatColor.GOLD + "You must wait a while to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(1, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Axeman")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "50C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
-        }
-
-
-        if (hasKit.get(p).contains("mage")) {
-            inv.setItem(2, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Mage")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "85C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            canUse(p, "mage") ? ChatColor.GREEN + "Click to use this kit" :
-                                    ChatColor.GOLD + "You must wait a while to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(2, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Mage")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "85C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
-        }
-
-
-        if (hasKit.get(p).contains("archer")) {
-            inv.setItem(3, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Archer")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "120C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            canUse(p, "archer") ? ChatColor.GREEN + "Click to use this kit" :
-                                    ChatColor.GOLD + "You must wait a while to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(3, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Archer")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "120C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
-        }
-
-
-        if (hasKit.get(p).contains("healer")) {
-            inv.setItem(4, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Healer")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "200C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            canUse(p, "healer") ? ChatColor.GREEN + "Click to use this kit" :
-                                    ChatColor.GOLD + "You must wait a while to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(4, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Healer")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "200C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 minute",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
-        }
-
-
-        if (hasKit.get(p).contains("armorer")) {
-            inv.setItem(5, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Armorer")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "250C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 hour",
-                            canUse(p, "armorer") ? ChatColor.GREEN + "Click to use this kit" :
-                                    ChatColor.GOLD + "You must wait a while to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(5, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Armorer")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "250C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1 hour",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
-        }
-
-
-        if (hasKit.get(p).contains("warlord")) {
-            inv.setItem(6, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Warlord")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "400C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1.5 hours",
-                            canUse(p, "warlord") ? ChatColor.GREEN + "Click to use this kit" :
-                                    ChatColor.GOLD + "You must wait a while to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(6, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Warlord")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "400C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "1.5 hours",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
-        }
-
-        if (hasKit.get(p).contains("overlord")) {
-            inv.setItem(7, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Overlord")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "550C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Owned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "2 hours",
-                            canUse(p, "overlord") ? ChatColor.GREEN + "Click to use this kit" :
-                                    ChatColor.GOLD + "You must wait a while to use this kit"
-                    ))
-                    .build());
-        } else {
-            inv.setItem(7, new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                    .name(ChatColor.DARK_GREEN + "Overlord")
-                    .lore(Arrays.asList(
-                            ChatColor.YELLOW + "Price: " + ChatColor.GOLD + "550C ",
-                            ChatColor.YELLOW + "Status: " + ChatColor.RED + "Unowned",
-                            ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + "2 hours",
-                            ChatColor.RED + "Click to purchase this kit"
-                    ))
-                    .build());
+        for (Kit kit : Kit.getKits()) {
+            if (hasKit.get(p).contains("swordsman")) {
+                inv.addItem(new ItemStackBuilder(Material.ENCHANTED_BOOK)
+                        .name(ChatColor.DARK_GREEN + kit.name)
+                        .lore(Arrays.asList(
+                                ChatColor.YELLOW + "Price: " + ChatColor.GOLD + (kit.price == 0 ? "Free" : "$" + kit.price),
+                                ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Purchased",
+                                ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + Utilities.humanReadableTime(kit.delay),
+                                canUse(p, kit) ? ChatColor.GREEN + "Left click to use" : ChatColor.RED + "This kit is currently unavailable"
+                        ))
+                        .build());
+            } else {
+                inv.addItem(new ItemStackBuilder(Material.ENCHANTED_BOOK)
+                        .name(ChatColor.DARK_GREEN + kit.name)
+                        .lore(Arrays.asList(
+                                ChatColor.YELLOW + "Price: " + ChatColor.GOLD + (kit.price == 0 ? "Free" : "$" + kit.price),
+                                ChatColor.YELLOW + "Status: " + ChatColor.GOLD + "Available",
+                                ChatColor.YELLOW + "Delay: " + ChatColor.GOLD + Utilities.humanReadableTime(kit.delay),
+                                ChatColor.AQUA + "Left click to purchase"
+                        ))
+                        .build());
+            }
         }
 
         inv.setItem(8, new ItemStackBuilder(Material.BARRIER)
@@ -242,13 +83,56 @@ public class KitGuis extends ConstructorRegisterListener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         hasKit.putAll(player, player.getDataConfig().contains("has-kits") ? player.getDataConfig().getStringList("has-kits") : new ArrayList<>());
-        Map<String, Long> map = new HashMap<>();
+        Map<Kit, Long> map = new HashMap<>();
         if (player.getDataConfig().contains("delays")) {
             for (String kit : player.getDataConfig().getConfigurationSection("delays").getKeys(false)) {
-                map.put(kit, player.getDataConfig().getLong("delays." + kit));
+                map.put(Kit.getKits().stream().filter(k -> k.name.equalsIgnoreCase(kit)).collect(Collectors.toList()).get(0),
+                        player.getDataConfig().getLong("delays." + kit));
             }
             delays.put(player, map);
         }
     }
-}
 
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (!e.getWhoClicked().getWorld().getName().equalsIgnoreCase("PvP")) {
+            return;
+        }
+
+        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.YELLOW + "Kit Selector")) {
+            VLPlayer p = VLPlayer.getPlayer((Player) e.getWhoClicked());
+            int slot = e.getSlot();
+            e.setCancelled(true);
+            Kit kit;
+            try {
+                kit = Kit.getKits().get(slot);
+            } catch (IndexOutOfBoundsException ex) {
+                return;
+            }
+            if (!hasKit.get(p).contains(kit.name)) {
+                if (canUse(p, kit)) {
+                    if (p.hasMoney(Bukkit.getWorld("pvp"), kit.price)) {
+                        KitGuis.hasKit.put(p, kit.name);
+                        p.closeInventory();
+                        p.sendMessage(ChatColor.YELLOW + "Successfully purchased kit!");
+                        openKitGui(p);
+                    } else {
+                        p.sendMessage(ChatColor.RED + "You don't have enough money!");
+                    }
+                } else {
+                    p.sendMessage(ChatColor.RED + "This kit is currently unavailable! You must wait " +
+                            Utilities.humanReadableTime(delays.get(p).get(kit) - (System.currentTimeMillis() / 1000)) + " before using it.");
+                }
+            } else {
+                for (PotionEffectType type : PotionEffectType.values()) {
+                    p.getPlayer().removePotionEffect(type);
+                }
+                p.sendMessage(ChatColor.YELLOW + "Received kit " + ChatColor.GOLD + kit.name + ChatColor.YELLOW + ".");
+                p.getInventory().addItem(kit.items.toArray(new ItemStack[0]));
+                Map<Kit, Long> l = delays.containsKey(p) ? delays.get(p) : new HashMap<>();
+                l.put(kit, (System.currentTimeMillis() / 1000) + kit.delay);
+                delays.put(p, l);
+            }
+        }
+    }
+}

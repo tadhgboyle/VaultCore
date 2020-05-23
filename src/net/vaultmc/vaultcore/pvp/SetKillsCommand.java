@@ -1,5 +1,6 @@
 package net.vaultmc.vaultcore.pvp;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -10,13 +11,13 @@ import java.util.Arrays;
         literal = "setkills",
         description = "Useful useful"
 )
-@Permission("pvp.admin")
+@Permission(Permissions.PvPAdmin)
 public class SetKillsCommand extends CommandExecutor {
     public SetKillsCommand() {
-        this.register("setKills", Arrays.asList(
+        register("setKills", Arrays.asList(
                 Arguments.createArgument("player", Arguments.offlinePlayerArgument()),
                 Arguments.createArgument("amount", Arguments.doubleArgument())
-        ), "vaultpvp");
+        ), "vaultcore");
 
     }
 
@@ -26,5 +27,4 @@ public class SetKillsCommand extends CommandExecutor {
         target.getDataConfig().set("stats.kills", amount);
         target.saveData();
     }
-
 }

@@ -36,10 +36,6 @@ public class Scoreboards extends ConstructorRegisterListener {
     @Getter
     private static final Scoreboard scoreboard = new Scoreboard();
 
-    public Scoreboards() {
-        super();
-    }
-
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
         if (e.getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
@@ -51,7 +47,7 @@ public class Scoreboards extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
             return;
         }
         updateScoreboardFor(e.getPlayer());
@@ -120,7 +116,7 @@ public class Scoreboards extends ConstructorRegisterListener {
                 ChatColor.YELLOW + "Kills: " + ChatColor.DARK_GREEN + kills,
                 ChatColor.YELLOW + "Deaths: " + ChatColor.DARK_GREEN + deaths,
                 ChatColor.YELLOW + "K/D: " + ChatColor.DARK_GREEN + value.format(kd),
-                ChatColor.YELLOW + "Coins: " + ChatColor.GOLD + VLPlayer.getPlayer(player).getBalance(Bukkit.getWorld("pvp")),
+                ChatColor.YELLOW + "Balance: " + ChatColor.GOLD + VLPlayer.getPlayer(player).getBalance(Bukkit.getWorld("pvp")),
                 "    ",
                 ChatColor.YELLOW + "-----------",
                 ChatColor.YELLOW + "Top Kills",

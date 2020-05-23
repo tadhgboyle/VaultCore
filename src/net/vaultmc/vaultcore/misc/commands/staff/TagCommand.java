@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class TagCommand extends CommandExecutor {
     public TagCommand() {
         unregisterExisting();
-        this.register("tagAdd",
+        register("tagAdd",
                 Arrays.asList(Arguments.createLiteral("add"),
                         Arguments.createArgument("target", Arguments.offlinePlayerArgument()),
                         Arguments.createArgument("content", Arguments.greedyString())));

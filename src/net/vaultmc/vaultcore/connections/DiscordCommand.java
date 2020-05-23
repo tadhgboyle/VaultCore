@@ -16,7 +16,7 @@ import java.util.Collections;
 public class DiscordCommand extends CommandExecutor {
 
     public DiscordCommand() {
-        this.register("discord", Collections.emptyList());
+        register("discord", Collections.emptyList());
     }
 
     @SubCommand("discord")

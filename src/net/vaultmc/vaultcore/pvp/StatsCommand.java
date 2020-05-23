@@ -19,44 +19,14 @@ import java.util.Collections;
 @PlayerOnly
 public class StatsCommand extends CommandExecutor {
     public StatsCommand() {
-        this.register("statsSelf", Collections.emptyList(), "vaultpvp");
-        this.register("statsOther",
-                Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())), "vaultpvp");
+        register("statsSelf", Collections.emptyList(), "vaultcore");
+        register("statsOther",
+                Collections.singletonList(Arguments.createArgument("target", Arguments.offlinePlayerArgument())), "vaultcore");
 
     }
 
     @SneakyThrows
-    @SubCommand("statsSelf")
-    public void statsSelf(VLPlayer p) {
-        ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT kills, deaths FROM pvp_stats WHERE uuid=?", p.getUniqueId().toString());
-        int kills = 0;
-        int deaths = 0;
-        if (rs.next()) {
-            kills = rs.getInt("kills");
-            deaths = rs.getInt("deaths");
-        }
-        rs.close();
-
-        double kd;
-
-        if (deaths == 0) {
-            kd = 0;
-
-        } else {
-            kd = (double) kills / (double) deaths;
-        }
-
-        p.sendMessage(p.getFormattedName() + ChatColor.YELLOW + "'s stats:");
-        p.sendMessage(ChatColor.YELLOW + "Kills: " + ChatColor.DARK_GREEN + kills);
-        p.sendMessage(ChatColor.YELLOW + "Deaths: " + ChatColor.DARK_GREEN + deaths);
-        p.sendMessage(ChatColor.YELLOW + "K/D: " + ChatColor.DARK_GREEN + kd);
-
-    }
-
-    @SneakyThrows
-    @SubCommand("statsOther")
-    @Permission(Permissions.StatsCommandOther)
-    public void statsOther(VLPlayer p, VLOfflinePlayer target) {
+    private static void stats(VLPlayer p, VLOfflinePlayer target) {
         ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT kills, deaths FROM pvp_stats WHERE uuid=?", target.getUniqueId().toString());
         int kills = 0;
         int deaths = 0;
@@ -79,5 +49,18 @@ public class StatsCommand extends CommandExecutor {
         p.sendMessage(ChatColor.YELLOW + "Kills: " + ChatColor.DARK_GREEN + kills);
         p.sendMessage(ChatColor.YELLOW + "Deaths: " + ChatColor.DARK_GREEN + deaths);
         p.sendMessage(ChatColor.YELLOW + "K/D: " + ChatColor.DARK_GREEN + kd);
+    }
+
+    @SneakyThrows
+    @SubCommand("statsSelf")
+    public void statsSelf(VLPlayer p) {
+        stats(p, p);
+    }
+
+    @SneakyThrows
+    @SubCommand("statsOther")
+    @Permission(Permissions.StatsCommandOther)
+    public void statsOther(VLPlayer p, VLOfflinePlayer target) {
+        stats(p, target);
     }
 }

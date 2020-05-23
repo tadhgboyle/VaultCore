@@ -13,7 +13,7 @@ import java.util.Collections;
 @Aliases("reply")
 public class ReplyCommand extends CommandExecutor {
     public ReplyCommand() {
-        this.register("r", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())));
+        register("r", Collections.singletonList(Arguments.createArgument("message", Arguments.greedyString())));
     }
 
     @SubCommand("r")

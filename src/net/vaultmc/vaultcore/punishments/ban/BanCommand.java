@@ -19,7 +19,7 @@
 package net.vaultmc.vaultcore.punishments.ban;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.punishments.PunishmentUtils;
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultcore.punishments.ReasonSelector;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -64,10 +64,10 @@ public class BanCommand extends CommandExecutor {
         victim.kick(VaultLoader.getMessage("punishments.tempban.disconnect")
                 .replace("{ACTOR}", sender.getFormattedName())
                 .replace("{REASON}", "VAULTMC ANTI CHEAT (Please do not appeal)")
-                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(604800)));
+                .replace("{EXPIRY}", Utilities.humanReadableTime(604800)));
         PunishmentsDB.registerData("tempbans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
                 true, "VAULTMC ANTI CHEAT (Please do not appeal)",
-                PunishmentUtils.currentTime() + 604800, UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670")));
+                Utilities.currentTime() + 604800, UUID.fromString("f78a4d8d-d51b-4b39-98a3-230f2de0c670")));
 
         sender.sendMessage(VaultLoader.getMessage("punishments.tempban.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -78,7 +78,7 @@ public class BanCommand extends CommandExecutor {
                                 .replace("{ACTOR}", sender.getFormattedName())
                                 .replace("{REASON}", "VAULTMC ANTI CHEAT (Please do not appeal)")
                                 .replace("{PLAYER}", victim.getFormattedName())
-                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(604800)));
+                                .replace("{EXPIRY}", Utilities.humanReadableTime(604800)));
             }
         }
     }
@@ -145,11 +145,11 @@ public class BanCommand extends CommandExecutor {
                         victim.getOnlinePlayer().kick(VaultLoader.getMessage("punishments.tempban.disconnect")
                                 .replace("{ACTOR}", sender.getFormattedName())
                                 .replace("{REASON}", reason)
-                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                     }
 
                     PunishmentsDB.registerData("tempbans", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(),
-                            true, reason, PunishmentUtils.currentTime() + expiry, sender.getUniqueId()));
+                            true, reason, Utilities.currentTime() + expiry, sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.tempban.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -160,7 +160,7 @@ public class BanCommand extends CommandExecutor {
                                             .replace("{ACTOR}", sender.getFormattedName())
                                             .replace("{REASON}", reason)
                                             .replace("{PLAYER}", victim.getFormattedName())
-                                            .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                            .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                         }
                     }
                 }
@@ -216,11 +216,11 @@ public class BanCommand extends CommandExecutor {
                                 .replace("{ACTOR}", sender.getFormattedName())
                                 .replace("{REASON}", reason)
                                 .replace("{PLAYER}", victim.getFormattedName())
-                                .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                     }
 
                     PunishmentsDB.registerData("tempmutes", new PunishmentsDB.PunishmentData(victim.getUniqueId().toString(), true, reason,
-                            PunishmentUtils.currentTime() + expiry, sender.getUniqueId()));
+                            Utilities.currentTime() + expiry, sender.getUniqueId()));
 
                     sender.sendMessage(VaultLoader.getMessage("punishments.tempmute.sent").replace("{PLAYER}", victim.getFormattedName()));
 
@@ -231,7 +231,7 @@ public class BanCommand extends CommandExecutor {
                                             .replace("{ACTOR}", sender.getFormattedName())
                                             .replace("{REASON}", reason)
                                             .replace("{PLAYER}", victim.getFormattedName())
-                                            .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(expiry)));
+                                            .replace("{EXPIRY}", Utilities.humanReadableTime(expiry)));
                         }
                     }
                 }

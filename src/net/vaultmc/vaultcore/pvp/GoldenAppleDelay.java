@@ -19,7 +19,7 @@ public class GoldenAppleDelay extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        if (!e.getPlayer().getWorld().getName().equals("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
             return;
         }
         gapplePlayers.remove(e.getPlayer().getUniqueId());
@@ -28,7 +28,7 @@ public class GoldenAppleDelay extends ConstructorRegisterListener {
 
     @EventHandler
     public void onItemConsume(PlayerItemConsumeEvent e) {
-        if (!e.getPlayer().getWorld().getName().equals("Pvp")) {
+        if (!e.getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
             return;
         }
 

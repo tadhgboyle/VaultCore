@@ -18,8 +18,8 @@
 
 package net.vaultmc.vaultcore.punishments.mute;
 
+import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.punishments.PunishmentUtils;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultcore.punishments.ban.IpBanCommand;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -57,13 +57,13 @@ public class MutedListener extends ConstructorRegisterListener {
                 }
             }
         } else if (tempmuteData != null && tempmuteData.isStatus()) {
-            if (PunishmentUtils.currentTime() >= tempmuteData.getExpiry()) {
+            if (Utilities.currentTime() >= tempmuteData.getExpiry()) {
                 PunishmentsDB.unregisterData("tempmutes", player.getUniqueId().toString());
             } else {
                 player.sendMessage(VaultLoader.getMessage("punishments.tempmute.message")
                         .replace("{REASON}", tempmuteData.getReason())
                         .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(tempmuteData.getActor()).getFormattedName())
-                        .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(tempmuteData.getExpiry() - PunishmentUtils.currentTime()
+                        .replace("{EXPIRY}", Utilities.humanReadableTime(tempmuteData.getExpiry() - Utilities.currentTime()
                         )));
                 e.setCancelled(true);
 
@@ -76,13 +76,13 @@ public class MutedListener extends ConstructorRegisterListener {
                 }
             }
         } else if (ipTempmuteData != null && ipTempmuteData.isStatus()) {
-            if (PunishmentUtils.currentTime() >= ipTempmuteData.getExpiry()) {
+            if (Utilities.currentTime() >= ipTempmuteData.getExpiry()) {
                 PunishmentsDB.unregisterData("iptempmutes", player.getUniqueId().toString());
             } else {
                 player.sendMessage(VaultLoader.getMessage("punishments.tempmute.message")
                         .replace("{REASON}", ipTempmuteData.getReason())
                         .replace("{ACTOR}", VLOfflinePlayer.getOfflinePlayer(ipTempmuteData.getActor()).getFormattedName())
-                        .replace("{EXPIRY}", PunishmentUtils.humanReadableTime(ipTempmuteData.getExpiry() - PunishmentUtils.currentTime()
+                        .replace("{EXPIRY}", Utilities.humanReadableTime(ipTempmuteData.getExpiry() - Utilities.currentTime()
                         )));
                 e.setCancelled(true);
 

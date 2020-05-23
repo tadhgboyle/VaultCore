@@ -10,18 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class Utilities {
-
-    /**
-     * @param millis Time in milliseconds you wish to turn into a duration.
-     * @return Duration from milliseconds
-     * @author Aberdeener
-     */
     private static final Map<String, Long> timeparts = new LinkedHashMap<>();
-    /**
-     * @param message Message to edit
-     * @return Edited message
-     * @author Aberdeener
-     */
     static List<String> apostrophe = Arrays.asList("lets", "doesnt", "hasnt", "hes", "shes", "dont", "wont", "cant", "wouldnt", "shouldnt", "its", "hows", "isnt", "im", "thats");
     static List<String> punctuation = Arrays.asList(".", "!", "?");
 
@@ -43,33 +32,13 @@ public final class Utilities {
      * @author Aberdeener
      */
     public static String formatMessage(String message, Object... replacements) {
-        /*
-        HashMap<String, String> colours = PlayerCustomColours.defaultColours;
-        if (sender instanceof VLPlayer) {
-            if (((VLPlayer) sender).isOnline())
-                colours = PlayerCustomColours.getColours((VLPlayer) sender);
-            else colours = PlayerCustomColours.getColoursFromFile((VLPlayer) sender);
-        }
-        */
         int num = 0;
         StringBuilder sb = new StringBuilder();
         try {
             for (String s : message.split(" ")) {
                 if (s.matches(".*?\\{.*?}.*")) {
                     String before = StringUtils.substringBefore(s, "{");
-                    /*
-                    if (before.matches(".*?<.*?>.*")) {
-                        String context = before.substring(0, before.length() - 1);
-                        before = "&" + colours.get(context);
-                    }
-                     */
                     String after = s.substring(s.lastIndexOf("}") + 1);
-                    /*
-                    if (after.matches(".*?<.*?>.*")) {
-                        String context = after.substring(0, after.length() - 1);
-                        after = "&" + colours.get(context);
-                    }
-                     */
                     s = replacements[num].toString();
                     sb.append(before).append(s).append(after).append(" ");
                     num++;
@@ -249,5 +218,61 @@ public final class Utilities {
                 : b <= 0xfffccccccccccccL >> 10 ? String.format("%.1f Tb", bytes / 0x1p40)
                 : b <= 0xfffccccccccccccL ? String.format("%.1f Pb", (bytes >> 10) / 0x1p40)
                 : String.format("%.1f Eb", (bytes >> 20) / 0x1p40);
+    }
+
+    public static long currentTime() {
+        return System.currentTimeMillis() / 1000;
+    }
+
+    public static String humanReadableTime(long seconds) {
+        if (seconds == 0) {
+            return "None";
+        }
+        if (seconds < 60) {
+            return seconds + "s";
+        }
+        long minutes = seconds / 60;
+        long s = 60 * minutes;
+        long secondsLeft = seconds - s;
+        if (minutes < 60) {
+            if (secondsLeft > 0) {
+                return minutes + "m " + secondsLeft + "s";
+            }
+            return minutes + "m";
+        }
+        if (minutes < 1440) {
+            String time;
+            long hours = minutes / 60;
+            time = hours + "h";
+            long inMins = 60 * hours;
+            long leftOver = minutes - inMins;
+            if (leftOver >= 1) {
+                time = time + " " + leftOver + "m";
+            }
+            if (secondsLeft > 0) {
+                time = time + " " + secondsLeft + "s";
+            }
+            return time;
+        }
+        String time;
+        long days = minutes / 1440;
+        time = days + "d";
+        long inMins = 1440 * days;
+        long leftOver = minutes - inMins;
+        if (leftOver >= 1) {
+            if (leftOver < 60) {
+                time = time + " " + leftOver + "m";
+            } else {
+                long hours = leftOver / 60;
+                time = time + " " + hours + "h";
+                long hoursInMins = 60 * hours;
+                long minsLeft = leftOver - hoursInMins;
+                time = time + " " + minsLeft + "m";
+            }
+        }
+        if (secondsLeft > 0) {
+            time = time + " " + secondsLeft + "s";
+        }
+        return time;
     }
 }

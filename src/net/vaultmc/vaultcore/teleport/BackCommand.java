@@ -14,7 +14,7 @@ import java.util.Stack;
 @PlayerOnly
 public class BackCommand extends CommandExecutor {
     public BackCommand() {
-        this.register("back", Collections.emptyList());
+        register("back", Collections.emptyList());
     }
 
     @SubCommand("back")
