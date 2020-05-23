@@ -12,6 +12,7 @@ import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
@@ -32,9 +33,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class Scoreboards extends ConstructorRegisterListener {
+public class Scoreboards extends ConstructorRegisterListener implements Runnable {
     @Getter
     private static final Scoreboard scoreboard = new Scoreboard();
+
+    public Scoreboards() {
+        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this, 60, 60);
+    }
+
+    @Override
+    public void run() {
+        for (Player player : Bukkit.getWorld("pvp").getPlayers()) {
+            updateScoreboardFor(player);
+        }
+    }
 
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {

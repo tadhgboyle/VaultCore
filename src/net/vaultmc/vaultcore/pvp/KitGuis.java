@@ -51,7 +51,7 @@ public class KitGuis extends ConstructorRegisterListener {
         Inventory inv = Bukkit.createInventory(null, 9, ChatColor.YELLOW + "Kit Selector");
 
         for (Kit kit : Kit.getKits()) {
-            if (hasKit.get(p).contains("swordsman")) {
+            if (hasKit.get(p).contains(kit.name)) {
                 inv.addItem(new ItemStackBuilder(Material.ENCHANTED_BOOK)
                         .name(ChatColor.DARK_GREEN + kit.name)
                         .lore(Arrays.asList(
@@ -112,7 +112,7 @@ public class KitGuis extends ConstructorRegisterListener {
             if (!hasKit.get(p).contains(kit.name)) {
                 if (canUse(p, kit)) {
                     if (p.hasMoney(Bukkit.getWorld("pvp"), kit.price)) {
-                        KitGuis.hasKit.put(p, kit.name);
+                        hasKit.put(p, kit.name);
                         p.closeInventory();
                         p.sendMessage(ChatColor.YELLOW + "Successfully purchased kit!");
                         openKitGui(p);
