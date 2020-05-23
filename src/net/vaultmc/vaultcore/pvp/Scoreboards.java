@@ -116,7 +116,7 @@ public class Scoreboards extends ConstructorRegisterListener {
                 ChatColor.YELLOW + "Kills: " + ChatColor.DARK_GREEN + kills,
                 ChatColor.YELLOW + "Deaths: " + ChatColor.DARK_GREEN + deaths,
                 ChatColor.YELLOW + "K/D: " + ChatColor.DARK_GREEN + value.format(kd),
-                ChatColor.YELLOW + "Balance: " + ChatColor.GOLD + VLPlayer.getPlayer(player).getBalance(Bukkit.getWorld("pvp")),
+                ChatColor.YELLOW + "Balance: $" + ChatColor.GOLD + VLPlayer.getPlayer(player).getBalance(Bukkit.getWorld("pvp")),
                 "    ",
                 ChatColor.YELLOW + "-----------",
                 ChatColor.YELLOW + "Top Kills",
