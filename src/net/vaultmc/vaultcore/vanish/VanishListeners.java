@@ -37,7 +37,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import java.util.Iterator;
 
 public class VanishListeners extends ConstructorRegisterListener {
-
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());

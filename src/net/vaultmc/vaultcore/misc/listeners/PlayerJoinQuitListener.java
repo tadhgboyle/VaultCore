@@ -6,6 +6,7 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.misc.commands.NicknameCommand;
 import net.vaultmc.vaultcore.misc.commands.mail.MailCommand;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
+import net.vaultmc.vaultcore.vanish.VanishCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.DBConnection;
@@ -21,7 +22,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.io.File;
 
 public class PlayerJoinQuitListener extends ConstructorRegisterListener {
-
     static DBConnection database = VaultCore.getDatabase();
     SessionHandler sessionHandler = new SessionHandler();
 
@@ -77,11 +77,11 @@ public class PlayerJoinQuitListener extends ConstructorRegisterListener {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     VaultCore.getInstance().getConfig().getString("welcome-message")));
 
-        // PlayerCustomColours.setColours(player, PlayerCustomColours.getColoursFromFile(player));
-
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (PlayerSettings.getSetting(players, "settings.minimal_messages")) continue;
-            players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"), player.getFormattedName(), ChatColor.GREEN + "joined"));
+            if (!VanishCommand.vanished.getOrDefault(e.getPlayer().getUniqueId(), false)) {
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.event_message"), player.getFormattedName(), ChatColor.GREEN + "joined"));
+            }
         }
 
         if (PlayerSettings.getSetting(player, "settings.check_mail_join")) MailCommand.check(player);
