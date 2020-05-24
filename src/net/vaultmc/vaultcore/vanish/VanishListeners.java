@@ -62,8 +62,9 @@ public class VanishListeners extends ConstructorRegisterListener {
     public void onMultiplayerPagePing(ServerListPingEvent e) {
         Iterator<Player> it = e.iterator();
         while (it.hasNext()) {
-            if (VanishCommand.vanished.containsKey(it.next().getUniqueId())) {
-                if (VanishCommand.vanished.get(it.next().getUniqueId())) it.remove();
+            Player player = it.next();
+            if (VanishCommand.vanished.containsKey(player.getUniqueId())) {
+                if (VanishCommand.vanished.get(player.getUniqueId())) it.remove();
             }
         }
     }
