@@ -41,7 +41,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatUtils extends ConstructorRegisterListener {
-
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
@@ -92,7 +91,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setMessage(Utilities.grammarly(e.getMessage()));
         }
 
-        e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        e.setFormat(player.getExtraFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

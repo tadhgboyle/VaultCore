@@ -3,7 +3,6 @@ package net.vaultmc.vaultcore.settings;
 import lombok.Getter;
 
 public enum Settings {
-
     ALLOW_MESSAGES("Allow Messages", "msg"),
     CYCLE("Cycle Hotbar", "cycle"),
     ALLOW_TPA("Allow TPA's", "tpa"),

@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @PlayerOnly
 @Aliases({"ck"})
 public class PlayerCustomKeys extends CommandExecutor {
-
     Map<VLPlayer, Map.Entry<String, String>> cachedKeys = new HashMap<>();
     List<String> contexts = Arrays.asList("chatgroups", "staffchat", "adminchat");
     Map<String, String> contextDefaultKeys = new HashMap<String, String>() {{
