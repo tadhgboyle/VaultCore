@@ -36,7 +36,7 @@ public class UnclaimCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-claimed"));
             return;
         }
-        if (claim.owner.getUniqueId() != sender.getUniqueId()) {
+        if (!claim.owner.getUniqueId().toString().equals(sender.getUniqueId().toString())) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.not-claimed"));
             return;
         }

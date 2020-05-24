@@ -3,6 +3,7 @@ package net.vaultmc.vaultcore.survival.claim;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ds.ConfigurationSerializable;
 import net.vaultmc.vaultloader.utils.ds.SerializableField;
@@ -16,6 +17,7 @@ import java.util.Map;
 @ConfigurationSerializable
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Claim {
     @Getter
     private static final Map<Long, Claim> claims = new HashMap<>();
