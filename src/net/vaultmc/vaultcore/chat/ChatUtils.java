@@ -25,6 +25,7 @@ import net.vaultmc.vaultcore.chat.groups.ChatGroupsCommand;
 import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.misc.commands.AFKCommand;
+import net.vaultmc.vaultcore.settings.ChatContext;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
 import net.vaultmc.vaultcore.tour.Tour;
@@ -48,30 +49,29 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
 
-        PlayerCustomKeys playerCustomKeys = new PlayerCustomKeys();
-        String chatGroupsKey = playerCustomKeys.getCustomKey(player, "chatgroups");
-        String staffChatKey = playerCustomKeys.getCustomKey(player, "staffchat");
-        String adminChatKey = playerCustomKeys.getCustomKey(player, "adminchat");
         // Staff + Admin chat
-        if ((e.getMessage().startsWith(staffChatKey) || StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
-            String message = e.getMessage().replaceFirst(staffChatKey, "");
+        if ((e.getMessage().startsWith(PlayerCustomKeys.getCustomKey(player, ChatContext.STAFF_CHAT)) ||
+                StaffChatCommand.toggled.contains(player.getUniqueId())) && player.hasPermission(Permissions.StaffChatCommand)) {
+            String message = e.getMessage().replaceFirst(PlayerCustomKeys.getCustomKey(player, ChatContext.STAFF_CHAT), "");
             if (message.length() > 0) {
                 StaffChatCommand.chat(player, message);
                 e.setCancelled(true);
                 return;
             }
         }
-        if ((e.getMessage().startsWith(adminChatKey) || AdminChatCommand.getToggled().contains(player.getUniqueId())) && player.hasPermission(Permissions.AdminChatCommand)) {
-            String message = e.getMessage().replaceFirst(adminChatKey, "");
+        if ((e.getMessage().startsWith(PlayerCustomKeys.getCustomKey(player, ChatContext.ADMIN_CHAT)) ||
+                AdminChatCommand.getToggled().contains(player.getUniqueId())) && player.hasPermission(Permissions.AdminChatCommand)) {
+            String message = e.getMessage().replaceFirst(PlayerCustomKeys.getCustomKey(player, ChatContext.ADMIN_CHAT), "");
             if (message.length() > 0) {
                 AdminChatCommand.chat(player, message);
                 e.setCancelled(true);
                 return;
             }
         }
-        // ChatGroups
-        if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(chatGroupsKey) || ChatGroupsCommand.getToggled().contains(player.getUniqueId())))) {
-            String message = e.getMessage().replaceFirst(chatGroupsKey, "");
+        // Chat Groups
+        if (ChatGroup.getChatGroup(player) != null && ((e.getMessage().startsWith(PlayerCustomKeys.getCustomKey(player, ChatContext.CHAT_GROUP)) ||
+                ChatGroupsCommand.getToggled().contains(player.getUniqueId())))) {
+            String message = e.getMessage().replaceFirst(PlayerCustomKeys.getCustomKey(player, ChatContext.CHAT_GROUP), "");
             if (message.length() > 0) {
                 ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, PlayerSettings.getSetting(player, "settings.grammarly") ? Utilities.grammarly(message) : message);
                 e.setCancelled(true);

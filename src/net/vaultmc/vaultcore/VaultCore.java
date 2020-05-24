@@ -382,6 +382,7 @@ public final class VaultCore extends Component implements Listener {
         new ClaimCommand();
         new UnclaimCommand();
         new ClaimListeners();
+        new PlayerCustomKeys();
         Kit.getKits();  // Load the class
         KitInit.init();
         registerEvents(new PlayerDeathListener());
