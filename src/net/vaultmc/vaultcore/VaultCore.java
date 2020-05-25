@@ -417,6 +417,7 @@ public final class VaultCore extends Component implements Listener {
             entry.getKey().teleport(entry.getValue());
         }
         Bug.save();
+        Bug.cluster.close();
         Report.save();
         ModMode.save();
         KitGuis.save();

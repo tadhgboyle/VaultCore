@@ -1,7 +1,10 @@
 package net.vaultmc.vaultcore.buggy;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.WebhookClientBuilder;
+import club.minnced.discord.webhook.WebhookCluster;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -9,12 +12,9 @@ import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.NoDupeArrayList;
 import net.vaultmc.vaultloader.utils.PersistentKeyValue;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
+import okhttp3.OkHttpClient;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,8 +26,25 @@ public class Bug {
     @Getter
     private static final NoDupeArrayList<Bug> bugs = new NoDupeArrayList<>();
 
+    public static WebhookCluster cluster;
+    private static WebhookClient webhook;
+
     static {
         ios8601.setTimeZone(TimeZone.getTimeZone("CET"));
+        WebhookClientBuilder builder = new WebhookClientBuilder(VaultCore.getInstance().getConfig().getString("buggy-webhook-link"));
+        builder.setThreadFactory(job -> {
+            Thread thread = new Thread(job);
+            thread.setName("Webhook Job Thread");
+            thread.setDaemon(true);
+            return thread;
+        });
+        builder.setWait(true);
+        webhook = builder.build();
+
+        cluster = new WebhookCluster(5);
+        cluster.setDefaultHttpClient(new OkHttpClient());
+        cluster.setDefaultDaemon(true);
+        cluster.addWebhooks(webhook);
     }
 
     private String title;
@@ -162,71 +179,18 @@ public class Bug {
 
     @SneakyThrows
     public void sendWebhook() {
-        JsonObject request = new JsonObject();
-        request.addProperty("avatar_url", "https://crafatar.com/avatars/" + reporter.getUniqueId().toString());
-        JsonArray embeds = new JsonArray();
-        JsonObject embed = new JsonObject();
-        embed.addProperty("title", "Buggy Bug Tracker");
-        embed.addProperty("type", "rich");
-        embed.addProperty("description", "A new bug is reported.");
-        embed.addProperty("timestamp", ios8601.format(new Date()));
-        embed.addProperty("color", 0xff0000);
-        JsonArray fields = new JsonArray();
-        JsonObject id = new JsonObject();
-        id.addProperty("name", "ID");
-        id.addProperty("value", uniqueId);
-        fields.add(id);
-        JsonObject title = new JsonObject();
-        title.addProperty("name", "Title");
-        title.addProperty("value", this.title);
-        fields.add(title);
-        JsonObject description = new JsonObject();
-        description.addProperty("name", "Description");
-        description.addProperty("value", this.description);
-        fields.add(description);
-        JsonObject expectedBehavior = new JsonObject();
-        expectedBehavior.addProperty("name", "Expected Behavior");
-        expectedBehavior.addProperty("value", this.expectedBehavior);
-        fields.add(expectedBehavior);
-        JsonObject actualBehavior = new JsonObject();
-        actualBehavior.addProperty("name", "Actual Behavior");
-        actualBehavior.addProperty("value", this.actualBehavior);
-        fields.add(actualBehavior);
-        JsonObject stepsToReproduce = new JsonObject();
-        stepsToReproduce.addProperty("name", "Steps to Reproduce");
-        stepsToReproduce.addProperty("value", String.join(", ", this.stepsToReproduce));
-        fields.add(stepsToReproduce);
-        JsonObject additionalInformation = new JsonObject();
-        additionalInformation.addProperty("name", "Additional Information");
-        additionalInformation.addProperty("value", this.additionalInformation);
-        fields.add(additionalInformation);
-        JsonObject isExploit = new JsonObject();
-        isExploit.addProperty("name", "Is Exploit");
-        isExploit.addProperty("value", String.valueOf(hidden));
-        fields.add(isExploit);
-        JsonObject reporter = new JsonObject();
-        reporter.addProperty("name", "Reporter");
-        reporter.addProperty("value", this.reporter.getName());
-        fields.add(reporter);
-        embed.add("fields", fields);
-        embeds.add(embed);
-        request.add("embeds", embeds);
-
-        VaultCore.getInstance().getLogger().info("Sending request to Discord: " + request.toString());
-
-        HttpURLConnection connection = (HttpURLConnection) new URL(VaultCore.getInstance().getConfig().getString("buggy-webhook-link") + "?wait=true").openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-        connection.setDoInput(true);
-        connection.addRequestProperty("User-Agent", "VaultMC Buggy Bug Tracker: vaultmc.net");
-        connection.setRequestProperty("Content-Type", "application/json");
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-        writer.write(request.toString());
-        writer.close();
-        connection.connect();
-
-        Scanner scanner = new Scanner(connection.getInputStream()).useDelimiter("\\A");
-        VaultCore.getInstance().getLogger().info("Received " + scanner.next() + " from Discord");
+        WebhookEmbed embed = new WebhookEmbedBuilder()
+                .setColor(0x2ff20d)
+                .setTitle(new WebhookEmbed.EmbedTitle(title, ""))
+                .setDescription("**A new bug has been reported!**\n" +
+                        "**Description**: " + description + "\n" +
+                        "**Expected Behavior**: " + expectedBehavior + "\n" +
+                        "**Actual Behavior**: " + actualBehavior + "\n" +
+                        "**Steps to Reproduce**: " + String.join("\n", stepsToReproduce) + "\n" +
+                        "**Additional Information**: " + additionalInformation + "\n" +
+                        "**Reported by**: " + reporter.getName())
+                .build();
+        webhook.send(embed);
     }
 
     public enum Status {

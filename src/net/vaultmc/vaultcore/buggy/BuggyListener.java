@@ -3,11 +3,11 @@ package net.vaultmc.vaultcore.buggy;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.vaultmc.vaultloader.VaultLoader;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class BuggyListener implements Runnable, Listener {
+public class BuggyListener extends ConstructorRegisterListener implements Runnable {
     static final Map<UUID, Stage> stages = new HashMap<>();
     static final Map<UUID, Bug> bugs = new HashMap<>();
 
@@ -102,6 +102,7 @@ public class BuggyListener implements Runnable, Listener {
                     Bug.getBugs().add(bug);
                     Bug.save();
                     bugs.remove(player.getUniqueId());
+                    bug.sendWebhook();
                     break;
             }
         }
