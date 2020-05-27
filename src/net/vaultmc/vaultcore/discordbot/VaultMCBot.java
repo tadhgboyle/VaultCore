@@ -49,8 +49,6 @@ public class VaultMCBot extends ListenerAdapter {
             players = guild.getRoleById(615457277247488010L);
             serverBooster = guild.getRoleById(706713822664065035L);
 
-            guild.addRoleToMember(380167289263226881L, admin).queue();
-
             PlayerUpdater.mappedRole.putAll("admin", Arrays.asList(admin, staff, players));
             PlayerUpdater.mappedRole.putAll("moderator", Arrays.asList(moderator, staff, players));
             PlayerUpdater.mappedRole.put("trusted", players);
