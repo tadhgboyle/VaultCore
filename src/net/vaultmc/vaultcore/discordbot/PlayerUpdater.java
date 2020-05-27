@@ -5,11 +5,8 @@ import com.google.common.collect.Multimap;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,17 +25,11 @@ public class PlayerUpdater {
                     continue;
                 }
                 List<Role> roles = new ArrayList<>(member.getRoles());
-                roles.remove(VaultMCBot.betaTester);
+                roles.removeIf(role -> role.getIdLong() != VaultMCBot.admin.getIdLong() && role.getIdLong() != VaultMCBot.moderator.getIdLong() &&
+                        role.getIdLong() != VaultMCBot.players.getIdLong());
                 String group = player.getGroup().toLowerCase();
-                try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT username FROM players WHERE uuid=?", player.getUniqueId().toString())) {
-                    if (rs.next()) {
-                        String name = rs.getString("username");
-                        if (!member.getEffectiveName().equals(name)) {
-                            member.modifyNickname(name).queue();
-                        }
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                if (!member.getEffectiveName().equals(player.getName())) {
+                    member.modifyNickname(player.getName()).queue();
                 }
 
                 if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
