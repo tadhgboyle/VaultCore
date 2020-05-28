@@ -44,6 +44,7 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
         worldGroups.put("creative", new String[]{"creative", "legacy_creative"});
         worldGroups.put("rpg", new String[]{"throwback", "throwback2"});
         worldGroups.put("pvp", new String[]{"pvp"});
+        worldGroups.put("kingdoms", new String[]{"kingdoms"});
     }
 
     public static String getGroupOf(String world) {
