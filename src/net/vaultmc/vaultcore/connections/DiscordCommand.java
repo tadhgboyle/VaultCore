@@ -4,7 +4,6 @@ import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.ChatColor;
 
@@ -27,7 +26,7 @@ public class DiscordCommand extends CommandExecutor {
                 token));
 
         try {
-            player.sendMessage(ChatColor.YELLOW + "Status:" + ((VLOfflinePlayer.getDiscordUser(player) == 0) ? ChatColor.RED + "Unlinked" : ChatColor.GREEN + "Linked"));
+            player.sendMessage(ChatColor.YELLOW + "Status:" + ((player.getDiscord() == 0) ? ChatColor.RED + "Unlinked" : ChatColor.GREEN + "Linked"));
         } catch (Exception e) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.discord.error_checking_linked"));
         }

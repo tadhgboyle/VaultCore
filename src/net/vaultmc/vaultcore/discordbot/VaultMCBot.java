@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultloader.VaultLoader;
-import org.bukkit.Bukkit;
 
 import javax.security.auth.login.LoginException;
 import java.util.Arrays;
@@ -57,9 +55,7 @@ public class VaultMCBot extends ListenerAdapter {
             PlayerUpdater.mappedRole.put("default", players);
 
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot started successfully...");
-
-            Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), PlayerUpdater::updater, 120000, 240000);
-
+            new PlayerUpdater();
         } catch (LoginException | InterruptedException e) {
             e.printStackTrace();
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot failed to start :(");

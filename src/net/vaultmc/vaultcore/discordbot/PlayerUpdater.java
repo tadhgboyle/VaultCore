@@ -5,42 +5,46 @@ import com.google.common.collect.Multimap;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
+import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.vaultmc.vaultloader.utils.player.VLOfflinePlayer.getOfflinePlayerDiscord;
-
-public class PlayerUpdater {
+public class PlayerUpdater extends ConstructorRegisterListener {
     private static final Guild guild = VaultMCBot.getGuild();
     public static Multimap<String, Role> mappedRole = HashMultimap.create();
 
-    public static void updater() {
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
         if (VaultMCBot.isStarted()) {
-            for (Member member : guild.getMembers()) {
-                if (member.isFake() || member.isOwner()) continue;
-                VLOfflinePlayer player = getOfflinePlayerDiscord(member.getIdLong());
-                if (player == null) {
-                    continue;
-                }
-                List<Role> roles = new ArrayList<>(member.getRoles());
-                roles.removeIf(role -> role.getIdLong() != VaultMCBot.admin.getIdLong() && role.getIdLong() != VaultMCBot.moderator.getIdLong() &&
-                        role.getIdLong() != VaultMCBot.players.getIdLong());
-                String group = player.getGroup().toLowerCase();
-                if (!member.getEffectiveName().equals(player.getName())) {
-                    member.modifyNickname(player.getName()).queue();
-                }
+            VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
+            if (player.getDiscord() == 0) {
+                return;
+            }
+            Member member = guild.getMemberById(player.getDiscord());
+            List<Role> roles = new ArrayList<>(member.getRoles());
+            roles.removeIf(role -> role.getIdLong() != VaultMCBot.admin.getIdLong() && role.getIdLong() != VaultMCBot.moderator.getIdLong() &&
+                    role.getIdLong() != VaultMCBot.players.getIdLong());
+            String group = player.getGroup().toLowerCase();
+            if (!member.getEffectiveName().equals(player.getName())) {
+                member.modifyNickname(player.getName()).queue();
+            }
 
-                if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
-                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue();
-                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue();
-                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue();
-                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue();
-                    for (Role role : mappedRole.get(group)) {
-                        guild.addRoleToMember(member, role).queue();
-                    }
-                }
+            if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
+                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue(v -> {
+                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue(a -> {
+                        VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue(b -> {
+                            VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue(c -> {
+                                for (Role role : mappedRole.get(group)) {
+                                    VaultMCBot.getGuild().addRoleToMember(member, role).queue();
+                                }
+                            });
+                        });
+                    });
+                });
             }
         }
     }
