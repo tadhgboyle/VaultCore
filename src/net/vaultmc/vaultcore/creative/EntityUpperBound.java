@@ -1,5 +1,6 @@
 package net.vaultmc.vaultcore.creative;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import org.bukkit.Material;
@@ -21,13 +22,15 @@ public class EntityUpperBound extends ConstructorRegisterListener {
                         e.getItem().getType() == Material.ITEM_FRAME || e.getItem().getType().toString().endsWith("MINECART") ||
                         e.getItem().getType().toString().endsWith("BOAT") || (e.getItem().getType() != Material.LAVA_BUCKET &&
                         e.getItem().getType() != Material.WATER_BUCKET && e.getItem().getType().toString().endsWith("BUCKET")))) {
-            int count = entities.getOrDefault(e.getPlayer().getUniqueId(), 0);
-            if (count > 10) {
-                e.getPlayer().sendMessage(VaultLoader.getMessage("creative.entity-max"));
-                e.setCancelled(true);
+            if (!e.getPlayer().hasPermission(Permissions.EntityLimitOverride)) {
+                int count = entities.getOrDefault(e.getPlayer().getUniqueId(), 0);
+                if (count > 10) {
+                    e.getPlayer().sendMessage(VaultLoader.getMessage("creative.entity-max"));
+                    e.setCancelled(true);
+                }
+                count++;
+                entities.put(e.getPlayer().getUniqueId(), count);
             }
-            count++;
-            entities.put(e.getPlayer().getUniqueId(), count);
         }
     }
 }
