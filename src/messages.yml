@@ -83,6 +83,20 @@ help: {}  # TODO
 
 # Messages, punishments.
 punishments:
+  reasons:
+    sensitive-discussion: "Sensitive Discussion"
+    exploit-bug: "Exploit Bug"
+    doxxing: "Doxxing"
+    cheating: "Cheating"
+    racism: "Racism"
+    disrespectful-to-staff: "Disrespectful to Staff"
+    intolerable-unfriendliness: "Intolerable Unfriendliness"
+    death-threat: "Death Threat (or severe attacks)"
+    ban-evasion: "Ban Evasion"
+    griefing: "Griefing"
+    nsfw: "NSFW or Shocking Content"
+    inappropriate-build: "Inappropriate Build"
+    advertising: "Advertising on VaultMC"
 
   # The reason that will be provided when no reason is specified.
   default-reason: "<no reason>"

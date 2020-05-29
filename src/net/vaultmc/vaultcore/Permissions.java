@@ -113,5 +113,5 @@ public final class Permissions {
     public static final String PvPAdmin = "vaultcore.pvp.admin";
     public static final String KitGuiCommand = "vaultcore.pvp.kits";
     public static final String EntityLimitOverride = "vaultcore.plots.overrideentitylimit";
-    public static final String PunishCommand = "vaultcore.punishments.punish";
+    public static final String PunishCommand = "vaultcore.punishments.gui";
 }

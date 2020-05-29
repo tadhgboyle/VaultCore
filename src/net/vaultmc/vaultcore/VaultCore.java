@@ -51,6 +51,7 @@ import net.vaultmc.vaultcore.misc.runnables.RankPromotions;
 import net.vaultmc.vaultcore.nametags.Nametags;
 import net.vaultmc.vaultcore.punishments.PunishmentsDB;
 import net.vaultmc.vaultcore.punishments.ban.*;
+import net.vaultmc.vaultcore.punishments.gui.PunishCommand;
 import net.vaultmc.vaultcore.punishments.kick.KickCommand;
 import net.vaultmc.vaultcore.punishments.mute.*;
 import net.vaultmc.vaultcore.punishments.warn.WarnCommand;
@@ -397,6 +398,7 @@ public final class VaultCore extends Component implements Listener {
         new TempMuteCommand();
         new UnmuteCommand();
         new WarnCommand();
+        new PunishCommand();
 
         PunishmentsDB.createTables();
         Report.load();

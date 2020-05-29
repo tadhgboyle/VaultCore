@@ -91,7 +91,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             e.setMessage(Utilities.grammarly(e.getMessage()));
         }
 
-        e.setFormat(player.getFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
+        e.setFormat(player.getExtraFormattedName() + ChatColor.DARK_GRAY + ":" + ChatColor.RESET + " %2$s");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
