@@ -62,7 +62,7 @@ public class UnmuteCommand extends CommandExecutor {
 
         if (silent) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("vaultutils.silentnotify")) {
+                if (player.hasPermission(Permissions.PunishmentSilentOverride)) {
                     player.sendMessage(VaultLoader.getMessage("punishments.silent-flag") +
                             VaultLoader.getMessage("punishments.unmute.announcement")
                                     .replace("{ACTOR}", actor.getFormattedName())

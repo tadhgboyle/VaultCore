@@ -117,11 +117,20 @@ public class PunishmentsDB {
                         "reason TEXT NOT NULL," +
                         "actor CHAR(36) NOT NULL," +
                         "executionTime BIGINT NOT NULL);");
+
+        VaultCore.getPDatabase().executeUpdateStatement(
+                "CREATE TABLE IF NOT EXISTS warnings (" +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+                        "uuid CHAR(36) NOT NULL," +
+                        "reason TEXT NOT NULL," +
+                        "actor CHAR(36) NOT NULL," +
+                        "executionTime BIGINT NOT NULL);"
+        );
     }
 
     public static void registerData(String table, PunishmentData data) {
         Bukkit.getScheduler().runTaskAsynchronously(VaultCore.getInstance().getBukkitPlugin(), () -> {
-            if (table.equals("kicks")) {
+            if (table.equals("kicks") || table.equals("warnings")) {
                 VaultCore.getPDatabase().executeUpdateStatement(
                         "INSERT INTO " + table + " (uuid, reason, actor, executionTime)" +
                                 "VALUES (?, ?, ?, ?);",

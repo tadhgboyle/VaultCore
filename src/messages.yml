@@ -158,6 +158,15 @@ punishments:
       &6Issuer: {ACTOR}
     sent: "&eSuccessfully kicked {PLAYER}&e."
 
+  warn:
+    announcement: "{ACTOR}&e kicked {PLAYER}&e for &6{REASON}"
+    message: |
+      &c&lYou have been warned.
+      &6Reason: &e{REASON}
+      &6Issuer: {ACTOR}
+      &eA warning will be bound permanently to your profile.
+    sent: "&eSuccessfully warned {PLAYER}&e."
+
 afk:
   you-afk: "&eYou are now AFK."
   you-no-longer-afk: "&eYou are no longer AFK."
