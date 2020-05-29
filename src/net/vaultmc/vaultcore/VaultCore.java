@@ -49,8 +49,7 @@ import net.vaultmc.vaultcore.misc.listeners.*;
 import net.vaultmc.vaultcore.misc.runnables.AFKListener;
 import net.vaultmc.vaultcore.misc.runnables.RankPromotions;
 import net.vaultmc.vaultcore.nametags.Nametags;
-import net.vaultmc.vaultcore.punishments.PunishmentsDB;
-import net.vaultmc.vaultcore.punishments.ReasonSelector;
+import net.vaultmc.vaultcore.punishments.*;
 import net.vaultmc.vaultcore.punishments.ban.BanCommand;
 import net.vaultmc.vaultcore.punishments.ban.BannedListener;
 import net.vaultmc.vaultcore.punishments.ban.IpBanCommand;
@@ -277,6 +276,8 @@ public final class VaultCore extends Component implements Listener {
         new CraftingCommand();
         new CosmeticsCommand();
         new NightvisionCommand();
+        new PunishCommand();
+        registerEvents(new PunishmentInventoryClickListener());
         registerEvents(new CycleListener());
         registerEvents(new SleepHandler());
         registerEvents(new ItemDrops());
