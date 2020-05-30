@@ -331,6 +331,7 @@ cannot-explore-why: |-
   &ethis area.
 
 buggy:
+  deprecated: "&c&lNote! &eBuggy is deprecated. New bugs will no longer be reviewed. Please consider using https://github.com/Aberdeener/VaultCore/issues instead."
   notice: |-
     &eMake sure you have checked &6/buggy bugs&e to see if an existing bug report already exist!
     &eTo cancel anytime, type &6CANCEL&e (in all caps).

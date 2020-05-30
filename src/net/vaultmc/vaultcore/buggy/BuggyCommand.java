@@ -106,11 +106,13 @@ public class BuggyCommand extends CommandExecutor {
 
     @SubCommand("search")
     public void search(VLPlayer sender, String term) {
+        sender.sendMessageByKey("buggy.deprecated");
         searchPaged(sender, 1, term);
     }
 
     @SubCommand("searchPaged")
     public void searchPaged(VLPlayer sender, int page, String term) {
+        sender.sendMessageByKey("buggy.deprecated");
         if (term.length() < 3) {
             sender.sendMessage(VaultLoader.getMessage("buggy.term"));
             return;
@@ -168,6 +170,7 @@ public class BuggyCommand extends CommandExecutor {
     @SubCommand("status")
     @Permission(Permissions.BuggyAdmin)
     public void status(VLPlayer sender, String name, String uid) {
+        sender.sendMessageByKey("buggy.deprecated");
         Bug.Status status;
 
         try {
@@ -192,6 +195,7 @@ public class BuggyCommand extends CommandExecutor {
     @SubCommand("assign")
     @Permission(Permissions.BuggyAdmin)
     public void assign(VLPlayer sender, VLOfflinePlayer player, String uid) {
+        sender.sendMessageByKey("buggy.deprecated");
         Bug bug = Bug.getBug(uid);
         if (bug == null) {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
@@ -210,6 +214,7 @@ public class BuggyCommand extends CommandExecutor {
     @SubCommand("unassign")
     @Permission(Permissions.BuggyAdmin)
     public void unassign(VLPlayer sender, VLOfflinePlayer player, String uid) {
+        sender.sendMessageByKey("buggy.deprecated");
         Bug bug = Bug.getBug(uid);
         if (bug == null) {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
@@ -226,6 +231,7 @@ public class BuggyCommand extends CommandExecutor {
 
     @SubCommand("bug")
     public void bug(VLPlayer sender, String uid) {
+        sender.sendMessageByKey("buggy.deprecated");
         Bug bug = Bug.getBug(uid);
         if (bug == null) {
             sender.sendMessage(VaultLoader.getMessage("buggy.no-bug-found"));
@@ -262,16 +268,19 @@ public class BuggyCommand extends CommandExecutor {
 
     @SubCommand("bugs")
     public void bugs(VLPlayer sender) {
+        sender.sendMessageByKey("buggy.deprecated");
         bugsPaged(sender, 1);
     }
 
     @SubCommand("bugsPaged")
     public void bugsPaged(VLPlayer sender, int page) {
+        sender.sendMessageByKey("buggy.deprecated");
         bugsPagedWhat(sender, page, true);
     }
 
     @SubCommand("bugsPagedWhat")
     public void bugsPagedWhat(VLPlayer sender, int page, boolean openedOnly) {
+        sender.sendMessageByKey("buggy.deprecated");
         for (int i = 0; i < 100; i++) {
             sender.sendMessage("\n");
         }
@@ -353,6 +362,7 @@ public class BuggyCommand extends CommandExecutor {
 
     @SubCommand("report")
     public void report(VLPlayer sender) {
+        sender.sendMessageByKey("buggy.deprecated");
         Bug bug = new Bug();
         bug.setReporter(sender);
         BuggyListener.bugs.put(sender.getUniqueId(), bug);
