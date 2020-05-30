@@ -1,19 +1,14 @@
 /*
- * VaultUtils: VaultMC functionalities provider.
- * Copyright (C) 2020 yangyang200
+ * VaultCore contains the basic functionalities for VaultMC.
+ * Copyright (C) 2020 VaultMC
  *
- * VaultUtils is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * VaultUtils is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with VaultCore.  If not, see <https://www.gnu.org/licenses/>.
+ * VaultCore is a proprietary software: you may not redistribute/use it
+ * without prior permission from its owner, however you may contribute
+ * to the code. by contributing to VaultCore, you grant to VaultMC a
+ * perpetual, nonexclusive, transferable, royalty-free and worldwide
+ * license to use, host, reproduce, modify, adapt, publish, translate,
+ * create derivative works from, distribute, perform, and display your
+ * contribution.
  */
 
 package net.vaultmc.vaultcore.misc.commands;

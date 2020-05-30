@@ -1,3 +1,16 @@
+/*
+ * VaultCore contains the basic functionalities for VaultMC.
+ * Copyright (C) 2020 VaultMC
+ *
+ * VaultCore is a proprietary software: you may not redistribute/use it
+ * without prior permission from its owner, however you may contribute
+ * to the code. by contributing to VaultCore, you grant to VaultMC a
+ * perpetual, nonexclusive, transferable, royalty-free and worldwide
+ * license to use, host, reproduce, modify, adapt, publish, translate,
+ * create derivative works from, distribute, perform, and display your
+ * contribution.
+ */
+
 package net.vaultmc.vaultcore.combat;
 
 import com.comphenix.protocol.PacketType;
@@ -186,12 +199,18 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         return type.toString().matches(".*(AXE|SWORD|PICKAXE|SHOVEL|HOE)");
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onItemSwap(PlayerSwapHandItemsEvent e) {
         if (e.getOffHandItem().getType() == Material.SHIELD) e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onEntityDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof LivingEntity)) return;
         LivingEntity damagedEntity = (LivingEntity) e.getEntity();
@@ -237,7 +256,10 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         return REDUCTION_PER_ARMOUR_POINT * totalEpf;
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onBrew(BrewEvent e) {
         Block block = e.getBlock();
         BlockState blockState = block.getState();
@@ -253,7 +275,10 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         brewingStand.update();
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onInventoryOpen(InventoryOpenEvent e) {
         Inventory inv = e.getInventory();
         Location loc = null;
@@ -267,13 +292,19 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         refuel(block.getState());
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onEnchant(EnchantItemEvent e) {
         EnchantingInventory ei = (EnchantingInventory) e.getInventory();
         ei.setSecondary(lapis);
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onLapisClick(InventoryClickEvent e) {
         if (e.getInventory().getType() != InventoryType.ENCHANTING) return;
         ItemStack item = e.getCurrentItem();
@@ -287,20 +318,29 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onInventoryClose(InventoryCloseEvent e) {
         Inventory inventory = e.getInventory();
         if (inventory.getType() != InventoryType.ENCHANTING) return;
         ((EnchantingInventory) inventory).setSecondary(null);
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onLapisOpen(InventoryOpenEvent e) {
         if (e.getInventory().getType() != InventoryType.ENCHANTING) return;
         ((EnchantingInventory) e.getInventory()).setSecondary(lapis);
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onPlayerQuit(PlayerQuitEvent e) {
         if (offHandItem.containsKey(e.getPlayer().getUniqueId())) {
             e.getPlayer().getInventory().setItemInOffHand(offHandItem.get(e.getPlayer().getUniqueId()));
@@ -308,17 +348,26 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onCraftItem(CraftItemEvent e) {
         if (e.getRecipe().getResult().getType() == Material.SHIELD) e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void legacyCooldown(PlayerJoinEvent e) {
         e.getPlayer().getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(16);
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getPlayer().getInventory().getItemInMainHand().getType().toString().endsWith("SWORD") && (
                 e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) && e.getHand() == EquipmentSlot.HAND &&
@@ -333,7 +382,10 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onProjectileLaunch(ProjectileLaunchEvent e) {
         Projectile projectile = e.getEntity();
         ProjectileSource shooter = projectile.getShooter();
@@ -345,7 +397,10 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onProjectileHit(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) {
             return;
@@ -365,12 +420,18 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onSwapHandItems(PlayerSwapHandItemsEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onOHClick(InventoryClickEvent e) {
         if (e.getInventory().getType() != InventoryType.CRAFTING || e.getSlot() != OFFHAND_SLOT) return;
         if (e.getClick().equals(ClickType.NUMBER_KEY)) {
@@ -379,17 +440,26 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getSlot() == 40) e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onItemDrop(ItemSpawnEvent e) {
         if (e.getEntity().getItemStack().getType() == Material.SHIELD) e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onInventoryDrag(InventoryDragEvent e) {
         if (e.getInventory().getType() != InventoryType.CRAFTING
                 || !e.getInventorySlots().contains(OFFHAND_SLOT)) return;
@@ -420,7 +490,10 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(
+            priority = EventPriority.HIGHEST,
+            ignoreCancelled = true
+    )
     public void onEntityDamaged(EntityDamageByEntityEvent e) {
         Entity damager = e.getDamager();
         if (!(damager instanceof Player)) return;
