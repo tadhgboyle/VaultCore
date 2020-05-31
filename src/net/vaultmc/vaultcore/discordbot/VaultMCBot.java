@@ -15,15 +15,18 @@ package net.vaultmc.vaultcore.discordbot;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.vaultmc.vaultcore.VaultCore;
 
 import javax.security.auth.login.LoginException;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.logging.Level;
 
@@ -73,5 +76,25 @@ public class VaultMCBot extends ListenerAdapter {
             e.printStackTrace();
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot failed to start :(");
         }
+
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("VaultMC is now online");
+        eb.setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Checkmark.svg/1200px-Checkmark.svg.png");
+        eb.setColor(Color.GREEN);
+        jda.getTextChannelById(709208218659717141L).sendMessage(eb.build()).queue();
+
+
+
     }
+
+    public static void stopVaultMCBot() {
+
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("VaultMC is now offline");
+        eb.setImage("https://www.pngfind.com/pngs/m/42-423721_green-check-red-x-png-red-x-transparent.png");
+        eb.setColor(Color.RED);
+        jda.getTextChannelById(709208218659717141L).sendMessage(eb.build()).queue();
+
+    }
+
 }

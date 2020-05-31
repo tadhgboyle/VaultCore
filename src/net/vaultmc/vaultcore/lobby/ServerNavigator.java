@@ -97,9 +97,10 @@ public class ServerNavigator extends ConstructorRegisterListener {
         inv.setItem(14, new ItemStackBuilder(Material.GRASS_BLOCK)
                 .name(ChatColor.YELLOW + "Survival")
                 .lore(Arrays.asList(
-                        ChatColor.GRAY + "Enjoy a partially vanilla survival experience",
-                        ChatColor.GRAY + "with custom items. Custom items does not interfere",
-                        ChatColor.GRAY + "with the vanilla experience."
+                        ChatColor.GRAY + "Enjoy a partially vanilla survival",
+                        ChatColor.GRAY + "experience, with custom items.",
+                        ChatColor.GRAY + "Custom items does not interfere with",
+                        ChatColor.GRAY + "the vanilla experience."
                 ))
                 .build());
 

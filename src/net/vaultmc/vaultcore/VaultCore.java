@@ -447,5 +447,8 @@ public final class VaultCore extends Component implements Listener {
         locations.save();
         data.save();
         chatgroups.save();
+
+        VaultMCBot.stopVaultMCBot();
+
     }
 }
