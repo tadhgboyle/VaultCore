@@ -114,9 +114,9 @@ public class ServerNavigator extends ConstructorRegisterListener {
         inv.setItem(20, new ItemStackBuilder(Material.WHEAT)
                 .name(ChatColor.YELLOW + "Kingdoms")
                 .lore(Arrays.asList(
-                        ChatColor.GRAY + "Build a kingdom, and recruit some members to help you build!",
-                        ChatColor.GRAY + "After you're done building, fight with other kingdoms to",
-                        ChatColor.GRAY + "receive a reward!"
+                        ChatColor.GRAY + "Build a kingdom, and recruit some members to help ",
+                        ChatColor.GRAY + "you build! After you're done building, fight with",
+                        ChatColor.GRAY + "other kingdoms to receive a reward!"
                 ))
                 .build());
 

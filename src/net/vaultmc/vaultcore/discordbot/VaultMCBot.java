@@ -79,7 +79,6 @@ public class VaultMCBot extends ListenerAdapter {
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("VaultMC is now online");
-        eb.setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Checkmark.svg/1200px-Checkmark.svg.png");
         eb.setColor(Color.GREEN);
         jda.getTextChannelById(709208218659717141L).sendMessage(eb.build()).queue();
 
@@ -91,7 +90,6 @@ public class VaultMCBot extends ListenerAdapter {
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("VaultMC is now offline");
-        eb.setImage("https://www.pngfind.com/pngs/m/42-423721_green-check-red-x-png-red-x-transparent.png");
         eb.setColor(Color.RED);
         jda.getTextChannelById(709208218659717141L).sendMessage(eb.build()).queue();
 
