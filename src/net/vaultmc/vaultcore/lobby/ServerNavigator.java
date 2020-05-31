@@ -48,35 +48,88 @@ public class ServerNavigator extends ConstructorRegisterListener {
                     ChatColor.GRAY + "and games on VaultMC."
             ))
             .build();
-    private static final Inventory inv = Bukkit.createInventory(null, 9, "Server Navigator");
+    private static final Inventory inv = Bukkit.createInventory(null, 36, "Server Navigator");
 
     static {
-        inv.addItem(new ItemStackBuilder(Material.GRASS_BLOCK)
-                .name(ChatColor.GOLD + "Survival")
+
+        inv.setItem(0, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(1, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(7, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(8, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(9, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(17, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(18, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(26, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(27, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(28, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(34, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                .name("").build());
+        inv.setItem(35, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
+                .name("").build());
+
+        inv.setItem(10, new ItemStackBuilder(Material.OAK_SAPLING)
+                .name(ChatColor.YELLOW + "SkyBlock")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Survive on a tiny island and build up",
+                        ChatColor.GRAY + "your own world."
+                ))
+                .build());
+
+        inv.setItem(12, new ItemStackBuilder(Material.OAK_PLANKS)
+                .name(ChatColor.YELLOW + "Creative")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Expand your creativity by building in an ",
+                        ChatColor.GRAY + "endless plot-based world."
+                ))
+                .build());
+
+
+        inv.setItem(14, new ItemStackBuilder(Material.GRASS_BLOCK)
+                .name(ChatColor.YELLOW + "Survival")
                 .lore(Arrays.asList(
                         ChatColor.GRAY + "Enjoy a partially vanilla survival experience",
                         ChatColor.GRAY + "with custom items. Custom items does not interfere",
                         ChatColor.GRAY + "with the vanilla experience."
                 ))
                 .build());
-        inv.addItem(new ItemStackBuilder(Material.WOODEN_AXE)
-                .name(ChatColor.GOLD + "Creative")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Expand your creativity by building in an ",
-                        ChatColor.GRAY + "endless plot-based world."
+
+        inv.setItem(16, new ItemStackBuilder(Material.IRON_SWORD)
+                .name(ChatColor.YELLOW + "Pvp")
+                .lore(Collections.singletonList(
+                        ChatColor.GRAY + "Choose a kit, and fight to the death with other players!"
                 ))
                 .build());
-        inv.addItem(new ItemStackBuilder(Material.RED_BANNER)
-                .name(ChatColor.GOLD + "Factions")
+
+        inv.setItem(20, new ItemStackBuilder(Material.WHEAT)
+                .name(ChatColor.YELLOW + "Kingdoms")
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Build a kingdom, and recruit some members to help you build!",
+                        ChatColor.GRAY + "After you're done building, fight with other kingdoms to",
+                        ChatColor.GRAY + "receive a reward!"
+                ))
+                .build());
+
+        inv.setItem(22, new ItemStackBuilder(Material.RED_BANNER)
+                .name(ChatColor.YELLOW + "Factions")
                 .lore(Collections.singletonList(
                         ChatColor.GRAY + "Factions, but simplified."
                 ))
                 .build());
-        inv.addItem(new ItemStackBuilder(Material.PHANTOM_MEMBRANE)
-                .name(ChatColor.GOLD + "SkyBlock")
+
+        inv.setItem(24, new ItemStackBuilder(Material.BARRIER)
+                .name(ChatColor.YELLOW + "Exit")
                 .lore(Arrays.asList(
-                        ChatColor.GRAY + "Survive on a tiny island and build up",
-                        ChatColor.GRAY + "your own world."
+                        ChatColor.GRAY + "Click to close this menu."
                 ))
                 .build());
     }
@@ -88,13 +141,26 @@ public class ServerNavigator extends ConstructorRegisterListener {
             VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
             if (!Tour.getTouringPlayers().contains(player.getUniqueId())) {
                 switch (e.getSlot()) {
-                    case 0:
-                        player.getPlayer().performCommand("sv");
+                    case 10:
+                        player.getPlayer().performCommand("is");
                         break;
-                    case 1:
+                    case 12:
                         player.getPlayer().performCommand("cr");
                         break;
-                    case 2:
+
+                    case 14:
+                        player.getPlayer().performCommand("sv");
+                        break;
+
+                    case 16:
+                        player.getPlayer().performCommand("pvp");
+                        break;
+
+                    case 20:
+                        player.performCommand("kd spawn");
+                        break;
+
+                    case 22:
                         SQLPlayerData data = player.getPlayerData();
                         if (!data.contains("locations.clans")) {
                             player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
@@ -102,8 +168,8 @@ public class ServerNavigator extends ConstructorRegisterListener {
                             player.teleport(Utilities.deserializeLocation(data.getString("locations.clans")));
                         }
                         break;
-                    case 3:
-                        player.getPlayer().performCommand("is");
+                    case 24:
+                        player.getPlayer().closeInventory();
                         break;
                 }
             }
