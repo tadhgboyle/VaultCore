@@ -51,31 +51,25 @@ public class ServerNavigator extends ConstructorRegisterListener {
     private static final Inventory inv = Bukkit.createInventory(null, 36, "Server Navigator");
 
     static {
+        ItemStack yellow = new ItemStackBuilder(Material.YELLOW_STAINED_GLASS_PANE)
+                .name(" ")
+                .build();
+        ItemStack orange = new ItemStackBuilder(Material.ORANGE_STAINED_GLASS_PANE)
+                .name(" ")
+                .build();
 
-        inv.setItem(0, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(1, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(7, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(8, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(9, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(17, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(18, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(26, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(27, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(28, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(34, new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .name("").build());
-        inv.setItem(35, new ItemStackBuilder(Material.PURPLE_STAINED_GLASS_PANE)
-                .name("").build());
+        inv.setItem(0, yellow);
+        inv.setItem(1, orange);
+        inv.setItem(7, orange);
+        inv.setItem(8, yellow);
+        inv.setItem(9, orange);
+        inv.setItem(17, orange);
+        inv.setItem(18, orange);
+        inv.setItem(26, orange);
+        inv.setItem(27, yellow);
+        inv.setItem(28, orange);
+        inv.setItem(34, orange);
+        inv.setItem(35, yellow);
 
         inv.setItem(10, new ItemStackBuilder(Material.OAK_SAPLING)
                 .name(ChatColor.YELLOW + "SkyBlock")
@@ -105,7 +99,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
                 .build());
 
         inv.setItem(16, new ItemStackBuilder(Material.IRON_SWORD)
-                .name(ChatColor.YELLOW + "Pvp")
+                .name(ChatColor.YELLOW + "PvP")
                 .lore(Collections.singletonList(
                         ChatColor.GRAY + "Choose a kit, and fight to the death with other players!"
                 ))
@@ -129,7 +123,7 @@ public class ServerNavigator extends ConstructorRegisterListener {
 
         inv.setItem(24, new ItemStackBuilder(Material.BARRIER)
                 .name(ChatColor.YELLOW + "Exit")
-                .lore(Arrays.asList(
+                .lore(Collections.singletonList(
                         ChatColor.GRAY + "Click to close this menu."
                 ))
                 .build());
@@ -148,19 +142,15 @@ public class ServerNavigator extends ConstructorRegisterListener {
                     case 12:
                         player.getPlayer().performCommand("cr");
                         break;
-
                     case 14:
                         player.getPlayer().performCommand("sv");
                         break;
-
                     case 16:
                         player.getPlayer().performCommand("pvp");
                         break;
-
                     case 20:
                         player.performCommand("kd spawn");
                         break;
-
                     case 22:
                         SQLPlayerData data = player.getPlayerData();
                         if (!data.contains("locations.clans")) {
