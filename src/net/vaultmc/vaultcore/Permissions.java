@@ -115,6 +115,7 @@ public final class Permissions {
     public static final String ChatGroupsCommand = "vaultcore.chatgroups";
     public static final String RewardsCommand = "vaultcore.rewards";
     public static final String NicknameCommand = "vaultcore.nickname";
+    public static final String NicknameLimitBypass = "vaultcore.nickname.bypass";
     public static final String NicknameCommandOther = "vaultcore.nickname.other";
     public static final String CosmeticsCommand = "vaultcore.cosmetics";
     public static final String NightvisionCommand = "vaultcore.nightvision";

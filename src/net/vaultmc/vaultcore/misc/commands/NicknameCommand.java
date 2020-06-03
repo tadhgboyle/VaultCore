@@ -75,9 +75,9 @@ public class NicknameCommand extends CommandExecutor {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.too_short"));
             return;
         }
-        if (originalName.startsWith(nickname.substring(0, 3))) {
+        if (originalName.toLowerCase().startsWith(nickname.substring(0, 3).toLowerCase())) {
             String newName = ChatColor.ITALIC + nickname;
-            Bukkit.getPlayer(target.getUniqueId()).setDisplayName(newName);
+            target.getPlayer().setDisplayName(newName);
             if (self) {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success"), sender.getFormattedName()));
             } else {
@@ -86,6 +86,18 @@ public class NicknameCommand extends CommandExecutor {
             }
             target.getPlayerData().set("nickname", nickname);
         } else {
+            if (sender.hasPermission(Permissions.NicknameLimitBypass)) {
+                String newName = nickname;
+                target.getPlayer().setDisplayName(newName);
+                if (self) {
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success"), sender.getFormattedName()));
+                } else {
+                    sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success_other"), target.getFormattedName()));
+                    target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success"), target.getFormattedName()));
+                }
+                target.getPlayerData().set("nickname", nickname);
+                return;
+            }
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.invalid_starting"));
         }
     }
