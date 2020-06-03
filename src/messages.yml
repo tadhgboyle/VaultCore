@@ -774,7 +774,7 @@ vaultcore:
       join:
         error: "&cError: You are already in a ChatGroup, or that ChatGroup doesn't exist."
         success: "&eYou have joined the ChatGroup &6{NAME}&e!"
-        members_message: "&8[&7CG&8] [&e{NAME}&8] {SENDER}&e has joined &6{NAME}&e!"
+        members_message: "&8[&7CG&8] [&e{NAME}&8]&r {SENDER}&e has joined &6{NAME}&e!"
 
     settings:
       specific:
