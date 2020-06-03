@@ -77,21 +77,12 @@ public class VaultMCBot extends ListenerAdapter {
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot failed to start :(");
         }
 
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("VaultMC is now online");
-        eb.setColor(Color.GREEN);
-        jda.getTextChannelById(709208218659717141L).sendMessage(eb.build()).queue();
-
 
 
     }
 
     public static void stopVaultMCBot() {
 
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("VaultMC is now offline");
-        eb.setColor(Color.RED);
-        jda.getTextChannelById(709208218659717141L).sendMessage(eb.build()).queue();
 
     }
 

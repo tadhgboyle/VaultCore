@@ -50,6 +50,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             String message = e.getMessage().replaceFirst(PlayerCustomKeys.getCustomKey(player, ChatContext.STAFF_CHAT), "");
             if (message.length() > 0) {
                 StaffChatCommand.chat(player, message);
+                Bukkit.getLogger().info("[SC] " + player.getFormattedName() + ": " + e.getMessage());
                 e.setCancelled(true);
                 return;
             }
@@ -59,6 +60,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             String message = e.getMessage().replaceFirst(PlayerCustomKeys.getCustomKey(player, ChatContext.ADMIN_CHAT), "");
             if (message.length() > 0) {
                 AdminChatCommand.chat(player, message);
+                Bukkit.getLogger().info("[AC] " + player.getFormattedName() + ": " + e.getMessage());
                 e.setCancelled(true);
                 return;
             }
@@ -69,6 +71,7 @@ public class ChatUtils extends ConstructorRegisterListener {
             String message = e.getMessage().replaceFirst(PlayerCustomKeys.getCustomKey(player, ChatContext.CHAT_GROUP), "");
             if (message.length() > 0) {
                 ChatGroup.sendMessage(ChatGroup.getChatGroup(player), player, PlayerSettings.getSetting(player, "settings.grammarly") ? Utilities.grammarly(message) : message);
+                Bukkit.getLogger().info("[CG] " + player.getFormattedName() + ": " + e.getMessage());
                 e.setCancelled(true);
                 return;
             }

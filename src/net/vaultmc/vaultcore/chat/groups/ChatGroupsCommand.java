@@ -186,9 +186,9 @@ public class ChatGroupsCommand extends CommandExecutor {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.already_in_group"));
                 return;
             }
-            if (ChatGroup.getRole(sender, chatGroup).getLevel() > 1) {
+            // Require admin or owner rank in their chatgroup
+            if (ChatGroup.getRole(sender, chatGroup).getLevel() < 2) {
                 sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.permission_error"));
-                Bukkit.getLogger().warning(ChatGroup.getRole(sender, chatGroup).getName() + " " + ChatGroup.getRole(sender, chatGroup).getLevel());
                 return;
             }
             // Success
@@ -206,7 +206,7 @@ public class ChatGroupsCommand extends CommandExecutor {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.invites.accepted"), invites.get(sender).name));
                 for (VLOfflinePlayer member : ChatGroup.getChatGroupMembers(invites.get(sender))) {
                     if (member.isOnline())
-                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), invites.get(sender).name, sender.getDisplayName(), invites.get(sender).name));
+                        member.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.chatgroups.join.members_message"), invites.get(sender), sender.getFormattedName(), invites.get(sender).name));
                 }
                 invites.remove(sender);
             } else {
