@@ -40,6 +40,7 @@ public class RanksCommand extends CommandExecutor {
         sender.sendMessage(ChatColor.AQUA + "Trusted");
         sender.sendMessage("");
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ranks.staff_header"));
+        sender.sendMessage(ChatColor.DARK_AQUA + "Helper " + ChatColor.YELLOW + "•");
         sender.sendMessage(ChatColor.DARK_AQUA + "Moderator");
         sender.sendMessage(ChatColor.BLUE + "Administrator");
     }

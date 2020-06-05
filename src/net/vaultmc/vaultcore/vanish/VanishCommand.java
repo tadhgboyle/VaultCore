@@ -96,10 +96,8 @@ public class VanishCommand extends CommandExecutor {
         sender.sendMessage(VaultLoader.getMessage("vanish.player-state").replace("{STATE}", state));
 
         for (Player players : Bukkit.getOnlinePlayers()) {
-            if (players.hasPermission(Permissions.VanishCommand)
-                    && players.hasPermission(Permissions.StaffChatCommand)) {
-                players.sendMessage(VaultLoader.getMessage("vaultcore.commands.staffchat.prefix") + Utilities
-                        .formatMessage(VaultLoader.getMessage("vanish.staff_message"), sender.getName(), state));
+            if (players.hasPermission(Permissions.VanishCommand) && players.hasPermission(Permissions.StaffChatCommand)) {
+                players.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vanish.staff_message"), sender.getName(), state));
             }
             if (fakeLeave) {
                 players.sendMessage(

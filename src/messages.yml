@@ -214,7 +214,7 @@ vanish:
   player-state: "&eYou are now &6{STATE}&e."
   visible: "visible"
   invisible: "invisible"
-  staff_message: "&7&o{SENDER} has gone {STATE}."
+  staff_message: "&8[&7SC&8] &7&o{SENDER} has gone {STATE}."
   others-state: "&6{PLAYER}&e is now &6{STATE}&e."
 
 creative:

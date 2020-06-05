@@ -15,18 +15,15 @@ package net.vaultmc.vaultcore.discordbot;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.vaultmc.vaultcore.VaultCore;
 
 import javax.security.auth.login.LoginException;
-import java.awt.*;
 import java.util.Arrays;
 import java.util.logging.Level;
 
@@ -40,6 +37,7 @@ public class VaultMCBot extends ListenerAdapter {
     public static boolean started = false;
     public static Role admin;
     public static Role moderator;
+    public static Role helper;
     public static Role staff;
     public static Role players;
     public static Role betaTester;
@@ -58,6 +56,7 @@ public class VaultMCBot extends ListenerAdapter {
             guild = jda.getGuildById(615457047403560960L);
             admin = guild.getRoleById(615457221337153546L);
             moderator = guild.getRoleById(615457245551001600L);
+            helper = guild.getRoleById(718535839054823446L);
             staff = guild.getRoleById(615671876928143537L);
             betaTester = guild.getRoleById(678014449596235779L);
             players = guild.getRoleById(615457277247488010L);
@@ -65,6 +64,7 @@ public class VaultMCBot extends ListenerAdapter {
 
             PlayerUpdater.mappedRole.putAll("admin", Arrays.asList(admin, staff, players));
             PlayerUpdater.mappedRole.putAll("moderator", Arrays.asList(moderator, staff, players));
+            PlayerUpdater.mappedRole.putAll("helper", Arrays.asList(helper, staff, players));
             PlayerUpdater.mappedRole.put("trusted", players);
             PlayerUpdater.mappedRole.put("patreon", players);
             PlayerUpdater.mappedRole.put("member", players);
