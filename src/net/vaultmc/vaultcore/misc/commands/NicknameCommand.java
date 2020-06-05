@@ -47,6 +47,11 @@ public class NicknameCommand extends CommandExecutor {
 
     @SubCommand("self")
     public void self(VLPlayer sender, String nickname) {
+        // If `/nick Aberdeener` is run by Aberdeener
+        if (nickname.equals(sender.getName())) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.invalid_nick"));
+            return;
+        }
         setNickname(sender, sender, nickname);
     }
 

@@ -791,6 +791,7 @@ vaultcore:
 
     nickname:
       disabled_self: "&eSuccessfully disabled your nickname."
+      invalid_nick: "&cInvalid nickname for yourself."
       disabled_sender: "&eSuccessfully disabled {TARGET}&e's nickname."
       disabled_target: "&eYour nickname was disabled."
       success: "&eYou have set your nickname to {NICKNAME}&e."
