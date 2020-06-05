@@ -58,6 +58,10 @@ public class NicknameCommand extends CommandExecutor {
     @SubCommand("other")
     @Permission(Permissions.NicknameCommandOther)
     public void other(VLPlayer sender, VLPlayer target, String nickname) {
+        if (nickname.equals(target.getName())) {
+            sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.nickname.invalid_nick"));
+            return;
+        }
         setNickname(sender, target, nickname);
     }
 
