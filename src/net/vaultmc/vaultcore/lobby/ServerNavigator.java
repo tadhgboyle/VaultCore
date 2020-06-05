@@ -92,25 +92,22 @@ public class ServerNavigator extends ConstructorRegisterListener {
                 .name(ChatColor.YELLOW + "Survival")
                 .lore(Arrays.asList(
                         ChatColor.GRAY + "Enjoy a partially vanilla survival",
-                        ChatColor.GRAY + "experience, with custom items.",
-                        ChatColor.GRAY + "Custom items does not interfere with",
-                        ChatColor.GRAY + "the vanilla experience."
+                        ChatColor.GRAY + "experience, with custom items."
                 ))
                 .build());
 
         inv.setItem(16, new ItemStackBuilder(Material.IRON_SWORD)
                 .name(ChatColor.YELLOW + "PvP")
-                .lore(Collections.singletonList(
-                        ChatColor.GRAY + "Choose a kit, and fight to the death with other players!"
+                .lore(Arrays.asList(
+                        ChatColor.GRAY + "Choose a kit, and fight to",
+                        ChatColor.GRAY + "the death with other players!"
                 ))
                 .build());
 
         inv.setItem(20, new ItemStackBuilder(Material.WHEAT)
-                .name(ChatColor.YELLOW + "Kingdoms")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Build a kingdom, and recruit some members to help ",
-                        ChatColor.GRAY + "you build! After you're done building, fight with",
-                        ChatColor.GRAY + "other kingdoms to receive a reward!"
+                .name(ChatColor.YELLOW + "Stay Tuned!")
+                .lore(Collections.singletonList(
+                        ChatColor.GRAY + "A new game will soon be released here."
                 ))
                 .build());
 
@@ -147,9 +144,6 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         break;
                     case 16:
                         player.getPlayer().performCommand("pvp");
-                        break;
-                    case 20:
-                        player.performCommand("kd spawn");
                         break;
                     case 22:
                         SQLPlayerData data = player.getPlayerData();
