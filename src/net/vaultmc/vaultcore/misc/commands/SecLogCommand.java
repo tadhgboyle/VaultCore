@@ -260,7 +260,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc")) {
             VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-            if ((player.getGroup().equalsIgnoreCase("moderator") || player.getGroup().equalsIgnoreCase("admin")) && !player.getPlayerData().contains("password")) {
+            if ((player.getGroup().equalsIgnoreCase("moderator") || player.getGroup().equalsIgnoreCase("admin") || player.getGroup().equalsIgnoreCase("helper")) && !player.getPlayerData().contains("password")) {
                 Location loc = player.getLocation().clone();
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 255, false, false, false));
                 player.teleport(auth);
