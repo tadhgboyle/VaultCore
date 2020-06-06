@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.commands.mail;
+package net.vaultmc.vaultcore.mail;
 
 import java.util.UUID;
 

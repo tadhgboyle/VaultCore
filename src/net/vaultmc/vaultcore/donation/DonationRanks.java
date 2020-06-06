@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.commands.donation;
+package net.vaultmc.vaultcore.donation;
 
 import lombok.Getter;
 

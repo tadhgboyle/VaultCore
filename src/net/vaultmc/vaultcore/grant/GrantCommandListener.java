@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.commands.staff.grant;
+package net.vaultmc.vaultcore.grant;
 
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -36,7 +36,7 @@ public class GrantCommandListener extends ConstructorRegisterListener {
                 e.setCancelled(true);
             } else {
                 if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
-                    String rank = "Patreon";
+                    String rank = null;
                     String itemName = e.getCurrentItem().getItemMeta().getDisplayName();
 
                     if (itemName.equals(ChatColor.GRAY + "" + ChatColor.BOLD + "Member"))
@@ -49,12 +49,14 @@ public class GrantCommandListener extends ConstructorRegisterListener {
                         rank = "Moderator";
                     else if (itemName.equals(ChatColor.BLUE + "" + ChatColor.BOLD + "Admin"))
                         rank = "Admin";
+                    else if (itemName.equals(ChatColor.YELLOW + "" + ChatColor.BOLD + "Helper"))
+                        rank = "Helper";
                     else if (itemName.equals(ChatColor.RED + "No Permission")) {
                         player.closeInventory();
                         player.sendMessage(VaultLoader.getMessage("vaultcore.commands.grant.no_permission"));
                         return;
                     }
-                    VLPlayer target = VLPlayer.getPlayer(Bukkit.getPlayer(e.getView().getTitle().substring(INVTITLE.length())));
+                    VLPlayer target = VLPlayer.getPlayer(e.getView().getTitle().substring(INVTITLE.length()));
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                             "lp user " + target.getName() + " parent set " + rank);
 

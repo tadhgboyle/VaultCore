@@ -40,7 +40,8 @@ public class PlayerUpdater extends ConstructorRegisterListener {
             Member member = guild.getMemberById(player.getDiscord());
             List<Role> roles = new ArrayList<>(member.getRoles());
             roles.removeIf(role -> role.getIdLong() != VaultMCBot.admin.getIdLong() && role.getIdLong() != VaultMCBot.moderator.getIdLong() &&
-                    role.getIdLong() != VaultMCBot.staff.getIdLong() && role.getIdLong() != VaultMCBot.players.getIdLong());
+                    role.getIdLong() != VaultMCBot.staff.getIdLong() && role.getIdLong() != VaultMCBot.players.getIdLong() &&
+                    role.getIdLong() != VaultMCBot.helper.getIdLong());
             String group = player.getGroup().toLowerCase();
             if (!member.getEffectiveName().equals(player.getName())) {
                 member.modifyNickname(player.getName()).queue();
@@ -48,15 +49,11 @@ public class PlayerUpdater extends ConstructorRegisterListener {
 
             if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
                 VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue(v -> {
-                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue(a -> {
-                        VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue(b -> {
-                            VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue(c -> {
-                                for (Role role : mappedRole.get(group)) {
-                                    VaultMCBot.getGuild().addRoleToMember(member, role).queue();
-                                }
-                            });
-                        });
-                    });
+                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue(a -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.helper).queue(b -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue(c -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue(d -> {
+                        for (Role role : mappedRole.get(group)) {
+                            VaultMCBot.getGuild().addRoleToMember(member, role).queue();
+                        }
+                    }))));
                 });
             }
         }

@@ -61,6 +61,8 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
                 return ChatFormatting.BLUE;
             case "moderator":
                 return ChatFormatting.DARK_AQUA;
+            case "helper":
+                return ChatFormatting.YELLOW;
             case "trusted":
                 return ChatFormatting.AQUA;
             case "patreon":
@@ -142,8 +144,7 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
                 nmsPlayer.connection.send(remove);
                 nmsPlayer.connection.send(create);
                 nmsPlayer.connection.send(join);
-            } catch (NullPointerException ex) {
-                // Ignore
+            } catch (NullPointerException ignored) {
             }
         }
     }

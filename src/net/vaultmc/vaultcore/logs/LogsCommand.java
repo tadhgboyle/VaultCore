@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.commands.staff.logs;
+package net.vaultmc.vaultcore.logs;
 
 import lombok.Setter;
 import net.vaultmc.vaultcore.Permissions;

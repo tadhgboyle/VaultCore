@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.commands.staff.grant;
+package net.vaultmc.vaultcore.grant;
 
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -35,11 +35,12 @@ public final class GrantCommandInv {
                 .name(ChatColor.WHITE + "" + ChatColor.BOLD + "Patreon").build());
         rankGrantAdmin.setItem(4, new ItemStackBuilder(Material.LIGHT_BLUE_WOOL)
                 .name(ChatColor.AQUA + "" + ChatColor.BOLD + "Trusted").build());
-        rankGrantAdmin.setItem(5, new ItemStackBuilder(Material.CYAN_WOOL)
+        rankGrantAdmin.setItem(5, new ItemStackBuilder(Material.YELLOW_WOOL)
+                .name(ChatColor.YELLOW + "" + ChatColor.BOLD + "Helper").build());
+        rankGrantAdmin.setItem(6, new ItemStackBuilder(Material.CYAN_WOOL)
                 .name(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Moderator").build());
-        rankGrantAdmin.setItem(6, new ItemStackBuilder(Material.BLUE_WOOL)
+        rankGrantAdmin.setItem(7, new ItemStackBuilder(Material.BLUE_WOOL)
                 .name(ChatColor.BLUE + "" + ChatColor.BOLD + "Administrator").build());
-        rankGrantAdmin.setItem(7, null);
         rankGrantAdmin.setItem(8, null);
         return rankGrantAdmin;
     }
@@ -55,11 +56,11 @@ public final class GrantCommandInv {
                 .name(ChatColor.WHITE + "" + ChatColor.BOLD + "Patreon").build());
         rankGrantMod.setItem(4, new ItemStackBuilder(Material.LIGHT_BLUE_WOOL)
                 .name(ChatColor.AQUA + "" + ChatColor.BOLD + "Trusted").build());
-        rankGrantMod.setItem(5,
-                new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE).name(ChatColor.RED + "No Permission").build());
+        rankGrantMod.setItem(5, new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE).name(ChatColor.RED + "No Permission").build());
         rankGrantMod.setItem(6,
                 new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE).name(ChatColor.RED + "No Permission").build());
-        rankGrantMod.setItem(7, null);
+        rankGrantMod.setItem(7,
+                new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE).name(ChatColor.RED + "No Permission").build());
         rankGrantMod.setItem(8, null);
         return rankGrantMod;
     }
