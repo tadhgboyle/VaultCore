@@ -13,6 +13,7 @@
 
 package net.vaultmc.vaultcore.lobby;
 
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultcore.tour.Tour;
@@ -48,119 +49,10 @@ public class ServerNavigator extends ConstructorRegisterListener {
                     ChatColor.GRAY + "and games on VaultMC."
             ))
             .build();
-    private static final Inventory inv = Bukkit.createInventory(null, 36, "Server Navigator");
 
-    static {
-        ItemStack yellow = new ItemStackBuilder(Material.YELLOW_STAINED_GLASS_PANE)
-                .name(" ")
-                .build();
-        ItemStack orange = new ItemStackBuilder(Material.ORANGE_STAINED_GLASS_PANE)
-                .name(" ")
-                .build();
-
-        inv.setItem(0, yellow);
-        inv.setItem(1, orange);
-        inv.setItem(7, orange);
-        inv.setItem(8, yellow);
-        inv.setItem(9, orange);
-        inv.setItem(17, orange);
-        inv.setItem(18, orange);
-        inv.setItem(26, orange);
-        inv.setItem(27, yellow);
-        inv.setItem(28, orange);
-        inv.setItem(34, orange);
-        inv.setItem(35, yellow);
-
-        inv.setItem(10, new ItemStackBuilder(Material.OAK_SAPLING)
-                .name(ChatColor.YELLOW + "SkyBlock")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Survive on a tiny island and build up",
-                        ChatColor.GRAY + "your own world."
-                ))
-                .build());
-
-        inv.setItem(12, new ItemStackBuilder(Material.OAK_PLANKS)
-                .name(ChatColor.YELLOW + "Creative")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Expand your creativity by building in an ",
-                        ChatColor.GRAY + "endless plot-based world."
-                ))
-                .build());
-
-
-        inv.setItem(14, new ItemStackBuilder(Material.GRASS_BLOCK)
-                .name(ChatColor.YELLOW + "Survival")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Enjoy a partially vanilla survival",
-                        ChatColor.GRAY + "experience, with custom items."
-                ))
-                .build());
-
-        inv.setItem(16, new ItemStackBuilder(Material.IRON_SWORD)
-                .name(ChatColor.YELLOW + "PvP")
-                .lore(Arrays.asList(
-                        ChatColor.GRAY + "Choose a kit, and fight to",
-                        ChatColor.GRAY + "the death with other players!"
-                ))
-                .build());
-
-        inv.setItem(20, new ItemStackBuilder(Material.WHEAT)
-                .name(ChatColor.YELLOW + "Stay Tuned!")
-                .lore(Collections.singletonList(
-                        ChatColor.GRAY + "A new game will soon be released here."
-                ))
-                .build());
-
-        inv.setItem(22, new ItemStackBuilder(Material.RED_BANNER)
-                .name(ChatColor.YELLOW + "Factions")
-                .lore(Collections.singletonList(
-                        ChatColor.GRAY + "Factions, but simplified."
-                ))
-                .build());
-
-        inv.setItem(24, new ItemStackBuilder(Material.BARRIER)
-                .name(ChatColor.YELLOW + "Exit")
-                .lore(Collections.singletonList(
-                        ChatColor.GRAY + "Click to close this menu."
-                ))
-                .build());
-    }
-
-    @EventHandler
-    public void onNavigatorInventoryClick(InventoryClickEvent e) {
-        if (e.getClickedInventory() instanceof PlayerInventory) return;
-        if (e.getInventory() == inv) {
-            VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
-            if (!Tour.getTouringPlayers().contains(player.getUniqueId())) {
-                switch (e.getSlot()) {
-                    case 10:
-                        player.getPlayer().performCommand("is");
-                        break;
-                    case 12:
-                        player.getPlayer().performCommand("cr");
-                        break;
-                    case 14:
-                        player.getPlayer().performCommand("sv");
-                        break;
-                    case 16:
-                        player.getPlayer().performCommand("pvp");
-                        break;
-                    case 22:
-                        SQLPlayerData data = player.getPlayerData();
-                        if (!data.contains("locations.clans")) {
-                            player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
-                        } else {
-                            player.teleport(Utilities.deserializeLocation(data.getString("locations.clans")));
-                        }
-                        break;
-                    case 24:
-                        player.getPlayer().closeInventory();
-                        break;
-                }
-            }
-            e.setCancelled(true);
-        }
-    }
+    private static final ItemStack yellow = new ItemStackBuilder(Material.YELLOW_STAINED_GLASS_PANE)
+            .name(" ")
+            .build();
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -194,6 +86,102 @@ public class ServerNavigator extends ConstructorRegisterListener {
             e.setCancelled(true);
     }
 
+    private static final ItemStack orange = new ItemStackBuilder(Material.ORANGE_STAINED_GLASS_PANE)
+            .name(" ")
+            .build();
+    private static final ItemStack building = new ItemStackBuilder(Material.WOODEN_AXE)
+            .name(ChatColor.YELLOW + "Building")
+            .lore(Arrays.asList(
+                    ChatColor.GRAY + "For development only.",
+                    ChatColor.GRAY + "Do not disclose."
+            ))
+            .build();
+    private static final ItemStack skyblock = new ItemStackBuilder(Material.OAK_SAPLING)
+            .name(ChatColor.YELLOW + "SkyBlock")
+            .lore(Arrays.asList(
+                    ChatColor.GRAY + "Survive on a tiny island and build up",
+                    ChatColor.GRAY + "your own world."
+            ))
+            .build();
+    private static final ItemStack creative = new ItemStackBuilder(Material.OAK_PLANKS)
+            .name(ChatColor.YELLOW + "Creative")
+            .lore(Arrays.asList(
+                    ChatColor.GRAY + "Expand your creativity by building in an ",
+                    ChatColor.GRAY + "endless plot-based world."
+            ))
+            .build();
+    private static final ItemStack survival = new ItemStackBuilder(Material.GRASS_BLOCK)
+            .name(ChatColor.YELLOW + "Survival")
+            .lore(Arrays.asList(
+                    ChatColor.GRAY + "Enjoy a partially vanilla survival",
+                    ChatColor.GRAY + "experience, with custom items."
+            ))
+            .build();
+    private static final ItemStack pvp = new ItemStackBuilder(Material.IRON_SWORD)
+            .name(ChatColor.YELLOW + "PvP")
+            .lore(Arrays.asList(
+                    ChatColor.GRAY + "Choose a kit, and fight to",
+                    ChatColor.GRAY + "the death with other players!"
+            ))
+            .build();
+    private static final ItemStack kingdoms = new ItemStackBuilder(Material.WHEAT)
+            .name(ChatColor.YELLOW + "Stay Tuned!")
+            .lore(Collections.singletonList(
+                    ChatColor.GRAY + "A new game will soon be released here."
+            ))
+            .build();
+    private static final ItemStack factions = new ItemStackBuilder(Material.RED_BANNER)
+            .name(ChatColor.YELLOW + "Factions")
+            .lore(Collections.singletonList(
+                    ChatColor.GRAY + "Factions, but simplified."
+            ))
+            .build();
+    private static final ItemStack exit = new ItemStackBuilder(Material.BARRIER)
+            .name(ChatColor.YELLOW + "Exit")
+            .lore(Collections.singletonList(
+                    ChatColor.GRAY + "Click to close this menu."
+            ))
+            .build();
+
+    @EventHandler
+    public void onNavigatorInventoryClick(InventoryClickEvent e) {
+        if (e.getClickedInventory() instanceof PlayerInventory) return;
+        if (e.getView().getTitle().equals(ChatColor.RESET + "Server Navigator")) {
+            VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
+            if (!Tour.getTouringPlayers().contains(player.getUniqueId())) {
+                switch (e.getSlot()) {
+                    case 10:
+                        player.getPlayer().performCommand("is");
+                        break;
+                    case 12:
+                        player.getPlayer().performCommand("cr");
+                        break;
+                    case 14:
+                        player.getPlayer().performCommand("sv");
+                        break;
+                    case 16:
+                        player.getPlayer().performCommand("pvp");
+                        break;
+                    case 22:
+                        SQLPlayerData data = player.getPlayerData();
+                        if (!data.contains("locations.clans")) {
+                            player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
+                        } else {
+                            player.teleport(Utilities.deserializeLocation(data.getString("locations.clans")));
+                        }
+                        break;
+                    case 24:
+                        if (player.hasPermission(Permissions.BuilderAccess)) {
+                            player.teleport(Bukkit.getWorld("build").getSpawnLocation());
+                        }
+                        player.getPlayer().closeInventory();
+                        break;
+                }
+            }
+            e.setCancelled(true);
+        }
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (SecLogCommand.getLoggingPlayers().containsKey(e.getPlayer().getUniqueId()) || SecLogCommand.getResetingPlayers().containsKey(e.getPlayer().getUniqueId())) {
@@ -205,6 +193,31 @@ public class ServerNavigator extends ConstructorRegisterListener {
                 && e.getPlayer().getInventory().getItemInMainHand().hasItemMeta() &&
                 (ChatColor.GREEN + "Server Navigator").equals(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName()) &&
                 e.getHand() == EquipmentSlot.HAND) {
+            Inventory inv = Bukkit.createInventory(null, 36, ChatColor.RESET + "Server Navigator");
+            inv.setItem(0, yellow);
+            inv.setItem(1, orange);
+            inv.setItem(7, orange);
+            inv.setItem(8, yellow);
+            inv.setItem(9, orange);
+            inv.setItem(17, orange);
+            inv.setItem(18, orange);
+            inv.setItem(26, orange);
+            inv.setItem(27, yellow);
+            inv.setItem(28, orange);
+            inv.setItem(34, orange);
+            inv.setItem(35, yellow);
+
+            inv.setItem(10, skyblock);
+            inv.setItem(12, creative);
+            inv.setItem(14, survival);
+            inv.setItem(16, pvp);
+            inv.setItem(20, kingdoms);
+            inv.setItem(22, factions);
+            if (e.getPlayer().hasPermission(Permissions.BuilderAccess)) {
+                inv.setItem(24, building);
+            } else {
+                inv.setItem(24, exit);
+            }
             e.getPlayer().openInventory(inv);
         }
     }
