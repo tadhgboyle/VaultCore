@@ -39,11 +39,11 @@ public class TimeCommand extends CommandExecutor {
         ));
         register("setNoWorld", Arrays.asList(
                 Arguments.createLiteral("set"),
-                Arguments.createArgument("time", Arguments.integerArgument(0))
+                Arguments.createArgument("time", Arguments.timeArgument())
         ));
         register("setWithWorld", Arrays.asList(
                 Arguments.createLiteral("set"),
-                Arguments.createArgument("time", Arguments.integerArgument(0)),
+                Arguments.createArgument("time", Arguments.timeArgument()),
                 Arguments.createArgument("world", Arguments.worldArgument())
         ));
     }

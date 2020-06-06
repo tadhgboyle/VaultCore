@@ -117,6 +117,10 @@ public class ShapedRecipe implements Recipe {
 
     @Override
     public boolean isValid(CraftingInventory inv) {
+        if (inv.getMatrix().length == 4) {
+            return false;
+        }
+
         outerLoop:
         for (Map<Integer, ItemStack> map : possible) {
             for (Map.Entry<Integer, ItemStack> entry : map.entrySet()) {
@@ -125,7 +129,6 @@ public class ShapedRecipe implements Recipe {
                         continue outerLoop;
                     }
                 } catch (ArrayIndexOutOfBoundsException ignored) {
-                    // They aren't similar at this point
                 }
             }
             return true;

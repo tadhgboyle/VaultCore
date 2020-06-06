@@ -26,6 +26,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,6 +65,7 @@ public class ItemListeners extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.isCancelled()) return;
+        if (e.getClickedInventory() instanceof PlayerInventory) return;
         if (e.getWhoClicked().getWorld().getName().toLowerCase().contains("survival") && e.getClickedInventory() instanceof CraftingInventory && !e.getView().getTitle().equals("Recipe")) {
             if (e.getSlot() == 0 && e.getClickedInventory().getItem(0) != null && Item.getId(e.getClickedInventory().getItem(0)) != null) {
                 Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
@@ -97,6 +99,7 @@ public class ItemListeners extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryDrag(InventoryDragEvent e) {
         if (e.isCancelled()) return;
+        if (e.getInventory() instanceof PlayerInventory) return;
         if (e.getWhoClicked().getWorld().getName().toLowerCase().contains("survival") && e.getInventory() instanceof CraftingInventory && !e.getView().getTitle().equals("Recipe")) {
             Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
                 for (Item item : Item.getItems().values()) {
