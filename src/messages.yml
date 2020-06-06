@@ -433,6 +433,11 @@ vaultcore:
   player_offline: "&cThat player is offline."
   console_only: "&cThat command can only be run by Console."
 
+  build:
+    notification: |-
+      &c&lNote!
+      &eThe build world is for development only, and you may not disclose/redistribute any build from this world to any player without prior permission from the administrators.
+
   listeners:
     joinquit:
       new_player: "&eWelcome {PLAYER}&e to VaultMC! (&2#{COUNT}&e)"
