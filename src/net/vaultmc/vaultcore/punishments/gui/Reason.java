@@ -19,11 +19,10 @@ import org.bukkit.Material;
 
 @AllArgsConstructor
 public enum Reason {
-    SENSITIVE_DISCUSSION("sensitive-discussion", PunishmentType.BAN, Material.IRON_AXE, "1 month", "2 months", "permanent"),
+    SENSITIVE_DISCUSSION("sensitive-discussion", PunishmentType.BAN, Material.IRON_AXE, "1 month", "permanent", "permanent"),
     EXPLOIT_BUG("exploit-bug", PunishmentType.BAN, Material.REDSTONE, "14 days", "30 days", "permanent"),
     DOXXING("doxxing", PunishmentType.BAN, Material.IRON_DOOR, "30 days", "permanent", "permanent"),
     CHEATING("cheating", PunishmentType.BAN, Material.STONE_SWORD, "30 days", "permanent", "permanent"),
-    RACISM("racism", PunishmentType.MUTE, Material.BAKED_POTATO, "1 day", "3 days", "14 days"),
     DISRESPECTFUL_TO_STAFF("disrespectful-to-staff", "Only when extremely disrespectful.",
             PunishmentType.KICK, Material.ACACIA_FENCE, "permanent", "permanent", "permanent"),  // I add this because I thought there isn't a kick punishment.
     INTOLERABLE_UNFRIENDLINESS("intolerable-unfriendliness", PunishmentType.MUTE, Material.STICK, "7 days", "14 days", "30 days"),
@@ -33,7 +32,6 @@ public enum Reason {
             PunishmentType.BAN, Material.POTION, "permanent", "permanent", "permanent"),
     GRIEFING("griefing", "Not applicable in Factions and Kingdoms.",
             PunishmentType.BAN, Material.TNT, "1 day", "3 days", "14 days"),
-    NSFW("nsfw", PunishmentType.BAN, Material.MINECART, "permanent", "permanent", "permanent"),
     INAPPROPRIATE_BUILD("inappropriate-build", "The build should also be erased.",
             PunishmentType.BAN, Material.WOODEN_AXE, "1 day", "3 days", "7 days"),
     ADVERTISING("advertising", PunishmentType.MUTE, Material.GOLDEN_HOE, "1 day", "3 days", "7 days");
