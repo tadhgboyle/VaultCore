@@ -53,15 +53,13 @@ public class ChatGroup implements ConfigurationSerializable {
     public static ChatGroup getChatGroup(VLOfflinePlayer player) {
         String cgName = VaultCore.getInstance().getChatGroupFile().getString("players." + player.getUniqueId().toString());
         if (cgName == null) return null;
-        ChatGroup chatGroup = (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
-        return chatGroup;
+        return (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
     }
 
     public static ChatGroup getChatGroup(String cgName) {
         ConfigurationSection configurationSection = VaultCore.getInstance().getChatGroupFile().getConfigurationSection("chatgroups");
         if (configurationSection.getValues(true).containsKey(cgName)) {
-            ChatGroup chatGroup = (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
-            return chatGroup;
+            return (ChatGroup) VaultCore.getInstance().getChatGroupFile().get("chatgroups." + cgName);
         } else return null;
     }
 
@@ -186,5 +184,10 @@ public class ChatGroup implements ConfigurationSerializable {
         result.put("members", this.members);
         result.put("open", this.open);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatGroup{name=(" + this.name + "),owner=(" + this.owner + "),admins=(" + Utilities.listToString(this.admins, false) + "),members=(" + Utilities.listToString(this.members, false) + ")}";
     }
 }
