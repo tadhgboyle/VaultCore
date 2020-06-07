@@ -34,6 +34,7 @@ mod-mode:
 # with LuckPerms, enter the display name) from low
 # to high.
 staff-ladder:
+  - Helper
   - Moderator
   - Administrator
 

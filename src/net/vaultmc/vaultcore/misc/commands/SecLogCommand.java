@@ -239,7 +239,7 @@ public class SecLogCommand extends CommandExecutor implements Listener {
             return;
         }
 
-        if (sender.getGroup().equalsIgnoreCase("moderator") || sender.getGroup().equalsIgnoreCase("admin")) {
+        if (sender.getGroup().equalsIgnoreCase("helper") || sender.getGroup().equalsIgnoreCase("moderator") || sender.getGroup().equalsIgnoreCase("admin")) {
             sender.sendMessage(VaultLoader.getMessage("sec-log.unset.mod"));
         } else {
             sender.sendMessage(VaultLoader.getMessage("sec-log.unset.default"));

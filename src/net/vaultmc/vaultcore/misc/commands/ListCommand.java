@@ -31,13 +31,6 @@ import java.util.TreeSet;
 @Permission(Permissions.ListCommand)
 @Aliases({"online", "ls"})
 public class ListCommand extends CommandExecutor {
-    private static final Collection<String> admin = new TreeSet<>(Collator.getInstance());
-    private static final Collection<String> moderator = new TreeSet<>(Collator.getInstance());
-    private static final Collection<String> trusted = new TreeSet<>(Collator.getInstance());
-    private static final Collection<String> patreon = new TreeSet<>(Collator.getInstance());
-    private static final Collection<String> member = new TreeSet<>(Collator.getInstance());
-    private static final Collection<String> defaults = new TreeSet<>(Collator.getInstance());
-
     public ListCommand() {
         unregisterExisting();
         register("list", Collections.emptyList());
@@ -45,6 +38,14 @@ public class ListCommand extends CommandExecutor {
 
     @SubCommand("list")
     public void list(VLCommandSender sender) {
+        Collection<String> admin = new TreeSet<>(Collator.getInstance());
+        Collection<String> moderator = new TreeSet<>(Collator.getInstance());
+        Collection<String> helper = new TreeSet<>(Collator.getInstance());
+        Collection<String> trusted = new TreeSet<>(Collator.getInstance());
+        Collection<String> patreon = new TreeSet<>(Collator.getInstance());
+        Collection<String> member = new TreeSet<>(Collator.getInstance());
+        Collection<String> defaults = new TreeSet<>(Collator.getInstance());
+
         if (Bukkit.getOnlinePlayers().size() == 0) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.list.no_players_online"));
         } else {
@@ -68,22 +69,24 @@ public class ListCommand extends CommandExecutor {
                 String rank = player.getGroup();
                 switch (rank) {
                     case "admin":
-                        admin.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
+                        admin.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                         break;
                     case "moderator":
-                        moderator.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
+                        moderator.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                         break;
+                    case "helper":
+                        helper.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                     case "trusted":
-                        trusted.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
+                        trusted.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                         break;
                     case "patreon":
-                        patreon.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
+                        patreon.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                         break;
                     case "member":
-                        member.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
+                        member.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                         break;
                     default:
-                        defaults.add(ChatColor.YELLOW + player.getName() + vanished + ChatColor.YELLOW);
+                        defaults.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                         break;
                 }
             }
@@ -93,6 +96,8 @@ public class ListCommand extends CommandExecutor {
                 sender.sendMessage(ChatColor.BLUE + "Admins: " + ChatColor.YELLOW + Utilities.listToString(admin, true));
             if (!moderator.isEmpty())
                 sender.sendMessage(ChatColor.DARK_AQUA + "Moderators: " + ChatColor.YELLOW + Utilities.listToString(moderator, true));
+            if (!helper.isEmpty())
+                sender.sendMessage(ChatColor.YELLOW + "Helpers: " + ChatColor.YELLOW + Utilities.listToString(helper, true));
             if (!trusted.isEmpty())
                 sender.sendMessage(ChatColor.AQUA + "Trusted: " + ChatColor.YELLOW + Utilities.listToString(trusted, true));
             if (!patreon.isEmpty())
@@ -101,12 +106,6 @@ public class ListCommand extends CommandExecutor {
                 sender.sendMessage(ChatColor.GRAY + "Members: " + ChatColor.YELLOW + Utilities.listToString(member, true));
             if (!defaults.isEmpty())
                 sender.sendMessage(ChatColor.DARK_GRAY + "Defaults: " + ChatColor.YELLOW + Utilities.listToString(defaults, true));
-            admin.clear();
-            moderator.clear();
-            trusted.clear();
-            patreon.clear();
-            member.clear();
-            defaults.clear();
         }
     }
 }
