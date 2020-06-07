@@ -29,10 +29,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -219,6 +216,13 @@ public class ServerNavigator extends ConstructorRegisterListener {
                 inv.setItem(24, exit);
             }
             e.getPlayer().openInventory(inv);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent e) {
+        if (e.getTo().getWorld().getName().toLowerCase().contains("build") && !e.getPlayer().hasPermission(Permissions.BuilderAccess)) {
+            e.setCancelled(true);
         }
     }
 }
