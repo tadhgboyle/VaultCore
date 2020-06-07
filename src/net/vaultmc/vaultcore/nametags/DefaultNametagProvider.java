@@ -29,17 +29,20 @@ public class DefaultNametagProvider implements INametagProvider {
             case "moderator":
                 priority = "b";
                 break;
-            case "trusted":
+            case "helper":
                 priority = "c";
                 break;
-            case "patreon":
+            case "trusted":
                 priority = "d";
                 break;
-            case "member":
+            case "patreon":
                 priority = "e";
                 break;
-            case "default":
+            case "member":
                 priority = "f";
+                break;
+            case "default":
+                priority = "g";
                 break;
         }
 
