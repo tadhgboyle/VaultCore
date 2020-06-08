@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.forge;
+package net.vaultmc.vaultcore.mods.forge;
 
 import com.comphenix.protocol.utility.StreamSerializer;
 import com.google.common.collect.HashMultimap;
