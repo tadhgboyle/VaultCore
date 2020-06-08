@@ -20,7 +20,6 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRegisterChannelEvent;
@@ -55,7 +54,6 @@ public class ForgeModsListener extends ConstructorRegisterListener implements Pl
     @EventHandler
     public void onPlayerRegisterChannel(PlayerRegisterChannelEvent e) {
         if (e.getChannel().equalsIgnoreCase("fml:handshake")) {
-            System.out.println("Found forge client: " + e.getPlayer().getName());
             e.getPlayer().sendPluginMessage(VaultLoader.getInstance(), "fml:handshake", forceHandshake);
         }
     }
@@ -63,8 +61,6 @@ public class ForgeModsListener extends ConstructorRegisterListener implements Pl
     @Override
     @SneakyThrows
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        Bukkit.getConsoleSender().sendMessage("Received " + Arrays.toString(message));
-
         DataInputStream stream = new DataInputStream(new ByteArrayInputStream(message));
         try {
             StreamSerializer s = StreamSerializer.getDefault();
