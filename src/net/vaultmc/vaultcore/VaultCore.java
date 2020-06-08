@@ -46,6 +46,8 @@ import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
 import net.vaultmc.vaultcore.donation.DonationCommand;
 import net.vaultmc.vaultcore.economy.*;
+import net.vaultmc.vaultcore.forge.ForgeModsCommand;
+import net.vaultmc.vaultcore.forge.ForgeModsListener;
 import net.vaultmc.vaultcore.gamemode.GMCreativeCommand;
 import net.vaultmc.vaultcore.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.gamemode.GMSurvivalCommand;
@@ -251,6 +253,8 @@ public final class VaultCore extends Component implements Listener {
         getServer().getScheduler().runTaskLater(this.getBukkitPlugin(), () -> registerEvents(new Nametags()), 1);
         getServer().getServicesManager().register(Economy.class, new EconomyImpl(), this.getBukkitPlugin(), ServicePriority.Highest);
         getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "minecraft:brand", new BrandListener());
+        getServer().getMessenger().registerIncomingPluginChannel(this.getBukkitPlugin(), "fml:handshake", new ForgeModsListener());
+        getServer().getMessenger().registerOutgoingPluginChannel(this.getBukkitPlugin(), "fml:handshake");
 
         startTime = System.currentTimeMillis();
 
@@ -318,6 +322,7 @@ public final class VaultCore extends Component implements Listener {
         new LegacyCombat();
         new LogsCommand();
         new CombatLog();
+        new ForgeModsCommand();
         new SettingsCommand();
         SettingsCommand.init();
         new MsgCommand();

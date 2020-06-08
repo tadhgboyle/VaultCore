@@ -13,6 +13,14 @@ mod-mode:
 
   teleportation: "&eTeleporting you to &6{PLAYER}&e!"  # Random teleportation
 
+forge-support:
+  no-mods: "&cThe player's client isn't sending any mod information!"
+  mods: |-
+    &eInstalled Forge Mods of &6{PLAYER}&e (Fabric is not supported!):
+    &a{MODS}
+    &c&lKeep in mind - this might be inaccurrate. The player's client can easily fake this!
+  mod: "&e{ID} &a({VERSION})"
+
 report:
   reported: "&eSuccessfully reported {PLAYER}&e (&6{ID}&e). A moderator will investigate on this as soon as possible."
   reasons:
@@ -53,7 +61,9 @@ report:
   no-reports: "&cThere aren't any reports!"
   incorrect-page: "&cIncorrect page!\n&cYou can use /reports false to view all reports."
 
-brand: "&6{PLAYER}&e's client brand is &6{BRAND}&e. Please keep in mind this might be inaccurate."
+brand: |-
+  &6{PLAYER}&e's client brand is &6{BRAND}&e.
+  &c&lKeep in mind - this might be inaccurrate. The player's client can easily fake this!
 brand-not-ready: "&cThis player isn't currently ready for checking brand!"
 
 lobby:
