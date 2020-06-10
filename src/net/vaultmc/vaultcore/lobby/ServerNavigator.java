@@ -50,39 +50,6 @@ public class ServerNavigator extends ConstructorRegisterListener {
     private static final ItemStack yellow = new ItemStackBuilder(Material.YELLOW_STAINED_GLASS_PANE)
             .name(" ")
             .build();
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
-            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
-                    e.getPlayer().getInventory().setItem(3, paper));
-        }
-    }
-
-    @EventHandler
-    public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
-        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
-            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
-                    e.getPlayer().getInventory().setItem(3, paper));
-        } else {
-            e.getPlayer().getInventory().clear(3);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerDropItem(PlayerDropItemEvent e) {
-        if (e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator"))
-            e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onClickCompass(InventoryClickEvent e) {
-        if (e.getCurrentItem() == null) return;
-        if (!e.getCurrentItem().hasItemMeta()) return;
-        if (e.getClickedInventory() instanceof PlayerInventory && e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator"))
-            e.setCancelled(true);
-    }
-
     private static final ItemStack orange = new ItemStackBuilder(Material.ORANGE_STAINED_GLASS_PANE)
             .name(" ")
             .build();
@@ -139,6 +106,38 @@ public class ServerNavigator extends ConstructorRegisterListener {
                     ChatColor.GRAY + "Click to close this menu."
             ))
             .build();
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
+            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
+                    e.getPlayer().getInventory().setItem(3, paper));
+        }
+    }
+
+    @EventHandler
+    public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
+        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
+            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
+                    e.getPlayer().getInventory().setItem(3, paper));
+        } else {
+            e.getPlayer().getInventory().clear(3);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent e) {
+        if (e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator"))
+            e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onClickCompass(InventoryClickEvent e) {
+        if (e.getCurrentItem() == null) return;
+        if (!e.getCurrentItem().hasItemMeta()) return;
+        if (e.getClickedInventory() instanceof PlayerInventory && e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Server Navigator"))
+            e.setCancelled(true);
+    }
 
     @EventHandler
     public void onNavigatorInventoryClick(InventoryClickEvent e) {
