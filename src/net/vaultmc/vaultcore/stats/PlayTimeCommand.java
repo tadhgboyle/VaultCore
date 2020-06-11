@@ -17,7 +17,7 @@ import lombok.SneakyThrows;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
-import net.vaultmc.vaultcore.misc.runnables.RankPromotions;
+import net.vaultmc.vaultcore.misc.listeners.RankPromotions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.commands.*;

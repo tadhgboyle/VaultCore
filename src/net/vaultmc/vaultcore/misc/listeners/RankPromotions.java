@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.runnables;
+package net.vaultmc.vaultcore.misc.listeners;
 
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
