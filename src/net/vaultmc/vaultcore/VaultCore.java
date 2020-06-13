@@ -35,9 +35,6 @@ import net.vaultmc.vaultcore.combat.CombatLog;
 import net.vaultmc.vaultcore.combat.LegacyCombat;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
-import net.vaultmc.vaultcore.cosmetics.CosmeticsCommand;
-import net.vaultmc.vaultcore.cosmetics.CosmeticsInvListener;
-import net.vaultmc.vaultcore.cosmetics.ParticleRunnable;
 import net.vaultmc.vaultcore.creative.CycleListener;
 import net.vaultmc.vaultcore.creative.EntityUpperBound;
 import net.vaultmc.vaultcore.creative.ItemDrops;
@@ -73,8 +70,6 @@ import net.vaultmc.vaultcore.pvp.*;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
-import net.vaultmc.vaultcore.rewards.ReferralCommand;
-import net.vaultmc.vaultcore.rewards.RewardsCommand;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.CheckCommand;
@@ -259,7 +254,6 @@ public final class VaultCore extends Component implements Listener {
 
         VaultMCBot.startVaultMCBot();
         new ManageBotCommand();
-        new ReferralCommand();
         new ChatGroupsCommand();
         new CRCommand();
         new SVCommand();
@@ -279,7 +273,6 @@ public final class VaultCore extends Component implements Listener {
         new StarterGearExperience();
         new ReportsCommand();
         new NearCommand();
-        new RewardsCommand();
         Bug.dbInit();
         Bug.load();
         new BuggyCommand();
@@ -289,14 +282,12 @@ public final class VaultCore extends Component implements Listener {
         new NicknameCommand();
         new ItemListeners();
         new CraftingCommand();
-        new CosmeticsCommand();
         new NightvisionCommand();
         registerEvents(new CycleListener());
         registerEvents(new SleepHandler());
         registerEvents(new ItemDrops());
         registerEvents(new PlayerJoinQuitListener());
         registerEvents(new CGSettingsInvListener());
-        registerEvents(new CosmeticsInvListener());
         registerEvents(new NightvisionCommand());
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
             RankPromotions.memberPromotion();
@@ -304,7 +295,6 @@ public final class VaultCore extends Component implements Listener {
             Statistics.statistics();
             AFKListener.afkUpdater();
         }, 0L, 2400L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), ParticleRunnable::particleHandler, 0L, 10L);
         new EconomyCommand();
         new MoneyCommand();
         new TransferCommand();
