@@ -56,8 +56,6 @@ public final class Permissions {
     public static final String StaffChatCommand = "vaultcore.staffchat";
     public static final String TeleportCommand = "vaultcore.teleport";
     public static final String TeleportCommandHere = "vaultcore.teleport.here";
-    public static final String GrantCommandMod = "vaultcore.grant.mod";
-    public static final String GrantCommandAdmin = "vaultcore.grant.admin";
     public static final String GrantCommand = "vaultcore.grant";
     public static final String ReloadCommand = "vaultcore.reload";
     public static final String TagCommand = "vaultcore.tag";
@@ -113,11 +111,9 @@ public final class Permissions {
     public static final String DonationCommandAdmin = "vaultcore.donation.admin";
     public static final String SuicideCommand = "vaultcore.suicide";
     public static final String ChatGroupsCommand = "vaultcore.chatgroups";
-    public static final String RewardsCommand = "vaultcore.rewards";
     public static final String NicknameCommand = "vaultcore.nickname";
     public static final String NicknameLimitBypass = "vaultcore.nickname.bypass";
     public static final String NicknameCommandOther = "vaultcore.nickname.other";
-    public static final String CosmeticsCommand = "vaultcore.cosmetics";
     public static final String NightvisionCommand = "vaultcore.nightvision";
     public static final String NightvisionCommandAdmin = "vaultcore.nightvision.admin";
     public static final String SkullCommand = "vaultcore.skull";

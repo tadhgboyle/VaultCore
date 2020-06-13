@@ -49,7 +49,6 @@ import net.vaultmc.vaultcore.gamemode.GMSpectatorCommand;
 import net.vaultmc.vaultcore.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.grant.GrantCommand;
-import net.vaultmc.vaultcore.grant.GrantCommandListener;
 import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
 import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
@@ -386,7 +385,6 @@ public final class VaultCore extends Component implements Listener {
         Kit.getKits();  // Load the class
         KitInit.init();
         registerEvents(new PlayerDeathListener());
-        registerEvents(new GrantCommandListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());
         registerEvents(new SuicideCommand());

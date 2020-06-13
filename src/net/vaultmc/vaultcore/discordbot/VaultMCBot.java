@@ -39,6 +39,11 @@ public class VaultMCBot extends ListenerAdapter {
     public static Role moderator;
     public static Role helper;
     public static Role staff;
+    public static Role overlord;
+    public static Role lord;
+    public static Role god;
+    public static Role titan;
+    public static Role hero;
     public static Role players;
     public static Role betaTester;
     public static Role serverBooster;
@@ -58,6 +63,11 @@ public class VaultMCBot extends ListenerAdapter {
             moderator = guild.getRoleById(615457245551001600L);
             helper = guild.getRoleById(718535839054823446L);
             staff = guild.getRoleById(615671876928143537L);
+            overlord = guild.getRoleById(721338106711638117L);
+            lord = guild.getRoleById(721338102349561876L);
+            god = guild.getRoleById(721338101129281566L);
+            titan = guild.getRoleById(721338098033623091L);
+            hero = guild.getRoleById(721338090014113813L);
             betaTester = guild.getRoleById(678014449596235779L);
             players = guild.getRoleById(615457277247488010L);
             serverBooster = guild.getRoleById(706713822664065035L);
@@ -65,6 +75,11 @@ public class VaultMCBot extends ListenerAdapter {
             PlayerUpdater.mappedRole.putAll("admin", Arrays.asList(admin, staff, players));
             PlayerUpdater.mappedRole.putAll("moderator", Arrays.asList(moderator, staff, players));
             PlayerUpdater.mappedRole.putAll("helper", Arrays.asList(helper, staff, players));
+            PlayerUpdater.mappedRole.putAll("overlord", Arrays.asList(overlord, players));
+            PlayerUpdater.mappedRole.putAll("lord", Arrays.asList(lord, players));
+            PlayerUpdater.mappedRole.putAll("god", Arrays.asList(god, players));
+            PlayerUpdater.mappedRole.putAll("titan", Arrays.asList(titan, players));
+            PlayerUpdater.mappedRole.putAll("hero", Arrays.asList(hero, players));
             PlayerUpdater.mappedRole.put("trusted", players);
             PlayerUpdater.mappedRole.put("patreon", players);
             PlayerUpdater.mappedRole.put("member", players);

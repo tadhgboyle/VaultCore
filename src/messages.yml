@@ -494,6 +494,7 @@ vaultcore:
 
     ranks:
       player_header: "&2--== [Player Ranks] ==--"
+      donor_header: "&2--== [Donation Ranks] ==--"
       staff_header: "&2--== [Staff Ranks] ==--"
 
     reload: "&aVaultCore config reloaded!"
@@ -587,7 +588,6 @@ vaultcore:
       no_permission: "&cYou don't have permission to use this rank."
       updated_sender: "&eSuccessfully updated {TARGET}&e's rank to &6{RANK}&e."
       updated_player: "&eYour rank has been updated to &6{RANK}&e by {TARGET}&e."
-      mod-no-perm: "&cYou cannot change a staff members rank!"
 
     gamemode:
       self: "&eYou have set your gamemode to &6{GAMEMODE}&e."

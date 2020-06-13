@@ -64,6 +64,16 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
             case "helper":
                 return ChatFormatting.YELLOW;
             case "trusted":
+                return ChatFormatting.DARK_PURPLE;
+            case "overlord":
+                return ChatFormatting.DARK_RED;
+            case "lord":
+                return ChatFormatting.RED;
+            case "god":
+                return ChatFormatting.GOLD;
+            case "titan":
+                return ChatFormatting.GREEN;
+            case "hero":
                 return ChatFormatting.AQUA;
             case "patreon":
                 return ChatFormatting.WHITE;

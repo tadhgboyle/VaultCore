@@ -42,6 +42,11 @@ public class ListCommand extends CommandExecutor {
         Collection<String> moderator = new TreeSet<>(Collator.getInstance());
         Collection<String> helper = new TreeSet<>(Collator.getInstance());
         Collection<String> trusted = new TreeSet<>(Collator.getInstance());
+        Collection<String> overlord = new TreeSet<>(Collator.getInstance());
+        Collection<String> lord = new TreeSet<>(Collator.getInstance());
+        Collection<String> god = new TreeSet<>(Collator.getInstance());
+        Collection<String> titan = new TreeSet<>(Collator.getInstance());
+        Collection<String> hero = new TreeSet<>(Collator.getInstance());
         Collection<String> patreon = new TreeSet<>(Collator.getInstance());
         Collection<String> member = new TreeSet<>(Collator.getInstance());
         Collection<String> defaults = new TreeSet<>(Collator.getInstance());
@@ -76,8 +81,24 @@ public class ListCommand extends CommandExecutor {
                         break;
                     case "helper":
                         helper.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
+                        break;
                     case "trusted":
                         trusted.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
+                        break;
+                    case "overlord":
+                        overlord.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
+                        break;
+                    case "lord":
+                        lord.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
+                        break;
+                    case "god":
+                        god.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);  // I always misspell this as "gold"
+                        break;
+                    case "titan":
+                        titan.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
+                        break;
+                    case "hero":
+                        hero.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
                         break;
                     case "patreon":
                         patreon.add(ChatColor.YELLOW + player.getDisplayName() + vanished + ChatColor.YELLOW);
@@ -99,7 +120,17 @@ public class ListCommand extends CommandExecutor {
             if (!helper.isEmpty())
                 sender.sendMessage(ChatColor.YELLOW + "Helpers: " + ChatColor.YELLOW + Utilities.listToString(helper, true));
             if (!trusted.isEmpty())
-                sender.sendMessage(ChatColor.AQUA + "Trusted: " + ChatColor.YELLOW + Utilities.listToString(trusted, true));
+                sender.sendMessage(ChatColor.DARK_PURPLE + "Trusted: " + ChatColor.YELLOW + Utilities.listToString(trusted, true));
+            if (!overlord.isEmpty())
+                sender.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Overlords: " + ChatColor.YELLOW + Utilities.listToString(overlord, true));
+            if (!lord.isEmpty())
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Lords: " + ChatColor.YELLOW + Utilities.listToString(lord, true));
+            if (!god.isEmpty())
+                sender.sendMessage(ChatColor.GOLD + "Gods: " + ChatColor.YELLOW + Utilities.listToString(god, true));
+            if (!titan.isEmpty())
+                sender.sendMessage(ChatColor.GREEN + "Titans: " + ChatColor.YELLOW + Utilities.listToString(titan, true));
+            if (!hero.isEmpty())
+                sender.sendMessage(ChatColor.AQUA + "Heroes: " + ChatColor.YELLOW + Utilities.listToString(hero, true));
             if (!patreon.isEmpty())
                 sender.sendMessage(ChatColor.WHITE + "Patreons: " + ChatColor.YELLOW + Utilities.listToString(patreon, true));
             if (!member.isEmpty())

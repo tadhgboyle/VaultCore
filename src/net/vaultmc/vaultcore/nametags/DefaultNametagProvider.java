@@ -35,14 +35,29 @@ public class DefaultNametagProvider implements INametagProvider {
             case "trusted":
                 priority = "d";
                 break;
-            case "patreon":
+            case "overlord":
                 priority = "e";
                 break;
-            case "member":
+            case "lord":
                 priority = "f";
                 break;
-            case "default":
+            case "god":
                 priority = "g";
+                break;
+            case "titan":
+                priority = "h";
+                break;
+            case "hero":
+                priority = "i";
+                break;
+            case "patreon":
+                priority = "j";
+                break;
+            case "member":
+                priority = "k";
+                break;
+            case "default":
+                priority = "l";
                 break;
         }
 

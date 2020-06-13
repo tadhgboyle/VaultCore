@@ -40,8 +40,9 @@ public class PlayerUpdater extends ConstructorRegisterListener {
             Member member = guild.getMemberById(player.getDiscord());
             List<Role> roles = new ArrayList<>(member.getRoles());
             roles.removeIf(role -> role.getIdLong() != VaultMCBot.admin.getIdLong() && role.getIdLong() != VaultMCBot.moderator.getIdLong() &&
-                    role.getIdLong() != VaultMCBot.staff.getIdLong() && role.getIdLong() != VaultMCBot.players.getIdLong() &&
-                    role.getIdLong() != VaultMCBot.helper.getIdLong());
+                    role.getIdLong() != VaultMCBot.staff.getIdLong() && role.getIdLong() != VaultMCBot.players.getIdLong() && role.getIdLong() != VaultMCBot.overlord.getIdLong() &&
+                    role.getIdLong() != VaultMCBot.helper.getIdLong() && role.getIdLong() != VaultMCBot.lord.getIdLong() && role.getIdLong() != VaultMCBot.god.getIdLong() &&
+                    role.getIdLong() != VaultMCBot.titan.getIdLong() && role.getIdLong() != VaultMCBot.hero.getIdLong());
             String group = player.getGroup().toLowerCase();
             if (!member.getEffectiveName().equals(player.getName())) {
                 member.modifyNickname(player.getName()).queue();

@@ -37,7 +37,14 @@ public class RanksCommand extends CommandExecutor {
         sender.sendMessage(ChatColor.DARK_GRAY + "Default");
         sender.sendMessage(ChatColor.GRAY + "Member");
         sender.sendMessage(ChatColor.WHITE + "Patreon");
-        sender.sendMessage(ChatColor.AQUA + "Trusted");
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Trusted");
+        sender.sendMessage("");
+        sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ranks.donor_header"));
+        sender.sendMessage(ChatColor.AQUA + "Hero");
+        sender.sendMessage(ChatColor.GREEN + "Titan");
+        sender.sendMessage(ChatColor.GOLD + "God");
+        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Lord");
+        sender.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Overlord");
         sender.sendMessage("");
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.ranks.staff_header"));
         sender.sendMessage(ChatColor.DARK_AQUA + "Helper " + ChatColor.YELLOW + "•");
