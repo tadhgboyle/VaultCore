@@ -67,10 +67,18 @@ public class RedditCommand extends CommandExecutor implements Listener {
                 if (rs.next()) {
                     String token = rs.getString("reddit_token");
                     String refreshToken = rs.getString("reddit_refresh_token");
+                    long expiration = rs.getLong("reddit_expiration");
                     try {
                         RedditClient client = new RedditClient(adapter,
-                                OAuthData.create(token, Collections.singletonList("identity"), refreshToken, new Date(rs.getLong("reddit_expiration"))),
+                                OAuthData.create(token, Collections.singletonList("identity"), refreshToken, new Date(expiration)),
                                 credentials, store, null);
+                        if (client.getAuthManager().needsRenewing()) {
+                            client.getAuthManager().renew();
+                        }
+                        if (!token.equals(client.getAuthManager().getAccessToken())) {
+                            VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=? WHERE uuid=?",
+                                    client.getAuthManager().getAccessToken(), player.getUniqueId().toString());
+                        }
                         loadedRedditClients.put(player.getUniqueId(), client);
                     } catch (Exception ignored) {
                     }
