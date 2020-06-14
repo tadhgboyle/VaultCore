@@ -72,8 +72,7 @@ public class RedditCommand extends CommandExecutor implements Listener {
                                 OAuthData.create(token, Collections.singletonList("identity"), refreshToken, new Date(rs.getLong("reddit_expiration"))),
                                 credentials, store, null);
                         loadedRedditClients.put(player.getUniqueId(), client);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    } catch (Exception ignored) {
                     }
                 }
             } catch (Exception ex) {
