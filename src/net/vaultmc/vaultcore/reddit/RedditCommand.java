@@ -13,6 +13,7 @@
 
 package net.vaultmc.vaultcore.reddit;
 
+import lombok.Getter;
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.NetworkAdapter;
 import net.dean.jraw.http.OkHttpNetworkAdapter;
@@ -38,10 +39,15 @@ import java.util.*;
 )
 @PlayerOnly
 public class RedditCommand extends CommandExecutor implements Listener {
+    @Getter
     private static final StatefulAuthHelper auth;
+    @Getter
     private static final NetworkAdapter adapter;
+    @Getter
     private static final Credentials credentials;
+    @Getter
     private static final TokenStore store = new NoopTokenStore();
+    @Getter
     private static final Map<UUID, RedditClient> loadedRedditClients = new HashMap<>();
 
     static {
@@ -56,6 +62,17 @@ public class RedditCommand extends CommandExecutor implements Listener {
         register("link", Collections.emptyList());
         register("unlink", Collections.singletonList(Arguments.createLiteral("unlink")));
         VaultCore.getInstance().registerEvents(this);
+    }
+
+    public static void cleanup() {
+        for (Map.Entry<UUID, RedditClient> entry : loadedRedditClients.entrySet()) {
+            RedditClient client = entry.getValue();
+            if (client.getAuthManager().needsRenewing()) {
+                client.getAuthManager().renew();
+            }
+            VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=?, reddit_expiration=? WHERE uuid=?",
+                    client.getAuthManager().getAccessToken(), client.getAuthManager().getCurrent().getExpiration().getTime(), entry.getKey().toString());
+        }
     }
 
     @EventHandler
@@ -76,8 +93,8 @@ public class RedditCommand extends CommandExecutor implements Listener {
                             client.getAuthManager().renew();
                         }
                         if (!token.equals(client.getAuthManager().getAccessToken())) {
-                            VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=? WHERE uuid=?",
-                                    client.getAuthManager().getAccessToken(), player.getUniqueId().toString());
+                            VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=?, reddit_expiration=? WHERE uuid=?",
+                                    client.getAuthManager().getAccessToken(), client.getAuthManager().getCurrent().getExpiration().getTime(), player.getUniqueId().toString());
                         }
                         loadedRedditClients.put(player.getUniqueId(), client);
                     } catch (Exception ignored) {
@@ -92,7 +109,12 @@ public class RedditCommand extends CommandExecutor implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        loadedRedditClients.remove(e.getPlayer().getUniqueId());
+        RedditClient client = loadedRedditClients.remove(e.getPlayer().getUniqueId());
+        if (client.getAuthManager().needsRenewing()) {
+            client.getAuthManager().renew();
+        }
+        VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=?, reddit_expiration=? WHERE uuid=?",
+                client.getAuthManager().getAccessToken(), client.getAuthManager().getCurrent().getExpiration().getTime(), e.getPlayer().getUniqueId().toString());
     }
 
     @SubCommand("link")
