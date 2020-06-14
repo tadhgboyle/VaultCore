@@ -523,6 +523,10 @@ vaultcore:
       unlinked: "&eSuccessfully unlinked your Reddit account."
       not-linked: "&eYour Minecraft account isn't linked with a Reddit account!"
       link: "&eTo continue, visit &6{URL}&e."
+      new-link: |-
+        &a
+        &aSuccessfully linked your &6u/{USERNAME}&a to your Minecraft account!
+        &eTo customize your &6r/VaultMinecraft&e experience, use &6/reddit customize&e.
 
     check:
       header: "&2--== [Check] ==--"

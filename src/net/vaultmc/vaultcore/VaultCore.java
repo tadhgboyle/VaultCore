@@ -41,7 +41,6 @@ import net.vaultmc.vaultcore.creative.ItemDrops;
 import net.vaultmc.vaultcore.creative.SchemCommand;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
-import net.vaultmc.vaultcore.donation.DonationCommand;
 import net.vaultmc.vaultcore.economy.*;
 import net.vaultmc.vaultcore.exploits.ExploitsListener;
 import net.vaultmc.vaultcore.gamemode.GMCreativeCommand;
@@ -351,7 +350,6 @@ public final class VaultCore extends Component implements Listener {
         new ListCommand();
         new SocialSpyCommand();
         new ModMode();
-        new DonationCommand();
         new ChatUtils();
         new TimeCommand();
         new VanishCommand();

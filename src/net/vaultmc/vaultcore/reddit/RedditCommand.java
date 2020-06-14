@@ -26,6 +26,7 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -61,6 +62,7 @@ public class RedditCommand extends CommandExecutor implements Listener {
     public RedditCommand() {
         register("link", Collections.emptyList());
         register("unlink", Collections.singletonList(Arguments.createLiteral("unlink")));
+        register("customize", Collections.singletonList(Arguments.createLiteral("customize")));
         VaultCore.getInstance().registerEvents(this);
     }
 
@@ -75,11 +77,11 @@ public class RedditCommand extends CommandExecutor implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST /* Called last */)
     public void onPlayerJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         Bukkit.getScheduler().runTaskAsynchronously(VaultLoader.getInstance(), () -> {
-            try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT reddit_token, reddit_refresh_token, reddit_expiration" +
+            try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT reddit_token, reddit_refresh_token, reddit_expiration, reddit_new_link" +
                     " FROM players WHERE uuid=?", player.getUniqueId().toString())) {
                 if (rs.next()) {
                     String token = rs.getString("reddit_token");
@@ -97,6 +99,11 @@ public class RedditCommand extends CommandExecutor implements Listener {
                                     client.getAuthManager().getAccessToken(), client.getAuthManager().getCurrent().getExpiration().getTime(), player.getUniqueId().toString());
                         }
                         loadedRedditClients.put(player.getUniqueId(), client);
+
+                        if (rs.getBoolean("reddit_new_link")) {
+                            VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_new_link=? WHERE uuid=?", false, player.getUniqueId().toString());
+                            player.sendMessageByKey("vaultcore.commands.reddit.new-link", "username", client.me().getUsername());
+                        }
                     } catch (Exception ignored) {
                     }
                 }
@@ -110,6 +117,9 @@ public class RedditCommand extends CommandExecutor implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         RedditClient client = loadedRedditClients.remove(e.getPlayer().getUniqueId());
+        if (client == null) {
+            return;
+        }
         if (client.getAuthManager().needsRenewing()) {
             client.getAuthManager().renew();
         }
@@ -148,5 +158,10 @@ public class RedditCommand extends CommandExecutor implements Listener {
                 ex.printStackTrace();
             }
         });
+    }
+
+    @SubCommand("customize")
+    public void customize(VLPlayer sender) {
+
     }
 }
