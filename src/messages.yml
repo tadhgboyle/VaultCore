@@ -517,6 +517,13 @@ vaultcore:
       teleported: "&eYou have been teleported &2{DISTANCE}&e blocks away."
       wrong_world: "&eYou must be in the &6Clans &eor &6Survival &eworld to do this."
 
+    reddit:
+      already-linked: "&eYour Minecraft account is already linked with a Reddit account!"
+      info: "&eYour Minecraft account is linked to &6u/{USERNAME}&e."
+      unlinked: "&eSuccessfully unlinked your Reddit account."
+      not-linked: "&eYour Minecraft account isn't linked with a Reddit account!"
+      link: "&eTo continue, visit &6{URL}&e."
+
     check:
       header: "&2--== [Check] ==--"
       format: "&e{KEY}: &6{VALUE}"

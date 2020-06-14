@@ -66,6 +66,7 @@ import net.vaultmc.vaultcore.punishments.kick.KickCommand;
 import net.vaultmc.vaultcore.punishments.mute.*;
 import net.vaultmc.vaultcore.punishments.warn.WarnCommand;
 import net.vaultmc.vaultcore.pvp.*;
+import net.vaultmc.vaultcore.reddit.RedditCommand;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
@@ -382,6 +383,7 @@ public final class VaultCore extends Component implements Listener {
         new UnclaimCommand();
         new ClaimListeners();
         new PlayerCustomKeys();
+        new RedditCommand();
         Kit.getKits();  // Load the class
         KitInit.init();
         registerEvents(new PlayerDeathListener());
