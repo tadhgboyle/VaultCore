@@ -107,8 +107,6 @@ public final class Permissions {
     public static final String IgnoreCommand = "vaultcore.ignore";
     public static final String SudoCommand = "vaultcore.sudo";
     public static final String SudoCommandExempt = "vaultcore.sudo.exempt";
-    public static final String DonationCommand = "vaultcore.donation";
-    public static final String DonationCommandAdmin = "vaultcore.donation.admin";
     public static final String SuicideCommand = "vaultcore.suicide";
     public static final String ChatGroupsCommand = "vaultcore.chatgroups";
     public static final String NicknameCommand = "vaultcore.nickname";
@@ -125,5 +123,7 @@ public final class Permissions {
     public static final String EntityLimitOverride = "vaultcore.plots.overrideentitylimit";
     public static final String PunishCommand = "vaultcore.punishments.gui";
     public static final String BuilderAccess = "vaultcore.builderaccess";
-    public static final String LinkRedditBot = "vaultcore.redditbot.link";
+    public static final String LinkRedditBot = "vaultcore.reddit.link";
+    public static final String RedditFlair = "vaultcore.reddit.flair";
+    public static final String RedditFlairColored = "vaultcore.reddit.flair.colored";
 }
