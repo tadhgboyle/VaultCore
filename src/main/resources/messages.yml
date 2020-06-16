@@ -501,6 +501,14 @@ vaultcore:
 
     seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
 
+    survival:
+      kit:
+        doesnt-exist: "&cThis kit doesn't exist!"
+        must-wait: "&eYou must wait for &6{TIME}&e before using this kit!"
+        success: "&eSuccessfully obtained kit &6{KIT}&e."
+        couldnt-use: "&cYou couldn't use this kit!"
+        created: "&eCreated kit &6{KIT}&e!"
+
     token:
       generating: "&eGenerating your token..."
       your_token: "&eYour token is: &2{TOKEN}&e."

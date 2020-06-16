@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.teleport.worldtp;
+package net.vaultmc.vaultcore.creative;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
@@ -23,26 +23,24 @@ import org.bukkit.Location;
 
 import java.util.Collections;
 
-@RootCommand(literal = "sv", description = "Teleport to the Survival world.")
-@Permission(Permissions.WorldTPCommandSurvival)
+@RootCommand(literal = "cr", description = "Teleport to the Creative world.")
+@Permission(Permissions.CreativeCommand)
 @PlayerOnly
-public class SVCommand extends CommandExecutor {
-    private static final Location svLoc = new Location(Bukkit.getWorld("Survival"), -1122.5, 63, -673.5, 0F, 0F);
-
-    public SVCommand() {
-        register("sv", Collections.emptyList());
+public class CreativeCommand extends CommandExecutor {
+    public CreativeCommand() {
+        register("cr", Collections.emptyList());
     }
 
-    @SubCommand("sv")
-    public void sv(VLPlayer player) {
-        Location sv = Utilities.deserializeLocation(player.getPlayerData().getString("locations.sv"));
-        if (sv == null) {
+    @SubCommand("cr")
+    public void cr(VLPlayer player) {
+        Location cr = Utilities.deserializeLocation(player.getPlayerData().getString("locations.cr"));
+        if (cr == null) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
-            player.teleport(svLoc);
+            player.teleport(Bukkit.getWorld("creative").getSpawnLocation());
         } else {
-            player.teleport(sv);
+            player.teleport(cr);
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
-                    "Survival"));
+                    "Creative"));
         }
     }
 }

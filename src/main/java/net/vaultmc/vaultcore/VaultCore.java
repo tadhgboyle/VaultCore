@@ -35,10 +35,7 @@ import net.vaultmc.vaultcore.combat.CombatLog;
 import net.vaultmc.vaultcore.combat.LegacyCombat;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
-import net.vaultmc.vaultcore.creative.CycleListener;
-import net.vaultmc.vaultcore.creative.EntityUpperBound;
-import net.vaultmc.vaultcore.creative.ItemDrops;
-import net.vaultmc.vaultcore.creative.SchemCommand;
+import net.vaultmc.vaultcore.creative.*;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
 import net.vaultmc.vaultcore.economy.*;
@@ -74,10 +71,7 @@ import net.vaultmc.vaultcore.stats.CheckCommand;
 import net.vaultmc.vaultcore.stats.PlayTimeCommand;
 import net.vaultmc.vaultcore.stats.SeenCommand;
 import net.vaultmc.vaultcore.stats.Statistics;
-import net.vaultmc.vaultcore.survival.NetherWarningMessage;
-import net.vaultmc.vaultcore.survival.SleepHandler;
-import net.vaultmc.vaultcore.survival.StarterGearExperience;
-import net.vaultmc.vaultcore.survival.TheEndReset;
+import net.vaultmc.vaultcore.survival.*;
 import net.vaultmc.vaultcore.survival.claim.Claim;
 import net.vaultmc.vaultcore.survival.claim.ClaimCommand;
 import net.vaultmc.vaultcore.survival.claim.ClaimListeners;
@@ -90,8 +84,6 @@ import net.vaultmc.vaultcore.teleport.tpa.TPACommand;
 import net.vaultmc.vaultcore.teleport.tpa.TPAHereCommand;
 import net.vaultmc.vaultcore.teleport.tpa.TPAcceptCommand;
 import net.vaultmc.vaultcore.teleport.tpa.TPDenyCommand;
-import net.vaultmc.vaultcore.teleport.worldtp.CRCommand;
-import net.vaultmc.vaultcore.teleport.worldtp.SVCommand;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultcore.tour.TourCommand;
 import net.vaultmc.vaultcore.tour.TourMusic;
@@ -143,6 +135,8 @@ public final class VaultCore extends Component implements Listener {
     private Configuration data;
     private Configuration inv;
     private Configuration chatgroups;
+    @Getter
+    private Configuration kits;
 
     private static String getServerName() {
         String name = "CraftBukkit";
@@ -214,6 +208,7 @@ public final class VaultCore extends Component implements Listener {
         inv.save();
         locations.save();
         chatgroups.save();
+        kits.save();
     }
 
     public void reloadConfig() {
@@ -221,6 +216,8 @@ public final class VaultCore extends Component implements Listener {
         config.reload();
         data.reload();
         inv.reload();
+        kits.reload();
+        locations.reload();
     }
 
     @Override
@@ -233,6 +230,7 @@ public final class VaultCore extends Component implements Listener {
         inv = ConfigurationManager.loadConfiguration("inventory.yml", this);
         locations = ConfigurationManager.loadConfiguration("locations.yml", this);
         chatgroups = ConfigurationManager.loadConfiguration("chatgroups.yml", this);
+        kits = ConfigurationManager.loadConfiguration("kits.yml", this);
 
         database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
                 getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
@@ -254,8 +252,8 @@ public final class VaultCore extends Component implements Listener {
         VaultMCBot.startVaultMCBot();
         new ManageBotCommand();
         new ChatGroupsCommand();
-        new CRCommand();
-        new SVCommand();
+        new CreativeCommand();
+        new SurvivalCommand();
         new WildTeleportCommand();
         new TourCommand();
         new TourStageCommand();

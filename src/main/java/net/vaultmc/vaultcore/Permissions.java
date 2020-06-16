@@ -33,8 +33,8 @@ public final class Permissions {
     public static final String WarpCommandSet = "vaultcore.warp.set";
     public static final String WarpCommandDelete = "vaultcore.warp.delete";
     public static final String WildTeleport = "vaultcore.wildteleport";
-    public static final String WorldTPCommandCreative = "vaultcore.worlds.creative";
-    public static final String WorldTPCommandSurvival = "vaultcore.worlds.survival";
+    public static final String CreativeCommand = "vaultcore.worlds.creative";
+    public static final String SurvivalCommand = "vaultcore.worlds.survival";
     public static final String SettingsCommand = "vaultcore.settings";
     public static final String InvSeeAdmin = "vaultcore.invsee.admin";
     public static final String CheckCommand = "vaultcore.check";
