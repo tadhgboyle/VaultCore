@@ -35,6 +35,7 @@ import net.vaultmc.vaultcore.combat.CombatLog;
 import net.vaultmc.vaultcore.combat.LegacyCombat;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
+import net.vaultmc.vaultcore.cosmetics.Cosmetics;
 import net.vaultmc.vaultcore.creative.*;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
@@ -379,6 +380,7 @@ public final class VaultCore extends Component implements Listener {
         Kit.getKits();  // Load the class
         KitInit.init();
         new PlayerVaultCommand();
+        new Cosmetics();
         registerEvents(new PlayerDeathListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());
