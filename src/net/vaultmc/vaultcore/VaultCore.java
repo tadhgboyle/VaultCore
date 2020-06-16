@@ -380,6 +380,7 @@ public final class VaultCore extends Component implements Listener {
         new PlayerCustomKeys();
         Kit.getKits();  // Load the class
         KitInit.init();
+        new PlayerVaultCommand();
         registerEvents(new PlayerDeathListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());

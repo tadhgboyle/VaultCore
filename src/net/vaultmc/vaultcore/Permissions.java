@@ -123,7 +123,5 @@ public final class Permissions {
     public static final String EntityLimitOverride = "vaultcore.plots.overrideentitylimit";
     public static final String PunishCommand = "vaultcore.punishments.gui";
     public static final String BuilderAccess = "vaultcore.builderaccess";
-    public static final String LinkRedditBot = "vaultcore.reddit.link";
-    public static final String RedditFlair = "vaultcore.reddit.flair";
-    public static final String RedditFlairColored = "vaultcore.reddit.flair.colored";
+    public static final String PlayerVault = "vaultcore.playervault";
 }

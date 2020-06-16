@@ -539,6 +539,9 @@ vaultcore:
       other: "&eYou have &2{TOGGLE} &6fly&e for {TARGET}&e."
       receiver: "&eYour &6fly&e has been &2{TOGGLE}&e by {SENDER}&e."
 
+    player-vault:
+      invalid-world: "&cThis command doesn't exist in this world!"
+
     hasperm:
       self: "&eYou {STATUS} &ethe permission &6{PERMISSION}&e."
       other: "{TARGET} {STATUS} &ethe permission &6{PERMISSION}&e."
