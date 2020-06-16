@@ -42,7 +42,7 @@ public class SurvivalCommand extends CommandExecutor {
                 Arguments.createArgument("name", Arguments.word())
         ));
         register("createKit", Arrays.asList(
-                Arguments.createLiteral("createKit"),
+                Arguments.createLiteral("createkit"),
                 Arguments.createArgument("name", Arguments.word()),
                 Arguments.createArgument("delay", Arguments.longArgument(1))
         ));
