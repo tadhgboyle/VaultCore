@@ -14,13 +14,11 @@
 package net.vaultmc.vaultcore.lobby;
 
 import net.vaultmc.vaultcore.Permissions;
-import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
-import net.vaultmc.vaultloader.utils.configuration.SQLPlayerData;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -88,10 +86,10 @@ public class ServerNavigator extends ConstructorRegisterListener {
                     ChatColor.GRAY + "the death with other players!"
             ))
             .build();
-    private static final ItemStack kingdoms = new ItemStackBuilder(Material.WHEAT)
+    private static final ItemStack stayTuned = new ItemStackBuilder(Material.WHEAT)
             .name(ChatColor.YELLOW + "Stay Tuned!")
             .lore(Collections.singletonList(
-                    ChatColor.GRAY + "A new game will soon be released here."
+                    ChatColor.GRAY + "This game is temporarily unavailable."
             ))
             .build();
     private static final ItemStack factions = new ItemStackBuilder(Material.RED_BANNER)
@@ -156,15 +154,17 @@ public class ServerNavigator extends ConstructorRegisterListener {
                         player.getPlayer().performCommand("sv");
                         break;
                     case 16:
-                        player.getPlayer().performCommand("pvp");
+                        //player.getPlayer().performCommand("pvp");
                         break;
                     case 22:
+                        /*
                         SQLPlayerData data = player.getPlayerData();
                         if (!data.contains("locations.clans")) {
                             player.teleport(Bukkit.getWorld("clans").getSpawnLocation());
                         } else {
                             player.teleport(Utilities.deserializeLocation(data.getString("locations.clans")));
                         }
+                         */
                         break;
                     case 24:
                         if (player.hasPermission(Permissions.BuilderAccess)) {
@@ -206,9 +206,9 @@ public class ServerNavigator extends ConstructorRegisterListener {
             inv.setItem(10, skyblock);
             inv.setItem(12, creative);
             inv.setItem(14, survival);
-            inv.setItem(16, pvp);
-            inv.setItem(20, kingdoms);
-            inv.setItem(22, factions);
+            inv.setItem(16, stayTuned);
+            inv.setItem(20, stayTuned);
+            inv.setItem(22, stayTuned);
             if (e.getPlayer().hasPermission(Permissions.BuilderAccess)) {
                 inv.setItem(24, building);
             } else {
