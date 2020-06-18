@@ -15,7 +15,6 @@ package net.vaultmc.vaultcore.rewards;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.vaultmc.vaultcore.survival.SurvivalCommand;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
@@ -34,14 +33,14 @@ public enum Reward {
     SURVIVAL_DIAMOND_WEEKLY(player -> {
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStack(Material.DIAMOND, 5));
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-diamond");
-    }, "Survival Diamond (Weekly)", null),
+    }, "Survival Diamond (Weekly)", null, 604800000),
     SURVIVAL_ENCHANTMENT_BOOK_MONTHLY(player -> {
         Enchantment enchantment = Enchantment.values()[ThreadLocalRandom.current().nextInt(Enchantment.values().length)];
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStackBuilder(Material.ENCHANTED_BOOK)
                 .enchant(enchantment, ThreadLocalRandom.current().nextInt(1, enchantment.getMaxLevel()))
                 .build());
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-enchantment-book");
-    }, "Survival Enchantment Book (Monthly)", "vaultcore.reward.enchantmentbook"),
+    }, "Survival Enchantment Book (Monthly)", "vaultcore.reward.enchantmentbook", 2592000000L),
     SURVIVAL_SHULKER_BOX_MONTHLY(player -> {
         ItemStack box = new ItemStack(Material.RED_SHULKER_BOX);
         BlockStateMeta meta = (BlockStateMeta) box.getItemMeta();
@@ -53,28 +52,27 @@ public enum Reward {
         box.setItemMeta(meta);
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), box);
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-loot-box");
-    }, "Survival Loot Box (Monthly)", "vaultcore.reward.shulkerbox"),
+    }, "Survival Loot Box (Monthly)", "vaultcore.reward.shulkerbox", 2592000000L),
     SURVIVAL_TROPHY_MONTHLY(player -> {
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStackBuilder(Material.DRAGON_EGG)
                 .name(ChatColor.GOLD + "Survival Trophy")
                 .build());
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-trophy");
-    }, "Survival Trophy (Monthly)", "vaultcore.reward.trophy"),
+    }, "Survival Trophy (Monthly)", "vaultcore.reward.trophy", 2592000000L),
     SKYBLOCK_BALANCE_MONTHLY(player -> {
         player.deposit(Bukkit.getWorld("skyblock"), 100);
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-balance");
-    }, "SkyBlock Balance (Monthly)", "vaultcore.reward.balance"),
+    }, "SkyBlock Balance (Monthly)", "vaultcore.reward.balance", 2592000000L),
     VOTE_REWARD(player -> {
         player.deposit(Bukkit.getWorld("skyblock"), 10);
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStack(Material.DIAMOND, 3));
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-vote");
-    }, "Vote Reward", null),
+    }, "Vote Reward", null, -1),
     DAILY_REWARD(player -> {
         player.deposit(Bukkit.getWorld("skyblock"), 10);
-        SurvivalCommand.sv(player);
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStack(Material.DIAMOND, 3));
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-daily");
-    }, "Daily Reward", null);
+    }, "Daily Reward", null, 86400000);
 
     @Getter
     private final Consumer<VLPlayer> reward;
@@ -82,4 +80,6 @@ public enum Reward {
     private final String name;
     @Getter
     private final String permission;
+    @Getter
+    private final long delay;
 }

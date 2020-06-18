@@ -38,10 +38,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @RootCommand(
         literal = "rewards",
@@ -97,7 +94,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
     };
     @Getter
     private static final Multimap<UUID, ItemStack> survivalGrant = HashMultimap.create();
-    private static final Multimap<UUID, Reward> availableRewards = HashMultimap.create();
+    private static final Map<UUID, Map<Reward, Long>> availableRewards = new HashMap<>();
     private static final Reward[] firstRow = {Reward.SURVIVAL_DIAMOND_WEEKLY,
             Reward.SURVIVAL_ENCHANTMENT_BOOK_MONTHLY, Reward.SURVIVAL_SHULKER_BOX_MONTHLY, Reward.SURVIVAL_TROPHY_MONTHLY,
             Reward.SKYBLOCK_BALANCE_MONTHLY};
@@ -110,7 +107,12 @@ public class RewardsCommand extends CommandExecutor implements Listener {
     public static void save() {
         for (UUID uuid : availableRewards.keySet()) {
             VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(uuid);
-            player.getDataConfig().set("rewards", availableRewards.get(player.getUniqueId()).stream().map(Reward::toString).collect(Collectors.toList()));
+            player.getDataConfig().set("rewards", null);
+            if (availableRewards.containsKey(player.getUniqueId())) {
+                for (Map.Entry<Reward, Long> reward : availableRewards.get(player.getUniqueId()).entrySet()) {
+                    player.getDataConfig().set("rewards." + reward.getKey().toString(), reward.getValue());
+                }
+            }
             player.saveData();
         }
     }
@@ -133,15 +135,39 @@ public class RewardsCommand extends CommandExecutor implements Listener {
         }
     }
 
+    public static boolean available(VLPlayer player, Reward reward) {
+        if (!availableRewards.containsKey(player.getUniqueId())) return false;
+        if (reward.getDelay() == -1) {
+            return availableRewards.get(player.getUniqueId()).containsKey(reward);
+        }
+        return System.currentTimeMillis() >= availableRewards.get(player.getUniqueId()).get(reward);
+    }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        for (String s : player.getDataConfig().getStringList("rewards")) {
-            try {
-                availableRewards.put(player.getUniqueId(), Reward.valueOf(s));
-            } catch (IllegalArgumentException ignored) {
+        if (!player.getDataConfig().contains("rewards-granted")) {
+            player.getDataConfig().set("rewards-granted", true);
+            player.saveData();
+            Map<Reward, Long> map = new HashMap<>();
+            for (Reward reward : Reward.values()) {
+                if (reward.getDelay() != -1) {
+                    map.put(reward, 0L);
+                }
+            }
+            availableRewards.put(player.getUniqueId(), map);
+            return;
+        }
+        Map<Reward, Long> map = new HashMap<>();
+        if (player.getDataConfig().contains("rewards")) {
+            for (String s : player.getDataConfig().getConfigurationSection("rewards").getKeys(false)) {
+                try {
+                    map.put(Reward.valueOf(s), player.getDataConfig().getLong("rewards." + s));
+                } catch (IllegalArgumentException ignored) {
+                }
             }
         }
+        availableRewards.put(player.getUniqueId(), map);
     }
 
     @EventHandler
@@ -153,7 +179,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
                 return;
             }
             Reward reward = Reward.valueOf(ItemStackBuilder.getIdentifier(e.getCurrentItem()));
-            if (!availableRewards.get(player.getUniqueId()).contains(reward)) {
+            if (!available(player, reward)) {
                 return;
             }
             if (reward.getPermission() != null && !player.hasPermission(reward.getPermission())) {
@@ -162,10 +188,10 @@ public class RewardsCommand extends CommandExecutor implements Listener {
             }
             player.getPlayer().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
             reward.getReward().accept(player);
-            availableRewards.remove(player.getUniqueId(), reward);
-            if (availableRewards.get(player.getUniqueId()).isEmpty()) {
-                player.getDataConfig().set("rewards", null);
-                player.saveData();
+            if (reward.getDelay() == -1) {
+                availableRewards.get(player.getUniqueId()).remove(reward);
+            } else {
+                availableRewards.get(player.getUniqueId()).replace(reward, System.currentTimeMillis() + reward.getDelay());
             }
             player.closeInventory();
             rewards(player);
@@ -176,7 +202,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
     public void rewards(VLPlayer sender) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.RESET + "Rewards");
         for (int i = 0; i < firstRow.length; i++) {
-            if (availableRewards.get(sender.getUniqueId()).contains(firstRow[i])) {
+            if (available(sender, firstRow[i])) {
                 inv.setItem(i + 20, new ItemStackBuilder(Material.CHEST_MINECART)
                         .name(ChatColor.YELLOW + firstRow[i].getName())
                         .lore(Arrays.asList(
@@ -197,7 +223,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
                         .build());
             }
         }
-        if (availableRewards.get(sender.getUniqueId()).contains(Reward.DAILY_REWARD)) {
+        if (available(sender, Reward.DAILY_REWARD)) {
             inv.setItem(30, new ItemStackBuilder(Material.CHEST_MINECART)
                     .name(ChatColor.YELLOW + Reward.DAILY_REWARD.getName())
                     .lore(Arrays.asList(
@@ -217,7 +243,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
                     .identifier("DAILY_REWARD")
                     .build());
         }
-        if (availableRewards.get(sender.getUniqueId()).contains(Reward.VOTE_REWARD)) {
+        if (available(sender, Reward.VOTE_REWARD)) {
             inv.setItem(32, new ItemStackBuilder(Material.CHEST_MINECART)
                     .name(ChatColor.YELLOW + Reward.VOTE_REWARD.getName())
                     .lore(Arrays.asList(

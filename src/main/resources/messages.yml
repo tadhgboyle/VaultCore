@@ -829,7 +829,7 @@ vaultcore:
       couldnt-claim: "&cYou need another rank to claim this reward! You can purchase a rank at https://store.vaultmc.net."
       claimed-diamond: "&eSuccessfully claimed your weekly survival diamond. Join the survival world to receive it in your inventory (or dropped if its full)."
       claimed-enchantment-book: "&eSuccessfully claimed your monthly survival enchantment book. Join the survival world to receive it in your inventory (or dropped if its full)."
-      claimed-look-box: "&eSuccessfully claimed your monthly survival loot box. Join the survival world to receive it in your inventory (or dropped if its full)."
+      claimed-loot-box: "&eSuccessfully claimed your monthly survival loot box. Join the survival world to receive it in your inventory (or dropped if its full)."
       claimed-trophy: "&eSuccessfully claimed your monthly survival trophy. Join the survival world to receive it in your inventory (or dropped if its full)."
       claimed-balance: "&eSuccessfully claimed &6$100&e in SkyBlock."
       claimed-vote: "&eSuccessfully claimed 3 survival diamonds and &6$10&e in SkyBlock."
