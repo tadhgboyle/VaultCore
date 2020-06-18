@@ -328,6 +328,7 @@ public final class VaultCore extends Component implements Listener {
         new TokenCommand();
         new GrantCommand();
         new GameModeCommand();
+        new SendLargeCommand();
         new GMCreativeCommand();
         new GMSurvivalCommand();
         new GMSpectatorCommand();
