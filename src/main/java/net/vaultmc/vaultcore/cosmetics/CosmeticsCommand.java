@@ -73,6 +73,7 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
     public static void save() {
         for (UUID uuid : appliedCosmetics.keySet()) {
             VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(uuid);
+            player.getDataConfig().set("cosmetics", null);
             player.getDataConfig().set("cosmetics", appliedCosmetics.get(player.getUniqueId()).stream().map(Cosmetic::toString).collect(Collectors.toList()));
             player.saveData();
         }
