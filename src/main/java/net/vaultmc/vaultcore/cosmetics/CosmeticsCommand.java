@@ -18,6 +18,7 @@ import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -59,9 +60,9 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
     private static final ItemStack item = new ItemStackBuilder(Material.CHEST)
             .name(ChatColor.GREEN + "Cosmetics")
             .lore(Arrays.asList(
-                    ChatColor.GREEN + "Ever wanted to make your friend jealous",
-                    ChatColor.GREEN + "at you? Then use these cosmetics to make",
-                    ChatColor.GREEN + "you stand out!"
+                    ChatColor.GRAY + "Ever wanted to make your friend jealous",
+                    ChatColor.GRAY + "at you? Then use these cosmetics to make",
+                    ChatColor.GRAY + "you stand out!"
             ))
             .build();
 
@@ -116,6 +117,11 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
+        if (SecLogCommand.getLoggingPlayers().containsKey(e.getPlayer().getUniqueId()) || SecLogCommand.getResetingPlayers().containsKey(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
+            return;
+        }
+
         if (e.getPlayer().getWorld().getName().equals("Lobby") && (e.getAction() == Action.RIGHT_CLICK_AIR ||
                 e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND && e.getPlayer().getInventory().getHeldItemSlot() == 4) {
             e.setCancelled(true);

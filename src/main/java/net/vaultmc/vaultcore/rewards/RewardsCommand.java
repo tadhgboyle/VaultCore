@@ -17,6 +17,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
@@ -32,9 +33,13 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -98,6 +103,14 @@ public class RewardsCommand extends CommandExecutor implements Listener {
     private static final Reward[] firstRow = {Reward.SURVIVAL_DIAMOND_WEEKLY,
             Reward.SURVIVAL_ENCHANTMENT_BOOK_MONTHLY, Reward.SURVIVAL_SHULKER_BOX_MONTHLY, Reward.SURVIVAL_TROPHY_MONTHLY,
             Reward.SKYBLOCK_BALANCE_MONTHLY};
+    private static final ItemStack item = new ItemStackBuilder(Material.DIAMOND)
+            .name(ChatColor.GREEN + "Rewards")
+            .lore(Arrays.asList(
+                    ChatColor.GRAY + "Rewards make you more powerful.",
+                    ChatColor.GRAY + "We have free diamonds and free items",
+                    ChatColor.GRAY + "that you can easily get with a click."
+            ))
+            .build();
 
     public RewardsCommand() {
         register("rewards", Collections.emptyList());
@@ -264,5 +277,36 @@ public class RewardsCommand extends CommandExecutor implements Listener {
                     .build());
         }
         sender.openInventory(inv);
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent e) {
+        if (e.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Rewards"))
+            e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerChangedWorld2(PlayerChangedWorldEvent e) {
+        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
+            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().getInventory().setItem(3, item));
+        } else {
+            e.getPlayer().getInventory().clear(6);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        if (SecLogCommand.getLoggingPlayers().containsKey(e.getPlayer().getUniqueId()) || SecLogCommand.getResetingPlayers().containsKey(e.getPlayer().getUniqueId())) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
+                && e.getPlayer().getInventory().getItemInMainHand().hasItemMeta() &&
+                (ChatColor.GREEN + "Rewards").equals(e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName()) &&
+                e.getHand() == EquipmentSlot.HAND) {
+            e.setCancelled(true);
+            rewards(VLPlayer.getPlayer(e.getPlayer()));
+        }
     }
 }
