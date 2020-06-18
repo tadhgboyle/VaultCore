@@ -85,7 +85,7 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
             sender.sendMessageByKey("vaultcore.commands.cosmetics.none-available");
             return;
         }
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.RESET + "Cosmetics");
+        Inventory inv = Bukkit.createInventory(null, 27, ChatColor.RESET + "Cosmetics");
         for (Cosmetic cosmetic : available) {
             if (appliedCosmetics.get(sender.getUniqueId()).contains(cosmetic)) {
                 inv.addItem(new ItemStackBuilder(cosmetic.getItem())
