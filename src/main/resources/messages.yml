@@ -838,6 +838,7 @@ vaultcore:
 
     cosmetics:
       none-available: "&cYou don't have any cosmetics! You can get them by purchasing a rank at https://store.vaultmc.net."
+      limitation: "&cTo avoid performance issues, you can only use 5 cosmetics at a time."
 
     nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."
 

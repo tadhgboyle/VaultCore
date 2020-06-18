@@ -162,6 +162,9 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
             if (appliedCosmetics.get(player.getUniqueId()).contains(cosmetic)) {
                 appliedCosmetics.remove(player.getUniqueId(), cosmetic);
             } else {
+                if (appliedCosmetics.get(player.getUniqueId()).size() > 5) {
+                    player.sendMessageByKey("vaultcore.commands.cosmetics.limitation");
+                }
                 appliedCosmetics.put(player.getUniqueId(), cosmetic);
             }
             player.closeInventory();

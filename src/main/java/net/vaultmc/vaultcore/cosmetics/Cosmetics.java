@@ -26,8 +26,10 @@ public class Cosmetics {
 
     public void tickCosmetics() {
         for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-            for (Cosmetic cosmetic : CosmeticsCommand.getAppliedCosmetics().get(player.getUniqueId())) {
-                cosmetic.getTick().accept(player);
+            if (player.getWorld().getName().equalsIgnoreCase("Lobby")) {
+                for (Cosmetic cosmetic : CosmeticsCommand.getAppliedCosmetics().get(player.getUniqueId())) {
+                    cosmetic.getTick().accept(player);
+                }
             }
         }
     }
