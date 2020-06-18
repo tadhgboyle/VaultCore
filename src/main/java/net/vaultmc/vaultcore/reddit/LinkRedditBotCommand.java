@@ -48,6 +48,34 @@ public class LinkRedditBotCommand extends CommandExecutor {
                 Arguments.createArgument("redirect", Arguments.greedyString())
         ));
         if (VaultCore.getInstance().getData().contains("bot-refresh-token")) {
+            if (System.currentTimeMillis() >= VaultCore.getInstance().getData().getLong("bot-expiration")) {
+                try {
+                    HttpURLConnection conn = (HttpURLConnection) new URL("https://www.reddit.com/api/v1/access_token").openConnection();
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.addRequestProperty("User-Agent", RedditCommand.getAdapter().getUserAgent().getValue());
+                    conn.addRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString((VaultCore.getInstance().getConfig().getString("reddit-client-id") + ":" +
+                            VaultCore.getInstance().getConfig().getString("reddit-client-secret")).getBytes()));
+                    OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+                    writer.write("grant_type=refresh_token&refresh_token=" + URLEncoder.encode(VaultCore.getInstance().getData().getString("bot-refresh-token"), "utf-8"));
+                    writer.flush();
+                    writer.close();
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    Scanner s = new Scanner(is).useDelimiter("\\A");
+                    if (s.hasNext()) {
+                        JsonObject json = new JsonParser().parse(s.next()).getAsJsonObject();
+                        String accessToken = json.get("access_token").getAsString();
+                        VaultCore.getInstance().getData().set("bot-access-token", accessToken);
+                        VaultCore.getInstance().getData().set("bot-expiration", System.currentTimeMillis() + json.get("expires_in").getAsLong() * 1000);
+                        VaultCore.getInstance().saveConfig();
+                    }
+                    conn.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
             bot = new RedditClient(RedditCommand.getAdapter(),
                     OAuthData.create(VaultCore.getInstance().getData().getString("bot-access-token"),
                             Arrays.asList("identity", "edit", "flair", "history", "modconfig", "modflair", "modlog", "modposts", "modwiki",
@@ -100,7 +128,7 @@ public class LinkRedditBotCommand extends CommandExecutor {
                 if (s.hasNext()) {
                     JsonObject json = new JsonParser().parse(s.next()).getAsJsonObject();
                     String accessToken = json.get("access_token").getAsString();
-                    Date expiration = new Date(System.currentTimeMillis() + json.get("expires_in").getAsLong());
+                    Date expiration = new Date(System.currentTimeMillis() + json.get("expires_in").getAsLong() * 1000);
                     String refreshToken = json.get("refresh_token").getAsString();
 
                     VaultCore.getInstance().getData().set("bot-refresh-token", refreshToken);
