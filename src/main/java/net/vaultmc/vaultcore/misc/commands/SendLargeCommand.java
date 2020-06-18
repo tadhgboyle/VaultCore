@@ -40,7 +40,8 @@ public class SendLargeCommand extends CommandExecutor {
 
     @SubCommand("send")
     public void send(VLPlayer sender, String message) {
-        if (delay.containsKey(sender.getUniqueId()) && System.currentTimeMillis() < delay.get(sender.getUniqueId())) {
+        if (delay.containsKey(sender.getUniqueId()) && System.currentTimeMillis() < delay.get(sender.getUniqueId()) &&
+                !sender.hasPermission(Permissions.SendLargeBypass)) {
             sender.sendMessageByKey("vaultcore.commands.send-large.delay", "time",
                     Utilities.humanReadableTime((delay.get(sender.getUniqueId()) - System.currentTimeMillis()) / 1000));
             return;

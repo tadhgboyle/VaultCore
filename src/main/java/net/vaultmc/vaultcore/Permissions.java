@@ -127,4 +127,5 @@ public final class Permissions {
     public static final String LinkRedditBot = "vaultcore.reddit.link";
     public static final String CosmeticsCommand = "vaultcore.cosmetics";
     public static final String SendLargeCommand = "vaultcore.sendlarge";
+    public static final String SendLargeBypass = "vaultcore.sendlarge.bypass";
 }

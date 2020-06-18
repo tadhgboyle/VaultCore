@@ -73,7 +73,6 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
     public static void save() {
         for (UUID uuid : appliedCosmetics.keySet()) {
             VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(uuid);
-            player.getDataConfig().set("cosmetics", null);
             player.getDataConfig().set("cosmetics", appliedCosmetics.get(player.getUniqueId()).stream().map(Cosmetic::toString).collect(Collectors.toList()));
             player.saveData();
         }
@@ -162,6 +161,10 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
             Cosmetic cosmetic = Cosmetic.valueOf(ItemStackBuilder.getIdentifier(e.getCurrentItem()));
             if (appliedCosmetics.get(player.getUniqueId()).contains(cosmetic)) {
                 appliedCosmetics.remove(player.getUniqueId(), cosmetic);
+                if (appliedCosmetics.get(player.getUniqueId()).isEmpty()) {
+                    player.getDataConfig().set("cosmetics", null);
+                    player.saveData();
+                }
             } else {
                 if (appliedCosmetics.get(player.getUniqueId()).size() > 5) {
                     player.sendMessageByKey("vaultcore.commands.cosmetics.limitation");
