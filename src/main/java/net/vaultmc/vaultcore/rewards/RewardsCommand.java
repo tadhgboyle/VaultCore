@@ -117,6 +117,14 @@ public class RewardsCommand extends CommandExecutor implements Listener {
         }
     }
 
+    public static boolean available(VLPlayer player, Reward reward) {
+        if (!availableRewards.containsKey(player.getUniqueId())) return false;
+        if (reward.getDelay() == -1) {
+            return availableRewards.get(player.getUniqueId()).containsKey(reward);
+        }
+        return System.currentTimeMillis() >= availableRewards.get(player.getUniqueId()).get(reward);
+    }
+
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
         if (e.getPlayer().getWorld().getName().toLowerCase().contains("survival")) {
@@ -133,14 +141,6 @@ public class RewardsCommand extends CommandExecutor implements Listener {
                 }
             });
         }
-    }
-
-    public static boolean available(VLPlayer player, Reward reward) {
-        if (!availableRewards.containsKey(player.getUniqueId())) return false;
-        if (reward.getDelay() == -1) {
-            return availableRewards.get(player.getUniqueId()).containsKey(reward);
-        }
-        return System.currentTimeMillis() >= availableRewards.get(player.getUniqueId()).get(reward);
     }
 
     @EventHandler
