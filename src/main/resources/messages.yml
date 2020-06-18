@@ -501,6 +501,16 @@ vaultcore:
 
     seen: "{TARGET} &ehas been {STATUS}&efor {TIME}"
 
+    reddit:
+      already-linked: "&eYour Minecraft account is already linked with a Reddit account!"
+      info: "&eYour Minecraft account is linked to &6u/{USERNAME}&e."
+      unlinked: "&eSuccessfully unlinked your Reddit account."
+      not-linked: "&eYour Minecraft account isn't linked with a Reddit account!"
+      link: "&eTo continue, visit &6{URL}&e."
+      new-link: |-
+        &eSuccessfully linked your &6u/{USERNAME}&e to your Minecraft account!
+        &eIf you have a rank, you should automatically get your flair.
+
     survival:
       kits:
         doesnt-exist: "&cThis kit doesn't exist!"

@@ -63,6 +63,8 @@ import net.vaultmc.vaultcore.punishments.kick.KickCommand;
 import net.vaultmc.vaultcore.punishments.mute.*;
 import net.vaultmc.vaultcore.punishments.warn.WarnCommand;
 import net.vaultmc.vaultcore.pvp.*;
+import net.vaultmc.vaultcore.reddit.LinkRedditBotCommand;
+import net.vaultmc.vaultcore.reddit.RedditCommand;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
@@ -381,6 +383,8 @@ public final class VaultCore extends Component implements Listener {
         KitInit.init();
         new PlayerVaultCommand();
         new Cosmetics();
+        new RedditCommand();
+        new LinkRedditBotCommand();
         registerEvents(new PlayerDeathListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());
@@ -430,6 +434,8 @@ public final class VaultCore extends Component implements Listener {
         Report.save();
         ModMode.save();
         KitGuis.save();
+        RedditCommand.cleanup();
+        LinkRedditBotCommand.cleanup();
         database.close();
         pDatabase.close();
         inv.save();
