@@ -138,9 +138,9 @@ public class RedditCommand extends CommandExecutor implements Listener {
                             Scanner s = new Scanner(is).useDelimiter("\\A");
                             if (s.hasNext()) {
                                 JsonObject json = new JsonParser().parse(s.next()).getAsJsonObject();
-                                String accessToken = json.get("access_token").getAsString();
+                                token = json.get("access_token").getAsString();
                                 VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=?, " +
-                                                "reddit_expiration=? WHERE uuid=?", accessToken, System.currentTimeMillis() + json.get("expires_in").getAsLong() * 1000,
+                                                "reddit_expiration=? WHERE uuid=?", token, System.currentTimeMillis() + json.get("expires_in").getAsLong() * 1000,
                                         player.getUniqueId().toString());
                             }
                             conn.disconnect();
