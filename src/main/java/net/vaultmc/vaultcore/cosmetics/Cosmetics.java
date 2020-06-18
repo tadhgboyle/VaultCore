@@ -16,16 +16,16 @@ package net.vaultmc.vaultcore.cosmetics;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 public class Cosmetics {
     public Cosmetics() {
-        Bukkit.getScheduler().runTaskTimer(VaultLoader.getInstance(), this::tickCosmetics, 1, 1);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), this::tickCosmetics, 1, 1);
     }
 
     public void tickCosmetics() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            Cosmetic.FIRE_RING.getTick().accept(VLPlayer.getPlayer(player));
+        for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
+            //Cosmetic.FIRE_RING.getTick().accept(player);
+            //Cosmetic.DRIP_LAVA_PARTICLE_PACK.getTick().accept(player);
         }
     }
 }

@@ -27,6 +27,9 @@ public enum Cosmetic {
         public void accept(VLPlayer player) {
             t += Math.PI / 32;
             double x = Math.cos(t) * 0.8;
+            if (x == 0.8) {
+                t = 0;
+            }
             double y = player.getPlayer().getEyeLocation().getY() - 1;
             double z = Math.sin(t) * 0.8;
             player.getWorld().spawnParticle(Particle.DRIP_LAVA, player.getLocation().getX() + x,
@@ -34,7 +37,25 @@ public enum Cosmetic {
         }
 
         private double t = 0;
+    }),
+
+    DRIP_LAVA_PARTICLE_PACK(new Consumer<VLPlayer>() {
+        @Override
+        public void accept(VLPlayer player) {
+            t += Math.PI / 10;
+            double x = Math.cos(t) * 0.5;
+            if (x == 0.5) {
+                t = 0;
+            }
+            double y = player.getPlayer().getEyeLocation().getY() + 0.2;
+            double z = Math.sin(t) * 0.5;
+            player.getWorld().spawnParticle(Particle.DRIP_LAVA, player.getLocation().getX() + x,
+                    y, player.getLocation().getZ() + z, 2, null);
+        }
+
+        private double t = 0;
     });
+
     @Getter
     private final Consumer<VLPlayer> tick;
 }
