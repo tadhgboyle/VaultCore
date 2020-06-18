@@ -35,10 +35,16 @@ public class BackCommand extends CommandExecutor {
         if (PlayerTPListener.teleports.containsKey(player.getUniqueId())) {
             Stack<Location> stack = PlayerTPListener.teleports.get(player.getUniqueId());
             Location before = stack.pop();
-            if (!player.hasPermission(Permissions.CooldownBypass)) player.teleportNoMove(before);
-            else player.teleport(before);
-            if (stack.empty()) {
-                PlayerTPListener.teleports.remove(player.getUniqueId());
+            if (!player.hasPermission(Permissions.CooldownBypass)) {
+                player.teleportNoMove(before, b -> {
+                    if (b) {
+                        if (stack.empty()) {
+                            PlayerTPListener.teleports.remove(player.getUniqueId());
+                        }
+                    }
+                });
+            } else {
+                player.teleport(before);
             }
         } else {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.back.no_teleport_location"));

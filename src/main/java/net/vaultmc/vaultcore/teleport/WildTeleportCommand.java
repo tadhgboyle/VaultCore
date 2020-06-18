@@ -47,9 +47,13 @@ public class WildTeleportCommand extends CommandExecutor {
             }
             while (newLocation.getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER);
 
-            player.teleportNoMove(newLocation);
-            player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.wild.teleported"),
-                    String.valueOf(Math.round(newLocation.distance(originalLocation)))));
+            Location finalNewLocation = newLocation;
+            player.teleportNoMove(newLocation, b -> {
+                if (b) {
+                    player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.wild.teleported"),
+                            String.valueOf(Math.round(finalNewLocation.distance(originalLocation)))));
+                }
+            });
         } else {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.wild.wrong_world"));
         }
