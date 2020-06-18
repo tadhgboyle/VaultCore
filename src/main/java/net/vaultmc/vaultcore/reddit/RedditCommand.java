@@ -117,6 +117,9 @@ public class RedditCommand extends CommandExecutor implements Listener {
                     String token = rs.getString("reddit_token");
                     String refreshToken = rs.getString("reddit_refresh_token");
                     long expiration = rs.getLong("reddit_expiration");
+                    if (token == null || refreshToken == null) {
+                        return;
+                    }
                     if (System.currentTimeMillis() >= expiration) {
                         try {
                             HttpURLConnection conn = (HttpURLConnection) new URL("https://www.reddit.com/api/v1/access_token").openConnection();
@@ -213,6 +216,7 @@ public class RedditCommand extends CommandExecutor implements Listener {
                     " FROM players WHERE uuid=?", sender.getUniqueId().toString())) {
                 if (rs.next()) {
                     VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=NULL, reddit_refresh_token=NULL WHERE uuid=?", sender.getUniqueId().toString());
+                    loadedRedditClients.remove(sender.getUniqueId());
                     sender.sendMessageByKey("vaultcore.commands.reddit.unlinked");
                 } else {
                     sender.sendMessageByKey("vaultcore.commands.reddit.not-linked");
