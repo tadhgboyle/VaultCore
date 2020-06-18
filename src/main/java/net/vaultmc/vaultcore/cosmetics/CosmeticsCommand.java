@@ -164,6 +164,7 @@ public class CosmeticsCommand extends CommandExecutor implements Listener {
             } else {
                 if (appliedCosmetics.get(player.getUniqueId()).size() > 5) {
                     player.sendMessageByKey("vaultcore.commands.cosmetics.limitation");
+                    return;
                 }
                 appliedCosmetics.put(player.getUniqueId(), cosmetic);
             }
