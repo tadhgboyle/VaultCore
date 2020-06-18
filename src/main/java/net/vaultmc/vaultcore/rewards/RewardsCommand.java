@@ -286,11 +286,19 @@ public class RewardsCommand extends CommandExecutor implements Listener {
     }
 
     @EventHandler
+    public void onPlayerJoin2(PlayerJoinEvent e) {
+        if (e.getPlayer().getWorld().getName().equals("Lobby")) {
+            Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
+                    e.getPlayer().getInventory().setItem(3, item));
+        }
+    }
+
+    @EventHandler
     public void onPlayerChangedWorld2(PlayerChangedWorldEvent e) {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().getInventory().setItem(3, item));
         } else {
-            e.getPlayer().getInventory().clear(6);
+            e.getPlayer().getInventory().clear(3);
         }
     }
 
