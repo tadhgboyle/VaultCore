@@ -13,6 +13,8 @@
 
 package net.vaultmc.vaultcore.reddit;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.Getter;
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.NetworkAdapter;
@@ -31,6 +33,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.util.*;
 
@@ -110,6 +117,34 @@ public class RedditCommand extends CommandExecutor implements Listener {
                     String token = rs.getString("reddit_token");
                     String refreshToken = rs.getString("reddit_refresh_token");
                     long expiration = rs.getLong("reddit_expiration");
+                    if (System.currentTimeMillis() >= expiration) {
+                        try {
+                            HttpURLConnection conn = (HttpURLConnection) new URL("https://www.reddit.com/api/v1/access_token").openConnection();
+                            conn.setDoInput(true);
+                            conn.setDoOutput(true);
+                            conn.setRequestMethod("POST");
+                            conn.addRequestProperty("User-Agent", RedditCommand.getAdapter().getUserAgent().getValue());
+                            conn.addRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString((VaultCore.getInstance().getConfig().getString("reddit-client-id") + ":" +
+                                    VaultCore.getInstance().getConfig().getString("reddit-client-secret")).getBytes()));
+                            OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+                            writer.write("grant_type=refresh_token&refresh_token=" + URLEncoder.encode(refreshToken, "utf-8"));
+                            writer.flush();
+                            writer.close();
+                            conn.connect();
+                            InputStream is = conn.getInputStream();
+                            Scanner s = new Scanner(is).useDelimiter("\\A");
+                            if (s.hasNext()) {
+                                JsonObject json = new JsonParser().parse(s.next()).getAsJsonObject();
+                                String accessToken = json.get("access_token").getAsString();
+                                VaultCore.getDatabase().executeUpdateStatement("UPDATE players SET reddit_token=?, " +
+                                                "reddit_expiration=? WHERE uuid=?", accessToken, System.currentTimeMillis() + json.get("expires_in").getAsLong() * 1000,
+                                        player.getUniqueId().toString());
+                            }
+                            conn.disconnect();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                     try {
                         RedditClient client = new RedditClient(adapter,
                                 OAuthData.create(token, Collections.singletonList("identity"), refreshToken, new Date(expiration)),
