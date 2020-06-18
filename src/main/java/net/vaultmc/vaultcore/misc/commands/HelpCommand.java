@@ -44,12 +44,13 @@ public class HelpCommand extends CommandExecutor {
     public static void paginateCommands(VLCommandSender sender, int page) {
         int fromIndex = (page - 1) * PAGE_SIZE;
         if (commandCache == null || commandCache.size() < fromIndex) {
-            sender.sendMessage("errorrrrr");
+            sender.sendMessage(ChatColor.RED + "An error occurred while attempting to use pagination.");
             return;
         }
-        sender.sendMessage("page: " + page);
+        sender.sendMessage(ChatColor.DARK_GREEN + "--== [Help] ==--");
+        sender.sendMessage(ChatColor.YELLOW + "Page " + ChatColor.GOLD + page + ChatColor.YELLOW + ".");
         for (Command command : commandCache.subList(fromIndex, Math.min(fromIndex + PAGE_SIZE, commandCache.size()))) {
-            sender.sendMessage(command.getLabel());
+            sender.sendMessage(ChatColor.YELLOW + "/" + command.getLabel());
         }
     }
 
@@ -75,13 +76,15 @@ public class HelpCommand extends CommandExecutor {
             // Regular command, not VL. Take from bukkit command map
             Command bukkitCommand = Bukkit.getCommandMap().getCommand(command);
             if (bukkitCommand == null) {
-                sender.sendMessage("invalid command");
+                sender.sendMessage(ChatColor.RED + "Invalid command.");
                 return;
             }
-            sender.sendMessage("command: /" + bukkitCommand.getLabel());
-            sender.sendMessage("desc: " + bukkitCommand.getDescription());
-            String usage = bukkitCommand.getUsage();
-            if (!usage.isEmpty()) sender.sendMessage("usage: " + usage.replace("<command>", bukkitCommand.getLabel()));
+            sender.sendMessage(ChatColor.DARK_GREEN + "--== [Help] ==--");
+            sender.sendMessage(ChatColor.YELLOW + "Command: " + ChatColor.GOLD + "/" + bukkitCommand.getLabel());
+            sender.sendMessage(ChatColor.YELLOW + "Description: " + ChatColor.GOLD + bukkitCommand.getDescription());
+            if (!bukkitCommand.getUsage().isEmpty()) {
+                sender.sendMessage(ChatColor.YELLOW + "Usage: " + ChatColor.GOLD + bukkitCommand.getUsage().replace("<command>", bukkitCommand.getLabel()));
+            }
             return;
         }
         // VL command -> We can provide more information

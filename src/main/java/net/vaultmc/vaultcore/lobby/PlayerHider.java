@@ -56,7 +56,7 @@ public class PlayerHider extends ConstructorRegisterListener {
                 e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().startsWith(ChatColor.YELLOW + "Player Visibility: ")) {
             e.setCancelled(true);
             if (hidingPlayers.contains(e.getPlayer().getUniqueId())) {
-                e.getPlayer().getInventory().setItem(5, item);
+                e.getPlayer().getInventory().setItem(6, item);
                 hidingPlayers.remove(e.getPlayer().getUniqueId());
 
                 for (Player player : Bukkit.getWorld("Lobby").getPlayers()) {
@@ -66,7 +66,7 @@ public class PlayerHider extends ConstructorRegisterListener {
                 }
                 e.getPlayer().sendMessage(VaultLoader.getMessage("lobby.player-hider.shown"));
             } else {
-                e.getPlayer().getInventory().setItem(5, inverted);
+                e.getPlayer().getInventory().setItem(6, inverted);
                 hidingPlayers.add(e.getPlayer().getUniqueId());
                 for (Player player : Bukkit.getWorld("Lobby").getPlayers()) {
                     e.getPlayer().hidePlayer(VaultLoader.getInstance(), player);
@@ -105,7 +105,7 @@ public class PlayerHider extends ConstructorRegisterListener {
                 }
             }
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () ->
-                    e.getPlayer().getInventory().setItem(5, item));
+                    e.getPlayer().getInventory().setItem(6, item));
         }
     }
 
@@ -114,13 +114,13 @@ public class PlayerHider extends ConstructorRegisterListener {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> {
                 if (!hidingPlayers.contains(e.getPlayer().getUniqueId())) {
-                    e.getPlayer().getInventory().setItem(5, item);
+                    e.getPlayer().getInventory().setItem(6, item);
                 } else {
-                    e.getPlayer().getInventory().setItem(5, inverted);
+                    e.getPlayer().getInventory().setItem(6, inverted);
                 }
             });
         } else {
-            e.getPlayer().getInventory().clear(5);
+            e.getPlayer().getInventory().clear(6);
         }
     }
 }

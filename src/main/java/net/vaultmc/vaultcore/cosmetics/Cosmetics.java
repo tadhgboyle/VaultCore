@@ -22,10 +22,13 @@ public class Cosmetics {
         Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), this::tickCosmetics, 1, 1);
     }
 
+    // FIXME NEEDS PERFORMANCE TINKERING I'm afraid this will cause performance issues with more players in the future.
+
     public void tickCosmetics() {
         for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
-            //Cosmetic.FIRE_RING.getTick().accept(player);
-            //Cosmetic.DRIP_LAVA_PARTICLE_PACK.getTick().accept(player);
+            for (Cosmetic cosmetic : CosmeticsCommand.getAppliedCosmetics().get(player.getUniqueId())) {
+                cosmetic.getTick().accept(player);
+            }
         }
     }
 }

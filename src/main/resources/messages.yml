@@ -837,8 +837,7 @@ vaultcore:
       too_short: "&cNicknames need to be at least 3 characters long."
 
     cosmetics:
-      particles:
-        toggled: "&eToggled &6{PARTICLE}&e effect &2{TOGGLE}&e."
+      none-available: "&cYou don't have any cosmetics! You can get them by purchasing a rank at https://store.vaultmc.net."
 
     nightvision: "&eToggled &6Nightvision &2{TOGGLE}&e."
 

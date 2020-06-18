@@ -15,14 +15,17 @@ package net.vaultmc.vaultcore.cosmetics;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 @AllArgsConstructor
 public enum Cosmetic {
-    FIRE_RING(new Consumer<VLPlayer>() {
+    FLAME_RING(new Consumer<VLPlayer>() {
         @Override
         public void accept(VLPlayer player) {
             t += Math.PI / 32;
@@ -37,7 +40,7 @@ public enum Cosmetic {
         }
 
         private double t = 0;
-    }),
+    }, Material.FIRE_CHARGE, "Flame Ring"),
 
     DRIP_LAVA_PARTICLE_PACK(new Consumer<VLPlayer>() {
         @Override
@@ -54,8 +57,53 @@ public enum Cosmetic {
         }
 
         private double t = 0;
-    });
+    }, Material.LAVA_BUCKET, "Drip Lava Particle Pack"),
+
+    DRIP_WATER_PARTICLE_PACK(new Consumer<VLPlayer>() {
+        @Override
+        public void accept(VLPlayer player) {
+            t += Math.PI / 10;
+            double x = Math.cos(t) * 0.5;
+            if (x == 0.5) {
+                t = 0;
+            }
+            double y = player.getPlayer().getEyeLocation().getY() + 0.2;
+            double z = Math.sin(t) * 0.5;
+            player.getWorld().spawnParticle(Particle.DRIP_WATER, player.getLocation().getX() + x,
+                    y, player.getLocation().getZ() + z, 2, null);
+        }
+
+        private double t = 0;
+    }, Material.WATER_BUCKET, "Drip Water Particle Pack"),
+
+    HEART_PARTICLE_PACK(player -> {
+        player.getWorld().spawnParticle(Particle.HEART, player.getLocation().getX() +
+                        ThreadLocalRandom.current().nextDouble(-0.5D, 0.5D), player.getPlayer().getEyeLocation().getY() + 0.2,
+                player.getLocation().getZ() + ThreadLocalRandom.current().nextDouble(-0.5D, 0.5D), 1, null);
+    }, Material.RED_WOOL, "Heart Particle Pack"),
+
+    ENCHANTING_TABLE_PARTICLE_PACK(player -> {
+        player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, player.getLocation().getX() +
+                        ThreadLocalRandom.current().nextDouble(-1D, 1D), player.getPlayer().getEyeLocation().getY() -
+                        ThreadLocalRandom.current().nextDouble(0D, 1D),
+                player.getLocation().getZ() + ThreadLocalRandom.current().nextDouble(-1D, 1D), 1, null);
+    }, Material.ENCHANTING_TABLE, "Enchanting Table Particle Pack"),
+
+    SLIME_PARTICLE_PACK(player -> {
+        player.getWorld().spawnParticle(Particle.SLIME, player.getLocation().getX() +
+                        ThreadLocalRandom.current().nextDouble(-1D, 1D), player.getPlayer().getEyeLocation().getY() -
+                        ThreadLocalRandom.current().nextDouble(0D, 1D),
+                player.getLocation().getZ() + ThreadLocalRandom.current().nextDouble(-1D, 1D), 1, null);
+    }, Material.SLIME_BALL, "Slime Particle Pack");
 
     @Getter
     private final Consumer<VLPlayer> tick;
+    @Getter
+    private final Material item;
+    @Getter
+    private final String name;
+
+    public String getPermission() {
+        return Permissions.CosmeticsCommand + "." + toString().replace("_", "").toLowerCase();
+    }
 }

@@ -36,6 +36,7 @@ import net.vaultmc.vaultcore.combat.LegacyCombat;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.cosmetics.Cosmetics;
+import net.vaultmc.vaultcore.cosmetics.CosmeticsCommand;
 import net.vaultmc.vaultcore.creative.*;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
@@ -383,6 +384,7 @@ public final class VaultCore extends Component implements Listener {
         KitInit.init();
         new PlayerVaultCommand();
         new Cosmetics();
+        new CosmeticsCommand();
         new RedditCommand();
         new LinkRedditBotCommand();
         registerEvents(new PlayerDeathListener());
@@ -434,6 +436,7 @@ public final class VaultCore extends Component implements Listener {
         Report.save();
         ModMode.save();
         KitGuis.save();
+        CosmeticsCommand.save();
         RedditCommand.cleanup();
         LinkRedditBotCommand.cleanup();
         database.close();
