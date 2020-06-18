@@ -16,10 +16,9 @@ package net.vaultmc.vaultcore.inventory;
 import net.vaultmc.vaultcore.VaultCore;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.PlayerInventory;
 
 public class InventoryStorageUtils {
-    public static void storePlayerInventory(PlayerInventory inv, String location) {
+    public static void storePlayerInventory(Inventory inv, String location) {
         FileConfiguration config = VaultCore.getInstance().getInventoryData();
         for (int i = 0; i <= 40; i++) {
             config.set(location + "." + i, inv.getItem(i));
@@ -27,24 +26,24 @@ public class InventoryStorageUtils {
         VaultCore.getInstance().saveConfig();
     }
 
-    public static void restorePlayerInventory(PlayerInventory inv, String location) {
+    public static void restorePlayerInventory(Inventory inv, String location) {
         FileConfiguration config = VaultCore.getInstance().getInventoryData();
         for (int i = 0; i <= 40; i++) {
             inv.setItem(i, config.getItemStack(location + "." + i));
         }
     }
 
-    public static void storeChest(Inventory inv, String location) {
+    public static void storeGenericInventory(Inventory inv, int size, String location) {
         FileConfiguration config = VaultCore.getInstance().getInventoryData();
-        for (int i = 0; i <= 26; i++) {
+        for (int i = 0; i < size; i++) {
             config.set(location + "." + i, inv.getItem(i));
         }
         VaultCore.getInstance().saveConfig();
     }
 
-    public static void restoreChest(Inventory inv, String location) {
+    public static void restoreGenericInventory(Inventory inv, int size, String location) {
         FileConfiguration config = VaultCore.getInstance().getInventoryData();
-        for (int i = 0; i <= 26; i++) {
+        for (int i = 0; i < size; i++) {
             inv.setItem(i, config.getItemStack(location + "." + i));
         }
     }

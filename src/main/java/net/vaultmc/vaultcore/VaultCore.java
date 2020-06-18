@@ -69,6 +69,7 @@ import net.vaultmc.vaultcore.reddit.RedditCommand;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
+import net.vaultmc.vaultcore.rewards.RewardsCommand;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.CheckCommand;
@@ -386,6 +387,7 @@ public final class VaultCore extends Component implements Listener {
         new PlayerVaultCommand();
         new Cosmetics();
         new CosmeticsCommand();
+        new RewardsCommand();
         new RedditCommand();
         new LinkRedditBotCommand();
         registerEvents(new PlayerDeathListener());
@@ -438,6 +440,7 @@ public final class VaultCore extends Component implements Listener {
         ModMode.save();
         KitGuis.save();
         CosmeticsCommand.save();
+        RewardsCommand.save();
         RedditCommand.cleanup();
         LinkRedditBotCommand.cleanup();
         database.close();

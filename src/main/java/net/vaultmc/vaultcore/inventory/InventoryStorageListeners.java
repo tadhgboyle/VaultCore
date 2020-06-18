@@ -59,7 +59,7 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
             String to = getGroupOf(e.getPlayer().getWorld().getName());
             InventoryStorageUtils.restorePlayerInventory(e.getPlayer().getInventory(),
                     e.getPlayer().getUniqueId().toString() + "." + to + ".inventory");
-            InventoryStorageUtils.restoreChest(e.getPlayer().getEnderChest(),
+            InventoryStorageUtils.restoreGenericInventory(e.getPlayer().getEnderChest(), 27,
                     e.getPlayer().getUniqueId().toString() + "." + to + ".enderchest");
             FileConfiguration data = VaultCore.getInstance().getInventoryData();
             e.getPlayer().setHealth(data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".health",
@@ -99,7 +99,7 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
         String from = getGroupOf(e.getPlayer().getWorld().getName());
         InventoryStorageUtils.storePlayerInventory(e.getPlayer().getInventory(),
                 e.getPlayer().getUniqueId().toString() + "." + from + ".inventory");
-        InventoryStorageUtils.storeChest(e.getPlayer().getEnderChest(),
+        InventoryStorageUtils.storeGenericInventory(e.getPlayer().getEnderChest(), 27,
                 e.getPlayer().getUniqueId().toString() + "." + from + ".enderchest");
         FileConfiguration data = VaultCore.getInstance().getInventoryData();
         data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".health", e.getPlayer().getHealth());
@@ -132,9 +132,9 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
                     e.getPlayer().getUniqueId().toString() + "." + from + ".inventory");
             InventoryStorageUtils.restorePlayerInventory(e.getPlayer().getInventory(),
                     e.getPlayer().getUniqueId().toString() + "." + to + ".inventory");
-            InventoryStorageUtils.storeChest(e.getPlayer().getEnderChest(),
+            InventoryStorageUtils.storeGenericInventory(e.getPlayer().getEnderChest(), 27,
                     e.getPlayer().getUniqueId().toString() + "." + from + ".enderchest");
-            InventoryStorageUtils.restoreChest(e.getPlayer().getEnderChest(),
+            InventoryStorageUtils.restoreGenericInventory(e.getPlayer().getEnderChest(), 27,
                     e.getPlayer().getUniqueId().toString() + "." + to + ".enderchest");
             FileConfiguration data = VaultCore.getInstance().getInventoryData();
             data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".health", e.getPlayer().getHealth());

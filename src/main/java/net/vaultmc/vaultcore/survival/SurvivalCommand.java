@@ -86,7 +86,10 @@ public class SurvivalCommand extends CommandExecutor {
     }
 
     @SubCommand("sv")
-    public void sv(VLPlayer player) {
+    public static void sv(VLPlayer player) {
+        if (player.getWorld().getName().toLowerCase().contains("survival")) {
+            return;
+        }
         Location sv = Utilities.deserializeLocation(player.getPlayerData().getString("locations.sv"));
         if (sv == null) {
             player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
