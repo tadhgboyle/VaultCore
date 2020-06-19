@@ -857,6 +857,16 @@ vaultcore:
 
     skull: "&eGave you {TARGET}&e's head."
 
+    disguise:
+      cache: "&eUsing skin data from cache."
+      error: "&cAn error occurred while attempting to fetch skin data. Please report this to an administrator."
+      fetch: "&eFetching skin data from Mojang API (This might take a while)."
+      disguised: "&eSuccessfully disguised as &6{PLAYER}&e."
+      bypass: "&cThis player couldn't be disguised as!"
+      not-disguised: "&cYou aren't disguised!"
+      undisguised: "&eYou are no longer disguised."
+      run-again: "&cPlease run /disguise player random again so we can fetch another valid player."
+
     mail:
       header: "&2--== [Mail] ==--"
       no_mail: "&cYou have no mail."

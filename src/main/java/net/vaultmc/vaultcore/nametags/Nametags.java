@@ -41,7 +41,7 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
     private static final Map<INametagProvider, World> providers = new HashMap<>();
     @Getter
     private static final Map<VLPlayer, Team> teams = new HashMap<>();
-    private final Scoreboard scoreboard;
+    private static Scoreboard scoreboard;
 
     public Nametags() {
         scoreboard = new Scoreboard();
@@ -85,6 +85,12 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
         return null;
     }
 
+    public static void forceUpdateAll() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            displayNametags(player, player.getWorld());
+        }
+    }
+
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -108,7 +114,7 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
         }
     }
 
-    private void displayNametags(Player player, World world) {
+    private static void displayNametags(Player player, World world) {
         ServerPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         for (VLPlayer p : VLPlayer.getOnlinePlayers()) {
             INametagProvider.Nametag nametag = defaultProvider.provideNametag(p, world);

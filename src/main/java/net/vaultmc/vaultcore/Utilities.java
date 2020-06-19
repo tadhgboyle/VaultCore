@@ -43,7 +43,9 @@ public final class Utilities {
      * @param replacements The variables you wish to insert to the message.
      * @return Compiled message
      * @author Aberdeener
+     * @deprecated Use {@link net.vaultmc.vaultloader.utils.player.VLPlayer#sendMessageByKey} instead.
      */
+    @Deprecated
     public static String formatMessage(String message, Object... replacements) {
         int num = 0;
         StringBuilder sb = new StringBuilder();

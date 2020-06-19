@@ -14,6 +14,9 @@
 package net.vaultmc.vaultcore;
 
 public final class Permissions {
+    public static final String DisguiseCommand = "vaultcore.disguise";
+    public static final String DisguiseAsPlayer = "vaultcore.disguise.player";
+    public static final String DisguiseRandomPlayer = "vaultcore.disguise.player.random";
     public static final String BuggyCommand = "vaultcore.buggy";
     public static final String BuggyAdmin = "vaultcore.buggy.admin";
     public static final String BackCommand = "vaultcore.back";
@@ -126,6 +129,5 @@ public final class Permissions {
     public static final String PlayerVault = "vaultcore.playervault";
     public static final String LinkRedditBot = "vaultcore.reddit.link";
     public static final String CosmeticsCommand = "vaultcore.cosmetics";
-    public static final String SendLargeCommand = "vaultcore.sendlarge";
-    public static final String SendLargeBypass = "vaultcore.sendlarge.bypass";
+    public static final String DisguiseAsBypass = "vaultcore.disguise.bypass";
 }

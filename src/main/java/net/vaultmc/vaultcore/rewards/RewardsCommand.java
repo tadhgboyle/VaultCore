@@ -132,6 +132,9 @@ public class RewardsCommand extends CommandExecutor implements Listener {
         if (reward.getDelay() == -1) {
             return availableRewards.get(player.getUniqueId()).containsKey(reward);
         }
+        if (!availableRewards.get(player.getUniqueId()).containsKey(reward)) {
+            return true;
+        }
         return System.currentTimeMillis() >= availableRewards.get(player.getUniqueId()).get(reward);
     }
 

@@ -40,6 +40,8 @@ import net.vaultmc.vaultcore.cosmetics.CosmeticsCommand;
 import net.vaultmc.vaultcore.creative.*;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
+import net.vaultmc.vaultcore.disguise.DisguiseCommand;
+import net.vaultmc.vaultcore.disguise.UndisguiseCommand;
 import net.vaultmc.vaultcore.economy.*;
 import net.vaultmc.vaultcore.exploits.ExploitsListener;
 import net.vaultmc.vaultcore.gamemode.GMCreativeCommand;
@@ -329,7 +331,6 @@ public final class VaultCore extends Component implements Listener {
         new TokenCommand();
         new GrantCommand();
         new GameModeCommand();
-        new SendLargeCommand();
         new GMCreativeCommand();
         new GMSurvivalCommand();
         new GMSpectatorCommand();
@@ -388,6 +389,8 @@ public final class VaultCore extends Component implements Listener {
         new Cosmetics();
         new CosmeticsCommand();
         new RewardsCommand();
+        new DisguiseCommand();
+        new UndisguiseCommand();
         new RedditCommand();
         new LinkRedditBotCommand();
         registerEvents(new PlayerDeathListener());
