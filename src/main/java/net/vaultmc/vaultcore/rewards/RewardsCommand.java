@@ -26,10 +26,7 @@ import net.vaultmc.vaultloader.utils.commands.RootCommand;
 import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,7 +44,7 @@ import java.util.*;
 
 @RootCommand(
         literal = "rewards",
-        description = "OpeAn the rewards inventory"
+        description = "Open the rewards inventory"
 )
 @PlayerOnly
 public class RewardsCommand extends CommandExecutor implements Listener {
@@ -199,7 +196,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
                 player.sendMessageByKey("vaultcore.commands.rewards.couldnt-claim");
                 return;
             }
-            player.getPlayer().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
+            player.getPlayer().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 100, 1);
             reward.getReward().accept(player);
             if (reward.getDelay() == -1) {
                 availableRewards.get(player.getUniqueId()).remove(reward);
