@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.commands.staff;
+package net.vaultmc.vaultcore.misc.commands;
 
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
@@ -28,11 +28,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @RootCommand(literal = "fly", description = "Enable fly for a player.")
 @Permission(Permissions.FlyCommand)
 public class FlyCommand extends CommandExecutor implements Listener {
-    public static Set<VLPlayer> flying = new HashSet<>();
+    public static Set<UUID> flying = new HashSet<>();
 
     public FlyCommand() {
         register("flySelf", Collections.emptyList());
@@ -43,16 +44,20 @@ public class FlyCommand extends CommandExecutor implements Listener {
     @SubCommand("flySelf")
     @PlayerOnly
     public void flySelf(VLPlayer player) {
+        if (!player.hasPermission(Permissions.FlyLobbyOnlyBypass) && !player.getWorld().getName().equalsIgnoreCase("Lobby")) {
+            player.sendMessageByKey("vaultcore.commands.fly.lobby-only");
+            return;
+        }
         if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
             player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.gamemode_error"),
                     "You're", Utilities.capitalizeMessage(player.getGameMode().toString().toLowerCase())));
         } else if (!player.getAllowFlight()) {
-            flying.add(player);
+            flying.add(player.getUniqueId());
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.self"), "enabled"));
             player.setAllowFlight(true);
         } else {
-            flying.remove(player);
+            flying.remove(player.getUniqueId());
             player.sendMessage(
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.self"), "disabled"));
             player.setFlying(false);
@@ -73,30 +78,28 @@ public class FlyCommand extends CommandExecutor implements Listener {
             target.setAllowFlight(false);
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
                     "disabled", sender.getFormattedName()));
-            flying.remove(target);
+            flying.remove(target.getUniqueId());
         } else {
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.other"),
                     "enabled", target.getFormattedName()));
             target.setAllowFlight(true);
             target.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.fly.receiver"),
                     "enabled", sender.getFormattedName()));
-            flying.add(target);
+            flying.add(target.getUniqueId());
         }
     }
 
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent e) {
-        // For donors. Donors will not have the FlyCommandOther permission
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (flying.contains(player) && !player.hasPermission(Permissions.FlyCommandOther)) {
-            player.setFlying(false);
+        if (flying.contains(player.getUniqueId()) && !player.hasPermission(Permissions.FlyLobbyOnlyBypass) && !player.getWorld().getName().equalsIgnoreCase("Lobby")) {
+            flying.remove(player.getUniqueId());
             player.setAllowFlight(false);
-            flying.remove(VLPlayer.getPlayer(e.getPlayer()));
         }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        flying.remove(VLPlayer.getPlayer(e.getPlayer()));
+        flying.remove(e.getPlayer().getUniqueId());
     }
 }

@@ -22,7 +22,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
@@ -61,14 +60,6 @@ public class ForceFieldCommand extends CommandExecutor implements Listener {
                                     0.1D, e.getPlayer().getLocation().getZ() > loc.getZ() ? 0.5D : -0.5D)));
                 }
             }
-        }
-    }
-
-    @EventHandler
-    public void onWorldChange(PlayerChangedWorldEvent e) {
-        // For donors. Donors will not have the ForceFieldExcempt permission
-        if (forcefield.containsKey(e.getPlayer().getUniqueId()) && !e.getPlayer().hasPermission(Permissions.ForceFieldExempt)) {
-            forcefield.remove(e.getPlayer().getUniqueId());
         }
     }
 

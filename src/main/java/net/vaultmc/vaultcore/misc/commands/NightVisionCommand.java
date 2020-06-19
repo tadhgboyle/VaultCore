@@ -18,9 +18,7 @@ import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -29,14 +27,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RootCommand(literal = "nightvision", description = "Enable or disable nightvision.")
-@Permission(Permissions.NightvisionCommand)
+@Permission(Permissions.NightVisionCommand)
 @PlayerOnly
 @Aliases("nv")
-public class NightvisionCommand extends CommandExecutor implements Listener {
+public class NightVisionCommand extends CommandExecutor implements Listener {
+    static final Set<VLPlayer> nightvisionPlayers = new HashSet<>();
 
-    static Set<VLPlayer> nightvisionPlayers = new HashSet<>();
-
-    public NightvisionCommand() {
+    public NightVisionCommand() {
         register("nightvision", Collections.emptyList());
     }
 
@@ -50,16 +47,6 @@ public class NightvisionCommand extends CommandExecutor implements Listener {
             nightvisionPlayers.add(sender);
             sender.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 1));
             sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nightvision"), "on"));
-        }
-    }
-
-    @EventHandler
-    public void worldChangeEvent(PlayerChangedWorldEvent e) {
-        // For donors. They will not have admin permission
-        if (nightvisionPlayers.contains(VLPlayer.getPlayer(e.getPlayer())) && !e.getPlayer().hasPermission(Permissions.NightvisionCommandAdmin)) {
-            VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-            nightvisionPlayers.remove(player);
-            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
     }
 }

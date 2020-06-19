@@ -556,6 +556,7 @@ vaultcore:
       self: "&eYou have &2{TOGGLE} &6fly&e."
       other: "&eYou have &2{TOGGLE} &6fly&e for {TARGET}&e."
       receiver: "&eYour &6fly&e has been &2{TOGGLE}&e by {SENDER}&e."
+      lobby-only: "&cYou can only fly in the lobby!"
 
     player-vault:
       invalid-world: "&cThis command doesn't exist in this world!"

@@ -46,6 +46,7 @@ public final class Permissions {
     public static final String FeedCommandOther = "vaultcore.feed.other";
     public static final String FlyCommand = "vaultcore.fly";
     public static final String FlyCommandOther = "vaultcore.fly.other";
+    public static final String FlyLobbyOnlyBypass = "vaultcore.fly.lobbybypass";
     public static final String HasPermCommand = "vaultcore.hasperm";
     public static final String HasPermCommandOther = "vaultcore.hasperm.other";
     public static final String GamemodeCommand = "vaultcore.gamemode";
@@ -115,8 +116,7 @@ public final class Permissions {
     public static final String NicknameCommand = "vaultcore.nickname";
     public static final String NicknameLimitBypass = "vaultcore.nickname.bypass";
     public static final String NicknameCommandOther = "vaultcore.nickname.other";
-    public static final String NightvisionCommand = "vaultcore.nightvision";
-    public static final String NightvisionCommandAdmin = "vaultcore.nightvision.admin";
+    public static final String NightVisionCommand = "vaultcore.nightvision";
     public static final String SkullCommand = "vaultcore.skull";
     public static final String MailCommand = "vaultcore.mail";
     public static final String StatsCommand = "vaultcore.pvp.stats";

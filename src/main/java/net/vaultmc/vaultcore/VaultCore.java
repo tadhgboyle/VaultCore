@@ -283,13 +283,13 @@ public final class VaultCore extends Component implements Listener {
         new BuggyListener();
         new EntityUpperBound();
         new NicknameCommand();
-        new NightvisionCommand();
+        new NightVisionCommand();
         registerEvents(new CycleListener());
         registerEvents(new SleepHandler());
         registerEvents(new ItemDrops());
         registerEvents(new PlayerJoinQuitListener());
         registerEvents(new CGSettingsInvListener());
-        registerEvents(new NightvisionCommand());
+        registerEvents(new NightVisionCommand());
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this.getBukkitPlugin(), () -> {
             RankPromotions.memberPromotion();
             RankPromotions.patreonPromotion();
