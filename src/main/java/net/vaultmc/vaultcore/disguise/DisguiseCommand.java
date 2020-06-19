@@ -263,7 +263,6 @@ public class DisguiseCommand extends CommandExecutor {
     @Permission(Permissions.DisguiseRandomPlayer)
     public void disguiseAsRandomPlayer(VLPlayer sender) {
         VLOfflinePlayer player = VLOfflinePlayer.getOfflinePlayer(randomPlayers.get(ThreadLocalRandom.current().nextInt(randomPlayers.size())));
-        System.out.println(player);
         if (player == null || player.hasPermission(Permissions.DisguiseAsBypass)) {
             sender.sendMessageByKey("vaultcore.commands.disguise.run-again");
             return;
