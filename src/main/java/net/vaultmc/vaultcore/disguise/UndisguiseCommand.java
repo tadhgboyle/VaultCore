@@ -13,9 +13,13 @@
 
 package net.vaultmc.vaultcore.disguise;
 
+import lombok.SneakyThrows;
 import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.nametags.Nametags;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -37,6 +41,7 @@ public class UndisguiseCommand extends CommandExecutor {
         register("undisguise", Collections.emptyList());
     }
 
+    @SneakyThrows
     public static void undisguise(VLPlayer player) {
         DisguiseCommand.getDisguisedPlayers().remove(player.getUniqueId());
         DisguiseCommand.getDisguisedDN().remove(player.getUniqueId());
@@ -48,6 +53,11 @@ public class UndisguiseCommand extends CommandExecutor {
                 ((CraftPlayer) player.getPlayer()).getHandle());
         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(player.getPlayer().getEntityId());
         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) player.getPlayer()).getHandle());
+        SynchedEntityData dataWatcher = ((CraftPlayer) player.getPlayer()).getHandle().getDataWatcher();
+        EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq")
+                .get(((CraftPlayer) player.getPlayer()).getHandle());
+        dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
+        ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(player.getPlayer().getEntityId(), dataWatcher, true);
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.getUniqueId().toString().equals(player.getPlayer().getUniqueId().toString())) {
                 continue;
@@ -56,6 +66,7 @@ public class UndisguiseCommand extends CommandExecutor {
             ((CraftPlayer) p).getHandle().connection.send(tabAdd);
             ((CraftPlayer) p).getHandle().connection.send(remove);
             ((CraftPlayer) p).getHandle().connection.send(add);
+            ((CraftPlayer) p).getHandle().connection.send(data);
         }
         Nametags.forceUpdateAll();
     }

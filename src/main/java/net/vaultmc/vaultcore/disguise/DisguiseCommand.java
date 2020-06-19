@@ -26,6 +26,9 @@ import lombok.SneakyThrows;
 import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultcore.nametags.Nametags;
@@ -96,6 +99,7 @@ public class DisguiseCommand extends CommandExecutor {
     }
 
     @EventHandler
+    @SneakyThrows
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (disguisedPlayers.containsKey(e.getPlayer().getUniqueId())) {
             ((CraftPlayer) e.getPlayer()).getHandle().setProfile(disguisedPlayers.get(e.getPlayer().getUniqueId()));
@@ -106,6 +110,11 @@ public class DisguiseCommand extends CommandExecutor {
                     ((CraftPlayer) e.getPlayer()).getHandle());
             ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(e.getPlayer().getEntityId());
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) e.getPlayer()).getHandle());
+
+            SynchedEntityData dataWatcher = ((CraftPlayer) e.getPlayer()).getHandle().getDataWatcher();
+            EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq").get(((CraftPlayer) e.getPlayer()).getHandle());
+            dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
+            ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(e.getPlayer().getEntityId(), dataWatcher, true);
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getUniqueId().toString().equals(e.getPlayer().getUniqueId().toString())) {
                     continue;
@@ -114,6 +123,7 @@ public class DisguiseCommand extends CommandExecutor {
                 ((CraftPlayer) p).getHandle().connection.send(tabAdd);
                 ((CraftPlayer) p).getHandle().connection.send(remove);
                 ((CraftPlayer) p).getHandle().connection.send(add);
+                ((CraftPlayer) p).getHandle().connection.send(data);
             }
         }
     }
@@ -159,6 +169,11 @@ public class DisguiseCommand extends CommandExecutor {
                     ((CraftPlayer) sender.getPlayer()).getHandle());  // Our PacketListener will change the GameProfile for us
             ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
+            SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getDataWatcher();
+            EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq")
+                    .get(((CraftPlayer) sender.getPlayer()).getHandle());
+            dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
+            ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(sender.getPlayer().getEntityId(), dataWatcher, true);
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getUniqueId().toString().equals(sender.getUniqueId().toString())) {
                     continue;
@@ -167,6 +182,7 @@ public class DisguiseCommand extends CommandExecutor {
                 ((CraftPlayer) p).getHandle().connection.send(tabAdd);
                 ((CraftPlayer) p).getHandle().connection.send(remove);
                 ((CraftPlayer) p).getHandle().connection.send(add);
+                ((CraftPlayer) p).getHandle().connection.send(data);
             }
             disguisedPlayers.put(sender.getUniqueId(), newProfile);
             disguisedDN.put(sender.getUniqueId(), player.getDisplayName());
@@ -205,6 +221,11 @@ public class DisguiseCommand extends CommandExecutor {
                                 ((CraftPlayer) sender.getPlayer()).getHandle());  // Our PacketListener will change the GameProfile for us
                         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
                         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
+                        SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getDataWatcher();
+                        EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq")
+                                .get(((CraftPlayer) sender.getPlayer()).getHandle());
+                        dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
+                        ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(sender.getPlayer().getEntityId(), dataWatcher, true);
                         for (Player p : Bukkit.getOnlinePlayers()) {
                             if (p.getUniqueId().toString().equals(sender.getUniqueId().toString())) {
                                 continue;
@@ -213,6 +234,7 @@ public class DisguiseCommand extends CommandExecutor {
                             ((CraftPlayer) p).getHandle().connection.send(tabAdd);
                             ((CraftPlayer) p).getHandle().connection.send(remove);
                             ((CraftPlayer) p).getHandle().connection.send(add);
+                            ((CraftPlayer) p).getHandle().connection.send(data);
                         }
                         disguisedPlayers.put(sender.getUniqueId(), newProfile);
                         disguisedDN.put(sender.getUniqueId(), player.getDisplayName());
