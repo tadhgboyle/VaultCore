@@ -28,6 +28,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.Collections;
 
 @RootCommand(
@@ -54,8 +55,9 @@ public class UndisguiseCommand extends CommandExecutor {
         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(player.getPlayer().getEntityId());
         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) player.getPlayer()).getHandle());
         SynchedEntityData dataWatcher = ((CraftPlayer) player.getPlayer()).getHandle().getDataWatcher();
-        EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq")
-                .get(((CraftPlayer) player.getPlayer()).getHandle());
+        Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
+        field.setAccessible(true);
+        EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) player.getPlayer()).getHandle());
         dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
         ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(player.getPlayer().getEntityId(), dataWatcher, true);
         for (Player p : Bukkit.getOnlinePlayers()) {

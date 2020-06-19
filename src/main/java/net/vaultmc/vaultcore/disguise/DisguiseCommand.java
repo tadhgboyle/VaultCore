@@ -45,6 +45,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -112,7 +113,9 @@ public class DisguiseCommand extends CommandExecutor {
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) e.getPlayer()).getHandle());
 
             SynchedEntityData dataWatcher = ((CraftPlayer) e.getPlayer()).getHandle().getDataWatcher();
-            EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq").get(((CraftPlayer) e.getPlayer()).getHandle());
+            Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
+            field.setAccessible(true);
+            EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) e.getPlayer()).getHandle());
             dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
             ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(e.getPlayer().getEntityId(), dataWatcher, true);
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -170,8 +173,9 @@ public class DisguiseCommand extends CommandExecutor {
             ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
             SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getDataWatcher();
-            EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq")
-                    .get(((CraftPlayer) sender.getPlayer()).getHandle());
+            Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
+            field.setAccessible(true);
+            EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) sender.getPlayer()).getHandle());
             dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
             ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(sender.getPlayer().getEntityId(), dataWatcher, true);
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -222,8 +226,9 @@ public class DisguiseCommand extends CommandExecutor {
                         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
                         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
                         SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getDataWatcher();
-                        EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) net.minecraft.world.entity.player.Player.class.getDeclaredField("bq")
-                                .get(((CraftPlayer) sender.getPlayer()).getHandle());
+                        Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
+                        field.setAccessible(true);
+                        EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) sender.getPlayer()).getHandle());
                         dataWatcher.set(object, (byte) (dataWatcher.get(object) | 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80));
                         ClientboundSetEntityDataPacket data = new ClientboundSetEntityDataPacket(sender.getPlayer().getEntityId(), dataWatcher, true);
                         for (Player p : Bukkit.getOnlinePlayers()) {
