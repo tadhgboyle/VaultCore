@@ -89,7 +89,7 @@ public class PurchaseCommand extends CommandExecutor implements Listener {
 
     @SubCommand("hero")
     public void hero(VLCommandSender sender, VLOfflinePlayer target) {
-        target.setGroup("hero");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + target.getName() + " parent set hero");
         if (target.isOnline()) {
             VLPlayer player = target.getOnlinePlayer();
             player.kick(ChatColor.YELLOW + "Please reconnect to continue.");
@@ -101,7 +101,7 @@ public class PurchaseCommand extends CommandExecutor implements Listener {
 
     @SubCommand("titan")
     public void titan(VLCommandSender sender, VLOfflinePlayer target) {
-        target.setGroup("titan");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + target.getName() + " parent set titan");
         if (target.isOnline()) {
             VLPlayer player = target.getOnlinePlayer();
             player.kick(ChatColor.YELLOW + "Please reconnect to continue.");
@@ -113,7 +113,7 @@ public class PurchaseCommand extends CommandExecutor implements Listener {
 
     @SubCommand("god")
     public void god(VLCommandSender sender, VLOfflinePlayer target) {
-        target.setGroup("god");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + target.getName() + " parent set god");
         if (target.isOnline()) {
             VLPlayer player = target.getOnlinePlayer();
             player.kick(ChatColor.YELLOW + "Please reconnect to continue.");
@@ -125,7 +125,7 @@ public class PurchaseCommand extends CommandExecutor implements Listener {
 
     @SubCommand("lord")
     public void lord(VLCommandSender sender, VLOfflinePlayer target) {
-        target.setGroup("lord");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + target.getName() + " parent set lord");
         if (target.isOnline()) {
             VLPlayer player = target.getOnlinePlayer();
             player.kick(ChatColor.YELLOW + "Please reconnect to continue.");
@@ -137,7 +137,7 @@ public class PurchaseCommand extends CommandExecutor implements Listener {
 
     @SubCommand("overlord")
     public void overlord(VLCommandSender sender, VLOfflinePlayer target) {
-        target.setGroup("overlord");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + target.getName() + " parent set overlord");
         if (target.isOnline()) {
             VLPlayer player = target.getOnlinePlayer();
             player.kick(ChatColor.YELLOW + "Please reconnect to continue.");
