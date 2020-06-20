@@ -380,6 +380,7 @@ public final class VaultCore extends Component implements Listener {
         new SpawnCommand();
         new ForceFieldCommand();
         new SudoCommand();
+        new PurchaseCommand();
         new StatsCommand();
         new KitCommand();
         new Scoreboards();
