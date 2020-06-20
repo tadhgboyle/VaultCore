@@ -23,7 +23,7 @@ import org.bukkit.GameMode;
 import java.util.Collections;
 
 @RootCommand(literal = "gmc", description = "Change your gamemode to creative.")
-@Permission(Permissions.GamemodeCommand)
+@Permission(Permissions.GameModeCommand)
 @PlayerOnly
 @Aliases({"creative", "gmcreative"})
 public class GMCreativeCommand extends CommandExecutor {

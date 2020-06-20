@@ -26,7 +26,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @RootCommand(literal = "gamemode", description = "Change your (or other's) game mode.")
-@Permission(Permissions.GamemodeCommand)
+@Permission(Permissions.GameModeCommand)
 @Aliases({"gm", "gmode"})
 public class GameModeCommand extends CommandExecutor {
     public GameModeCommand() {
@@ -79,7 +79,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmCrOthers")
-    @Permission(Permissions.GamemodeCommandOther)
+    @Permission(Permissions.GameModeCommandOther)
     public void gamemodeCreativeOthers(VLCommandSender sender, Collection<VLPlayer> target) {
         for (VLPlayer player : target) {
             player.setGameMode(GameMode.CREATIVE);
@@ -93,7 +93,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmSvOthers")
-    @Permission(Permissions.GamemodeCommandOther)
+    @Permission(Permissions.GameModeCommandOther)
     public void gamemodeSurvivalOthers(VLCommandSender sender, Collection<VLPlayer> target) {
         for (VLPlayer player : target) {
             player.setGameMode(GameMode.SURVIVAL);
@@ -108,7 +108,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmSpOthers")
-    @Permission(Permissions.GamemodeCommandOther)
+    @Permission(Permissions.GameModeCommandOther)
     public void gamemodeSpectatorOthers(VLCommandSender sender, Collection<VLPlayer> target) {
         for (VLPlayer player : target) {
             player.setGameMode(GameMode.SPECTATOR);
@@ -123,7 +123,7 @@ public class GameModeCommand extends CommandExecutor {
     }
 
     @SubCommand("gmAdOthers")
-    @Permission(Permissions.GamemodeCommandOther)
+    @Permission(Permissions.GameModeCommandOther)
     public void gamemodeAdventureOthers(VLCommandSender sender, Collection<VLPlayer> target) {
         for (VLPlayer player : target) {
             player.setGameMode(GameMode.ADVENTURE);

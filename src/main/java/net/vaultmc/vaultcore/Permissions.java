@@ -49,8 +49,8 @@ public final class Permissions {
     public static final String FlyLobbyOnlyBypass = "vaultcore.fly.lobbybypass";
     public static final String HasPermCommand = "vaultcore.hasperm";
     public static final String HasPermCommandOther = "vaultcore.hasperm.other";
-    public static final String GamemodeCommand = "vaultcore.gamemode";
-    public static final String GamemodeCommandOther = "vaultcore.gamemode.other";
+    public static final String GameModeCommand = "vaultcore.gamemode";
+    public static final String GameModeCommandOther = "vaultcore.gamemode.other";
     public static final String HealCommand = "vaultcore.heal";
     public static final String HealCommandOther = "vaultcore.heal.other";
     public static final String InvseeCommand = "vaultcore.invsee";

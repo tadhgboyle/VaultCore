@@ -23,7 +23,7 @@ import org.bukkit.GameMode;
 import java.util.Collections;
 
 @RootCommand(literal = "gmsp", description = "Change your gamemode to spectator.")
-@Permission(Permissions.GamemodeCommand)
+@Permission(Permissions.GameModeCommand)
 @PlayerOnly
 @Aliases({"spec", "gmspec", "spectator", "gmspectator"})
 public class GMSpectatorCommand extends CommandExecutor {

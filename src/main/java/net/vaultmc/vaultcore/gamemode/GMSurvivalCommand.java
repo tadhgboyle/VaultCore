@@ -23,7 +23,7 @@ import org.bukkit.GameMode;
 import java.util.Collections;
 
 @RootCommand(literal = "gms", description = "Change your gamemode to survival.")
-@Permission(Permissions.GamemodeCommand)
+@Permission(Permissions.GameModeCommand)
 @PlayerOnly
 @Aliases({"survival", "gmsurvival"})
 public class GMSurvivalCommand extends CommandExecutor {
