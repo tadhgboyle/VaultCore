@@ -17,6 +17,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
+import net.vaultmc.vaultcore.afk.AFKCommand;
+import net.vaultmc.vaultcore.afk.AFKListener;
 import net.vaultmc.vaultcore.brand.BrandCommand;
 import net.vaultmc.vaultcore.brand.BrandListener;
 import net.vaultmc.vaultcore.buggy.Bug;
@@ -50,6 +52,7 @@ import net.vaultmc.vaultcore.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.grant.GrantCommand;
 import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
+import net.vaultmc.vaultcore.lobby.LobbyPortals;
 import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
 import net.vaultmc.vaultcore.logs.LogsCommand;
@@ -257,6 +260,7 @@ public final class VaultCore extends Component implements Listener {
         startTime = System.currentTimeMillis();
 
         VaultMCBot.startVaultMCBot();
+        new StaffPunch();
         new ManageBotCommand();
         new ChatGroupsCommand();
         new CreativeCommand();

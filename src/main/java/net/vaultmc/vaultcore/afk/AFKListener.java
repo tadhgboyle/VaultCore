@@ -11,7 +11,7 @@
  * contribution.
  */
 
-package net.vaultmc.vaultcore.misc.listeners;
+package net.vaultmc.vaultcore.afk;
 
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Location;
@@ -25,7 +25,8 @@ public class AFKListener {
     public static void afkUpdater() {
         for (VLPlayer players : VLPlayer.getOnlinePlayers()) {
             if (locations.get(players) == null) {
-                locations.put(players, players.getLocation());
+                locations.put(players, players.getLocation());  // Oh my god this is a smart solution
+                // wc nb
             } else if (locations.get(players) == players.getLocation()) {
                 players.performCommand("/afk");
             }

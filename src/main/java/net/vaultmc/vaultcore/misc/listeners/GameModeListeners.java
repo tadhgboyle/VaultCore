@@ -17,7 +17,6 @@ import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 public class GameModeListeners extends ConstructorRegisterListener {
@@ -36,11 +35,5 @@ public class GameModeListeners extends ConstructorRegisterListener {
             player.setGameMode(GameMode.CREATIVE);
             player.sendMessageByKey("vaultcore.build.notification");
         }
-    }
-
-    @EventHandler
-    public void onEntityDamage(EntityDamageEvent e) {
-        if (e.getEntity().getWorld().getName().equalsIgnoreCase("Lobby"))
-            e.setCancelled(true);
     }
 }

@@ -37,7 +37,7 @@ public enum Reward {
     SURVIVAL_ENCHANTMENT_BOOK_MONTHLY(player -> {
         Enchantment enchantment = Enchantment.values()[ThreadLocalRandom.current().nextInt(Enchantment.values().length)];
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStackBuilder(Material.ENCHANTED_BOOK)
-                .enchant(enchantment, ThreadLocalRandom.current().nextInt(1, enchantment.getMaxLevel()))
+                .enchant(enchantment, enchantment.getMaxLevel() != 1 ? ThreadLocalRandom.current().nextInt(1, enchantment.getMaxLevel()) : 1)
                 .build());
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-enchantment-book");
     }, "Survival Enchantment Book (Monthly)", "vaultcore.reward.enchantmentbook", 2592000000L),
