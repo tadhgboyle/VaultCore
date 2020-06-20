@@ -40,6 +40,7 @@ import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.cosmetics.Cosmetics;
 import net.vaultmc.vaultcore.cosmetics.CosmeticsCommand;
+import net.vaultmc.vaultcore.cosmetics.LargeJoinListener;
 import net.vaultmc.vaultcore.creative.*;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
@@ -318,6 +319,7 @@ public final class VaultCore extends Component implements Listener {
         new LegacyCombat();
         new LogsCommand();
         new CombatLog();
+        new LargeJoinListener();
         new ForgeModsCommand();
         new SettingsCommand();
         SettingsCommand.init();

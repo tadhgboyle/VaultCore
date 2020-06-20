@@ -28,6 +28,7 @@ public class Cosmetics {
         for (VLPlayer player : VLPlayer.getOnlinePlayers()) {
             if (player.getWorld().getName().equalsIgnoreCase("Lobby")) {
                 for (Cosmetic cosmetic : CosmeticsCommand.getAppliedCosmetics().get(player.getUniqueId())) {
+                    if (cosmetic.getTick() == null) continue;
                     cosmetic.getTick().accept(player);
                 }
             }

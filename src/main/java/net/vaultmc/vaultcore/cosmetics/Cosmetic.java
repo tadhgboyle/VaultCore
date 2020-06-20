@@ -144,7 +144,9 @@ public enum Cosmetic {
                         ThreadLocalRandom.current().nextDouble(-1D, 1D), player.getPlayer().getEyeLocation().getY() -
                         ThreadLocalRandom.current().nextDouble(0D, 1D),
                 player.getLocation().getZ() + ThreadLocalRandom.current().nextDouble(-1D, 1D), 1, null);
-    }, Material.END_ROD, "End Rod Particle Pack");
+    }, Material.END_ROD, "End Rod Particle Pack"),
+
+    LARGE_JOIN_MESSAGE(null, Material.FIREWORK_ROCKET, "Large Join Message");
 
     @Getter
     private final Consumer<VLPlayer> tick;
