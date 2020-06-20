@@ -26,9 +26,9 @@ public class LargeJoinListener extends ConstructorRegisterListener {
     @EventHandler(priority = EventPriority.HIGHEST)  // At this point appliedCosmetics is loaded
     public void onPlayerJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (CosmeticsCommand.getAppliedCosmetics().get(player.getUniqueId()).contains(Cosmetic.LARGE_JOIN_MESSAGE)) {
+        if (CosmeticsCommand.getAppliedCosmetics().get(player.getUniqueId()).contains(Cosmetic.ACTIONBAR_JOIN_MESSAGE)) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.sendTitle(player.getExtraFormattedName(), ChatColor.YELLOW + "joined the game", 10, 70, 20);
+                p.sendActionBar(player.getExtraFormattedName() + ChatColor.YELLOW + " joined the game");
             }
         }
     }
