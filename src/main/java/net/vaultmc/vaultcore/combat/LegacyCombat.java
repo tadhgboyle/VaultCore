@@ -22,6 +22,7 @@ import com.comphenix.protocol.wrappers.WrappedParticle;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -375,10 +376,17 @@ public class LegacyCombat extends ConstructorRegisterListener implements Runnabl
             if (e.getClickedBlock() != null && interactive.contains(e.getClickedBlock().getType())) {
                 return;
             }
+            VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
             e.setCancelled(true);
-            offHandItem.put(e.getPlayer().getUniqueId(), e.getPlayer().getInventory().getItemInOffHand());
-            e.getPlayer().getInventory().setItemInOffHand(SHIELD);
-            e.getPlayer().setShieldBlockingDelay(0);
+            offHandItem.put(player.getUniqueId(), player.getInventory().getItemInOffHand());
+            if (player.getDataConfig().contains("shield")) {
+                player.getInventory().setItemInOffHand(new ItemStackBuilder(Material.SHIELD)
+                        .shieldPattern(player.getDataConfig().getItemStack("shield"))
+                        .build());
+            } else {
+                player.getInventory().setItemInOffHand(SHIELD);
+            }
+            player.getPlayer().setShieldBlockingDelay(0);
         }
     }
 

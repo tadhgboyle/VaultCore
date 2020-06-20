@@ -551,6 +551,12 @@ vaultcore:
       other: "&eYou have &6{ACTION} {TARGET}&e."
       receiver: "&eYou have been &6{ACTION} by {SENDER}&e."
 
+    shield:
+      banner-link: "&eTo customize your shield, please go to &6http://www.needcoolshoes.com/banner&e and paste the /give code (with the &6/&e) into the chat."
+      give: "&ePlease enter the &6/give&e code!"
+      exact: "&ePlease paste the exact code!"
+      set: "&eChanged your shield!"
+
     fly:
       gamemode_error: "&c{TARGET} in {GAMEMODE} silly."
       self: "&eYou have &2{TOGGLE} &6fly&e."

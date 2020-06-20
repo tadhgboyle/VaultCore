@@ -132,4 +132,5 @@ public final class Permissions {
     public static final String DisguiseAsBypass = "vaultcore.disguise.bypass";
     public static final String Punchable = "vaultcore.punchable";
     public static final String CanPunch = "vaultcore.punch";
+    public static final String ShieldCommand = "vaultcore.shield";
 }

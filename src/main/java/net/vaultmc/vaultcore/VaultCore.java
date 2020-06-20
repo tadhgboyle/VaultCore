@@ -35,6 +35,7 @@ import net.vaultmc.vaultcore.chat.staff.AdminChatCommand;
 import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.combat.CombatLog;
 import net.vaultmc.vaultcore.combat.LegacyCombat;
+import net.vaultmc.vaultcore.combat.ShieldCommand;
 import net.vaultmc.vaultcore.connections.DiscordCommand;
 import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.cosmetics.Cosmetics;
@@ -287,6 +288,7 @@ public final class VaultCore extends Component implements Listener {
         new BuggyListener();
         new EntityUpperBound();
         new NicknameCommand();
+        new ShieldCommand();
         new NightVisionCommand();
         registerEvents(new CycleListener());
         registerEvents(new SleepHandler());
