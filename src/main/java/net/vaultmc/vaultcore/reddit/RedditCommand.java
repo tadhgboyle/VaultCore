@@ -151,7 +151,7 @@ public class RedditCommand extends CommandExecutor implements Listener {
                     }
                     try {
                         RedditClient client = new RedditClient(adapter,
-                                OAuthData.create(token, Collections.singletonList("identity"), refreshToken, new Date(expiration)),
+                                OAuthData.create(token, Arrays.asList("identity", "subscribe", "read"), refreshToken, new Date(expiration)),
                                 credentials, store, null);
                         if (client.getAuthManager().needsRenewing()) {
                             client.getAuthManager().renew();
@@ -206,7 +206,7 @@ public class RedditCommand extends CommandExecutor implements Listener {
                     sender.sendMessageByKey("vaultcore.commands.reddit.info", "username", loadedRedditClients.get(sender.getUniqueId()).me().getUsername());
                     return;
                 }
-                String url = auth.getAuthorizationUrl(true, false, "identity", "subscribe");
+                String url = auth.getAuthorizationUrl(true, false, "identity", "subscribe", "read");
                 sender.sendMessageByKey("vaultcore.commands.reddit.link", "url", url);
             } catch (Exception ex) {
                 ex.printStackTrace();
