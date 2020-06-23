@@ -49,13 +49,11 @@ public class PlayerUpdater extends ConstructorRegisterListener {
             }
 
             if (!roles.containsAll(mappedRole.get(group)) || !mappedRole.get(group).containsAll(roles)) {  // Checking for equality
-                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue(v -> {
-                    VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue(a -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.helper).queue(b -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue(c -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue(d -> {
-                        for (Role role : mappedRole.get(group)) {
-                            VaultMCBot.getGuild().addRoleToMember(member, role).queue();
-                        }
-                    }))));
-                });
+                VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.admin).queue(v -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.moderator).queue(a -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.helper).queue(b -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.staff).queue(c -> VaultMCBot.getGuild().removeRoleFromMember(member, VaultMCBot.players).queue(d -> {
+                    for (Role role : mappedRole.get(group)) {
+                        VaultMCBot.getGuild().addRoleToMember(member, role).queue();
+                    }
+                })))));
             }
         }
     }

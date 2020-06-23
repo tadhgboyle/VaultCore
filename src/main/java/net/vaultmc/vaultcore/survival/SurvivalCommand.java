@@ -48,6 +48,22 @@ public class SurvivalCommand extends CommandExecutor {
         ));
     }
 
+    @SubCommand("sv")
+    public static void sv(VLPlayer player) {
+        if (player.getWorld().getName().toLowerCase().contains("survival")) {
+            return;
+        }
+        Location sv = Utilities.deserializeLocation(player.getPlayerData().getString("locations.sv"));
+        if (sv == null) {
+            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
+            player.teleport(svLoc);
+        } else {
+            player.teleport(sv);
+            player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
+                    "Survival"));
+        }
+    }
+
     @SubCommand("createKit")
     public void createKit(VLPlayer sender, String name, long delay) {
         SurvivalKit kit = new SurvivalKit(name, "survival.kits." + name.toLowerCase(),
@@ -82,22 +98,6 @@ public class SurvivalCommand extends CommandExecutor {
             sender.sendMessageByKey("vaultcore.commands.survival.kits.success", "kit", kit.name);
         } else {
             sender.sendMessageByKey("vaultcore.commands.survival.kits.couldnt-use");
-        }
-    }
-
-    @SubCommand("sv")
-    public static void sv(VLPlayer player) {
-        if (player.getWorld().getName().toLowerCase().contains("survival")) {
-            return;
-        }
-        Location sv = Utilities.deserializeLocation(player.getPlayerData().getString("locations.sv"));
-        if (sv == null) {
-            player.sendMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.never_joined_before"));
-            player.teleport(svLoc);
-        } else {
-            player.teleport(sv);
-            player.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.worldtp.teleported"),
-                    "Survival"));
         }
     }
 }

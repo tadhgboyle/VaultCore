@@ -91,29 +91,6 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            displayNametags(player, player.getWorld());
-        }
-    }
-
-    @EventHandler
-    public void onPlayerChangeWorld(PlayerChangedWorldEvent e) {
-        displayNametags(e.getPlayer(), e.getPlayer().getWorld());
-
-        for (Player player : e.getPlayer().getWorld().getPlayers()) {
-            displayNametags(player, player.getWorld());
-        }
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            displayNametags(p, p.getWorld());
-        }
-    }
-
     private static void displayNametags(Player player, World world) {
         ServerPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         for (VLPlayer p : VLPlayer.getOnlinePlayers()) {
@@ -162,6 +139,29 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
                 nmsPlayer.connection.send(join);
             } catch (NullPointerException ignored) {
             }
+        }
+    }
+
+    @Override
+    public void run() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            displayNametags(player, player.getWorld());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerChangeWorld(PlayerChangedWorldEvent e) {
+        displayNametags(e.getPlayer(), e.getPlayer().getWorld());
+
+        for (Player player : e.getPlayer().getWorld().getPlayers()) {
+            displayNametags(player, player.getWorld());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            displayNametags(p, p.getWorld());
         }
     }
 }

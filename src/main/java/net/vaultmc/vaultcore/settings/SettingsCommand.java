@@ -50,6 +50,13 @@ import java.util.stream.Collectors;
 @PlayerOnly
 @Aliases("setting")
 public class SettingsCommand extends CommandExecutor implements Listener {
+    private static final ItemStack item = new ItemStackBuilder(Material.ARROW)
+            .name(ChatColor.GREEN + "Settings")
+            .lore(Arrays.asList(
+                    ChatColor.GRAY + "Customize your experience on",
+                    ChatColor.GRAY + "VaultMC."
+            ))
+            .build();
     static List<String> settingNames = new ArrayList<>();
     static HashMap<String, String> settingMap = new HashMap<>();
 
@@ -69,14 +76,6 @@ public class SettingsCommand extends CommandExecutor implements Listener {
 
         }
     }
-
-    private static final ItemStack item = new ItemStackBuilder(Material.ARROW)
-            .name(ChatColor.GREEN + "Settings")
-            .lore(Arrays.asList(
-                    ChatColor.GRAY + "Customize your experience on",
-                    ChatColor.GRAY + "VaultMC."
-            ))
-            .build();
 
     @SubCommand("settingsSpecific")
     public void settingsSpecific(VLPlayer sender, String setting) {
