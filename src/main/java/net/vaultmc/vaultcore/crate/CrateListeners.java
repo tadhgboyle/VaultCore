@@ -17,9 +17,7 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -43,6 +41,13 @@ public class CrateListeners extends ConstructorRegisterListener {
         Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), CrateListeners::updateAllInventories, 10L, 10L);
     }
 
+    private static final ItemStack yellow = new ItemStackBuilder(Material.YELLOW_STAINED_GLASS_PANE)
+            .name(" ")
+            .build();
+    private static final ItemStack orange = new ItemStackBuilder(Material.ORANGE_STAINED_GLASS_PANE)
+            .name(" ")
+            .build();
+
     private static void updateAllInventories() {
         List<UUID> list = new ArrayList<>();
         map.forEach((uuid, inv) -> {
@@ -52,16 +57,17 @@ public class CrateListeners extends ConstructorRegisterListener {
                     range.get(player.getUniqueId())[i]++;
                     range.get(player.getUniqueId())[i] %= CrateCommand.getItems().size() - 1;
                 }
-                int slot = 0;
+                int slot = 9;
                 for (int index : range.get(player.getUniqueId())) {
                     inv.setItem(slot, CrateCommand.getItemsList().get(index));
                     slot++;
                 }
-                if (inv.getItem(4).hashCode() == targetItems.get(player.getUniqueId()) && iteration.get(player.getUniqueId()) == 1) {
-                    ItemStack item = inv.getItem(4);
+                if (inv.getItem(13).hashCode() == targetItems.get(player.getUniqueId()) && iteration.get(player.getUniqueId()) == 3) {
+                    ItemStack item = inv.getItem(13);
                     player.getInventory().addItem(item);
                     player.sendMessageByKey("vaultcore.commands.crate.item-received");
                     list.add(player.getUniqueId());
+                    player.getPlayer().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 100, 1F);
                 }
             }
             time++;
@@ -108,10 +114,18 @@ public class CrateListeners extends ConstructorRegisterListener {
                             .name(ChatColor.GREEN + "Crate Keys " + ChatColor.YELLOW + "(" + player.getDataConfig().getInt("crate-keys", 0) + ")")
                             .build());
                 }
-                Inventory inv = Bukkit.createInventory(null, 9, ChatColor.RESET + "Crate Rollin'");
+                Inventory inv = Bukkit.createInventory(null, 27, ChatColor.RESET + "Crate Rollin'");
                 map.put(player.getUniqueId(), inv);
+                for (int i = 0; i < 9; i++) {
+                    inv.setItem(i, yellow);
+                }
+                for (int i = 18; i < 27; i++) {
+                    inv.setItem(i, yellow);
+                }
+                inv.setItem(4, orange);
+                inv.setItem(22, orange);
                 range.put(player.getUniqueId(), new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8});
-                iteration.put(player.getUniqueId(), 2);
+                iteration.put(player.getUniqueId(), 1);
 
                 List<Map.Entry<ItemStack, Integer>> items = new ArrayList<>(CrateCommand.getItems().entrySet());
                 items.sort(Map.Entry.comparingByValue());
@@ -127,7 +141,12 @@ public class CrateListeners extends ConstructorRegisterListener {
 
                 Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
                     if (iteration.containsKey(player.getUniqueId())) {
-                        iteration.put(player.getUniqueId(), 1);
+                        iteration.put(player.getUniqueId(), 2);
+                        Bukkit.getScheduler().runTaskLater(VaultLoader.getInstance(), () -> {
+                            if (iteration.containsKey(player.getUniqueId())) {
+                                iteration.put(player.getUniqueId(), 3);
+                            }
+                        }, 100L);
                     }
                 }, 400L);
                 updateAllInventories();
