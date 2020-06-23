@@ -134,4 +134,5 @@ public final class Permissions {
     public static final String CanPunch = "vaultcore.punch";
     public static final String ShieldCommand = "vaultcore.shield";
     public static final String PurchaseCommand = "admincore.purchase";  // Using admincore because this shouldn't be accessed by helpers and mods
+    public static final String ManageCrates = "vaultcore.crates";
 }

@@ -475,6 +475,18 @@ vaultcore:
       guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
       error_checking_linked: "&cThere was an error checking if you linked your account. Please report this."
 
+    crate:
+      created-access-point: "&eCreated a crate access point."
+      removed-access-point: "&eRemoved the crate access point."
+      added-item: "&eAdded an item."
+      removed-item: "&eRemoved an item."
+      list-item: "&6{ITEMTYPE}&e: Weight &6{WEIGHT}&e, Hash &6{HASH}&e."
+      list-access-point: "&6{W}&e, &6{X}&e, &6{Y}&e, &6{Z}"
+      obtained-key: "&6{PLAYER}&e gave you a crate key."
+      given-key: "&eYou gave &6{PLAYERS}&e some crate keys."
+      crate-key-required: "&cYou need a crate key to open this! You can get this by voting or purchasing them on https://store.vaultmc.net."
+      item-received: "&eYou received an item from the crate!"
+
     list:
       header: "&2--== [List] ==--"
       count: "&eThere are currently &6{COUNT}&e players online."

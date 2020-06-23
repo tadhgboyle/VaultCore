@@ -41,6 +41,8 @@ import net.vaultmc.vaultcore.connections.TokenCommand;
 import net.vaultmc.vaultcore.cosmetics.Cosmetics;
 import net.vaultmc.vaultcore.cosmetics.CosmeticsCommand;
 import net.vaultmc.vaultcore.cosmetics.LargeJoinListener;
+import net.vaultmc.vaultcore.crate.CrateCommand;
+import net.vaultmc.vaultcore.crate.CrateListeners;
 import net.vaultmc.vaultcore.creative.*;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
@@ -317,6 +319,7 @@ public final class VaultCore extends Component implements Listener {
         new UnignoreCommand();
         new SecLogCommand();
         new LegacyCombat();
+        new CrateCommand();
         new LogsCommand();
         new CombatLog();
         new LargeJoinListener();
@@ -396,6 +399,8 @@ public final class VaultCore extends Component implements Listener {
         KitInit.init();
         new PlayerVaultCommand();
         new Cosmetics();
+        new CrateCommand();
+        new CrateListeners();
         new CosmeticsCommand();
         new RewardsCommand();
         new DisguiseCommand();
@@ -455,6 +460,7 @@ public final class VaultCore extends Component implements Listener {
         RewardsCommand.save();
         RedditCommand.cleanup();
         LinkRedditBotCommand.cleanup();
+        CrateCommand.save();
         database.close();
         pDatabase.close();
         inv.save();
