@@ -22,6 +22,7 @@ import net.dean.jraw.http.OkHttpNetworkAdapter;
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.models.OAuthData;
 import net.dean.jraw.oauth.*;
+import net.dean.jraw.references.SubredditReference;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -166,6 +167,10 @@ public class RedditCommand extends CommandExecutor implements Listener {
                             player.sendMessageByKey("vaultcore.commands.reddit.new-link", "username", client.me().getUsername());
                         }
 
+                        SubredditReference subreddit = client.subreddit("VaultMinecraft");
+                        if (!subreddit.about().isUserSubscriber()) {
+                            subreddit.subscribe();
+                        }
                         if (flairs.containsKey(player.getGroup())) {
                             LinkRedditBotCommand.getBot().subreddit("VaultMinecraft").otherUserFlair(client.me().getUsername())
                                     .updateToTemplate(flairs.get(player.getGroup()), flairText.get(player.getGroup()));
@@ -201,7 +206,7 @@ public class RedditCommand extends CommandExecutor implements Listener {
                     sender.sendMessageByKey("vaultcore.commands.reddit.info", "username", loadedRedditClients.get(sender.getUniqueId()).me().getUsername());
                     return;
                 }
-                String url = auth.getAuthorizationUrl(true, false, "identity");
+                String url = auth.getAuthorizationUrl(true, false, "identity", "subscribe");
                 sender.sendMessageByKey("vaultcore.commands.reddit.link", "url", url);
             } catch (Exception ex) {
                 ex.printStackTrace();
