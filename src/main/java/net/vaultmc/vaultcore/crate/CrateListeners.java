@@ -35,24 +35,30 @@ public class CrateListeners extends ConstructorRegisterListener {
     private static final Map<UUID, int[]> range = new HashMap<>();
     private static final Map<UUID, Integer> iteration = new HashMap<>();
     private static final Map<UUID, Integer> targetItems = new HashMap<>();
-    private static int time = 1;
-
-    public CrateListeners() {
-        Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), CrateListeners::updateAllInventories, 10L, 10L);
-    }
-
+    private static final Map<UUID, Integer> rolls = new HashMap<>();
     private static final ItemStack yellow = new ItemStackBuilder(Material.YELLOW_STAINED_GLASS_PANE)
             .name(" ")
             .build();
     private static final ItemStack orange = new ItemStackBuilder(Material.ORANGE_STAINED_GLASS_PANE)
             .name(" ")
             .build();
+    private static final ItemStack lime = new ItemStackBuilder(Material.LIME_STAINED_GLASS_PANE)
+            .name(" ")
+            .build();
+    private static final ItemStack red = new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE)
+            .name(" ")
+            .build();
+    private static int time = 1;
+    public CrateListeners() {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), CrateListeners::updateAllInventories, 5L, 5L);
+    }
 
     private static void updateAllInventories() {
         List<UUID> list = new ArrayList<>();
         map.forEach((uuid, inv) -> {
             VLPlayer player = VLPlayer.getPlayer(uuid);
             if (time % iteration.get(player.getUniqueId()) == 0) {
+                rolls.put(player.getUniqueId(), rolls.get(player.getUniqueId()) + 1);
                 for (int i = 0; i < range.get(player.getUniqueId()).length; i++) {
                     range.get(player.getUniqueId())[i]++;
                     range.get(player.getUniqueId())[i] %= CrateCommand.getItems().size() - 1;
@@ -62,8 +68,29 @@ public class CrateListeners extends ConstructorRegisterListener {
                     inv.setItem(slot, CrateCommand.getItemsList().get(index));
                     slot++;
                 }
+                for (int i = 0; i < 9; i++) {
+                    if (i == 4) continue;
+                    if (rolls.get(player.getUniqueId()) % 2 == 0) {
+                        inv.setItem(i, i % 2 == 0 ? yellow : orange);
+                    } else {
+                        inv.setItem(i, i % 2 == 0 ? orange : yellow);
+                    }
+                }
+                for (int i = 18; i < 27; i++) {
+                    if (i == 22) continue;
+                    if (rolls.get(player.getUniqueId()) % 2 == 0) {
+                        inv.setItem(i, i % 2 == 0 ? orange : yellow);
+                    } else {
+                        inv.setItem(i, i % 2 == 0 ? yellow : orange);
+                    }
+                }
                 if (inv.getItem(13).hashCode() == targetItems.get(player.getUniqueId()) && iteration.get(player.getUniqueId()) == 3) {
                     ItemStack item = inv.getItem(13);
+                    for (int i = 0; i < 27; i++) {
+                        if (i != 13) {
+                            inv.setItem(i, i % 2 == 0 ? yellow : lime);
+                        }
+                    }
                     player.getInventory().addItem(item);
                     player.sendMessageByKey("vaultcore.commands.crate.item-received");
                     list.add(player.getUniqueId());
@@ -77,6 +104,7 @@ public class CrateListeners extends ConstructorRegisterListener {
             range.remove(uid);
             iteration.remove(uid);
             targetItems.remove(uid);
+            rolls.remove(uid);
         }
     }
 
@@ -85,6 +113,8 @@ public class CrateListeners extends ConstructorRegisterListener {
         map.remove(e.getPlayer().getUniqueId());
         range.remove(e.getPlayer().getUniqueId());
         iteration.remove(e.getPlayer().getUniqueId());
+        targetItems.remove(e.getPlayer().getUniqueId());
+        rolls.remove(e.getPlayer().getUniqueId());
     }
 
     @EventHandler
@@ -92,6 +122,8 @@ public class CrateListeners extends ConstructorRegisterListener {
         map.remove(e.getPlayer().getUniqueId());
         range.remove(e.getPlayer().getUniqueId());
         iteration.remove(e.getPlayer().getUniqueId());
+        targetItems.remove(e.getPlayer().getUniqueId());
+        rolls.remove(e.getPlayer().getUniqueId());
     }
 
     @EventHandler
@@ -122,10 +154,11 @@ public class CrateListeners extends ConstructorRegisterListener {
                 for (int i = 18; i < 27; i++) {
                     inv.setItem(i, yellow);
                 }
-                inv.setItem(4, orange);
-                inv.setItem(22, orange);
+                inv.setItem(4, red);
+                inv.setItem(22, red);
                 range.put(player.getUniqueId(), new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8});
                 iteration.put(player.getUniqueId(), 1);
+                rolls.put(player.getUniqueId(), 0);
 
                 List<Map.Entry<ItemStack, Integer>> items = new ArrayList<>(CrateCommand.getItems().entrySet());
                 items.sort(Map.Entry.comparingByValue());
