@@ -179,9 +179,9 @@ public class CrateListeners extends ConstructorRegisterListener {
                             if (iteration.containsKey(player.getUniqueId())) {
                                 iteration.put(player.getUniqueId(), 3);
                             }
-                        }, 100L);
+                        }, 60L);
                     }
-                }, 400L);
+                }, 200L);
                 updateAllInventories();
                 player.openInventory(inv);
             } else {

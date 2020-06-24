@@ -67,11 +67,13 @@ public enum Reward {
         player.deposit(Bukkit.getWorld("skyblock"), 10);
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStack(Material.DIAMOND, 3));
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-vote");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + player.getName());
     }, "Vote Reward", null, -1),
     DAILY_REWARD(player -> {
         player.deposit(Bukkit.getWorld("skyblock"), 10);
         RewardsCommand.getSurvivalGrant().put(player.getUniqueId(), new ItemStack(Material.DIAMOND, 3));
         player.sendMessageByKey("vaultcore.commands.rewards.claimed-daily");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + player.getName());
     }, "Daily Reward", null, 86400000);
 
     @Getter
