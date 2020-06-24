@@ -136,4 +136,5 @@ public final class Permissions {
     public static final String PurchaseCommand = "admincore.purchase";  // Using admincore because this shouldn't be accessed by helpers and mods
     public static final String ManageCrates = "vaultcore.crates";
     public static final String ReferCommand = "vaultcore.refer";
+    public static final String VoteCommand = "vaultcore.vote";
 }

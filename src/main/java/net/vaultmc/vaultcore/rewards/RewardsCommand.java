@@ -96,6 +96,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
     };
     @Getter
     private static final Multimap<UUID, ItemStack> survivalGrant = HashMultimap.create();
+    @Getter
     private static final Map<UUID, Map<Reward, Long>> availableRewards = new HashMap<>();
     private static final Reward[] firstRow = {Reward.SURVIVAL_DIAMOND_WEEKLY,
             Reward.SURVIVAL_ENCHANTMENT_BOOK_MONTHLY, Reward.SURVIVAL_SHULKER_BOX_MONTHLY, Reward.SURVIVAL_TROPHY_MONTHLY,

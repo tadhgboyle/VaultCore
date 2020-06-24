@@ -80,6 +80,8 @@ import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
 import net.vaultmc.vaultcore.rewards.ReferCommand;
 import net.vaultmc.vaultcore.rewards.RewardsCommand;
+import net.vaultmc.vaultcore.rewards.VoteCommand;
+import net.vaultmc.vaultcore.rewards.VoteListener;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
 import net.vaultmc.vaultcore.stats.CheckCommand;
@@ -396,6 +398,8 @@ public final class VaultCore extends Component implements Listener {
         new UnclaimCommand();
         new ClaimListeners();
         new PlayerCustomKeys();
+        new VoteCommand();
+        new VoteListener();
         Kit.getKits();  // Load the class
         KitInit.init();
         new PlayerVaultCommand();

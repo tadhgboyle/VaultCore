@@ -443,6 +443,10 @@ vaultcore:
   player_offline: "&cThat player is offline."
   console_only: "&cThat command can only be run by Console."
 
+  vote:
+    received: "&eThank you for voting! You can now claim your vote reward."
+    broadcast: "&6{PLAYER}&e voted and received some vote reward! You can get that too via &6/vote&e."
+
   build:
     notification: |-
       &c&lNote!
