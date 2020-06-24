@@ -78,6 +78,7 @@ import net.vaultmc.vaultcore.reddit.RedditCommand;
 import net.vaultmc.vaultcore.report.Report;
 import net.vaultmc.vaultcore.report.ReportCommand;
 import net.vaultmc.vaultcore.report.ReportsCommand;
+import net.vaultmc.vaultcore.rewards.ReferCommand;
 import net.vaultmc.vaultcore.rewards.RewardsCommand;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.SettingsCommand;
@@ -401,6 +402,7 @@ public final class VaultCore extends Component implements Listener {
         new Cosmetics();
         new CrateCommand();
         new CrateListeners();
+        new ReferCommand();
         new CosmeticsCommand();
         new RewardsCommand();
         new DisguiseCommand();

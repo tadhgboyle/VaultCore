@@ -487,6 +487,13 @@ vaultcore:
       crate-key-required: "&cYou need a crate key to open this! You can get this by voting or purchasing them on https://store.vaultmc.net."
       item-received: "&eYou received an item from the crate!"
 
+    refer:
+      your-code: "&eYour code is &6{CODE}&e, and it can be applied via &6/refer {CODE}&e."
+      invalid-code: "&cThis code is invalid!"
+      already-used: "&cYou already used this code!"
+      success: "&eSuccessfully applied the refer code &6{CODE}&e. You and &6{PLAYER}&e both received 3 crate keys and &6$50&e in SkyBlock."
+      used: "&6{PLAYER}&e used your refer code &6{CODE}&e. You both received 3 crate keys and &6$50&e in SkyBlock.""
+
     list:
       header: "&2--== [List] ==--"
       count: "&eThere are currently &6{COUNT}&e players online."
