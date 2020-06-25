@@ -54,7 +54,7 @@ public class VaultMCBot extends ListenerAdapter {
     public static void startVaultMCBot() {
         try {
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot starting up...");
-            jda = new JDABuilder(VaultCore.getInstance().getConfig().getString("token"))
+            jda = JDABuilder.createDefault(VaultCore.getInstance().getConfig().getString("token"))
                     .addEventListeners(new TokenValidator(), new PurgeCommand(), new WelcomeExperience())
                     .setActivity(Activity.playing("on VaultMC.net"))
                     .build();
