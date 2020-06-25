@@ -47,6 +47,9 @@ public class VaultMCBot extends ListenerAdapter {
     public static Role players;
     public static Role betaTester;
     public static Role serverBooster;
+    public static Role patreon;
+    public static Role member;
+    public static Role trusted;
 
     public static void startVaultMCBot() {
         try {
@@ -71,6 +74,9 @@ public class VaultMCBot extends ListenerAdapter {
             betaTester = guild.getRoleById(678014449596235779L);
             players = guild.getRoleById(615457277247488010L);
             serverBooster = guild.getRoleById(706713822664065035L);
+            patreon = guild.getRoleById(725634941437739049L);
+            trusted = guild.getRoleById(725634935540416553L);
+            member = guild.getRoleById(725634961104699433L);
 
             PlayerUpdater.mappedRole.putAll("admin", Arrays.asList(admin, staff, players));
             PlayerUpdater.mappedRole.putAll("moderator", Arrays.asList(moderator, staff, players));
@@ -80,9 +86,9 @@ public class VaultMCBot extends ListenerAdapter {
             PlayerUpdater.mappedRole.putAll("god", Arrays.asList(god, players));
             PlayerUpdater.mappedRole.putAll("titan", Arrays.asList(titan, players));
             PlayerUpdater.mappedRole.putAll("hero", Arrays.asList(hero, players));
-            PlayerUpdater.mappedRole.put("trusted", players);
-            PlayerUpdater.mappedRole.put("patreon", players);
-            PlayerUpdater.mappedRole.put("member", players);
+            PlayerUpdater.mappedRole.putAll("trusted", Arrays.asList(trusted, players));
+            PlayerUpdater.mappedRole.putAll("patreon", Arrays.asList(patreon, players));
+            PlayerUpdater.mappedRole.putAll("member", Arrays.asList(member, players));
             PlayerUpdater.mappedRole.put("default", players);
 
             VaultCore.getInstance().getLogger().log(Level.INFO, "VaultMC Bot started successfully...");
