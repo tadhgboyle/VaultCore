@@ -102,8 +102,6 @@ public class VaultMCBot extends ListenerAdapter {
     }
 
     public static void stopVaultMCBot() {
-
-
+        jda.shutdown();
     }
-
 }
