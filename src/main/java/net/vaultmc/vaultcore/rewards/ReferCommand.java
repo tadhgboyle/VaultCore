@@ -13,6 +13,7 @@
 
 package net.vaultmc.vaultcore.rewards;
 
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
@@ -21,7 +22,6 @@ import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.*;

@@ -14,6 +14,7 @@
 package net.vaultmc.vaultcore.misc.commands;
 
 import com.sun.management.OperatingSystemMXBean;
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
@@ -21,7 +22,6 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;

@@ -13,10 +13,10 @@
 
 package net.vaultmc.vaultcore.cosmetics;
 
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

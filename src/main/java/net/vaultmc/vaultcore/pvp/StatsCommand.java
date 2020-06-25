@@ -14,12 +14,12 @@
 package net.vaultmc.vaultcore.pvp;
 
 import lombok.SneakyThrows;
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
 
 import java.sql.ResultSet;
 import java.util.Collections;

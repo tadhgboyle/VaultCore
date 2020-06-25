@@ -13,11 +13,11 @@
 
 package net.vaultmc.vaultcore.logs;
 
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import org.bukkit.ChatColor;
 
 import java.io.BufferedReader;
 import java.io.File;

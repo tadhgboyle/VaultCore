@@ -13,6 +13,7 @@
 
 package net.vaultmc.vaultcore.misc.commands;
 
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.CommandExecutor;
@@ -20,7 +21,6 @@ import net.vaultmc.vaultloader.utils.commands.Permission;
 import net.vaultmc.vaultloader.utils.commands.RootCommand;
 import net.vaultmc.vaultloader.utils.commands.SubCommand;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import org.bukkit.ChatColor;
 
 import java.util.Collections;
 

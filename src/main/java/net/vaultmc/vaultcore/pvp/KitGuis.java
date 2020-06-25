@@ -15,12 +15,12 @@ package net.vaultmc.vaultcore.pvp;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

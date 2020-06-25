@@ -15,6 +15,7 @@ package net.vaultmc.vaultcore;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.vaultmc.vaultcore.afk.AFKCommand;
@@ -115,7 +116,6 @@ import net.vaultmc.vaultloader.utils.configuration.Configuration;
 import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;

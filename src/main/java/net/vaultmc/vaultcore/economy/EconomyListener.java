@@ -13,9 +13,9 @@
 
 package net.vaultmc.vaultcore.economy;
 
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
 

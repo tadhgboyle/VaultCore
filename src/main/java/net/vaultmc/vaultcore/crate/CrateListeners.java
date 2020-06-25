@@ -49,6 +49,7 @@ public class CrateListeners extends ConstructorRegisterListener {
             .name(" ")
             .build();
     private static int time = 1;
+
     public CrateListeners() {
         Bukkit.getScheduler().runTaskTimerAsynchronously(VaultLoader.getInstance(), CrateListeners::updateAllInventories, 5L, 5L);
     }

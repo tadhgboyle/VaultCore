@@ -13,10 +13,10 @@
 
 package net.vaultmc.vaultcore.pvp;
 
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
-import org.bukkit.ChatColor;
 
 import java.util.Collections;
 

@@ -15,10 +15,10 @@ package net.vaultmc.vaultcore.rewards;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.enchantments.Enchantment;

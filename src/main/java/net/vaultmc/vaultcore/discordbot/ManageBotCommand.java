@@ -13,12 +13,12 @@
 
 package net.vaultmc.vaultcore.discordbot;
 
+import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
-import org.bukkit.ChatColor;
 
 import java.util.Collections;
 
