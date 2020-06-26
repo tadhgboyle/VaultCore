@@ -32,7 +32,7 @@ import net.vaultmc.vaultloader.utils.DBConnection;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -88,7 +88,7 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
             Objective obj = scoreboard.getObjective(player.getUniqueId().toString().split("-")[0]);
             ClientboundSetObjectivePacket objectiveRemove = new ClientboundSetObjectivePacket(obj, 1);
             ((CraftPlayer) player).getHandle().connection.send(objectiveRemove);
-            scoreboard.unregisterObjective(obj);
+            scoreboard.removeObjective(obj);
         } catch (NullPointerException ignored) {
         }
     }
@@ -96,14 +96,14 @@ public class Scoreboards extends ConstructorRegisterListener implements Runnable
     @SneakyThrows
     public void updateScoreboardFor(Player player) {
         try {
-            scoreboard.unregisterObjective(scoreboard.getObjective(player.getUniqueId().toString().split("-")[0]));
+            scoreboard.removeObjective(scoreboard.getObjective(player.getUniqueId().toString().split("-")[0]));
         } catch (NullPointerException ignored) {
         }
 
-        Objective obj = scoreboard.registerObjective(player.getUniqueId().toString().split("-")[0],
+        Objective obj = scoreboard.addObjective(player.getUniqueId().toString().split("-")[0],
                 ObjectiveCriteria.DUMMY, Component.Serializer.fromJson("{\"text\":\"\\u00a7e\\u00a7lPvP\"}"),
                 ObjectiveCriteria.RenderType.INTEGER);
-        scoreboard.setDisplaySlot(1, obj);
+        scoreboard.setDisplayObjective(1, obj);
         ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
 
         ClientboundSetObjectivePacket objectiveRemove = new ClientboundSetObjectivePacket(obj, 1);

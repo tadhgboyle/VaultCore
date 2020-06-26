@@ -38,7 +38,7 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -103,7 +103,7 @@ public class DisguiseCommand extends CommandExecutor {
     @SneakyThrows
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (disguisedPlayers.containsKey(e.getPlayer().getUniqueId())) {
-            ((CraftPlayer) e.getPlayer()).getHandle().setProfile(disguisedPlayers.get(e.getPlayer().getUniqueId()));
+            //((CraftPlayer) e.getPlayer()).getHandle().setProfile(disguisedPlayers.get(e.getPlayer().getUniqueId()));
             e.getPlayer().setDisplayName(disguisedDN.get(e.getPlayer().getUniqueId()));
             ClientboundPlayerInfoPacket tabRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER,
                     ((CraftPlayer) e.getPlayer()).getHandle());
@@ -112,7 +112,7 @@ public class DisguiseCommand extends CommandExecutor {
             ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(e.getPlayer().getEntityId());
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) e.getPlayer()).getHandle());
 
-            SynchedEntityData dataWatcher = ((CraftPlayer) e.getPlayer()).getHandle().getDataWatcher();
+            SynchedEntityData dataWatcher = ((CraftPlayer) e.getPlayer()).getHandle().getEntityData();
             Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
             field.setAccessible(true);
             EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) e.getPlayer()).getHandle());
@@ -165,14 +165,14 @@ public class DisguiseCommand extends CommandExecutor {
             for (Property property : skinCache.get(player.getUniqueId())) {
                 newProfile.getProperties().put(property.getName(), property);
             }
-            ((CraftPlayer) sender.getPlayer()).getHandle().setProfile(newProfile);
+            //((CraftPlayer) sender.getPlayer()).getHandle().setProfile(newProfile);
             ClientboundPlayerInfoPacket tabRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER,
                     ((CraftPlayer) sender.getPlayer()).getHandle());
             ClientboundPlayerInfoPacket tabAdd = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER,
                     ((CraftPlayer) sender.getPlayer()).getHandle());  // Our PacketListener will change the GameProfile for us
             ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
-            SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getDataWatcher();
+            SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getEntityData();
             Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
             field.setAccessible(true);
             EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) sender.getPlayer()).getHandle());
@@ -218,14 +218,14 @@ public class DisguiseCommand extends CommandExecutor {
                             skinCache.put(player.getUniqueId(), prop);
                             newProfile.getProperties().put(prop.getName(), prop);
                         }
-                        ((CraftPlayer) sender.getPlayer()).getHandle().setProfile(newProfile);
+                        //((CraftPlayer) sender.getPlayer()).getHandle().setProfile(newProfile);
                         ClientboundPlayerInfoPacket tabRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER,
                                 ((CraftPlayer) sender.getPlayer()).getHandle());
                         ClientboundPlayerInfoPacket tabAdd = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER,
                                 ((CraftPlayer) sender.getPlayer()).getHandle());  // Our PacketListener will change the GameProfile for us
                         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
                         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
-                        SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getDataWatcher();
+                        SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getEntityData();
                         Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
                         field.setAccessible(true);
                         EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) sender.getPlayer()).getHandle());

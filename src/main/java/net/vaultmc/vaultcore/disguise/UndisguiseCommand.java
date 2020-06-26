@@ -25,7 +25,7 @@ import net.vaultmc.vaultcore.nametags.Nametags;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
@@ -46,7 +46,7 @@ public class UndisguiseCommand extends CommandExecutor {
     public static void undisguise(VLPlayer player) {
         DisguiseCommand.getDisguisedPlayers().remove(player.getUniqueId());
         DisguiseCommand.getDisguisedDN().remove(player.getUniqueId());
-        ((CraftPlayer) player.getPlayer()).getHandle().setProfile(DisguiseCommand.getActualGameProfile().remove(player.getUniqueId()));
+        //((CraftPlayer) player.getPlayer()).getHandle().setProfile(DisguiseCommand.getActualGameProfile().remove(player.getUniqueId()));
         player.getPlayer().setDisplayName(DisguiseCommand.getActualDN().remove(player.getUniqueId()));
         ClientboundPlayerInfoPacket tabRemove = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER,
                 ((CraftPlayer) player.getPlayer()).getHandle());
@@ -54,7 +54,7 @@ public class UndisguiseCommand extends CommandExecutor {
                 ((CraftPlayer) player.getPlayer()).getHandle());
         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(player.getPlayer().getEntityId());
         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) player.getPlayer()).getHandle());
-        SynchedEntityData dataWatcher = ((CraftPlayer) player.getPlayer()).getHandle().getDataWatcher();
+        SynchedEntityData dataWatcher = ((CraftPlayer) player.getPlayer()).getHandle().getEntityData();
         Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
         field.setAccessible(true);
         EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) player.getPlayer()).getHandle());

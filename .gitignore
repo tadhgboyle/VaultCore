@@ -10,5 +10,6 @@ target/
 bin/
 build/
 translation/
+remap/
 remapping/
 settings.xml

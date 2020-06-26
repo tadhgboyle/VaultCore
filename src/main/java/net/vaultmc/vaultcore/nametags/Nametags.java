@@ -26,7 +26,7 @@ import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -107,19 +107,19 @@ public class Nametags extends ConstructorRegisterListener implements Runnable {
             }
 
             try {
-                scoreboard.removeTeam(scoreboard.getTeam(nametag.getSortPriority() + p.getUniqueId().toString().split("-")[0]));
+                scoreboard.removePlayerTeam(scoreboard.getPlayerTeam(nametag.getSortPriority() + p.getUniqueId().toString().split("-")[0]));
             } catch (NullPointerException ignored) {
             }
 
-            PlayerTeam team = scoreboard.createTeam(nametag.getSortPriority() + p.getUniqueId().toString().split("-")[0]);
+            PlayerTeam team = scoreboard.addPlayerTeam(nametag.getSortPriority() + p.getUniqueId().toString().split("-")[0]);
             team.setCollisionRule(Team.CollisionRule.NEVER);
             teams.put(p, team);
             scoreboard.addPlayerToTeam(p.getName(), team);
             p.setPlayerListName(nametag.getPrefix() + p.getDisplayName() + nametag.getSuffix());
 
             try {
-                team.setPrefix(Component.Serializer.fromJson("{\"text\":\"" + nametag.getPrefix() + "\"}"));
-                team.setSuffix(Component.Serializer.fromJson("{\"text\":\"" + nametag.getSuffix() + "\"}"));
+                team.setPlayerPrefix(Component.Serializer.fromJson("{\"text\":\"" + nametag.getPrefix() + "\"}"));
+                team.setPlayerSuffix(Component.Serializer.fromJson("{\"text\":\"" + nametag.getSuffix() + "\"}"));
                 team.setColor(getColor(p));
                 team.setCollisionRule(Team.CollisionRule.NEVER);
 

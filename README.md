@@ -14,6 +14,8 @@ All VaultLoader references direct to the VaultLoader plugin which is closed-sour
 # Pull Requests
 We are open to any and all PR's and will be reviewing them as soon as we can. 
 
-If you feel like you can contribute to our codebase, please feel free!
+If you feel like you can contribute to our codebase, please feel free to do so!
+
+And yes, we do intentionally left out parts needed to build this.
 
 ##### _That's all for now folks_
