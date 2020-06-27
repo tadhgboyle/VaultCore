@@ -37,11 +37,30 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatUtils extends ConstructorRegisterListener {
+    public static String translateRGBCodes(String textToTranslate) {
+        char[] b = textToTranslate.toCharArray();
+        for (int i = 0; i < b.length - 1; i++) {
+            try {
+                if (b[i] == '&' && b[i + 1] == '#') {
+                    String rgb = new String(new char[]{b[i + 2], b[i + 3], b[i + 4], b[i + 5], b[i + 6], b[i + 7]});
+                    ChatColor color = ChatColor.of("#" + rgb);
+                    textToTranslate = textToTranslate.replace("&#" + rgb, color.toString());
+                }
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        }
+        return textToTranslate;
+    }
+
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (player.hasPermission(Permissions.ChatColor)) {
             e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
+        }
+
+        if (player.hasPermission(Permissions.RGBImprovesPerformance)) {
+            e.setMessage(translateRGBCodes(e.getMessage()));
         }
 
         // Staff + Admin chat
