@@ -129,8 +129,11 @@ import org.bukkit.plugin.ServicePriority;
 import java.text.DecimalFormat;
 import java.util.Map;
 
-@ComponentInfo(name = "VaultCore", description = "The suite of tools created for the VaultMC server.", authors = {
-        "Aberdeener", "yangyang200", "2xjtn"})
+@ComponentInfo(
+        name = "VaultCore",
+        description = "The suite of tools created for the VaultMC server.",
+        authors = {"Aberdeener", "yangyang200", "2xjtn"}
+)
 @Version(major = 2, minor = 0, revision = 0)
 public final class VaultCore extends Component implements Listener {
     public static final DecimalFormat numberFormat = new DecimalFormat("###,###.###");
