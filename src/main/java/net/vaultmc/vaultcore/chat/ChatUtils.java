@@ -36,10 +36,165 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ChatUtils extends ConstructorRegisterListener {
+    private static final Map<String, String> colors = new HashMap<>();
+
+    static {
+        colors.put("aliceblue", "f0f8ff");
+        colors.put("antiquewhite", "faebd7");
+        colors.put("aqua", "00ffff");
+        colors.put("aquamarine", "7fffd4");
+        colors.put("azure", "f0ffff");
+        colors.put("beige", "f5f5dc");
+        colors.put("bisque", "ffe4c4");
+        colors.put("black", "000000");
+        colors.put("blanchedalmond", "ffebcd");
+        colors.put("blue", "0000ff");
+        colors.put("blueviolet", "8a2be2");
+        colors.put("brown", "a52a2a");
+        colors.put("burlywood", "deb887");
+        colors.put("cadetblue", "5f9ea0");
+        colors.put("chartreuse", "7fff00");
+        colors.put("chocolate", "d2691e");
+        colors.put("coral", "ff7f50");
+        colors.put("cornflowerblue", "6495ed");
+        colors.put("cornsilk", "fff8dc");
+        colors.put("crimson", "dc143c");
+        colors.put("cyan", "00ffff");
+        colors.put("darkblue", "00008b");
+        colors.put("darkcyan", "008b8b");
+        colors.put("darkgoldenrod", "b8860b");
+        colors.put("gray", "a9a9a9");
+        colors.put("darkgreen", "006400");
+        colors.put("grey", "a9a9a9");
+        colors.put("darkkhaki", "bdb76b");
+        colors.put("darkmagenta", "8b008b");
+        colors.put("darkolivegreen", "556b2f");
+        colors.put("darkorange", "ff8c00");
+        colors.put("darkorchid", "9932cc");
+        colors.put("darkred", "8b0000");
+        colors.put("darksalmon", "e9967a");
+        colors.put("darkseagreen", "8fbc8f");
+        colors.put("darkslateblue", "483d8b");
+        colors.put("darkslategray", "2f4f4f");
+        colors.put("darkslategrey", "2f4f4f");
+        colors.put("darkturquoise", "00ced1");
+        colors.put("darkviolet", "9400d3");
+        colors.put("deeppink", "ff1493");
+        colors.put("deepskyblue", "00bfff");
+        colors.put("dimgray", "696969");
+        colors.put("dodgerblue", "1e90ff");
+        colors.put("firebrick", "b22222");
+        colors.put("floralwhite", "fffaf0");
+        colors.put("forestgreen", "228b22");
+        colors.put("fuchsia", "ff00ff");
+        colors.put("gainsboro", "dcdcdc");
+        colors.put("ghostwhite", "f8f8ff");
+        colors.put("gold", "ffd700");
+        colors.put("goldenrod", "daa520");
+        colors.put("darkgray", "808080");
+        colors.put("green", "008000");
+        colors.put("greenyellow", "adff2f");
+        colors.put("grey", "808080");
+        colors.put("honeydew", "f0fff0");
+        colors.put("hotpink", "ff69b4");
+        colors.put("indianred", "cd5c5c");
+        colors.put("indigo", "4b0082");
+        colors.put("ivory", "fffff0");
+        colors.put("khaki", "f0e68c");
+        colors.put("lavender", "e6e6fa");
+        colors.put("lavenderblush", "fff0f5");
+        colors.put("lawngreen", "7cfc00");
+        colors.put("lemonchiffon", "fffacd");
+        colors.put("lightblue", "add8e6");
+        colors.put("lightcoral", "f08080");
+        colors.put("lightcyan", "e0ffff");
+        colors.put("lightgoldenrodyellow", "fafad2");
+        colors.put("lightgray", "d3d3d3");
+        colors.put("lightgreen", "90ee90");
+        colors.put("lightgrey", "d3d3d3");
+        colors.put("lightpink", "ffb6c1");
+        colors.put("lightsalmon", "ffa07a");
+        colors.put("lightseagreen", "20b2aa");
+        colors.put("lightskyblue", "87cefa");
+        colors.put("lightslategray", "778899");
+        colors.put("lightslategrey", "778899");
+        colors.put("lightsteelblue", "b0c4de");
+        colors.put("lightyellow", "ffffe0");
+        colors.put("lime", "00ff00");
+        colors.put("limegreen", "32cd32");
+        colors.put("linen", "faf0e6");
+        colors.put("magenta", "ff00ff");
+        colors.put("maroon", "800000");
+        colors.put("mediumaquamarine", "66cdaa");
+        colors.put("mediumblue", "0000cd");
+        colors.put("mediumorchid", "ba55d3");
+        colors.put("mediumpurple", "9370db");
+        colors.put("mediumseagreen", "3cb371");
+        colors.put("mediumslateblue", "7b68ee");
+        colors.put("mediumspringgreen", "00fa9a");
+        colors.put("mediumturquoise", "48d1cc");
+        colors.put("mediumvioletred", "c71585");
+        colors.put("midnightblue", "191970");
+        colors.put("mintcream", "f5fffa");
+        colors.put("mistyrose", "ffe4e1");
+        colors.put("moccasin", "ffe4b5");
+        colors.put("navajowhite", "ffdead");
+        colors.put("navy", "000080");
+        colors.put("oldlace", "fdf5e6");
+        colors.put("olive", "808000");
+        colors.put("olivedrab", "6b8e23");
+        colors.put("orange", "ffa500");
+        colors.put("orangered", "ff4500");
+        colors.put("orchid", "da70d6");
+        colors.put("palegoldenrod", "eee8aa");
+        colors.put("palegreen", "98fb98");
+        colors.put("paleturquoise", "afeeee");
+        colors.put("palevioletred", "db7093");
+        colors.put("papayawhip", "ffefd5");
+        colors.put("peachpuff", "ffdab9");
+        colors.put("peru", "cd853f");
+        colors.put("pink", "ffc0cb");
+        colors.put("plum", "dda0dd");
+        colors.put("powderblue", "b0e0e6");
+        colors.put("purple", "800080");
+        colors.put("rebeccapurple", "663399");
+        colors.put("red", "ff0000");
+        colors.put("rosybrown", "bc8f8f");
+        colors.put("royalblue", "4169e1");
+        colors.put("saddlebrown", "8b4513");
+        colors.put("salmon", "fa8072");
+        colors.put("sandybrown", "f4a460");
+        colors.put("seagreen", "2e8b57");
+        colors.put("seashell", "fff5ee");
+        colors.put("sienna", "a0522d");
+        colors.put("silver", "c0c0c0");
+        colors.put("skyblue", "87ceeb");
+        colors.put("slateblue", "6a5acd");
+        colors.put("slategray", "708090");
+        colors.put("slategrey", "708090");
+        colors.put("snow", "fffafa");
+        colors.put("springgreen", "00ff7f");
+        colors.put("steelblue", "4682b4");
+        colors.put("tan", "d2b48c");
+        colors.put("teal", "008080");
+        colors.put("thistle", "d8bfd8");
+        colors.put("tomato", "ff6347");
+        colors.put("turquoise", "40e0d0");
+        colors.put("violet", "ee82ee");
+        colors.put("wheat", "f5deb3");
+        colors.put("white", "ffffff");
+        colors.put("whitesmoke", "f5f5f5");
+        colors.put("yellow", "ffff00");
+        colors.put("yellowgreen", "9acd32");
+    }
+
     public static String translateRGBCodes(String textToTranslate) {
         char[] b = textToTranslate.toCharArray();
-        for (int i = 0; i < b.length - 1; i++) {
+        for (int i = 0; i < b.length; i++) {
             try {
                 if (b[i] == '&' && b[i + 1] == '#') {
                     String rgb = new String(new char[]{b[i + 2], b[i + 3], b[i + 4], b[i + 5], b[i + 6], b[i + 7]});
@@ -52,6 +207,29 @@ public class ChatUtils extends ConstructorRegisterListener {
         return textToTranslate;
     }
 
+    public static String translateColorNames(String text) {
+        char[] b = text.toCharArray();
+        for (int i = 0; i < b.length; i++) {
+            try {
+                if (b[i] == '&' && b[i + 1] == 'x') {
+                    int x = 2;
+                    while (';' != b[i]) {
+                        x++;
+                        if (x > 25) {
+                            break;
+                        }
+                    }
+                    String name = text.substring(i + 2, x + 1).toLowerCase();
+                    if (colors.containsKey(name)) {
+                        text = text.replace("&x" + name + ";", ChatColor.of("#" + colors.get(name)).toString());
+                    }
+                }
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        }
+        return text;
+    }
+
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
@@ -60,6 +238,7 @@ public class ChatUtils extends ConstructorRegisterListener {
         }
 
         if (player.hasPermission(Permissions.RGBImprovesPerformance)) {
+            e.setMessage(translateColorNames(e.getMessage()));
             e.setMessage(translateRGBCodes(e.getMessage()));
         }
 
