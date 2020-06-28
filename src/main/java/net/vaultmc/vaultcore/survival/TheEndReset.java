@@ -52,7 +52,7 @@ public class TheEndReset extends BukkitRunnable {
 
                 Bukkit.unloadWorld("Survival_the_end", false);
 
-                File worldsFolder = new File(VaultLoader.getInstance().getDataFolder().getParentFile().getParentFile(), "worlds");
+                File worldsFolder = VaultLoader.getInstance().getDataFolder().getParentFile().getParentFile();
                 File end = new File(worldsFolder, "Survival_the_end").getAbsoluteFile();
 
                 try {

@@ -111,6 +111,7 @@ import net.vaultmc.vaultcore.tour.TourMusic;
 import net.vaultmc.vaultcore.tour.TourStageCommand;
 import net.vaultmc.vaultcore.vanish.VanishCommand;
 import net.vaultmc.vaultcore.vanish.VanishListeners;
+import net.vaultmc.vaultcore.worlds.WorldCommand;
 import net.vaultmc.vaultloader.components.Component;
 import net.vaultmc.vaultloader.components.annotations.ComponentInfo;
 import net.vaultmc.vaultloader.components.annotations.Version;
@@ -120,6 +121,7 @@ import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
@@ -160,6 +162,8 @@ public final class VaultCore extends Component implements Listener {
     private Configuration chatgroups;
     @Getter
     private Configuration kits;
+    @Getter
+    private Configuration worlds;
 
     private static String getServerName() {
         String name = "CraftBukkit";
@@ -248,12 +252,8 @@ public final class VaultCore extends Component implements Listener {
     public void onEnable() {
         instance = this;
 
+        worlds = ConfigurationManager.loadConfiguration("worlds.yml", this);
         config = ConfigurationManager.loadConfiguration("config.yml", this);
-        data = ConfigurationManager.loadConfiguration("data.yml", this);
-        inv = ConfigurationManager.loadConfiguration("inventory.yml", this);
-        locations = ConfigurationManager.loadConfiguration("locations.yml", this);
-        chatgroups = ConfigurationManager.loadConfiguration("chatgroups.yml", this);
-        kits = ConfigurationManager.loadConfiguration("kits.yml", this);
 
         database = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
                 getConfig().getString("mysql.database"), getConfig().getString("mysql.user"),
@@ -261,6 +261,17 @@ public final class VaultCore extends Component implements Listener {
         pDatabase = new DBConnection(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"),
                 "VaultMC_Punishments", getConfig().getString("mysql.user"),
                 getConfig().getString("mysql.password"));
+
+        for (String world : WorldCommand.getWorlds()) {
+            getLogger().info("Attempting to load world " + world);
+            Bukkit.createWorld(new WorldCreator(world));
+        }
+
+        data = ConfigurationManager.loadConfiguration("data.yml", this);
+        inv = ConfigurationManager.loadConfiguration("inventory.yml", this);
+        locations = ConfigurationManager.loadConfiguration("locations.yml", this);
+        chatgroups = ConfigurationManager.loadConfiguration("chatgroups.yml", this);
+        kits = ConfigurationManager.loadConfiguration("kits.yml", this);
 
         setupChat();
         Report.dbInit();
@@ -281,6 +292,7 @@ public final class VaultCore extends Component implements Listener {
         new WildTeleportCommand();
         new TourCommand();
         new TourStageCommand();
+        new WorldCommand();
         new TourMusic();
         new Tour();
         new SchemCommand();

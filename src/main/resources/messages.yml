@@ -475,6 +475,14 @@ vaultcore:
       success: "&eYou have been teleported to your previous location."
       no_teleport_location: "&cYou have nowhere to teleport to."
 
+    world:
+      rule-must-be-boolean: "&cThis rule isn't a boolean rule!"
+      rule-must-be-int: "&cThis rule isn't an integer rule!"
+      rule-not-found: "No rule was found"
+      set-game-rule: "&eSet game rule &6{RULE}&e to &6{VALUE}&e."
+      world-created: "&eCreated world &6{WORLD}&e."
+      world-imported: "&eImported world &6{WORLD}&e."
+
     discord:
       guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"
       error_checking_linked: "&cThere was an error checking if you linked your account. Please report this."
