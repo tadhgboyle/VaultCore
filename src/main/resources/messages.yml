@@ -482,6 +482,8 @@ vaultcore:
       set-game-rule: "&eSet game rule &6{RULE}&e to &6{VALUE}&e."
       world-created: "&eCreated world &6{WORLD}&e."
       world-imported: "&eImported world &6{WORLD}&e."
+      world-list: "&eWorlds: &6{WORLDS}"
+      set-spawn: "&eSet spawn."
 
     discord:
       guild: "&eClick here to join our guild: &6https://discord.vaultmc.net"

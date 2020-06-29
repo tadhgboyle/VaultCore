@@ -22,9 +22,6 @@ import net.vaultmc.vaultcore.afk.AFKCommand;
 import net.vaultmc.vaultcore.afk.AFKListener;
 import net.vaultmc.vaultcore.brand.BrandCommand;
 import net.vaultmc.vaultcore.brand.BrandListener;
-import net.vaultmc.vaultcore.buggy.Bug;
-import net.vaultmc.vaultcore.buggy.BuggyCommand;
-import net.vaultmc.vaultcore.buggy.BuggyListener;
 import net.vaultmc.vaultcore.chat.*;
 import net.vaultmc.vaultcore.chat.groups.CGSettingsInvListener;
 import net.vaultmc.vaultcore.chat.groups.ChatGroup;
@@ -305,10 +302,6 @@ public final class VaultCore extends Component implements Listener {
         new StarterGearExperience();
         new ReportsCommand();
         new NearCommand();
-        Bug.dbInit();
-        Bug.load();
-        new BuggyCommand();
-        new BuggyListener();
         new EntityUpperBound();
         new NicknameCommand();
         new ShieldCommand();
@@ -474,8 +467,7 @@ public final class VaultCore extends Component implements Listener {
         for (Map.Entry<VLPlayer, Location> entry : AFKCommand.getAfk().entrySet()) {
             entry.getKey().teleport(entry.getValue());
         }
-        Bug.save();
-        Bug.cluster.close();
+        WorldCommand.save();
         Report.save();
         ModMode.save();
         KitGuis.save();

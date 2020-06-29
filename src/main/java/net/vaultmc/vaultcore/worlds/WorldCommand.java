@@ -22,7 +22,9 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RootCommand(
         literal = "world",
@@ -71,10 +73,27 @@ public class WorldCommand extends CommandExecutor {
                 Arguments.createLiteral("tp"),
                 Arguments.createArgument("world", Arguments.worldArgument())
         ));
+        register("setSpawn", Collections.singletonList(
+                Arguments.createLiteral("setspawn")
+        ));
+        register("list", Collections.singletonList(Arguments.createLiteral("list")));
     }
 
     public static void save() {
         VaultCore.getInstance().getWorlds().set("worlds", worlds);
+    }
+
+    @SubCommand("setSpawn")
+    @PlayerOnly
+    public void setSpawn(VLPlayer sender) {
+        sender.getWorld().setSpawnLocation(sender.getLocation());
+        sender.sendMessageByKey("vaultcore.commands.world.set-spawn");
+    }
+
+    @SubCommand("list")
+    public void list(VLCommandSender sender) {
+        sender.sendMessageByKey("vaultcore.commands.world.world-list", "worlds",
+                worlds.stream().map(s -> ChatColor.GOLD + s).collect(Collectors.joining(ChatColor.YELLOW + ", ")));
     }
 
     @SubCommand("create")
