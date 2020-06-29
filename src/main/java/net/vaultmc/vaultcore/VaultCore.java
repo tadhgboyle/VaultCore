@@ -45,6 +45,7 @@ import net.vaultmc.vaultcore.creative.*;
 import net.vaultmc.vaultcore.discordbot.ManageBotCommand;
 import net.vaultmc.vaultcore.discordbot.VaultMCBot;
 import net.vaultmc.vaultcore.disguise.DisguiseCommand;
+import net.vaultmc.vaultcore.disguise.DisguisePacketListener;
 import net.vaultmc.vaultcore.disguise.UndisguiseCommand;
 import net.vaultmc.vaultcore.economy.*;
 import net.vaultmc.vaultcore.exploits.ExploitsListener;
@@ -423,6 +424,7 @@ public final class VaultCore extends Component implements Listener {
         new UndisguiseCommand();
         new RedditCommand();
         new LinkRedditBotCommand();
+        new DisguisePacketListener();
         registerEvents(new PlayerDeathListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());

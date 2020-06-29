@@ -112,7 +112,7 @@ public class DisguiseCommand extends CommandExecutor {
             ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(e.getPlayer().getEntityId());
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) e.getPlayer()).getHandle());
 
-            SynchedEntityData dataWatcher = ((CraftPlayer) e.getPlayer()).getHandle().getEntityData();
+            SynchedEntityData dataWatcher = UndisguiseCommand.getEntityData(((CraftPlayer) e.getPlayer()).getHandle());
             Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
             field.setAccessible(true);
             EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) e.getPlayer()).getHandle());
@@ -172,7 +172,7 @@ public class DisguiseCommand extends CommandExecutor {
                     ((CraftPlayer) sender.getPlayer()).getHandle());  // Our PacketListener will change the GameProfile for us
             ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
             ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
-            SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getEntityData();
+            SynchedEntityData dataWatcher = UndisguiseCommand.getEntityData(((CraftPlayer) sender.getPlayer()).getHandle());
             Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
             field.setAccessible(true);
             EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) sender.getPlayer()).getHandle());
@@ -225,7 +225,7 @@ public class DisguiseCommand extends CommandExecutor {
                                 ((CraftPlayer) sender.getPlayer()).getHandle());  // Our PacketListener will change the GameProfile for us
                         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(sender.getPlayer().getEntityId());
                         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) sender.getPlayer()).getHandle());
-                        SynchedEntityData dataWatcher = ((CraftPlayer) sender.getPlayer()).getHandle().getEntityData();
+                        SynchedEntityData dataWatcher = UndisguiseCommand.getEntityData(((CraftPlayer) sender.getPlayer()).getHandle());
                         Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
                         field.setAccessible(true);
                         EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) sender.getPlayer()).getHandle());

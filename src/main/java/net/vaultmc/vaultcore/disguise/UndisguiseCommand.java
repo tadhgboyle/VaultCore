@@ -20,6 +20,8 @@ import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.nametags.Nametags;
 import net.vaultmc.vaultloader.utils.commands.*;
@@ -43,6 +45,11 @@ public class UndisguiseCommand extends CommandExecutor {
     }
 
     @SneakyThrows
+    public static SynchedEntityData getEntityData(ServerPlayer player) {
+        return (SynchedEntityData) Entity.class.getDeclaredMethod("getDataWatcher").invoke(player);
+    }
+
+    @SneakyThrows
     public static void undisguise(VLPlayer player) {
         DisguiseCommand.getDisguisedPlayers().remove(player.getUniqueId());
         DisguiseCommand.getDisguisedDN().remove(player.getUniqueId());
@@ -54,7 +61,7 @@ public class UndisguiseCommand extends CommandExecutor {
                 ((CraftPlayer) player.getPlayer()).getHandle());
         ClientboundRemoveEntitiesPacket remove = new ClientboundRemoveEntitiesPacket(player.getPlayer().getEntityId());
         ClientboundAddPlayerPacket add = new ClientboundAddPlayerPacket(((CraftPlayer) player.getPlayer()).getHandle());
-        SynchedEntityData dataWatcher = ((CraftPlayer) player.getPlayer()).getHandle().getEntityData();
+        SynchedEntityData dataWatcher = getEntityData(((CraftPlayer) player.getPlayer()).getHandle());
         Field field = net.minecraft.world.entity.player.Player.class.getDeclaredField("bq");
         field.setAccessible(true);
         EntityDataAccessor<Byte> object = (EntityDataAccessor<Byte>) field.get(((CraftPlayer) player.getPlayer()).getHandle());

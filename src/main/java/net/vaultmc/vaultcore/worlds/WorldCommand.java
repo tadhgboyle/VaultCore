@@ -51,7 +51,7 @@ public class WorldCommand extends CommandExecutor {
                 Arguments.createArgument("name", Arguments.word()),
                 Arguments.createArgument("environment", Arguments.enumArgument(World.Environment.class)),
                 Arguments.createArgument("type", Arguments.enumArgument(WorldType.class)),
-                Arguments.createArgument("generator", Arguments.string())
+                Arguments.createArgument("generator", Arguments.greedyString())
         ));
         register("import", Arrays.asList(
                 Arguments.createLiteral("import"),
