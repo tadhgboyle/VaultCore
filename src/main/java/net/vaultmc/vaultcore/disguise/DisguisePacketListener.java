@@ -47,6 +47,7 @@ public class DisguisePacketListener extends PacketAdapter {
                     newData.add(d);
                 }
             }
+            packet.getPlayerInfoDataLists().write(0, newData);
         }
     }
 }
