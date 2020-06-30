@@ -211,17 +211,17 @@ public class ChatUtils extends ConstructorRegisterListener {
         char[] b = text.toCharArray();
         for (int i = 0; i < b.length; i++) {
             try {
-                if (b[i] == '&' && b[i + 1] == 'x') {
+                if (b[i] == '&' && b[i + 1] == '!') {
                     int x = 2;
-                    while (';' != b[i]) {
+                    while (';' != b[x]) {
                         x++;
                         if (x > 25) {
                             break;
                         }
                     }
-                    String name = text.substring(i + 2, x + 1).toLowerCase();
+                    String name = text.substring(i + 2, x).toLowerCase();
                     if (colors.containsKey(name)) {
-                        text = text.replace("&x" + name + ";", ChatColor.of("#" + colors.get(name)).toString());
+                        text = text.replace("&!" + name + ";", ChatColor.of("#" + colors.get(name)).toString());
                     }
                 }
             } catch (IndexOutOfBoundsException ignored) {
@@ -233,13 +233,14 @@ public class ChatUtils extends ConstructorRegisterListener {
     public static void formatChat(AsyncPlayerChatEvent e) {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
-        if (player.hasPermission(Permissions.ChatColor)) {
-            e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
-        }
 
         if (player.hasPermission(Permissions.RGBImprovesPerformance)) {
             e.setMessage(translateColorNames(e.getMessage()));
             e.setMessage(translateRGBCodes(e.getMessage()));
+        }
+
+        if (player.hasPermission(Permissions.ChatColor)) {
+            e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
         }
 
         // Staff + Admin chat
