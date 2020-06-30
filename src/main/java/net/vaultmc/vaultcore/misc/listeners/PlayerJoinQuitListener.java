@@ -33,6 +33,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
+import java.sql.ResultSet;
 
 public class PlayerJoinQuitListener extends ConstructorRegisterListener {
     static DBConnection database = VaultCore.getDatabase();
@@ -59,6 +60,12 @@ public class PlayerJoinQuitListener extends ConstructorRegisterListener {
                 "INSERT INTO pvp_stats (uuid, username, kills, deaths) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE username=?",
                 player.getUniqueId().toString(), player.getName(), 0, 0, player.getName());
 
+        try (ResultSet rs = VaultCore.getDatabase().executeQueryStatement("SELECT username FROM players WHERE uuid=?", player.getUniqueId().toString())) {
+            if (!rs.next()) {
+                NewPlayerHandler.newPlayer(player);
+            }
+        }
+
 
         e.setJoinMessage(null);
         if (player.getWorld().getName().equalsIgnoreCase("Lobby")) {
@@ -81,7 +88,7 @@ public class PlayerJoinQuitListener extends ConstructorRegisterListener {
 
         File directory = new File(VaultCore.getInstance().getDataFolder() + "/schems/" + player.getUniqueId().toString() + "/");
         if (!directory.exists()) {
-            directory.mkdir();
+            directory.mkdirs();
             directory.setExecutable(true);
             directory.setReadable(true);
             directory.setWritable(true);

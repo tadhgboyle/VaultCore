@@ -26,7 +26,6 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.ResultSet;
 
 public class NewPlayerHandler {
-
     private static final ItemStack book = VaultCore.getInstance().getData().getItemStack("book");
 
     @SneakyThrows
@@ -39,7 +38,7 @@ public class NewPlayerHandler {
         return total_players;
     }
 
-    public void newPlayer(VLPlayer player) {
+    public static void newPlayer(VLPlayer player) {
         // Settings
         player.getPlayerData().set("settings.msg", true);
         player.getPlayerData().set("settings.tpa", true);
@@ -66,7 +65,6 @@ public class NewPlayerHandler {
                     Utilities.formatMessage(VaultLoader.getMessage("vaultcore.listeners.joinquit.new_player"),
                             player.getFormattedName(), count()));
         }
-        Bukkit.getPlayer(player.getUniqueId()).openBook(book);
-
+        player.getPlayer().openBook(book);
     }
 }
