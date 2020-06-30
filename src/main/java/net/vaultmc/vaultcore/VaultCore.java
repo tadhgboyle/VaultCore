@@ -58,6 +58,7 @@ import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
 import net.vaultmc.vaultcore.lobby.LobbyPortals;
 import net.vaultmc.vaultcore.lobby.PlayerHider;
 import net.vaultmc.vaultcore.lobby.ServerNavigator;
+import net.vaultmc.vaultcore.lobby.StoreItem;
 import net.vaultmc.vaultcore.logs.LogsCommand;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
@@ -425,6 +426,7 @@ public final class VaultCore extends Component implements Listener {
         new RedditCommand();
         new LinkRedditBotCommand();
         new DisguisePacketListener();
+        new StoreItem();
         registerEvents(new PlayerDeathListener());
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());

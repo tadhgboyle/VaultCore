@@ -70,6 +70,7 @@ lobby:
   player-hider:
     hidden: "&eSet player visibility to &cinvisible&e!"
     shown: "&eSet player visibility to &avisible&e!"
+  store: "&eYou can support VaultMC development by purchasing items at &6https://store.vaultmc.net&e! Thank you for your support!"
 
 forcefield:
   must-be-visible: "&cYou must be visible to use the force field!"
