@@ -234,6 +234,10 @@ public class ChatUtils extends ConstructorRegisterListener {
         if (e.isCancelled()) return;
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
 
+        if (!player.hasPermission(Permissions.RGBImprovesPerformance)) {
+            e.setMessage(e.getMessage().replace("&x", ChatColor.COLOR_CHAR + "rx"));
+        }
+
         if (player.hasPermission(Permissions.RGBImprovesPerformance)) {
             e.setMessage(translateColorNames(e.getMessage()));
             e.setMessage(translateRGBCodes(e.getMessage()));
