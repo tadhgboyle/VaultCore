@@ -87,7 +87,6 @@ public final class Permissions {
     public static final String PunishmentSilentOverride = "vaultcore.punishments.silent";
     public static final String ChatColor = "vaultcore.chat.color";
     public static final String RGBImprovesPerformance = "vaultcore.chat.color.rgb";
-    public static final String Tour = "vaultcore.tour";
     public static final String ClaimCommand = "vaultcore.claim";
     public static final String SchemCommand = "vaultcore.schem";
     public static final String SchemCommandDelete = "vaultcore.schem.delete.other";

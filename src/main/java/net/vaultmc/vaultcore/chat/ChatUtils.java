@@ -24,7 +24,6 @@ import net.vaultmc.vaultcore.chat.staff.StaffChatCommand;
 import net.vaultmc.vaultcore.settings.ChatContext;
 import net.vaultmc.vaultcore.settings.PlayerCustomKeys;
 import net.vaultmc.vaultcore.settings.PlayerSettings;
-import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
@@ -301,7 +300,6 @@ public class ChatUtils extends ConstructorRegisterListener {
         if (e.getPlayer().getWorld().getName().contains("clans")) return;
         formatChat(e);
         e.getRecipients().removeIf(player -> IgnoreCommand.isIgnoring(VLPlayer.getPlayer(player), VLPlayer.getPlayer(e.getPlayer())));
-        e.getRecipients().removeIf(p -> Tour.getTouringPlayers().contains(p.getUniqueId()));
     }
 
     // Handle @mentions in chat

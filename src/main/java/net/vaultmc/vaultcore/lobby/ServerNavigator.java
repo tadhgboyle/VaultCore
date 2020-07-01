@@ -16,7 +16,6 @@ package net.vaultmc.vaultcore.lobby;
 import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.misc.commands.SecLogCommand;
-import net.vaultmc.vaultcore.tour.Tour;
 import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.ItemStackBuilder;
@@ -142,21 +141,20 @@ public class ServerNavigator extends ConstructorRegisterListener {
         if (e.getClickedInventory() instanceof PlayerInventory) return;
         if (e.getView().getTitle().equals(ChatColor.RESET + "Server Navigator")) {
             VLPlayer player = VLPlayer.getPlayer((Player) e.getWhoClicked());
-            if (!Tour.getTouringPlayers().contains(player.getUniqueId())) {
-                switch (e.getSlot()) {
-                    case 10:
-                        player.getPlayer().performCommand("is");
-                        break;
-                    case 12:
-                        player.getPlayer().performCommand("cr");
-                        break;
-                    case 14:
-                        player.getPlayer().performCommand("sv");
-                        break;
-                    case 16:
-                        //player.getPlayer().performCommand("pvp");
-                        break;
-                    case 22:
+            switch (e.getSlot()) {
+                case 10:
+                    player.getPlayer().performCommand("is");
+                    break;
+                case 12:
+                    player.getPlayer().performCommand("cr");
+                    break;
+                case 14:
+                    player.getPlayer().performCommand("sv");
+                    break;
+                case 16:
+                    //player.getPlayer().performCommand("pvp");
+                    break;
+                case 22:
                         /*
                         SQLPlayerData data = player.getPlayerData();
                         if (!data.contains("locations.clans")) {
@@ -165,14 +163,13 @@ public class ServerNavigator extends ConstructorRegisterListener {
                             player.teleport(Utilities.deserializeLocation(data.getString("locations.clans")));
                         }
                          */
-                        break;
-                    case 24:
-                        if (player.hasPermission(Permissions.BuilderAccess)) {
-                            player.teleport(Bukkit.getWorld("build").getSpawnLocation());
-                        }
-                        player.getPlayer().closeInventory();
-                        break;
-                }
+                    break;
+                case 24:
+                    if (player.hasPermission(Permissions.BuilderAccess)) {
+                        player.teleport(Bukkit.getWorld("build").getSpawnLocation());
+                    }
+                    player.getPlayer().closeInventory();
+                    break;
             }
             e.setCancelled(true);
         }
