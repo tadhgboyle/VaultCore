@@ -778,6 +778,7 @@ vaultcore:
       claimed-balance: "&eSuccessfully claimed &6$100&e in SkyBlock."
       claimed-vote: "&eSuccessfully claimed 3 survival diamonds and &6$10&e in SkyBlock."
       claimed-daily: "&eSuccessfully claimed 3 survival diamonds and &6$10&e in SkyBlock."
+      can-claim: "&eThere are some rewards for you to claim! You can claim them at Andy the Rewardsman."
 
     nickname:
       disabled_self: "&eSuccessfully disabled your nickname."

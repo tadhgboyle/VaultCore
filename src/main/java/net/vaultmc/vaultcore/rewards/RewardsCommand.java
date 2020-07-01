@@ -29,6 +29,7 @@ import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -157,7 +158,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)  // We want the message to show up last
     public void onPlayerJoin(PlayerJoinEvent e) {
         VLPlayer player = VLPlayer.getPlayer(e.getPlayer());
         if (!player.getDataConfig().contains("rewards-granted")) {
@@ -182,6 +183,10 @@ public class RewardsCommand extends CommandExecutor implements Listener {
             }
         }
         availableRewards.put(player.getUniqueId(), map);
+
+        if (availableRewards.containsKey(player.getUniqueId()) && !availableRewards.get(player.getUniqueId()).isEmpty()) {
+            player.sendMessageByKey("vaultcore.commands.rewards.can-claim");
+        }
     }
 
     @EventHandler
