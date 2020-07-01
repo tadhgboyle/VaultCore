@@ -19,6 +19,8 @@ import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
@@ -72,14 +74,15 @@ public class ClaimCommand extends CommandExecutor implements Listener {
         sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.removed").replace("{PLAYER}", player.getFormattedName()));
     }
 
+    private static final Location reserveCenter = new Location(Bukkit.getWorld("Survival"), -1133, 65, -667);
+
     @SubCommand("claim")
     public void claim(VLPlayer sender) {
         if (!sender.getWorld().getName().contains("Survival")) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.must-be-in-survival"));
             return;
         }
-        if (sender.getLocation().getChunk().getX() <= -4488 && sender.getLocation().getChunk().getX() >= -4490 &&
-                sender.getLocation().getChunk().getZ() <= -3297 && sender.getLocation().getChunk().getZ() >= -3299) {
+        if (reserveCenter.distance(sender.getLocation()) <= 250) {
             sender.sendMessage(VaultLoader.getMessage("vaultcore.commands.claim.reserved"));
             return;
         }
