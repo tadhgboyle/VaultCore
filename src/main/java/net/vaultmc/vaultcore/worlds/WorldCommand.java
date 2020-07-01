@@ -64,7 +64,7 @@ public class WorldCommand extends CommandExecutor {
                 Arguments.createArgument("value", Arguments.boolArgument())
         ));
         register("ruleInt", Arrays.asList(
-                Arguments.createLiteral("rule"),
+                Arguments.createLiteral("ruleinteger"),
                 Arguments.createArgument("world", Arguments.worldArgument()),
                 Arguments.createArgument("name", Arguments.word()),
                 Arguments.createArgument("value", Arguments.integerArgument())
