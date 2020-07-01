@@ -134,7 +134,7 @@ public class WorldCommand extends CommandExecutor {
             return;
         }
         world.setGameRule((GameRule<Boolean>) rule, value);
-        sender.sendMessageByKey("vaultcore.world.set-game-rule", "rule", rule.getName(), "value", String.valueOf(value));
+        sender.sendMessageByKey("vaultcore.commands.world.set-game-rule", "rule", rule.getName(), "value", String.valueOf(value));
     }
 
     @SubCommand("ruleInt")
@@ -149,7 +149,7 @@ public class WorldCommand extends CommandExecutor {
             return;
         }
         world.setGameRule((GameRule<Integer>) rule, value);
-        sender.sendMessageByKey("vaultcore.world.set-game-rule", "rule", rule.getName(), "value", String.valueOf(value));
+        sender.sendMessageByKey("vaultcore.commands.world.set-game-rule", "rule", rule.getName(), "value", String.valueOf(value));
     }
 
     @SubCommand("tp")
