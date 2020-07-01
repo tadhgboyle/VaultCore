@@ -183,10 +183,6 @@ public class RewardsCommand extends CommandExecutor implements Listener {
             }
         }
         availableRewards.put(player.getUniqueId(), map);
-
-        if (availableRewards.containsKey(player.getUniqueId()) && !availableRewards.get(player.getUniqueId()).isEmpty()) {
-            player.sendMessageByKey("vaultcore.commands.rewards.can-claim");
-        }
     }
 
     @EventHandler
