@@ -13,7 +13,6 @@
 
 package net.vaultmc.vaultcore.misc.commands;
 
-import net.md_5.bungee.api.ChatColor;
 import net.vaultmc.vaultcore.Permissions;
 import net.vaultmc.vaultcore.Utilities;
 import net.vaultmc.vaultloader.VaultLoader;
@@ -85,7 +84,7 @@ public class NicknameCommand extends CommandExecutor {
             return;
         }
         if (originalName.toLowerCase().startsWith(nickname.substring(0, 3).toLowerCase())) {
-            String newName = ChatColor.ITALIC + nickname;
+            String newName = nickname;
             target.getPlayer().setDisplayName(newName);
             if (self) {
                 sender.sendMessage(Utilities.formatMessage(VaultLoader.getMessage("vaultcore.commands.nickname.success"), sender.getFormattedName()));
