@@ -39,6 +39,7 @@ import java.util.List;
 )
 @Permission(Permissions.PlayerVault)
 @PlayerOnly
+@Aliases("pv")
 public class PlayerVaultCommand extends CommandExecutor implements Listener {
     private static final List<String> worlds = Arrays.asList("clans", "survival", "skyblock");
     private static final Inventory selectInv = Bukkit.createInventory(null, 9, ChatColor.RESET + "Select Player Vault");
