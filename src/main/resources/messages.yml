@@ -85,12 +85,12 @@ economy:
   give: "&eSuccessfully given &6${AMOUNT} &eto &6{PLAYER}&e."
   take: "&eSuccessfully taken &6${AMOUNT} &efrom &6{PLAYER}&e."
   balance: "&eBalance: &6${AMOUNT}"
+  balance-top-header: "&2--- [Balance Top] ---"
+  balance-top: "&6{PLAYER}&e: &6${AMOUNT}"
   money-not-enough: "&cYou don't have enough money!"
   transfer-me: "&eTransferred &6${AMOUNT} &eto &6{PLAYER} &ewithin &6{WORLD}&e."
   transfer-you: "&6{PLAYER}&e just transferred &6${AMOUNT} &eto you within &6{WORLD}&e."
   transfer-world-incorrect: "&cYou must not be in the nether or the end!"
-
-help: {}  # TODO
 
 # Messages, punishments.
 punishments:

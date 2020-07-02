@@ -73,7 +73,7 @@ public final class Permissions {
     public static final String AFKCommandOther = "vaultcore.afk.other";
     public static final String EconomyCommand = "vaultcore.economy";
     public static final String BalanceCommand = "vaultcore.economy.balance";
-    public static final String TransferCommand = "vaultcore.economy.transfer";
+    public static final String PayCommand = "vaultcore.economy.transfer";
     public static final String TimeCommand = "vaultcore.time";
     public static final String VanishCommand = "vaultcore.vanish";
     public static final String WeatherCommand = "vaultcore.weather";
@@ -138,4 +138,5 @@ public final class Permissions {
     public static final String ReferCommand = "vaultcore.refer";
     public static final String VoteCommand = "vaultcore.vote";
     public static final String WorldCommand = "vaultcore.world";
+    public static final String MoneyTopCommand = "vaultcore.moneytop";
 }

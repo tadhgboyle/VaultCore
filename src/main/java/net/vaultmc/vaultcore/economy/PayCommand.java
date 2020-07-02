@@ -23,13 +23,13 @@ import org.bukkit.World;
 import java.util.Arrays;
 
 @RootCommand(
-        literal = "transfer",
-        description = "Transfers money to another player!"
+        literal = "pay",
+        description = "Transfer money to another player!"
 )
-@Permission(Permissions.TransferCommand)
+@Permission(Permissions.PayCommand)
 @PlayerOnly
-public class TransferCommand extends CommandExecutor {
-    public TransferCommand() {
+public class PayCommand extends CommandExecutor {
+    public PayCommand() {
         register("transfer", Arrays.asList(
                 Arguments.createArgument("player", Arguments.playerArgument()),
                 Arguments.createArgument("amount", Arguments.doubleArgument(0))

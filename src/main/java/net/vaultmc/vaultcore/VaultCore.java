@@ -314,7 +314,7 @@ public final class VaultCore extends Component implements Listener {
         }, 0L, 2400L);
         new EconomyCommand();
         new MoneyCommand();
-        new TransferCommand();
+        new PayCommand();
         new PlayerHider();
         new SkullCommand();
         registerEvents(new FlyCommand());
@@ -324,6 +324,7 @@ public final class VaultCore extends Component implements Listener {
         new SuicideCommand();
         new IgnoreCommand();
         new UnignoreCommand();
+        new MoneyTopCommand();
         new SecLogCommand();
         new LegacyCombat();
         new CrateCommand();
