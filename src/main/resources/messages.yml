@@ -108,6 +108,7 @@ punishments:
     nsfw: "NSFW or Shocking Content"
     inappropriate-build: "Inappropriate Build"
     advertising: "Advertising on VaultMC"
+    staff-impersonation: "Staff Impersonation"
 
   # The reason that will be provided when no reason is specified.
   default-reason: "<no reason>"

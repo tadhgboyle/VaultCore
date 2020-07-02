@@ -34,7 +34,8 @@ public enum Reason {
             PunishmentType.BAN, Material.TNT, "1 day", "3 days", "14 days"),
     INAPPROPRIATE_BUILD("inappropriate-build", "The build should also be erased.",
             PunishmentType.BAN, Material.WOODEN_AXE, "1 day", "3 days", "7 days"),
-    ADVERTISING("advertising", PunishmentType.MUTE, Material.GOLDEN_HOE, "1 day", "3 days", "7 days");
+    ADVERTISING("advertising", PunishmentType.MUTE, Material.GOLDEN_HOE, "1 day", "3 days", "7 days"),
+    STAFF_IMPERSONATION("staff-impersonation", PunishmentType.KICK, Material.NAME_TAG, "permanent", "permanent", "permanent");
 
 
     private final String key;
