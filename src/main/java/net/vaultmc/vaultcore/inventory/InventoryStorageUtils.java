@@ -13,39 +13,41 @@
 
 package net.vaultmc.vaultcore.inventory;
 
-import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.utils.player.VLOfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 
 public class InventoryStorageUtils {
-    public static void storePlayerInventory(Inventory inv, String location) {
-        FileConfiguration config = VaultCore.getInstance().getInventoryData();
+    public static void storePlayerInventory(VLOfflinePlayer player, Inventory inv, String location) {
+        FileConfiguration config = player.getDataConfig();
         for (int i = 0; i <= 40; i++) {
             config.set(location + "." + i, inv.getItem(i));
         }
-        VaultCore.getInstance().saveConfig();
+        player.saveData();
     }
 
-    public static void restorePlayerInventory(Inventory inv, String location) {
-        FileConfiguration config = VaultCore.getInstance().getInventoryData();
+    public static void restorePlayerInventory(VLOfflinePlayer player, Inventory inv, String location) {
+        FileConfiguration config = player.getDataConfig();
         for (int i = 0; i <= 40; i++) {
             inv.setItem(i, config.getItemStack(location + "." + i));
         }
+        player.saveData();
     }
 
-    public static void storeGenericInventory(Inventory inv, int size, String location) {
-        FileConfiguration config = VaultCore.getInstance().getInventoryData();
+    public static void storeGenericInventory(VLOfflinePlayer player, Inventory inv, int size, String location) {
+        FileConfiguration config = player.getDataConfig();
         for (int i = 0; i < size; i++) {
             config.set(location + "." + i, inv.getItem(i));
         }
-        VaultCore.getInstance().saveConfig();
+        player.saveData();
     }
 
-    public static void restoreGenericInventory(Inventory inv, int size, String location) {
-        FileConfiguration config = VaultCore.getInstance().getInventoryData();
+    public static void restoreGenericInventory(VLOfflinePlayer player, Inventory inv, int size, String location) {
+        FileConfiguration config = player.getDataConfig();
         for (int i = 0; i < size; i++) {
             inv.setItem(i, config.getItemStack(location + "." + i));
         }
+        player.saveData();
     }
 }
 

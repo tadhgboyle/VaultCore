@@ -295,7 +295,7 @@ public class RewardsCommand extends CommandExecutor implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChangedWorld2(PlayerChangedWorldEvent e) {
         if (e.getPlayer().getWorld().getName().equals("Lobby")) {
             Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> e.getPlayer().getInventory().setItem(3, item));

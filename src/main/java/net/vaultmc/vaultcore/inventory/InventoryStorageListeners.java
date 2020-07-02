@@ -15,6 +15,7 @@ package net.vaultmc.vaultcore.inventory;
 
 import net.vaultmc.vaultcore.VaultCore;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
+import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -57,11 +58,11 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         if ("vaultmc".equalsIgnoreCase(VaultCore.getInstance().getConfig().getString("server"))) {
             String to = getGroupOf(e.getPlayer().getWorld().getName());
-            InventoryStorageUtils.restorePlayerInventory(e.getPlayer().getInventory(),
+            InventoryStorageUtils.restorePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
                     e.getPlayer().getUniqueId().toString() + "." + to + ".inventory");
-            InventoryStorageUtils.restoreGenericInventory(e.getPlayer().getEnderChest(), 27,
+            InventoryStorageUtils.restoreGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
                     e.getPlayer().getUniqueId().toString() + "." + to + ".enderchest");
-            FileConfiguration data = VaultCore.getInstance().getInventoryData();
+            FileConfiguration data = VLPlayer.getPlayer(e.getPlayer()).getDataConfig();
             e.getPlayer().setHealth(data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".health",
                     e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
             e.getPlayer().setSaturation((float) data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".saturation", 20));
@@ -70,7 +71,10 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
             e.getPlayer().setFoodLevel(data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".foodlevel",
                     20));
             e.getPlayer().setBedSpawnLocation(data.getLocation(e.getPlayer().getUniqueId().toString() + "." + to + ".spawn"), true);
-            e.getPlayer().getActivePotionEffects().clear();
+
+            for (PotionEffectType type : PotionEffectType.values()) {
+                e.getPlayer().removePotionEffect(type);
+            }
 
             if (data.contains(e.getPlayer().getUniqueId().toString() + "." + to + ".potion")) {
                 for (String tag : data.getConfigurationSection(e.getPlayer().getUniqueId().toString() + "." + to + ".potion").getKeys(false)) {
@@ -97,11 +101,11 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         String from = getGroupOf(e.getPlayer().getWorld().getName());
-        InventoryStorageUtils.storePlayerInventory(e.getPlayer().getInventory(),
+        InventoryStorageUtils.storePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
                 e.getPlayer().getUniqueId().toString() + "." + from + ".inventory");
-        InventoryStorageUtils.storeGenericInventory(e.getPlayer().getEnderChest(), 27,
+        InventoryStorageUtils.storeGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
                 e.getPlayer().getUniqueId().toString() + "." + from + ".enderchest");
-        FileConfiguration data = VaultCore.getInstance().getInventoryData();
+        FileConfiguration data = VLPlayer.getPlayer(e.getPlayer()).getDataConfig();
         data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".health", e.getPlayer().getHealth());
         data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".saturation", e.getPlayer().getSaturation());
         data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".level", e.getPlayer().getLevel());
@@ -118,8 +122,10 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
             data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".ambient", effect.isAmbient());
             data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".icon", effect.hasIcon());
         }
-        e.getPlayer().getActivePotionEffects().clear();
-        VaultCore.getInstance().saveConfig();
+        for (PotionEffectType type : PotionEffectType.values()) {
+            e.getPlayer().removePotionEffect(type);
+        }
+        VLPlayer.getPlayer(e.getPlayer()).saveData();
     }
 
     @EventHandler
@@ -128,15 +134,15 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
                 !getGroupOf(e.getFrom().getName()).equals(getGroupOf(e.getPlayer().getWorld().getName()))) {
             String from = getGroupOf(e.getFrom().getName());
             String to = getGroupOf(e.getPlayer().getWorld().getName());
-            InventoryStorageUtils.storePlayerInventory(e.getPlayer().getInventory(),
+            InventoryStorageUtils.storePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
                     e.getPlayer().getUniqueId().toString() + "." + from + ".inventory");
-            InventoryStorageUtils.restorePlayerInventory(e.getPlayer().getInventory(),
+            InventoryStorageUtils.restorePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
                     e.getPlayer().getUniqueId().toString() + "." + to + ".inventory");
-            InventoryStorageUtils.storeGenericInventory(e.getPlayer().getEnderChest(), 27,
+            InventoryStorageUtils.storeGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
                     e.getPlayer().getUniqueId().toString() + "." + from + ".enderchest");
-            InventoryStorageUtils.restoreGenericInventory(e.getPlayer().getEnderChest(), 27,
+            InventoryStorageUtils.restoreGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
                     e.getPlayer().getUniqueId().toString() + "." + to + ".enderchest");
-            FileConfiguration data = VaultCore.getInstance().getInventoryData();
+            FileConfiguration data = VLPlayer.getPlayer(e.getPlayer()).getDataConfig();
             data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".health", e.getPlayer().getHealth());
             e.getPlayer().setHealth(data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".health",
                     e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
@@ -162,7 +168,9 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
                 data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".icon", effect.hasIcon());
             }
 
-            e.getPlayer().getActivePotionEffects().clear();
+            for (PotionEffectType type : PotionEffectType.values()) {
+                e.getPlayer().removePotionEffect(type);
+            }
 
             if (data.contains(e.getPlayer().getUniqueId().toString() + "." + to + ".potion")) {
                 for (String tag : data.getConfigurationSection(e.getPlayer().getUniqueId().toString() + "." + to + ".potion").getKeys(false)) {
@@ -183,7 +191,7 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
                     e.getPlayer().removePotionEffect(type);
                 }
             }
-            VaultCore.getInstance().saveConfig();
+            VLPlayer.getPlayer(e.getPlayer()).saveData();
         }
     }
 }
