@@ -14,6 +14,7 @@
 package net.vaultmc.vaultcore.inventory;
 
 import net.vaultmc.vaultcore.VaultCore;
+import net.vaultmc.vaultloader.VaultLoader;
 import net.vaultmc.vaultloader.utils.ConstructorRegisterListener;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.attribute.Attribute;
@@ -130,68 +131,72 @@ public class InventoryStorageListeners extends ConstructorRegisterListener {
 
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent e) {
-        if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc") &&
-                !getGroupOf(e.getFrom().getName()).equals(getGroupOf(e.getPlayer().getWorld().getName()))) {
-            String from = getGroupOf(e.getFrom().getName());
-            String to = getGroupOf(e.getPlayer().getWorld().getName());
-            InventoryStorageUtils.storePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
-                    e.getPlayer().getUniqueId().toString() + "." + from + ".inventory");
-            InventoryStorageUtils.restorePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
-                    e.getPlayer().getUniqueId().toString() + "." + to + ".inventory");
-            InventoryStorageUtils.storeGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
-                    e.getPlayer().getUniqueId().toString() + "." + from + ".enderchest");
-            InventoryStorageUtils.restoreGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
-                    e.getPlayer().getUniqueId().toString() + "." + to + ".enderchest");
-            FileConfiguration data = VLPlayer.getPlayer(e.getPlayer()).getDataConfig();
-            data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".health", e.getPlayer().getHealth());
-            e.getPlayer().setHealth(data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".health",
-                    e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
-            data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".saturation", e.getPlayer().getSaturation());
-            e.getPlayer().setSaturation((float) data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".saturation", 20));
-            data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".level", e.getPlayer().getLevel());
-            e.getPlayer().setLevel(data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".level", 0));
-            data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".exp", e.getPlayer().getExp());
-            e.getPlayer().setExp((float) data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".exp", 0));
-            data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".foodlevel", e.getPlayer().getFoodLevel());
-            e.getPlayer().setFoodLevel(data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".foodlevel",
-                    20));
-            data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".spawn", e.getPlayer().getBedSpawnLocation());
-            e.getPlayer().setBedSpawnLocation(data.getLocation(e.getPlayer().getUniqueId().toString() + "." + to + ".spawn"), true);
-            data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion", null);
-            for (PotionEffect effect : e.getPlayer().getActivePotionEffects()) {
-                String tag = UUID.randomUUID().toString();
-                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".type", effect.getType().toString());
-                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".amplifier", effect.getAmplifier());
-                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".duration", effect.getDuration());
-                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".particles", effect.hasParticles());
-                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".ambient", effect.isAmbient());
-                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".icon", effect.hasIcon());
-            }
-
-            for (PotionEffectType type : PotionEffectType.values()) {
-                e.getPlayer().removePotionEffect(type);
-            }
-
-            if (data.contains(e.getPlayer().getUniqueId().toString() + "." + to + ".potion")) {
-                for (String tag : data.getConfigurationSection(e.getPlayer().getUniqueId().toString() + "." + to + ".potion").getKeys(false)) {
-                    try {
-                        e.getPlayer().addPotionEffect(new PotionEffect(
-                                PotionEffectType.getByName(data.getString(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".type")),
-                                data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".duration"),
-                                data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".amplifier"),
-                                data.getBoolean(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".ambient"),
-                                data.getBoolean(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".particles"),
-                                data.getBoolean(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".icon")
-                        ));
-                    } catch (IllegalArgumentException ignored) {
-                    }
+        try {
+            if (VaultCore.getInstance().getConfig().getString("server").equalsIgnoreCase("vaultmc") &&
+                    !getGroupOf(e.getFrom().getName()).equals(getGroupOf(e.getPlayer().getWorld().getName()))) {
+                String from = getGroupOf(e.getFrom().getName());
+                String to = getGroupOf(e.getPlayer().getWorld().getName());
+                InventoryStorageUtils.storePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
+                        e.getPlayer().getUniqueId().toString() + "." + from + ".inventory");
+                InventoryStorageUtils.restorePlayerInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getInventory(),
+                        e.getPlayer().getUniqueId().toString() + "." + to + ".inventory");
+                InventoryStorageUtils.storeGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
+                        e.getPlayer().getUniqueId().toString() + "." + from + ".enderchest");
+                InventoryStorageUtils.restoreGenericInventory(VLPlayer.getPlayer(e.getPlayer()), e.getPlayer().getEnderChest(), 27,
+                        e.getPlayer().getUniqueId().toString() + "." + to + ".enderchest");
+                FileConfiguration data = VLPlayer.getPlayer(e.getPlayer()).getDataConfig();
+                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".health", e.getPlayer().getHealth());
+                e.getPlayer().setHealth(data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".health",
+                        e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
+                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".saturation", e.getPlayer().getSaturation());
+                e.getPlayer().setSaturation((float) data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".saturation", 20));
+                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".level", e.getPlayer().getLevel());
+                e.getPlayer().setLevel(data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".level", 0));
+                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".exp", e.getPlayer().getExp());
+                e.getPlayer().setExp((float) data.getDouble(e.getPlayer().getUniqueId().toString() + "." + to + ".exp", 0));
+                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".foodlevel", e.getPlayer().getFoodLevel());
+                e.getPlayer().setFoodLevel(data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".foodlevel",
+                        20));
+                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".spawn", e.getPlayer().getBedSpawnLocation());
+                e.getPlayer().setBedSpawnLocation(data.getLocation(e.getPlayer().getUniqueId().toString() + "." + to + ".spawn"), true);
+                data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion", null);
+                for (PotionEffect effect : e.getPlayer().getActivePotionEffects()) {
+                    String tag = UUID.randomUUID().toString();
+                    data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".type", effect.getType().toString());
+                    data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".amplifier", effect.getAmplifier());
+                    data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".duration", effect.getDuration());
+                    data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".particles", effect.hasParticles());
+                    data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".ambient", effect.isAmbient());
+                    data.set(e.getPlayer().getUniqueId().toString() + "." + from + ".potion." + tag + ".icon", effect.hasIcon());
                 }
-            } else {
+
                 for (PotionEffectType type : PotionEffectType.values()) {
                     e.getPlayer().removePotionEffect(type);
                 }
+
+                if (data.contains(e.getPlayer().getUniqueId().toString() + "." + to + ".potion")) {
+                    for (String tag : data.getConfigurationSection(e.getPlayer().getUniqueId().toString() + "." + to + ".potion").getKeys(false)) {
+                        try {
+                            e.getPlayer().addPotionEffect(new PotionEffect(
+                                    PotionEffectType.getByName(data.getString(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".type")),
+                                    data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".duration"),
+                                    data.getInt(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".amplifier"),
+                                    data.getBoolean(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".ambient"),
+                                    data.getBoolean(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".particles"),
+                                    data.getBoolean(e.getPlayer().getUniqueId().toString() + "." + to + ".potion." + tag + ".icon")
+                            ));
+                        } catch (IllegalArgumentException ignored) {
+                        }
+                    }
+                } else {
+                    for (PotionEffectType type : PotionEffectType.values()) {
+                        e.getPlayer().removePotionEffect(type);
+                    }
+                }
+                VLPlayer.getPlayer(e.getPlayer()).saveData();
             }
-            VLPlayer.getPlayer(e.getPlayer()).saveData();
+        } catch (NullPointerException ex) {
+            VaultLoader.logger().error("NPE occurred: " + ex.getStackTrace()[0].getLineNumber() + " Player world: " + e.getPlayer().getWorld().getName());
         }
     }
 }
