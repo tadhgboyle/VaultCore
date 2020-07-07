@@ -46,6 +46,11 @@ public class WorldCommand extends CommandExecutor {
                 Arguments.createArgument("environment", Arguments.enumArgument(World.Environment.class)),
                 Arguments.createArgument("type", Arguments.enumArgument(WorldType.class))
         ));
+        register("createWithoutType", Arrays.asList(
+                Arguments.createLiteral("create"),
+                Arguments.createArgument("name", Arguments.word()),
+                Arguments.createArgument("environment", Arguments.enumArgument(World.Environment.class))
+        ));
         register("createWithGenerator", Arrays.asList(
                 Arguments.createLiteral("create"),
                 Arguments.createArgument("name", Arguments.word()),
@@ -81,6 +86,7 @@ public class WorldCommand extends CommandExecutor {
 
     public static void save() {
         VaultCore.getInstance().getWorlds().set("worlds", worlds);
+        VaultCore.getInstance().getWorlds().save();
     }
 
     @SubCommand("setSpawn")
@@ -111,6 +117,14 @@ public class WorldCommand extends CommandExecutor {
                 .type(type)
                 .environment(environment)
                 .generator(generator));
+        worlds.add(name);
+        sender.sendMessageByKey("vaultcore.commands.world.world-created", "world", name);
+    }
+
+    @SubCommand("createWithoutType")
+    public void createWithoutType(VLCommandSender sender, String name, World.Environment environment) {
+        Bukkit.createWorld(new WorldCreator(name)
+                .environment(environment));
         worlds.add(name);
         sender.sendMessageByKey("vaultcore.commands.world.world-created", "world", name);
     }
