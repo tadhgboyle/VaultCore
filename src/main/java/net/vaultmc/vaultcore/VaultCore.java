@@ -116,7 +116,6 @@ import net.vaultmc.vaultloader.utils.configuration.ConfigurationManager;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
@@ -257,10 +256,7 @@ public final class VaultCore extends Component implements Listener {
                 "VaultMC_Punishments", getConfig().getString("mysql.user"),
                 getConfig().getString("mysql.password"));
 
-        for (String world : WorldCommand.getWorlds()) {
-            getLogger().info("Attempting to load world " + world);
-            Bukkit.createWorld(new WorldCreator(world));
-        }
+        new WorldCommand();
 
         data = ConfigurationManager.loadConfiguration("data.yml", this);
         inv = ConfigurationManager.loadConfiguration("inventory.yml", this);
@@ -285,7 +281,6 @@ public final class VaultCore extends Component implements Listener {
         new CreativeCommand();
         new SurvivalCommand();
         new WildTeleportCommand();
-        new WorldCommand();
         new SchemCommand();
         new BackCommand();
         new ServerNavigator();

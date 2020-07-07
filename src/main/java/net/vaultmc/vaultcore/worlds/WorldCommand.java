@@ -20,7 +20,9 @@ import net.vaultmc.vaultloader.utils.commands.*;
 import net.vaultmc.vaultloader.utils.player.VLCommandSender;
 import net.vaultmc.vaultloader.utils.player.VLPlayer;
 import org.bukkit.*;
+import org.bukkit.plugin.java.PluginClassLoader;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -33,10 +35,17 @@ import java.util.stream.Collectors;
 @Permission(Permissions.WorldCommand)
 public class WorldCommand extends CommandExecutor {
     @Getter
-    private static final List<String> worlds;
+    private static final List<World> worlds = new ArrayList<>();
 
     static {
-        worlds = VaultCore.getInstance().getWorlds().getStringList("worlds");
+        for (String name : VaultCore.getInstance().getWorlds().getConfig().getConfigurationSection("worlds").getKeys(false)) {
+            WorldCreator wc = new WorldCreator(name)
+                    .environment(World.Environment.valueOf(VaultCore.getInstance().getWorlds().getString("worlds." + name + ".environment", "NORMAL")));
+            if (VaultCore.getInstance().getWorlds().contains("worlds." + name + ".generator")) {
+                wc.generator(VaultCore.getInstance().getWorlds().getString("worlds." + name + ".generator"));
+            }
+            worlds.add(Bukkit.createWorld(wc));
+        }
     }
 
     public WorldCommand() {
@@ -85,7 +94,13 @@ public class WorldCommand extends CommandExecutor {
     }
 
     public static void save() {
-        VaultCore.getInstance().getWorlds().set("worlds", worlds);
+        VaultCore.getInstance().getWorlds().set("worlds", null);
+        for (World world : worlds) {
+            VaultCore.getInstance().getWorlds().set("worlds." + world.getName() + ".environment", world.getEnvironment().toString());
+            if (world.getGenerator() != null) {
+                VaultCore.getInstance().getWorlds().set("worlds." + world.getName() + ".generator", ((PluginClassLoader) world.getGenerator().getClass().getClassLoader()).getPlugin().getName());
+            }
+        }
         VaultCore.getInstance().getWorlds().save();
     }
 
@@ -99,40 +114,36 @@ public class WorldCommand extends CommandExecutor {
     @SubCommand("list")
     public void list(VLCommandSender sender) {
         sender.sendMessageByKey("vaultcore.commands.world.world-list", "worlds",
-                worlds.stream().map(s -> ChatColor.GOLD + s).collect(Collectors.joining(ChatColor.YELLOW + ", ")));
+                worlds.stream().map(s -> ChatColor.GOLD + s.getName()).collect(Collectors.joining(ChatColor.YELLOW + ", ")));
     }
 
     @SubCommand("create")
     public void create(VLCommandSender sender, String name, World.Environment environment, WorldType type) {
-        Bukkit.createWorld(new WorldCreator(name)
+        worlds.add(Bukkit.createWorld(new WorldCreator(name)
                 .type(type)
-                .environment(environment));
-        worlds.add(name);
+                .environment(environment)));
         sender.sendMessageByKey("vaultcore.commands.world.world-created", "world", name);
     }
 
     @SubCommand("createWithGenerator")
     public void createWithGenerator(VLCommandSender sender, String name, World.Environment environment, WorldType type, String generator) {
-        Bukkit.createWorld(new WorldCreator(name)
+        worlds.add(Bukkit.createWorld(new WorldCreator(name)
                 .type(type)
                 .environment(environment)
-                .generator(generator));
-        worlds.add(name);
+                .generator(generator)));
         sender.sendMessageByKey("vaultcore.commands.world.world-created", "world", name);
     }
 
     @SubCommand("createWithoutType")
     public void createWithoutType(VLCommandSender sender, String name, World.Environment environment) {
-        Bukkit.createWorld(new WorldCreator(name)
-                .environment(environment));
-        worlds.add(name);
+        worlds.add(Bukkit.createWorld(new WorldCreator(name)
+                .environment(environment)));
         sender.sendMessageByKey("vaultcore.commands.world.world-created", "world", name);
     }
 
     @SubCommand("import")
     public void importWorld(VLCommandSender sender, String name) {
-        Bukkit.createWorld(new WorldCreator(name));
-        worlds.add(name);
+        worlds.add(Bukkit.createWorld(new WorldCreator(name)));
         sender.sendMessageByKey("vaultcore.commands.world.world-imported", "world", name);
     }
 
