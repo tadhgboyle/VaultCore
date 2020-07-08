@@ -26,6 +26,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class TheEndReset extends BukkitRunnable {
+    public TheEndReset() {
+        this.runTaskTimer(VaultLoader.getInstance(), 72000, 72000);
+    }
+
     @Override
     public void run() {
         long lastReset = VaultCore.getInstance().getData().getLong("survival-end-last-reset", System.currentTimeMillis());
@@ -51,7 +55,8 @@ public class TheEndReset extends BukkitRunnable {
                 }
 
                 Bukkit.unloadWorld("Survival_the_end", false);
-
+            }, 3600);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(VaultLoader.getInstance(), () -> {
                 File worldsFolder = VaultLoader.getInstance().getDataFolder().getParentFile().getParentFile();
                 File end = new File(worldsFolder, "Survival_the_end").getAbsoluteFile();
 
@@ -62,7 +67,7 @@ public class TheEndReset extends BukkitRunnable {
                     ex.printStackTrace();
                 }
 
-                Bukkit.createWorld(new WorldCreator("Survival_the_end").environment(World.Environment.THE_END));
+                Bukkit.getScheduler().runTask(VaultLoader.getInstance(), () -> Bukkit.createWorld(new WorldCreator("Survival_the_end").environment(World.Environment.THE_END)));
             }, 3600);
         }
     }
