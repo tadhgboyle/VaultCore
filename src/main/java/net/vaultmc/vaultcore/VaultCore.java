@@ -292,7 +292,7 @@ public final class VaultCore extends Component implements Listener {
         new NicknameCommand();
         new ShieldCommand();
         new NightVisionCommand();
-        //new LobbyScoreboards();
+        new LobbyScoreboards();
         registerEvents(new CycleListener());
         registerEvents(new SleepHandler());
         registerEvents(new ItemDrops());
