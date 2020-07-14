@@ -93,10 +93,10 @@ public class LobbyScoreboards extends ConstructorRegisterListener {
         List<String> content = Arrays.asList(
                 " ",
                 ChatColor.YELLOW + "You",
-                (ChatColor.GOLD + "" + player.getName()),
+                ChatColor.GOLD + "" + player.getName(),
                 "  ",
                 ChatColor.YELLOW + "Rank",
-                (groupName(player)),
+                groupName(player),
                 "   ",
                 ChatColor.YELLOW + "Latency",
                 ChatColor.GREEN + String.valueOf(player.getPing()) + "ms",
