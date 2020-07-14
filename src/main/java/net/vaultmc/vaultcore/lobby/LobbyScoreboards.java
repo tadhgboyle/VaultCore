@@ -92,9 +92,11 @@ public class LobbyScoreboards extends ConstructorRegisterListener {
 
         List<String> content = Arrays.asList(
                 " ",
+                ChatColor.WHITE + "Name: " + ChatColor.GREEN + player.getName(),
                 ChatColor.WHITE + "Rank: " + ChatColor.GREEN + groupName(player),
-                ChatColor.WHITE + "Latency: " + ChatColor.GREEN + player.getPing(),
+                ChatColor.WHITE + "Latency: " + ChatColor.GREEN + player.getPing() + ChatColor.WHITE + "ms",
                 ChatColor.WHITE + "Players: " + ChatColor.GREEN + onlinePlayers() + "/" + Bukkit.getMaxPlayers(),
+                ChatColor.WHITE + "Vote with " + ChatColor.GREEN + "/vote" + ChatColor.WHITE + "!",
                 "  ",
                 ChatColor.YELLOW + "vaultmc.net"
         );

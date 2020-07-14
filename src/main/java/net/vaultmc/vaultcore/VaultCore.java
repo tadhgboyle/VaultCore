@@ -430,6 +430,7 @@ public final class VaultCore extends Component implements Listener {
         new WarnCommand();
         new PunishCommand();
         new LobbyScoreboards();
+        new LobbyTablist();
 
         PunishmentsDB.createTables();
         Report.load();
