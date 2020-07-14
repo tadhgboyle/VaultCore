@@ -35,7 +35,7 @@ public class LobbyScoreboards extends ConstructorRegisterListener {
                     showScoreboard(player);
                 }
             }
-        }, 200L, 200L);
+        }, 20L, 20L);
     }
 
     public static int onlinePlayers() {
@@ -48,11 +48,12 @@ public class LobbyScoreboards extends ConstructorRegisterListener {
         return players;
     }
 
-    public static String groupName(String group) {
+    public static String groupName(VLPlayer p) {
+        String group = p.getGroup();
         switch (group) {
             case "admin":
                 return ChatColor.BLUE + "Admin";
-            case "mod":
+            case "moderator":
                 return ChatColor.DARK_AQUA + "Mod";
             case "helper":
                 return ChatColor.YELLOW + "Helper";
@@ -91,9 +92,10 @@ public class LobbyScoreboards extends ConstructorRegisterListener {
 
         List<String> content = Arrays.asList(
                 " ",
-                ChatColor.WHITE + "Rank: " + ChatColor.GREEN + groupName(player.getGroup()),
-                ChatColor.WHITE + "Players: " + ChatColor.GREEN + onlinePlayers(),
+                ChatColor.WHITE + "Name: " + ChatColor.GREEN + player.getName(),
+                ChatColor.WHITE + "Rank: " + ChatColor.GREEN + groupName(player),
                 ChatColor.WHITE + "Latency: " + ChatColor.GREEN + player.getPing(),
+                ChatColor.WHITE + "Players: " + ChatColor.GREEN + onlinePlayers() + "/" + Bukkit.getMaxPlayers(),
                 "  ",
                 ChatColor.YELLOW + "vaultmc.net"
         );

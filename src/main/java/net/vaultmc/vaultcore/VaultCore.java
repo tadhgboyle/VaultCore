@@ -55,10 +55,7 @@ import net.vaultmc.vaultcore.gamemode.GMSurvivalCommand;
 import net.vaultmc.vaultcore.gamemode.GameModeCommand;
 import net.vaultmc.vaultcore.grant.GrantCommand;
 import net.vaultmc.vaultcore.inventory.InventoryStorageListeners;
-import net.vaultmc.vaultcore.lobby.LobbyPortals;
-import net.vaultmc.vaultcore.lobby.PlayerHider;
-import net.vaultmc.vaultcore.lobby.ServerNavigator;
-import net.vaultmc.vaultcore.lobby.StoreItem;
+import net.vaultmc.vaultcore.lobby.*;
 import net.vaultmc.vaultcore.logs.LogsCommand;
 import net.vaultmc.vaultcore.misc.commands.*;
 import net.vaultmc.vaultcore.misc.commands.staff.*;
@@ -419,7 +416,6 @@ public final class VaultCore extends Component implements Listener {
         registerEvents(new SignHandler());
         registerEvents(new PlayerTPListener());
         registerEvents(new SuicideCommand());
-
         new BanCommand();
         new BannedListener();
         new IpBanCommand();
@@ -435,6 +431,7 @@ public final class VaultCore extends Component implements Listener {
         new UnmuteCommand();
         new WarnCommand();
         new PunishCommand();
+        new LobbyScoreboards();
 
         PunishmentsDB.createTables();
         Report.load();
