@@ -104,7 +104,7 @@ public class LobbyScoreboards extends ConstructorRegisterListener {
                 ChatColor.YELLOW + "Players",
                 ChatColor.GOLD + String.valueOf(Bukkit.getOnlinePlayers().size()) + ChatColor.YELLOW + "/" + ChatColor.GOLD + Bukkit.getMaxPlayers(),
                 "     ",
-                ChatColor.YELLOW + "vaultmc.net"
+                ChatColor.GREEN + "vaultmc.net"
         );
 
         for (int i = 0; i < content.size(); i++) {
